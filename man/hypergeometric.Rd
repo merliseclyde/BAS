@@ -1,0 +1,39 @@
+\name{hypergeometric2F1}
+\alias{hypergeometric2F1}
+\title{Gaussian hypergeometric2F1 function}
+\description{Compute the Gaussian Hypergeometric2F1 function:
+  2F1(a,b,c,z) = Gamma(b-c) Int_0^1 t^(b-1) (1 - t)^(c -b -1) (1 - t
+  z)^(-a) dt
+}
+\usage{hypergeometric2F1(a,b,c,z, method="Cephes", log=TRUE)}
+
+\arguments{
+  \item{a}{arbitrary}
+  \item{b}{Must be greater 0}
+  \item{c}{Must be greater than b if |z| < 1, and c > b + a if z = 1}
+  \item{z}{|z| <= 1}
+  \item{method}{The default is to use the Cephes library
+    routine.  This sometimes is unstable for large a or z near one
+    returning Inf or negative values.  In this case, try
+    method="Laplace", which use a Laplace approximation for tau = exp(t/(1-t)).}
+\item{log}{if TRUE, return  log(2F1)}  
+}
+\value{if log=T returns the log of the 2F1 function; otherwise the 2F1 function.}
+\details{The
+  default is to use the routine hyp2f1.c from the Cephes library.  If that
+  return a negative value or Inf, one should try method="Laplace" which
+  is based on the Laplace approximation as
+  described in Liang et al JASA 2008.  This is used in the hyper-g prior
+  to calculate marginal likelihoods.
+  }
+  \references{Cephes library hyp2f1.c
+    
+  Liang, F., Paulo, R., Molina, G., Clyde, M. and  Berger,
+  J.O. (2005) Mixtures of  g-priors for Bayesian Variable
+  Selection. Journal of the American Statistical Association
+  \cr \url{http://www.stat.duke.edu/05-12.pdf}
+ }
+\examples{hypergeometric2F1(12,1,2,.65)
+}
+\author{Merlise Clyde (\email{clyde@stat.duke.edu})}
+\keyword{math}

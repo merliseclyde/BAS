@@ -1,0 +1,79 @@
+Changes for BAS 0.93
+
+- removed internal print statements in bayesglm.c
+- Bug fixes in AMCMC algorithm
+
+Changes for BAS 0.92
+
+- fixed glm-fit.R  so that hyperparameter for BIC is numeric
+
+Changes for BAS 0.91
+
+- added new AMCMC algorithm
+
+Changes for BAS 0.91
+
+- bug fix in bayes.glm
+
+CHANGES for BAS 0.90
+
+- added C routines for fitting glms
+
+CHANGES for BAS 0.85
+
+ - fixed problem with duplicate models if n.models was > 2^(p-1) by
+   restricting n.models
+
+ - save original X as part of object so that fitted.bma gives the
+   correct fitted values (broken in version 0.80)
+ 
+CHANGES for BAS 0.80
+
+- Added hypergeometric2F1 function that is callable by R
+- centered X's in bas.lm so that the intercept has the correct
+  shrinkage
+- changed predict.bma to center newdata using the mean(X)
+- Added new Adaptive MCMC option (method = "AMCMC")  (this is not
+  stable at this point)
+
+CHANGES for BAS 0.7
+
+ -Allowed pruning of model tree to eliminate rejected models
+ 
+CHANGES for BAS 0.6
+
+- Added MCMC option to create starting values for BAS (method = "MCMC+BAS")
+
+CHANGES for BAS 0.5
+
+-Cleaned up all .Call routines so that all objects are duplicated or
+ allocated within code
+
+CHANGES for BAS 0.45
+
+- fixed ch2inv that prevented building on Windows in bayes glm_fit
+
+CHANGES for BAS 0.4
+
+- fixed fortran calls to use F77_NAME macro 
+- changed  allocation of objects for .Call to prevent some
+  objects from being overwritten.  (still need to replace more)
+
+CHANGES for BAS 0.3
+
+- fixed EB.global function to include prior probabilities on models
+- fixed update function 
+
+CHANGES for BAS 0.2
+
+- fixed predict.bma to allow newdata to be a matrix or vector with the
+  column of ones for the intercept optionally included.
+- fixed help file for predict 
+- added modelprior argument to bas.lm so that users may now use the
+  beta-binomial prior distribution on model size in addition to the
+  default uniform distribution
+- added functions uniform(), beta-binomial() and Bernoulli() to create
+  model prior objects
+- added a vector of user specified initial probabilities as an option for
+  argument initprobs in bas.lm and removed the separate argument user.prob
+

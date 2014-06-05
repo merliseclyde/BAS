@@ -1,0 +1,39 @@
+bas.lm                  Bayesian Adaptive Sampling Without Replacement
+                        for Variable Selection in Linear Models
+bas.glm                 Bayesian Adaptive Sampling Without Replacement
+                        for Variable Selection in Generalized Linear Models
+BAS-package             Bayesian Model Averaging using Bayesian
+                        Adaptive Sampling
+bayesglm.fit            Fitting Generalized Linear Models Bayesian
+                        marginal likelihood evaluation
+gglm.fit                Fitting Generalized Linear Models Bayesian
+Bernoulli               Independent Bernoulli Prior Distribution for
+                        Models
+beta.binomial           Beta-Binomial Prior Distribution for Models
+bin2int                 Convert binary model representation into an
+                        integer
+coef.bma                Coefficients of a Bayesian Model Average object
+cv.summary.bma          Summaries for Out of Sample Prediction
+EB.global               Finds the global Empirical Bayes estimates for
+                        BMA
+eplogprob               eplogprob - Compute approximate marginal
+                        inclusion probabilities from pvalues
+fitted.bma              Fitted values for a BMA objects
+g.prior                 Families of G-Prior Distribution for
+                        Coefficients in BMA Models
+Hald                    Hald Data
+hypergeometric2F1       Gaussian hypergeometric2F1 function
+IC.prior                Families of Prior Distribution for Coefficients
+                        in BMA Models
+image.bma               Images of models used in Bayesian model
+                        averaging
+list2matrix.bma         Coerce a BMA list object into a matrix
+plot.bma                Plot Diagnostics for an blm Object
+plot.coef.bma           Plots the posterior distributions of
+                        coefficients derived from Bayesian model
+                        averaging
+predict.bma             Prediction Method for an object of class BMA
+protein                 Protein Activity Data
+summary.bma             Summaries of Bayesian Model Averaging objects
+uniform                 Uniform Prior Distribution for Models
+update.bma              Update BMA object using a new prior

@@ -1,0 +1,39 @@
+\name{Hald}
+\docType{data}
+\alias{Hald}
+\alias{hald}
+\title{Hald Data}
+\usage{data(Hald)}
+\description{ The Hald data have been used in many
+books and papers to illustrate variable selection. The data relate to an
+engineering application that was concerned with the effect of the
+composition of cement on heat evolved during hardening. The response
+variable \emph{Y} is the \emph{heat evolved} in a cement mix. The four
+explanatory variables are ingredients of the mix,  X1:
+\emph{tricalcium aluminate}, X2: \emph{tricalcium silicate}, X3:
+\emph{tetracalcium alumino ferrite}, X4: \emph{dicalcium silicate}. An
+important feature of these data is that the variables X1 and
+ X3 are highly correlated, as well as the variables X2 and 
+X4.  Thus we should expect any subset of (X1,X2,X3,X4) 
+that includes one variable from highly correlated pair to do as any subset that 
+also includes the other member.
+}
+
+\format{
+  \code{hald} is a dataframe  with 13 observations  and 5 variables
+  (columns),  
+
+  Y: Heat evolved per gram of cement (in calories)
+  X1: Amount of tricalcium aluminate
+  X2: Amount of tricalcium silicate
+  X3: Amount of tetracalcium alumino ferrite
+  X4: Amount of dicalcium silicate 
+  
+}
+
+\source{Wood, H., Steinour, H.H., and Starke, H.R. (1932). "Effect of
+  Composition of Portland cement on Heat Evolved During Hardening",
+  Industrila and Engineering Chemistry, 24, 1207-1214.} 
+
+
+\keyword{datasets}

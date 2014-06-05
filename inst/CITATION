@@ -1,0 +1,20 @@
+citHeader("To cite package 'BAS' in publications use:")
+     
+     desc <- packageDescription("BAS")
+     year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", desc$Date)
+     vers <- paste("R package version", desc$Version)
+     
+     citEntry(entry="Manual",
+              title = "BAS: Bayesian Adaptive Sampling for Bayesian
+              Model Averaging",
+              author = personList(as.person("Merlise Clyde")),
+
+              year = year,
+              note = vers,
+     
+              textVersion =
+              paste("Merlise Clyde (",
+                    year,
+                    "). BAS: Bayesian Adaptive Sampling for Bayesian
+              Model Averaging.",
+                    vers, ".", sep=""))
