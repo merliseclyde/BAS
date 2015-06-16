@@ -1,3 +1,9 @@
+Changes for BAS 1.04
+
+- added bas.glm for model averaging/section using mixture of g-priors for
+	GLMs
+- support is currently for Logistic Regression
+	
 Changes for BAS 0.93
 
 - removed internal print statements in bayesglm.c
