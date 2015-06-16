@@ -1,8 +1,8 @@
 citHeader("To cite package 'BAS' in publications use:")
      
      desc <- packageDescription("BAS")
-     year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", desc$Date)
-     vers <- paste("R package version", desc$Version)
+     year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date)
+     vers <- paste("R package version", meta$Version)
      
      citEntry(entry="Manual",
               title = "BAS: Bayesian Adaptive Sampling for Bayesian

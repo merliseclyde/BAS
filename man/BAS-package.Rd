@@ -17,11 +17,9 @@ sampled models.
 \details{
 \tabular{ll}{
 Package: \tab BAS\cr
-Version: \tab 0.9\cr
-Date: \tab 2010-5-1\cr
 Depends: \tab R (>= 2.8)\cr
 License: \tab GPL-2\cr
-URL: \tab http://www.stat.duke.edu/~clyde\cr
+URL:  http://www.stat.duke.edu/~clyde\cr
 }
 
 Index:
@@ -34,14 +32,15 @@ Index:
   Maintainer: Merlise Clyde <clyde@stat.duke.edu>
 }
 \references{
-  Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive Sampling
+   Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive Sampling
   for Variable Selection and Model Averaging. Journal of Computational
-  and Graphical Statistics. (to appear) Department of Statistical
-  Science Discussion  Paper 2009-16. Duke University. \cr
-  \url{}
+  Graphics and Statistics.  20:80-101 \cr
+  \url{http://dx.doi.org/10.1198/jcgs.2010.09049}
+  
   
   Clyde, M. and George, E. I. (2004) Model uncertainty. Statist. Sci.,
-  19, 81-94. \cr \url{http://www.isds.duke.edu/~clyde/papers/statsci.pdf}
+  19, 81-94. \cr \url{http://dx.doi.org/10.1214/088342304000000035}
+  
 
   Clyde, M. (1999)
   Bayesian Model Averaging and Model Search Strategies (with
@@ -49,6 +48,10 @@ Index:
   J.O. Berger, and A.F.M. Smith eds. Oxford University Press, pages
   157-185.
 
+  Li, Y. and Clyde, M. (2015) Mixtures of g-priors in Generalized Linear
+  Models.
+  \url{http://arxiv.org/abs/1503.06913}
+  
    Liang, F., Paulo, R., Molina, G., Clyde, M. and  Berger,
   J.O. (2008) Mixtures of  g-priors for Bayesian Variable
   Selection. Journal of the American Statistical Association. 103:410-423.  \cr \url{http://dx.doi.org/10.1198/016214507000001337}

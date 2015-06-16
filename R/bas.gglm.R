@@ -1,4 +1,4 @@
-.normalize.modelproir <- function(modelprior,p) {
+.normalize.modelprior <- function(modelprior,p) {
 	if (modelprior$family == "Bernoulli") {
    		if (length(modelprior$hyper.parameters) == 1) 
       		modelprior$hyper.parameters = c(1, rep(modelprior$hyper.parameters, p-1))
@@ -10,9 +10,11 @@
 	return(modelprior)
 }
 
-.normalize.n.models <- function(n.models, p, initprobs) {
-	if (is.null(n.models)) n.models = 2^(p-1)
-  	if (n.models > 2^(p-1)) n.models = 2^(p-1)
+.normalize.n.models <- function(n.models, p, initprobs, method) {
+    if (is.null(n.models)){
+        n.models = 2^(p-1)
+    }
+    if (n.models > 2^(p-1)) n.models = 2^(p-1)
   	deg = sum(initprobs >= 1) + sum(initprobs <= 0)
   	if (deg > 1 & n.models == 2^(p - 1)) {
     		n.models = 2^(p - deg)
@@ -22,19 +24,19 @@
 
   	if (n.models > 2^30) stop("Dimension of model space is too big to enumerate\n  Rerun with a smaller value for n.models")
   	if (n.models > 2^20)
-    		print("Number of models is BIG -this may take a while")
-	return(n.models)
-
+            print("Number of models is BIG -this may take a while")
+    return(n.models)
 }
+
 .normalize.initprobs <- function (initprobs, glm.obj) {
 	p <- dim(glm.obj$x)[2]
 	if (!is.numeric(initprobs)) {
     		initprobs = switch(initprobs,
      			"eplogp" = eplogprob(glm.obj),
-      		"uniform" = c(1.0, rep(.5, p-1)),
-      		"Uniform" = c(1.0, rep(.5, p-1)),
-      	)
-  	}
+                    "uniform" = c(1.0, rep(.5, p-1)),
+                    "Uniform" = c(1.0, rep(.5, p-1)),
+                    )
+            }
    	if (length(initprobs) == (p-1))
      		initprobs = c(1.0, initprobs)
    	if (length(initprobs) != p)
@@ -47,35 +49,36 @@
 
 	pval = summary(glm.obj)$coefficients[,4]
   	if (any(is.na(pval))) {
-    		print(paste("warning full model is rank deficient"))
+            print(paste("warning full model is rank deficient excluding varialble with p-values that are 0."))
+            prob[is.na(pval)] = 0.0
   	}
 
 	return(prob);
 }
 
 bas.glm = function(formula, data,  
-			a, b, s,
-			family = binomial(link = 'logit'),
-			n.models=NULL,  
-                  modelprior=beta.binomial(1,1),
-                  initprobs="Uniform", 
-			method="MCMC", 
-			update=NULL, 
-                  bestmodel=NULL, bestmarg=NULL,
-                  prob.rw=0.5,  
-                  Burnin.iterations=NULL,
-			control = glm.control(), offset = rep(0, nobs), weights = rep(1, nobs)
+    a, b, s=0,
+    family = binomial(link = 'logit'),
+    n.models=NULL,  
+    modelprior=beta.binomial(1,1),
+    initprobs="Uniform", 
+    method="MCMC", 
+    update=NULL, 
+    bestmodel=NULL, bestmarg=NULL,
+    prob.rw=0.5,  
+    Burnin.iterations=NULL,
+    control = glm.control(), offset = rep(0, nobs), weights = rep(1, nobs)
                   )  {
-	  num.updates=10
-  	call = match.call()
-  	glm.obj = glm(formula, data, family = family, y=TRUE, x=TRUE)
+    num.updates=10
+    call = match.call()
+    glm.obj = glm(formula, data, family = family, y=TRUE, x=TRUE)
 	
-  	Y = glm.obj$y
-  	X = glm.obj$x
-  	namesx = dimnames(X)[[2]]
-  	namesx[1] = "Intercept" 
-   	p = dim(X)[2]
- 	nobs = dim(X)[1]
+    Y = glm.obj$y
+    X = glm.obj$x
+    namesx = dimnames(X)[[2]]
+    namesx[1] = "Intercept" 
+    p = dim(X)[2]
+    nobs = dim(X)[1]
 	
 	
 	if (is.null(offset)) {
@@ -86,9 +89,9 @@ bas.glm = function(formula, data,
 		weights = rep(1, nobs);
 	}
 	
-	prob <- .normalize.initprobs(initprobs, glm.obj)
-	n.models <- .normalize.n.models(n.models, p, prob)
-	modelproir <- .normalize.modelproir(modelprior,p)
+        prob <- .normalize.initprobs(initprobs, glm.obj)
+	n.models <- .normalize.n.models(n.models, p, prob, method)
+	modelprior <- .normalize.modelprior(modelprior,p)
   	
   	
   	#int = TRUE  # assume that an intercept is always included 
@@ -100,7 +103,7 @@ bas.glm = function(formula, data,
   	if (is.null(bestmarg)) bestmarg = 0
   	if (is.null(update)) {
     		if (n.models == 2^(p-1))  update = n.models+1
-    			else (update = n.models/num.updates)
+                else (update = n.models/num.updates)
   	}
 
 

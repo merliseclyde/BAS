@@ -1,22 +1,32 @@
 Package: BAS
-Version: 1.0.1
-Date: 2014-7-09
+Version: 1.0.4
+Date: 2015-6-5
 Title: Bayesian Model Averaging using Bayesian Adaptive Sampling
 Author: Merlise Clyde <clyde@stat.duke.edu> with contributions from
-        Michael Littman amd Joyee Ghosh
-Maintainer: Merlise Clyde <clyde@stat.duke.edu>
-Depends: R (>= 2.15), stats, MASS
-Description: Package for Bayesian Model Averaging in linear models
-        using stochastic or deterministic sampling without replacement
-        from posterior distributions.  Prior distributions on
-        coefficients are from Zellner's g-prior or mixtures of g-priors
-        corresponding to the Zellner-Siow Cauchy Priors or the Liang et
-        al hyper-g priors (JASA 2008). Other model selection criterian
-        include AIC and BIC. Sampling probabilities may be updated
-        based on the sampled models.  Allows uniform or beta-binomial
-        prior distributions on models.
+        Michael Littman, Quanli Wang, Joyee Ghosh, Yingbo Li
+Authors@R: c(person("Merlise", "Clyde", email="clyde@stat.duke.edu",
+	   		       role=c("aut","cre", "cph")),
+           person("Michael", "Littman", role="ctb"),
+	   person("Quanli", "Wang", role="ctb"),
+	   person("Joyee", "Ghosh", role="ctb"),
+	   person("Yingbo", "Li", role="ctb"))
+Maintainer: Merlise Clyde <clyde@stat.duke.edu>	   
+Depends: R (>= 2.15)
+Suggests: MASS
+Description: Package for Bayesian Model Averaging in linear models and
+	     generalized linear models using stochastic or
+	     deterministic sampling without replacement from posterior
+	     distributions.  Prior distributions on coefficients are
+	     from Zellner's g-prior or mixtures of g-priors
+	     corresponding to the Zellner-Siow Cauchy Priors or the
+	     Liang et al hyper-g priors (JASA 2008). Other model
+	     selection criterian include AIC and BIC. Sampling
+	     probabilities may be updated based on the sampled models.
+	     Allows uniform or beta-binomial prior distributions on
+	     models.
 License: GPL (>= 2)
-URL: http://www.r-project.org, http://www.stat.duke.edu/~clyde/BAS
+URL:  http://www.r-project.org, http://www.stat.duke.edu/~clyde/BAS
 Packaged: 2012-05-31 19:26:40 UTC; clyde
 Repository: CRAN
-Date/Publication: 2012-06-01 04:41:50
+NeedsCompilation: "yes"
+

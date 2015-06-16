@@ -42,9 +42,11 @@
   future releases.
  }
 
-\references{Liang, F., Paulo, R., Molina, G., Clyde, M. and  Berger,
-  J.O. (2005) Mixtures of  $g$-priors for Bayesian Variable
-  Selection.  \cr  \url{http://www.stat.duke.edu/05-12.pdf}
+ \references{
+ Liang, F., Paulo, R., Molina, G., Clyde, M. and  Berger,
+  J.O. (2005) Mixtures of  g-priors for Bayesian Variable
+  Selection.  \cr \url{http://www.stat.duke.edu/05-12.pdf}
+  
 }
 
 \seealso{\code{\link{bas}}

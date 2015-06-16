@@ -16,26 +16,29 @@
     predictors, Y ~ X.  All code assumes that an intercept will be
     included in each model and that the X's will be centered.}
   \item{data}{data frame}
-  \item{n.models}{number of models to sample. If NULL, BAS will
-    enumerate unless p > 25}
+  \item{n.models}{number of  models to sample. If NULL, BAS with
+    method="BAS" will try to enumerate all 2^p models. For larger p (p > 20)
+    this controls the number of sampled models.  On exit this is the
+    number of unique models that have been sampled.}
   \item{prior}{prior distribution for regression coefficients.  Choices include
     "AIC", "BIC", "g-prior", "ZS-null", "ZS-full", "hyper-g",
-    "hyper-g-laplace", "EB-local", and "EB-global" }
- \item{alpha}{optional hyperparameter in g-prior or hyper g-prior.  For Zellner's
-    g-prior, alpha = g, for the Liang et al hyper-g method, recommended
-    choice is alpha are between (2, 4), with alpha = 3 recommended.}
+    "hyper-g-laplace", "hyper-g-n", "EB-local", and "EB-global" }
+ \item{alpha}{optional hyperparameter in g-prior or hyper g-prior.  For
+   Zellner's g-prior, alpha = g, for the Liang et al hyper-g or
+   hyper-g-n method, recommended choice is alpha are between (2, 4),
+   with alpha = 3 recommended.} 
   \item{modelprior}{Family of prior distribution on the models.  Choices
     include \code{\link{uniform}}
     \code{\link{Bernoulli}} or \code{\link{beta.binomial}}}
   \item{initprobs}{vector of length p with the initial  inclusion
-    probabilities used for sampling without replacement (the intercwept
-    should be included with probability one) or a character
-    string giving the method used to construct the sampling probabilities
-    if "Uniform" each predictor variable is equally likely to be
-    sampled (equivalent to random sampling without replacement). If
-    "eplogp", use the \code{\link{eplogprob}} function to aproximate the 
-    Bayes factor to find initial marginal inclusion probabilitites and
-    sample without replacement using these
+    probabilities used for sampling without replacement with
+    method="BAS" (the intercept should be included with probability one)
+    or a character string giving the method used to construct the
+    sampling probabilities  if "Uniform" each predictor variable is
+    equally likely to be sampled (equivalent to random sampling without
+    replacement). If "eplogp", use the \code{\link{eplogprob}} function
+    to aproximate the  Bayes factor to find initial marginal inclusion
+    probabilitites and  sample without replacement using these
     inclusion probabilaties. For variables that should always be
     included set the corresponding initprobs to 1. To run a
     Markov Chain to provide initial estimates of marginal
@@ -44,7 +47,10 @@
   \item{method}{A character variable indicating which sampling method to
     use: method="BAS" uses Bayesian Adaptive Sampling (without
     replacement) using the sampling probabilities given in initprobs;
-    method="MCMC+BAS" runs an initial MCMC to calculate marginal
+    method="MCMC" runs a MCMC algorithm based that combines the
+    birth/death random walk in Hoeting et al (1997) in MC3 with a random
+    swap move to interchange a variable in the model with one currently
+    excluded; method="MCMC+BAS" runs an initial MCMC to calculate marginal
     inclusion probabilities and then samples without replacement as in
     BAS; method = "AMCMC" runs an Adaptive MCMC (experimental).  For both
     BAS and AMCMC, the sampling probabilities can be updated as more
@@ -68,9 +74,9 @@
     random-walk proposal; otherwise use a random "flip" move to propose
     a new model.}
   \item{Burnin.iterations}{Number of iterations to discard when using any
-    of the MCMC options}
+    of the MCMC options; the default is n.models/2.}
    \item{MCMC.iterations}{Number of iterations to run  MCMC when MCMC
-     options are used}
+     options are used; the default is n.models/2.}
    \item{lambda}{Parameter in the AMCMC algorithm.}
    \item{delta}{truncation parameter to prevent sampling probabilities
      to degenerate to 0 or 1.}  }  \details{BAS provides several search
@@ -84,8 +90,7 @@ probabilities, and will optionally update the sampling probabilities
 every "update" models using the estimated marginal inclusion
 probabilties. BAS uses different methods to obtain the \code{initprobs},
 which may impact the results in high-dimensional problems.
-The
-deterinistic sampler provides a list of the top models in order of an
+The deterinistic sampler provides a list of the top models in order of an
 approximation of independence using the provided \code{initprobs}.  This
 may be effective after running the other algorithms to identify high
 probability models and works well if 
@@ -109,7 +114,11 @@ An object of class \code{BMA} is a list containing at least the following compon
     includes the intercept}
   \item{which}{a list of lists with one list per model with  variables
     that are included in the model} 
-  \item{probne0}{the posterior probability that each variable is non-zero}
+  \item{probne0}{the posterior probability that each variable is
+    non-zero computed using the renormalized marginal likelihoods of
+    sampled models.  This may be biased if the number of sampled models
+    is much smaller than the total number of models. Unbiased estimates
+    may be obtained using method "MCMC".}
   \item{ols}{list of lists with one list per model giving the OLS
 estimate of each (nonzero) coefficient for each model.  The intercept
 is the mean of Y as each column of X has been centered by subtracting
@@ -137,11 +146,10 @@ its mean.}
 \references{
   Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive Sampling
   for Variable Selection and Model Averaging. Journal of Computational
-  Graphics and Statistics.  (to appear) Department of Statistical
-  Science Discussion Paper 2009-16. Duke University.
+  Graphics and Statistics.  20:80-101 \cr \url{http://dx.doi.org/10.1198/jcgs.2010.09049}
   
   Clyde, M. and George, E. I. (2004) Model Uncertainty. Statist. Sci.,
-  19, 81-94. \cr \url{http://dx/doi.org/10.1214/088342304000000035}
+  19, 81-94. \cr \url{http://dx.doi.org/10.1214/088342304000000035}
   
   Clyde, M. (1999)
   Bayesian Model Averaging and Model Search Strategies (with

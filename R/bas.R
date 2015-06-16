@@ -1,3 +1,32 @@
+.normalize.initprobs.lm <- function (initprobs, lm.obj) {
+
+    p <- dim(lm.obj$x)[2]
+    if (!is.numeric(initprobs)) {
+    		initprobs = switch(initprobs,
+     			"eplogp" = eplogprob(lm.obj),
+                    "uniform" = c(1.0, rep(.5, p-1)),
+                    "Uniform" = c(1.0, rep(.5, p-1)),
+                    )
+            }
+   	if (length(initprobs) == (p-1))
+     		initprobs = c(1.0, initprobs)
+   	if (length(initprobs) != p)
+    		stop(simpleError(paste("length of initprobs is not", p)))
+
+	if (initprobs[1] < 1.0 | initprobs[1] > 1.0) initprobs[1] = 1.0
+	# intercept is always included otherwise we get a segmentation
+	# fault (relax later)
+  	prob = as.numeric(initprobs)
+
+	pval = summary(lm.obj)$coefficients[,4]
+  	if (any(is.na(pval))) {
+            print(paste("warning full model is rank deficient."))
+#            prob[is.na(pval)] = 0.0
+  	}
+
+	return(prob);
+}
+
 bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
                   modelprior=uniform(),
                   initprobs="Uniform", method="BAS", update=NULL, 
@@ -26,45 +55,35 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
       "Uniform"= c(1.0, rep(.5, p-1)),
       )
   }
-   if (length(initprobs) == (p-1))
-     initprobs = c(1.0, initprobs)
-   if (length(initprobs) != p)
-    stop(simpleError(paste("length of initprobs is not", p)))
+#   if (length(initprobs) == (p-1))
+#     initprobs = c(1.0, initprobs)
+#   if (length(initprobs) != p)
+#    stop(simpleError(paste("length of initprobs is not", p)))
 
-  pval = summary(lm.obj)$coefficients[,4]
-  if (any(is.na(pval))) {
-    print(paste("warning full model is rank deficient"))
+#  pval = summary(lm.obj)$coefficients[,4]
+#  if (any(is.na(pval))) {
+#    print(paste("warning full model is rank deficient"))
 #    initprobs[is.na(pval)] = 0.0
-  }
-
-  if (initprobs[1] < 1.0 | initprobs[1] > 1.0) initprobs[1] = 1.0
+#  }
+#
+#  if (initprobs[1] < 1.0 | initprobs[1] > 1.0) initprobs[1] = 1.0
 # intercept is always included otherwise we get a segmentation
 # fault (relax later)
 
-  prob = as.numeric(initprobs)
-
-  if (is.null(n.models)) n.models = 2^(p-1)
-  if (n.models > 2^(p-1)) n.models = 2^(p-1)
-  deg = sum(initprobs >= 1) + sum(initprobs <= 0)
-  if (deg > 1 & n.models == 2^(p - 1)) {
-    n.models = 2^(p - deg)
-    print(paste("There are", as.character(deg),
-                "degenerate sampling probabilities (0 or 1); decreasing the number of models to",                 as.character(n.models)))
-  }
-
-  if (n.models > 2^30) stop("Dimension of model space is too big to enumerate\n  Rerun with a smaller value for n.models")
-  if (n.models > 2^20)
-    print("Number of models is BIG -this may take a while")
+#  prob = as.numeric(initprobs)
+  prob <- .normalize.initprobs.lm(initprobs, lm.obj)
+  n.models <- .normalize.n.models(n.models, p, prob, method)
+  modelprior <- .normalize.modelprior(modelprior,p)
 
 
-  if (modelprior$family == "Bernoulli") {
-   if (length(modelprior$hyper.parameters) == 1) 
-      modelprior$hyper.parameters = c(1, rep(modelprior$hyper.parameters, p-1))
-    if  (length(modelprior$hyper.parameters) == (p-1)) 
-     modelprior$hyper.parameters = c(1, modelprior$hyper.parameters)
-    if  (length(modelprior$hyper.parameters) != p)
-      stop(" Number of probabilities in Bernoulli family is not equal to the number of variables or 1")
-  }
+#  if (modelprior$family == "Bernoulli") {
+#   if (length(modelprior$hyper.parameters) == 1) 
+#      modelprior$hyper.parameters = c(1, rep(modelprior$hyper.parameters, p-1))
+#    if  (length(modelprior$hyper.parameters) == (p-1)) 
+#     modelprior$hyper.parameters = c(1, modelprior$hyper.parameters)
+#    if  (length(modelprior$hyper.parameters) != p)
+#      stop(" Number of probabilities in Bernoulli family is not equal to the number of variables or 1")
+#}
   
   int = TRUE  # assume that an intercept is always included 
   method.num = switch(prior,

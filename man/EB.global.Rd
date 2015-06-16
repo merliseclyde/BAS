@@ -16,9 +16,11 @@
   of g based on all models}
 \details{Uses the EM algorithm in Liang et al to estimate the type II
   MLE of g in Zellner's g prior} 
-\references{ Liang, F., Paulo, R., Molina, G., Clyde, M. and  Berger,
-  J.O. (2005) Mixtures of  g-priors for Bayesian Variable
-  Selection.  \cr \url{http://www.stat.duke.edu/05-12.pdf}
+\references{  Liang, F., Paulo, R., Molina, G., Clyde, M. and  Berger,
+  J.O. (2008) Mixtures of  g-priors for Bayesian Variable
+  Selection. Journal of the American Statistical
+  Association. 103:410-423.  \cr
+  \url{http://dx.doi.org/10.1198/016214507000001337}
 }
 \seealso{\code{\link{bas}}, \code{\link{update}}}
 

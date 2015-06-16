@@ -261,7 +261,8 @@ int topk(Bit **models, double *prob, int k, struct Var *vars, int n, int p)
 
   queuesize = 0;
   /* Store relevant information for root node. */
-  for(i = 0; i < n; subsetsum[0] += list[i], i++);
+  for(i = 0; i < n; subsetsum[0] += list[i], i++)
+    ;
    parent[0] = -1;
    position[0] = -1;
    type[0] = 0;

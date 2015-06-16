@@ -1,5 +1,6 @@
 #include "sampling.h"
 #define LOG2PI  1.837877066409345
+extern double hyperg1F1(double, double, double);
 extern double hyperg(double, double, double);
 SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu) {
 	int *xdims = INTEGER(getAttrib(RX,R_DimSymbol));
@@ -37,7 +38,7 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu) 
 
 	if (p == 0) { //if null model
 		if ( b == 0) {
-			// for Jeffreys's prior (b = 0), set lpY to NA, since then CH g-prior doesn't appropriate for the null model in this case
+			// for Jeffreys's prior (b = 0), set lpY to NA, since then CH g-prior isn't appropriate for the null model in this case
 			lpY = NA_REAL;
 		} else {	
 			lpY = lC + 0.5 * LOG2PI - 0.5 * log(sum_Ieta);    
@@ -86,12 +87,15 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu) 
 
 		
     	lpY = lC + 0.5 * LOG2PI - 0.5 * log(sum_Ieta);
-		lpY += lbeta((b + p) / 2.0, a / 2.0) + log(hyperg((b + p) / 2.0, (a + b + p) / 2.0, 
-			-  (s + Q) / 2.0))  - log(hyperg(b / 2.0, (a + b) / 2.0, - s / 2.0));
+	Rprintf("log(sum_Ieta = %lf\n", log(sum_Ieta));
+	lpY += lbeta((a + p) / 2.0, b / 2.0) +
+	       log(hyperg1F1((a + p)/2.0, (a + b + p)/2.0, -(s + Q)/2.0)); 
     	//doesn't apply for the Jeffreys prior
 		if (a > 0 && b > 0) {
-			lpY = lpY - lbeta(b / 2.0, a / 2.0);
+		    lpY = lpY - lbeta(a / 2.0, b / 2.0) -
+		          log(hyperg1F1(a/2.0, (a + b)/2.0, - s/2.0));
 		}
+		Rprintf("logmarg = %lf\n", lpY);
 	}
 	REAL(RlpY)[0] = lpY;
 	REAL(RQ)[0] = Q;
