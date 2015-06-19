@@ -1,6 +1,6 @@
 \name{bayesglm.fit}
 \alias{bayesglm.fit}
-\title{Fitting Generalized Linear Models Bayesian marginal likelihood evaluation}
+\title{Fitting Generalized Linear Models and Bayesian marginal likelihood evaluation}
 \description{A version of glm.fit rewritten in C; also returns marginal
   likelihoods for Baysesian model comparison}
 \usage{bayesglm.fit(x, y, weights = rep(1, nobs),
@@ -20,7 +20,7 @@
 predictor}
   \item{family}{a description of the error distribution and link 
     function for exponential family;
-    currently only binomial() is coded.}
+    currently only binomial() and poisson() with canonical links is implemented.}
   \item{coefprior}{function specifying prior distribution on
     coefficients with optionlal hyperparamters leading to marginal
     likelihood calculations; options  include \code{bic.prior()},\code{
@@ -59,9 +59,11 @@ Y = as.numeric(Pima.tr$type) - 1
 X = cbind(1, as.matrix(Pima.tr[,1:7]))
 out = bayesglm.fit(X, Y, family=binomial(),coefprior=bic.prior(n=length(Y)))
 out$coef
+out$se
 # using built in function
 glm(type ~ ., family=binomial(), data=Pima.tr)
 }
 \author{Merlise Clyde translated the \code{\link{glm.fit}} from R base
         into C using the .Call interface}
 \keyword{regression}
+\keyword{GLM}

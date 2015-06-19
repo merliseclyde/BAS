@@ -1,4 +1,5 @@
 #include "sampling.h"
+#include "family.h"
 #define LOG2PI  1.837877066409345
 extern double hyperg1F1(double, double, double);
 extern double hyperg(double, double, double);
@@ -30,8 +31,11 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu) 
 
 	double lC = 0.0;
 	double sum_Ieta = 0.0;
+	
+	lC = binomial_loglik(Y, mu, n);
 	for (int i = 0; i < n; i++) {
-		lC += dbinom(Y[i],1.0,mu[i],1);
+
+	  /*		lC += dbinom(Y[i],1.0,mu[i],1);  */
 		Ieta[i] = mu[i] * (1.0 - mu[i]);
 		sum_Ieta += Ieta[i];
 	}
@@ -87,7 +91,7 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu) 
 
 		
     	lpY = lC + 0.5 * LOG2PI - 0.5 * log(sum_Ieta);
-	Rprintf("log(sum_Ieta = %lf\n", log(sum_Ieta));
+	//	Rprintf("log(sum_Ieta = %lf\n", log(sum_Ieta));
 	lpY += lbeta((a + p) / 2.0, b / 2.0) +
 	       log(hyperg1F1((a + p)/2.0, (a + b + p)/2.0, -(s + Q)/2.0)); 
     	//doesn't apply for the Jeffreys prior
@@ -95,11 +99,11 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu) 
 		    lpY = lpY - lbeta(a / 2.0, b / 2.0) -
 		          log(hyperg1F1(a/2.0, (a + b)/2.0, - s/2.0));
 		}
-		Rprintf("logmarg = %lf\n", lpY);
+		//	Rprintf("logmarg = %lf\n", lpY);
 	}
 	REAL(RlpY)[0] = lpY;
 	REAL(RQ)[0] = Q;
-
+ 
 	SET_VECTOR_ELT(ANS, 0, RlpY);
 	SET_STRING_ELT(ANS_names, 0, mkChar("lpY"));
 	SET_VECTOR_ELT(ANS, 1, RQ);

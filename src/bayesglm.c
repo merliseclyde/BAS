@@ -2,17 +2,7 @@
 #include "family.h"
 #include <R_ext/BLAS.h>
 
-typedef struct glmfamilystruc {
-  const char *family;
-  const char *link;
-  void (*mu_eta)(double *eta, double *mu, int n);
-  void (*linkfun)(double *mu, double *eta, int n);
-  void (*variance)(double * mu, double *var, int n);
-  void (*dev_resids)(double *y, double *mu, double *weights, double *resids, int n);
-  void (*linkinv)(double *eta, double *mu, int n);
-  void (*initialize)(double *Y, double *mu, double *weights, int n);
-  double (*dispersion)(double *resid,  double *weights, int n, int rank);
-} glmstptr;
+
 
 typedef struct coefpriorstruc {
   const char *family;
@@ -140,20 +130,39 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
   glmfamily->link = CHAR(STRING_ELT(getListElement(family, "link"),0));
   
   // Rprintf("link %s\n", glmfamily->link);
+
   if  (strcmp(glmfamily->family, "binomial") == 0) {
     glmfamily->dev_resids = binomial_dev_resids;
     glmfamily->dispersion = binomial_dispersion;
     glmfamily->initialize = binomial_initialize;
-    if (strcmp(glmfamily->link, "logit") == 0) {
-       glmfamily->linkfun = logit_link;	
-       glmfamily->mu_eta = logit_mu_eta;
-       glmfamily->variance = logit_variance; 
-       glmfamily->linkinv =  logit_linkinv;
-	}
-   else  Rprintf("no other links implemented yet\n");
+    if (strcmp(glmfamily->link, "logit") != 0) {
+      Rprintf("no other links implemented yet, using logit\n");
+    }
+		
+    glmfamily->linkfun = logit_link;	
+    glmfamily->mu_eta = logit_mu_eta;
+    glmfamily->variance = logit_variance; 
+    glmfamily->linkinv =  logit_linkinv;
   }
-  else  Rprintf("no other families implemented yet\n");
-   
+  else if  (strcmp(glmfamily->family, "poisson") == 0) {
+    glmfamily->dev_resids = poisson_dev_resids;
+    glmfamily->dispersion = poisson_dispersion;
+    glmfamily->initialize = poisson_initialize;
+    glmfamily->variance = poisson_variance; 
+    if (strcmp(glmfamily->link, "log") != 0) {
+      Rprintf("no other links implemented yet, using log\n");
+    }
+    glmfamily->linkfun = log_link;	
+    glmfamily->mu_eta = log_mu_eta;
+    glmfamily->linkinv =  log_linkinv;
+  }
+
+  else {
+    Rprintf("only 'binomial() and 'poission() supported now\n");
+    exit(1);
+  }
+  
+  glmfamily = make_glmfamily_structure(family); 
    
   for (m=0; m< nmodels; m++){
     glmfamily->initialize(Y, mu, weights, n);

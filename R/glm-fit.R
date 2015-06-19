@@ -6,6 +6,7 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
 {
 
   x <- as.matrix(x)
+  y <- as.numeric(y)
   ynames <- if (is.matrix(y))     rownames(y)
             else names(y)
   conv <- FALSE

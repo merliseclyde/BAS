@@ -13,7 +13,7 @@ double hyperg1F1(double a, double b, double x)
     else {
       y = hyperg(a, b, x);
     }
-    Rprintf("LOG 1F1(%lf, %lf, %lf) = %lf (%lf)\n", a,b,x,log(y), y);
+    //    Rprintf("LOG 1F1(%lf, %lf, %lf) = %lf (%lf)\n", a,b,x,log(y), y);
     return(y);
 } 
 
