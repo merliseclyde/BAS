@@ -12,7 +12,7 @@
 \arguments{\item{x}{design matrix}
   \item{y}{response}
   \item{weights}{optional vector of weights to be used in the fitting
-    process.  SHould be NULL or a numeric vector.}
+    process.  Should be NULL or a numeric vector.}
   \item{start}{starting value for coefficients in the linear predictor}
   \item{etastart}{starting values for the linear predictor}
   \item{mustart}{starting values for the vectors of means}
@@ -20,7 +20,7 @@
 predictor}
   \item{family}{a description of the error distribution and link 
     function for exponential family;
-    currently only binomial() and poisson() with canonical links is implemented.}
+    currently only binomial() and poisson() with canonical links are implemented.}
   \item{coefprior}{function specifying prior distribution on
     coefficients with optionlal hyperparamters leading to marginal
     likelihood calculations; options  include \code{bic.prior()},\code{

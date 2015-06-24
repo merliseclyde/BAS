@@ -39,7 +39,8 @@ typedef struct glmfamilystruc {
   void (*linkinv)(double *eta, double *mu, int n);
   void (*initialize)(double *Y, double *mu, double *weights, int n);
   double (*dispersion)(double *resid,  double *weights, int n, int rank);
-  double (*info_matrix) (double *y, double *eta, int n);
+  void (*info_matrix) (double *y, double *mu, double *var, int n);
+  double (*loglik) (double *y, double *mu, int n);
 } glmstptr;
 
 glmstptr * make_glmfamily_structure(SEXP family);
@@ -50,17 +51,18 @@ void logit_link(double *mu, double *eta, int n);
 void logit_variance(double *mu, double *var, int n);
 void logit_linkinv(double *eta, double *mu, int n);
 void logit_mu_eta(double *eta, double *mu, int n);
-void logit_info(double *y, double *mu, double *Imu, int n);
+void logit_info(double *y, double *mu, double *var, int n);
 void binomial_dev_resids(double *y, double *mu, double *wt, double *res, int n);
 double binomial_dispersion(double *resid,  double *weights, int n, int rank); 
 void binomial_initialize(double *Y, double *mu,  double *weights, int n);
 // Poisson
+double poisson_loglik(double *Y, double *mu, int n);
 double poisson_dispersion(double *resid,  double *weights, int n, int rank) ;
 void log_link(double *mu, double *eta, int n);
 void poisson_variance(double *mu, double *var, int n);
 void log_linkinv(double *eta, double *mu, int n);
 void log_mu_eta(double *eta, double *mu, int n);
-void poisson_log_info(double *y, double *mu, double *Imu, int n);
+void poisson_log_info(double *y, double *mu, double *var, int n);
 void poisson_dev_resids(double *y, double *mu, double *wt, double *res, int n);
 void poisson_initialize(double *Y, double *mu,  double *weights, int n);
 

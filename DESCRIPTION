@@ -19,11 +19,14 @@ Description: Package for Bayesian Model Averaging in linear models and
 	     distributions.  Prior distributions on coefficients are
 	     from Zellner's g-prior or mixtures of g-priors
 	     corresponding to the Zellner-Siow Cauchy Priors or the
-	     Liang et al hyper-g priors (JASA 2008). Other model
+	     Liang et al hyper-g priors (JASA 2008) or mixtures of
+	     g-priors in GLMS of Li and Clyde 2015. Other model
 	     selection criterian include AIC and BIC. Sampling
-	     probabilities may be updated based on the sampled models.
-	     Allows uniform or beta-binomial prior distributions on
-	     models.
+	     probabilities may be updated based on the sampled models
+	     using Sampleing w/out Replacement or an MCMC algorithm
+	     samples models using the BAS tree structure as an efficient
+	     hash table. Allows uniform or beta-binomial prior distributions on
+	     models, and may force varialbes to allways be included.
 License: GPL (>= 2)
 URL:  http://www.r-project.org, http://www.stat.duke.edu/~clyde/BAS
 Packaged: 2012-05-31 19:26:40 UTC; clyde

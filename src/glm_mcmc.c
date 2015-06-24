@@ -1,4 +1,5 @@
 #include "sampling.h"
+# include "family.h"
 
 void insert_model_tree(struct Node *tree, struct Var *vars,  int n, int *model, int num_models);
 
@@ -6,11 +7,11 @@ int *GetModel_m(SEXP Rmodel_m, int *model, int p);
 	
 void CreateTree(NODEPTR branch, struct Var *vars, int *bestmodel, int *model, int n, int m, SEXP modeldim);
 
-SEXP glm_bas(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rcontrol);
+SEXP glm_bas(SEXP RX, SEXP RY, glmstptr * family, SEXP Roffset, SEXP Rweights, SEXP Rcontrol);
 
 double GetNextModelCandidate(int pmodel_old, int n, int n_sure, int *model, struct Var *vars, double problocal,
 							 int *varin, int *varout);
-SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu);
+SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily);
 
 
 void SetModel2(double logmargy, double shrinkage_m, double prior_m,
@@ -28,44 +29,50 @@ void SetModel1(SEXP Rfit, SEXP Rmodel_m,
 };
 	
 SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
-			  SEXP Roffset, SEXP Rweights, SEXP family, SEXP Rcontrol,
+			  SEXP Roffset, SEXP Rweights, glmstptr * glmfamily, SEXP Rcontrol,
 			  SEXP Ra, SEXP Rb, SEXP Rs) { //parameters
-	int nprotected = 0;
-	int *model_m = INTEGER(Rmodel_m);
-	int pmodel = LENGTH(Rmodel_m);
+  int nprotected = 0;
+  int *model_m = INTEGER(Rmodel_m);
+  int pmodel = LENGTH(Rmodel_m);
 	//subset the data and call the model fitting function
-    int n = INTEGER(getAttrib(RX,R_DimSymbol))[0];
-	double *X = REAL(RX);
-	SEXP RXnow=PROTECT(allocMatrix(REALSXP, n , pmodel)); nprotected++;
-	double *Xwork = REAL(RXnow);
-	for (int j=0; j < pmodel; j++) { //subsetting matrix
-		int model_m_j = model_m[j];
-		memcpy(Xwork + j * n, X + model_m_j*n, sizeof(double)*n);
-	}
-	SEXP glm_fit = PROTECT(glm_bas(RXnow, RY, family, Roffset, Rweights, Rcontrol));nprotected++;
-	
-	//extract mu and coef and evaluate the function
-	SEXP Rmu = PROTECT(duplicate(getListElement(glm_fit, "mu"))); nprotected++;
-	SEXP Rcoef = PROTECT(duplicate(getListElement(glm_fit, "coefficients")));nprotected++;
-	SEXP RXnow_noIntercept=PROTECT(allocMatrix(REALSXP, n , pmodel-1)); nprotected++;
-	if (pmodel > 1) {
-		double *Xwork_noIntercept = REAL(RXnow_noIntercept);
-		memcpy(Xwork_noIntercept, Xwork + n, sizeof(double)*n*(pmodel-1));
-	}
-	SEXP Rlpy = PROTECT(gglm_lpy(RXnow_noIntercept, RY, Ra, Rb, Rs, Rcoef, Rmu));nprotected++;
-	
-	SEXP ANS = PROTECT(allocVector(VECSXP, 2)); nprotected++;
-	SEXP ANS_names = PROTECT(allocVector(STRSXP, 2)); nprotected++;
-	
-	SET_VECTOR_ELT(ANS, 0, glm_fit);
-	SET_VECTOR_ELT(ANS, 1, Rlpy);
-	SET_STRING_ELT(ANS_names, 0, mkChar("fit"));
-	SET_STRING_ELT(ANS_names, 1, mkChar("lpy"));
+  int n = INTEGER(getAttrib(RX,R_DimSymbol))[0];
+  double *X = REAL(RX);
 
-	setAttrib(ANS, R_NamesSymbol, ANS_names);
+  
+  SEXP RXnow=PROTECT(allocMatrix(REALSXP, n , pmodel)); nprotected++;
+  double *Xwork = REAL(RXnow);
+  for (int j=0; j < pmodel; j++) { //subsetting matrix
+      int model_m_j = model_m[j];
+      memcpy(Xwork + j * n, X + model_m_j*n, sizeof(double)*n);
+    }
+  SEXP glm_fit = PROTECT(glm_bas(RXnow, RY, glmfamily, Roffset, Rweights, Rcontrol));
+  nprotected++;
+	
+    //extract mu and coef and evaluate the function
+  SEXP Rmu = PROTECT(duplicate(getListElement(glm_fit, "mu"))); nprotected++;
+  SEXP Rcoef = PROTECT(duplicate(getListElement(glm_fit, "coefficients")));nprotected++;
+  SEXP RXnow_noIntercept=PROTECT(allocMatrix(REALSXP, n , pmodel-1)); nprotected++;
+  if (pmodel > 1) {
+    double *Xwork_noIntercept = REAL(RXnow_noIntercept);
+    memcpy(Xwork_noIntercept, Xwork + n, sizeof(double)*n*(pmodel-1));
+  }
 
-	UNPROTECT(nprotected);
-	return(ANS);
+  
+  SEXP Rlpy = PROTECT(gglm_lpy(RXnow_noIntercept, RY, Ra, Rb, Rs, Rcoef, Rmu, glmfamily));
+  nprotected++;
+	
+  SEXP ANS = PROTECT(allocVector(VECSXP, 2)); nprotected++;
+  SEXP ANS_names = PROTECT(allocVector(STRSXP, 2)); nprotected++;
+	
+  SET_VECTOR_ELT(ANS, 0, glm_fit);
+  SET_VECTOR_ELT(ANS, 1, Rlpy);
+  SET_STRING_ELT(ANS_names, 0, mkChar("fit"));
+  SET_STRING_ELT(ANS_names, 1, mkChar("lpy"));
+
+  setAttrib(ANS, R_NamesSymbol, ANS_names);
+
+  UNPROTECT(nprotected);
+  return(ANS);
 }
 
 SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights, 
@@ -101,7 +108,10 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	double *probs, MH=0.0, prior_m=1.0, logmargy, postold, postnew;
 	int i, m, n, pmodel_old, *bestmodel;
 	int mcurrent, n_sure;
-	
+	glmstptr *glmfamily;
+
+	glmfamily = make_glmfamily_structure(family);
+
 	//get dimsensions of all variables 
 	int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
 	int k = LENGTH(modelprobs);
@@ -136,7 +146,8 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SEXP Rmodel_m =	PROTECT(allocVector(INTSXP,pmodel));
 	GetModel_m(Rmodel_m, model, p);
 	//evaluate logmargy and shrinkage
-	SEXP glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights, family, Rcontrol, Ra, Rb, Rs));	
+	SEXP glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
+					    glmfamily, Rcontrol, Ra, Rb, Rs));	
 	prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
 	
 	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
@@ -182,18 +193,19 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 			MH = 1.0/(1.0 - problocal);
 		}
 		if (newmodel == 1) {
-			new_loc = nUnique;
-			PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
-			GetModel_m(Rmodel_m, model, p);
-
-			glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights, family, Rcontrol, Ra, Rb, Rs));	
-			prior_m = compute_prior_probs(model,pmodel,p, modelprior);
+		  new_loc = nUnique;
+		  PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
+		  GetModel_m(Rmodel_m, model, p);
+		  
+		  glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
+						 glmfamily, Rcontrol, Ra, Rb, Rs));	
+		  prior_m = compute_prior_probs(model,pmodel,p, modelprior);
 			
-			logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
-			postnew = logmargy + log(prior_m);
+		  logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
+		  postnew = logmargy + log(prior_m);
 		} else {
-			new_loc = branch->where;
-			postnew =  REAL(logmarg)[new_loc] + log(REAL(priorprobs)[new_loc]);      
+		  new_loc = branch->where;
+		  postnew =  REAL(logmarg)[new_loc] + log(REAL(priorprobs)[new_loc]);      
 		} 
 
 		MH *= exp(postnew - postold);
@@ -231,7 +243,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	
 	// Compute marginal probabilities  
 	mcurrent = nUnique;
-	Rprintf("NumUnique Models Accepted %d \n", nUnique);
+	//	Rprintf("NumUnique Models Accepted %d \n", nUnique);
 	compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);        
 

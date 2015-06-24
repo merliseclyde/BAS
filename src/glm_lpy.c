@@ -3,7 +3,7 @@
 #define LOG2PI  1.837877066409345
 extern double hyperg1F1(double, double, double);
 extern double hyperg(double, double, double);
-SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu) {
+SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily) {
 	int *xdims = INTEGER(getAttrib(RX,R_DimSymbol));
 	int n=xdims[0], p = xdims[1];
 	int nProtected = 0;
@@ -32,11 +32,12 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu) 
 	double lC = 0.0;
 	double sum_Ieta = 0.0;
 	
-	lC = binomial_loglik(Y, mu, n);
-	for (int i = 0; i < n; i++) {
+	//	lC = binomial_loglik(Y, mu, n);
+	lC = glmfamily->loglik(Y, mu, n);
+	glmfamily->info_matrix(Y, mu, Ieta, n);
 
-	  /*		lC += dbinom(Y[i],1.0,mu[i],1);  */
-		Ieta[i] = mu[i] * (1.0 - mu[i]);
+	for (int i = 0; i < n; i++) {
+	  //	Ieta[i] = mu[i] * (1.0 - mu[i]);
 		sum_Ieta += Ieta[i];
 	}
 

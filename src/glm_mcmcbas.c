@@ -1,12 +1,14 @@
 
 #include "sampling.h"
+#include "family.h"
+
 void insert_model_tree(struct Node *tree, struct Var *vars,  int n, int *model, int num_models);
 void update_tree(SEXP modelspace, struct Node *tree, SEXP modeldim, struct Var *vars, int k, int p, int n, int kt, int *model);
 int *GetModel_m(SEXP Rmodel_m, int *model, int p);
 double FitModel(SEXP Rcoef_m, SEXP Rse_m, double *XtY, double *XtX, int *model_m,
 				double *XtYwork, double *XtXwork, double yty, double SSY, int pmodel, int p,
 				int nobs, int m, double *pmse_m);
-SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu);
+//SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily);
 
 void SetModel2(double logmargy, double shrinkage_m, double prior_m,
 			   SEXP sampleprobs, SEXP logmarg, SEXP shrinkage, SEXP priorprobs, int m);
@@ -23,7 +25,7 @@ void GetNextModel_swop(NODEPTR branch, struct Var *vars, int *model, int n, int 
 					   double problocal, SEXP modeldim,int *bestmodel);
 
 SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
-				  SEXP Roffset, SEXP Rweights, SEXP family, SEXP Rcontrol,
+				  SEXP Roffset, SEXP Rweights, glmstptr * glmfamily, SEXP Rcontrol,
 				  SEXP Ra, SEXP Rb, SEXP Rs);
 SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights, 
 				 SEXP Rprobinit, SEXP Rmodeldim, 
@@ -60,6 +62,9 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	double *probs, MH=0.0, prior_m=1.0, logmargy, postold, postnew;
 	int i, m, n, pmodel_old, *bestmodel;
 	int mcurrent, n_sure;
+	glmstptr *glmfamily;
+
+	glmfamily = make_glmfamily_structure(family);
 
 	//get dimsensions of all variables 
 	int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
@@ -97,7 +102,8 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SEXP Rmodel_m =	PROTECT(allocVector(INTSXP,pmodel));
 	GetModel_m(Rmodel_m, model, p);
 	//evaluate logmargy and shrinkage
-	SEXP glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights, family, Rcontrol, Ra, Rb, Rs));	
+	SEXP glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
+					    glmfamily, Rcontrol, Ra, Rb, Rs));	
 	prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
 
 	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
@@ -143,18 +149,20 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 			MH = 1.0/(1.0 - problocal);
 		}
 		if (newmodel == 1) {
-			new_loc = nUnique;
-			PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
-			GetModel_m(Rmodel_m, model, p);
+		  new_loc = nUnique;
+		  PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
+		  GetModel_m(Rmodel_m, model, p);
 
-			glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights, family, Rcontrol, Ra, Rb, Rs));	
-			prior_m = compute_prior_probs(model,pmodel,p, modelprior);
+		  glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
+						 glmfamily, Rcontrol, Ra, Rb, Rs));	
+		  prior_m = compute_prior_probs(model,pmodel,p, modelprior);
 
-			logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
-			postnew = logmargy + log(prior_m);
-		} else {
-			new_loc = branch->where;
-			postnew =  REAL(logmarg)[new_loc] + log(REAL(priorprobs)[new_loc]);      
+		  logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
+		  postnew = logmargy + log(prior_m);
+		}
+		else {
+		  new_loc = branch->where;
+		  postnew =  REAL(logmarg)[new_loc] + log(REAL(priorprobs)[new_loc]);      
 		} 
 
 		MH *= exp(postnew - postold);
@@ -213,45 +221,46 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 			GetNextModel_swop(branch, vars, model, n, m, pigamma, problocal, modeldim, bestmodel);
 
 			/* Now subtract off the visited probability mass. */
-			branch=tree;
-			Substract_visited_probability_mass(branch, vars, model, n, m, pigamma,eps);
+	branch=tree;
+	Substract_visited_probability_mass(branch, vars, model, n, m, pigamma,eps);
 
 			/* Now get model specific calculations */
-			pmodel = INTEGER(modeldim)[m];
-			PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
-			GetModel_m(Rmodel_m, model, p);
+	pmodel = INTEGER(modeldim)[m];
+	PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
+	GetModel_m(Rmodel_m, model, p);
 
-			glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights, family, Rcontrol, Ra, Rb, Rs));	
-			prior_m = compute_prior_probs(model,pmodel,p, modelprior);
-			logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
-			SetModel2(logmargy, NA_REAL, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
-			SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, m);
-			UNPROTECT(2);
+	glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
+				       glmfamily, Rcontrol, Ra, Rb, Rs));	
+	prior_m = compute_prior_probs(model,pmodel,p, modelprior);
+	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
+	SetModel2(logmargy, NA_REAL, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
+	SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, m);
+	UNPROTECT(2);
 
-			REAL(sampleprobs)[m] = pigamma[0];  
+	REAL(sampleprobs)[m] = pigamma[0];  
 
 			//update best model
-			if (REAL(logmarg)[m] > REAL(Rbestmarg)[0]) {
-				for (i=0; i < p; i++) {
-					bestmodel[i] = model[i];
-				}
-				REAL(Rbestmarg)[0] = REAL(logmarg)[m];
+	if (REAL(logmarg)[m] > REAL(Rbestmarg)[0]) {
+	  for (i=0; i < p; i++) {
+	    bestmodel[i] = model[i];
+	  }
+	  REAL(Rbestmarg)[0] = REAL(logmarg)[m];
 			}
 
 			//update marginal inclusion probs
-			if (m > 1) {
-				double mod; 
-				double rem = modf((double) m/(double) update, &mod);
-				if (rem  == 0.0) {
-					int mcurrent = m;
-					compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
-					compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);        
-					if (update_probs(probs, vars, mcurrent, k, p) == 1) {
-						Rprintf("Updating Model Tree %d \n", m);
-						update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);     
-					}
-				}
-			}  
+	if (m > 1) {
+	  double mod; 
+	  double rem = modf((double) m/(double) update, &mod);
+	  if (rem  == 0.0) {
+	    int mcurrent = m;
+	    compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
+	    compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);        
+	    if (update_probs(probs, vars, mcurrent, k, p) == 1) {
+	      Rprintf("Updating Model Tree %d \n", m);
+	      update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);     
+	    }
+	  }
+	}  
 		}
 	}
 

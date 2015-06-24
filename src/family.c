@@ -35,6 +35,16 @@ static R_INLINE double x_d_omx(double x) {
  */
 static R_INLINE double x_d_opx(double x) {return x/(1 + x);}
 
+double poisson_loglik(double *Y, double*mu, int n) {
+  int i;
+  double ll = 0.0;
+
+  for (i = 0; i < n; i++) {
+    ll += dpois(Y[i],mu[i],1);
+  }
+  return(ll);
+}
+
 
 void poisson_variance(double *mu, double *var, int n) {
 
@@ -316,6 +326,8 @@ void  Lapack_chol2inv(double *A, int sz, double *ans)
 struct glmfamilystruc * make_glmfamily_structure(SEXP family) {
 
   glmstptr *glmfamily;
+
+  //  Rprintf("Make family\n");
   
   glmfamily = (struct glmfamilystruc *) R_alloc(1, sizeof(struct glmfamilystruc));
   glmfamily->family = CHAR(STRING_ELT(getListElement(family, "family"),0));
@@ -328,8 +340,9 @@ struct glmfamilystruc * make_glmfamily_structure(SEXP family) {
 		glmfamily->dev_resids = binomial_dev_resids;
 		glmfamily->dispersion = binomial_dispersion;
 		glmfamily->initialize = binomial_initialize;
+		glmfamily->loglik = binomial_loglik;
 		if (strcmp(glmfamily->link, "logit") != 0) {
-		  Rprintf("no other links implemented yet, using logit\n");
+		  warning("no other links implemented yet, using logit\n");
 		}
 		
 		glmfamily->linkfun = logit_link;	
@@ -342,9 +355,10 @@ struct glmfamilystruc * make_glmfamily_structure(SEXP family) {
 	  glmfamily->dev_resids = poisson_dev_resids;
 	  glmfamily->dispersion = poisson_dispersion;
 	  glmfamily->initialize = poisson_initialize;
-	  glmfamily->variance = poisson_variance; 
+	  glmfamily->variance = poisson_variance;
+	  glmfamily->loglik =  poisson_loglik;
 	  if (strcmp(glmfamily->link, "log") != 0) {
-	    Rprintf("no other links implemented yet, using log\n");
+	    warning("no other links implemented yet, using log\n");
 	  }
 	  glmfamily->linkfun = log_link;	
 	  glmfamily->mu_eta = log_mu_eta;
@@ -353,9 +367,8 @@ struct glmfamilystruc * make_glmfamily_structure(SEXP family) {
 	}
 
 	else {
-	  Rprintf("only 'binomial() and 'poission() supported now\n");
+	  error("only 'binomial() and 'poission() supported now\n");
 	  exit(1);
 	}
-	
 	return(glmfamily);
 }
