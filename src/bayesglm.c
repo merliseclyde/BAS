@@ -102,7 +102,7 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
 
   coefprior = (struct coefpriorstruc *) R_alloc(1, sizeof(struct coefpriorstruc));
   coefprior->family = CHAR(STRING_ELT(getListElement(Rpriorcoef, "family"),0));
-  //  Rprintf("family %s\n", coefprior->family);
+  //  Rprintf("prior family %s\n", coefprior->family);
   coefprior->class  = CHAR(STRING_ELT(getListElement(Rpriorcoef, "class"),0));
   //  Rprintf("class %s\n", coefprior->class);
   //  if (getListElement(Rpriorcoef, "hyper") != R_NilValue) 	
@@ -122,48 +122,12 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
     coefprior->g = no_g;
 }
   
-  //  Rprintf("prior %s\n", coefprior->family);
 
-  glmfamily = (struct glmfamilystruc *) R_alloc(1, sizeof(struct glmfamilystruc));
-  glmfamily->family = CHAR(STRING_ELT(getListElement(family, "family"),0));
-  //  Rprintf("family %s\n", glmfamily->family);
-  glmfamily->link = CHAR(STRING_ELT(getListElement(family, "link"),0));
-  
-  // Rprintf("link %s\n", glmfamily->link);
 
-  if  (strcmp(glmfamily->family, "binomial") == 0) {
-    glmfamily->dev_resids = binomial_dev_resids;
-    glmfamily->dispersion = binomial_dispersion;
-    glmfamily->initialize = binomial_initialize;
-    if (strcmp(glmfamily->link, "logit") != 0) {
-      Rprintf("no other links implemented yet, using logit\n");
-    }
-		
-    glmfamily->linkfun = logit_link;	
-    glmfamily->mu_eta = logit_mu_eta;
-    glmfamily->variance = logit_variance; 
-    glmfamily->linkinv =  logit_linkinv;
-  }
-  else if  (strcmp(glmfamily->family, "poisson") == 0) {
-    glmfamily->dev_resids = poisson_dev_resids;
-    glmfamily->dispersion = poisson_dispersion;
-    glmfamily->initialize = poisson_initialize;
-    glmfamily->variance = poisson_variance; 
-    if (strcmp(glmfamily->link, "log") != 0) {
-      Rprintf("no other links implemented yet, using log\n");
-    }
-    glmfamily->linkfun = log_link;	
-    glmfamily->mu_eta = log_mu_eta;
-    glmfamily->linkinv =  log_linkinv;
-  }
-
-  else {
-    Rprintf("only 'binomial() and 'poission() supported now\n");
-    exit(1);
-  }
-  
   glmfamily = make_glmfamily_structure(family); 
-   
+
+
+  
   for (m=0; m< nmodels; m++){
     glmfamily->initialize(Y, mu, weights, n);
     glmfamily->linkfun(mu, eta, n);
@@ -202,7 +166,7 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
     //    Rprintf("rank %ld \n", rank);
 
     if (n < rank) {
-      Rprintf("X has rank %ld but there are only %ld observations");
+      warning("X has rank %ld but there are only %ld observations");
       conv = 1;
     }
 
