@@ -4,7 +4,8 @@ predict.bma = function(object, newdata, top=NULL, ...) {
   n <- nrow(newdata)[1]
   if (ncol(newdata) == object$n.vars) newdata=newdata[,-1, drop=FALSE]  # drop intercept
   if (ncol(newdata) != (object$n.vars -1)) stop("Dimension of newdata does not match orginal model")
-  newdata = sweep(newdata, 2, object$mean.x)
+  if (!is.null(object$mean.x)) newdata = sweep(newdata, 2, object$mean.x)
+  # need to fix for GLMS
   postprobs <- object$postprobs
   best <- order(-postprobs)
   if (!is.null(top)) best <- best[1:top]
