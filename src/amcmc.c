@@ -79,7 +79,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ral
   update = INTEGER(Rupdate)[0];
   lambda=REAL(LAMBDA)[0];
   delta = REAL(DELTA)[0];
-  Rprintf("delta %f lambda %f", delta, lambda);
+  //  Rprintf("delta %f lambda %f", delta, lambda);
   eps = DBL_EPSILON;
   problocal = REAL(plocal)[0];
   //  Rprintf("Update %i and prob.switch %f\n", update, problocal);
@@ -424,7 +424,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ral
    m++;
   }
   
-  Rprintf("\n%d Unique models sampled during burnin\n", nUnique);
+  //  Rprintf("\n%d Unique models sampled during burnin\n", nUnique);
 
 
 // Compute marginal probabilities  
@@ -600,7 +600,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ral
  update_Cov(Cov, priorCov, SSgam, marg_probs, n, m, print);
 
 //  Now sample W/O Replacement 
- Rprintf("NumUnique Models Accepted %d \n", nUnique);
+// Rprintf("NumUnique Models Accepted %d \n", nUnique);
  INTEGER(NumUnique)[0] = nUnique;
 
  if (nUnique < k) {
@@ -609,12 +609,12 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ral
     //    compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);        
     
    //   update_MCMC_probs(MCMC_probs, vars, n, p);
-   Rprintf("Update Tree\n");
+   //   Rprintf("Update Tree\n");
 
    update_cond_tree(modelspace, tree, modeldim, vars, p, n, nUnique, modelwork, real_model, marg_probs, Cov, eps);      
   
          
-   Rprintf("\nNow sample the rest without replacement\n");
+   //   Rprintf("\nNow sample the rest without replacement\n");
    
    for (m = nUnique; m < k; m++) {
      INTEGER(modeldim)[m]  = n_sure;
@@ -757,12 +757,12 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ral
  }
 
 
- Rprintf("modelprobs\n");
+ // Rprintf("modelprobs\n");
  compute_modelprobs(modelprobs, logmarg, priorprobs,k);
- Rprintf("marginal probs\n");
+ // Rprintf("marginal probs\n");
  compute_margprobs(modelspace, modeldim, modelprobs, probs, k, p);  
  
-  Rprintf("saving\n");
+ // Rprintf("saving\n");
   SET_VECTOR_ELT(ANS, 0, Rprobs);
   SET_STRING_ELT(ANS_names, 0, mkChar("probne0"));
 
@@ -810,7 +810,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ral
 
   setAttrib(ANS, R_NamesSymbol, ANS_names);
   UNPROTECT(nProtected);
-  Rprintf("Return\n");
+  //  Rprintf("Return\n");
   PutRNGstate();
 
   return(ANS);  
