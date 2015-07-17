@@ -5,31 +5,34 @@
   Selection in Linear Models}
 \description{Sample without replacement from a posterior distribution on models}
 \usage{bas.lm(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
- modelprior=uniform(),
+ modelprior=beta.binomial(1,1),
  initprobs="Uniform", method="BAS", update=NULL,
  bestmodel = NULL, bestmarg = NULL, prob.local = 0.0, prob.rw=0.5,
- Burnin.iterations = NULL, MCMC.iterations = NULL,
- lambda = NULL, delta = 0.025)
+ Burnin.iterations = NULL, lambda = NULL, delta = 0.025)
 }
 \arguments{
   \item{formula}{linear model formula for the full model with all
     predictors, Y ~ X.  All code assumes that an intercept will be
     included in each model and that the X's will be centered.}
   \item{data}{data frame}
-  \item{n.models}{number of  models to sample. If NULL, BAS with
-    method="BAS" will try to enumerate all 2^p models. For larger p (p > 20)
-    this controls the number of sampled models.  On exit this is the
-    number of unique models that have been sampled.}
+  \item{n.models}{number of models to sample either without replacement
+    (method="BAS" or "MCMC+BAS")
+    or with replacement (method="MCMC"). If NULL, BAS with
+    method="BAS" will try to enumerate all 2^p models. If enumeration is
+    not possible (memory or time) then a value should be supplied
+    which controls the number of sampled models.  On exit for method=
+    "MCMC"  this is the  number of unique models that have been sampled.}
   \item{prior}{prior distribution for regression coefficients.  Choices include
     "AIC", "BIC", "g-prior", "ZS-null", "ZS-full", "hyper-g",
     "hyper-g-laplace", "hyper-g-n", "EB-local", and "EB-global" }
  \item{alpha}{optional hyperparameter in g-prior or hyper g-prior.  For
    Zellner's g-prior, alpha = g, for the Liang et al hyper-g or
-   hyper-g-n method, recommended choice is alpha are between (2, 4),
+   hyper-g-n method, recommended choice is alpha are between (2 < alpha < 4),
    with alpha = 3 recommended.} 
   \item{modelprior}{Family of prior distribution on the models.  Choices
     include \code{\link{uniform}}
-    \code{\link{Bernoulli}} or \code{\link{beta.binomial}}}
+    \code{\link{Bernoulli}} or \code{\link{beta.binomial}} with the
+    default being a \code{beta.binomial(1,1)}.  }
   \item{initprobs}{vector of length p with the initial  inclusion
     probabilities used for sampling without replacement with
     method="BAS" (the intercept should be included with probability one)
@@ -42,26 +45,31 @@
     inclusion probabilaties. For variables that should always be
     included set the corresponding initprobs to 1. To run a
     Markov Chain to provide initial estimates of marginal
-    inclusion probabilities, use method="MCMC+BAS" below.
+    inclusion probabilities, use method="MCMC+BAS" below.  While the
+    initprobs are not used in sampling for method="MCMC", this
+    determines the order of the variables in the lookup table and
+    memory allocation. 
   } 
   \item{method}{A character variable indicating which sampling method to
     use: method="BAS" uses Bayesian Adaptive Sampling (without
     replacement) using the sampling probabilities given in initprobs;
-    method="MCMC" runs a MCMC algorithm based that combines the
-    birth/death random walk in Hoeting et al (1997) in MC3 with a random
-    swap move to interchange a variable in the model with one currently
-    excluded; method="MCMC+BAS" runs an initial MCMC to calculate marginal
+    method="MCMC" samples with replacement via a MCMC algorithm based
+    that combines the birth/death random walk in Hoeting et al (1997) of
+    MC3 with a random swap move to interchange a variable in the model
+    with one currently excluded as in Clyde, Ghosh and Littman (200;
+    method="MCMC+BAS" runs an initial MCMC to calculate marginal
     inclusion probabilities and then samples without replacement as in
-    BAS; method = "AMCMC" runs an Adaptive MCMC (experimental).  For both
-    BAS and AMCMC, the sampling probabilities can be updated as more
-  models are sampled. (see  update below).  We recommend "MCMC+BAS" for
-  high dimensional problems.}
+    BAS; method = "AMCMC" runs an Adaptive MCMC (experimental).  For
+    both  BAS and AMCMC, the sampling probabilities can be updated as
+    more  models are sampled. (see  update below).  We recommend
+    "MCMC+BAS" or "MCMC" for high dimensional problems where enumeration
+    is not feasible.}
   \item{update}{number of iterations between potential updates of the
-    sampling probabilities. If NULL do not update, otherwise the
-    algorithm will update using the marginal inclusion probabilities as
-    they change while sampling takes place.  For large model spaces,
-    updating is recommended. If the model space will be enumerated,
-    leave at the default.}
+    sampling probabilities for method "BAS". If NULL do not update,
+    otherwise the  algorithm will update using the marginal inclusion
+    probabilities as  they change while sampling takes place.  For large
+    model spaces, updating is recommended. If the model space will be
+    enumerated, leave at the default.}
   \item{bestmodel}{optional binary vector representing a model to
     initialize the sampling. If NULL sampling starts with the null
     model}
@@ -75,8 +83,6 @@
     a new model.}
   \item{Burnin.iterations}{Number of iterations to discard when using any
     of the MCMC options; the default is n.models/2.}
-   \item{MCMC.iterations}{Number of iterations to run  MCMC when MCMC
-     options are used; the default is n.models/2.}
    \item{lambda}{Parameter in the AMCMC algorithm.}
    \item{delta}{truncation parameter to prevent sampling probabilities
      to degenerate to 0 or 1.}  }  \details{BAS provides several search
