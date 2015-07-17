@@ -39,8 +39,8 @@ predictor}
 library(BAS)
 n <- 100
 x <- 1 + rnorm(n,1) 
-xbeta <- -1  + (x* 1)
+xbeta <- -1  + (x* 2)
 proba <- exp(xbeta)/(1 + exp(xbeta))
 y <- ifelse(runif(n,1) < proba,1,0)
-fit <- gglm.fit(cbind(1,x),y)
+#fit <- gglm.fit(cbind(1,x),y)
 }
