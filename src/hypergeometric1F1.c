@@ -34,3 +34,17 @@ void hypergeometric1F1(double *a, double *b, double *x, double *y, int *npara)
   }
 }
 
+double shrinkage_chg(double a, double b, double s, double Q) {
+
+  double shrinkage;
+  /* Beta(a/2,(b+2)/2) 1F1(a/2,(b+2)/2,(s+Q)/2 /
+     Beta(a/2,b/2) 1F1(a/2,b/2,(s+Q)/2
+		       */		       
+  shrinkage = exp( log(b/2) + log(hyperg(a/2, b/2 + 1.0, (s + Q)/2.0)) -
+			log(hyperg(a/2, b/2, (s + Q)/2.0)));	
+
+  if (shrinkage > 1.0)  shrinkage = 1.0;
+  else if (shrinkage < 0.0) shrinkage = 0.0;
+  
+  return (shrinkage);
+}
