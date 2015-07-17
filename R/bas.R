@@ -1,54 +1,107 @@
-.normalize.initprobs.lm <- function (initprobs, lm.obj) {
-
-    p <- dim(lm.obj$x)[2]
-    if (!is.numeric(initprobs)) {
-    		initprobs = switch(initprobs,
-     			"eplogp" = eplogprob(lm.obj),
-                    "uniform" = c(1.0, rep(.5, p-1)),
-                    "Uniform" = c(1.0, rep(.5, p-1)),
-                    )
-            }
-   	if (length(initprobs) == (p-1))
-     		initprobs = c(1.0, initprobs)
-   	if (length(initprobs) != p)
-    		stop(simpleError(paste("length of initprobs is not", p)))
-
-	if (initprobs[1] < 1.0 | initprobs[1] > 1.0) initprobs[1] = 1.0
-	# intercept is always included otherwise we get a segmentation
-	# fault (relax later)
-  	prob = as.numeric(initprobs)
-
-	pval = summary(lm.obj)$coefficients[,4]
-  	if (any(is.na(pval))) {
-            print(paste("warning full model is rank deficient."))
-#            prob[is.na(pval)] = 0.0
-  	}
-
-	return(prob);
+.extractResponse <- function(frm, dat) {
+# if (length(formula) == 3){
+        resp <- frm[[2]];
+        fdat <- eval(resp, envir=dat);
+#    }
+# else {stop("Formula missing Response") }
+    return(fdat)
 }
 
+.normalize.initprobs.lm <- function (initprobs, p, lm.obj=NULL) {
+
+
+    if (!is.numeric(initprobs)) {
+        initprobs = switch(initprobs,
+            "eplogp" = eplogprob(lm.obj),
+            "uniform" = c(1.0, rep(.5, p-1)),
+            "Uniform" = c(1.0, rep(.5, p-1)),
+            )
+    }
+    if (length(initprobs) == (p-1))
+        initprobs = c(1.0, initprobs)
+    if (length(initprobs) != p)
+        stop(simpleError(paste("length of initprobs is", length(initprobs), "is not same as dimensions of X", p)))
+
+    if (initprobs[1] < 1.0 | initprobs[1] > 1.0) initprobs[1] = 1.0
+	# intercept is always included otherwise we get a segmentation
+	# fault (relax later)
+    prob = as.numeric(initprobs)
+    if (!is.null(lm.obj)) {
+        pval = summary(lm.obj)$coefficients[,4]
+        if (any(is.na(pval))) {
+            print(paste("warning full model is rank deficient."))
+        }}
+    
+    return(prob);
+}
+
+.normalize.modelprior <- function(modelprior,p) {
+	if (modelprior$family == "Bernoulli") {
+   		if (length(modelprior$hyper.parameters) == 1) 
+      		modelprior$hyper.parameters = c(1, rep(modelprior$hyper.parameters, p-1))
+    		if  (length(modelprior$hyper.parameters) == (p-1)) 
+     			modelprior$hyper.parameters = c(1, modelprior$hyper.parameters)
+    		if  (length(modelprior$hyper.parameters) != p)
+      		stop(" Number of probabilities in Bernoulli family is not equal to the number of variables or 1")
+  	}
+	return(modelprior)
+}
+
+.normalize.n.models <- function(n.models, p, initprobs, method) {
+    if (is.null(n.models)){
+        n.models = 2^(p-1)
+    }
+    if (n.models > 2^(p-1)) n.models = 2^(p-1)
+  	deg = sum(initprobs >= 1) + sum(initprobs <= 0)
+  	if (deg > 1 & n.models == 2^(p - 1)) {
+    		n.models = 2^(p - deg)
+    		print(paste("There are", as.character(deg),
+                "degenerate sampling probabilities (0 or 1); decreasing the number of models to",                 as.character(n.models)))
+  	}
+
+  	if (n.models > 2^30) stop("Dimension of model space is too big to enumerate\n  Rerun with a smaller value for n.models")
+  	if (n.models > 2^25)
+            print("Number of models is BIG -this may take a while")
+    return(n.models)
+}
+
+
 bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
-                  modelprior=uniform(),
+                  modelprior=beta.binomial(1,1),
                   initprobs="Uniform", method="BAS", update=NULL, 
                   bestmodel=NULL, bestmarg=NULL, prob.local=0.0,
                   prob.rw=0.5,  
                   Burnin.iterations=NULL,
-                  MCMC.iterations=NULL, lambda=NULL, delta=0.025)  {
+                  lambda=NULL, delta=0.025)  {
   num.updates=10
   call = match.call()
-  lm.obj = lm(formula, data, y=TRUE, x=TRUE)
-  Y = lm.obj$y
-  X = lm.obj$x
+  if ( !is.numeric(initprobs) && initprobs == "eplogp") {
+      lm.obj = lm(formula, data, y=TRUE, x=TRUE)
+      Y = lm.obj$y
+      X = lm.obj$x
+  }
+  else {
+      Y = .extractResponse(formula, data)    
+      X = model.matrix(formula, data)
+      lm.obj = NULL
+  }
   Xorg = X
   namesx = dimnames(X)[[2]]
   namesx[1] = "Intercept"
   mean.x = apply(X[,-1], 2, mean)
   ones = X[,1]
   X = cbind(ones, sweep(X[, -1], 2, mean.x))
-  p = dim(X)[2]
+  p <-  dim(X)[2]
+  n <- dim(X)[1]
 
-  
+  if (n <= p) {
+      if (modelprior$family == "Uniform" || modelprior$family == "Bernoulli")
+          warning("Bernoulli or Uniform prior distribution on the Model Space are not recommended for p > n; please consider using beta.bernoulli instead")
+  }
   if (!is.numeric(initprobs)) {
+      if (n <= p & initprobs == "eplogp") {
+          simpleError("error: cannot use the eplogp bound to create starting sampling probabilities\n")
+      }
     initprobs = switch(initprobs,
      "eplogp" = eplogprob(lm.obj),
       "uniform"= c(1.0, rep(.5, p-1)),
@@ -70,9 +123,15 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
 # intercept is always included otherwise we get a segmentation
 # fault (relax later)
 
-#  prob = as.numeric(initprobs)
-  prob <- .normalize.initprobs.lm(initprobs, lm.obj)
+  #  prob = as.numeric(initprobs)
+  #MCMC-BAS
+  MCMC.iterations = as.integer(n.models)
+  if (is.null(Burnin.iterations)) Burnin.iterations = as.integer(n.models/2)
+  if (is.null(lambda)) lambda=1.0
+      
+  prob <- .normalize.initprobs.lm(initprobs, p, lm.obj)
   n.models <- .normalize.n.models(n.models, p, prob, method)
+  print(n.models)
   modelprior <- .normalize.modelprior(modelprior,p)
 
 
@@ -118,10 +177,6 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
   modeldim = as.integer(rep(0, n.models))
   n.models = as.integer(n.models)
 
-  #MCMC-BAS
-    if (is.null(MCMC.iterations)) MCMC.iterations = as.integer(n.models/2)
-    if (is.null(Burnin.iterations)) Burnin.iterations = as.integer(n.models/2)
-    if (is.null(lambda)) lambda=1.0
 
 #  sampleprobs = as.double(rep(0.0, n.models))
   result = switch(method,
@@ -224,4 +279,4 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
   class(result) = "bma"
   if (prior == "EB-global") result = EB.global.bma(result)
   return(result) 
-}
+  }
