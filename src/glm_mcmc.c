@@ -1,32 +1,8 @@
 #include "sampling.h"
-# include "family.h"
-
-void insert_model_tree(struct Node *tree, struct Var *vars,  int n, int *model, int num_models);
-
-int *GetModel_m(SEXP Rmodel_m, int *model, int p); 
-	
-void CreateTree(NODEPTR branch, struct Var *vars, int *bestmodel, int *model, int n, int m, SEXP modeldim);
-
-SEXP glm_bas(SEXP RX, SEXP RY, glmstptr * family, SEXP Roffset, SEXP Rweights, SEXP Rcontrol);
-
-double GetNextModelCandidate(int pmodel_old, int n, int n_sure, int *model, struct Var *vars, double problocal,
-							 int *varin, int *varout);
-SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily);
+#include "family.h"
+#include "bas-glm.h"
 
 
-void SetModel2(double logmargy, double shrinkage_m, double prior_m,
-			  SEXP sampleprobs, SEXP logmarg, SEXP shrinkage, SEXP priorprobs, int m);
-
-void SetModel1(SEXP Rfit, SEXP Rmodel_m, 
-			  SEXP beta, SEXP se, SEXP modelspace, SEXP deviance, SEXP R2, SEXP Q, int m) {
-	SET_ELEMENT(beta, m, getListElement(getListElement(Rfit, "fit"),"coefficients"));
-	SET_ELEMENT(se, m, getListElement(getListElement(Rfit, "fit"),"se"));
-	SET_ELEMENT(modelspace, m, Rmodel_m);
-
-	REAL(R2)[m] = NA_REAL;
-	REAL(deviance)[m] = REAL(getListElement(getListElement(Rfit, "fit"),"deviance"))[0];
-	REAL(Q)[m] = REAL(getListElement(getListElement(Rfit, "lpy"),"Q"))[0];
-};
 	
 SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
 			  SEXP Roffset, SEXP Rweights, glmstptr * glmfamily, SEXP Rcontrol,
@@ -105,7 +81,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	
 	SEXP NumUnique = PROTECT(allocVector(INTSXP, 1)); ++nProtected;
 	
-	double *probs, MH=0.0, prior_m=1.0, logmargy, postold, postnew;
+	double *probs, MH=0.0, prior_m=1.0, shrinkage_m, logmargy, postold, postnew;
 	int i, m, n, pmodel_old, *bestmodel;
 	int mcurrent, n_sure;
 	glmstptr *glmfamily;
@@ -151,7 +127,9 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
 	
 	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
-	SetModel2(logmargy, NA_REAL, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
+	shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
+					"shrinkage"))[0];
+	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
 	SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, m);
 	UNPROTECT(2);
 
@@ -202,6 +180,9 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		  prior_m = compute_prior_probs(model,pmodel,p, modelprior);
 			
 		  logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
+		  shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),	
+						  "shrinkage"))[0];
+
 		  postnew = logmargy + log(prior_m);
 		} else {
 		  new_loc = branch->where;
