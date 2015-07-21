@@ -3,13 +3,15 @@
 #define LOG2PI  1.837877066409345
 extern double hyperg1F1(double, double, double);
 extern double hyperg(double, double, double);
+extern double shrinkage_chg(double a, double b, double s, double Q);
+
 SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily) {
 	int *xdims = INTEGER(getAttrib(RX,R_DimSymbol));
 	int n=xdims[0], p = xdims[1];
 	int nProtected = 0;
 
-	SEXP ANS = PROTECT(allocVector(VECSXP, 3)); ++nProtected;
-	SEXP ANS_names = PROTECT(allocVector(STRSXP, 3)); ++nProtected;
+	SEXP ANS = PROTECT(allocVector(VECSXP, 4)); ++nProtected;
+	SEXP ANS_names = PROTECT(allocVector(STRSXP, 4)); ++nProtected;
 	
 	//input, read only 
 	double *X=REAL(RX), *Y=REAL(RY), *coef=REAL(Rcoef), *mu=REAL(Rmu);
@@ -29,6 +31,9 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 	SEXP RQ=PROTECT(allocVector(REALSXP,1)); ++nProtected; 
 	double Q = NA_REAL;
 
+	SEXP Rshrinkage=PROTECT(allocVector(REALSXP,1)); ++nProtected; 
+	double shrinkage = NA_REAL;
+
 	double lC = 0.0;
 	double sum_Ieta = 0.0;
 	
@@ -37,7 +42,6 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 	glmfamily->info_matrix(Y, mu, Ieta, n);
 
 	for (int i = 0; i < n; i++) {
-	  //	Ieta[i] = mu[i] * (1.0 - mu[i]);
 		sum_Ieta += Ieta[i];
 	}
 
@@ -46,7 +50,8 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 			// for Jeffreys's prior (b = 0), set lpY to NA, since then CH g-prior isn't appropriate for the null model in this case
 			lpY = NA_REAL;
 		} else {	
-			lpY = lC + 0.5 * LOG2PI - 0.5 * log(sum_Ieta);    
+			lpY = lC + 0.5 * LOG2PI - 0.5 * log(sum_Ieta);
+			shrinkage = 1.0;
 		}
     } else { //not null model
 		// "centering"
@@ -99,11 +104,13 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 		if (a > 0 && b > 0) {
 		    lpY = lpY - lbeta(a / 2.0, b / 2.0) -
 		          log(hyperg1F1(a/2.0, (a + b)/2.0, - s/2.0));
+		    shrinkage = shrinkage_chg(a, b, s, Q);
 		}
 		//	Rprintf("logmarg = %lf\n", lpY);
 	}
 	REAL(RlpY)[0] = lpY;
 	REAL(RQ)[0] = Q;
+	REAL(Rshrinkage)[0] = shrinkage;
  
 	SET_VECTOR_ELT(ANS, 0, RlpY);
 	SET_STRING_ELT(ANS_names, 0, mkChar("lpY"));
@@ -111,6 +118,9 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 	SET_STRING_ELT(ANS_names, 1, mkChar("Q"));
 	SET_VECTOR_ELT(ANS, 2, RIeta);
 	SET_STRING_ELT(ANS_names, 2, mkChar("Ieta"));
+	SET_VECTOR_ELT(ANS, 3, Rshrinkage);
+	SET_STRING_ELT(ANS_names, 3, mkChar("shrinkage"));
+
 	setAttrib(ANS, R_NamesSymbol, ANS_names);
 
 	UNPROTECT(nProtected);
