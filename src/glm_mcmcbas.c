@@ -1,32 +1,14 @@
-
 #include "sampling.h"
 #include "family.h"
+#include "bas-glm.h"
 
-void insert_model_tree(struct Node *tree, struct Var *vars,  int n, int *model, int num_models);
-void update_tree(SEXP modelspace, struct Node *tree, SEXP modeldim, struct Var *vars, int k, int p, int n, int kt, int *model);
-int *GetModel_m(SEXP Rmodel_m, int *model, int p);
-double FitModel(SEXP Rcoef_m, SEXP Rse_m, double *XtY, double *XtX, int *model_m,
-				double *XtYwork, double *XtXwork, double yty, double SSY, int pmodel, int p,
-				int nobs, int m, double *pmse_m);
+//void update_tree(SEXP modelspace, struct Node *tree, SEXP modeldim, struct Var *vars, int k, int p, int n, int kt, int *model);
+
+//double FitModel(SEXP Rcoef_m, SEXP Rse_m, double *XtY, double *XtX, int *model_m,double *XtYwork, double *XtXwork, double yty, double SSY, int pmodel, int p,int nobs, int m, double *pmse_m);
 //SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily);
 
-void SetModel2(double logmargy, double shrinkage_m, double prior_m,
-			   SEXP sampleprobs, SEXP logmarg, SEXP shrinkage, SEXP priorprobs, int m);
-void SetModel1(SEXP Rfit, SEXP Rmodel_m, 
-			   SEXP beta, SEXP se, SEXP modelspace, SEXP deviance, SEXP R2, SEXP Q, int m);
-double GetNextModelCandidate(int pmodel_old, int n, int n_sure, int *model, struct Var *vars, double problocal,
-							 int *varin, int *varout);
-void CreateTree(NODEPTR branch, struct Var *vars, int *bestmodel, int *model, int n, int m, SEXP modeldim);
-void CreateTree_with_pigamma(NODEPTR branch, struct Var *vars, int *bestmodel, int *model, int n, int m, 
-							 SEXP modeldim, double *pigamma);
-void Substract_visited_probability_mass(NODEPTR branch, struct Var *vars, int *model, int n, int m,  
-										double *pigamma, double eps);
-void GetNextModel_swop(NODEPTR branch, struct Var *vars, int *model, int n, int m,  double *pigamma, 
-					   double problocal, SEXP modeldim,int *bestmodel);
 
-SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
-				  SEXP Roffset, SEXP Rweights, glmstptr * glmfamily, SEXP Rcontrol,
-				  SEXP Ra, SEXP Rb, SEXP Rs);
+
 SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights, 
 				 SEXP Rprobinit, SEXP Rmodeldim, 
 				 SEXP modelprior, SEXP Rbestmodel,  SEXP Rbestmarg,SEXP plocal, 
@@ -36,7 +18,6 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 				 SEXP Rupdate
 				 ) 
 {
-
 	int nProtected = 0;
 	int nModels=LENGTH(Rmodeldim);
 	SEXP ANS = PROTECT(allocVector(VECSXP, 16)); ++nProtected;
