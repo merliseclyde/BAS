@@ -57,12 +57,12 @@ SEXP glm_bas(SEXP RX, SEXP RY, glmstptr *glmfamily, SEXP Roffset, SEXP Rweights,
 
 	int   i, j, l, rank=1, *pivot=INTEGER(Rpivot), conv=0;
 
+        char  trans[]="N";
 
 	//	glmstptr *glmfamily;
-	//	glmfamily = make_glmfamily_structure(family);
+	//      glmfamily = make_glmfamily_structure(family);
 
-	char  trans[]="N";
-
+	
 	tol = fmin(1e-07, REAL(getListElement(Rcontrol,"epsilon"))[0]/1000);
 
 
