@@ -81,7 +81,7 @@ SEXP posisearch(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEX
   update = INTEGER(Rupdate)[0];
   lambda=REAL(LAMBDA)[0];
   delta = REAL(DELTA)[0];
-  Rprintf("delta %f lambda %f", delta, lambda);
+  //  Rprintf("delta %f lambda %f", delta, lambda);
   eps = DBL_EPSILON;
   problocal = REAL(plocal)[0];
   //  Rprintf("Update %i and prob.switch %f\n", update, problocal);
@@ -446,7 +446,7 @@ SEXP posisearch(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEX
  
  
 //  Now sample W/O Replacement 
- Rprintf("NumUnique Models Accepted %d \n", nUnique);
+// Rprintf("NumUnique Models Accepted %d \n", nUnique);
  INTEGER(NumUnique)[0] = nUnique;
 
 
@@ -658,7 +658,7 @@ SEXP posisearch(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEX
 
   setAttrib(ANS, R_NamesSymbol, ANS_names);
   UNPROTECT(nProtected);
-  Rprintf("Return\n");
+  //  Rprintf("Return\n");
   PutRNGstate();
 
   return(ANS);  
