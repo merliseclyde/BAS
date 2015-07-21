@@ -79,7 +79,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP R
   update = INTEGER(Rupdate)[0];
   lambda=REAL(LAMBDA)[0];
   delta = REAL(DELTA)[0];
-  Rprintf("delta %f lambda %f", delta, lambda);
+  //  Rprintf("delta %f lambda %f", delta, lambda);
   eps = DBL_EPSILON;
   problocal = REAL(plocal)[0];
   //  Rprintf("Update %i and prob.switch %f\n", update, problocal);
@@ -440,7 +440,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP R
  
  
 //  Now sample W/O Replacement 
- Rprintf("NumUnique Models Accepted %d \n", nUnique);
+// Rprintf("NumUnique Models Accepted %d \n", nUnique);
  INTEGER(NumUnique)[0] = nUnique;
 
 
@@ -492,9 +492,9 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP R
       denom = 1.0 - pigamma[i];
       if (denom <= 0.0) {
 	if (denom < 0.0) {
-	  Rprintf("neg denominator %le %le %le !!!\n", pigamma, denom, prone);
+	  warning("neg denominator %le %le %le !!!\n", pigamma, denom, prone);
 	  if (branch->prob < 0.0 && branch->prob < 1.0)
-	    Rprintf("non extreme %le\n", branch->prob);}
+	    warning("non extreme %le\n", branch->prob);}
         denom = 0.0;}
       else {
 	if  (prone <= 0)  prone = 0.0;
@@ -506,9 +506,9 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP R
 	else prone = prone/denom;
       }
       if (prone > 1.0 || prone < 0.0) 
-	Rprintf("%d %d Probability > 1!!! %le %le  %le %le \n",
+		Rprintf("%d %d Probability > 1!!! %le %le  %le %le \n",
 		m, i, prone, branch->prob, denom, pigamma);
-
+	
       
       /*      if (bit == 1)  pigamma /= (branch->prob);
 	      else  pigamma /= (1.0 - branch->prob); 
@@ -648,7 +648,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP R
 
   setAttrib(ANS, R_NamesSymbol, ANS_names);
   UNPROTECT(nProtected);
-  Rprintf("Return\n");
+//  Rprintf("Return\n");
   PutRNGstate();
 
   return(ANS);  
