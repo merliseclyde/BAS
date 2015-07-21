@@ -183,7 +183,7 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP 
 	double delta = REAL(DELTA)[0];
 	double alpha = REAL(Ralpha)[0];
 
-	Rprintf("delta %f lambda %f", delta, lambda);
+	//	Rprintf("delta %f lambda %f", delta, lambda);
 
 	Ywork = REAL(RYwork);
 	Xwork = REAL(RXwork);
@@ -254,8 +254,9 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP 
 	int *varin= ivecalloc(p);
 	int *varout= ivecalloc(p);
 	double problocal = REAL(plocal)[0];
-	while (nUnique < k && m < INTEGER(BURNIN_Iterations)[0]) {
-		memcpy(model, modelold, sizeof(int)*p);
+	//	while (nUnique < k && m < INTEGER(BURNIN_Iterations)[0]) {
+	while (nUnique < k && m < k ) {
+	        memcpy(model, modelold, sizeof(int)*p);
 		pmodel =  n_sure;
 
 		MH = GetNextModelCandidate(pmodel_old, n, n_sure, model, vars, problocal, varin, varout);
@@ -339,7 +340,7 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP 
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);        
 
 	//  Now sample W/O Replacement 
-	Rprintf("NumUnique Models Accepted %d \n", nUnique);
+	//	Rprintf("NumUnique Models Accepted %d \n", nUnique);
 	INTEGER(NumUnique)[0] = nUnique;
 
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
@@ -505,7 +506,7 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP 
 	
 	PutRNGstate();
     UNPROTECT(nProtected);
-	Rprintf("Return\n");
+    //	Rprintf("Return\n");
 	return(ANS);  
 }
 
