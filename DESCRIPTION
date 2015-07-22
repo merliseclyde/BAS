@@ -31,5 +31,5 @@ License: GPL (>= 2)
 URL:  http://www.r-project.org, http://www.stat.duke.edu/~clyde/BAS
 Packaged: 2012-05-31 19:26:40 UTC; clyde
 Repository: CRAN
-NeedsCompilation: "yes"
+NeedsCompilation: yes
 
