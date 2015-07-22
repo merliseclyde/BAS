@@ -7,16 +7,20 @@
     return(fdat)
 }
 
-.normalize.initprobs.lm <- function (initprobs, p, lm.obj=NULL) {
+.normalize.initprobs.lm <- function (initprobs, p) {
 
 
-    if (!is.numeric(initprobs)) {
-        initprobs = switch(initprobs,
-            "eplogp" = eplogprob(lm.obj),
-            "uniform" = c(1.0, rep(.5, p-1)),
-            "Uniform" = c(1.0, rep(.5, p-1)),
-            )
-    }
+    if (!is.numeric(initprobs))
+    simpleError("oops no valid method given to calculate initial probabilities")
+#        {
+#        initprobs = switch(initprobs,
+#            "eplogp" = eplogprob(lm.obj),
+#            "marg-eplogp" = eplogprob.marg(Y, X),
+#            "uniform" = c(1.0, rep(.5, p-1)),
+#            "Uniform" = c(1.0, rep(.5, p-1)),
+#            )
+#    }
+
     if (length(initprobs) == (p-1))
         initprobs = c(1.0, initprobs)
     if (length(initprobs) != p)
@@ -26,12 +30,12 @@
 	# intercept is always included otherwise we get a segmentation
 	# fault (relax later)
     prob = as.numeric(initprobs)
-    if (!is.null(lm.obj)) {
-        pval = summary(lm.obj)$coefficients[,4]
-        if (any(is.na(pval))) {
-            print(paste("warning full model is rank deficient."))
-        }}
-    
+#    if (!is.null(lm.obj)) {
+#        pval = summary(lm.obj)$coefficients[,4]
+#        if (any(is.na(pval))) {
+#            print(paste("warning full model is rank deficient."))
+#        }}
+#    
     return(prob);
 }
 
@@ -72,7 +76,7 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
                   bestmodel=NULL, bestmarg=NULL, prob.local=0.0,
                   prob.rw=0.5,  
                   Burnin.iterations=NULL,
-                  lambda=NULL, delta=0.025)  {
+                  lambda=NULL, delta=0.025, thin=1)  {
   num.updates=10
   call = match.call()
   if ( !is.numeric(initprobs) && initprobs == "eplogp") {
@@ -96,16 +100,17 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
 
   if (n <= p) {
       if (modelprior$family == "Uniform" || modelprior$family == "Bernoulli")
-          warning("Bernoulli or Uniform prior distribution on the Model Space are not recommended for p > n; please consider using beta.bernoulli instead")
+          warning("Uniform prior (Bernoulli)  distribution on the Model Space are not recommended for p > n; please consider using beta.bernoulli instead")
   }
   if (!is.numeric(initprobs)) {
-      if (n <= p & initprobs == "eplogp") {
-          simpleError("error: cannot use the eplogp bound to create starting sampling probabilities\n")
+      if (n <= p && initprobs == "eplogp") {
+          simpleError("error: Full model is not full rank so cannot use the eplogp bound to create starting sampling probabilities, perhpas use 'marg-eplogp' for fiting marginal models\n")
       }
     initprobs = switch(initprobs,
-     "eplogp" = eplogprob(lm.obj),
-      "uniform"= c(1.0, rep(.5, p-1)),
-      "Uniform"= c(1.0, rep(.5, p-1)),
+        "eplogp" = eplogprob(lm.obj),
+        "marg-eplogp" = eplogprob.marg(Y, X),
+        "uniform"= c(1.0, rep(.5, p-1)),
+        "Uniform"= c(1.0, rep(.5, p-1)),
       )
   }
 #   if (length(initprobs) == (p-1))
@@ -129,7 +134,7 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
   if (is.null(Burnin.iterations)) Burnin.iterations = as.integer(n.models/2)
   if (is.null(lambda)) lambda=1.0
       
-  prob <- .normalize.initprobs.lm(initprobs, p, lm.obj)
+  prob <- .normalize.initprobs.lm(initprobs, p)
   n.models <- .normalize.n.models(n.models, p, prob, method)
   print(n.models)
   modelprior <- .normalize.modelprior(modelprior,p)
@@ -213,20 +218,22 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
       Rbestmodel=as.integer(bestmodel),
       Rbestmarg=as.numeric(bestmarg),
       plocal=as.numeric(1.0 - prob.rw), as.integer(Burnin.iterations), 
-      as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta),
+        as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta),
+        as.integer(thin),
 	 PACKAGE="BAS"),
     "MCMC"= .Call("mcmc",
-      Yvec, X,
-      prob, modeldim,
-      incint=as.integer(int), 
-      alpha= as.numeric(alpha),
-      method=as.integer(method.num), modelprior=modelprior,
-      update=as.integer(update),
-      Rbestmodel=as.integer(bestmodel),
-      Rbestmarg=as.numeric(bestmarg),
-      plocal=as.numeric(1.0 - prob.rw), as.integer(Burnin.iterations), 
-      as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta),
-      PACKAGE="BAS"),
+        Yvec, X,
+        prob, modeldim,
+        incint=as.integer(int), 
+        alpha= as.numeric(alpha),
+        method=as.integer(method.num), modelprior=modelprior,
+        update=as.integer(update),
+        Rbestmodel=as.integer(bestmodel),
+        Rbestmarg=as.numeric(bestmarg),
+        plocal=as.numeric(1.0 - prob.rw), as.integer(Burnin.iterations), 
+        as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta),
+        as.integer(thin),
+        PACKAGE="BAS"),
     "AMCMC" = .Call("amcmc",
       Yvec, X,
       prob, modeldim,
