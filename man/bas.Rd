@@ -8,7 +8,7 @@
  modelprior=beta.binomial(1,1),
  initprobs="Uniform", method="BAS", update=NULL,
  bestmodel = NULL, bestmarg = NULL, prob.local = 0.0, prob.rw=0.5,
- Burnin.iterations = NULL, lambda = NULL, delta = 0.025)
+ Burnin.iterations = NULL, lambda = NULL, delta = 0.025,thin=1)
 }
 \arguments{
   \item{formula}{linear model formula for the full model with all
@@ -33,30 +33,36 @@
     include \code{\link{uniform}}
     \code{\link{Bernoulli}} or \code{\link{beta.binomial}} with the
     default being a \code{beta.binomial(1,1)}.  }
-  \item{initprobs}{vector of length p with the initial  inclusion
-    probabilities used for sampling without replacement with
-    method="BAS" (the intercept should be included with probability one)
-    or a character string giving the method used to construct the
-    sampling probabilities  if "Uniform" each predictor variable is
+  \item{initprobs}{Vector of length
+    p or a character string for approach used to create the vector.
+    This is used to order variables for sampling all methods for
+    potentially more  efficient storage while sampling and provides the
+    initial  inclusion  probabilities used for sampling without replacement with
+    method="BAS".  Options for the charactier string giving the method
+    are:  "Uniform" or "uniform" where each predictor variable is
     equally likely to be sampled (equivalent to random sampling without
-    replacement). If "eplogp", use the \code{\link{eplogprob}} function
-    to aproximate the  Bayes factor to find initial marginal inclusion
-    probabilitites and  sample without replacement using these
-    inclusion probabilaties. For variables that should always be
-    included set the corresponding initprobs to 1. To run a
+    replacement);  "eplogp" uses the \code{\link{eplogprob}} function
+    to aproximate the  Bayes factor from p-values from the full model to
+    find initial marginal inclusion probabilitites;
+    "marg-eplogp" uses\code{\link{eplogprob.marg}} function  to
+    aproximate the  Bayes factor from p-values from the full model each
+    simple linear regression.  To run a
     Markov Chain to provide initial estimates of marginal
-    inclusion probabilities, use method="MCMC+BAS" below.  While the
+    inclusion probabilities for "BAS", use method="MCMC+BAS" below.  While the
     initprobs are not used in sampling for method="MCMC", this
     determines the order of the variables in the lookup table and
-    memory allocation. 
-  } 
+    affects memory allocation in large problems where enumeration is not
+    feasible.  For variables that should always be included set the
+    corresponding initprobs to 1, i.e. the intercept should be included with
+    probability one. 
+   } 
   \item{method}{A character variable indicating which sampling method to
     use: method="BAS" uses Bayesian Adaptive Sampling (without
     replacement) using the sampling probabilities given in initprobs;
     method="MCMC" samples with replacement via a MCMC algorithm based
     that combines the birth/death random walk in Hoeting et al (1997) of
     MC3 with a random swap move to interchange a variable in the model
-    with one currently excluded as in Clyde, Ghosh and Littman (200;
+    with one currently excluded as in Clyde, Ghosh and Littman (2010);
     method="MCMC+BAS" runs an initial MCMC to calculate marginal
     inclusion probabilities and then samples without replacement as in
     BAS; method = "AMCMC" runs an Adaptive MCMC (experimental).  For
@@ -85,7 +91,12 @@
     of the MCMC options; the default is n.models/2.}
    \item{lambda}{Parameter in the AMCMC algorithm.}
    \item{delta}{truncation parameter to prevent sampling probabilities
-     to degenerate to 0 or 1.}  }  \details{BAS provides several search
+     to degenerate to 0 or 1.}
+   \item{thin}{For "MCMC" or "MCMC+BAS", thin the MCMC every "thin"
+     iterations; default is no thinning.} 
+ }
+
+\details{BAS provides several search
 algorithms to find high probability models for use in Bayesian Model
 Averaging or Bayesian model selection. For p less than 20-25, BAS can
 enumerate all models depending on memory availability, for larger p, BAS
