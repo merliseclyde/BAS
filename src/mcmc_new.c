@@ -134,7 +134,7 @@ double GetNextModelCandidate(int pmodel_old, int n, int n_sure, int *model, stru
 			// random
 			MH =  random_switch(model, vars, n, pmodel_old, varin, varout );
 		} else {
-			// Randomw walk proposal flip bit//
+			// Random walk proposal flip bit//
 			MH =  random_walk(model, vars,  n);
 		}
 	}
@@ -142,7 +142,7 @@ double GetNextModelCandidate(int pmodel_old, int n, int n_sure, int *model, stru
 }
 SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, 
 			  SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP Rbestmarg, SEXP plocal, 
-			  SEXP BURNIN_Iterations, SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA)
+	      SEXP BURNIN_Iterations, SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA, SEXP Rthin)
 {
 	int nProtected = 0;
 	SEXP RXwork = PROTECT(duplicate(X)); nProtected++;
@@ -182,7 +182,8 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP 
 	double lambda=REAL(LAMBDA)[0];
 	double delta = REAL(DELTA)[0];
 	double alpha = REAL(Ralpha)[0];
-
+	int thin = INTEGER(Rthin)[0];
+	
 	//	Rprintf("delta %f lambda %f", delta, lambda);
 
 	Ywork = REAL(RYwork);
@@ -254,8 +255,8 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP 
 	int *varin= ivecalloc(p);
 	int *varout= ivecalloc(p);
 	double problocal = REAL(plocal)[0];
-	//	while (nUnique < k && m < INTEGER(BURNIN_Iterations)[0]) {
-	while (nUnique < k && m < k ) {
+	while (nUnique < k && m < INTEGER(BURNIN_Iterations)[0]) {
+
 	        memcpy(model, modelold, sizeof(int)*p);
 		pmodel =  n_sure;
 
