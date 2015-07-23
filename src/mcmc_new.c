@@ -241,7 +241,7 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP 
 	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
 	SetModel(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2, m);
 
-	int nUnique=0, newmodel=0;
+	int nUnique=0, newmodel=0, nsamples=0; 
 	double *real_model = vecalloc(n);
 	int *modelold = ivecalloc(p);
 	int old_loc = 0;
@@ -300,39 +300,50 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP 
 		MH *= exp(postnew - postold);
 		//    Rprintf("MH new %lf old %lf\n", postnew, postold);
 		if (unif_rand() < MH) {
-			if (newmodel == 1)  {
-				new_loc = nUnique;
-				insert_model_tree(tree, vars, n, model, nUnique);
-				INTEGER(modeldim)[nUnique] = pmodel;
-				
-				//record model data
-				SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
-				SetModel(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2,nUnique);
-				
-				++nUnique; 
-			}
+		  if (newmodel == 1) {
+		    if ((m % thin) == 0 )  {
+		    
+		    new_loc = nUnique;
+		    insert_model_tree(tree, vars, n, model, nUnique);
+		    INTEGER(modeldim)[nUnique] = pmodel;
+		    
+		    //record model data
+		    SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
+		    SetModel(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2,nUnique);
+		    
+		    ++nUnique;
+		    }
+		    else UNPROTECT(3);
+		  }
 
-			old_loc = new_loc;
-			postold = postnew;
-			pmodel_old = pmodel;
-			memcpy(modelold, model, sizeof(int)*p);
+		  old_loc = new_loc;
+		  postold = postnew;
+		  pmodel_old = pmodel;
+		  memcpy(modelold, model, sizeof(int)*p);
 
 		} else  {
-			if (newmodel == 1) UNPROTECT(3);
+		  if (newmodel == 1) UNPROTECT(3);
 		}
 
-		INTEGER(counts)[old_loc] += 1;
+		if ( (m % thin) == 0) {
 
-		for (i = 0; i < n; i++) {
-			// store in opposite order so nth variable is first 
-			real_model[n-1-i] = (double) modelold[vars[i].index];
-			REAL(MCMCprobs)[vars[i].index] += (double) modelold[vars[i].index];
+		  INTEGER(counts)[old_loc] += 1;
+
+		  for (i = 0; i < n; i++) {
+		    // store in opposite order so nth variable is first 
+		    real_model[n-1-i] = (double) modelold[vars[i].index];
+		    REAL(MCMCprobs)[vars[i].index] += (double) modelold[vars[i].index];	
+		  }
+		  nsamples++; 
 		}
 		m++;
 	}
 
+	// Now wrap up
+
+	// Compute MCMC inclusion probabilities 
 	for (i = 0; i < n; i++) {
-		REAL(MCMCprobs)[vars[i].index] /= (double) m;
+		REAL(MCMCprobs)[vars[i].index] /= (double) nsamples;
 	}
 	
 	// Compute marginal probabilities  
@@ -340,8 +351,6 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP 
 	compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);        
 
-	//  Now sample W/O Replacement 
-	//	Rprintf("NumUnique Models Accepted %d \n", nUnique);
 	INTEGER(NumUnique)[0] = nUnique;
 
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
