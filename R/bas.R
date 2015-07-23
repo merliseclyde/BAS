@@ -75,7 +75,7 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
                   initprobs="Uniform", method="BAS", update=NULL, 
                   bestmodel=NULL, bestmarg=NULL, prob.local=0.0,
                   prob.rw=0.5,  
-                  Burnin.iterations=NULL,
+                  MCMC.iterations=NULL,
                   lambda=NULL, delta=0.025, thin=1)  {
   num.updates=10
   call = match.call()
@@ -130,8 +130,10 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
 
   #  prob = as.numeric(initprobs)
   #MCMC-BAS
-  MCMC.iterations = as.integer(n.models)
-  if (is.null(Burnin.iterations)) Burnin.iterations = as.integer(n.models/2)
+
+  if (is.null(MCMC.iterations)) MCMC.iterations = as.integer(n.models*10)
+  Burnin.iterations = as.integer(MCMC.iterations)
+  
   if (is.null(lambda)) lambda=1.0
       
   prob <- .normalize.initprobs.lm(initprobs, p)

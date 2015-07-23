@@ -8,7 +8,7 @@
  modelprior=beta.binomial(1,1),
  initprobs="Uniform", method="BAS", update=NULL,
  bestmodel = NULL, bestmarg = NULL, prob.local = 0.0, prob.rw=0.5,
- Burnin.iterations = NULL, lambda = NULL, delta = 0.025,thin=1)
+ MCMC.iterations = NULL, lambda = NULL, delta = 0.025,thin=1)
 }
 \arguments{
   \item{formula}{linear model formula for the full model with all
@@ -20,8 +20,11 @@
     or with replacement (method="MCMC"). If NULL, BAS with
     method="BAS" will try to enumerate all 2^p models. If enumeration is
     not possible (memory or time) then a value should be supplied
-    which controls the number of sampled models.  On exit for method=
-    "MCMC"  this is the  number of unique models that have been sampled.}
+    which controls the number of sampled models.   For large problems
+    with method="MCMC", sampling will stop once n.models unique models
+    have been sampled if MCMC.iterations > n.models. On exit for method=
+    "MCMC"  this is the  number of unique models that have been
+    sampled. }
   \item{prior}{prior distribution for regression coefficients.  Choices include
     "AIC", "BIC", "g-prior", "ZS-null", "ZS-full", "hyper-g",
     "hyper-g-laplace", "hyper-g-n", "EB-local", and "EB-global" }
@@ -87,12 +90,13 @@
   \item{prob.rw}{For any of the MCMC methods, probability of using the
     random-walk proposal; otherwise use a random "flip" move to propose
     a new model.}
-  \item{Burnin.iterations}{Number of iterations to discard when using any
-    of the MCMC options; the default is n.models/2.}
+  \item{MCMC.iterations}{Number of iterations for the MCMC sampler; the
+    default is n.models*10 if not set by the user.} 
    \item{lambda}{Parameter in the AMCMC algorithm.}
    \item{delta}{truncation parameter to prevent sampling probabilities
-     to degenerate to 0 or 1.}
-   \item{thin}{For "MCMC" or "MCMC+BAS", thin the MCMC every "thin"
+     to degenerate to 0 or 1 prior to enumeration for sampling withour
+     replacent.}
+   \item{thin}{For "MCMC", thin the MCMC every "thin"
      iterations; default is no thinning.} 
  }
 
