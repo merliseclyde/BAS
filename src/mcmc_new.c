@@ -265,36 +265,37 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP 
 		branch = tree;
 		newmodel= 0;
 		for (i = 0; i< n; i++) {
-			int bit =  model[vars[i].index];
-			if (bit == 1) {
-				if (branch->one != NULL) branch = branch->one;
-				else newmodel = 1;
-			} else {
-				if (branch->zero != NULL)  branch = branch->zero;
-				else newmodel = 1;
-			} 
-			pmodel  += bit;
+		  int bit =  model[vars[i].index];
+		  if (bit == 1) {
+		    if (branch->one != NULL) branch = branch->one;
+		    else newmodel = 1;
+		  } else {
+		    if (branch->zero != NULL)  branch = branch->zero;
+		    else newmodel = 1;
+		  } 
+		  pmodel  += bit;
 		}
 
 		if (pmodel  == n_sure || pmodel == n + n_sure) {
-			MH = 1.0/(1.0 - problocal);
+		  MH = 1.0/(1.0 - problocal);
 		}
 
 		if (newmodel == 1) {
-			new_loc = nUnique;
-			PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
-			PROTECT(Rcoef_m = NEW_NUMERIC(pmodel)); 
-			PROTECT(Rse_m = NEW_NUMERIC(pmodel));   
-			model_m = GetModel_m(Rmodel_m, model, p);
+		  new_loc = nUnique;
+		  PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
+		  PROTECT(Rcoef_m = NEW_NUMERIC(pmodel)); 
+		  PROTECT(Rse_m = NEW_NUMERIC(pmodel));   
+		  model_m = GetModel_m(Rmodel_m, model, p);
 
-			R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m);
-			gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
+		  R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m);
+		  gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
 
-			prior_m = compute_prior_probs(model,pmodel,p, modelprior);
-			postnew = logmargy + log(prior_m);
-		} else {
-			new_loc = branch->where;
-			postnew =  REAL(logmarg)[new_loc] + log(REAL(priorprobs)[new_loc]);      
+		  prior_m = compute_prior_probs(model,pmodel,p, modelprior);
+		  postnew = logmargy + log(prior_m);
+		}
+		else {
+		  new_loc = branch->where;
+		  postnew =  REAL(logmarg)[new_loc] + log(REAL(priorprobs)[new_loc]);      
 		} 
 
 		MH *= exp(postnew - postold);
