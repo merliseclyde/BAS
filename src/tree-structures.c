@@ -161,7 +161,8 @@ void update_MCMC_probs(double *probs, struct Var *vars, int n, int p) {
 
 // used with glm_*.c   
 void SetModel1(SEXP Rfit, SEXP Rmodel_m, 
-			  SEXP beta, SEXP se, SEXP modelspace, SEXP deviance, SEXP R2, SEXP Q, int m) {
+	       SEXP beta, SEXP se, SEXP modelspace,
+	       SEXP deviance, SEXP R2, SEXP Q, SEXP Rintercept, int m) {
 	SET_ELEMENT(beta, m, getListElement(getListElement(Rfit, "fit"),"coefficients"));
 	SET_ELEMENT(se, m, getListElement(getListElement(Rfit, "fit"),"se"));
 	SET_ELEMENT(modelspace, m, Rmodel_m);
@@ -169,4 +170,5 @@ void SetModel1(SEXP Rfit, SEXP Rmodel_m,
 	REAL(R2)[m] = NA_REAL;
 	REAL(deviance)[m] = REAL(getListElement(getListElement(Rfit, "fit"),"deviance"))[0];
 	REAL(Q)[m] = REAL(getListElement(getListElement(Rfit, "lpy"),"Q"))[0];
+	REAL(Rintercept)[m] = REAL(getListElement(getListElement(Rfit, "lpy"),"intercept"))[0];
 };
