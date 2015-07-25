@@ -1,4 +1,6 @@
 #include <math.h>
+#include <Rmath.h>
+
 extern double hyperg(double, double, double);
 
 double hyperg1F1(double a, double b, double x)
@@ -40,9 +42,12 @@ double shrinkage_chg(double a, double b, double s, double Q) {
   /* Beta(a/2,(b+2)/2) 1F1(a/2,(b+2)/2,(s+Q)/2 /
      Beta(a/2,b/2) 1F1(a/2,b/2,(s+Q)/2
 		       */		       
-  shrinkage = exp( log(b/2) + log(hyperg(a/2, b/2 + 1.0, (s + Q)/2.0)) -
-			log(hyperg(a/2, b/2, (s + Q)/2.0)));	
+  shrinkage = exp( lbeta(a/2.0, (b+2.0)/2.0) +
+		   log(hyperg(a/2.0, b/2.0 + 1.0, (s + Q)/2.0)) -
+		   lbeta(a/2.0, (b+2.0)/2.0) -
+		   log(hyperg(a/2.0, b/2.0, (s + Q)/2.0)));	
 
+  //  Rprintf("shrinkage_chg:  %lf\n", shrinkage);
   if (shrinkage > 1.0)  shrinkage = 1.0;
   else if (shrinkage < 0.0) shrinkage = 0.0;
   
