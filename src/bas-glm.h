@@ -16,7 +16,7 @@ void GetNextModel_swop(NODEPTR branch, struct Var *vars, int *model, int n, int 
 void Substract_visited_probability_mass(NODEPTR branch, struct Var *vars, int *model, int n, int m, double *pigamma, double eps);
 
 void SetModel1(SEXP Rfit, SEXP Rmodel_m, 
-			   SEXP beta, SEXP se, SEXP modelspace, SEXP deviance, SEXP R2, SEXP Q, int m);
+	       SEXP beta, SEXP se, SEXP modelspace, SEXP deviance, SEXP R2, SEXP Q, SEXP Rintercept, int m);
 
 void SetModel2(double logmargy, double shrinkage_m, double prior_m,
 			  SEXP sampleprobs, SEXP logmarg, SEXP shrinkage, SEXP priorprobs, int m);

@@ -61,8 +61,8 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 {
 	int nProtected = 0;
 	int nModels=LENGTH(Rmodeldim);
-	SEXP ANS = PROTECT(allocVector(VECSXP, 16)); ++nProtected;
-	SEXP ANS_names = PROTECT(allocVector(STRSXP, 16)); ++nProtected;
+	SEXP ANS = PROTECT(allocVector(VECSXP, 17)); ++nProtected;
+	SEXP ANS_names = PROTECT(allocVector(STRSXP, 17)); ++nProtected;
 	SEXP Rprobs = PROTECT(duplicate(Rprobinit)); ++nProtected;
 	SEXP MCMCprobs= PROTECT(duplicate(Rprobinit)); ++nProtected;
 	SEXP R2 = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
@@ -78,6 +78,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SEXP logmarg = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP sampleprobs = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP Q = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
+	SEXP Rintercept = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	
 	SEXP NumUnique = PROTECT(allocVector(INTSXP, 1)); ++nProtected;
 	
@@ -130,7 +131,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
 					"shrinkage"))[0];
 	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
-	SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, m);
+	SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, m);
 	UNPROTECT(2);
 
 	int nUnique=0, newmodel=0;
@@ -193,14 +194,15 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		//    Rprintf("MH new %lf old %lf\n", postnew, postold);
 		if (unif_rand() < MH) {
 			if (newmodel == 1)  {
-				new_loc = nUnique;
-				insert_model_tree(tree, vars, n, model, nUnique);
-				INTEGER(modeldim)[nUnique] = pmodel;
-				//Rprintf("model %d: %d variables\n", m, pmodel);
-				SetModel2(logmargy, NA_REAL, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
-				SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,nUnique);
-				UNPROTECT(2);	
-				++nUnique; 
+			  new_loc = nUnique;
+			  insert_model_tree(tree, vars, n, model, nUnique);
+			  INTEGER(modeldim)[nUnique] = pmodel;
+				//Rprintf("model %d: %d variables\n", m, pmodel);	
+			  SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
+			  SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept, nUnique);
+			  
+			  UNPROTECT(2);	
+			  ++nUnique; 
 			}
 			old_loc = new_loc;
 			postold = postnew;
@@ -399,6 +401,18 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		SET_VECTOR_ELT(ANS, 15, Q);
 	}
 	SET_STRING_ELT(ANS_names, 15, mkChar("Q"));
+
+	if (nUnique < nModels) {
+		SEXP RinterceptP = PROTECT(allocVector(REALSXP, nUnique));
+		for (i =0; i < nUnique; i++) { 
+			REAL(RinterceptP)[i] = REAL(Rintercept)[i];
+		}
+		SET_VECTOR_ELT(ANS, 16, RinterceptP);
+		UNPROTECT(1);
+	} else {
+		SET_VECTOR_ELT(ANS, 16, Rintercept);
+	}
+	SET_STRING_ELT(ANS_names, 16, mkChar("intercept"));
 
 	setAttrib(ANS, R_NamesSymbol, ANS_names);
 	

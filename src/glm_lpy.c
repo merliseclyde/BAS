@@ -10,8 +10,8 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 	int n=xdims[0], p = xdims[1];
 	int nProtected = 0;
 
-	SEXP ANS = PROTECT(allocVector(VECSXP, 4)); ++nProtected;
-	SEXP ANS_names = PROTECT(allocVector(STRSXP, 4)); ++nProtected;
+	SEXP ANS = PROTECT(allocVector(VECSXP, 5)); ++nProtected;
+	SEXP ANS_names = PROTECT(allocVector(STRSXP, 5)); ++nProtected;
 	
 	//input, read only 
 	double *X=REAL(RX), *Y=REAL(RY), *coef=REAL(Rcoef), *mu=REAL(Rmu);
@@ -25,6 +25,9 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 	double *Xc=REAL(RXc), *Ieta = REAL(RIeta), *XcBeta = REAL(RXcBeta), *XIeta = REAL(RXIeta);
 
 	//output
+	SEXP Rintercept=PROTECT(allocVector(REALSXP,1)); ++nProtected;
+	double intercept=NA_REAL;
+	
 	SEXP RlpY=PROTECT(allocVector(REALSXP,1)); ++nProtected; 
 	double lpY = NA_REAL;
 	
@@ -32,7 +35,7 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 	double Q = NA_REAL;
 
 	SEXP Rshrinkage=PROTECT(allocVector(REALSXP,1)); ++nProtected; 
-	double shrinkage = NA_REAL;
+	double shrinkage = 1.0;
 
 	double lC = 0.0;
 	double sum_Ieta = 0.0;
@@ -44,6 +47,7 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 	for (int i = 0; i < n; i++) {
 		sum_Ieta += Ieta[i];
 	}
+
 
 	if (p == 0) { //if null model
 		if ( b == 0) {
@@ -61,7 +65,7 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 			for (int j = 0; j < n; j++) {
 				temp += X[base + j] * Ieta[j];
 			}
-			XIeta[i] = temp / sum_Ieta;
+			XIeta[i] = temp / sum_Ieta;   // Xbar in i.p. space
 		}
 		
 		//Xc <- X - rep(1,n) %*% t((t(X) %*% Ieta)) / sum.Ieta;
@@ -82,6 +86,7 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 				XcBeta[j] += Xc[l] * beta;
 			}
 		}
+		
 		Q = 0.0;
 		for (int j = 0; j < n; j++) { 
 			Q += XcBeta[j] * XcBeta[j] * Ieta[j];
@@ -108,9 +113,18 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 		}
 		//	Rprintf("logmarg = %lf\n", lpY);
 	}
+
+	intercept = coef[0];
+	for ( int i = 1; i < p; i++) {
+	  intercept += XIeta[i]*coef[i]*(1.0 - shrinkage);
+	}
+	REAL(Rintercept)[0] = intercept;
+	//	Rprintf("intercept = %lf\n", intercept);
+
 	REAL(RlpY)[0] = lpY;
 	REAL(RQ)[0] = Q;
 	REAL(Rshrinkage)[0] = shrinkage;
+	//	Rprintf("shrinkage %lf\n", shrinkage);
  
 	SET_VECTOR_ELT(ANS, 0, RlpY);
 	SET_STRING_ELT(ANS_names, 0, mkChar("lpY"));
@@ -120,6 +134,9 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 	SET_STRING_ELT(ANS_names, 2, mkChar("Ieta"));
 	SET_VECTOR_ELT(ANS, 3, Rshrinkage);
 	SET_STRING_ELT(ANS_names, 3, mkChar("shrinkage"));
+  
+	SET_VECTOR_ELT(ANS, 4, Rintercept);
+	SET_STRING_ELT(ANS_names, 4, mkChar("intercept"));
 
 	setAttrib(ANS, R_NamesSymbol, ANS_names);
 

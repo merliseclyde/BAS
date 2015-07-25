@@ -172,7 +172,7 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP 
 	double *Xwork, *Ywork, *probs, shrinkage_m,
 		mse_m, MH=0.0, prior_m=1.0, 
 		R2_m, RSquareFull, logmargy, postold, postnew;
-	int i, j, m, n, l, pmodel_old, *model_m, *bestmodel;
+	int i, m, n, pmodel_old, *model_m, *bestmodel;
 	int mcurrent, n_sure;
 	
 	//get dimsensions of all variables 
