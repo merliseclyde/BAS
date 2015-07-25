@@ -18,7 +18,7 @@
 void r_multi_norm(int *p, int *n, double *Mu, double *Sigma, double *x)
 {
   int i, j, lwork, info = 1, inc = 1;
-  double xtmp[*p], work, tmp_ev, 
+  double  work, tmp_ev, 
       tmp_sigma[(*p) * (*p)], mu[*p],
       ev[*p], sigma[(*p) * (*p)], indptnorm[*p]; 
   char *jobz = "V";
