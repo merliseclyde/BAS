@@ -19,11 +19,17 @@ double hyperg1F1(double a, double b, double x)
     else {
       y = hyperg(a, b, x);
     }
+
+    if (x >= 0) {
     ly = hyperg1F1_laplace(a,b,-x);
+}
+    else {
+      ly = hyperg1F1_laplace(a,b,-x);
+    }
     Rprintf("LOG 1F1(%lf, %lf, %lf) = %lf (%lf)\n", a,b,x,log(y), y);
 
-    ly = hyperg1F1_laplace_pos(a,b,-x);
-    Rprintf("LOG 1F1(%lf, %lf, %lf) = %lf (%lf)\n", a,b,x,log(y), y);
+    ly = hyperg1F1_laplace_pos(a,b,x);
+    Rprintf("LOG Pos 1F1(%lf, %lf, %lf) = %lf (%lf)\n", a,b,x,log(y), y);
 
     return(y);
 } 
@@ -32,11 +38,12 @@ double hyperg1F1_laplace(double a, double b, double x)
 { 
   double y, mode, mode_neg, lprec, logy;
 
+  
   mode = (-2.0 + a - b - x + sqrt(pow(a, 2.0) + pow(b, 2.0) + 2.0*a*(b-x) + 2.0*b*x + x*(4+x)))/
     (2*(1.0 + b));
   
   
-  Rprintf("Mode1 %lf \n", mode);
+  Rprintf("Laplace Approx: Mode %lf \n", mode);
   if (mode < 0) {
     Rprintf("uh oh mode is neg\n");
   }
