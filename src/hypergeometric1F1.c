@@ -33,17 +33,20 @@ double hyperg1F1_laplace(double a, double b, double x)
   mode_neg =  (3.0 + -3.0*a + b + x - sqrt(1.0 + pow(a, 2.0) + pow(b, 2.0) + pow(x, 2) + 6.0*x +
 				       2.0*b*(1 + x) - 2.0*a*(1 + b + 3.0*x)))/
           4.0*(a - 1.0) - 2.0*b;
+
+  Rprintf("Mode1 %lf  Mode2 %lf\n", mode, mode_neg);
   if (mode < 0) {
-    Rprintf("wrong root\n");
+    Rprintf("use mode2\n");
     mode = mode_neg;}
 
   lprec =  -((1.0 - a)/pow(mode,2.0) - 2.0*x*mode/pow((1.0 + mode),3.0) +
-	     (1.0 - a + b + 2.0*x)/pow((1 + mode),2.0));
+	     (1.0 - a + b + 2.0*x)/pow((1.0 + mode),2.0));
+  Rprintf("prec %lf\n", lprec);
   if (lprec > 0) lprec = log(lprec);
   else Rprintf("wrong root\n");
   
 	  
-  logy = (a - 1.0)*log(mode) + (a - b - 1.0)*log(1.0 + mode) - x*mode/(1 + mode);
+  logy = (a - 1.0)*log(mode) + (a - b - 1.0)*log(1.0 + mode) - x*mode/(1.0 + mode);
   logy += -0.5*lprec + M_LN_SQRT_2PI - lbeta(a, b);
 //  y = hyperg1F1(a, b, x);
   
