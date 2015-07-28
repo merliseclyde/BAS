@@ -56,7 +56,7 @@
  * self-estimated relative error is greater than 1.0e-12.
  *
  */
-
+
 /*							hyperg.c */
 
 
