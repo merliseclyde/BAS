@@ -18,18 +18,24 @@ double hyperg1F1(double a, double b, double x)
     else {
       y = hyperg(a, b, x);
     }
-    ly = hyperg1F1_laplace(a,b,x);
+    ly = hyperg1F1_laplace(a,b,-x);
     Rprintf("LOG 1F1(%lf, %lf, %lf) = %lf (%lf)\n", a,b,x,log(y), y);
     return(y);
 } 
 
 double hyperg1F1_laplace(double a, double b, double x)
 { 
-  double y, mode, lprec, logy;
+  double y, mode, mode_neg, lprec, logy;
 
-  mode = (3.0 + -3.0*a + b + x + sqrt(4.0*(a - 1.0)*(2.0*(a - 1.0) - b) +
-				      pow(3.0*(a - 1.0) - b - x,2.0))/
-	  2.0*(2*(a - 1.0) - b));
+  mode = (3.0 + -3.0*a + b + x + sqrt(1.0 + pow(a, 2.0) + pow(b, 2.0) + pow(x, 2) + 6.0*x +
+				       2.0*b*(1 + x) - 2.0*a*(1 + b + 3.0*x)))/
+          4.0*(a - 1.0) - 2.0*b;
+  mode_neg =  (3.0 + -3.0*a + b + x - sqrt(1.0 + pow(a, 2.0) + pow(b, 2.0) + pow(x, 2) + 6.0*x +
+				       2.0*b*(1 + x) - 2.0*a*(1 + b + 3.0*x)))/
+          4.0*(a - 1.0) - 2.0*b;
+  if (mode < 0) {
+    Rprintf("wrong root\n");
+    mode = mode_neg;}
 
   lprec =  -((1.0 - a)/pow(mode,2.0) - 2.0*x*mode/pow((1.0 + mode),3.0) +
 	     (1.0 - a + b + 2.0*x)/pow((1 + mode),2.0));
