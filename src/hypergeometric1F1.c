@@ -73,9 +73,9 @@ double hyperg1F1_laplace_pos(double a, double b, double x)
 	(2*(a - 1.0 - b));
   
   
-      Rprintf("1F1 Lap Pos Mode1 %lf \n", mode);
+      Rprintf("Pos Lap Approximation \n Mode 1 %lf \n", mode);
       if (mode < 0) {
-	Rprintf("uh oh mode is neeg\n");
+	Rprintf("uh oh mode is neg\n");
       }
 
       lprec =  -((1.0 - a)/pow(mode,2.0) + 2.0*x*mode/pow((1.0 + mode),3.0) -
@@ -103,16 +103,17 @@ void hypergeometric1F1(double *a, double *b, double *x, double *y, int *npara)
 { 
   int k;
   for (k = 0; k < *npara; k++) {
-    if (x[k] <0) {
+    //   if (x[k] <0) {
       /*  Since Linex system tends to report error for negative x, we
 	  use the following fomular to convert it to positive value 
 	  1F1(a, b, x) = 1F1(b - a, b, -x) * exp(x) */
-      a[k] = b[k] - a[k];
+    /*      a[k] = b[k] - a[k];
       y[k] = hyperg(a[k], b[k], -x[k])*exp(x[k]);
     }
     else {
       y[k] = hyperg(a[k], b[k], x[k]);
-    }
+    }*/
+    y[k] = hyperg1F1(a[k], b[k], x[k]);
   }
 }
 
