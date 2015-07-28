@@ -36,14 +36,14 @@ double hyperg1F1_laplace(double a, double b, double x)
     Rprintf("uh oh mode is neeg\n");
   }
 
-  lprec =  -((1.0 - a)/pow(mode,2.0) - 2.0*x*mode/pow((1.0 + mode),3.0) +
+  lprec =  -((1.0 - a)/pow(mode,2.0) - 2.0*x*mode/pow((1.0 + mode),3.0) -
 	     (a + b - 2.0*x)/pow((1.0 + mode),2.0));
   Rprintf("prec %lf\n", lprec);
   if (lprec > 0) lprec = log(lprec);
   else Rprintf("wrong root\n");
   
 	  
-  logy = (a - 1.0)*log(mode) + (a + b)*log(1.0 + mode) - x*mode/(1.0 + mode);
+  logy = (a - 1.0)*log(mode) - (a + b)*log(1.0 + mode) - x*mode/(1.0 + mode);
   logy += -0.5*lprec + M_LN_SQRT_2PI - lbeta(a, b);
 //  y = hyperg1F1(a, b, x);
   
