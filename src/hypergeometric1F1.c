@@ -3,6 +3,7 @@
 
 extern double hyperg(double, double, double);
 double hyperg1F1_laplace(double, double, double);
+double hyperg1F1_laplace_pos(double, double, double);
 
 double hyperg1F1(double a, double b, double x)
 { 
@@ -20,6 +21,10 @@ double hyperg1F1(double a, double b, double x)
     }
     ly = hyperg1F1_laplace(a,b,-x);
     Rprintf("LOG 1F1(%lf, %lf, %lf) = %lf (%lf)\n", a,b,x,log(y), y);
+
+    ly = hyperg1F1_laplace_pos(a,b,-x);
+    Rprintf("LOG 1F1(%lf, %lf, %lf) = %lf (%lf)\n", a,b,x,log(y), y);
+
     return(y);
 } 
 
@@ -33,7 +38,7 @@ double hyperg1F1_laplace(double a, double b, double x)
   
   Rprintf("Mode1 %lf \n", mode);
   if (mode < 0) {
-    Rprintf("uh oh mode is neeg\n");
+    Rprintf("uh oh mode is neg\n");
   }
 
   lprec =  -((1.0 - a)/pow(mode,2.0) - 2.0*x*mode/pow((1.0 + mode),3.0) -
@@ -50,6 +55,42 @@ double hyperg1F1_laplace(double a, double b, double x)
   Rprintf("LOG Laplace 1F1(%lf, %lf, %lf) = %lf (%lf)\n", a,b,x,logy, exp(logy));
 	     return(logy);	
 }
+
+double hyperg1F1_laplace_pos(double a, double b, double x)
+{ 
+  double y, mode, mode_neg, lprec, logy;
+
+  if ( x >= 0.0)
+    {
+      mode = (2.0 - 2.0* a + b - x + sqrt(pow(b, 2.0) - 2.0*b*x + x*(4.0*(a-1)+x)))/
+	(2*(a - 1.0 - b));
+  
+  
+      Rprintf("1F1 Lap Pos Mode1 %lf \n", mode);
+      if (mode < 0) {
+	Rprintf("uh oh mode is neeg\n");
+      }
+
+      lprec =  -((1.0 - a)/pow(mode,2.0) + 2.0*x*mode/pow((1.0 + mode),3.0) -
+		 (b + 2.0*x)/pow((1.0 + mode),2.0));
+      Rprintf("prec %lf\n", lprec);
+      if (lprec > 0) lprec = log(lprec);
+      else Rprintf("wrong root\n");
+
+      logy =  lgamma(b) - lgamma(a) - lgamma(b-a);
+  if (x > 0.0) {	  
+    logy += (a - 1.0)*log(mode) - (a + b)*log(1.0 + mode) - x*mode/(1.0 + mode);
+    logy += -0.5*lprec + M_LN_SQRT_2PI;
+  }}
+  else {
+    logy = x + hyperg1F1_laplace_pos(b - a, b, -x);
+  }
+//  y = hyperg1F1(a, b, x);
+  
+  Rprintf("LOG Laplace Pos 1F1(%lf, %lf, %lf) = %lf (%lf)\n", a,b,x,logy, exp(logy));
+	     return(logy);	
+}
+
 
 void hypergeometric1F1(double *a, double *b, double *x, double *y, int *npara)
 { 
