@@ -6,7 +6,6 @@
 double FitModel(SEXP Rcoef_m, SEXP Rse_m, double *XtY, double *XtX, int *model_m,
 			  double *XtYwork, double *XtXwork, double yty, double SSY, int pmodel, int p,
 			  int nobs, int m, double *pmse_m);
-//SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu);
 
 
 int topk(Bit **models, double *prob, int k, struct Var *vars, int n, int p);
@@ -25,7 +24,7 @@ int withprob(double p);
 SEXP glm_deterministic(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights, 
 			  SEXP Rprobinit, SEXP Rmodeldim, SEXP modelprior, 
 			  SEXP Ra, SEXP Rb, SEXP Rs,
-			  SEXP family, SEXP Rcontrol) {
+		       SEXP family, SEXP Rcontrol, SEXP Rlaplace) {
 	int nProtected = 0;
 	int nModels=LENGTH(Rmodeldim);
 
@@ -79,7 +78,7 @@ SEXP glm_deterministic(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		SEXP Rmodel_m =	PROTECT(allocVector(INTSXP,pmodel));
 		GetModel_m(Rmodel_m, model, p);
 		//evaluate logmargy and shrinkage
-		SEXP glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights, glmfamily, Rcontrol, Ra, Rb, Rs));	
+		SEXP glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights, glmfamily, Rcontrol, Ra, Rb, Rs, Rlaplace));	
 		double prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
 		logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
 		shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),	

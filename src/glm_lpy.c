@@ -1,14 +1,14 @@
 #include "sampling.h"
 #include "family.h"
 #define LOG2PI  1.837877066409345
-extern double hyperg1F1(double, double, double);
+extern double loghyperg1F1(double, double, double, int);
 extern double hyperg(double, double, double);
-extern double shrinkage_chg(double a, double b, double s, double Q);
+extern double shrinkage_chg(double a, double b, double Q, int laplace);
 
-SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily) {
+SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, SEXP  Rlaplace) {
 	int *xdims = INTEGER(getAttrib(RX,R_DimSymbol));
 	int n=xdims[0], p = xdims[1];
-	int nProtected = 0;
+	int nProtected = 0;  
 
 	SEXP ANS = PROTECT(allocVector(VECSXP, 5)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 5)); ++nProtected;
@@ -16,7 +16,8 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 	//input, read only 
 	double *X=REAL(RX), *Y=REAL(RY), *coef=REAL(Rcoef), *mu=REAL(Rmu);
 	double a = REAL(Ra)[0], b = REAL(Rb)[0], s = REAL(Rs)[0];
-
+	int laplace = INTEGER(Rlaplace)[0];
+	
 	//working variables (do we really need to make them R variables?)
 	SEXP RXc = PROTECT(allocVector(REALSXP,n*p)); ++nProtected;
 	SEXP RIeta =  PROTECT(allocVector(REALSXP,n)); ++nProtected;  
@@ -101,19 +102,21 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 		//}
 
 		
-    	lpY = lC + 0.5 * LOG2PI - 0.5 * log(sum_Ieta);
+		lpY = lC + 0.5 * LOG2PI - 0.5 * log(sum_Ieta);
 	//	Rprintf("log(sum_Ieta = %lf\n", log(sum_Ieta));
-	lpY += lbeta((a + p) / 2.0, b / 2.0) +
-	       log(hyperg1F1((a + p)/2.0, (a + b + p)/2.0, -(s + Q)/2.0)); 
+		lpY += lbeta((a + p) / 2.0, b / 2.0) +
+		  loghyperg1F1((a + p)/2.0, (a + b + p)/2.0, -(s+Q)/2.0, laplace);
+		//	  hyperg1F1_laplace((a + p)/2.0, (a + b + p)/2.0, -(s + Q)/2.0); 
     	//doesn't apply for the Jeffreys prior
-		if (a > 0 && b > 0) {
-		    lpY = lpY - lbeta(a / 2.0, b / 2.0) -
-		          log(hyperg1F1(a/2.0, (a + b)/2.0, - s/2.0));
-		    shrinkage = shrinkage_chg(a, b, s, Q);
+		if (a > 0 && b > 0 && s > 0.0) {
+		  lpY +=  - lbeta(a / 2.0, b / 2.0) -	
+	    //	      hyperg1F1_laplace(a/2.0, (a + b)/2.0, - s/2.0);
+		    loghyperg1F1(a/2.0, (a + b)/2.0, - s/2.0, laplace);
 		}
-		//	Rprintf("logmarg = %lf\n", lpY);
-	}
 
+shrinkage = shrinkage_chg(a + p, a + b + p , -(s+Q), laplace);
+
+	}
 	intercept = coef[0];
 	for ( int i = 1; i < p; i++) {
 	  intercept += XIeta[i]*coef[i]*(1.0 - shrinkage);

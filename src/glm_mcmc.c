@@ -6,7 +6,7 @@
 	
 SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
 			  SEXP Roffset, SEXP Rweights, glmstptr * glmfamily, SEXP Rcontrol,
-			  SEXP Ra, SEXP Rb, SEXP Rs) { //parameters
+		  SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rlaplace) { //parameters
   int nprotected = 0;
   int *model_m = INTEGER(Rmodel_m);
   int pmodel = LENGTH(Rmodel_m);
@@ -34,7 +34,7 @@ SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
   }
 
   
-  SEXP Rlpy = PROTECT(gglm_lpy(RXnow_noIntercept, RY, Ra, Rb, Rs, Rcoef, Rmu, glmfamily));
+  SEXP Rlpy = PROTECT(gglm_lpy(RXnow_noIntercept, RY, Ra, Rb, Rs, Rcoef, Rmu, glmfamily, Rlaplace));
   nprotected++;
 	
   SEXP ANS = PROTECT(allocVector(VECSXP, 2)); nprotected++;
@@ -56,7 +56,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 			  SEXP modelprior, SEXP Rbestmodel,  SEXP plocal, 
 			  SEXP BURNIN_Iterations,
 			  SEXP Ra, SEXP Rb, SEXP Rs,
-			  SEXP family, SEXP Rcontrol
+	      SEXP family, SEXP Rcontrol, SEXP Rlaplace
 			  )
 {
 	int nProtected = 0;
@@ -124,7 +124,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	GetModel_m(Rmodel_m, model, p);
 	//evaluate logmargy and shrinkage
 	SEXP glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
-					    glmfamily, Rcontrol, Ra, Rb, Rs));	
+					    glmfamily, Rcontrol, Ra, Rb, Rs, Rlaplace));	
 	prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
 	
 	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
@@ -177,7 +177,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		  GetModel_m(Rmodel_m, model, p);
 		  
 		  glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
-						 glmfamily, Rcontrol, Ra, Rb, Rs));	
+						 glmfamily, Rcontrol, Ra, Rb, Rs, Rlaplace));	
 		  prior_m = compute_prior_probs(model,pmodel,p, modelprior);
 			
 		  logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
