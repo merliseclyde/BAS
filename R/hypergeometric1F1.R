@@ -1,5 +1,7 @@
-hypergeometric1F1 = function(a,b,z, method="Cephes", log=TRUE) {
-  out = 1.0
-  ans = .C("hypergeometric1F1", as.numeric(a), as.numeric(b), as.numeric(z), out=as.numeric(out), as.integer(length(a)), PACKAGE="BAS")$out
-  return(ans)
+hypergeometric1F1 = function(a,b,z, laplace=TRUE, log=TRUE) {
+
+    n = length(a);
+    out = rep(0, n);
+    ans = .C("hypergeometric1F1", as.numeric(a), as.numeric(b), as.numeric(z), out=as.numeric(out), as.integer(n), as.integer(rep(laplace, n)), PACKAGE="BAS")$out
+    return(ans)
 }
