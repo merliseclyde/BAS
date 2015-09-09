@@ -9,7 +9,7 @@
  initprobs = "Uniform", method = "MCMC", update = NULL,
  bestmodel = NULL, bestmarg = NULL, prob.rw = 0.5, 
  Burnin.iterations = NULL, control = glm.control(), 
- offset = rep(0, nobs), weights = rep(1, nobs))
+ offset = rep(0, nobs), weights = rep(1, nobs), laplace=FALSE)
 }
 \arguments{
   \item{formula}{generalized linear model formula for the full model with all
@@ -75,8 +75,11 @@
   \item{offset}{a priori known component to be included in the linear
 predictor}
   \item{weights}{optional vector of weights to be used in the fitting
-    process.  SHould be NULL or a numeric vector.
-}
+    process.  SHould be NULL or a numeric vector.}
+  \item{laplace}{logical variable for whether to use a Laplace
+    approximate for integration with respect to g to obtain the marginal
+    likelihood.  If FALSE the Cephes library is used which may be
+    inaccurate for large n or large values of the Wald Chisquared statistic.}
 }
 \details{BAS provides several search
 algorithms to find high probability models for use in Bayesian Model
