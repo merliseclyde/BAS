@@ -62,6 +62,7 @@ double LogBF_Hg_null(double R2, int n, int d, double alpha, int gpower){
   double a,b,c,e,aux;
   int k;
 
+  logmarg = NA_REAL;
   k = d - 1;
   e = 1.-R2;
   aux=-e*(alpha - (double)gpower*2. + (double)k);
@@ -75,7 +76,7 @@ double LogBF_Hg_null(double R2, int n, int d, double alpha, int gpower){
   posroot(a,b,c,&root,&status);
   if(status!=1.){
     if(status==0.) Rprintf("\n No positive roots\n");
-    else Rprintf("\n More than one positive root\n");
+    else Rprintf("\n More than one positive root; this should not happen\n");
   }
   else{ 
     if (k == 0) { logmarg = 0.0; }
@@ -83,8 +84,9 @@ double LogBF_Hg_null(double R2, int n, int d, double alpha, int gpower){
 	logmarg = lik_null_HG(root,R2,n,k, alpha, gpower)+
 	          (log(4.*asin(1.))-
 		   log(-info_null_HG(root,R2,n,k, alpha)))/2.;}
-   return(logmarg);
   }
+  return(logmarg);
+
 }
 
 
