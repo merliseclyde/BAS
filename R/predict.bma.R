@@ -1,4 +1,4 @@
-predict.bma = function(object, newdata, top=NULL, ...) {
+predict.bas = function(object, newdata, top=NULL, ...) {
   if (is.data.frame(newdata)) stop("newdata must be a matrix or vector")
   if (is.vector(newdata)) newdata=matrix(newdata, nrow=1)    
   n <- nrow(newdata)[1]
@@ -26,7 +26,7 @@ predict.bma = function(object, newdata, top=NULL, ...) {
 }
 
 
-fitted.bma = function(object,  type="HPM", top=NULL, ...) {
+fitted.bas = function(object,  type="HPM", top=NULL, ...) {
   nmodels = length(object$which)
   X = object$X
   if (type=="HPM") {
@@ -36,7 +36,7 @@ fitted.bma = function(object,  type="HPM", top=NULL, ...) {
     yhat = yhat + (1 - object$shrinkage[[best]])*(object$ols[[best]])[1]
   }
   if (type == "BMA") {
-   yhat = predict.bma(object, X, top)$Ybma
+   yhat = predict(object, X, top)$Ybma
 }
   if (type == "MPM") {
    nvar = ncol(X) - 1
