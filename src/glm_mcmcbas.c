@@ -182,7 +182,7 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	// Compute marginal probabilities  
 	mcurrent = nUnique;
-	Rprintf("NumUnique Models Accepted %d \n", nUnique);
+	//	Rprintf("NumUnique Models Accepted %d \n", nUnique);
 	compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);        
 
@@ -240,7 +240,7 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	    compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 	    compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);        
 	    if (update_probs(probs, vars, mcurrent, k, p) == 1) {
-	      Rprintf("Updating Model Tree %d \n", m);
+	      //	      Rprintf("Updating Model Tree %d \n", m);
 	      update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);     
 	    }
 	  }
