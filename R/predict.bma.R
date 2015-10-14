@@ -20,16 +20,16 @@ predict.bas = function(object, newdata, top=NULL, ...) {
   Ypred <- matrix(0, M, n)
   # lm case
   if (is.null(object$intercept)) {      
-  for (i in 1:M) {
-    beta.m <- beta[[i]]
-    model.m <- models[[i]]
-    Ypred[i,] <-  (newdata[,model.m[-1],drop=FALSE] %*% beta.m[-1])*gg[i]  + beta.m[1]}
-}
+      for (i in 1:M) {
+          beta.m <- beta[[i]]
+          model.m <- models[[i]]
+          Ypred[i,] <-  (newdata[,model.m[-1],drop=FALSE] %*% beta.m[-1])*gg[i]  + beta.m[1]}
+  }
   else {
       beta.m <- beta[[i]]
       model.m <- models[[i]]
       Ypred[i,] <-  (newdata[,model.m[-1],drop=FALSE] %*% beta.m[-1])*gg[i] + object$intercept[i]}
-}
+
   
   Ybma <- t(Ypred) %*% postprobs
   return(list(Ybma=Ybma, Ypred=Ypred, best=best))
