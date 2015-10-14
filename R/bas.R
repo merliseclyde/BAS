@@ -285,7 +285,7 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
   result$mean.x = mean.x
   result$call=call
 
-  class(result) = "bma"
+  class(result) = c("bas","bma")
   if (prior == "EB-global") result = EB.global.bma(result)
   return(result) 
   }
