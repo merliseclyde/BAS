@@ -1,3 +1,7 @@
+Changes for BAS 1.06
+	- added dataframe option for newdata in predict.bas
+	- added class basglm for predict
+	
 Changes for BAS 1.05
 	- added thinning option for MCMC method for bas.lm
 	- returned posterior expected shrinkage for bas.glm
