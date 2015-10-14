@@ -4,7 +4,11 @@ Changes for BAS 1.05
 	- added option for initprobs = "marg-eplogp" for using marginal
 	SLR models to create starting probabilities or order variables
 	especially for p > n case
-	
+	- added standalone function for hypergeometric1F1 using Cephes
+	library and a Laplace aproximation
+	-Added class "BAS" so that predict and fitted functions (S3
+	methods) are not masked by functions in the BVS package: to do
+	modify the rest of the S3 methods.
 	
 Changes for BAS 1.04
 
