@@ -173,6 +173,6 @@ bas.glm = function(formula, data,
   	result$X=X
   	result$call=call
 
-  	class(result) = "bma"
+  	class(result) = c("basglm","bas", "bma")
   	return(result) 
 }
