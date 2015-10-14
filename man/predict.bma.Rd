@@ -1,13 +1,13 @@
-\name{predict.bma}
-\alias{predict.bma}
+\name{predict.bas}
+\alias{predict.bas}
 \alias{predict}
 \title{Prediction Method for an object of class BMA}
 \description{Predictions under model averaging from a BMA object
 }
-\usage{\method{predict}{bma}(object, newdata, top=NULL, ...)}
+\usage{\method{predict}{bas}(object, newdata, top=NULL, ...)}
 
 \arguments{
-  \item{object}{An object of class BMA, created by \code{bas}}
+  \item{object}{An object of class BAS, created by \code{bas}}
   \item{newdata}{new matrix or vector of data for predictions. May 
     include a column for the intercept or just the predictor variables}
   \item{top}{Use only the top M models, based on posterior
@@ -26,7 +26,7 @@
   will allow newdata to be a dataframe.
 }
 
-\seealso{\code{\link{bas}}, \code{\link{fitted.bma}}
+\seealso{\code{\link{bas}}, \code{\link{fitted.bas}}
 }
 \examples{
 \dontrun{data("Hald")

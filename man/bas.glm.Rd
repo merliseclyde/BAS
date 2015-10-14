@@ -132,7 +132,9 @@ An object of class \code{BMA} is a list containing at least the following compon
 ##---- Should be DIRECTLY executable !! ----
 library(MASS)
 data(Pima.tr)
-out <- bas.glm(type ~ ., data=Pima.tr, a = .5, b=nrow(Pima.tr)/2,n.models=2^7, method="MCMC+BAS", modelprior=beta.binomial(1,1))
+out <- bas.glm(type ~ ., data=Pima.tr, a = .5, b=nrow(Pima.tr)/2,
+               n.models=2^7, method="MCMC+BAS",
+               modelprior=beta.binomial(1,1))
 summary(out)
 image(out)
 }

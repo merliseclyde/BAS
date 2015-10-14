@@ -1,10 +1,10 @@
-\name{fitted.bma}
-\alias{fitted.bma}
+\name{fitted.bas}
+\alias{fitted.bas}
 \alias{fitted}
-\title{Fitted values for a BMA objects}
-\description{Calculate fitted values for a BMA object}
+\title{Fitted values for a BAS BMA objects}
+\description{Calculate fitted values for a BAS BMA object}
 
-\usage{\method{fitted}{bma}(object,  type="HPM", top=NULL, ...)}
+\usage{\method{fitted}{bas}(object,  type="HPM", top=NULL, ...)}
 \arguments{
   \item{object}{An object of class 'bma' as created by \code{\link{bas}}}
   \item{type}{type of fitted value to return.  Options include
@@ -34,7 +34,7 @@
   model selection. Annals of Statistics. 32, 870-897.
   \url{http://projecteuclid.org/Dienst/UI/1.0/Summarize/euclid.aos/1085408489}
 }
-\seealso{\code{\link{predict.bma}}
+\seealso{\code{\link{predict.bas}}
 }
 \examples{
 data(Hald)

@@ -121,7 +121,7 @@ coefficients include Zellner's g-prior, the Hyper-g prior (Liang et al
 g-priors.  AIC and BIC are also included.  } \value{
   \code{bas} returns an object of class \code{BMA}
 
-An object of class \code{BMA} is a list containing at least the following components:
+An object of class \code{BAS} is a list containing at least the following components:
 
 \item{postprob}{the posterior probabilities of the models selected}
 \item{priorprobs}{the prior probabilities of the models selected}
@@ -151,7 +151,7 @@ its mean.}
   \item{modelprior}{the prior distribution on models that created the BMA object}
   \item{Y}{response}
   \item{X}{matrix of predictors}
-  \item{mean.x}{vector of means for each column of X (used in \code{\link{predict.bma}})}
+  \item{mean.x}{vector of means for each column of X (used in \code{\link{predict.bas}})}
   
  The function  \code{\link{summary.bma}}, is used to print a summary of
  the results. The function \code{\link{plot.bma}} is used to plot
@@ -159,7 +159,7 @@ its mean.}
  \code{\link{image.bma}} provides an image of the distribution over models.
  Posterior summaries of coefficients can be extracted using
  \code{\link{coefficients.bma}}.  Fitted values and predictions can be
- obtained using the functions  \code{\link{fitted.bma}} and \code{\link{predict.bma}}.
+ obtained using the S3 functions  \code{\link{fitted.bas}} and \code{\link{predict.bas}}.
  BMA objects may be updated to use a different prior (without rerunning
  the sampler) using the function  \code{\link{update.bma}}.
 }
@@ -204,8 +204,8 @@ its mean.}
 \seealso{ \code{\link{summary.bma}},
           \code{\link{coefficients.bma}},
           \code{\link{print.bma}},
-	  \code{\link{predict.bma}},
-	  \code{\link{fitted.bma}}
+	  \code{\link{predict.bas}},
+	  \code{\link{fitted.bas}}
           \code{\link{plot.bma}},
 	  \code{\link{image.bma}},
 	  \code{\link{eplogprob}},

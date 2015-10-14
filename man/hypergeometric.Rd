@@ -30,8 +30,8 @@
     
   Liang, F., Paulo, R., Molina, G., Clyde, M. and  Berger,
   J.O. (2005) Mixtures of  g-priors for Bayesian Variable
-  Selection. Journal of the American Statistical Association
-  \cr \url{http://www.stat.duke.edu/05-12.pdf}
+  Selection.  Journal of the American Statistical Association.
+   103:410-423.  \cr \url{http://dx.doi.org/10.1198/016214507000001337}
  }
 \examples{hypergeometric2F1(12,1,2,.65)
 }

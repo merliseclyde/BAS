@@ -48,6 +48,7 @@ vlas=2,plas=0,rlas=0, ...)
 
 \seealso{\code{\link{bas}}}
 \examples{
+require(graphics)
 data("Hald")
 hald.ZSprior =  bas.lm(Y~ ., data=Hald,  prior="ZS-null")
 image(hald.ZSprior, subset=-1)

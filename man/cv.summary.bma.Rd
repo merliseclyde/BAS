@@ -9,7 +9,7 @@
 
 \arguments{
   \item{object}{am object of class 'bma'}
-  \item{pred}{output from \code{\link{predict.bma}}}
+  \item{pred}{output from \code{\link{predict.bas}}}
   \item{ytrue}{vector of left out response values}
 }
 
@@ -18,7 +18,7 @@
   prediction error for BMA prediction}
 
  
-\seealso{\code{\link{predict.bma}}}
+\seealso{\code{\link{predict.bas}}}
 
 \author{Merlise Clyde \email{clyde@stat.duke.edu}}
 \keyword{regression}
