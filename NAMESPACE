@@ -2,5 +2,18 @@
 useDynLib(BAS)
 exportPattern("^[^\\.]")
 import("stats")
-
-
+importFrom("grDevices", "dev.interactive", "extendrange", "gray",
+             "rainbow")
+importFrom("graphics", "abline", "axis", "box", "image", "lines",
+             "mtext", "panel.smooth", "par", "plot", "points",
+             "strheight", "text", "title")
+S3method(print, bma)
+S3method(print, coef.bma)
+S3method(summary, bma)
+S3method(plot, bma)
+S3method(plot, coef.bma)
+S3method(coef, bma)
+S3method(image, bma)
+S3method(update, bma)
+S3method(fitted, bas)
+S3method(predict, bas)
