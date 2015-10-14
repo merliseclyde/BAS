@@ -64,7 +64,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	NODEPTR tree, branch;	
 	tree = make_node(vars[0].prob);
-	Rprintf("For m=0, Initialize Tree with initial Model\n");  
+	//	Rprintf("For m=0, Initialize Tree with initial Model\n");  
 	
 	int m = 0;
 	int *bestmodel = INTEGER(Rbestmodel);
@@ -138,7 +138,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 				compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 				compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);        
 				if (update_probs(probs, vars, mcurrent, k, p) == 1) {
-					Rprintf("Updating Model Tree %d \n", m);
+				  //					Rprintf("Updating Model Tree %d \n", m);
 					update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);     
 				}
 			}
