@@ -1,6 +1,6 @@
 predict.bas = function(object, newdata, top=NULL, ...) {
   if (is.data.frame(newdata)) {
-      newdata = model.matrix(object$call$formula, newdata) 
+      newdata = model.matrix(eval(object$call$formula), newdata) 
   }
   if (is.vector(newdata)) newdata=matrix(newdata, nrow=1)    
   n <- nrow(newdata)[1]
