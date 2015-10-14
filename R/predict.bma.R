@@ -1,5 +1,7 @@
 predict.bas = function(object, newdata, top=NULL, ...) {
-  if (is.data.frame(newdata)) stop("newdata must be a matrix or vector")
+  if (is.data.frame(newdata)) {
+      newdata = model.matrix(object$call$formula, newdata) 
+  }
   if (is.vector(newdata)) newdata=matrix(newdata, nrow=1)    
   n <- nrow(newdata)[1]
   if (ncol(newdata) == object$n.vars) newdata=newdata[,-1, drop=FALSE]  # drop intercept
