@@ -3,7 +3,7 @@ predict.bas = function(object, newdata, top=NULL, ...) {
       newdata = model.matrix(eval(object$call$formula), newdata) 
   }
   if (is.vector(newdata)) newdata=matrix(newdata, nrow=1)    
-  n <- nrow(newdata)[1]
+  n <- nrow(newdata)
   if (ncol(newdata) == object$n.vars) newdata=newdata[,-1, drop=FALSE]  # drop intercept
   if (ncol(newdata) != (object$n.vars -1)) stop("Dimension of newdata does not match orginal model")
   if (!is.null(object$mean.x)) newdata = sweep(newdata, 2, object$mean.x)
@@ -23,7 +23,7 @@ predict.bas = function(object, newdata, top=NULL, ...) {
       for (i in 1:M) {
           beta.m <- beta[[i]]
           model.m <- models[[i]]
-          Ypred[i,] <-  (newdata[,model.m[-1],drop=FALSE] %*% beta.m[-1])*gg[i]  + beta.m[1]}
+          Ypred[i,] <-  (newdata[,model.m[-1],drop=FALSE] %*% beta.m[-1])*gg[i]  + beta.m[i]}
   }
   else {
      for (i in 1:M) { 
