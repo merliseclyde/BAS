@@ -1,4 +1,16 @@
-predict.bas = function(object, newdata, top=NULL, ...) {
+predict.basglm = function(object, newdata, top=NULL, type=c("link", "response")) {
+    pred = predict.bas(object, newdata, top)
+    if (type == "reponse") {
+        Ypred = apply(pred$Ypred, 1, FUN = function(x) {eval(object$call$family)$linkinv(x)})
+        Ybma = t(Ypred) %*% pred$postprobs
+        pred = list(Ypred=Ypred, Ybma=Ybma, postprobs=pred$postprobs, best=pred$pest)
+    }
+    return(pred)       
+}
+
+    
+    
+predict.bas = function(object, newdata, top=NULL, type="link", ...) {
 
   if (is.data.frame(newdata)) {
       newdata = model.matrix(eval(object$call$formula), newdata) 
@@ -35,7 +47,7 @@ predict.bas = function(object, newdata, top=NULL, ...) {
  }
   
   Ybma <- t(Ypred) %*% postprobs
-  return(list(Ybma=Ybma, Ypred=Ypred, best=best))
+  return(list(Ybma=Ybma, Ypred=Ypred, postprobs=postprobs, best=best))
 }
 
 
