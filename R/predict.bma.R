@@ -1,4 +1,5 @@
 predict.bas = function(object, newdata, top=NULL, ...) {
+
   if (is.data.frame(newdata)) {
       newdata = model.matrix(eval(object$call$formula), newdata) 
   }
@@ -14,12 +15,13 @@ predict.bas = function(object, newdata, top=NULL, ...) {
   models <- object$which[best]
   beta <- object$ols[best]
   gg <- object$shrinkage[best]
+  intercept <- object$intercept[best]  
   postprobs <- postprobs[best]
   postprobs <- postprobs/sum(postprobs)
   M <- length(postprobs)
   Ypred <- matrix(0, M, n)
   # lm case
-  if (is.null(object$intercept)) {      
+  if (is.null(intercept)) {      
       for (i in 1:M) {
           beta.m <- beta[[i]]
           model.m <- models[[i]]
@@ -29,7 +31,7 @@ predict.bas = function(object, newdata, top=NULL, ...) {
      for (i in 1:M) { 
       beta.m <- beta[[i]]
       model.m <- models[[i]]
-      Ypred[i,] <-  (newdata[,model.m[-1],drop=FALSE] %*% beta.m[-1])*gg[i] + object$intercept[i]}
+      Ypred[i,] <-  (newdata[,model.m[-1],drop=FALSE] %*% beta.m[-1])*gg[i] + intercept[i]}
  }
   
   Ybma <- t(Ypred) %*% postprobs
