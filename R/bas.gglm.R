@@ -37,11 +37,11 @@
                     "Uniform" = c(1.0, rep(.5, p-1)),
                     )
             }
-   	if (length(initprobs) == (p-1))
-     		initprobs = c(1.0, initprobs)
-   	if (length(initprobs) != p)
+   	if (length(initprobs) == (p-1)) {
+     		initprobs = c(1.0, initprobs)}
+   	if (length(initprobs) != p) {
     		stop(simpleError(paste("length of initprobs is not", p)))
-
+            }
 	if (initprobs[1] < 1.0 | initprobs[1] > 1.0) initprobs[1] = 1.0
 	# intercept is always included otherwise we get a segmentation
 	# fault (relax later)
