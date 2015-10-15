@@ -21,8 +21,6 @@
 #            )
 #    }
 
-    if (length(initprobs) == (p-1))
-        initprobs = c(1.0, initprobs)
     if (length(initprobs) != p)
         stop(simpleError(paste("length of initprobs is", length(initprobs), "is not same as dimensions of X", p)))
 
@@ -95,12 +93,12 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
   mean.x = apply(X[,-1], 2, mean)
   ones = X[,1]
   X = cbind(ones, sweep(X[, -1], 2, mean.x))
-  p <-  dim(X)[2]
+  p <-  dim(X)[2]  # with intercept
   n <- dim(X)[1]
 
   if (n <= p) {
       if (modelprior$family == "Uniform" || modelprior$family == "Bernoulli")
-          warning("Uniform prior (Bernoulli)  distribution on the Model Space are not recommended for p > n; please consider using beta.bernoulli instead")
+          warning("Uniform prior (Bernoulli)  distribution on the Model Space are not recommended for p > n; please consider using beta.binomial instead")
   }
   if (!is.numeric(initprobs)) {
       if (n <= p && initprobs == "eplogp") {
@@ -113,8 +111,9 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
         "Uniform"= c(1.0, rep(.5, p-1)),
       )
   }
-#   if (length(initprobs) == (p-1))
-#     initprobs = c(1.0, initprobs)
+   if (length(initprobs) == (p-1))
+       initprobs = c(1.0, initprobs)
+  
 #   if (length(initprobs) != p)
 #    stop(simpleError(paste("length of initprobs is not", p)))
 
