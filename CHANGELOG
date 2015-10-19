@@ -1,6 +1,13 @@
 Changes for BAS 1.06
-	- added dataframe option for newdata in predict.bas
+	- new improved Laplace approximation for hypergeometric1F1
 	- added class basglm for predict
+	- predict function now handles glm output
+	- added dataframe option for newdata in predict.bas and predict.basglm
+	- renamed coefficients in output to be 'mle' in bas.lm to be consistent across
+	lm and glm versions so that predict methods can handle both
+	cases.  (This may lead to errors in other external code that
+	expects object$ols or object$coefficients)
+	- fixed bug with initprobs that did not include an intercept for bas.lm
 	
 Changes for BAS 1.05
 	- added thinning option for MCMC method for bas.lm
