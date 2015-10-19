@@ -8,7 +8,7 @@ double loghyperg1F1_laplace(double, double, double);
 
 double loghyperg1F1(double a, double b, double x, int laplace)
 { 
-  double y, ly;
+  double y;
 
   if (laplace == 0) {
     if (x <0) {
@@ -22,6 +22,9 @@ double loghyperg1F1(double a, double b, double x, int laplace)
     }
   }
   else {
+    /* Laplace approximation assumes -x  for x positive 
+    if ( x <= 0.0 ){y = loghyperg1F1_laplace(a, b, -x); }
+    else { y = loghyperg1F1_laplace(b - a, b, x) + x;} */
     y = loghyperg1F1_laplace(a, b, x);
   }
     
@@ -41,37 +44,51 @@ double loghyperg1F1(double a, double b, double x, int laplace)
 
 double loghyperg1F1_laplace(double a, double b, double x)
 { 
-  double  mode, lprec, prec, logy;
+  double  mode,mode1, mode2, lprec, prec, logy;
 
-  logy =  lgamma(b) - lgamma(a) - lgamma(b-a);
+  /* int u^(a-1) (1-u)^(b-1) exp(-x u) du   assuming that x >= 0 */  
 
-  if ( x >= 0.0)
-    {
-      
-      if (x > 0.0) {
- 	mode = (2.0 - 2.0* a + b - x - sqrt(pow(b, 2.0) - 2.0*b*x + x*(4.0*(a-1.0)+x)))/
-	  (2*(a - 1.0 - b));
-  
-  
+  prec = 0.0;
+  logy = 0.0;
+
+  if ( x <= 0.0) {
+     if (x < 0.0) {
+         x = -x;
+       logy =  -lgamma(b) - lgamma(a) + lgamma(a+b);
+
+	//	mode = (2.0 - 2.0* a + b - x - sqrt(pow(b, 2.0) - 2.0*b*x + x*(4.0*(a-1.0)+x)))/
+	//  (2*(a - 1.0 - b));
+       mode1 = .5*(-a + b + x - sqrt( 4.*a*b + pow(a - b - x, 2.0)))/a;
+       mode1 =  1.0/(1.0 + mode1);
+       mode2 = .5*(-a + b + x + sqrt( 4.*a*b + pow(a - b -x, 2.0)))/a;
+       mode2 =  1.0/(1.0 + mode2);
+       if (a*log(mode1) + b*log(1.0 - mode1) - x*mode1  >
+	   a*log(mode2) + b*log(1.0 - mode2) - x*mode2) mode = mode1;
+       else mode = mode2;
+       //       Rprintf("mode 1 %lf, mode %lf\n", mode1, mode2);
 	if (mode < 0) {
 	  mode = 0.0;
-	  Rprintf("1F1 Laplace approximation on boundary\n");
+	  warning("1F1 Laplace approximation on boundary\n");
 	}
-
-	prec =  -((1.0 - a)/pow(mode,2.0) + 2.0*x*mode/pow((1.0 + mode),3.0) +
-		 (b - 2.0*x)/pow((1.0 + mode),2.0));
-	if (prec > 0) lprec = log(prec);
-	else prec = 0.0;
-      
-      
-	logy += (a - 1.0)*log(mode) - b*log(1.0 + mode) + x*mode/(1.0 + mode);
-	logy += -0.5*lprec + M_LN_SQRT_2PI;
-	logy += pnorm(0.0, mode, 1.0/sqrt(prec), 0, 1);
-
-	//	Rprintf("mode %lf prec %lf, Lap 1F1(%lf, %lf, %lf) = %lf", mode, prec, a,b,x); 
-      }}
+        else{
+	  /*	  prec = a*mode*(1.0 - mode) + (1.0-mode)*(1.0 - mode)*b +
+	         x*pow(1.0-mode, 3.0) - x*mode*(1.0 -
+	         mode)*(1.0-mode); */
+	  prec = (1.0-mode)*((a + b - x)*pow(mode,2) + (1.0-mode)*mode*(a + b  + x));
+	  if (prec > 0)  {
+	      lprec = log(prec); 
+	      logy += a*log(mode) + b*log(1.0 - mode) - x*mode;
+	      logy += -0.5*lprec + M_LN_SQRT_2PI;
+	  }
+	  else {prec = 0.0;}
+	}
+	    
+	//	Rprintf("mode %lf prec %lf, Lap 1F1(%lf, %lf, %lf) = %lf\n", mode, prec, a,b,x, logy); 
+     }
+     else {logy = 0.0;}
+  }
   else {
-    logy = x + loghyperg1F1_laplace(b - a, b, -x);
+    logy = x + loghyperg1F1_laplace(b - a, a, -x);
   }
 
   return(logy);	
