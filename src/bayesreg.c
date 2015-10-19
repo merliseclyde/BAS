@@ -22,6 +22,7 @@ void gexpectations(int p, int pmodel, int nobs, double R2, double alpha, int met
      case 0: 
       *logmarg = logBF_gprior(R2, nobs, pmodel,alpha); 
       if (pmodel > 1) *shrinkage = alpha/(1.0 + alpha);
+
       break;
      case 1:  
       *logmarg = logBF_hyperGprior(R2, nobs, pmodel,alpha); 
@@ -32,7 +33,8 @@ void gexpectations(int p, int pmodel, int nobs, double R2, double alpha, int met
       *shrinkage = shrinkage_EB_local(R2, nobs, pmodel,alpha);
       break;
      case 3: 
-     *logmarg = BIC(R2, nobs, pmodel,SSY); 
+     *logmarg = BIC(R2, nobs, pmodel,SSY);
+     *shrinkage = 1.0;
       break;
      case 4: 
        *logmarg = LogBF_ZS_null(R2, nobs, pmodel);
@@ -40,6 +42,7 @@ void gexpectations(int p, int pmodel, int nobs, double R2, double alpha, int met
       break; 
      case 5: 
        *logmarg = LogBF_ZS_full(RSquareFull, R2, nobs, p, pmodel);
+       *shrinkage = 1.0;
       break; 
       case 6: 
         *logmarg =  logBF_hyperGprior_laplace(R2, nobs, pmodel,alpha); 
@@ -47,6 +50,7 @@ void gexpectations(int p, int pmodel, int nobs, double R2, double alpha, int met
       break; 
       case 7: 
 	*logmarg =  AIC(R2,  nobs, pmodel,SSY);
+	*shrinkage = 1.0;
       break; 
       case 8: 
 	  *logmarg =  LogBF_Hg_null(R2,  nobs, pmodel, alpha, 1);
