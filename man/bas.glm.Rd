@@ -47,8 +47,9 @@
     use: method="BAS" uses Bayesian Adaptive Sampling (without
     replacement) using the sampling probabilities given in initprobs;
     method="MCMC" combines a random walk Metropolis Hastings (as in MC3 of
-    Hoeting et al 1997) with a random swap of a variable included with a
-    variable that is currently excluded;
+    Raftery et al 1997) with a random swap of a variable included with a
+    variable that is currently excluded (see Clyde, Ghosh, and Littman
+    (2010) for details);
     method="MCMC+BAS" runs an initial MCMC to calculate marginal
     inclusion probabilities and then samples without replacement as in
     BAS; method = "deterministic" runs an deterministic sampling.  For
@@ -127,6 +128,14 @@ An object of class \code{BMA} is a list containing at least the following compon
 }
 \references{Li, Y. and Clyde, M. (2015) Mixtures of g-priors in
   Generalized Linear Models. \url{http://arxiv.org/abs/1503.06913}
+
+ Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive Sampling
+  for Variable Selection and Model Averaging. Journal of Computational
+  Graphics and Statistics.  20:80-101 \cr \url{http://dx.doi.org/10.1198/jcgs.2010.09049}
+
+  Raftery, A.E, Madigan, D. and Hoeting, J.A. (1997) Bayesian Model
+  Averaging for Linear Regression Models. Journal of the American
+  Statistical Association. 
 }
 \author{Merlise Clyde (\email{clyde@stat.duke.edu}), Quanli Wang and Yingbo Li}
 \examples{
