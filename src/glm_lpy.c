@@ -50,48 +50,49 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 	}
 
 
-	if (p == 0) { //if null model
-		if ( b == 0) {
-			// for Jeffreys's prior (b = 0), set lpY to NA, since then CH g-prior isn't appropriate for the null model in this case
-			lpY = NA_REAL;
-		} else {	
-			lpY = lC + 0.5 * LOG2PI - 0.5 * log(sum_Ieta);
-			shrinkage = 1.0;
-		}
-    } else { //not null model
+     if (p == 0) { //if null model
+       if ( b == 0) {
+	 // for Jeffreys's prior (b = 0), set lpY to NA, since then CH g-prior isn't appropriate for the null model in this case
+	 lpY = NA_REAL;
+       } else {	
+	 lpY = lC + 0.5 * LOG2PI - 0.5 * log(sum_Ieta);
+	 shrinkage = 1.0;
+       }
+     }
+     else { //not null model
 		// "centering"
-		for (int i = 0; i < p; i++) {
-			double temp = 0.0;
-			int base = i * n;
-			for (int j = 0; j < n; j++) {
-				temp += X[base + j] * Ieta[j];
-			}
-			XIeta[i] = temp / sum_Ieta;   // Xbar in i.p. space
-		}
-		
-		//Xc <- X - rep(1,n) %*% t((t(X) %*% Ieta)) / sum.Ieta;
-		for (int i =0, l =0; i < p; i++) {
-			double temp = XIeta[i];
-			for (int j = 0; j < n; j++,l++) {
-				Xc[l] = X[l] - temp;
-			}
-		}
+       for (int i = 0; i < p; i++) {
+	 double temp = 0.0;
+	 int base = i * n;
+	 for (int j = 0; j < n; j++) {
+	   temp += X[base + j] * Ieta[j];
+	 }
+	 XIeta[i] = temp / sum_Ieta;   // Xbar in i.p. space
+       }
+       
+       //Xc <- X - rep(1,n) %*% t((t(X) %*% Ieta)) / sum.Ieta;
+       for (int i =0, l =0; i < p; i++) {
+	 double temp = XIeta[i];
+	 for (int j = 0; j < n; j++,l++) {
+	   Xc[l] = X[l] - temp;
+	 }
+       }
 
-		//Q <- sum((Xc %*% beta)^2 * Ieta);
-		for (int j = 0; j < n; j++) { //double check if this is already zero by default
-			XcBeta[j] = 0.0;
-		}
-		for (int i = 0,l=0; i < p; i++) {
-			double beta = coef[i+1];
-			for (int j = 0; j < n; j++,l++) {
-				XcBeta[j] += Xc[l] * beta;
-			}
-		}
-		
-		Q = 0.0;
-		for (int j = 0; j < n; j++) { 
-			Q += XcBeta[j] * XcBeta[j] * Ieta[j];
-		}
+       //Q <- sum((Xc %*% beta)^2 * Ieta);
+       for (int j = 0; j < n; j++) { //double check if this is already zero by default	
+	 XcBeta[j] = 0.0;
+       }
+       for (int i = 0,l=0; i < p; i++) {
+	 double beta = coef[i+1];
+	 for (int j = 0; j < n; j++,l++) {
+	   XcBeta[j] += Xc[l] * beta;
+	 }
+       }
+       
+       Q = 0.0;
+       for (int j = 0; j < n; j++) { 
+	 Q += XcBeta[j] * XcBeta[j] * Ieta[j];
+       }
 
 		//invIbeta <- solve(t(Xc) %*% sweep(Xc,1,Ieta,FUN = "*"));
 		//for (int j = 0; j < n; j++) { 
@@ -102,19 +103,19 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 		//}
 
 		
-		lpY = lC + 0.5 * LOG2PI - 0.5 * log(sum_Ieta);
+       lpY = lC + 0.5 * LOG2PI - 0.5 * log(sum_Ieta);
 	//	Rprintf("log(sum_Ieta = %lf\n", log(sum_Ieta));
-		lpY += lbeta((a + p) / 2.0, b / 2.0) +
-		  loghyperg1F1((a + p)/2.0, (a + b + p)/2.0, -(s+Q)/2.0, laplace);
-		//	  hyperg1F1_laplace((a + p)/2.0, (a + b + p)/2.0, -(s + Q)/2.0); 
+       lpY += lbeta((a + p) / 2.0, b / 2.0) +
+	 loghyperg1F1((a + p)/2.0, (a + b + p)/2.0, -(s+Q)/2.0, laplace);
+       //	  hyperg1F1_laplace((a + p)/2.0, (a + b + p)/2.0, -(s + Q)/2.0); 
     	//doesn't apply for the Jeffreys prior
-		if (a > 0 && b > 0 && s > 0.0) {
-		  lpY +=  - lbeta(a / 2.0, b / 2.0) -	
-	    //	      hyperg1F1_laplace(a/2.0, (a + b)/2.0, - s/2.0);
-		    loghyperg1F1(a/2.0, (a + b)/2.0, - s/2.0, laplace);
-		}
+       if (a > 0 && b > 0) {
+	 lpY +=  - lbeta(a / 2.0, b / 2.0) -	
+	   //	      hyperg1F1_laplace(a/2.0, (a + b)/2.0, - s/2.0);
+	   loghyperg1F1(a/2.0, (a + b)/2.0, - s/2.0, laplace);
+       }
 
-shrinkage = shrinkage_chg(a + p, a + b + p , -(s+Q), laplace);
+       shrinkage = shrinkage_chg(a + p, a + b + p , -(s+Q), laplace);
 
 	}
 	intercept = coef[0];
