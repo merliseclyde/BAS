@@ -137,7 +137,7 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
       
   prob <- .normalize.initprobs.lm(initprobs, p)
   n.models <- .normalize.n.models(n.models, p, prob, method)
-  print(n.models)
+#  print(n.models)
   modelprior <- .normalize.modelprior(modelprior,p)
 
 
