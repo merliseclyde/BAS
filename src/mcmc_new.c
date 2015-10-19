@@ -443,7 +443,7 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP 
 	} else {
 		SET_VECTOR_ELT(ANS, 7, beta);
 	}
-	SET_STRING_ELT(ANS_names, 7, mkChar("ols"));
+	SET_STRING_ELT(ANS_names, 7, mkChar("mle"));
 
 	if (nUnique < nModels) {
 		SEXP seP = PROTECT(allocVector(VECSXP, nUnique));
@@ -457,7 +457,7 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP 
 	} else {
 		SET_VECTOR_ELT(ANS, 8, se);
 	}
-	SET_STRING_ELT(ANS_names, 8, mkChar("ols.se"));
+	SET_STRING_ELT(ANS_names, 8, mkChar("mle.se"));
 
 	if (nUnique < nModels) {
 		SEXP shrinkageP = PROTECT(allocVector(REALSXP, nUnique));
