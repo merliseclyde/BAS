@@ -5,7 +5,7 @@
 \usage{
  bas.glm(formula, data, a, b, s=0, 
  family = binomial(link = "logit"), 
- n.models = NULL, modelprior = beta.binomial(1, 1), 
+ n.models = NULL, modelprior = beta.binomial(1,1), 
  initprobs = "Uniform", method = "MCMC", update = NULL,
  bestmodel = NULL, bestmarg = NULL, prob.rw = 0.5, 
  Burnin.iterations = NULL, control = glm.control(), 
@@ -16,7 +16,8 @@
     predictors, Y ~ X.  All code assumes that an intercept will be
     included in each model.}
   \item{data}{data frame}
-  \item{a}{hyperparameter a for the CH-g prior.  Suggested values 1 or 2.}
+  \item{a}{hyperparameter a for the CH-g prior.  Suggested values 0.5
+    (beta-prime) or 1.}
   \item{b}{hyperparameter b for the CH-g prior.  Recommended choice
     should be a function of n, the sample size, for
     consistency. e.g. b=n or b=n/2 have worked well in simulation studies. }
@@ -28,10 +29,10 @@
   \item{n.models}{number of models to sample. If NULL, BAS will
     attempt to enumerate unless p > 35 or method="MCMC".}
   \item{modelprior}{Family of prior distribution on the models.  Choices
-    include \code{\link{uniform}} \code{\link{Bernoulli}} or \code{\link{beta.binomial}.}}
+    include \code{\link{uniform}}, \code{\link{Bernoulli}} or \code{\link{beta.binomial}.}}
   \item{initprobs}{vector of length p with the initial  inclusion
-    probabilities used for sampling without replacement (the intercwept
-    should be included with probability one) or a character
+    probabilities used for sampling without replacement (the intercept
+    will be included with probability one and does not need to be added here) or a character
     string giving the method used to construct the sampling probabilities
     if "Uniform" each predictor variable is equally likely to be
     sampled (equivalent to random sampling without replacement). If
