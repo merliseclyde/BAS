@@ -1,23 +1,23 @@
-\name{summary.bma}
-\alias{summary.bma}
+\name{summary.bas}
+\alias{summary.bas}
 \alias{summary}
-\alias{print.bma}
+\alias{print.bas}
 \alias{print}
 
-\title{Summaries of Bayesian Model Averaging objects}
+\title{Summaries of Bayesian Model Averaging objects from BAS}
 \description{
      \code{summary} and \code{print} methods for Bayesian model
      averaging objects created by \code{bas} Bayesian Adaptive Sampling
 }
 
 \usage{
-\method{summary}{bma}(object, n.models = 5, ...)
-\method{print}{bma}(x, digits = max(3, getOption("digits") - 3), ...)
+\method{summary}{bas}(object, n.models = 5, ...)
+\method{print}{bas}(x, digits = max(3, getOption("digits") - 3), ...)
 }
 
 \arguments{
-  \item{object}{object of class 'bma'}
-  \item{x}{object of class 'bma'}
+  \item{object}{object of class 'bas'}
+  \item{x}{object of class 'bas'}
   \item{n.models}{ optional number specifying the number of best models to display in summary }
   \item{digits}{ optional number specifying the number of digits to display }
 %  \item{conditional}{ optional logical value specifying whether to display conditional expectation and standard deviation}
