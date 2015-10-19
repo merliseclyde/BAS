@@ -2,12 +2,12 @@
 #coefficients.default = base::coefficients
 
 coef.bma = function(object, ...) {
-  conditionalmeans = list2matrix.bma(object, "ols")
+  conditionalmeans = list2matrix.bma(object, "mle")
   conditionalmeans[,-1] = sweep(conditionalmeans[,-1], 1, object$shrinkage,
                                 FUN="*") 
   postmean = as.vector(object$postprob %*% conditionalmeans)
 
-  conditionalsd  =  list2matrix.bma(object, "ols.se")
+  conditionalsd  =  list2matrix.bma(object, "mle.se")
   if (!(object$prior == "AIC" || object$prior == "BIC")) {
     conditionalsd[ , -1] = sweep(conditionalsd[ ,-1], 1, sqrt(object$shrinkage), FUN="*") }
   
