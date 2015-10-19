@@ -4,14 +4,14 @@
 \title{Prediction Method for an object of class BMA}
 \description{Predictions under model averaging from a BMA object
 }
-\usage{\method{predict}{bas}(object, newdata, top=NULL, ...)}
+\usage{\method{predict}{bas}(object, newdata, top=NULL, type="link", ...)}
 
 \arguments{
   \item{object}{An object of class BAS, created by \code{bas}}
-  \item{newdata}{new matrix or vector of data for predictions. May 
+  \item{newdata}{dataframe, new matrix or vector of data for predictions. May 
     include a column for the intercept or just the predictor variables}
-  \item{top}{Use only the top M models, based on posterior
-    probabilities}
+  \item{top}{Use only the top M models, based on posterior probabilities}
+  \item{type}{Type of predictions, identity link for Gaussian models (default) provides the linear predictor}
   \item{...}{optional extra arguments}
 }
 \value{a list of
@@ -20,10 +20,7 @@
   \item{best}{index of top models included}
 }
 \details{Use BMA to form predictions using the top highest probability
-  models. Currently newdata must be in the form of a matrix or vector
-  with variables in the same order as in the model matrix used to obtain
-  the BMA object (see \code{object$X}).  Future versions 
-  will allow newdata to be a dataframe.
+  models.
 }
 
 \seealso{\code{\link{bas}}, \code{\link{fitted.bas}}
