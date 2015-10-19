@@ -785,10 +785,10 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ral
   SET_STRING_ELT(ANS_names, 6, mkChar("mse"));
 
   SET_VECTOR_ELT(ANS, 7, beta);
-  SET_STRING_ELT(ANS_names, 7, mkChar("ols"));
+  SET_STRING_ELT(ANS_names, 7, mkChar("mle"));
 
   SET_VECTOR_ELT(ANS, 8, se);
-  SET_STRING_ELT(ANS_names, 8, mkChar("ols.se"));
+  SET_STRING_ELT(ANS_names, 8, mkChar("mle.se"));
 
   SET_VECTOR_ELT(ANS, 9, shrinkage);
   SET_STRING_ELT(ANS_names, 9, mkChar("shrinkage"));
