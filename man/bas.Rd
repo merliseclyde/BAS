@@ -140,11 +140,11 @@ An object of class \code{BAS} is a list containing at least the following compon
     sampled models.  This may be biased if the number of sampled models
     is much smaller than the total number of models. Unbiased estimates
     may be obtained using method "MCMC".}
-  \item{ols}{list of lists with one list per model giving the OLS
+  \item{mle}{list of lists with one list per model giving the MLE (OLS)
 estimate of each (nonzero) coefficient for each model.  The intercept
 is the mean of Y as each column of X has been centered by subtracting
 its mean.}
-  \item{ols.se}{list of lists with one list per model giving the OLS standard error of each coefficient for each model}
+  \item{mle.se}{list of lists with one list per model giving the MLE (OLS) standard error of each coefficient for each model}
   \item{prior}{the name of the prior  that created the BMA object}
   \item{alpha}{value of hyperparameter in prior used to create the BMA
     object.}
@@ -153,14 +153,14 @@ its mean.}
   \item{X}{matrix of predictors}
   \item{mean.x}{vector of means for each column of X (used in \code{\link{predict.bas}})}
   
- The function  \code{\link{summary.bma}}, is used to print a summary of
+ The function  \code{\link{summary.bas}}, is used to print a summary of
  the results. The function \code{\link{plot.bma}} is used to plot
  posterior distributions for the coefficients and
  \code{\link{image.bma}} provides an image of the distribution over models.
  Posterior summaries of coefficients can be extracted using
  \code{\link{coefficients.bma}}.  Fitted values and predictions can be
  obtained using the S3 functions  \code{\link{fitted.bas}} and \code{\link{predict.bas}}.
- BMA objects may be updated to use a different prior (without rerunning
+ BA objects may be updated to use a different prior (without rerunning
  the sampler) using the function  \code{\link{update.bma}}.
 }
 
@@ -201,9 +201,9 @@ its mean.}
 
 \author{Merlise Clyde (\email{clyde@stat.duke.edu}) and Michael Littman}
   
-\seealso{ \code{\link{summary.bma}},
+\seealso{ \code{\link{summary.bas}},
           \code{\link{coefficients.bma}},
-          \code{\link{print.bma}},
+          \code{\link{print.bas}},
 	  \code{\link{predict.bas}},
 	  \code{\link{fitted.bas}}
           \code{\link{plot.bma}},
