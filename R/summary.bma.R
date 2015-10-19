@@ -1,4 +1,4 @@
-print.bma = function (x, digits = max(3, getOption("digits") - 3), ...) 
+print.bas = function (x, digits = max(3, getOption("digits") - 3), ...) 
 {
     cat("\nCall:\n", deparse(x$call), "\n\n", sep = "")
     cat("\n Marginal Posterior Inclusion Probabilities: \n")
@@ -9,8 +9,9 @@ print.bma = function (x, digits = max(3, getOption("digits") - 3), ...)
     invisible()
 }
 
-summary.bma = function(object, n.models = 5, ...) {
+summary.bas = function(object, n.models = 5, ...) {
   best = order(-object$postprobs)
+  n.models = min(n.models, length(best))
   best = best[1:n.models]  
   x = cbind(list2matrix.which(object, best),
                exp(object$logmarg[best] - max(object$logmarg[best])),
