@@ -1,4 +1,4 @@
-predict.basglm = function(object, newdata, top=NULL, type=c("link", "response")) {
+predict.basglm = function(object, newdata, top=NULL, type=c("link", "response"), ...) {
     pred = predict.bas(object, newdata, top)
     if (type == "reponse") {
         Ypred = apply(pred$Ypred, 1, FUN = function(x) {eval(object$call$family)$linkinv(x)})
@@ -25,7 +25,7 @@ predict.bas = function(object, newdata, top=NULL, type="link", ...) {
   best <- order(-postprobs)
   if (!is.null(top)) best <- best[1:top]
   models <- object$which[best]
-  beta <- object$ols[best]
+  beta <- object$mle[best]
   gg <- object$shrinkage[best]
   intercept <- object$intercept[best]  
   postprobs <- postprobs[best]
@@ -37,7 +37,7 @@ predict.bas = function(object, newdata, top=NULL, type="link", ...) {
       for (i in 1:M) {
           beta.m <- beta[[i]]
           model.m <- models[[i]]
-          Ypred[i,] <-  (newdata[,model.m[-1],drop=FALSE] %*% beta.m[-1])*gg[i]  + beta.m[i]}
+          Ypred[i,] <-  (newdata[,model.m[-1],drop=FALSE] %*% beta.m[-1])*gg[i]  + beta.m[1]}
   }
   else {
      for (i in 1:M) { 
@@ -57,8 +57,8 @@ fitted.bas = function(object,  type="HPM", top=NULL, ...) {
   if (type=="HPM") {
     X = cbind(1,sweep(X[,-1], 2, object$mean.x))
     best =  min((1:nmodels)[object$logmarg == max(object$logmarg)])
-    yhat  <- as.vector(X[,object$which[[best]]+1, drop=FALSE] %*% object$ols[[best]]) * object$shrinkage[[best]]
-    yhat = yhat + (1 - object$shrinkage[[best]])*(object$ols[[best]])[1]
+    yhat  <- as.vector(X[,object$which[[best]]+1, drop=FALSE] %*% object$mle[[best]]) * object$shrinkage[[best]]
+    yhat = yhat + (1 - object$shrinkage[[best]])*(object$mle[[best]])[1]
   }
   if (type == "BMA") {
    yhat = predict(object, X, top)$Ybma
@@ -78,8 +78,8 @@ fitted.bas = function(object,  type="HPM", top=NULL, ...) {
      object <- bas.lm(object$Y ~ object$X[,-1], n.models=1, alpha=object$g,initprobs=object$probne0, prior=object$prior, update=NULL,bestmodel=model,prob.local=.0)
      best=1
    }
-   yhat  <- as.vector(X[,object$which[[best]]+1, drop=FALSE] %*% object$ols[[best]]) * object$shrinkage[[best]]
-   yhat = yhat + (1 - object$shrinkage[[best]])*(object$ols[[best]])[1]
+   yhat  <- as.vector(X[,object$which[[best]]+1, drop=FALSE] %*% object$mle[[best]]) * object$shrinkage[[best]]
+   yhat = yhat + (1 - object$shrinkage[[best]])*(object$mle[[best]])[1]
  }
 return(yhat)
 }
