@@ -274,10 +274,10 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_STRING_ELT(ANS_names, 6, mkChar("deviance"));
 
 	SET_VECTOR_ELT(ANS, 7, beta);
-	SET_STRING_ELT(ANS_names, 7, mkChar("coefficients"));
+	SET_STRING_ELT(ANS_names, 7, mkChar("mle"));
 
 	SET_VECTOR_ELT(ANS, 8, se);
-	SET_STRING_ELT(ANS_names, 8, mkChar("se"));
+	SET_STRING_ELT(ANS_names, 8, mkChar("mle.se"));
 
 	SET_VECTOR_ELT(ANS, 9, shrinkage);
 	SET_STRING_ELT(ANS_names, 9, mkChar("shrinkage"));
