@@ -24,9 +24,9 @@ void SetModel2(double logmargy, double shrinkage_m, double prior_m,
 SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
 		  SEXP Roffset, SEXP Rweights,
 		  glmstptr * glmfamily, SEXP Rcontrol,
-		  SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rlaplace);
+		  SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rlaplace, betapriorptr * betapriorfamily);
 
 SEXP glm_bas(SEXP RX, SEXP RY, glmstptr * family, SEXP Roffset, SEXP Rweights, SEXP Rcontrol);
 
-SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, SEXP Rlaplace);
+SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, betapriorptr * betapriorfamily, SEXP Rlaplace);
 
