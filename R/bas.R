@@ -57,13 +57,13 @@
   	deg = sum(initprobs >= 1) + sum(initprobs <= 0)
   	if (deg > 1 & n.models == 2^(p - 1)) {
     		n.models = 2^(p - deg)
-    		print(paste("There are", as.character(deg),
+    		warning(paste("There are", as.character(deg),
                 "degenerate sampling probabilities (0 or 1); decreasing the number of models to",                 as.character(n.models)))
   	}
 
   	if (n.models > 2^30) stop("Dimension of model space is too big to enumerate\n  Rerun with a smaller value for n.models")
   	if (n.models > 2^25)
-            print("Number of models is BIG -this may take a while")
+            warning("Number of models is BIG -this may take a while")
     return(n.models)
 }
 
