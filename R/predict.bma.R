@@ -1,10 +1,14 @@
 predict.basglm = function(object, newdata, top=NULL, type=c("link", "response"), ...) {
+#    browser()
     pred = predict.bas(object, newdata, top)
-    if (type == "reponse") {
+    if (type == "response") {
         Ypred = apply(pred$Ypred, 1, FUN = function(x) {eval(object$call$family)$linkinv(x)})
-        Ybma = t(Ypred) %*% pred$postprobs
-        pred = list(Ypred=Ypred, Ybma=Ybma, postprobs=pred$postprobs, best=pred$pest)
-    }
+        if (top > 1) {
+            Ybma = Ypred %*% pred$postprobs}
+        else Ybma = Ypred
+
+        pred = list(Ypred=Ypred, Ybma=Ybma, postprobs=pred$postprobs, best=pred$best)
+    }   
     return(pred)       
 }
 
@@ -20,7 +24,7 @@ predict.bas = function(object, newdata, top=NULL, type="link", ...) {
   if (ncol(newdata) == object$n.vars) newdata=newdata[,-1, drop=FALSE]  # drop intercept
   if (ncol(newdata) != (object$n.vars -1)) stop("Dimension of newdata does not match orginal model")
   if (!is.null(object$mean.x)) newdata = sweep(newdata, 2, object$mean.x)
-  # need to fix for GLMS
+
   postprobs <- object$postprobs
   best <- order(-postprobs)
   if (!is.null(top)) best <- best[1:top]
@@ -32,7 +36,7 @@ predict.bas = function(object, newdata, top=NULL, type="link", ...) {
   postprobs <- postprobs/sum(postprobs)
   M <- length(postprobs)
   Ypred <- matrix(0, M, n)
-  # lm case
+                                        # lm case
   if (is.null(intercept)) {      
       for (i in 1:M) {
           beta.m <- beta[[i]]
