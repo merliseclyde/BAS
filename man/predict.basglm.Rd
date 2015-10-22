@@ -33,7 +33,7 @@ data(Pima.tr)
 data(Pima.te)
 Pima.bas =  bas.glm(type ~ ., data=Pima.tr, family=binomial(), a=1, s=0,
 b=nrow(Pima.tr)/2, modelprior=uniform(), n.models=2^7, method="BAS")
-YHPM = predict(Pima.bas, Pima.te, top=1)  # Highest Probability model
+YHPM = predict(Pima.bas, newdata=Pima.te, top=1)  # Highest Probability model
 }}
 \author{Merlise Clyde}
 \keyword{regression}
