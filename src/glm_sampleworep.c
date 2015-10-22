@@ -1,13 +1,12 @@
 #include "sampling.h"
 #include "family.h"
+#include "betapriorfamily.h"
 #include "bas-glm.h"
-
-void update_tree(SEXP modelspace, struct Node *tree, SEXP modeldim, struct Var *vars, int k, int p, int n, int kt, int *model);
 
 
 SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights, 
 		     SEXP Rprobinit, SEXP Rmodeldim, 
-		     SEXP modelprior, SEXP Rbestmodel,  SEXP Rbestmarg,SEXP plocal, 
+		     SEXP modelprior, SEXP betaprior,SEXP Rbestmodel,  SEXP Rbestmarg,SEXP plocal, 
 		     SEXP Ra, SEXP Rb, SEXP Rs,
 		     SEXP family, SEXP Rcontrol,
 		     SEXP Rupdate, SEXP Rlaplace
@@ -18,8 +17,8 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	int nModels=LENGTH(Rmodeldim);
 
 	//  Rprintf("Allocating Space for %d Models\n", nModels) ;
-	SEXP ANS = PROTECT(allocVector(VECSXP, 13)); ++nProtected;
-	SEXP ANS_names = PROTECT(allocVector(STRSXP, 13)); ++nProtected;
+	SEXP ANS = PROTECT(allocVector(VECSXP, 14)); ++nProtected;
+	SEXP ANS_names = PROTECT(allocVector(STRSXP, 14)); ++nProtected;
 	SEXP Rprobs = PROTECT(duplicate(Rprobinit)); ++nProtected;
 	SEXP R2 = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP shrinkage = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
@@ -35,12 +34,15 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SEXP Q = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP Rintercept = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 		
-	double *probs,logmargy;
+	double *probs,logmargy, shrinkage_m;
 	int i;
 
 	glmstptr *glmfamily;
-
 	glmfamily = make_glmfamily_structure(family);
+
+	betapriorptr *betapriorfamily;
+	betapriorfamily = make_betaprior_structure(betaprior, family);
+        
 	
 	//get dimsensions of all variables 
 	int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
@@ -85,10 +87,14 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	GetModel_m(Rmodel_m, model, p);
 	//evaluate logmargy and shrinkage
 	SEXP glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
-					    glmfamily, Rcontrol, Ra, Rb, Rs, Rlaplace));	
+					    glmfamily, Rcontrol, Ra, Rb, Rs, Rlaplace,
+					    betapriorfamily));	
 	double prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
 	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
-	SetModel2(logmargy, NA_REAL, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
+	shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
+					"shrinkage"))[0];
+
+	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
 	SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, m);
 	REAL(Rbestmarg)[0] = REAL(logmarg)[m];
 	UNPROTECT(2);
@@ -112,10 +118,14 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		GetModel_m(Rmodel_m, model, p);
 
 		glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
-					       glmfamily, Rcontrol, Ra, Rb, Rs, Rlaplace));	
+					       glmfamily, Rcontrol, Ra, Rb, Rs, Rlaplace,
+					       betapriorfamily));	
 		prior_m = compute_prior_probs(model,pmodel,p, modelprior);
 		logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
-		SetModel2(logmargy, NA_REAL, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
+		shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
+					"shrinkage"))[0];
+
+		SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
 		SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2,Q,Rintercept, m);
 		UNPROTECT(2);
 
@@ -186,6 +196,9 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	SET_VECTOR_ELT(ANS, 12, Q);
 	SET_STRING_ELT(ANS_names, 12, mkChar("Q"));
+
+	SET_VECTOR_ELT(ANS, 13, Rintercept);
+	SET_STRING_ELT(ANS_names, 13, mkChar("intercept"));
 
 	setAttrib(ANS, R_NamesSymbol, ANS_names);
 	UNPROTECT(nProtected);
