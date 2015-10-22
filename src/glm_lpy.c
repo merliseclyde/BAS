@@ -1,11 +1,63 @@
 #include "sampling.h"
 #include "family.h"
-#define LOG2PI  1.837877066409345
+#include "betapriorfamily.h"
+#include "bas-glm.h"
+
+
 extern double loghyperg1F1(double, double, double, int);
 extern double hyperg(double, double, double);
 extern double shrinkage_chg(double a, double b, double Q, int laplace);
 
-SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, SEXP  Rlaplace) {
+SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
+			  SEXP Roffset, SEXP Rweights, glmstptr * glmfamily, SEXP Rcontrol,
+		  SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rlaplace,  betapriorptr * betapriorfamily) { //parameters
+  int nprotected = 0;
+  int *model_m = INTEGER(Rmodel_m);
+  int pmodel = LENGTH(Rmodel_m);
+	//subset the data and call the model fitting function
+  int n = INTEGER(getAttrib(RX,R_DimSymbol))[0];
+  double *X = REAL(RX);
+
+  
+  SEXP RXnow=PROTECT(allocMatrix(REALSXP, n , pmodel)); nprotected++;
+  double *Xwork = REAL(RXnow);
+  for (int j=0; j < pmodel; j++) { //subsetting matrix
+      int model_m_j = model_m[j];
+      memcpy(Xwork + j * n, X + model_m_j*n, sizeof(double)*n);
+    }
+  SEXP glm_fit = PROTECT(glm_bas(RXnow, RY, glmfamily, Roffset, Rweights, Rcontrol));
+  nprotected++;
+	
+    //extract mu and coef and evaluate the function
+  SEXP Rmu = PROTECT(duplicate(getListElement(glm_fit, "mu"))); nprotected++;
+  SEXP Rcoef = PROTECT(duplicate(getListElement(glm_fit, "coefficients")));nprotected++;
+  SEXP RXnow_noIntercept=PROTECT(allocMatrix(REALSXP, n , pmodel-1)); nprotected++;
+  if (pmodel > 1) {
+    double *Xwork_noIntercept = REAL(RXnow_noIntercept);
+    memcpy(Xwork_noIntercept, Xwork + n, sizeof(double)*n*(pmodel-1));
+  }
+
+  
+  SEXP Rlpy = PROTECT(gglm_lpy(RXnow_noIntercept, RY, Ra, Rb, Rs, Rcoef, Rmu,
+			       glmfamily, betapriorfamily,  Rlaplace));
+  nprotected++;
+	
+  SEXP ANS = PROTECT(allocVector(VECSXP, 2)); nprotected++;
+  SEXP ANS_names = PROTECT(allocVector(STRSXP, 2)); nprotected++;
+	
+  SET_VECTOR_ELT(ANS, 0, glm_fit);
+  SET_VECTOR_ELT(ANS, 1, Rlpy);
+  SET_STRING_ELT(ANS_names, 0, mkChar("fit"));
+  SET_STRING_ELT(ANS_names, 1, mkChar("lpy"));
+
+  setAttrib(ANS, R_NamesSymbol, ANS_names);
+
+  UNPROTECT(nprotected);
+  return(ANS);
+}
+
+
+SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, betapriorptr * betapriorfamily, SEXP  Rlaplace) {
 	int *xdims = INTEGER(getAttrib(RX,R_DimSymbol));
 	int n=xdims[0], p = xdims[1];
 	int nProtected = 0;  
@@ -36,42 +88,33 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 	double Q = NA_REAL;
 
 	SEXP Rshrinkage=PROTECT(allocVector(REALSXP,1)); ++nProtected; 
-	double shrinkage = 1.0;
+	double shrinkage_m = 1.0;
 
-	double lC = 0.0;
-	double sum_Ieta = 0.0;
+	double loglik_mle = 0.0;
+	double sum_Ieta = 0.0, logdet_Iintercept;
 	
-	//	lC = binomial_loglik(Y, mu, n);
-	lC = glmfamily->loglik(Y, mu, n);
+
+	loglik_mle = glmfamily->loglik(Y, mu, n);
 	glmfamily->info_matrix(Y, mu, Ieta, n);
 
 	for (int i = 0; i < n; i++) {
 		sum_Ieta += Ieta[i];
 	}
 
+	logdet_Iintercept = log(sum_Ieta);
+	
 
-     if (p == 0) { //if null model
-       if ( b == 0) {
-	 // for Jeffreys's prior (b = 0), set lpY to NA, since then CH g-prior isn't appropriate for the null model in this case
-	 lpY = NA_REAL;
-       } else {	
-	 lpY = lC + 0.5 * LOG2PI - 0.5 * log(sum_Ieta);
-	 shrinkage = 1.0;
-       }
-     }
-     else { //not null model
-		// "centering"
-       for (int i = 0; i < p; i++) {
+	for (int i = 0; i < p; i++) {
 	 double temp = 0.0;
 	 int base = i * n;
 	 for (int j = 0; j < n; j++) {
 	   temp += X[base + j] * Ieta[j];
 	 }
 	 XIeta[i] = temp / sum_Ieta;   // Xbar in i.p. space
-       }
+	}
        
        //Xc <- X - rep(1,n) %*% t((t(X) %*% Ieta)) / sum.Ieta;
-       for (int i =0, l =0; i < p; i++) {
+	for (int i =0, l =0; i < p; i++) {
 	 double temp = XIeta[i];
 	 for (int j = 0; j < n; j++,l++) {
 	   Xc[l] = X[l] - temp;
@@ -82,6 +125,7 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
        for (int j = 0; j < n; j++) { //double check if this is already zero by default	
 	 XcBeta[j] = 0.0;
        }
+       
        for (int i = 0,l=0; i < p; i++) {
 	 double beta = coef[i+1];
 	 for (int j = 0; j < n; j++,l++) {
@@ -94,57 +138,37 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 	 Q += XcBeta[j] * XcBeta[j] * Ieta[j];
        }
 
-		//invIbeta <- solve(t(Xc) %*% sweep(Xc,1,Ieta,FUN = "*"));
-		//for (int j = 0; j < n; j++) { 
-		//	Ieta[j] = sqrt(Ieta[j]); // reuse Ieta for root
-		//	for (int i =0; i < p; i++) { //reuse Xc too
-		//		Xc[i*n+j] *=  Ieta[j];
-		//	}
-		//}
+       
+       lpY = betapriorfamily->logmarglik_fun(betapriorfamily->hyperparams, p, Q,
+					     loglik_mle, logdet_Iintercept, laplace);
 
-		
-       lpY = lC + 0.5 * LOG2PI - 0.5 * log(sum_Ieta);
-	//	Rprintf("log(sum_Ieta = %lf\n", log(sum_Ieta));
-       lpY += lbeta((a + p) / 2.0, b / 2.0) +
-	 loghyperg1F1((a + p)/2.0, (a + b + p)/2.0, -(s+Q)/2.0, laplace);
-       //	  hyperg1F1_laplace((a + p)/2.0, (a + b + p)/2.0, -(s + Q)/2.0); 
-    	//doesn't apply for the Jeffreys prior
-       if (a > 0 && b > 0) {
-	 lpY +=  - lbeta(a / 2.0, b / 2.0) -	
-	   //	      hyperg1F1_laplace(a/2.0, (a + b)/2.0, - s/2.0);
-	   loghyperg1F1(a/2.0, (a + b)/2.0, - s/2.0, laplace);
-       }
+     shrinkage_m = betapriorfamily->shrinkage_fun(betapriorfamily->hyperparams, p, Q, laplace);
 
-       shrinkage = shrinkage_chg(a + p, a + b + p , -(s+Q), laplace);
-
-	}
-	intercept = coef[0];
-	for ( int i = 1; i < p; i++) {
-	  intercept += XIeta[i]*coef[i]*(1.0 - shrinkage);
-	}
-	REAL(Rintercept)[0] = intercept;
-	//	Rprintf("intercept = %lf\n", intercept);
-
-	REAL(RlpY)[0] = lpY;
-	REAL(RQ)[0] = Q;
-	REAL(Rshrinkage)[0] = shrinkage;
-	//	Rprintf("shrinkage %lf\n", shrinkage);
+     intercept = coef[0];
+     for ( int i = 1; i < p; i++) {
+       intercept += XIeta[i]*coef[i]*(1.0 - shrinkage_m);
+     }
+     REAL(Rintercept)[0] = intercept;
+     REAL(RlpY)[0] = lpY;
+     REAL(RQ)[0] = Q;
+     REAL(Rshrinkage)[0] = shrinkage_m;
+    
  
-	SET_VECTOR_ELT(ANS, 0, RlpY);
-	SET_STRING_ELT(ANS_names, 0, mkChar("lpY"));
-	SET_VECTOR_ELT(ANS, 1, RQ);
-	SET_STRING_ELT(ANS_names, 1, mkChar("Q"));
-	SET_VECTOR_ELT(ANS, 2, RIeta);
-	SET_STRING_ELT(ANS_names, 2, mkChar("Ieta"));
-	SET_VECTOR_ELT(ANS, 3, Rshrinkage);
-	SET_STRING_ELT(ANS_names, 3, mkChar("shrinkage"));
+     SET_VECTOR_ELT(ANS, 0, RlpY);
+     SET_STRING_ELT(ANS_names, 0, mkChar("lpY"));
+     SET_VECTOR_ELT(ANS, 1, RQ);
+     SET_STRING_ELT(ANS_names, 1, mkChar("Q"));
+     SET_VECTOR_ELT(ANS, 2, RIeta);
+     SET_STRING_ELT(ANS_names, 2, mkChar("Ieta"));
+     SET_VECTOR_ELT(ANS, 3, Rshrinkage);
+     SET_STRING_ELT(ANS_names, 3, mkChar("shrinkage"));
   
-	SET_VECTOR_ELT(ANS, 4, Rintercept);
-	SET_STRING_ELT(ANS_names, 4, mkChar("intercept"));
-
-	setAttrib(ANS, R_NamesSymbol, ANS_names);
-
-	UNPROTECT(nProtected);
-	return(ANS);
+     SET_VECTOR_ELT(ANS, 4, Rintercept);
+     SET_STRING_ELT(ANS_names, 4, mkChar("intercept"));
+     
+     setAttrib(ANS, R_NamesSymbol, ANS_names);
+     
+     UNPROTECT(nProtected);
+     return(ANS);
 	//return(RlpY);
 }
