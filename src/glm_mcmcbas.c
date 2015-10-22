@@ -1,12 +1,12 @@
 #include "sampling.h"
 #include "family.h"
+#include "betapriorfamily.h"
 #include "bas-glm.h"
-
 
 
 SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights, 
 		 SEXP Rprobinit, SEXP Rmodeldim, 
-		 SEXP modelprior, SEXP Rbestmodel,  SEXP Rbestmarg,SEXP plocal, 
+		 SEXP modelprior, SEXP betaprior, SEXP Rbestmodel,  SEXP Rbestmarg,SEXP plocal, 
 		 SEXP BURNIN_Iterations,
 		 SEXP Ra, SEXP Rb, SEXP Rs,
 		 SEXP family, SEXP Rcontrol,
@@ -38,9 +38,13 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	double *probs, MH=0.0, prior_m=1.0,shrinkage_m, logmargy, postold, postnew;
 	int i, m, n, pmodel_old, *bestmodel;
 	int mcurrent, n_sure;
+	
 	glmstptr *glmfamily;
-
 	glmfamily = make_glmfamily_structure(family);
+
+	betapriorptr *betapriorfamily;
+	betapriorfamily = make_betaprior_structure(betaprior, family);
+
 
 	//get dimsensions of all variables 
 	int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
@@ -79,7 +83,8 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	GetModel_m(Rmodel_m, model, p);
 	//evaluate logmargy and shrinkage
 	SEXP glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
-					    glmfamily, Rcontrol, Ra, Rb, Rs, Rlaplace));	
+					    glmfamily, Rcontrol, Ra, Rb, Rs, Rlaplace,
+					    betapriorfamily));	
 	prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
 
 	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
@@ -133,7 +138,8 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		  GetModel_m(Rmodel_m, model, p);
 
 		  glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
-						 glmfamily, Rcontrol, Ra, Rb, Rs, Rlaplace));	
+						 glmfamily, Rcontrol, Ra, Rb, Rs, Rlaplace,
+						 betapriorfamily));	
 		  prior_m = compute_prior_probs(model,pmodel,p, modelprior);
 
 		  logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
@@ -212,7 +218,8 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	GetModel_m(Rmodel_m, model, p);
 
 	glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
-				       glmfamily, Rcontrol, Ra, Rb, Rs, Rlaplace));	
+				       glmfamily, Rcontrol, Ra, Rb, Rs, Rlaplace,
+				       betapriorfamily));	
 	prior_m = compute_prior_probs(model,pmodel,p, modelprior);
 	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
 	shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),	
@@ -307,7 +314,7 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	setAttrib(ANS, R_NamesSymbol, ANS_names);
 	
 	PutRNGstate();
-    UNPROTECT(nProtected);
+	UNPROTECT(nProtected);
 	return(ANS);  
 }
 
