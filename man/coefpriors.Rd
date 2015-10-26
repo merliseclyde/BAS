@@ -4,7 +4,7 @@
 \alias{AIC.prior}
 \alias{bic.prior}
 \alias{BIC.prior}
-\title{Families of Prior Distribution for Coefficients in BMA Models}
+\title{Information Criterion Families of Prior Distribution for Coefficients in BMA Models}
 \description{Creates an object representing the prior distribution on
   coefficients for BAS. 
 }
