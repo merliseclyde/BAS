@@ -3,9 +3,9 @@
 \title{Bayesian Adaptive Sampling Without Replacement for Variable Selection in Generalized Linear Models}
 \description{Sample with or without replacement from a posterior distribution on GLMs}
 \usage{
- bas.glm(formula, data, a, b, s=0, 
+ bas.glm(formula, data, 
  family = binomial(link = "logit"), 
- n.models = NULL, modelprior = beta.binomial(1,1), 
+ n.models = NULL, betaprior=CCH(alpha=.5, beta=nrow(data), s=0), modelprior = beta.binomial(1,1), 
  initprobs = "Uniform", method = "MCMC", update = NULL,
  bestmodel = NULL, bestmarg = NULL, prob.rw = 0.5, 
  Burnin.iterations = NULL, control = glm.control(), 
@@ -16,18 +16,14 @@
     predictors, Y ~ X.  All code assumes that an intercept will be
     included in each model.}
   \item{data}{data frame}
-  \item{a}{hyperparameter a for the CH-g prior.  Suggested values 0.5
-    (beta-prime) or 1.}
-  \item{b}{hyperparameter b for the CH-g prior.  Recommended choice
-    should be a function of n, the sample size, for
-    consistency. e.g. b=n or b=n/2 have worked well in simulation studies. }
-  \item{s}{hyperparameter s for the CH-g prior; default is 0.}
   \item{family}{a description of the error distribution and link 
     function for exponential family;
     currently only binomial() with the logitistic linke is available in
     this version.}
   \item{n.models}{number of models to sample. If NULL, BAS will
     attempt to enumerate unless p > 35 or method="MCMC".}
+   \item{betaprior}{Prior on coefficients for model coefficients (except
+     intercept).  Options in clude CCH, robust, beta-prime, AIC, BIC. }
   \item{modelprior}{Family of prior distribution on the models.  Choices
     include \code{\link{uniform}}, \code{\link{Bernoulli}} or \code{\link{beta.binomial}.}}
   \item{initprobs}{vector of length p with the initial  inclusion
@@ -142,9 +138,10 @@ An object of class \code{BMA} is a list containing at least the following compon
 ##---- Should be DIRECTLY executable !! ----
 library(MASS)
 data(Pima.tr)
-out <- bas.glm(type ~ ., data=Pima.tr, a = .5, b=nrow(Pima.tr)/2,
-               n.models=2^7, method="MCMC+BAS",
-               modelprior=beta.binomial(1,1))
+
+out = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7, method="BAS", betaprior=CCH(a=1, b=532/2, s=0), family=binomial(),  modelprior=beta.binomial(1,1), laplace=FALSE)
+
+
 summary(out)
 image(out)
 }
