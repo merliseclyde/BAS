@@ -7,7 +7,6 @@
 SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights, 
 		     SEXP Rprobinit, SEXP Rmodeldim, 
 		     SEXP modelprior, SEXP betaprior,SEXP Rbestmodel,  SEXP Rbestmarg,SEXP plocal, 
-		     SEXP Ra, SEXP Rb, SEXP Rs,
 		     SEXP family, SEXP Rcontrol,
 		     SEXP Rupdate, SEXP Rlaplace
 			  ) {
@@ -87,7 +86,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	GetModel_m(Rmodel_m, model, p);
 	//evaluate logmargy and shrinkage
 	SEXP glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
-					    glmfamily, Rcontrol, Ra, Rb, Rs, Rlaplace,
+					    glmfamily, Rcontrol, Rlaplace,
 					    betapriorfamily));	
 	double prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
 	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
@@ -118,7 +117,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		GetModel_m(Rmodel_m, model, p);
 
 		glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
-					       glmfamily, Rcontrol, Ra, Rb, Rs, Rlaplace,
+					       glmfamily, Rcontrol, Rlaplace,
 					       betapriorfamily));	
 		prior_m = compute_prior_probs(model,pmodel,p, modelprior);
 		logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
