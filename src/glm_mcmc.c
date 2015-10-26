@@ -9,7 +9,6 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	      SEXP Rprobinit, SEXP Rmodeldim, 
 	      SEXP modelprior,  SEXP betaprior, SEXP Rbestmodel,  SEXP plocal, 
 	      SEXP BURNIN_Iterations,
-	      SEXP Ra, SEXP Rb, SEXP Rs,
 	      SEXP family, SEXP Rcontrol, SEXP Rlaplace
 			  )
 {
@@ -82,7 +81,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	GetModel_m(Rmodel_m, model, p);
 	//evaluate logmargy and shrinkage
 	SEXP glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
-					    glmfamily, Rcontrol, Ra, Rb, Rs, Rlaplace,
+					    glmfamily, Rcontrol, Rlaplace,
 					    betapriorfamily));	
 	prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
 	
@@ -136,7 +135,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		  GetModel_m(Rmodel_m, model, p);
 		  
 		  glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
-						 glmfamily, Rcontrol, Ra, Rb, Rs, Rlaplace,
+						 glmfamily, Rcontrol, Rlaplace,
 						 betapriorfamily));	
 		  prior_m = compute_prior_probs(model,pmodel,p, modelprior);
 			
