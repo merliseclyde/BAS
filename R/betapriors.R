@@ -1,3 +1,8 @@
+EB.local = function() {
+    structure(list(family="EB-local", class="EB", hyper.parameters=list(local=TRUE)),
+    class="prior")
+}
+
 CCH = function(alpha, beta, s=0) {
     if (beta == 2 & alpha == 2 & s == 0)   {
         structure(list(family="Truncated-Gamma", class="TCCH", hyper.parameters=NULL),
@@ -8,9 +13,20 @@ CCH = function(alpha, beta, s=0) {
                   class="prior")}
 }
 
+hyper.g = function(alpha=3) {
+    if (alpha <= 2 )   {
+        return("alpha must be greater than 2 in hyper.g prior")
+    }
+    
+    else {      
+        structure(list(family="CCH", class="TCCH",
+                       hyper.parameters=list(alpha=alpha-2.0, beta=2, s=0.0)),
+                  class="prior")}
+}
+
 
 beta.prime=function(n=NULL) {
-    structure(list(family="betaprime", class="TCCH", hyper.parameters=list(n=n, alpha=.25)),
+    structure(list(family="betaprime", class="TCCH", hyper.parameters=list(n=n, alpha=.5)),
               class="prior")
 }
 
