@@ -20,7 +20,6 @@ int withprob(double p);
 
 SEXP glm_deterministic(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights, 
 		       SEXP Rprobinit, SEXP Rmodeldim, SEXP modelprior, SEXP betaprior,
-		       SEXP Ra, SEXP Rb, SEXP Rs,
 		       SEXP family, SEXP Rcontrol, SEXP Rlaplace) {
 	int nProtected = 0;
 	int nModels=LENGTH(Rmodeldim);
@@ -79,7 +78,7 @@ SEXP glm_deterministic(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		GetModel_m(Rmodel_m, model, p);
 		//evaluate logmargy and shrinkage
 		SEXP glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
-						    glmfamily, Rcontrol, Ra, Rb, Rs, Rlaplace,
+						    glmfamily, Rcontrol, Rlaplace,
 						    betapriorfamily));	
 		double prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
 		logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
