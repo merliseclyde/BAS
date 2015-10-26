@@ -56,6 +56,11 @@ struct betapriorfamilystruc * make_betaprior_structure(SEXP betaprior, SEXP glmf
      Rprintf("a = %lf\n", REAL(getListElement(betapriorfamily->hyperparams, "alpha"))[0]);
   }
 
+   if (strcmp(betapriorfamily->priorfamily, "EB-local") == 0) {
+    betapriorfamily->logmarglik_fun = EB_local_glm_logmarg;
+    betapriorfamily->shrinkage_fun = EB_local_glm_shrinkage;
+  }
+
   return(betapriorfamily);
 }
 
@@ -73,9 +78,9 @@ double CCH_glm_logmarg(SEXP hyperparams, int pmodel, double W,
   // Rprintf("b = %lf\n", b);
   // Rprintf("s = %lf\n", s);
   logmarglik =   loglik_mle + M_LN_SQRT_2PI - 0.5* logdet_Iintercept;
-  if (pmodel > 0) {
-    logmarglik +=   lbeta((a + pmodel) / 2.0, b / 2.0) 
-                  + loghyperg1F1((a + pmodel)/2.0, (a + b + pmodel)/2.0, -(s+W)/2.0, Laplace)
+  if (pmodel > 1.0) {
+    logmarglik +=   lbeta((a + pmodel -1.0) / 2.0, b / 2.0) 
+                  + loghyperg1F1((a + pmodel -1.0)/2.0, (a + b + pmodel - 1.0)/2.0, -(s+W)/2.0, Laplace)
                   - lbeta(a / 2.0, b / 2.0)
                   - loghyperg1F1(a/2.0, (a + b)/2.0, - s/2.0, Laplace);
   }
@@ -94,7 +99,7 @@ double CCH_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace ) {
   // Rprintf("b = %lf\n", b);
   // Rprintf("s = %lf\n", s);
 
-  if (pmodel > 0) shrinkage = shrinkage_chg(a + pmodel, a + b + pmodel , -(s+W), Laplace);
+  if (pmodel > 1.0) shrinkage = shrinkage_chg(a + pmodel -1.0, a + b + pmodel -1.0, -(s+W), Laplace);
   return(shrinkage);
 }
 
@@ -106,11 +111,11 @@ double betaprime_glm_logmarg(SEXP hyperparams, int pmodel, double W,
   n = REAL(getListElement(hyperparams, "n"))[0];
 
   logmarglik =   loglik_mle + M_LN_SQRT_2PI - 0.5* logdet_Iintercept;
-  if (pmodel > 0) {
-    logmarglik +=   lbeta((a + pmodel) / 2.0, (n - pmodel - 1.5) / 2.0) 
-                  + loghyperg1F1((a + pmodel)/2.0, (a + n - 1.5)/2.0, -W/2.0, Laplace)
-                  - lbeta(a / 2.0, (n - pmodel - 1.5)/ 2.0)
-                  - loghyperg1F1(a/2.0, (a + n - pmodel - 1.5)/2.0, 0.0, Laplace);
+  if (pmodel > 1.0) {
+    logmarglik +=   lbeta((a + pmodel - 1.0) / 2.0, (n - (pmodel- 1.0) - 1.5) / 2.0) 
+                  + loghyperg1F1((a + pmodel - 1.0 )/2.0, (a + n - 1.5)/2.0, -W/2.0, Laplace)
+                  - lbeta(a / 2.0, (n - pmodel -1.0 - 1.5)/ 2.0)
+                  - loghyperg1F1(a/2.0, (a + n - pmodel -1.0 - 1.5)/2.0, 0.0, Laplace);
   }
   return(logmarglik);
 }
@@ -126,7 +131,7 @@ double betaprime_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Lapla
   // Rprintf("b = %lf\n", b);
   // Rprintf("s = %lf\n", s);
 
-  if (pmodel > 0) shrinkage = shrinkage_chg(a + pmodel, a + n - 1.5 , -W, Laplace);
+  if (pmodel > 1.0) shrinkage = shrinkage_chg(a + pmodel -1.0, a + n - 1.5 , -W, Laplace);
   return(shrinkage);
 }
 
@@ -138,9 +143,9 @@ double robust_glm_logmarg(SEXP hyperparams, int pmodel, double W,
   n = REAL(getListElement(hyperparams, "n"))[0];
 
   logmarglik =   loglik_mle + M_LN_SQRT_2PI - 0.5* logdet_Iintercept;
-  if (pmodel > 0) {
-    logmarglik +=   -log(2.0) +.5 *log(n + 1.0) - log(pmodel)
-      - .5*pmodel*log(W) + pgamma(pmodel/(n + 1.0), .5*pmodel, 2.0/W, 1, 1);
+  if (pmodel > 1.0) {
+    logmarglik +=   -log(2.0) +.5 *log(n + 1.0) - .5+log(pmodel)
+      - .5*pmodel*log(W/2.0) + pgamma(pmodel/(n + 1.0), .5*(pmodel), 2.0*(n+1.0)/(W*pmodel), 1, 1);
   }
   return(logmarglik);
 }
@@ -155,9 +160,44 @@ double robust_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace 
   // Rprintf("b = %lf\n", b);
   // Rprintf("s = %lf\n", s);
 
-  if (pmodel > 0) {
-    shrinkage = 1.0 - exp(pgamma(pmodel/(n + 1.0), .5*pmodel + 1.0, 2.0/W, 1, 1) -
-			  pgamma(pmodel/(n + 1.0), .5*pmodel, 2.0/W, 1, 1));
+  if (pmodel > 1.0) {
+    shrinkage = 1.0 - exp(pgamma((pmodel -1.0)/(n + 1.0), .5*(pmodel -1.0) + 1.0, 2.0/W, 1, 1) -
+			  pgamma((pmodel -1.0)/(n + 1.0), .5*(pmodel -1.0), 2.0/W, 1, 1));
+  }
+  return(shrinkage);
+}
+
+double EB_local_glm_logmarg(SEXP hyperparams, int pmodel, double W,
+			    double loglik_mle, double logdet_Iintercept, int Laplace ) {
+  double ghat, logmarglik;
+
+
+  ghat = fmax(0.0, W/pmodel - 1);
+  logmarglik =   loglik_mle + M_LN_SQRT_2PI - 0.5* logdet_Iintercept;
+  if (pmodel > 1.0 & ghat > 0) {
+    logmarglik +=   -.5*(pmodel -1.0)*log(1.0 + ghat) -.5*W/(1.0 + ghat);
+  }
+  return(logmarglik);
+}
+
+
+double EB_local_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace ) {
+  double use_deviance, ghat, shrinkage = 1.0;
+   
+  //  use_deviance = REAL(getListElement(hyperparams, "use_deviance"))[0];
+
+  // Rprintf("a = %lf\n", a);
+  // Rprintf("b = %lf\n", b);
+  // Rprintf("s = %lf\n", s);
+
+  if (pmodel > 1.0) {
+    ghat = fmax(0.0, W/pmodel - 1);
+    if (ghat > 0) {
+      shrinkage = ghat/(1.0 + ghat);
+    }
+    else {
+      shrinkage = 0.0;
+    }
   }
   return(shrinkage);
 }
