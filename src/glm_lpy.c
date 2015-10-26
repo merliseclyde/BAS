@@ -9,8 +9,8 @@ extern double hyperg(double, double, double);
 extern double shrinkage_chg(double a, double b, double Q, int laplace);
 
 SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
-			  SEXP Roffset, SEXP Rweights, glmstptr * glmfamily, SEXP Rcontrol,
-		  SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rlaplace,  betapriorptr * betapriorfamily) { //parameters
+		  SEXP Roffset, SEXP Rweights, glmstptr * glmfamily, SEXP Rcontrol,
+		  SEXP Rlaplace,  betapriorptr * betapriorfamily) { //parameters
   int nprotected = 0;
   int *model_m = INTEGER(Rmodel_m);
   int pmodel = LENGTH(Rmodel_m);
@@ -38,7 +38,7 @@ SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
   }
 
   
-  SEXP Rlpy = PROTECT(gglm_lpy(RXnow_noIntercept, RY, Ra, Rb, Rs, Rcoef, Rmu,
+  SEXP Rlpy = PROTECT(gglm_lpy(RXnow_noIntercept, RY, Rcoef, Rmu,
 			       glmfamily, betapriorfamily,  Rlaplace));
   nprotected++;
 	
@@ -57,7 +57,7 @@ SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
 }
 
 
-SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, betapriorptr * betapriorfamily, SEXP  Rlaplace) {
+SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, betapriorptr * betapriorfamily, SEXP  Rlaplace) {
 	int *xdims = INTEGER(getAttrib(RX,R_DimSymbol));
 	int n=xdims[0], p = xdims[1];
 	int nProtected = 0;  
@@ -67,7 +67,6 @@ SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Ra, SEXP Rb, SEXP Rs, SEXP Rcoef, SEXP Rmu, 
 	
 	//input, read only 
 	double *X=REAL(RX), *Y=REAL(RY), *coef=REAL(Rcoef), *mu=REAL(Rmu);
-	double a = REAL(Ra)[0], b = REAL(Rb)[0], s = REAL(Rs)[0];
 	int laplace = INTEGER(Rlaplace)[0];
 	
 	//working variables (do we really need to make them R variables?)
