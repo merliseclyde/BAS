@@ -367,8 +367,8 @@ struct glmfamilystruc * make_glmfamily_structure(SEXP family) {
 	}
 
 	else {
-	  error("only 'binomial() and 'poission() supported now\n");
-	  exit(1);
+	  error("only 'binomial() and 'poisson() families supported now\n");
+	  //	  stop(1);
 	}
 	return(glmfamily);
 }
