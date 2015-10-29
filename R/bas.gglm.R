@@ -66,7 +66,7 @@ bas.glm = function(formula, data,
     update=NULL, 
     bestmodel=NULL, bestmarg=NULL,
     prob.rw=0.5,  
-    Burnin.iterations=NULL,
+    MCMC.iterations=NULL,
     control = glm.control(), offset = rep(0, nobs), weights = rep(1, nobs), laplace=FALSE
                   )  {
     num.updates=10
@@ -110,7 +110,7 @@ bas.glm = function(formula, data,
   	Yvec = as.numeric(Y)
   	modeldim = as.integer(rep(0, n.models))
   	n.models = as.integer(n.models)
-    	if (is.null(Burnin.iterations)) Burnin.iterations = as.integer(n.models/2)
+    	if (is.null(MCMC.iterations)) MCMC.iterations = as.integer(n.models)
 	
 	#save(list = ls(), file = "temp.RData")
   	result = switch(method,
@@ -121,7 +121,7 @@ bas.glm = function(formula, data,
                     modelprior= modelprior, betaprior=betaprior,
                     Rbestmodel= bestmodel,
                     plocal=as.numeric(1.0 - prob.rw),
-                    BURNIN_Iterations = as.integer(Burnin.iterations),
+                    BURNIN_Iterations = as.integer(MCMC.iterations),
                     family = family, Rcontrol = control, Rlaplace=as.integer(laplace),
                     PACKAGE="BAS"),
             "BAS" = .Call("glm_sampleworep",
@@ -143,7 +143,7 @@ bas.glm = function(formula, data,
 			Rbestmodel= bestmodel,
 			Rbestmarg=as.numeric(bestmarg),
 			plocal=as.numeric(1.0 - prob.rw),
-			BURNIN_Iterations = as.integer(Burnin.iterations),
+			BURNIN_Iterations = as.integer(MCMC.iterations),
 			family = family, Rcontrol = control,
       		Rupdate=as.integer(update), Rlaplace=as.integer(laplace),
       		PACKAGE="BAS"),
