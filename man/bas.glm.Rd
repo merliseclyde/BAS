@@ -5,10 +5,11 @@
 \usage{
  bas.glm(formula, data, 
  family = binomial(link = "logit"), 
- n.models = NULL, betaprior=CCH(alpha=.5, beta=nrow(data), s=0), modelprior = beta.binomial(1,1), 
+ n.models = NULL, betaprior=CCH(alpha=.5, beta=nrow(data), s=0),
+ modelprior = beta.binomial(1,1), 
  initprobs = "Uniform", method = "MCMC", update = NULL,
  bestmodel = NULL, bestmarg = NULL, prob.rw = 0.5, 
- Burnin.iterations = NULL, control = glm.control(), 
+ MCMC.iterations = NULL, control = glm.control(), 
  offset = rep(0, nobs), weights = rep(1, nobs), laplace=FALSE)
 }
 \arguments{
@@ -20,8 +21,12 @@
     function for exponential family;
     currently only binomial() with the logitistic linke is available in
     this version.}
-  \item{n.models}{number of models to sample. If NULL, BAS will
-    attempt to enumerate unless p > 35 or method="MCMC".}
+  \item{n.models}{number of unique models to keep. If NULL, BAS will
+    attempt to enumerate unless p > 35 or method="MCMC". For any of
+    methods using MCMC algorithms that sample with replacement, sampling
+    will stop when the number of iterations exceeds the min of
+    'n.models' or 'MCMC.iterations' and on exit 'n.models' is updated to
+    reflect the unique number of models that  have been sampled. }
    \item{betaprior}{Prior on coefficients for model coefficients (except
      intercept).  Options in clude CCH, robust, beta-prime, AIC, BIC. }
   \item{modelprior}{Family of prior distribution on the models.  Choices
@@ -33,24 +38,33 @@
     if "Uniform" each predictor variable is equally likely to be
     sampled (equivalent to random sampling without replacement). If
     "eplogp", use the \code{\link{eplogprob}} function to aproximate the 
-    Bayes factor to find initial marginal inclusion probabilitites and
+    Bayes factor using p-values to find initial marginal inclusion probabilitites and
     sample without replacement using these
-    inclusion probabilaties. For variables that should always be
+    inclusion probabilaties, which may be updated using estimates of the
+    marginal inclusion probabilites. "eplogp" assumes that MLEs from the
+    full model exist; for problems where that is not the case or 'p' is
+    large, initial sampling probabilities may be obtained using
+    \code{\link{eplogprob.marg}} which fits a model to each predictor seaparately.
+    For variables that should always be
     included set the corresponding initprobs to 1. To run a
     Markov Chain to provide initial estimates of marginal
     inclusion probabilities, use method="MCMC+BAS" below.}
   \item{method}{A character variable indicating which sampling method to
     use: method="BAS" uses Bayesian Adaptive Sampling (without
-    replacement) using the sampling probabilities given in initprobs;
+    replacement) using the sampling probabilities given in initprobs and
+    updates using the marginal inclusion probabilities to direct the search/sample;
     method="MCMC" combines a random walk Metropolis Hastings (as in MC3 of
     Raftery et al 1997) with a random swap of a variable included with a
     variable that is currently excluded (see Clyde, Ghosh, and Littman
     (2010) for details);
-    method="MCMC+BAS" runs an initial MCMC to calculate marginal
+    method="MCMC+BAS" runs an initial MCMC as above to calculate marginal
     inclusion probabilities and then samples without replacement as in
-    BAS; method = "deterministic" runs an deterministic sampling.  For
+    BAS; method = "deterministic" runs an deterministic sampling using
+    the initial probabilites (no updating); this is recommended for fast
+    enumeration or if a model of independence is a good approximation to
+    the joint posterior distribution of the model indicators.  For
     BAS, the sampling probabilities can be updated as more models are
-    sampled. (see  update below).  We recommend "MCMC+BAS" or  "MCMC"
+    sampled. (see  'update' below).  We recommend "MCMC+BAS" or  "MCMC"
     for  high dimensional problems.} 
   \item{update}{number of iterations between potential updates of the
     sampling probabilities in the "BAS" method. If NULL do not update,
@@ -66,7 +80,8 @@
   \item{prob.rw}{For any of the MCMC methods, probability of using the
     random-walk proposal; otherwise use a random "flip" move to propose
     a new model.}
-  \item{Burnin.iterations}{Number of iterations to discard when using any of the MCMC options}
+  \item{MCMC.iterations}{Number of models to sample when using any of
+    the MCMC options; should be greater than 'n.models'.}
   \item{control}{a list of parameters that control convergence in the
     fitting process.  See the documentation for
     \code{glm.control()}}
@@ -139,8 +154,9 @@ An object of class \code{BMA} is a list containing at least the following compon
 library(MASS)
 data(Pima.tr)
 
-out = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7, method="BAS", betaprior=CCH(a=1, b=532/2, s=0), family=binomial(),  modelprior=beta.binomial(1,1), laplace=FALSE)
-
+out = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7, method="BAS",
+ betaprior=CCH(a=1, b=532/2, s=0), family=binomial(),
+ modelprior=beta.binomial(1,1), laplace=FALSE)
 
 summary(out)
 image(out)
