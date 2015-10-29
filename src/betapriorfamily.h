@@ -20,6 +20,10 @@ double CCH_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace);
 double robust_glm_logmarg(SEXP hyperparams, int pmodel, double W, double loglik_mle, double logdet_Iintercept, int Laplace );
 double robust_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace );
 
+double tCCH_glm_logmarg(SEXP hyperparams, int pmodel, double W, double loglik_mle, double logdet_Iintercept, int Laplace );
+double tCCH_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace );
+double HyperTwo(double a, double b, double c, double x, double y);
+
 double TG_glm_logmarg(SEXP hyperparams, int pmodel, double W, double loglik_mle, double logdet_Iintercept, int Laplace );
 double TG_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace );
 
