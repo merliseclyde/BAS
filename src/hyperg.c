@@ -117,7 +117,7 @@ if( acanc < pcanc )
 // edited by Yingbo Li, 01/04/2013  
 done:
 //if( pcanc > 1.0e-12 )
-  if( pcanc > 1.0e-3 )
+  if( pcanc > 1.0e-12 )
 	mtherr( "hyperg", PLOSS );
 
 return( psum );
