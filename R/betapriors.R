@@ -14,6 +14,18 @@ CCH = function(alpha, beta, s=0) {
     #}
 }
 
+tCCH = function(alpha=1, beta=2, s=0, r=3/2, v=1, theta=1) {
+#    if (beta == 2 & alpha == 2 & s == 0)   {
+#        structure(list(family="Truncated-Gamma", class="TCCH", hyper.parameters=NULL),
+#                       class="prior")}
+#    else {      
+        structure(list(family="tCCH", class="TCCH",
+                       hyper.parameters=list(alpha=alpha, beta=beta, s=s,
+                           r=r, v=v, theta=theta)),
+                  class="prior")
+    #}
+}
+
 hyper.g = function(alpha=3) {
     if (alpha <= 2 )   {
         return("alpha must be greater than 2 in hyper.g prior")
