@@ -8,12 +8,14 @@
 \arguments{
   \item{object}{An object of class "basglm", created by \code{bas.glm}}
   \item{newdata}{dataframe, new matrix or vector of data for predictions. May 
-    include a column for the intercept or just the predictor variables}
-  \item{top}{Use only the top M models, based on posterior
-    probabilities}
-  \item{type}{Type of prediction. "link" provides estimates of the
-  linear predictor, while "response" correponds to the mean.}
-  \item{...}{optional extra arguments}
+    include a column for the intercept or just the predictor variables.
+  If a dataframe, the variables are extracted using model.matrix using
+  the call that created 'object'. } 
+  \item{top}{A scalar interger M.  If supplied, subset the top M models,
+  based on posterior probabilities for model predictions and BMA.}
+   \item{type}{Type of predictions required. The default is on the scale of the linear predictors; the alternative "response" is on the scale of the response variable. Thus for a default binomial model the default predictions are of log-odds (probabilities on logit scale) and type = "response" gives the predicted probabilities.
+   }
+     \item{...}{optional extra arguments}
 }
 \value{a list of
   \item{Ybma}{predictions using BMA}
