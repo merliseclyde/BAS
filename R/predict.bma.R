@@ -1,6 +1,7 @@
 predict.basglm = function(object, newdata, top=NULL, type=c("link", "response"), ...) {
 #    browser()
     pred = predict.bas(object, newdata, top)
+    if (length(type) > 1) type = type[1]
     if (type == "response") {
         Ypred = apply(pred$Ypred, 1, FUN = function(x) {eval(object$call$family)$linkinv(x)})
         if (top > 1) {
