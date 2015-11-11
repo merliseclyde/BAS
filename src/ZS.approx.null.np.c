@@ -48,15 +48,14 @@ double LogBF_ZS_null(double R2, int n, int d){
 
 
   posroot(a,b,c,&root,&status);
-
-  if(status!=1.){
-    if(status==0.) Rprintf("\n No positive roots\n");
-    else Rprintf("\n More than one positive root\n");
-  }
-  else{ 
-    if (k == 0) { return(0.0); }
-    else{return(lik_null(root,R2,n,k)+(log(4.*asin(1.))-log(-info_null(root,R2,n,k)))/2.);}
-  }
+    if (k == 0 || n <= k+1) { return(0.0); }
+    else {
+      if(status!=1.){
+	if(status==0.) Rprintf("\n No positive roots\n");
+	else Rprintf("\n More than one positive root\n");
+      }
+      else{return(lik_null(root,R2,n,k)+(log(4.*asin(1.))-log(-info_null(root,R2,n,k)))/2.);}
+    }
   return(NA_REAL);
 }
 
