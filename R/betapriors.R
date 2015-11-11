@@ -24,7 +24,37 @@ tCCH = function(alpha=1, beta=2, s=0, r=3/2, v=1, theta=1) {
                            r=r, v=v, theta=theta)),
                   class="prior")
     #}
+    }
+
+intrinsic = function(n) {
+#    if (beta == 2 & alpha == 2 & s == 0)   {
+#        structure(list(family="Truncated-Gamma", class="TCCH", hyper.parameters=NULL),
+#                       class="prior")}
+#    else {      
+        structure(list(family="intrinsic", class="TCCH",
+                       hyper.parameters=list(alpha=1, beta=1, s=0, r=1, n=n)),
+                  class="prior")
+    #}
+    }
+
+hyper.g.n = function(alpha=3, n) {
+#    if (beta == 2 & alpha == 2 & s == 0)   {
+#        structure(list(family="Truncated-Gamma", class="TCCH", hyper.parameters=NULL),
+#                       class="prior")}
+#    else {      
+        structure(list(family="tCCH", class="TCCH",
+                       hyper.parameters=list(alpha=alpha-2, beta=2, s=0,
+                           r=alpha/2, v=1, theta=1/n)),
+                  class="prior")
+    #}
 }
+
+Jeffreys = function() {
+        structure(list(family="Jeffreys", class="TCCH",
+                       hyper.parameters=list(alpha=0, beta=2, s=0.0)),
+                  class="prior")
+    }
+
 
 hyper.g = function(alpha=3) {
     if (alpha <= 2 )   {
