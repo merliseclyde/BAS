@@ -125,11 +125,12 @@ double shrinkage_chg(double a, double b, double Q, int laplace) {
 		   log(hyperg1F1(a/2.0, b/2.0, Q/2.0)));
    */
    //    Rprintf("shrinkage_chg:  %lf\n", shrinkage);
-    shrinkage = exp( lbeta(a/2.0, b/2.0 + 1.0) +
+  if (a > 0 & b > 0) {
+  shrinkage = exp( lbeta(a/2.0, b/2.0 + 1.0) +
 		     loghyperg1F1(a/2.0, b/2.0 + 1.0,  Q/2.0, laplace) -
 		     lbeta(a/2.0, b/2.0) -
 		     loghyperg1F1(a/2.0, b/2.0,  Q/2.0, laplace));	
-
+  }
     //Rprintf("Laplace shrinkage_chg:  %lf\n", shrinkage);
   if (shrinkage > 1.0)  shrinkage = 1.0;
   else if (shrinkage < 0.0) shrinkage = 0.0;
