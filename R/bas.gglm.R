@@ -159,16 +159,80 @@ bas.glm = function(formula, data,
   	result$namesx=namesx
   	result$n=length(Yvec)
   	result$modelprior=modelprior
-  	if (method == "MCMC") {
+    if (method == "MCMC") {
 		result$n.models = result$n.Unique
-  	} else {
-  		result$n.models=n.models
-  	}
-  	result$n.vars=p
-  	result$Y=Yvec
-  	result$X=X
-  	result$call=call
+            }
+    else {
+        result$n.models=n.models
+    }
 
-  	class(result) = c("basglm","bas", "bma")
-  	return(result) 
+    result$R2 = .R2.glm.bas(result$deviance, result$size, call)
+    result$n.vars=p
+    result$Y=Yvec
+    result$X=X
+    result$call=call
+    if (betaprior$family == "Jeffreys") result = .drop.null.bas(result)
+    
+    class(result) = c("basglm","bas", "bma")
+    return(result) 
+}
+
+# Drop the null model from Jeffrey's prior
+
+.drop.null.bas = function(object) {
+n.models  = object$n.models
+
+
+p = object$size
+drop = (1:n.models)[p == 1]
+logmarg = object$logmarg[-drop]
+prior = object$priorprobs[-drop]
+
+postprobs = .renormalize.postprobs(logmarg, log(prior))
+which = which.matrix(object$which[-drop], object$n.var)
+
+object$probne0 = postprobs %*% which 
+object$postprobs=postprobs
+
+method = eval(object$call$method)
+if (method == "MCMC+BAS" | method == "MCMC") {
+    object$freq = object$freq[-drop]
+    object$probs.MCMC =  object$freq %*% which
+}
+
+object$priorprobs=prior
+if (!is.null(object$sampleprobs)) object$sampleprobs = object$sampleprobs[-drop]
+object$which = object$which[-drop]
+object$logmarg = logmarg
+object$deviance = object$deviance[-drop]
+object$intercept = object$intercept[-drop]
+object$size = object$size[-drop]
+object$Q = object$Q[-drop]
+object$R2 = object$R2[-drop]
+object$mle = object$mle[-drop]
+object$mle.se = object$mle.se[-drop]
+object$shrinkage = object$shrinkage[-drop]
+object$n.models = n.models - 1    
+
+return(object)
+}
+
+.renormalize.postprobs = function(logmarg, logprior) {
+    probs = logmarg + logprior
+    probs = exp(probs - max(probs))
+    probs = probs/sum(probs)
+    return(probs)
+}
+
+.R2.glm.bas = function(deviance, size, call) {
+    n.models = length(deviance)
+    null.model = (1 : n.models)[size == 1]
+    if (is.null(null.model)) {
+        null.deviance =  glm(eval(call$formula), data=eval(call$data),
+            family=eval(call$family))$null.deviance
+    }
+    else null.deviance = deviance[null.model]
+
+    R2 = 1 - deviance/null.deviance
+    return(R2)
 }
