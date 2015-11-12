@@ -15,7 +15,7 @@
  }
 
  \value{returns an object of class "prior", with the family "intrinsic"
-    of class "TCCH"  and hyerparameters alpha = 1, 
+    of class "TCCH"  and hyperparameters alpha = 1, 
         beta = 1, s = 0, r = 1, n = n for the tCCH prior where
     theta in the tCCH prior is determined by the model size and sample size.
 }
@@ -28,8 +28,9 @@
 }
 
 \references{
-  Womack, A., Novelo,L.L., Casella, G. (2014). Inference From Intrinsic
-  Bayes’ Procedures Under Model Selection and Uncertainty. JASA
+  Womack, A., Novelo,L.L., Casella, G. (2014). "Inference From Intrinsic
+  Bayes' Procedures Under Model Selection and Uncertainty". Journal of
+  the American Statistical Association.
   109:1040-1053.
   \url{http://amstat.tandfonline.com/doi/abs/10.1080/01621459.2014.880348} 
 
