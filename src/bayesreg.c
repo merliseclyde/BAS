@@ -79,12 +79,12 @@ double maxeffect(double *beta, double *se, int p) {
   return(maxeffect);
 }	
 
-void cholreg(double *XtY, double *XtX, double *coefficients, double *se, double *mse,  int p, int n)
+void cholreg(double *XtY, double *XtX, double *coefficients, double *se, double *mse, int p, int n)
 {
 	/* On entry *coefficients equals X'Y, which is over written with the OLS estimates */
 	/* On entry MSE = Y'Y */
 
-	double  det, ete, one, zero;
+  double  det, ete, one, zero;
 	int  job, l, i, j, info, inc;
 	zero = 0.0;
 	one = 1.0;
@@ -98,8 +98,14 @@ void cholreg(double *XtY, double *XtX, double *coefficients, double *se, double 
 	F77_NAME(dpodi)(&XtX[0],&p,&p, &det, &job);
 
 	ete = F77_NAME(ddot)(&p, &coefficients[0], &inc, &XtY[0], &inc);
-	*mse = (*mse - ete)/((double) (n - p)); 
 
+	if ( n <= p) {
+	  *mse = 0.0;
+	}
+	else {
+	  *mse = (*mse - ete)/((double) (n - p));
+	  }
+	
 	for (j=0, l=0; j < p; j++)  {
 		for (i=0; i <  p; i++) {
 			if (i == j)  {
@@ -155,8 +161,11 @@ double shrinkage_EB_local(double R2, int n, int p, double alpha)
     if (dp > 0.0) {
       ghat =  (((dn-dp)/dp)*R2/(1.0 - R2)) - 1.0;
       if (ghat < 0.0) ghat = 0.0;
-      shrinkage = ghat/(1.0 + ghat);}
+      shrinkage = ghat/(1.0 + ghat);
+      if (dp >= dn) shrinkage = 0.0;
+    }
     else shrinkage = 1.0;
+    
   return(shrinkage);
 }
 
@@ -168,7 +177,7 @@ double shrinkage_hyperg(double R2, int n, int p, double alpha)
  bnum = 2.0;
  bden = 1.0;
  c = (double) p  - 1.0 + alpha;
- if ( p == 1) s = 1.0;
+ if ( p == 1 || 2.0*a - c < 0.0) s = 1.0;
  else{ 	
    z = R2;
    Eg = hyp2f1(a, bnum, (c + 2.0)/2.0, z);
@@ -190,14 +199,16 @@ double logBF_hyperGprior(double R2, int n, int p, double alpha)
   b = 1.0;
   c = ((double) p - 1.0  + alpha )/2.0;
   z1 = R2;
-
+  logmargy = 0.0;
+  if (a - c > 0) {
     hf1 = hyp2f1(a, b, c, z1);
-    if (p == 1) logmargy = 0.0;
+    if (p == 1 || p >= n) logmargy = 0.0;
     else logmargy = log(hf1) 
 	     - log( (double) p - 1.0 + alpha - 2.0) + log(2.0) 
 	     + log(alpha/2.0 - 1.0);
     if (! R_FINITE(logmargy))
 	logmargy = logBF_hyperGprior_laplace(R2, n, p, alpha);
+  }
     return(logmargy);
   }
 
@@ -217,6 +228,8 @@ double logBF_hyperGprior_laplace(double R2, int n, int p, double alpha)
     dp = (double) p - 1.0;
 /*  Laplace approximation in terms of exp(tau) = g  */
 /*  Agrees with Mathematica but not paper  */
+  if (p == 1 || dn <= dp) logmarg = 0.0;
+  else {
     ghat = (-4.+ alpha + dp + (2. - dn)*R2 - 
 	    sqrt(-8.*(-2. + alpha + dp)*(-1.0 + R2) + (-4. + alpha + dp + (2.-dn)* R2)*(-4. + alpha + dp + (2.-dn)* R2)))/(2.*(-2. + alpha + dp)*(-1. + R2)); 
 
@@ -237,7 +250,7 @@ double logBF_hyperGprior_laplace(double R2, int n, int p, double alpha)
                      - (dp + alpha)*log(1.0 + ghat)
 	             -  dn*log(1.0-(ghat/(1.0 + ghat))*R2)
 	             + log(sigmahat)) + log(ghat);
-  if (p == 1) logmarg = 0.0;
+  }
   return(logmarg);
 }
 
@@ -255,29 +268,34 @@ double shrinkage_laplace(double R2, int n, int p, double alpha)
 
     dn = (double) (n - 1);
     dp = (double) (p - 1);
-    lognc = log(alpha/2.0 - 1.0);
-    ghat = (-6.+ alpha + dp + (4. - dn)*R2 - 
+   if (p == 1) shrinkage = 1.0;
+   else {
+     if ( p >= n) shrinkage = 2.0/(2.0 + alpha);
+     else {
+       lognc = log(alpha/2.0 - 1.0);
+       ghat = (-6.+ alpha + dp + (4. - dn)*R2 - 
 	    sqrt(-16.*(-2. + alpha + dp)*(-1.0 + R2) + (-6. + alpha + dp + (4.-dn)* R2)*(-6. + alpha + dp + (4.-dn)* R2)))/(2.*(-2. + alpha + dp)*(-1. + R2)); 
 
-    if (ghat <=0.0) { Rprintf("ERROR: In Laplace approximation to  E[g/(1 + g)] ghat = %f %f %d %d\n", ghat, R2, p,n ); 
+       if (ghat <=0.0) { Rprintf("ERROR: In Laplace approximation to  E[g/(1 + g)] ghat = %f %f %d %d\n", ghat, R2, p,n ); 
 
-           } 
-   sigmahat =2.0/(ghat*(-dn + 2.+ alpha + dp)/((1. + ghat)*(1.+ghat)) +
+       } 
+       sigmahat =2.0/(ghat*(-dn + 2.+ alpha + dp)/((1. + ghat)*(1.+ghat)) +
 		  dn*(ghat*(1. - R2))/((1.+ghat*(1.-R2))*(1.+ghat*(1.-R2)))); 
 
-   if (sigmahat <= 0 ) Rprintf("ERROR in LAPLACE APPROXIMATION to E[g/(1 + g)] sigmahat = %f %f %f %d %d\n", sigmahat, ghat, R2, p,n); 
+       if (sigmahat <= 0 ) Rprintf("ERROR in LAPLACE APPROXIMATION to E[g/(1 + g)] sigmahat = %f %f %f %d %d\n", sigmahat, ghat, R2, p,n); 
 
-   lognum= .5*( log(2.0*PI) + 2.0*log(ghat)
+       lognum= .5*( log(2.0*PI) + 2.0*log(ghat)
 		- (dp + alpha + 2.0 - dn)*log(1.0 + ghat)
 		- dn*log(1.0 + ghat*(1. -R2))
 		+ log(sigmahat))  +  lognc + log(ghat);
-   logden = logBF_hyperGprior_laplace( R2,  n, p, alpha);
+       logden = logBF_hyperGprior_laplace( R2,  n, p, alpha);
    // lognc is included here so that it cancels wth lognc for denominator
-   shrinkage = exp(lognum - logden);
-   //  Rprintf("%f %f %f  %f %f %f \n", ghat, sigmahat, normalpart, lognum, logden, shrinkage);  
-  if (p == 1) shrinkage = 1.0;
+       shrinkage = exp(lognum - logden);
+   //  Rprintf("%f %f %f  %f %f %f \n", ghat, sigmahat, normalpart,
+   //  lognum, logden, shrinkage);
+     }}
   return(shrinkage);
-}
+ }
 
 double log_laplace_2F1(double a, double b, double c, double z)
  {  
@@ -290,7 +308,11 @@ double log_laplace_2F1(double a, double b, double c, double z)
 
    // integral = \int_0^\infty  g^{b -1} (1 + g)^{c - b - 1}(1 + (1 - z)g)^{-a}
 
-   logint = lgammafn(c) - lgammafn(b) - lgammafn(c - b);
+   logint = 0.0;
+
+   if (c >= b && b > 0) {
+     logint = lgammafn(c) - lgammafn(b) - lgammafn(c - b);
+   }
    
    if ( z == 1.0) {
      if (c > b + a) 
@@ -351,6 +373,6 @@ double logBF_EB(double R2, int n, int p, double alpha)
     if (ghat < 0.0) ghat = 0.0;
     logmarg = .5*( - dn*log(1.0-(ghat/(1.0 + ghat))*R2)
 		   - dp*log(1.0 + ghat));
-    if (p == 1) logmarg = 0.0;
+    if (p == 1 || p >= n) logmarg = 0.0;
     return(logmarg);
 }
