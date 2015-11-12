@@ -7,15 +7,16 @@
   coefficients for BAS. 
 }
 
-\usage(intrinsic(n)}
+\usage{intrinsic(n)}
 
 
-\arguments{\item{n}{the sample size}
+\arguments{
+\item{n}{the sample size}
  }
 
  \value{returns an object of class "prior", with the family "intrinsic"
     of class "TCCH"  and hyerparameters alpha = 1, 
-        beta = 1, s = 0, r = 1, n = n) for the tCCH prior where
+        beta = 1, s = 0, r = 1, n = n for the tCCH prior where
     theta in the tCCH prior is determined by the model size and sample size.
 }
 \details{Creates a structure used for \code{\link{bas.glm}}. 
