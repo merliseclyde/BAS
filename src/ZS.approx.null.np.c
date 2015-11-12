@@ -48,7 +48,7 @@ double LogBF_ZS_null(double R2, int n, int d){
 
 
   posroot(a,b,c,&root,&status);
-    if (k == 0 || n <= k+1) { return(0.0); }
+    if (k == 0 || n <= k+1 || R2 >= 1.0) { return(0.0); }
     else {
       if(status!=1.){
 	if(status==0.) Rprintf("\n No positive roots\n");
@@ -64,7 +64,7 @@ double lik_null(double g, double R2, int n, int k){
    on the intercept, regression coefficients and the variance
 */
   double aux;
-
+  if (R2 >= 1.0) R2 = 1.0;
   aux=((double)n-1.-(double)k)*log(1.+g)-((double)n-1.)*log(1.+(1.-R2)*g)-
     3.*log(g)-((double)n)/g;
   aux=aux/2.;
