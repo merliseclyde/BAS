@@ -106,6 +106,7 @@ SEXP sampleworep(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SE
  
  F77_NAME(dsyrk)(uplo, trans, &p, &nobs, &one, &Xwork[0], &nobs, &zero, &XtX[0], &p); 
  yty = F77_NAME(ddot)(&nobs, &Ywork[0], &inc, &Ywork[0], &inc);
+
  for (i = 0; i< nobs; i++) {
      ybar += Ywork[i];
   }
@@ -113,6 +114,7 @@ SEXP sampleworep(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SE
   ybar = ybar/ (double) nobs;
   SSY = yty - (double) nobs* ybar *ybar;
 
+  
   F77_NAME(dgemv)(trans, &nobs, &p, &one, &Xwork[0], &nobs, &Ywork[0], &inc, &zero, &XtY[0],&inc);
   
   alpha = REAL(Ralpha)[0];
@@ -149,10 +151,13 @@ SEXP sampleworep(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SE
     memcpy(XtXwork, XtX, p2*sizeof(double));
     memcpy(XtYwork, XtY,  p*sizeof(double));
 
-    mse_m = yty; 
+    mse_m = yty;
     cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, p, nobs);  
   /*olsreg(Ywork, Xwork,  coefficients, se_m, &mse_m, &p, &nobs, pivot,qraux,work,residuals,effects,v, betaols); */
+    RSquareFull = 1.0;
+    if (nobs > pmodel) {
     RSquareFull =  1.0 - (mse_m * (double) ( nobs - p))/SSY;
+    }
     UNPROTECT(2);
   }
 
@@ -263,12 +268,15 @@ SEXP sampleworep(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SE
       } 
 
       
-    mse_m = yty; 
+    mse_m = yty;
     memcpy(coefficients, XtYwork, sizeof(double)*pmodel); 
-    cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, pmodel, nobs);  
+    cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, pmodel, nobs);
 
-    R2_m = 1.0 - (mse_m * (double) ( nobs - pmodel))/SSY;
-
+    R2_m = 1.0;
+    if (nobs > pmodel) {
+      R2_m = 1.0 - (mse_m * (double) ( nobs - pmodel))/SSY;
+    }
+    
     SET_ELEMENT(beta, m, Rcoef_m);
     SET_ELEMENT(se, m, Rse_m);
 
@@ -403,15 +411,18 @@ SEXP sampleworep(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SE
       coefficients = REAL(Rcoef_m);  
       se_m = REAL(Rse_m);
   
-    mse_m = yty; 
+    mse_m = yty;
+    
     memcpy(coefficients, XtYwork, sizeof(double)*pmodel); 
     cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, pmodel, nobs);  
 
   
 /*    olsreg(Ywork, Xwork, coefficients, se_m, &mse_m, &pmodel, &nobs, pivot,qraux,work,residuals,effects,v,betaols);   */
-  
+    R2_m = 1.0;
+    if (nobs > pmodel) {
     R2_m = 1.0 - (mse_m * (double) ( nobs - pmodel))/SSY;
-
+    }
+    
     SET_ELEMENT(beta, m, Rcoef_m);
     SET_ELEMENT(se, m, Rse_m);
 
