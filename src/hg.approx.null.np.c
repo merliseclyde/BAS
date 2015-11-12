@@ -11,6 +11,7 @@ double lik_null_HG(double g, double R2, int n, int k, double alpha, int gpower){
 */
   double aux;
 
+  if (R2 >= 1.0) R2 = 1.0;
   aux=((double)n-1.-(double)k)*log(1.+g)-((double)n-1.)*log(1.+(1.-R2)*g)+ 2.*(double)gpower*log(g)-alpha*log(1.+g/(double)n);
   aux=aux/2.;
   aux=aux - log((double)n) +  log(alpha/2.-1.); 
@@ -74,11 +75,12 @@ double LogBF_Hg_null(double R2, int n, int d, double alpha, int gpower){
   b=b/aux;
   c=c/aux;
   posroot(a,b,c,&root,&status);
-  if (k == 0 || n <= d) { logmarg = 0.0; }
+  if (k == 0 || n <= d || R2 >= 1.0) { logmarg = 0.0; }
   else {
     if(status!=1.){
-      if(status==0.) Rprintf("\n No positive roots\n");
-      else Rprintf("\n More than one positive root; this should not happen\n");
+      logmarg =0.0;
+	//      if(status==0.) Rprintf("\n No positive roots\n");
+	//else Rprintf("\n More than one positive root; this should not happen\n");
     }
     else{
       logmarg = lik_null_HG(root,R2,n,k, alpha, gpower)+
