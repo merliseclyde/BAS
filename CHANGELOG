@@ -1,3 +1,7 @@
+Changes for BAS 1.08
+	- added intrinsic prior for GLMs
+	- fixed problems for linear models for p > n and R2 not correct
+
 Changes for BAS 1.07
 	- added phi1 function from Gordy (1998)  confluent hypergeometric
 	function of two variables  also know as one of the Horn
