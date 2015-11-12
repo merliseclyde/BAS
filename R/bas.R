@@ -129,8 +129,8 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
 
   #  prob = as.numeric(initprobs)
   #MCMC-BAS
-
-  if (is.null(MCMC.iterations)) MCMC.iterations = as.integer(n.models*10)
+  if (is.null(n.models)) n.models = min(2^p, 2^19)
+  if (is.null(MCMC.iterations)) MCMC.iterations = as.integer(n.models*2)
   Burnin.iterations = as.integer(MCMC.iterations)
   
   if (is.null(lambda)) lambda=1.0
