@@ -11,28 +11,7 @@ int *GetModel_m(SEXP Rmodel_m, int *model, int p) {
 	}	
 	return model_m;
 }
-double CalculateRSquareFull(double *XtY, double *XtX, double *XtXwork, double *XtYwork, 
-							SEXP Rcoef_m, SEXP Rse_m, int p, int nobs, double yty, double SSY) {
-	double RSquareFull;
-	if (nobs <= p) {
-		RSquareFull = 1.0;
-	} else {
-		PROTECT(Rcoef_m = NEW_NUMERIC(p));
-		PROTECT(Rse_m = NEW_NUMERIC(p));
-		double *coefficients = REAL(Rcoef_m);  
-		double *se_m = REAL(Rse_m);
-		memcpy(coefficients, XtY,  p*sizeof(double));
-		memcpy(XtXwork, XtX, p * p *sizeof(double));
-		memcpy(XtYwork, XtY,  p*sizeof(double));
 
-		double mse_m = yty; 
-		cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, p, nobs);  
-
-		RSquareFull =  1.0 - (mse_m * (double) ( nobs - p))/SSY;
-		UNPROTECT(2);
-	}
-	return RSquareFull;
-}
 void CreateTree(NODEPTR branch, struct Var *vars, int *bestmodel, int *model, int n, int m, SEXP modeldim) {
 	for (int i = 0; i< n; i++) {
 		int bit =  bestmodel[vars[i].index];
@@ -98,30 +77,6 @@ void SetModel(SEXP Rcoef_m, SEXP Rse_m, SEXP Rmodel_m, double mse_m, double R2_m
 	UNPROTECT(3);
 }
 
-void PrecomputeData(double *Xwork, double *Ywork, double **pXtXwork, double **pXtYwork, double **pXtX, double **pXtY, double *yty, double *SSY, int p, int nobs) {
-	char uplo[] = "U", trans[]="T";
-	double one=1.0, zero=0.0;
-	int inc=1;
-	
-	int p2 = p * p;
-	*pXtXwork  = (double *) R_alloc(p2, sizeof(double));
-	*pXtYwork = vecalloc(p);
-	*pXtX  = (double *) R_alloc(p2, sizeof(double));
-	*pXtY = vecalloc(p);
-
-	//precompute XtX
-	memset(*pXtX,0, p2 * sizeof(double));
-	//F77_NAME(dsyrk)(uplo, trans, &p, &nobs, &one, &Xwork[0], &nobs, &zero, &(*pXtX)[0], &p); 
-	F77_NAME(dsyrk)(uplo, trans, &p, &nobs, &one, &Xwork[0], &nobs, &zero, *pXtX, &p); 
-	*yty = F77_NAME(ddot)(&nobs, &Ywork[0], &inc, &Ywork[0], &inc);
-	double ybar = 0.0; 
-	for (int i = 0; i< nobs; i++) {
-		ybar += Ywork[i];
-	}
-	ybar = ybar/ (double) nobs;
-	*SSY = *yty - (double) nobs* ybar *ybar;
-	F77_NAME(dgemv)(trans, &nobs, &p, &one, &Xwork[0], &nobs, &Ywork[0], &inc, &zero, *pXtY,&inc);
-}
 
 double GetNextModelCandidate(int pmodel_old, int n, int n_sure, int *model, struct Var *vars, double problocal,
 							 int *varin, int *varout) {
@@ -140,7 +95,7 @@ double GetNextModelCandidate(int pmodel_old, int n, int n_sure, int *model, stru
 	}
 	return MH;
 }
-SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, 
+SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, 
 			  SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP Rbestmarg, SEXP plocal, 
 	      SEXP BURNIN_Iterations, SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA, SEXP Rthin)
 {
@@ -169,7 +124,7 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP 
 	SEXP sampleprobs = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP NumUnique = PROTECT(allocVector(INTSXP, 1)); ++nProtected;
 
-	double *Xwork, *Ywork, *probs, shrinkage_m,
+	double *Xwork, *Ywork,*wts, *probs, shrinkage_m,
 		mse_m, MH=0.0, prior_m=1.0, 
 		R2_m, RSquareFull, logmargy, postold, postnew;
 	int i, m, n, pmodel_old, *model_m, *bestmodel;
@@ -179,8 +134,8 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP 
 	int nobs = LENGTH(Y);
 	int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
 	int k = LENGTH(modelprobs);
-	double lambda=REAL(LAMBDA)[0];
-	double delta = REAL(DELTA)[0];
+	//	double lambda=REAL(LAMBDA)[0];
+	//	double delta = REAL(DELTA)[0];
 	double alpha = REAL(Ralpha)[0];
 	int thin = INTEGER(Rthin)[0];
 	
@@ -188,9 +143,11 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP 
 
 	Ywork = REAL(RYwork);
 	Xwork = REAL(RXwork);
+	wts = REAL(Rweights); 
+	
 
 	double *XtXwork, *XtYwork,*XtX, *XtY, yty,SSY;
-	PrecomputeData(Xwork, Ywork, &XtXwork, &XtYwork, &XtX, &XtY, &yty, &SSY, p, nobs);
+	PrecomputeData(Xwork, Ywork, wts, &XtXwork, &XtYwork, &XtX, &XtY, &yty, &SSY, p, nobs);
 
 	
 	struct Var *vars = (struct Var *) R_alloc(p, sizeof(struct Var)); // Info about the model variables. 
