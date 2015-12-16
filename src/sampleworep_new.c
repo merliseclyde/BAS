@@ -17,7 +17,7 @@ deterministic sampling. ML 6/97. */
 /* Includes. */
 #include "sampling.h"
 void update_tree(SEXP modelspace, struct Node *tree, SEXP modeldim, struct Var *vars, int k, int p, int n, int kt, int *model);
-void PrecomputeData(double *Xwork, double *Ywork, double **pXtXwork, double **pXtYwork, double **pXtX, double **pXtY, double *yty, double *SSY, int p, int nobs);
+
 double CalculateRSquareFull(double *XtY, double *XtX, double *XtXwork, double *XtYwork, 
 							SEXP Rcoef_m, SEXP Rse_m, int p, int nobs, double yty, double SSY);
 int *GetModel_m(SEXP Rmodel_m, int *model, int p);
@@ -109,7 +109,7 @@ void GetNextModel_swop(NODEPTR branch, struct Var *vars, int *model, int n, int 
 		INTEGER(modeldim)[m]  += bit;
 	}
 }
-SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP Rbestmarg, SEXP plocal) {
+SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP Rbestmarg, SEXP plocal) {
 	int nProtected = 0;
 	SEXP RXwork = PROTECT(duplicate(X)); nProtected++;
 	SEXP RYwork = PROTECT(duplicate(Y)); nProtected++;
@@ -131,7 +131,7 @@ SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint
 	SEXP logmarg = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP sampleprobs = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 
-	double *Xwork, *Ywork, *probs, shrinkage_m, mse_m, R2_m, RSquareFull, logmargy;
+	double *Xwork, *Ywork, *wts, *probs, shrinkage_m, mse_m, R2_m, RSquareFull, logmargy;
 	int i;
 	
 	//get dimsensions of all variables 
@@ -146,8 +146,10 @@ SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint
 
 	Ywork = REAL(RYwork);
 	Xwork = REAL(RXwork);
+	wts = REAL(Rweights);
+	
 	double *XtXwork, *XtYwork,*XtX, *XtY, yty,SSY;
-	PrecomputeData(Xwork, Ywork, &XtXwork, &XtYwork, &XtX, &XtY, &yty, &SSY, p, nobs);
+	PrecomputeData(Xwork, Ywork, wts, &XtXwork, &XtYwork, &XtX, &XtY, &yty, &SSY, p, nobs);
 
 	struct Var *vars = (struct Var *) R_alloc(p, sizeof(struct Var)); // Info about the model variables. 
 	probs =  REAL(Rprobs);
