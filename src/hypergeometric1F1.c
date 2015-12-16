@@ -115,7 +115,7 @@ void hypergeometric1F1(double *a, double *b, double *x, double *y, int *npara, i
 
 double shrinkage_chg(double a, double b, double Q, int laplace) {
 
-  double shrinkage;
+  double shrinkage=1.0;
   /* Beta(a/2,(b+2)/2) 1F1(a/2,(b+2)/2,(s+Q)/2 /
      Beta(a/2,b/2) 1F1(a/2,b/2,(s+Q)/2
   */		       
