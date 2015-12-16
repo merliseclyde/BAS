@@ -68,13 +68,15 @@
 }
 
 
-bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
-                  modelprior=beta.binomial(1,1),
-                  initprobs="Uniform", method="BAS", update=NULL, 
-                  bestmodel=NULL, bestmarg=NULL, prob.local=0.0,
-                  prob.rw=0.5,  
-                  MCMC.iterations=NULL,
-                  lambda=NULL, delta=0.025, thin=1)  {
+bas.lm = function(formula, data, weights = NULL,
+    n.models=NULL,  prior="ZS-null", alpha=NULL,
+    modelprior=beta.binomial(1,1),
+    initprobs="Uniform", method="BAS", update=NULL, 
+    bestmodel=NULL, bestmarg=NULL, prob.local=0.0,
+    prob.rw=0.5,  
+    MCMC.iterations=NULL,
+    lambda=NULL, delta=0.025, thin=1)  {
+
   num.updates=10
   call = match.call()
   if ( !is.numeric(initprobs) && initprobs == "eplogp") {
@@ -87,15 +89,26 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
       X = model.matrix(formula, data)
       lm.obj = NULL
   }
+
   Xorg = X
   namesx = dimnames(X)[[2]]
   namesx[1] = "Intercept"
-  mean.x = apply(X[,-1], 2, mean)
+  n <- dim(X)[1]
+
+  if (is.null(weights)) {
+      weights = rep(1, n);
+  }
+
+  if (length(weights) != n) error(paste("weights are of length ", length(weights), "not of length ", n))
+  
+  mean.x = apply(X[,-1], 2, weighted.mean, w=weights)
   ones = X[,1]
   X = cbind(ones, sweep(X[, -1], 2, mean.x))
   p <-  dim(X)[2]  # with intercept
-  n <- dim(X)[1]
 
+
+  
+  
   if (n <= p) {
       if (modelprior$family == "Uniform" || modelprior$family == "Bernoulli")
           warning("Uniform prior (Bernoulli)  distribution on the Model Space are not recommended for p > n; please consider using beta.binomial instead")
@@ -152,21 +165,33 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
   
   int = TRUE  # assume that an intercept is always included 
   method.num = switch(prior,
-    "g-prior"=0,
-    "hyper-g"=1,
-    "EB-local"=2,
-    "BIC"=3,
-    "ZS-null"=4,
-    "ZS-full"=5,
-    "hyper-g-laplace"=6,
-    "AIC"=7,
-    "EB-global"=2,
-    "hyper-g-n"=8,
+      "g-prior"=0,
+      "hyper-g"=1,
+      "EB-local"=2,
+      "BIC"=3,
+      "ZS-null"=4,
+      "ZS-full"=5,
+      "hyper-g-laplace"=6,
+      "AIC"=7,
+      "EB-global"=2,
+      "hyper-g-n"=8,
     )
-  if (is.null(alpha) &&
-      (method.num == 0 || method.num == 1 || method.num  == 6)) {
-    stop(simpleError(paste("Must specify a value of alpha for", prior)))
-  }
+
+  if (is.null(alpha)) {
+    alpha = switch(prior, 
+        "g-prior"=n,
+        "hyper-g"=3,
+        "EB-local"=2,
+        "BIC"=n,
+        "ZS-null"=n,
+        "ZS-full"=n,
+        "hyper-g-laplace"=3,
+        "AIC"=0,
+        "EB-global"=2,
+        "hyper-g-n"=3,
+        NULL
+        )
+}
 
   if (is.null(alpha)) alpha=0.0 
   if (is.null(bestmodel)) {
@@ -187,7 +212,7 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
 #  sampleprobs = as.double(rep(0.0, n.models))
   result = switch(method,
     "BAS" = .Call("sampleworep",
-      Yvec, X,
+      Yvec, X, sqrt(weights),
       prob, modeldim,
       incint=as.integer(int), 
       alpha= as.numeric(alpha),
@@ -198,7 +223,7 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
       plocal=as.numeric(prob.local),
       PACKAGE="BAS"), 
     "MCMC+BAS"= .Call("mcmcbas",
-      Yvec, X,
+      Yvec, X, sqrt(weights),
       prob, modeldim,
       incint=as.integer(int), 
       alpha= as.numeric(alpha),
@@ -210,7 +235,7 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
       as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta),
       PACKAGE="BAS"),
     "MCMC"= .Call("mcmc_new",
-      Yvec, X,
+      Yvec, X, sqrt(weights),
       prob, modeldim,
       incint=as.integer(int), 
       alpha= as.numeric(alpha),
@@ -223,7 +248,7 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
         as.integer(thin),
 	 PACKAGE="BAS"),
     "MCMC_old"= .Call("mcmc",
-        Yvec, X,
+        Yvec, X, sqrt(weights),
         prob, modeldim,
         incint=as.integer(int), 
         alpha= as.numeric(alpha),
@@ -236,7 +261,7 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
         as.integer(thin),
         PACKAGE="BAS"),
     "AMCMC" = .Call("amcmc",
-      Yvec, X,
+      Yvec, X, sqrt(weights),
       prob, modeldim,
       incint=as.integer(int), 
       alpha= as.numeric(alpha),
@@ -247,20 +272,20 @@ bas.lm = function(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
       plocal=as.numeric(1.0-prob.rw), as.integer(Burnin.iterations), 
       as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta),
       PACKAGE="BAS"),
-    "MAXeffect" = .Call("posisearch",
-      Yvec, X,
-      prob, modeldim,
-      incint=as.integer(int), 
-      alpha= as.numeric(alpha),
-      method=as.integer(method.num), modelprior=modelprior,
-      update=as.integer(update),
-      Rbestmodel=as.integer(bestmodel),
-      Rbestmarg=as.numeric(bestmarg),
-      plocal=as.numeric(1.0-prob.rw), as.integer(Burnin.iterations), 
-      as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta),
-      PACKAGE="BAS"),
+ #    "MAXeffect" = .Call("posisearch",
+ #     Yvec, X,
+ #     prob, modeldim,
+ #     incint=as.integer(int), 
+ #     alpha= as.numeric(alpha),
+ #     method=as.integer(method.num), modelprior=modelprior,
+ #     update=as.integer(update),
+ #     Rbestmodel=as.integer(bestmodel),
+ #     Rbestmarg=as.numeric(bestmarg),
+ #     plocal=as.numeric(1.0-prob.rw), as.integer(Burnin.iterations), 
+ #     as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta),
+ #     PACKAGE="BAS"),
     "deterministic" = .Call("deterministic",
-      Yvec, X,
+      Yvec, X, sqrt(weights),
       prob, modeldim,
       incint=as.integer(int),
       alpha= as.numeric(alpha),
