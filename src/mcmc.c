@@ -56,10 +56,10 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 
   double *Xwork, *Ywork, *coefficients,*probs, shrinkage_m, *MCMC_probs,
     SSY, yty, ybar, mse_m, *se_m, MH=0.0, prior_m=1.0, *real_model, 
-    R2_m, RSquareFull, alpha, prone, denom, logmargy, postold, postnew;
+    R2_m, RSquareFull, alpha, logmargy, postold, postnew;
   int nobs, p, k, i, j, m, n, l, pmodel, pmodel_old, *xdims, *model_m, *bestmodel, *varin, *varout;
   int mcurrent,  update, n_sure;
-  double  mod, rem, problocal, *pigamma,  eps, *hyper_parameters;
+  double  problocal, *pigamma,  eps, *hyper_parameters;
   double *XtX, *XtY, *XtXwork, *XtYwork, *SSgam, *Cov, *priorCov, *marg_probs;
   double one=1.0, zero=0.0, lambda,  delta; 
 
