@@ -17,13 +17,13 @@
 /* Includes. */
 #include "sampling.h"
 
-SEXP sampleworep(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP Rbestmarg, SEXP plocal)
+SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP Rbestmarg, SEXP plocal)
 {
   SEXP   Rse_m, Rcoef_m, Rmodel_m; 
 
   SEXP   RXwork = PROTECT(duplicate(X)), RYwork = PROTECT(duplicate(Y));
-
-  int nProtected = 2;
+  
+  int  nProtected = 2;
   int  nModels=LENGTH(Rmodeldim);
   
   //  Rprintf("Allocating Space for %d Models\n", nModels) ;
@@ -42,7 +42,7 @@ SEXP sampleworep(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SE
   SEXP logmarg = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
   SEXP sampleprobs = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 
-  double *Xwork, *Ywork, *coefficients,*probs, shrinkage_m, 
+  double *Xwork, *Ywork, *wts, *coefficients,*probs, shrinkage_m, 
          SSY, yty, ybar, mse_m, *se_m, 
          R2_m, RSquareFull, alpha, prone, denom, logmargy;
   int nobs, p, k, i, j, m, n, l, pmodel, *xdims, *model_m, *bestmodel, local;
@@ -75,7 +75,7 @@ SEXP sampleworep(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SE
 
   Ywork = REAL(RYwork);
   Xwork = REAL(RXwork);
-
+  wts = REAL(Rweights);
  
  /* Allocate other variables.  */ 
   XtX  = (double *) R_alloc(p * p, sizeof(double));
@@ -83,21 +83,22 @@ SEXP sampleworep(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SE
   XtY = vecalloc(p);  
   XtYwork = vecalloc(p);
 
-  /* create X matrix */
+  /* initialize X matrix */
   for (j=0, l=0; j < p; j++) {
     for (i = 0; i < p; i++) {
       XtX[j*p + i] = 0.0;
     }
-    /*    for (i=0; i < nobs; i++) {
-       Xmat[i][j] =  REAL(X)[l];
-       Xwork[l] = Xmat[i][j];
+    for (i=0; i < nobs; i++) {
+      //       Xmat[i][j] =  REAL(X)[l];
+      //  Xwork[l] = Xmat[i][j];
+       Xwork[l] = Xwork[l]*wts[i];
        l = l + 1; 
-       } */
+    } 
   }
 
   //  PROTECT(Rprobs = NEW_NUMERIC(p));
   //initprobs = REAL(Rprobinit);
-  probs =  REAL(Rprobs);
+ probs =  REAL(Rprobs);
   //memcpy(probs, initprobs,  p*sizeof(double));
 
  p2 = p*p;
@@ -105,13 +106,17 @@ SEXP sampleworep(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SE
 
  
  F77_NAME(dsyrk)(uplo, trans, &p, &nobs, &one, &Xwork[0], &nobs, &zero, &XtX[0], &p); 
- yty = F77_NAME(ddot)(&nobs, &Ywork[0], &inc, &Ywork[0], &inc);
+
 
  for (i = 0; i< nobs; i++) {
-     ybar += Ywork[i];
+   Ywork[i] = Ywork[i]*wts[i];
   }
 
-  ybar = ybar/ (double) nobs;
+ //  ybar = ybar/ (double) nobs;
+
+  ybar = F77_NAME(ddot) (&nobs, &Ywork[0], &inc, &wts[0], &inc)/
+         F77_NAME(ddot) (&nobs, &wts[0], &inc, &wts[0], &inc);
+  yty = F77_NAME(ddot)(&nobs, &Ywork[0], &inc, &Ywork[0], &inc);
   SSY = yty - (double) nobs* ybar *ybar;
 
   
@@ -155,7 +160,7 @@ SEXP sampleworep(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SE
     cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, p, nobs);  
   /*olsreg(Ywork, Xwork,  coefficients, se_m, &mse_m, &p, &nobs, pivot,qraux,work,residuals,effects,v, betaols); */
     RSquareFull = 1.0;
-    if (nobs > pmodel) {
+    if (nobs > p) {
     RSquareFull =  1.0 - (mse_m * (double) ( nobs - p))/SSY;
     }
     UNPROTECT(2);
