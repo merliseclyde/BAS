@@ -4,7 +4,7 @@
 \title{Bayesian Adaptive Sampling Without Replacement for Variable
   Selection in Linear Models}
 \description{Sample without replacement from a posterior distribution on models}
-\usage{bas.lm(formula, data, n.models=NULL,  prior="ZS-null", alpha=NULL,
+\usage{bas.lm(formula, data, weights=NULL, n.models=NULL,  prior="ZS-null", alpha=NULL,
  modelprior=beta.binomial(1,1),
  initprobs="Uniform", method="BAS", update=NULL,
  bestmodel = NULL, bestmarg = NULL, prob.local = 0.0, prob.rw=0.5,
@@ -15,6 +15,10 @@
     predictors, Y ~ X.  All code assumes that an intercept will be
     included in each model and that the X's will be centered.}
   \item{data}{data frame}
+  \item{weights}{an optional vector of weights to be used in the fitting
+    process. Should be NULL or a numeric vector. If non-NULL, Bayes
+    estimates are obtained assuming that Y ~ N(Xb, sigma^2
+    diag(1/weights)).}
   \item{n.models}{number of models to sample either without replacement
     (method="BAS" or "MCMC+BAS")
     or with replacement (method="MCMC"). If NULL, BAS with
