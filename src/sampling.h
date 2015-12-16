@@ -138,5 +138,6 @@ double BIC(double Rsquare, int n,  int p, double SSY);
 double AIC(double Rsquare, int n,  int p, double SSY);
 NODEPTR make_node(double pr);
 SEXP getListElement(SEXP list, char *str);
+void PrecomputeData(double *Xwork, double *Ywork, double *wts, double **pXtXwork, double **pXtYwork, double **pXtX, double **pXtY, double *yty, double *SSY, int p, int nobs);
 
-
+double CalculateRSquareFull(double *XtY, double *XtX, double *XtXwork, double *XtYwork, SEXP Rcoef_m, SEXP Rse_m, int p, int nobs, double yty, double SSY);
