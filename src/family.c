@@ -224,13 +224,13 @@ void binomial_initialize(double *Y, double *mu,  double *weights, int n) {
 /* Gaussian */
 double Gaussian_dispersion(double *resid,  double *weights, int n, int rank) {
   double dispersion = 0.0;
-  int i, df;
+  int i, nwt=0;
 
   for (i = 0; i<n; i++) {
-    if (weights[i] > 0) df += 1;
+    if (weights[i] > 0) nwt += 1;
     dispersion += weights[i]*resid[i]*resid[i];
   }
-   return(dispersion/(double) (df - rank));
+   return(dispersion/(double) (nwt - rank));
 }
 
 
@@ -249,7 +249,7 @@ double deviance(double *res, int n) {
 
 double quadform (double *bwork, double *R,  int p) {
 
-  double Q = 0.0, alpha=1.0, beta=0.0;
+  double Q = 0.0;
   int inc = 1;
   char uplo[] = "U", trans[]="T", diag[]="N";
   //  F77_NAME(dcopy)(&p, &b[0], &inc,  &bwork[0], &inc); 
@@ -261,7 +261,7 @@ double quadform (double *bwork, double *R,  int p) {
 
 void chol2se(double *qr, double *se, double *R, double *covwork, int p, int n) {
 
-  int i, j, l, info;
+  int i, j, l;
 
   for (j=0, l=0; j < p; j++) {
 
@@ -282,7 +282,7 @@ for (j=0; j < p; j++) {
 
 void QR2cov(double *qr,  double *R, double *covwork, int p,  int n) {
 
-  int i, j, l, info;
+  int i, j, l;
 
   for (j=0, l=0; j < p; j++) {
 
@@ -299,7 +299,7 @@ void QR2cov(double *qr,  double *R, double *covwork, int p,  int n) {
 
 void  Lapack_chol2inv(double *A, int sz, double *ans)
 {
-  int inc = 1, i, j;
+  int  i, j;
   //	F77_NAME(dcopy)(&sz, &A[0], &inc,  &ans[0], &inc); 
 	for (j = 0; j < sz; j++) {
 	    for (i = 0; i <= j; i++)
