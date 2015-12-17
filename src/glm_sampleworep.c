@@ -11,8 +11,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		     SEXP Rupdate, SEXP Rlaplace
 			  ) {
 	int nProtected = 0;
-	SEXP RXwork = PROTECT(duplicate(X)); nProtected++;
-	SEXP RYwork = PROTECT(duplicate(Y)); nProtected++;
+
 	int nModels=LENGTH(Rmodeldim);
 
 	//  Rprintf("Allocating Space for %d Models\n", nModels) ;
