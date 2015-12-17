@@ -33,7 +33,6 @@ SEXP glm_bas(SEXP RX, SEXP RY, glmstptr *glmfamily, SEXP Roffset, SEXP Rweights,
 	SEXP Rcoef= PROTECT(allocVector(REALSXP,p)); ++nProtected;
 	SEXP Rcoefwork= PROTECT(allocVector(REALSXP,p)); ++nProtected;
 	SEXP Rrank=PROTECT(allocVector(INTSXP,1)); ++nProtected;
-	SEXP Rresdf = PROTECT(allocVector(INTSXP,1)); ++nProtected;
 	SEXP Rcov = PROTECT(allocVector(REALSXP, p*p)); ++nProtected;    
 	SEXP RR = PROTECT(allocVector(REALSXP, p*p)); ++nProtected;  
 	SEXP Rse= PROTECT(allocVector(REALSXP, p)); ++nProtected;  
