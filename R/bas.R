@@ -99,7 +99,7 @@ bas.lm = function(formula, data, weights = NULL,
       weights = rep(1, n);
   }
 
-  if (length(weights) != n) error(paste("weights are of length ", length(weights), "not of length ", n))
+  if (length(weights) != n) stop(simpleError(paste("weights are of length ", length(weights), "not of length ", n)))
   
   mean.x = apply(X[,-1], 2, weighted.mean, w=weights)
   ones = X[,1]
