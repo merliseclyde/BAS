@@ -124,19 +124,27 @@ void cholreg(double *XtY, double *XtX, double *coefficients, double *se, double 
 	/* On entry *coefficients equals X'Y, which is over written with the OLS estimates */
 	/* On entry MSE = Y'Y */
 
-  double  det, ete, one, zero;
+  double   ete, one, zero;
 	int  job, l, i, j, info, inc;
 	zero = 0.0;
 	one = 1.0;
 	inc = 1;
 	job = 01;
 	info = 1;
-	det = 1.0;
 
+
+	/* LINPACK	
 	F77_NAME(dpofa)(&XtX[0],&p,&p, &info);
 	F77_NAME(dposl)(&XtX[0],&p,&p,&coefficients[0]);
 	F77_NAME(dpodi)(&XtX[0],&p,&p, &det, &job);
+	*/
 
+	// LAPACK Equivalent
+	//	F77_NAME(dpstrf)("U", &p, &XtX[0],&p, &piv[0], &rank, &tol, &work, &info);	
+
+	F77_NAME(dpotrf)("U",&p, &XtX[0],&p, &info);
+	F77_NAME(dpotrs)("U", &p, &inc, &XtX[0],&p,&coefficients[0],&p, &info);
+	F77_NAME(dpotri)("U", &p, &XtX[0],&p, &job);
 	ete = F77_NAME(ddot)(&p, &coefficients[0], &inc, &XtY[0], &inc);
 
 	if ( n <= p) {
