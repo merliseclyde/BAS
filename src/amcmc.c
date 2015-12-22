@@ -55,17 +55,16 @@ SEXP amcmc(SEXP Y, SEXP X,  SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP 
   SEXP NumUnique = PROTECT(allocVector(INTSXP, 1)); ++nProtected;
 
   double *Xwork, *Ywork, *wts, *coefficients,*probs, shrinkage_m, *MCMC_probs,
-    SSY, yty, ybar, mse_m, *se_m, MH=0.0, prior_m=1.0, *real_model, prob_i,
+    SSY, yty, mse_m, *se_m, MH=0.0, prior_m=1.0, *real_model, prob_i,
     R2_m, RSquareFull, alpha, prone, denom, logmargy, postold, postnew;
   int nobs, p, k, i, j, m, n, l, pmodel, pmodel_old, *xdims, *model_m, *bestmodel, *varin, *varout;
   int mcurrent,  update, n_sure;
   double  mod, rem, problocal, *pigamma, pigammaold, pigammanew, eps, *hyper_parameters;
   double *XtX, *XtY, *XtXwork, *XtYwork, *SSgam, *Cov, *priorCov, *marg_probs;
-  double one=1.0, zero=0.0, lambda,  delta, wt = 1.0; 
+  double one=1.0, lambda,  delta, wt = 1.0; 
  
-  int inc=1, p2, print = 0;
+  int inc=1, print = 0;
   int *model, *modelold, bit, *modelwork, old_loc, new_loc;	
-  char uplo[] = "U", trans[]="T";
   struct Var *vars;	/* Info about the model variables. */
   NODEPTR tree, branch;
 
@@ -145,20 +144,20 @@ SEXP amcmc(SEXP Y, SEXP X,  SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP 
 
   if (nobs <= p) {RSquareFull = 1.0;}
   else {
-  PROTECT(Rcoef_m = NEW_NUMERIC(p));
-  PROTECT(Rse_m = NEW_NUMERIC(p));
-  coefficients = REAL(Rcoef_m);  
-  se_m = REAL(Rse_m);
-  memcpy(coefficients, XtY,  p*sizeof(double));
-  memcpy(XtXwork, XtX, p2*sizeof(double));
-  memcpy(XtYwork, XtY,  p*sizeof(double));
+    PROTECT(Rcoef_m = NEW_NUMERIC(p));
+    PROTECT(Rse_m = NEW_NUMERIC(p));
+    coefficients = REAL(Rcoef_m);  
+    se_m = REAL(Rse_m);
+    memcpy(coefficients, XtY,  p*sizeof(double));
+    memcpy(XtXwork, XtX, p*p*sizeof(double));
+    memcpy(XtYwork, XtY,  p*sizeof(double));
 
-  mse_m = yty; 
-  cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, p, nobs);  
+    mse_m = yty; 
+    cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, p, nobs);  
 
   /*olsreg(Ywork, Xwork,  coefficients, se_m, &mse_m, &p, &nobs, pivot,qraux,work,residuals,effects,v, betaols); */
-  RSquareFull =  1.0 - (mse_m * (double) ( nobs - p))/SSY;
-  UNPROTECT(2);
+    RSquareFull =  1.0 - (mse_m * (double) ( nobs - p))/SSY;
+    UNPROTECT(2);
   }
 
 
