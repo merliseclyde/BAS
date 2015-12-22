@@ -145,7 +145,7 @@ SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, beta
 
      intercept = coef[0];
      for ( int i = 1; i < p; i++) {
-       intercept += XIeta[i]*coef[i]*(1.0 - shrinkage_m);
+       intercept += XIeta[i]*coef[i]*(shrinkage_m - 1);
      }
      REAL(Rintercept)[0] = intercept;
      REAL(RlpY)[0] = lpY;
