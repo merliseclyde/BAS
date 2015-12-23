@@ -89,23 +89,23 @@ SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, beta
 	SEXP Rshrinkage=PROTECT(allocVector(REALSXP,1)); ++nProtected; 
 	double shrinkage_m = 1.0;
 
-	double loglik_mle = 0.0;
+	double loglik_mle = 0.0, temp;
 	double sum_Ieta = 0.0, logdet_Iintercept;
+	int i, j,l, base;
 	
 
 	loglik_mle = glmfamily->loglik(Y, mu, n);
 	glmfamily->info_matrix(Y, mu, Ieta, n);
 
-	for (int i = 0; i < n; i++) {
-		sum_Ieta += Ieta[i];
+	for (i = 0; i < n; i++) {
+	  sum_Ieta += Ieta[i];
 	}
 
 	logdet_Iintercept = log(sum_Ieta);
 	
 
-	for (int i = 0; i < p; i++) {
-	 double temp = 0.0;
-	 int base = i * n;
+	for (i = 0, temp=0.0; i < p; i++) {
+	  base = i * n;
 	 for (int j = 0; j < n; j++) {
 	   temp += X[base + j] * Ieta[j];
 	 }
@@ -113,27 +113,26 @@ SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, beta
 	}
        
        //Xc <- X - rep(1,n) %*% t((t(X) %*% Ieta)) / sum.Ieta;
-	for (int i =0, l =0; i < p; i++) {
-	 double temp = XIeta[i];
-	 for (int j = 0; j < n; j++,l++) {
+	for ( i =0, l =0; i < p; i++) {
+	  temp = XIeta[i];
+	 for (j = 0; j < n; j++,l++) {
 	   Xc[l] = X[l] - temp;
 	 }
        }
 
        //Q <- sum((Xc %*% beta)^2 * Ieta);
-       for (int j = 0; j < n; j++) { //double check if this is already zero by default	
+       for (j = 0; j < n; j++) { //double check if this is already
+				 //zero by default
 	 XcBeta[j] = 0.0;
        }
        
-       for (int i = 0,l=0; i < p; i++) {
-	 double beta = coef[i+1];
-	 for (int j = 0; j < n; j++,l++) {
-	   XcBeta[j] += Xc[l] * beta;
+       for (i = 0,l=0; i < p; i++) {
+	 for (j = 0; j < n; j++,l++) {
+	   XcBeta[j] += Xc[l] * coef[i+1];
 	 }
        }
        
-       Q = 0.0;
-       for (int j = 0; j < n; j++) { 
+       for (j = 0, Q = 0.0; j < n; j++) { 
 	 Q += XcBeta[j] * XcBeta[j] * Ieta[j];
        }
 
@@ -144,8 +143,8 @@ SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, beta
      shrinkage_m = betapriorfamily->shrinkage_fun(betapriorfamily->hyperparams, p, Q, laplace);
 
      intercept = coef[0];
-     for ( int i = 1; i < p; i++) {
-       intercept += XIeta[i]*coef[i]*(shrinkage_m - 1);
+     for ( int i = 0; i < p; i++) {
+       intercept += XIeta[i]*coef[i+1]*(1.0 - shrinkage_m);
      }
      REAL(Rintercept)[0] = intercept;
      REAL(RlpY)[0] = lpY;
