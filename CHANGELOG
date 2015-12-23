@@ -1,5 +1,8 @@
 Changes for BAS 1.09
 	- added weights for linear models
+	- switched LINPACK calls in bayesreg to LAPACK finally should be
+	faster
+	- fixed bug in intercept calculation for glms
 Changes for BAS 1.08
 	- added intrinsic prior for GLMs
 	- fixed problems for linear models for p > n and R2 not correct
