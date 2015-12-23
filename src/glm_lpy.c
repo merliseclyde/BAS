@@ -104,7 +104,8 @@ SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, beta
 	logdet_Iintercept = log(sum_Ieta);
 	
 
-	for (i = 0, temp=0.0; i < p; i++) {
+	for (i = 0; i < p; i++) {
+	  temp=0.0;
 	  base = i * n;
 	 for (int j = 0; j < n; j++) {
 	   temp += X[base + j] * Ieta[j];
