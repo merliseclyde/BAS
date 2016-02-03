@@ -43,7 +43,7 @@ logmarg  =  .5*((n -1 - p)*log(1 + g) - (n-1)*log( 1 + g*(1 - R2)))
 logmarg[p == 0] = 0
 postprobs = postmodelprob(object$R2,p, n, g, prior)
 which = which.matrix(object$which, object$n.var)
-object$probne0 = postprobs %*% which 
+object$probne0 = as.vector(postprobs %*% which)
 object$postprobs=postprobs
 object$g = g
 object$logmarg = logmarg
