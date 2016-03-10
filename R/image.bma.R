@@ -1,4 +1,4 @@
-image.bma <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, rotate=TRUE, color="rainbow", subset=NULL, offset=.75, digits=3, vlas=2,plas=0,rlas=0, ...) 
+image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, rotate=TRUE, color="rainbow", subset=NULL, offset=.75, digits=3, vlas=2,plas=0,rlas=0, ...) 
 { 
   postprob = x$postprobs
   top.models = min(top.models, x$n.models)
