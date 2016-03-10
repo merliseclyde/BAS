@@ -158,9 +158,9 @@ its mean.}
   \item{mean.x}{vector of means for each column of X (used in \code{\link{predict.bas}})}
   
  The function  \code{\link{summary.bas}}, is used to print a summary of
- the results. The function \code{\link{plot.bma}} is used to plot
+ the results. The function \code{\link{plot.bas}} is used to plot
  posterior distributions for the coefficients and
- \code{\link{image.bma}} provides an image of the distribution over models.
+ \code{\link{image.bas}} provides an image of the distribution over models.
  Posterior summaries of coefficients can be extracted using
  \code{\link{coefficients.bma}}.  Fitted values and predictions can be
  obtained using the S3 functions  \code{\link{fitted.bas}} and \code{\link{predict.bas}}.
@@ -210,8 +210,8 @@ its mean.}
           \code{\link{print.bas}},
 	  \code{\link{predict.bas}},
 	  \code{\link{fitted.bas}}
-          \code{\link{plot.bma}},
-	  \code{\link{image.bma}},
+          \code{\link{plot.bas}},
+	  \code{\link{image.bas}},
 	  \code{\link{eplogprob}},
 	  \code{\link{update.bma}}
 	  
