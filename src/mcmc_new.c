@@ -254,8 +254,12 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEX
 		  new_loc = branch->where;
 		  postnew =  REAL(logmarg)[new_loc] + log(REAL(priorprobs)[new_loc]);      
 		} 
-
-		MH *= exp(postnew - postold);
+		if (prior_m == 0.0) {
+		  MH *= 1.0 - exp(postold);
+		}
+		else {
+		  MH *= exp(postnew - postold);
+		}
 		//    Rprintf("MH new %lf old %lf\n", postnew, postold);
 		if (unif_rand() < MH) {
 		  if (newmodel == 1) {
