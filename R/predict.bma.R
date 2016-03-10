@@ -73,18 +73,18 @@ fitted.bas = function(object,  type="HPM", top=NULL, ...) {
    X = cbind(1,sweep(X[,-1], 2, object$mean.x))
    bestmodel<- (0:nvar)[object$probne0 > .5]
    best = NA
-   if (nvar < 32) {
-      modelnum <- sapply(object$which, bin2int)
-      best <- match(bin2int(bestmodel), modelnum)
-    }
-   if (is.na(best)) {
-     model <- rep(0, nvar+1)
-     model[bestmodel+1] <- 1
-     object <- bas.lm(object$Y ~ object$X[,-1], n.models=1, alpha=object$g,initprobs=object$probne0, prior=object$prior, update=NULL,bestmodel=model,prob.local=.0)
+   model <- rep(0, nvar+1)
+   model[bestmodel+1] <- 1
+   if (sum(model) > 1) {
+       object <- bas.lm(eval(object$call$formula), data=eval(object$call$data), n.models=1, alpha=object$g,
+                        initprobs=object$probne0,
+                        prior=object$prior, update=NULL,bestmodel=model,
+                        prob.local=.0)
      best=1
-   }
-   yhat  <- as.vector(X[,object$which[[best]]+1, drop=FALSE] %*% object$mle[[best]]) * object$shrinkage[[best]]
-   yhat = yhat + (1 - object$shrinkage[[best]])*(object$mle[[best]])[1]
+     yhat  <- as.vector(X[,object$which[[best]]+1, drop=FALSE] %*% object$mle[[best]]) * object$shrinkage[[best]]
+     yhat = yhat + (1 - object$shrinkage[[best]])*(object$mle[[best]])[1]
  }
+  else { yhat = rep(nrow(X), 1) * as.numeric(object$mle[object$size == 1])}
+}
 return(yhat)
 }
