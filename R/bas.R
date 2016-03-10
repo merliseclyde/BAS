@@ -101,7 +101,7 @@ bas.lm = function(formula, data, weights = NULL,
 
   if (length(weights) != n) stop(simpleError(paste("weights are of length ", length(weights), "not of length ", n)))
   
-  mean.x = apply(X[,-1], 2, weighted.mean, w=weights)
+  mean.x = apply(X[,-1, drop=F], 2, weighted.mean, w=weights)
   ones = X[,1]
   X = cbind(ones, sweep(X[, -1], 2, mean.x))
   p <-  dim(X)[2]  # with intercept
@@ -111,7 +111,7 @@ bas.lm = function(formula, data, weights = NULL,
   
   if (n <= p) {
       if (modelprior$family == "Uniform" || modelprior$family == "Bernoulli")
-          warning("Uniform prior (Bernoulli)  distribution on the Model Space are not recommended for p > n; please consider using beta.binomial instead")
+          warning("Uniform prior (Bernoulli)  distribution on the Model Space are not recommended for p > n; please consider using tr.beta.binomial instead")
   }
   if (!is.numeric(initprobs)) {
       if (n <= p && initprobs == "eplogp") {
