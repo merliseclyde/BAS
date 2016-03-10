@@ -1,16 +1,16 @@
-\name{image.bma}
-\alias{image.bma}
+\name{image.bas}
+\alias{image.bas}
 \alias{image}
 \title{Images of models used in Bayesian model averaging }
 \description{
   Creates an image of the models selected using \code{\link{bas}}.
 }
-\usage{\method{image}{bma}(x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE,
+\usage{\method{image}{bas}(x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE,
 rotate=TRUE, color="rainbow", subset=NULL, offset=.75, digits=3,
 vlas=2,plas=0,rlas=0, ...)
 }
 \arguments{
-  \item{x}{An object of type 'bma' created by BAS}
+  \item{x}{A BMA object of type 'bas' created by BAS}
   \item{top.models}{Number of the top ranked models to plot}
   \item{intensity}{Logical variable, when TRUE image intensity is
     proportional to the probability or log(probability) of the model,
