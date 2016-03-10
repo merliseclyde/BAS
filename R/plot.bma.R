@@ -1,4 +1,4 @@
-plot.bma = function (x, which = c(1:4),
+plot.bas = function (x, which = c(1:4),
   caption = c("Residuals vs Fitted", "Model Probabilities",
               "Model Complexity", "Inclusion Probabilities"),
   panel = if (add.smooth) panel.smooth else points, 
@@ -6,14 +6,14 @@ plot.bma = function (x, which = c(1:4),
   ask = prod(par("mfcol")) < length(which) && dev.interactive(), ...,
   id.n = 3,
   labels.id = names(residuals(x)), 
-  cex.id = 0.75,  add.smooth = getOption("add.smooth"), 
+  cex.id = 0.75,  add.smooth = getOption("add.smooth"), col.smooth=2, 
   label.pos = c(4, 2))
 {
-    if (!inherits(x, "bma")) 
-      stop("use only with \"bma\" objects")
+    if (!inherits(x, "bas")) 
+      stop("use only with \"bas\" objects")
     if (!is.numeric(which) || any(which < 1) || any(which > 4)) 
       stop("'which' must be in 1:3")
-    show <- rep(FALSE, 2)
+    show <- rep(FALSE, 4)
     show[which] <- TRUE
 
     yhat = fitted(x, type="BMA")
