@@ -1,13 +1,13 @@
-\name{plot.bma}
-\alias{plot.bma}
-\title{Plot Diagnostics for an blm Object}
+\name{plot.bas}
+\alias{plot.bas}
+\title{Plot Diagnostics for an BAS Object}
 \description{ Four plots (selectable by 'which') are currently
   available: a plot
   of residuals against fitted values, Cumulative Model Probabilities,
   log marginal likelihoods versus model dimension, and marginal
   inclusion probabilities.
 }
-\usage{\method{plot}{bma}(x, which=c(1:4),caption = c("Residuals vs Fitted",
+\usage{\method{plot}{bas}(x, which=c(1:4),caption = c("Residuals vs Fitted",
                  "Model Probabilities", "Model Complexity",
                  "Inclusion Probabilities"),
                  panel = if (add.smooth) panel.smooth
@@ -15,10 +15,10 @@
                  prod(par("mfcol")) < length(which) &&
                  dev.interactive(), ..., id.n = 3, labels.id =
                  names(residuals(x)), cex.id = 0.75, add.smooth =
-                 getOption("add.smooth"), label.pos = c(4, 2))
+                 getOption("add.smooth"), col.smooth=2,label.pos = c(4, 2))
 }
 \arguments{
-  \item{x}{\code{bma} object result of 'bas'}
+  \item{x}{\code{bas} BMA object result of 'bas'}
    \item{which}{ if a subset of the plots is required, specify a subset of the
           numbers '1:4'}.
  \item{caption}{captions to appear above the plots}
@@ -37,7 +37,8 @@
           will be chosen.  'NULL' uses observation numbers}
 \item{cex.id}{ magnification of point labels.}
 \item{add.smooth}{ logical indicating if a smoother should be added to most
-          plots; see also 'panel' above}
+  plots; see also 'panel' above}
+\item{col.smooth}{color passed to 'panel' function}
 \item{label.pos}{positioning of labels, for the left half and right half of
           the graph respectively, for plots 1-3}
 }
@@ -50,7 +51,7 @@
   and the fourth plot show the posterior marginal inclusion probabilities.
   }
 \author{Merlise Clyde, based on plot.lm by John Maindonald and Martin Maechler}
-\seealso{\code{\link{plot.coef.bma}} and \code{\link{image.bma}}.}
+\seealso{\code{\link{plot.coef.bma}} and \code{\link{image.bas}}.}
 \examples{
 data(Hald)
 hald.gprior =  bas.lm(Y~ ., data=Hald, prior="g-prior", alpha=13,
