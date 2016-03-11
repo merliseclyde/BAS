@@ -6,3 +6,4 @@ r:
   - env
   global:
     - _R_CRAN_CHECK_INCOMING_=true
+
