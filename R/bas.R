@@ -208,7 +208,10 @@ bas.lm = function(formula, data, weights = NULL,
   modeldim = as.integer(rep(0, n.models))
   n.models = as.integer(n.models)
 
-
+if (method == "AMCMC") {
+  warning("argument method='AMCMC' is deprecated as of version 1.1.0; please use method='MCMC' instead.", 
+          call. = FALSE)
+}
 #  sampleprobs = as.double(rep(0.0, n.models))
   result = switch(method,
     "BAS" = .Call("sampleworep",

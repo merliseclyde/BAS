@@ -24,11 +24,10 @@
     or with replacement (method="MCMC"). If NULL, BAS with
     method="BAS" will try to enumerate all 2^p models. If enumeration is
     not possible (memory or time) then a value should be supplied
-    which controls the number of sampled models.   For large problems
-    with method="MCMC", sampling will stop once n.models unique models
-    have been sampled if MCMC.iterations > n.models. On exit for method=
+    which controls the number of sampled models using 'n.models'.  
+    With method="MCMC", sampling will stop once  at the min(n.models, MCMC.iterations) so MCMC.iterations  be larger than n.models in order to explore the model space. On exit for method=
     "MCMC"  this is the  number of unique models that have been
-    sampled. }
+    sampled with counts stored in the output as "freq"" }
   \item{prior}{prior distribution for regression coefficients.  Choices include
     "AIC", "BIC", "g-prior", "ZS-null", "ZS-full", "hyper-g",
     "hyper-g-laplace", "hyper-g-n", "EB-local", and "EB-global" }
@@ -72,8 +71,7 @@
     with one currently excluded as in Clyde, Ghosh and Littman (2010);
     method="MCMC+BAS" runs an initial MCMC to calculate marginal
     inclusion probabilities and then samples without replacement as in
-    BAS; method = "AMCMC" runs an Adaptive MCMC (experimental).  For
-    both  BAS and AMCMC, the sampling probabilities can be updated as
+    BAS.  For both  BAS and AMCMC, the sampling probabilities can be updated as
     more  models are sampled. (see  update below).  We recommend
     "MCMC+BAS" or "MCMC" for high dimensional problems where enumeration
     is not feasible.}
