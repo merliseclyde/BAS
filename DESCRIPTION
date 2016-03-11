@@ -21,7 +21,7 @@ Description: Package for Bayesian Model Averaging in linear models and
 	     <http://dx.doi.org/10.1198/016214507000001337>
 	     for linear models or mixtures of
 	     g-priors in GLMs of Li and Clyde (2015)
-	     <http://arxiv.org/abs/1503.06913 > . Other model
+	     <http://arxiv.org/abs/1503.06913 >. Other model
 	     selection criteria include AIC and BIC. Sampling
 	     probabilities may be updated based on the sampled models
 	     using Sampling w/out Replacement or an MCMC algorithm
