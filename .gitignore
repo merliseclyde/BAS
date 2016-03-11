@@ -6,6 +6,5 @@ src/*.so
 src/*.dll
 */*~
 *~
-.Rbuildignore
 BAS-github.Rproj
 
