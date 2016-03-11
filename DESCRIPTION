@@ -1,5 +1,6 @@
 Package: BAS
 Version: 1.1.0
+Date: 2016-03-10
 Title: Bayesian Model Averaging using Bayesian Adaptive Sampling
 Authors@R: c(person("Merlise", "Clyde", email="clyde@stat.duke.edu",
 	   		       role=c("aut","cre", "cph")),
@@ -7,7 +8,6 @@ Authors@R: c(person("Merlise", "Clyde", email="clyde@stat.duke.edu",
 	   person("Quanli", "Wang", role="ctb"),
 	   person("Joyee", "Ghosh", role="ctb"),
 	   person("Yingbo", "Li", role="ctb"))
-Maintainer: Merlise Clyde <clyde@stat.duke.edu>	   
 Depends: R (>= 3.0), stats, graphics
 Suggests: MASS
 Description: Package for Bayesian Model Averaging in linear models and
@@ -16,8 +16,12 @@ Description: Package for Bayesian Model Averaging in linear models and
 	     distributions.  Prior distributions on coefficients are
 	     from Zellner's g-prior or mixtures of g-priors
 	     corresponding to the Zellner-Siow Cauchy Priors or the
-	     Liang et al hyper-g priors (JASA 2008) or mixtures of
-	     g-priors in GLMs of Li and Clyde 2015. Other model
+	     mixture of g-priors from 
+	     Liang et al (2008)
+	     <http://dx.doi.org/10.1198/016214507000001337>
+	     for linear models or mixtures of
+	     g-priors in GLMs of Li and Clyde (2015)
+	     <http://arxiv.org/abs/1503.06913 > . Other model
 	     selection criteria include AIC and BIC. Sampling
 	     probabilities may be updated based on the sampled models
 	     using Sampling w/out Replacement or an MCMC algorithm
@@ -26,7 +30,7 @@ Description: Package for Bayesian Model Averaging in linear models and
 	     models and for large p truncated priors on the model
 	     space.  The user may force variables to always be included.
 License: GPL (>= 3)
-URL:  http://www.r-project.org, http://stat.duke.edu/~clyde/BAS
+URL:  http://www.r-project.org, http://github.com/merliseclyde/BAS
 Repository: CRAN
 NeedsCompilation: yes
 
