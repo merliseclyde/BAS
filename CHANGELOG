@@ -1,4 +1,4 @@
-Changes for BAS 1.1.0   March 10, 2016
+Changes for BAS 1.1.0   March 31, 2016
 	- New! added truncated Beta-Binomial prior and truncated Poisson (works
 	only with MCMC currently)
 	- deprecated method = "AMCMC" and issue warning message
