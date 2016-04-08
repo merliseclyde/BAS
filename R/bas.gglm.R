@@ -64,7 +64,7 @@ bas.glm = function(formula, data,
     initprobs="Uniform", 
     method="MCMC", 
     update=NULL, 
-    bestmodel=NULL, bestmarg=NULL,
+    bestmodel=NULL, 
     prob.rw=0.5,  
     MCMC.iterations=NULL,
     control = glm.control(), offset = rep(0, nobs), weights = rep(1, nobs), laplace=FALSE
@@ -97,10 +97,8 @@ bas.glm = function(formula, data,
   	#int = TRUE  # assume that an intercept is always included 
     	if (is.null(bestmodel)) {
     		bestmodel = as.integer(prob)
-    		bestmarg = -Inf
 	}
 	
-  	if (is.null(bestmarg)) bestmarg = 0
   	if (is.null(update)) {
     		if (n.models == 2^(p-1))  update = n.models+1
                 else (update = n.models/num.updates)
@@ -130,7 +128,6 @@ bas.glm = function(formula, data,
                     Rprobinit = prob, Rmodeldim = modeldim,
                     modelprior = modelprior, betaprior=betaprior,
                     Rbestmodel= bestmodel,
-                    Rbestmarg=as.numeric(bestmarg),
                     plocal=as.numeric(1.0 - prob.rw),
                     family = family, Rcontrol = control,
                     Rupdate=as.integer(update), Rlaplace=as.integer(laplace),
@@ -141,7 +138,6 @@ bas.glm = function(formula, data,
 			Rprobinit = prob, Rmodeldim = modeldim,
       		modelprior = modelprior,  betaprior = betaprior,
 			Rbestmodel= bestmodel,
-			Rbestmarg=as.numeric(bestmarg),
 			plocal=as.numeric(1.0 - prob.rw),
 			BURNIN_Iterations = as.integer(MCMC.iterations),
 			family = family, Rcontrol = control,
