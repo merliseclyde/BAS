@@ -8,7 +8,7 @@
  n.models = NULL, betaprior=CCH(alpha=.5, beta=nrow(data), s=0),
  modelprior = beta.binomial(1,1), 
  initprobs = "Uniform", method = "MCMC", update = NULL,
- bestmodel = NULL, bestmarg = NULL, prob.rw = 0.5, 
+ bestmodel = NULL, prob.rw = 0.5, 
  MCMC.iterations = NULL, control = glm.control(), 
  offset = rep(0, nobs), weights = rep(1, nobs), laplace=FALSE)
 }
@@ -75,8 +75,6 @@
   \item{bestmodel}{optional binary vector representing a model to
     initialize the sampling. If NULL sampling starts with the null
     model}
-  \item{bestmarg}{optional value for the log marginal associated with
-    the bestmodel}
   \item{prob.rw}{For any of the MCMC methods, probability of using the
     random-walk proposal; otherwise use a random "flip" move to propose
     a new model.}
