@@ -72,7 +72,7 @@ bas.lm = function(formula, data, weights = NULL,
     n.models=NULL,  prior="ZS-null", alpha=NULL,
     modelprior=beta.binomial(1,1),
     initprobs="Uniform", method="BAS", update=NULL, 
-    bestmodel=NULL, bestmarg=NULL, prob.local=0.0,
+    bestmodel=NULL, prob.local=0.0,
     prob.rw=0.5,  
     MCMC.iterations=NULL,
     lambda=NULL, delta=0.025, thin=1)  {
@@ -196,8 +196,7 @@ bas.lm = function(formula, data, weights = NULL,
   if (is.null(alpha)) alpha=0.0 
   if (is.null(bestmodel)) {
     bestmodel = as.integer(initprobs)
-    bestmarg = -Inf}
-  if (is.null(bestmarg)) bestmarg = 0
+}
   if (is.null(update)) {
     if (n.models == 2^(p-1))  update = n.models+1
     else (update = n.models/num.updates)
@@ -222,7 +221,6 @@ if (method == "AMCMC") {
       method=as.integer(method.num), modelprior=modelprior,
       update=as.integer(update),
       Rbestmodel=as.integer(bestmodel),
-      Rbestmarg=as.numeric(bestmarg),
       plocal=as.numeric(prob.local),
       PACKAGE="BAS"), 
     "MCMC+BAS"= .Call("mcmcbas",
@@ -233,7 +231,6 @@ if (method == "AMCMC") {
       method=as.integer(method.num), modelprior=modelprior,
       update=as.integer(update),
       Rbestmodel=as.integer(bestmodel),
-      Rbestmarg=as.numeric(bestmarg),
       plocal=as.numeric(1.0 - prob.rw), as.integer(Burnin.iterations), 
       as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta),
       PACKAGE="BAS"),
@@ -245,7 +242,6 @@ if (method == "AMCMC") {
       method=as.integer(method.num), modelprior=modelprior,
       update=as.integer(update),
       Rbestmodel=as.integer(bestmodel),
-      Rbestmarg=as.numeric(bestmarg),
       plocal=as.numeric(1.0 - prob.rw), as.integer(Burnin.iterations), 
         as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta),
         as.integer(thin),
@@ -258,7 +254,6 @@ if (method == "AMCMC") {
         method=as.integer(method.num), modelprior=modelprior,
         update=as.integer(update),
         Rbestmodel=as.integer(bestmodel),
-        Rbestmarg=as.numeric(bestmarg),
         plocal=as.numeric(1.0 - prob.rw), as.integer(Burnin.iterations), 
         as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta),
         as.integer(thin),
@@ -271,7 +266,6 @@ if (method == "AMCMC") {
       method=as.integer(method.num), modelprior=modelprior,
       update=as.integer(update),
       Rbestmodel=as.integer(bestmodel),
-      Rbestmarg=as.numeric(bestmarg),
       plocal=as.numeric(1.0-prob.rw), as.integer(Burnin.iterations), 
       as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta),
       PACKAGE="BAS"),
