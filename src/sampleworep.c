@@ -18,12 +18,14 @@
 
 SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP plocal)
 {
+  int  nProtected = 0;
   SEXP   Rse_m, Rcoef_m, Rmodel_m;
-  SEXP   Rbestmarg = PROTECT(allocVector(REALSXP, 1));
+  //  SEXP   Rbestmarg = PROTECT(allocVector(REALSXP, 1)); 
 
-  SEXP   RXwork = PROTECT(duplicate(X)), RYwork = PROTECT(duplicate(Y));
+  SEXP   RXwork = PROTECT(duplicate(X)); nProtected++;
+  SEXP   RYwork = PROTECT(duplicate(Y)); nProtected++;
   
-  int  nProtected = 3;
+  
   int  nModels=LENGTH(Rmodeldim);
   
   //  Rprintf("Allocating Space for %d Models\n", nModels) ;
@@ -295,7 +297,6 @@ SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, 
     //    REAL(priorprobs)[m] = beta_binomial(pmodel,p,
     //    hyper_parameters);
     REAL(priorprobs)[m] = compute_prior_probs(model,pmodel,p, modelprior);
-    REAL(Rbestmarg)[0] = REAL(logmarg)[m];
     UNPROTECT(3);
 
   /*   Rprintf("model %d max logmarg %lf\n", m, REAL(logmarg)[m]); */
@@ -438,12 +439,6 @@ SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, 
    REAL(logmarg)[m] = logmargy;
    REAL(shrinkage)[m] = shrinkage_m;
    REAL(priorprobs)[m] = compute_prior_probs(model,pmodel,p, modelprior);
-   //   REAL(priorprobs)[m] = beta_binomial(pmodel,p, hyper_parameters);
-   if (REAL(logmarg)[m] > REAL(Rbestmarg)[0]) {
-      for (i=0; i < p; i++) {
-	bestmodel[i] = model[i];}
-      REAL(Rbestmarg)[0] = REAL(logmarg)[m];
-    }
     
        
 
