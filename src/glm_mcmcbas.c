@@ -6,13 +6,15 @@
 
 SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights, 
 		 SEXP Rprobinit, SEXP Rmodeldim, 
-		 SEXP modelprior, SEXP betaprior, SEXP Rbestmodel,  SEXP Rbestmarg,SEXP plocal, 
+		 SEXP modelprior, SEXP betaprior, SEXP Rbestmodel,SEXP plocal, 
 		 SEXP BURNIN_Iterations,
 		 SEXP family, SEXP Rcontrol,
 		 SEXP Rupdate, SEXP Rlaplace) 
 {
 	int nProtected = 0;
 	int nModels=LENGTH(Rmodeldim);
+	SEXP   Rbestmarg = PROTECT(allocVector(REALSXP, 1)); nProtected++;
+
 	SEXP ANS = PROTECT(allocVector(VECSXP, 17)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 17)); ++nProtected;
 	SEXP Rprobs = PROTECT(duplicate(Rprobinit)); ++nProtected;

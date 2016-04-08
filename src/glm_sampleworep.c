@@ -6,7 +6,7 @@
 
 SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights, 
 		     SEXP Rprobinit, SEXP Rmodeldim, 
-		     SEXP modelprior, SEXP betaprior,SEXP Rbestmodel,  SEXP Rbestmarg,SEXP plocal, 
+		     SEXP modelprior, SEXP betaprior,SEXP Rbestmodel,  SEXP plocal, 
 		     SEXP family, SEXP Rcontrol,
 		     SEXP Rupdate, SEXP Rlaplace
 			  ) {
@@ -15,6 +15,8 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	int nModels=LENGTH(Rmodeldim);
 
 	//  Rprintf("Allocating Space for %d Models\n", nModels) ;
+	
+	SEXP   Rbestmarg = PROTECT(allocVector(REALSXP, 1)); nProtected++;
 	SEXP ANS = PROTECT(allocVector(VECSXP, 14)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 14)); ++nProtected;
 	SEXP Rprobs = PROTECT(duplicate(Rprobinit)); ++nProtected;

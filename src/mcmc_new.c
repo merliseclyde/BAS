@@ -96,13 +96,13 @@ double GetNextModelCandidate(int pmodel_old, int n, int n_sure, int *model, stru
 	return MH;
 }
 SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, 
-			  SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP Rbestmarg, SEXP plocal, 
+			  SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel,  SEXP plocal, 
 	      SEXP BURNIN_Iterations, SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA, SEXP Rthin)
 {
 	int nProtected = 0;
 	SEXP RXwork = PROTECT(duplicate(X)); nProtected++;
 	SEXP RYwork = PROTECT(duplicate(Y)); nProtected++;
-
+	SEXP   Rbestmarg = PROTECT(allocVector(REALSXP, 1)); nProtected++;
 	int nModels=LENGTH(Rmodeldim);
 
 	//  Rprintf("Allocating Space for %d Models\n", nModels) ;

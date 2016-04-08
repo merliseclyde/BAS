@@ -26,13 +26,13 @@ void  update_Cov(double *Cov, double *priorCov, double *SSgam, double *marg_prob
 
 void insert_model_tree(struct Node *tree, struct Var *vars,  int n, int *model, int num_models);
  
-SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP Rbestmarg, SEXP plocal, SEXP BURNIN_Iterations, SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA, SEXP Rthin)
+SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP plocal, SEXP BURNIN_Iterations, SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA, SEXP Rthin)
 {
   SEXP   Rse_m, Rcoef_m, Rmodel_m; 
 
   SEXP   RXwork = PROTECT(duplicate(X)), RYwork = PROTECT(duplicate(Y));
-
-  int nProtected = 2, nUnique=0, newmodel=0;
+  SEXP   Rbestmarg = PROTECT(allocVector(REALSXP, 1));
+  int nProtected = 3, nUnique=0, newmodel=0;
   int nModels=LENGTH(Rmodeldim);
   
   //  Rprintf("Allocating Space for %d Models\n", nModels) ;

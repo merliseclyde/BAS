@@ -1,4 +1,3 @@
-/* version  5/20/2005 */
 /* Rsample.c progrma for sampling without replacement in R  MC 11/2002 */
 /* based on sim.c: program for running simulations with random and
    deterministic sampling. ML 6/97. */
@@ -17,13 +16,14 @@
 /* Includes. */
 #include "sampling.h"
 
-SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP Rbestmarg, SEXP plocal)
+SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP plocal)
 {
-  SEXP   Rse_m, Rcoef_m, Rmodel_m; 
+  SEXP   Rse_m, Rcoef_m, Rmodel_m;
+  SEXP   Rbestmarg = PROTECT(allocVector(REALSXP, 1));
 
   SEXP   RXwork = PROTECT(duplicate(X)), RYwork = PROTECT(duplicate(Y));
   
-  int  nProtected = 2;
+  int  nProtected = 3;
   int  nModels=LENGTH(Rmodeldim);
   
   //  Rprintf("Allocating Space for %d Models\n", nModels) ;
