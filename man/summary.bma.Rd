@@ -31,12 +31,12 @@ giving the top highest probability models.
 \author{Merlise Clyde \email{clyde@stat.duke.edu}}
 \seealso{\code{\link{coefficients.bma}}}
 \examples{
-\dontrun{library(MASS)
+library(MASS)
 data(UScrime)
 UScrime[,-2] = log(UScrime[,-2])
 crime.bic =  bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC",initprobs= "eplogp")
 print(crime.bic)
 summary(crime.bic)
-}}
+}
 \keyword{print}
 \keyword{regression}
