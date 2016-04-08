@@ -53,14 +53,14 @@
 \seealso{\code{\link{bas}}
 }
 \examples{data("Hald")
-\dontrun{hald.gprior =  bas.lm(Y~ ., data=Hald, n.models=2^4, alpha=13,
+hald.gprior =  bas.lm(Y~ ., data=Hald, n.models=2^4, alpha=13,
                       prior="ZS-null", initprobs="Uniform", update=10)
 coef.hald.gprior = coefficients(hald.gprior)
 coef.hald.gprior
 plot(coef.hald.gprior)
-}}
+}
 \author{Merlise Clyde \email{clyde@stat.duke.edu} }
 \note{With highly correlated variables,
-  marginal summaries may not be representative of the
+  marginal summaries may not be representative of the joint
   distribution. Use \code{\link{plot.coef.bma}} to view distributions.}
 \keyword{regression}

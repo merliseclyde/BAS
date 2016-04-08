@@ -33,10 +33,10 @@ type="link", ...)}
 \seealso{\code{\link{bas}}, \code{\link{fitted.bas}}
 }
 \examples{
-\dontrun{data("Hald")
+data("Hald")
 hald.gprior =  bas.lm(Y~ ., data=Hald, alpha=13, prior="g-prior")
 predict(hald.gprior, hald.gprior$X[,-1], top=5, type="response")
-}}
+}
 \author{Merlise Clyde}
 \keyword{regression}
 
