@@ -13,7 +13,6 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 {
 	int nProtected = 0;
 	int nModels=LENGTH(Rmodeldim);
-	SEXP   Rbestmarg = PROTECT(allocVector(REALSXP, 1)); nProtected++;
 
 	SEXP ANS = PROTECT(allocVector(VECSXP, 17)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 17)); ++nProtected;
@@ -231,13 +230,6 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	REAL(sampleprobs)[m] = pigamma[0];  
 
-			//update best model
-	if (REAL(logmarg)[m] > REAL(Rbestmarg)[0]) {
-	  for (i=0; i < p; i++) {
-	    bestmodel[i] = model[i];
-	  }
-	  REAL(Rbestmarg)[0] = REAL(logmarg)[m];
-			}
 
 			//update marginal inclusion probs
 	if (m > 1) {

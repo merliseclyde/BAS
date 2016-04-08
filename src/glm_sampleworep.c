@@ -16,7 +16,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	//  Rprintf("Allocating Space for %d Models\n", nModels) ;
 	
-	SEXP   Rbestmarg = PROTECT(allocVector(REALSXP, 1)); nProtected++;
+
 	SEXP ANS = PROTECT(allocVector(VECSXP, 14)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 14)); ++nProtected;
 	SEXP Rprobs = PROTECT(duplicate(Rprobinit)); ++nProtected;
@@ -96,7 +96,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
 	SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, m);
-	REAL(Rbestmarg)[0] = REAL(logmarg)[m];
+
 	UNPROTECT(2);
 	
 	int *modelwork= ivecalloc(p);
@@ -132,12 +132,6 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		REAL(sampleprobs)[m] = pigamma[0];  
 
 		//update best model
-		if (REAL(logmarg)[m] > REAL(Rbestmarg)[0]) {
-			for (i=0; i < p; i++) {
-				bestmodel[i] = model[i];
-			}
-			REAL(Rbestmarg)[0] = REAL(logmarg)[m];
-		}
 		
 		//update marginal inclusion probs
 		if (m > 1) {

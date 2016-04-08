@@ -31,9 +31,8 @@ SEXP amcmc(SEXP Y, SEXP X,  SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP 
   SEXP   Rse_m, Rcoef_m, Rmodel_m; 
 
   SEXP   RXwork = PROTECT(duplicate(X)), RYwork = PROTECT(duplicate(Y));
-  SEXP   Rbestmarg = PROTECT(allocVector(REALSXP, 1));
 
-  int nProtected = 3, nUnique=0, newmodel=0;
+  int nProtected = 2, nUnique=0, newmodel=0;
   int nModels=LENGTH(Rmodeldim);
   
   //  Rprintf("Allocating Space for %d Models\n", nModels) ;
@@ -251,7 +250,7 @@ SEXP amcmc(SEXP Y, SEXP X,  SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP 
     REAL(shrinkage)[m] = shrinkage_m;
     prior_m = compute_prior_probs(model,pmodel,p, modelprior);
     REAL(priorprobs)[m] = prior_m;
-    REAL(Rbestmarg)[0] = REAL(logmarg)[m];
+
     UNPROTECT(3);
 
 
@@ -710,12 +709,6 @@ SEXP amcmc(SEXP Y, SEXP X,  SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP 
    REAL(logmarg)[m] = logmargy;
    REAL(shrinkage)[m] = shrinkage_m;
    REAL(priorprobs)[m] = compute_prior_probs(model,pmodel,p, modelprior);
-   //   REAL(priorprobs)[m] = beta_binomial(pmodel,p, hyper_parameters);
-   //  if (REAL(logmarg)[m] > REAL(Rbestmarg)[0]) {
-   //   for (i=0; i < p; i++) {
-   //	 bestmodel[i] = model[i];}
-   //       REAL(Rbestmarg)[0] = REAL(logmarg)[m];
-   //} 
        
    UNPROTECT(3);  
    }	
