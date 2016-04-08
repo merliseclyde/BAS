@@ -1,3 +1,8 @@
+Changes for BAS 1.2.0  April 7, 2016
+	- removed unsafe code where Rbestmarg (input) was being
+	overwritten in .Call which would end up in corruption of the
+	constant pool of the byte-code  (Thanks to Tomas Kalibera for
+	catching this!)
 Changes for BAS 1.1.0   March 31, 2016
 	- New! added truncated Beta-Binomial prior and truncated Poisson (works
 	only with MCMC currently)
