@@ -7,7 +7,7 @@
 \usage{bas.lm(formula, data, weights=NULL, n.models=NULL,  prior="ZS-null", alpha=NULL,
  modelprior=beta.binomial(1,1),
  initprobs="Uniform", method="BAS", update=NULL,
- bestmodel = NULL, bestmarg = NULL, prob.local = 0.0, prob.rw=0.5,
+ bestmodel = NULL, prob.local = 0.0, prob.rw=0.5,
  MCMC.iterations = NULL, lambda = NULL, delta = 0.025,thin=1)
 }
 \arguments{
@@ -84,8 +84,6 @@
   \item{bestmodel}{optional binary vector representing a model to
     initialize the sampling. If NULL sampling starts with the null
     model}
-  \item{bestmarg}{optional value for the log marginal associated with
-    the bestmodel}
   \item{prob.local}{A future  option to allow sampling of models
     "near" the median probability model.  Not used at
     this time.}
