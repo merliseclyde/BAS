@@ -103,7 +103,7 @@ bas.lm = function(formula, data, weights = NULL,
   
   mean.x = apply(X[,-1, drop=F], 2, weighted.mean, w=weights)
   ones = X[,1]
-  X = cbind(ones, sweep(X[, -1], 2, mean.x))
+  X = cbind(ones, sweep(X[, -1, drop=FALSE], 2, mean.x))
   p <-  dim(X)[2]  # with intercept
 
 
