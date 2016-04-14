@@ -1,3 +1,9 @@
+Changes for BAS 1.2.1
+	- bug fix for method="MCMC" with truncated prior distributions
+	where MH ratio was incorrect allowing models with 0 probability to
+	be sampled.
+	- fixed error in Zellner-Siow prior (ZS-null) when n=p+1 or
+	saturated model  where log marginal likelihood should be 0 
 Changes for BAS 1.2.0  April 11, 2016
 	- removed unsafe code where Rbestmarg (input) was being
 	overwritten in .Call which would end up in corruption of the

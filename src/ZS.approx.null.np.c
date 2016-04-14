@@ -51,8 +51,10 @@ double LogBF_ZS_null(double R2, int n, int d){
     if (k == 0 || n <= k+1 || R2 >= 1.0) { return(0.0); }
     else {
       if(status!=1.){
-	if(status==0.) Rprintf("\n No positive roots\n");
-	else Rprintf("\n More than one positive root\n");
+	if(status==0.) {
+	  Rprintf("No positive roots R2=%lf n=%d k=%d\n",R2,n,k);}
+	else {
+	  Rprintf("\n More than one positive root  R2=%lf n=%d k=%d\n",R2,n,k);}
       }
       else{return(lik_null(root,R2,n,k)+(log(4.*asin(1.))-log(-info_null(root,R2,n,k)))/2.);}
     }

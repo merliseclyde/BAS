@@ -52,7 +52,8 @@ double FitModel(SEXP Rcoef_m, SEXP Rse_m, double *XtY, double *XtX, int *model_m
 	cholreg(XtYwork, XtXwork, coefficients, se_m, pmse_m, pmodel, nobs);  
 
 	double R2_m = 1.0 - (*pmse_m * (double) ( nobs - pmodel))/SSY;
-
+        if (R2_m < 0.0 || pmodel == 1) R2_m = 0.0;
+	
 	return R2_m;
 }
 
@@ -192,7 +193,7 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEX
 	gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
 	
 	prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
-	
+	if (prior_m == 0.0)  Rprintf("warning initial model has 0 prior probabilty\n");
 	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
 	SetModel(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2, m);
 
@@ -236,28 +237,31 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEX
 		}
 
 		if (newmodel == 1) {
-		  new_loc = nUnique;
-		  PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
-		  PROTECT(Rcoef_m = NEW_NUMERIC(pmodel)); 
-		  PROTECT(Rse_m = NEW_NUMERIC(pmodel));   
-		  model_m = GetModel_m(Rmodel_m, model, p);
-
-		  R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m);
-		  gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
-
 		  prior_m = compute_prior_probs(model,pmodel,p, modelprior);
-		  postnew = logmargy + log(prior_m);
-		}
+		  if (prior_m == 0.0) {
+		    MH *= 0.0;
+		  }
+		  else {
+		    new_loc = nUnique;
+		    PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
+		    PROTECT(Rcoef_m = NEW_NUMERIC(pmodel)); 
+		    PROTECT(Rse_m = NEW_NUMERIC(pmodel));   
+		    model_m = GetModel_m(Rmodel_m, model, p);
+
+		    R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m);
+		    gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
+
+		  
+		    postnew = logmargy + log(prior_m);
+		    MH *= exp(postnew - postold);
+		  }}
 		else {
 		  new_loc = branch->where;
-		  postnew =  REAL(logmarg)[new_loc] + log(REAL(priorprobs)[new_loc]);      
-		} 
-		if (prior_m == 0.0) {
-		  MH *= 1.0 - exp(postold);
+		  postnew =  REAL(logmarg)[new_loc] +
+		             log(REAL(priorprobs)[new_loc]);
+		  MH *=  exp(postnew - postold);
 		}
-		else {
-		  MH *= exp(postnew - postold);
-		}
+		
 		//    Rprintf("MH new %lf old %lf\n", postnew, postold);
 		if (unif_rand() < MH) {
 		  if (newmodel == 1) {
@@ -282,7 +286,7 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEX
 		  memcpy(modelold, model, sizeof(int)*p);
 
 		} else  {
-		  if (newmodel == 1) UNPROTECT(3);
+		  if (newmodel == 1 && prior_m > 0) UNPROTECT(3);
 		}
 
 		if ( (m % thin) == 0) {

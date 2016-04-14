@@ -42,37 +42,40 @@ double E_ZS_approx_null(double R2, int n, int k){
   numer = 1.0;
   denom = 1.0;
 
-  posroot(a,b,c,&root1,&status);
+  if (k == 0 || n <= k+1 || R2 >= 1.0) { return(0.0); }
+  else {
+    posroot(a,b,c,&root1,&status);
   
-  if(status!=1.){
-    if(status==0.) error("\n No positive roots for the numerator\n");
-    else error("\n More than one positive root for the numerator\n");
+   if(status!=1.){
+     if(status==0.) error("\n No positive roots for the numerator  R2=%lf n=%d k=%d\n\n");
+     else error("\n More than one positive root for the numerator\n");
+   }
+   else{
+     numer=h1(root1,eps,n,k)-log(-infoh1(root1,eps,n,k))/2.;
+   }
+
+   aux=-eps*((double)k+3.);
+   a=(double)n-(double)k-2.*eps-4.;
+   b=(double)n*(1.+eps)-3.;
+   c=(double)n;
+
+   a=a/aux;
+   b=b/aux;
+   c=c/aux;
+
+
+   posroot(a,b,c,&root2,&status);
+
+   if(status!=1.){
+     if(status==0.) error("\n No positive roots for the denominator  R2=%lf n=%d k=%d\n\n");
+     else error("\n More than one positive root for the denominator\n");
+   }
+   else{
+     denom=h2(root2,eps,n,k)-log(-infoh2(root2,eps,n,k))/2.;
+   }
+   s = exp(numer-denom);
+   return(s);
   }
-  else{
-    numer=h1(root1,eps,n,k)-log(-infoh1(root1,eps,n,k))/2.;
-  }
-
-  aux=-eps*((double)k+3.);
-  a=(double)n-(double)k-2.*eps-4.;
-  b=(double)n*(1.+eps)-3.;
-  c=(double)n;
-
-  a=a/aux;
-  b=b/aux;
-  c=c/aux;
-
-  posroot(a,b,c,&root2,&status);
-
-  if(status!=1.){
-    if(status==0.) error("\n No positive roots for the denominator\n");
-    else error("\n More than one positive root for the denominator\n");
-  }
-  else{
-    denom=h2(root2,eps,n,k)-log(-infoh2(root2,eps,n,k))/2.;
-  }
-  s = exp(numer-denom);
-  return(s);
-
 }
 
 double h1(double g, double eps, int n, int k){
