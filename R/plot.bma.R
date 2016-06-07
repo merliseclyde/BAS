@@ -12,7 +12,7 @@ plot.bas = function (x, which = c(1:4),
     if (!inherits(x, "bas")) 
       stop("use only with \"bas\" objects")
     if (!is.numeric(which) || any(which < 1) || any(which > 4)) 
-      stop("'which' must be in 1:3")
+      stop("'which' must be in 1:4")
     show <- rep(FALSE, 4)
     show[which] <- TRUE
 
@@ -84,7 +84,7 @@ plot.bas = function (x, which = c(1:4),
       plot(m.index, cum.prob,
            xlab="Model Search Order", ylab="Cumulative Probability",
            type="n")
-      panel(m.index,cum.prob)
+#      panel(m.index,cum.prob)
       if (one.fig) 
         title(sub = sub.caption, ...)
       mtext(caption[2], 3, 0.25)
@@ -112,14 +112,13 @@ plot.bas = function (x, which = c(1:4),
       plot(variables, probne0,
            xlab = "", ylab = "Marginal Inclusion Probability",
            xaxt="n",
-           main = main, type="h", col=(1+(probne0>= .5)),
+           main = main, type="h", col=(1+(probne0>= .5)), lwd=2,
            ylim = ylim, ...)
       if (one.fig) 
         title(sub = sub.caption, ...)
       mtext(x$namesx, side=1, line=0.25, at=variables, las=2, cex=.75 )
       mtext(caption[4], 3, 0.25)
-      if (id.n > 0) 
-        text.id(dim[show.m], logmarg[show.m], show.m)
+      
     }
     
     if (!one.fig && par("oma")[3] >= 1) {
