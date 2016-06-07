@@ -3,13 +3,13 @@
 
 coef.bma = function(object, ...) {
   conditionalmeans = list2matrix.bma(object, "mle")
-  conditionalmeans[,-1] = sweep(conditionalmeans[,-1], 1, object$shrinkage,
+  conditionalmeans[,-1] = sweep(conditionalmeans[,-1, drop=F], 1, object$shrinkage,
                                 FUN="*") 
   postmean = as.vector(object$postprob %*% conditionalmeans)
 
   conditionalsd  =  list2matrix.bma(object, "mle.se")
   if (!(object$prior == "AIC" || object$prior == "BIC")) {
-    conditionalsd[ , -1] = sweep(conditionalsd[ ,-1], 1, sqrt(object$shrinkage), FUN="*") }
+    conditionalsd[ , -1] = sweep(conditionalsd[ ,-1, drop=F], 1, sqrt(object$shrinkage), FUN="*") }
   
   postsd = sqrt(object$postprob %*% conditionalsd^2   +
                 object$postprob %*% ((sweep(conditionalmeans, 2, postmean, FUN="-"))^2))
