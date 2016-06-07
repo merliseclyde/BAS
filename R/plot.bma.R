@@ -6,7 +6,7 @@ plot.bas = function (x, which = c(1:4),
   ask = prod(par("mfcol")) < length(which) && dev.interactive(), ...,
   id.n = 3,
   labels.id = names(residuals(x)), 
-  cex.id = 0.75,  add.smooth = getOption("add.smooth"), col.smooth=2, 
+  cex.id = 0.75,  add.smooth = getOption("add.smooth"), 
   label.pos = c(4, 2))
 {
     if (!inherits(x, "bas")) 
@@ -84,7 +84,7 @@ plot.bas = function (x, which = c(1:4),
       plot(m.index, cum.prob,
            xlab="Model Search Order", ylab="Cumulative Probability",
            type="n")
-#      panel(m.index,cum.prob)
+      panel(m.index,cum.prob)
       if (one.fig) 
         title(sub = sub.caption, ...)
       mtext(caption[2], 3, 0.25)
@@ -112,13 +112,14 @@ plot.bas = function (x, which = c(1:4),
       plot(variables, probne0,
            xlab = "", ylab = "Marginal Inclusion Probability",
            xaxt="n",
-           main = main, type="h", col=(1+(probne0>= .5)), lwd=2,
+           main = main, type="h", col=(1+(probne0>= .5)),
            ylim = ylim, ...)
       if (one.fig) 
         title(sub = sub.caption, ...)
       mtext(x$namesx, side=1, line=0.25, at=variables, las=2, cex=.75 )
       mtext(caption[4], 3, 0.25)
-      
+      #if (id.n > 0) 
+       # text.id(dim[show.m], logmarg[show.m], show.m)
     }
     
     if (!one.fig && par("oma")[3] >= 1) {
