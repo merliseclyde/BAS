@@ -36,7 +36,8 @@ crime.ZS =  bas.lm(y ~ .,
                    data=UScrime,
                    prior="ZS-null",
                    modelprior=uniform(),
-                   method = "MCMC")
+                   method = "MCMC",
+                   MCMC.iter = 1000)   # short run for the example
 diagnostics(crime.ZS)
 }
 \author{Merlise Clyde (\email{clyde@stat.duke.edu})}
