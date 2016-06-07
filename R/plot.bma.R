@@ -88,8 +88,8 @@ plot.bas = function (x, which = c(1:4),
       if (one.fig) 
         title(sub = sub.caption, ...)
       mtext(caption[2], 3, 0.25)
-      if (id.n > 0) 
-        text.id(m.index[show.m], cum.prob[show.m], show.m)
+      #if (id.n > 0) 
+      #  text.id(m.index[show.m], cum.prob[show.m], show.m)
     }
     if (show[3]) {
       logmarg = x$logmarg
