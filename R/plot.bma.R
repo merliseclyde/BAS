@@ -6,7 +6,7 @@ plot.bas = function (x, which = c(1:4),
   ask = prod(par("mfcol")) < length(which) && dev.interactive(), ...,
   id.n = 3,
   labels.id = names(residuals(x)), 
-  cex.id = 0.75,  add.smooth = getOption("add.smooth"), 
+  cex.id = 0.75,  add.smooth = getOption("add.smooth"), col.smooth=2,
   label.pos = c(4, 2))
 {
     if (!inherits(x, "bas")) 
