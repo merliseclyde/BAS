@@ -43,6 +43,7 @@ hald.gprior =  bas.lm(Y~ ., data=Hald, prior="ZS-null", initprobs="Uniform")
 plot(Hald$Y, fitted(hald.gprior, type="HPM"))
 plot(Hald$Y, fitted(hald.gprior, type="BMA"))
 plot(Hald$Y, fitted(hald.gprior, type="MPM"))
+plot(Hald$Y, fitted(hald.gprior, type="BPM"))
 }
 \author{Merlise Clyde \email{clyde@AT@stat.duke.edu}}
 \keyword{regression}
