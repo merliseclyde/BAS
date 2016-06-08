@@ -64,6 +64,7 @@ fitted.bas = function(object,  type="HPM", top=NULL, ...) {
     best =  min((1:nmodels)[object$logmarg == max(object$logmarg)])
     yhat  <- as.vector(X[,object$which[[best]]+1, drop=FALSE] %*% object$mle[[best]]) * object$shrinkage[[best]]
     yhat = yhat + (1 - object$shrinkage[[best]])*(object$mle[[best]])[1]
+    attributes(yhat) = list(model = unlist(object$which[best]), best=best)   
   }
   if (type == "BMA") {
    yhat = predict(object, X, top)$Ybma
@@ -84,13 +85,16 @@ fitted.bas = function(object,  type="HPM", top=NULL, ...) {
      yhat  <- as.vector(X[,object$which[[best]]+1, drop=FALSE] %*% object$mle[[best]]) * object$shrinkage[[best]]
      yhat = yhat + (1 - object$shrinkage[[best]])*(object$mle[[best]])[1]
  }
-  else { yhat = rep(nrow(X), 1) * as.numeric(object$mle[object$size == 1])}
+   else { yhat = rep(nrow(X), 1) * as.numeric(object$mle[object$size == 1])}
+   attributes(yhat) = list(model = bestmodel)   
 }
   if (type=="BPM") {
-      X = cbind(1,sweep(X[,-1], 2, object$mean.x))
       ypred = predict(object, X, top)
-      sd =apply(sweep(ypred$Ypred, 2, ypred$Ybma),1, sd)
-      yhat = ypred$Ypred[best[which.min(sd)], ,drop=T]
+      dis =apply(sweep(ypred$Ypred, 2, ypred$Ybma),1, sd)
+      best = which.min(dis)
+      yhat = ypred$Ypred[best, ]
+      attributes(yhat) = list(model = unlist(object$which[ypred$best[best]]),
+                    best = ypred$best[best])
   }
 return(yhat)
 }
