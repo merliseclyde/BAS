@@ -13,9 +13,11 @@
                  panel = if (add.smooth) panel.smooth
                  else points, sub.caption = NULL, main = "", ask =
                  prod(par("mfcol")) < length(which) &&
-                 dev.interactive(), ..., id.n = 3, labels.id =
+                 dev.interactive(),
+                 col.in=2, col.ex=1,
+                 ..., id.n = 3, labels.id =
                  names(residuals(x)), cex.id = 0.75, add.smooth =
-                 getOption("add.smooth"), col.smooth=2,label.pos = c(4, 2))
+                 getOption("add.smooth"), label.pos = c(4, 2))
 }
 \arguments{
   \item{x}{\code{bas} BMA object result of 'bas'}
@@ -29,7 +31,9 @@
           possible shortened version of \code{deparse(x$call)} is used}
 \item{main}{title to each plot-in addition to the above 'caption'}
 \item{ask}{logical; if 'TRUE', the user is asked before each plot, see
-          'par(ask=.)'}
+  'par(ask=.)'}
+\item{col.in}{color for the included variables}
+\item{col.ex}{color for the excluded variables}
 \item{...}{ other parameters to be passed through to plotting functions}
 \item{id.n}{number of points to be labelled in each plot, starting with
           the most extreme}
@@ -38,9 +42,8 @@
 \item{cex.id}{ magnification of point labels.}
 \item{add.smooth}{ logical indicating if a smoother should be added to most
   plots; see also 'panel' above}
-\item{col.smooth}{color passed to 'panel' function}
 \item{label.pos}{positioning of labels, for the left half and right half of
-          the graph respectively, for plots 1-3}
+          the graph respectively, for plots 1-4}
 }
 \details{This provides a panel of 4 plots:
   the first is a plot of the residuals versus fitted values under

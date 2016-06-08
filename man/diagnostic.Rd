@@ -41,4 +41,4 @@ crime.ZS =  bas.lm(y ~ .,
 diagnostics(crime.ZS)
 }
 \author{Merlise Clyde (\email{clyde@stat.duke.edu})}
-\keyword{}
+

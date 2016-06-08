@@ -3,10 +3,11 @@ plot.bas = function (x, which = c(1:4),
               "Model Complexity", "Inclusion Probabilities"),
   panel = if (add.smooth) panel.smooth else points, 
   sub.caption = NULL, main = "",
-  ask = prod(par("mfcol")) < length(which) && dev.interactive(), ...,
+    ask = prod(par("mfcol")) < length(which) && dev.interactive(),
+    col.in=2, col.ex=1, ...,
   id.n = 3,
   labels.id = names(residuals(x)), 
-  cex.id = 0.75,  add.smooth = getOption("add.smooth"), col.smooth=2,
+  cex.id = 0.75,  add.smooth = getOption("add.smooth"),
   label.pos = c(4, 2))
 {
     if (!inherits(x, "bas")) 
@@ -84,7 +85,7 @@ plot.bas = function (x, which = c(1:4),
       plot(m.index, cum.prob,
            xlab="Model Search Order", ylab="Cumulative Probability",
            type="n")
-      panel(m.index,cum.prob)
+    #  panel(m.index,cum.prob)
       if (one.fig) 
         title(sub = sub.caption, ...)
       mtext(caption[2], 3, 0.25)
@@ -109,14 +110,18 @@ plot.bas = function (x, which = c(1:4),
       probne0 = x$probne0
       variables = 1:x$n.vars
       ylim <- c(0,1)
+      colors=rep(0, x$n.vars)
+      colors[probne0 > .5] = col.in
+      colors[probne0 <= .5] = col.ex
+      
       plot(variables, probne0,
            xlab = "", ylab = "Marginal Inclusion Probability",
            xaxt="n",
-           main = main, type="h", col=(1+(probne0>= .5)),
+           main = main, type="h", col=colors,
            ylim = ylim, ...)
       if (one.fig) 
         title(sub = sub.caption, ...)
-      mtext(x$namesx, side=1, line=0.25, at=variables, las=2, cex=.75 )
+      mtext(x$namesx, side=1, line=0.25, at=variables, las=2)
       mtext(caption[4], 3, 0.25)
       #if (id.n > 0) 
        # text.id(dim[show.m], logmarg[show.m], show.m)
