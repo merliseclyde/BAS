@@ -3,8 +3,8 @@ plot.bas = function (x, which = c(1:4),
               "Model Complexity", "Inclusion Probabilities"),
   panel = if (add.smooth) panel.smooth else points, 
   sub.caption = NULL, main = "",
-    ask = prod(par("mfcol")) < length(which) && dev.interactive(),
-    col.in=2, col.ex=1, ...,
+    ask = prod(par("mfcol")) < length(which) && dev.interactive(), 
+    col.in=2, col.ex=1, col.pch=1, cex.lab=1, ...,
   id.n = 3,
   labels.id = names(residuals(x)), 
   cex.id = 0.75,  add.smooth = getOption("add.smooth"),
@@ -65,7 +65,7 @@ plot.bas = function (x, which = c(1:4),
         ylim <- extendrange(r = ylim, f = 0.08)
       plot(yhat, r, xlab = "Predictions under BMA",
            ylab = "Residuals", main = main, 
-           ylim = ylim, type = "n", ...)
+           ylim = ylim, type = "n", col=col.pch,...)
       panel(yhat, r, ...)
       if (one.fig) 
         title(sub = sub.caption, ...)
@@ -84,8 +84,8 @@ plot.bas = function (x, which = c(1:4),
       ylim[2] <- ylim[2] + diff(ylim) * 0.075
       plot(m.index, cum.prob,
            xlab="Model Search Order", ylab="Cumulative Probability",
-           type="n")
-    #  panel(m.index,cum.prob)
+           type="n", col=col.pch, ...)
+      panel(m.index,cum.prob)
       if (one.fig) 
         title(sub = sub.caption, ...)
       mtext(caption[2], 3, 0.25)
@@ -99,7 +99,7 @@ plot.bas = function (x, which = c(1:4),
       plot(dim, logmarg,
            xlab = "Model Dimension", ylab = "log(Marginal)",
            main = main, 
-           ylim = ylim, ...)
+           ylim = ylim, col=col.pch, ...)
       if (one.fig) 
         title(sub = sub.caption, ...)
       mtext(caption[3], 3, 0.25)
@@ -121,7 +121,7 @@ plot.bas = function (x, which = c(1:4),
            ylim = ylim, ...)
       if (one.fig) 
         title(sub = sub.caption, ...)
-      mtext(x$namesx, side=1, line=0.25, at=variables, las=2)
+      mtext(x$namesx, side=1, line=0.25, at=variables, las=2, cex=cex.lab, ...)
       mtext(caption[4], 3, 0.25)
       #if (id.n > 0) 
        # text.id(dim[show.m], logmarg[show.m], show.m)

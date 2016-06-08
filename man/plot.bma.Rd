@@ -14,7 +14,7 @@
                  else points, sub.caption = NULL, main = "", ask =
                  prod(par("mfcol")) < length(which) &&
                  dev.interactive(),
-                 col.in=2, col.ex=1,
+                 col.in=2, col.ex=1, col.pch=1, cex.lab,
                  ..., id.n = 3, labels.id =
                  names(residuals(x)), cex.id = 0.75, add.smooth =
                  getOption("add.smooth"), label.pos = c(4, 2))
@@ -34,6 +34,8 @@
   'par(ask=.)'}
 \item{col.in}{color for the included variables}
 \item{col.ex}{color for the excluded variables}
+\item{col.pch}{color for points in panels 1-3}
+\item{cex.lab}{graphics parameter to control size of variable names}
 \item{...}{ other parameters to be passed through to plotting functions}
 \item{id.n}{number of points to be labelled in each plot, starting with
           the most extreme}

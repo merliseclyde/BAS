@@ -86,5 +86,11 @@ fitted.bas = function(object,  type="HPM", top=NULL, ...) {
  }
   else { yhat = rep(nrow(X), 1) * as.numeric(object$mle[object$size == 1])}
 }
+  if (type=="BPM") {
+      X = cbind(1,sweep(X[,-1], 2, object$mean.x))
+      ypred = predict(object, X, top)
+      sd =apply(sweep(ypred$Ypred, 2, ypred$Ybma),1, sd)
+      yhat = ypred$Ypred[which.min(sd), ,drop=T]
+  }
 return(yhat)
 }
