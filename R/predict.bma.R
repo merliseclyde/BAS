@@ -60,11 +60,14 @@ fitted.bas = function(object,  type="HPM", top=NULL, ...) {
   nmodels = length(object$which)
   X = object$X
   if (type=="HPM") {
-    X = cbind(1,sweep(X[,-1], 2, object$mean.x))
-    best =  min((1:nmodels)[object$logmarg == max(object$logmarg)])
-    yhat  <- as.vector(X[,object$which[[best]]+1, drop=FALSE] %*% object$mle[[best]]) * object$shrinkage[[best]]
-    yhat = yhat + (1 - object$shrinkage[[best]])*(object$mle[[best]])[1]
-    attributes(yhat) = list(model = unlist(object$which[best]), best=best)   
+#    X = cbind(1,sweep(X[,-1], 2, object$mean.x))
+#    best =  which.max(object$logmarg)
+#    yhat  <- as.vector(X[,object$which[[best]]+1, drop=FALSE] %*% object$mle[[best]]) * object$shrinkage[[best]]
+ #   yhat = yhat + (1 - object$shrinkage[[best]])*(object$mle[[best]])[1]
+      ypred = predict(object, X, 1)
+      best = ypred$best
+      yhat = ypred$Ybma   # note with ome model this is the HPM
+      attributes(yhat) = list(model = unlist(object$which[best]), best=best)   
   }
   if (type == "BMA") {
    yhat = predict(object, X, top)$Ybma
