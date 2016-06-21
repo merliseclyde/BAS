@@ -111,7 +111,7 @@ bas.lm = function(formula, data, weights = NULL,
   
   if (n <= p) {
       if (modelprior$family == "Uniform" || modelprior$family == "Bernoulli")
-          warning("Uniform prior (Bernoulli)  distribution on the Model Space are not recommended for p > n; please consider using tr.beta.binomial instead")
+          warning("Uniform prior (Bernoulli)  distribution on the Model Space are not recommended for p > n; please consider using tr.beta.binomial or power.prior instead")
   }
   if (!is.numeric(initprobs)) {
       if (n <= p && initprobs == "eplogp") {

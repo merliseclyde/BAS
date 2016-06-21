@@ -49,6 +49,7 @@ void compute_margprobs_file(SEXP modeldim, SEXP Rmodelprobs, double *margprobs, 
 double beta_binomial(int modeldim, int p, double *hyper);
 double trunc_beta_binomial(int modeldim, int p, double *hyper);
 double trunc_poisson(int modeldim, int p, double *hyper);
+double trunc_power_prior(int modeldim, int p, double *hyper);
 double Bernoulli(int *model, int p, double *hyper);
 double compute_prior_probs(int *model, int modeldim, int p, SEXP modelprior);
 void compute_margprobs_old(Bit **models, SEXP Rmodelprobs, double *margprobs, int k, int p);

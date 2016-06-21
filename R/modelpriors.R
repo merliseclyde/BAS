@@ -20,7 +20,10 @@ tr.beta.binomial=function(alpha=1.0, beta=1.0, trunc) {
               class="prior")
  }
 
-
+tr.power.prior=function(kappa=2, trunc) {
+    structure(list(family="Trunc-Power-Prior", hyper.parameters=c(kappa, trunc)),
+              class="prior")
+ }
 
 tr.poisson=function(lambda, trunc) {
     structure(list(family="Trunc-Poisson", hyper.parameters=c(lambda, trunc)),

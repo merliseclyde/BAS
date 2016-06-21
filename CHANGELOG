@@ -1,7 +1,8 @@
-Changes for BAS 1.2.2 June, 10 2016
+Changes for BAS 1.2.2 June, 22 2016
 	- bug fix in plot.bas that appears with Sweave
 	- bug fix in coef.bma when there is just one predictor
 	- added diagnostic plot for MCMC
+	- added truncated power prior as in Yang, Wainwright & Jordan (2016)
 Changes for BAS 1.2.1  April 16, 2016
 	- bug fix for method="MCMC" with truncated prior distributions
 	where MH ratio was incorrect allowing models with 0 probability to
