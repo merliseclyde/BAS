@@ -66,7 +66,6 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
   SEXP Rcoef= PROTECT(allocVector(REALSXP,p)); ++nProtected;
   SEXP Rcoefwork= PROTECT(allocVector(REALSXP,p)); ++nProtected;
   SEXP Rrank=PROTECT(allocVector(INTSXP,1)); ++nProtected;
-  SEXP Rresdf = PROTECT(allocVector(INTSXP,1)); ++nProtected;
   SEXP Rcov = PROTECT(allocVector(REALSXP, p*p)); ++nProtected;    
   SEXP RR = PROTECT(allocVector(REALSXP, p*p)); ++nProtected;  
   SEXP Rse= PROTECT(allocVector(REALSXP, p)); ++nProtected;  
@@ -232,7 +231,6 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
   SET_STRING_ELT(ANS_names, 8, mkChar("logmarglik"));
  
   setAttrib(ANS, R_NamesSymbol, ANS_names);
-  // SET_VECTOR_ELT(ANS, 5, Rresdf);
   
   UNPROTECT(nProtected);
   

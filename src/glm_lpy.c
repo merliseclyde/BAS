@@ -89,10 +89,9 @@ SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, beta
 	SEXP Rshrinkage=PROTECT(allocVector(REALSXP,1)); ++nProtected; 
 	double shrinkage_m = 1.0;
 
-	double loglik_mle = 0.0, temp = 0.0;
+	double loglik_mle = 0.0, temp;
 	double sum_Ieta = 0.0, logdet_Iintercept;
-	int i, j,l, base;
-	
+	int i, j, l, base;
 
 	loglik_mle = glmfamily->loglik(Y, mu, n);
 	glmfamily->info_matrix(Y, mu, Ieta, n);
@@ -126,7 +125,7 @@ SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, beta
 	 XcBeta[j] = 0.0;
        }
        
-       for (int i = 0,l=0; i < p; i++) {
+       for (int i = 0, l=0; i < p; i++) {
 	 double beta = coef[i+1];
 	 for (int j = 0; j < n; j++,l++) {
 	   XcBeta[j] += Xc[l] * beta;
