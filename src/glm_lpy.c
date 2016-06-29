@@ -96,36 +96,36 @@ SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, beta
 	loglik_mle = glmfamily->loglik(Y, mu, n);
 	glmfamily->info_matrix(Y, mu, Ieta, n);
 
-	for (int i = 0; i < n; i++) {
+	for (i = 0; i < n; i++) {
 	        sum_Ieta += Ieta[i];
 	}
 
 	logdet_Iintercept = log(sum_Ieta);
 	
 
-	for (int i = 0; i < p; i++) {
-	  double temp = 0.0;
-	  int base = i * n;
-	 for (int j = 0; j < n; j++) {
+	for (i = 0; i < p; i++) {
+	  temp = 0.0;
+	  base = i * n;
+	 for (j = 0; j < n; j++) {
 	   temp += X[base + j] * Ieta[j];
 	 }
 	 XIeta[i] = temp / sum_Ieta;   // Xbar in i.p. space
 	}
        
        //Xc <- X - rep(1,n) %*% t((t(X) %*% Ieta)) / sum.Ieta;
-	for (int i =0, l =0; i < p; i++) {
-	   double temp = XIeta[i];
-	 for (int j = 0; j < n; j++,l++) {
+	for (i =0, l =0; i < p; i++) {
+	   temp = XIeta[i];
+	 for (j = 0; j < n; j++,l++) {
 	   Xc[l] = X[l] - temp;
 	 }
        }
 
        //Q <- sum((Xc %*% beta)^2 * Ieta);
-       for (int j = 0; j < n; j++) { //double check if this is already zero by default
+       for (j = 0; j < n; j++) { //double check if this is already zero by default
 	 XcBeta[j] = 0.0;
        }
        
-       for (int i = 0, l=0; i < p; i++) {
+       for (i = 0, l=0; i < p; i++) {
 	 double beta = coef[i+1];
 	 for (int j = 0; j < n; j++,l++) {
 	   XcBeta[j] += Xc[l] * beta;
@@ -133,7 +133,7 @@ SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, beta
        }
 
        Q = 0.0;
-       for (int j = 0; j < n; j++) { 
+       for (j = 0; j < n; j++) { 
 	 Q += XcBeta[j] * XcBeta[j] * Ieta[j];
        }
 
@@ -144,7 +144,7 @@ SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, beta
      shrinkage_m = betapriorfamily->shrinkage_fun(betapriorfamily->hyperparams, p, Q, laplace);
 
      intercept = coef[0];
-     for ( int i = 0; i < p; i++) {
+     for (i = 0; i < p; i++) {
        intercept += XIeta[i]*coef[i+1]*(1.0 - shrinkage_m);
      }
      REAL(Rintercept)[0] = intercept;

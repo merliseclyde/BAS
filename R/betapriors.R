@@ -104,7 +104,8 @@ IC.prior = function(penalty) {
 }    
 
 g.prior = function(g) {
-    structure(list(family="fixed-g-prior", g = g, class="gprior", hyper=as.numeric(g),
+    structure(list(family="g.prior", g = as.numeric(g), class="g-prior",
+                   hyper=as.numeric(g),
                    hyper.parameters= list(g=g)),
               class="prior")
 }

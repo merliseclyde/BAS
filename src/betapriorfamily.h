@@ -38,6 +38,9 @@ double betaprime_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Lapla
 // BIC, AIC,...
 double IC_glm_logmarg(SEXP hyperparams, int pmodel, double W, double loglike_mle, double logdet_Iintercept, int Laplace);
 double IC_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace);
+// g-prior
+double g_prior_glm_logmarg(SEXP hyperparams, int pmodel, double W, double loglike_mle, double logdet_Iintercept, int Laplace);
+double g_prior_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace);
 
 extern double loghyperg1F1(double, double, double, int);
 extern double shrinkage_chg(double a, double b, double Q, int laplace);

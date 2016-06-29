@@ -77,6 +77,13 @@ struct betapriorfamilystruc * make_betaprior_structure(SEXP betaprior, SEXP glmf
     betapriorfamily->logmarglik_fun = EB_local_glm_logmarg;
     betapriorfamily->shrinkage_fun = EB_local_glm_shrinkage;
   }
+
+  else if (strcmp(betapriorfamily->priorfamily, "g.prior") == 0) {
+    betapriorfamily->logmarglik_fun = g_prior_glm_logmarg;
+    betapriorfamily->shrinkage_fun = g_prior_shrinkage;
+  }
+
+
   else error("Prior %s has not been implemented or is misspelled\n", betapriorfamily->priorfamily);
   return(betapriorfamily);
 }
@@ -353,5 +360,31 @@ double IC_glm_logmarg(SEXP hyperparams, int pmodel, double W,
 
 double IC_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace ) {
   double shrinkage = 1.0;
+  return(shrinkage);
+}
+
+double g_prior_glm_logmarg(SEXP hyperparams, int pmodel, double W,
+		       double loglik_mle, double logdet_Iintercept, int Laplace ) {
+  double g, logmarglik;
+   
+   g = REAL(getListElement(hyperparams, "g"))[0];
+
+  logmarglik =   loglik_mle + M_LN_SQRT_2PI - 0.5* logdet_Iintercept;
+  if (pmodel >= 1.0) {
+    logmarglik +=   -.5*((double) pmodel)*log(1.0 + g) -.5*W/(1.0 + g);
+  }
+  return(logmarglik);
+}
+
+
+double g_prior_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace ) {
+  
+  double g, shrinkage;
+  g = REAL(getListElement(hyperparams, "g"))[0];
+  if (pmodel >= 1) {
+    shrinkage = g/(1.0 + g);}
+  else {
+    shrinkage = 0.0;}
+  
   return(shrinkage);
 }

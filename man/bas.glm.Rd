@@ -28,9 +28,12 @@
     'n.models' or 'MCMC.iterations' and on exit 'n.models' is updated to
     reflect the unique number of models that  have been sampled. }
    \item{betaprior}{Prior on coefficients for model coefficients (except
-     intercept).  Options in clude CCH, robust, beta-prime, AIC, BIC. }
+     intercept).  Options include \code{\link{g.prior}},  \code{\link{CCH}},  \code{\link{robust}},  \code{\link{intrinsic}},
+      \code{\link{beta.prime}},  \code{\link{EB.local}},  \code{\link{AIC}}, and  \code{\link{BIC}}. }
   \item{modelprior}{Family of prior distribution on the models.  Choices
-    include \code{\link{uniform}}, \code{\link{Bernoulli}} or \code{\link{beta.binomial}.}}
+    include \code{\link{uniform}}, \code{\link{Bernoulli}},
+    \code{\link{beta.binomial}}, truncated Beta-Binomial,
+    \code{\link{tr.beta.binomial}}, and truncated power family  \code{\link{tr.power.prior}}.} 
   \item{initprobs}{vector of length p with the initial  inclusion
     probabilities used for sampling without replacement (the intercept
     will be included with probability one and does not need to be added here) or a character
