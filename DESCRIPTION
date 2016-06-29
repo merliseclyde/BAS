@@ -21,14 +21,16 @@ Description: Package for Bayesian Model Averaging in linear models and
 	     <http://dx.doi.org/10.1198/016214507000001337>
 	     for linear models or mixtures of
 	     g-priors in GLMs of Li and Clyde (2015)
-	     <http://arxiv.org/abs/1503.06913 >. Other model
-	     selection criteria include AIC and BIC. Sampling
-	     probabilities may be updated based on the sampled models
-	     using Sampling w/out Replacement or an MCMC algorithm
+	     <http://arxiv.org/abs/1503.06913>. Other model
+	     selection criteria include AIC, BIC and Empirical Bayes estimates of g.
+	     Sampling probabilities may be updated based on the sampled models
+	     using Sampling w/out Replacement or an efficient MCMC algorithm
 	     samples models using the BAS tree structure as an efficient
-	     hash table. Allows uniform or beta-binomial prior distributions on
-	     models and for large p truncated priors on the model
-	     space.  The user may force variables to always be included.
+	     hash table. Uniform priors over all models or beta-binomial prior distributions on
+	     model size are allowed, and for large p truncated priors on the model
+	     space may be used.  The user may force variables to always be included. 
+	     Details behind the sampling algorithm are provided in
+	     Clyde, Ghosh and Littman (2010) <http://dx.doi.org/10.1198/jcgs.2010.09049>.
 License: GPL (>= 3)
 URL:  http://www.r-project.org, http://github.com/merliseclyde/BAS
 Repository: CRAN
