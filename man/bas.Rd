@@ -141,7 +141,7 @@ An object of class \code{BAS} is a list containing at least the following compon
     is much smaller than the total number of models. Unbiased estimates
     may be obtained using method "MCMC".}
   \item{mle}{list of lists with one list per model giving the MLE (OLS)
-estimate of each (nonzero) coefficient for each model.  The intercept
+estimate of each (nonzero) coefficient for each model. NOTE: The intercept
 is the mean of Y as each column of X has been centered by subtracting
 its mean.}
   \item{mle.se}{list of lists with one list per model giving the MLE (OLS) standard error of each coefficient for each model}
@@ -160,7 +160,7 @@ its mean.}
  Posterior summaries of coefficients can be extracted using
  \code{\link{coefficients.bma}}.  Fitted values and predictions can be
  obtained using the S3 functions  \code{\link{fitted.bas}} and \code{\link{predict.bas}}.
- BA objects may be updated to use a different prior (without rerunning
+ BAS objects may be updated to use a different prior (without rerunning
  the sampler) using the function  \code{\link{update.bma}}.
 }
 
