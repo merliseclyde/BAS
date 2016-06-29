@@ -13,7 +13,7 @@
     'BMA' Bayesian model averaging, using optionally only the 'top'
     models \cr
     'MPM' the median probability model of Barbieri and Berger.
-    'BPM' the model that is closest to BMA predictions under square error}
+    'BPM' the model that is closest to BMA predictions under squared error loss}
 \item{top}{optional argument specifying that the 'top' models will be
     used in constructing the BMA prediction, if NULL all models will be
     used.  If top=1, then this is equivalent to 'HPM'}
