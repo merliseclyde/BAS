@@ -22,7 +22,7 @@
                 "degenerate sampling probabilities (0 or 1); decreasing the number of models to",                 as.character(n.models)))
   	}
 
-  	if (n.models > 2^30) stop("Dimension of model space is too big to enumerate\n  Rerun with a smaller value for n.models")
+  	if (n.models > 2^35) stop("Dimension of model space is too big to enumerate\n  Rerun with a smaller value for n.models")
   	if (n.models > 2^20)
             print("Number of models is BIG -this may take a while")
     return(n.models)
@@ -108,8 +108,12 @@ bas.glm = function(formula, data,
   	Yvec = as.numeric(Y)
   	modeldim = as.integer(rep(0, n.models))
   	n.models = as.integer(n.models)
-    	if (is.null(MCMC.iterations)) MCMC.iterations = as.integer(n.models)
-	
+    if (is.null(MCMC.iterations)) MCMC.iterations = as.integer(2*n.models)
+	  
+  	if (betaprior$family == "test.BF") {
+  	   betaprior$hyperparameter$null.deviance =  glm(eval(call$formula), data=eval(call$data),
+  	                                                 family=eval(call$family))$null.deviance
+  	}
 	#save(list = ls(), file = "temp.RData")
   	result = switch(method,
     		"MCMC"= .Call("glm_mcmc",
