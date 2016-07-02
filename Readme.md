@@ -1,8 +1,9 @@
 # [BAS: An R package for Bayesian Model Averaging using Adaptive Samping ](https://github.com/merliseclyde/BAS)
 
 The main aim of the *BAS* [R](http://r-project.org) package is to
-provide a minimal and easy to use package for implementing Bayesian Model
-Averaging and Model Selection in R using state of the art prior distributions
+provide an easy to use package and fast package for implementing Bayesian Model
+Averaging and Model Selection in R using state of the art prior
+distributions for linear and generalized linear models
 
 Current build and test coverage status: [![](https://travis-ci.org/merliseclyde/BAS.png?branch=master)](https://travis-ci.org/merliseclyde/BAS) [![](http://codecov.io/github/merliseclyde/BAS/coverage.svg?branch=master)](http://codecov.io/github/merliseclyde/BAS?branch=master).
 
