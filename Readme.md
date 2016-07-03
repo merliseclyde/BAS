@@ -24,7 +24,13 @@ The stable version [![](http://www.r-pkg.org/badges/version/BAS)](https://cran.r
 install.packages('BAS')
 ```
 
-On the other hand, I welcome everyone to use the most recent version of the package with quick-fixes, new features and probably new bugs. It's currently hosted on [GitHub](https://github.com/merliseclyde/VAS). To get the latest development version from [GitHub](https://github.com/merliseclyde) of the `devtools` package from [CRAN](https://cran.r-project.org/package=devtools):
+On the other hand, I welcome everyone to use the most recent version
+of the package with quick-fixes, new features and probably new
+bugs. It's currently hosted on
+[GitHub](https://github.com/merliseclyde/VAS). To get the latest
+development version from [GitHub](https://github.com/merliseclyde),
+use the `devtools` package from
+[CRAN](https://cran.r-project.org/package=devtools) and enter in *R*:
 
 ```r
 devtools::install_github('merliseclyde/BAS')
