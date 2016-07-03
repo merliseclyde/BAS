@@ -5,7 +5,7 @@ provide an easy to use package and fast package for implementing Bayesian Model
 Averaging and Model Selection in R using state of the art prior
 distributions for linear and generalized linear models
 
-Current build and test coverage status: [![](https://travis-ci.org/merliseclyde/BAS.png?branch=master)](https://travis-ci.org/merliseclyde/BAS) [![](http://codecov.io/github/merliseclyde/BAS/coverage.svg?branch=master)](http://codecov.io/github/merliseclyde/BAS?branch=master).
+Current build and test coverage status: [![](https://travis-ci.org/merliseclyde/BAS.png?branch=master)](https://travis-ci.org/merliseclyde/BAS) 
 
 Some CRAN statistics: [![](http://cranlogs.r-pkg.org/badges/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html) [![](http://cranlogs.r-pkg.org/badges/grand-total/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
 
