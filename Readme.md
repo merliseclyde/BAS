@@ -3,7 +3,14 @@
 The main aim of the *BAS* [R](http://r-project.org) package is to
 provide an easy to use package and fast package for implementing Bayesian Model
 Averaging and Model Selection in R using state of the art prior
-distributions for linear and generalized linear models
+distributions for linear and generalized linear models.  All of the
+prior distributions in *BAS* are based on Zellner's g-prior or
+mixtures of g-priors.  These have been shown to be consistent and have
+a number of computational advantages. BAS implements two main
+algorithms for sampling from the space of potential models: an
+adaptive sampling without replacement algorithm and a MCMC algorithm
+that utilizes swapping to escape from local modes.  More details are
+in the R man pages.
 
 Current build and test coverage status: [![](https://travis-ci.org/merliseclyde/BAS.png?branch=master)](https://travis-ci.org/merliseclyde/BAS) 
 
