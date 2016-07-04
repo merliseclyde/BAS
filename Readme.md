@@ -30,7 +30,7 @@ bugs. It's currently hosted on
 [GitHub](https://github.com/merliseclyde/VAS). To get the latest
 development version from [GitHub](https://github.com/merliseclyde),
 use the `devtools` package from
-[CRAN](https://cran.r-project.org/package=devtools) and enter in *R*:
+[CRAN](https://cran.r-project.org/package=devtools) and enter in `R`:
 
 ```r
 devtools::install_github('merliseclyde/BAS')
