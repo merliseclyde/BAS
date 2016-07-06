@@ -4,10 +4,15 @@
 \title{Fitted values for a BAS BMA objects}
 \description{Calculate fitted values for a BAS BMA object}
 
-\usage{\method{fitted}{bas}(object,  type="HPM", top=NULL, ...)}
+\usage{\method{fitted}{bas}(object,  type="response", estimator=NULL, top=NULL, ...)}
 \arguments{
-  \item{object}{An object of class 'bma' as created by \code{\link{bas}}}
-  \item{type}{type of fitted value to return.  Options include
+  \item{object}{An object of class 'bma' as created by
+    \code{\link{bas}}}
+  \item{type}{type equals "response" is currently the only option.
+    Prior to version 1.2.2 type was used to specify the type of
+    estimator.  In order to be consistent with the predict.bas function
+    this has been deprecated and replaced with the estimator option below}
+  \item{estimator}{estimator type of fitted value to return.  Options include
    \cr
     'HPM' the highest probability model \cr
     'BMA' Bayesian model averaging, using optionally only the 'top'
@@ -48,10 +53,10 @@
 \examples{
 data(Hald)
 hald.gprior =  bas.lm(Y~ ., data=Hald, prior="ZS-null", initprobs="Uniform")
-plot(Hald$Y, fitted(hald.gprior, type="HPM"))
-plot(Hald$Y, fitted(hald.gprior, type="BMA"))
-plot(Hald$Y, fitted(hald.gprior, type="MPM"))
-plot(Hald$Y, fitted(hald.gprior, type="BPM"))
+plot(Hald$Y, fitted(hald.gprior, estimator="HPM"))
+plot(Hald$Y, fitted(hald.gprior, estimator="BMA"), top=3)
+plot(Hald$Y, fitted(hald.gprior, estimator="MPM"))
+plot(Hald$Y, fitted(hald.gprior, estimator="BPM"))
 }
 \author{Merlise Clyde \email{clyde@AT@stat.duke.edu}}
 \keyword{regression}

@@ -1,6 +1,8 @@
+Changes for BAS 1.2.3 July 9, 2016
+	- deprecated use of type to specify estimator in fitted.bas	
 Changes for BAS 1.2.2 June 29, 2016
-  - added option to find "Best Predictive Model" or "BPM" for fitted.bas
-  - added local Empirical Bayes prior and fixed g-prior for bas.glm
+	- added option to find "Best Predictive Model" or "BPM" for fitted.bas
+	- added local Empirical Bayes prior and fixed g-prior for bas.glm
 	- bug fix in plot.bas that appears with Sweave
 	- bug fix in coef.bma when there is just one predictor
 	- added diagnostic plot for MCMC

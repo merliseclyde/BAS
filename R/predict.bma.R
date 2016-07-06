@@ -56,10 +56,16 @@ predict.bas = function(object, newdata, top=NULL, type="link", ...) {
 }
 
 
-fitted.bas = function(object,  type="HPM", top=NULL, ...) {
+fitted.bas = function(object,  type="response", estimator=NULL, top=NULL, ...) {
+    if (type %in% c("HPM", "MPM", "BPM", "BMA")) {
+        warning(paste("type = ", type,
+                      " is being deprecated, use estimator = ", type))
+        if (is.null(estimator)) estimator = type
+    }
+        
   nmodels = length(object$which)
   X = object$X
-  if (type=="HPM") {
+  if (estimator=="HPM") {
 #    X = cbind(1,sweep(X[,-1], 2, object$mean.x))
 #    best =  which.max(object$logmarg)
 #    yhat  <- as.vector(X[,object$which[[best]]+1, drop=FALSE] %*% object$mle[[best]]) * object$shrinkage[[best]]
@@ -69,10 +75,10 @@ fitted.bas = function(object,  type="HPM", top=NULL, ...) {
       yhat = ypred$Ybma   # note with ome model this is the HPM
       attributes(yhat) = list(model = unlist(object$which[best]), best=best)   
   }
-  if (type == "BMA") {
+  if (estimator == "BMA") {
    yhat = predict(object, X, top)$Ybma
 }
-  if (type == "MPM") {
+  if (estimator == "MPM") {
    nvar = ncol(X) - 1
    X = cbind(1,sweep(X[,-1], 2, object$mean.x))
    bestmodel<- (0:nvar)[object$probne0 > .5]
@@ -91,7 +97,7 @@ fitted.bas = function(object,  type="HPM", top=NULL, ...) {
    else { yhat = rep(nrow(X), 1) * as.numeric(object$mle[object$size == 1])}
    attributes(yhat) = list(model = bestmodel)   
 }
-  if (type=="BPM") {
+  if (estimator=="BPM") {
       ypred = predict(object, X, top)
       dis =apply(sweep(ypred$Ypred, 2, ypred$Ybma),1, sd)
       best = which.min(dis)
