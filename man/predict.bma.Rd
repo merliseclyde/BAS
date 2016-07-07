@@ -45,8 +45,10 @@ type="link", estimator="BMA", ...)}
 \examples{
 data("Hald")
 hald.gprior =  bas.lm(Y~ ., data=Hald, alpha=13, prior="g-prior")
-predict(hald.gprior, hald.gprior$X[,-1], top=5, type="response")
+predict(hald.gprior, hald.gprior$X[,-1], top=5, type="response")  # default is BMA
 predict(hald.gprior, newdata=Hald, estimator="MPM")
+# same as fitted
+fitted(hald.gprior,estimator="MPM")
 }
 \author{Merlise Clyde}
 \keyword{regression}

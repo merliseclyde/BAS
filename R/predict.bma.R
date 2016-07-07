@@ -17,7 +17,7 @@ predict.basglm = function(object, newdata, top=NULL, type=c("link", "response"),
     
 predict.bas = function(object, newdata, top=NULL, type="link", estimator="BMA", ...) {
   if (!(estimator %in% c("BMA", "HPM", "MPM", "BPM"))) {
-    stop("Estimator must be one of 'BMA', 'HPM', 'MPM'.")
+    stop("Estimator must be one of 'BMA', 'BPM', 'HPM', or 'MPM'.")
   }
   if (is.data.frame(newdata)) {
       newdata = model.matrix(eval(object$call$formula), newdata) 
@@ -57,7 +57,6 @@ predict.bas = function(object, newdata, top=NULL, type="link", estimator="BMA", 
   }
   else {    
   if (estimator == "HPM") top=1
-  
   postprobs <- object$postprobs
   best <- order(-postprobs)
   if (!is.null(top)) best <- best[1:top]
@@ -91,7 +90,7 @@ predict.bas = function(object, newdata, top=NULL, type="link", estimator="BMA", 
   if (estimator=="BPM") {
     dis =apply(sweep(Ypred, 2, Ybma),1, sd)
     bestBPM = which.min(dis)
-    fit = Ypred[best, ]
+    fit = Ypred[bestBPM, ]
     attributes(fit) = list(model = unlist(object$which[best[bestBPM]]),
                             best = best[bestBPM])
   }
@@ -113,42 +112,44 @@ fitted.bas = function(object,  type="response", estimator=NULL, top=NULL, ...) {
 #    X = cbind(1,sweep(X[,-1], 2, object$mean.x))
 #    best =  which.max(object$logmarg)
 #    yhat  <- as.vector(X[,object$which[[best]]+1, drop=FALSE] %*% object$mle[[best]]) * object$shrinkage[[best]]
- #   yhat = yhat + (1 - object$shrinkage[[best]])*(object$mle[[best]])[1]
-      ypred = predict(object, X,  top=1)
-      best = ypred$best
-      yhat = ypred$Ybma   # note with ome model this is the HPM
-      attributes(yhat) = list(model = unlist(object$which[best]), best=best)   
+#   yhat = yhat + (1 - object$shrinkage[[best]])*(object$mle[[best]])[1]
+   yhat = predict(object, X,  top=1, estimator="HPM")$fit
+#  best = ypred$best
+    #  yhat = ypred$fit   # note with ome model this is the HPM
+      #attributes(yhat) = list(model = unlist(object$which[best]), best=best)   
   }
   if (estimator == "BMA") {
-   yhat = predict(object, X, top)$Ybma
-}
+   yhat = predict(object, X, top, estimator="BMA")$fit
+  }
   if (estimator == "MPM") {
-   nvar = ncol(X) - 1
-   X = cbind(1,sweep(X[,-1], 2, object$mean.x))
-   bestmodel<- (0:nvar)[object$probne0 > .5]
-   best = NA
-   model <- rep(0, nvar+1)
-   model[bestmodel+1] <- 1
-   if (sum(model) > 1) {
-       object <- bas.lm(eval(object$call$formula),
-                        data=eval(object$call$data), n.models=1, alpha=object$g,
-                        initprobs=object$probne0,
-                        prior=object$prior, update=NULL,bestmodel=model,
-                        prob.local=.0)
-     best=1
-     yhat  <- as.vector(X[,object$which[[best]]+1, drop=FALSE] %*% object$mle[[best]]) * object$shrinkage[[best]]
-     yhat = yhat + (1 - object$shrinkage[[best]])*(object$mle[[best]])[1]
- }
-   else { yhat = rep(nrow(X), 1) * as.numeric(object$mle[object$size == 1])}
-   attributes(yhat) = list(model = bestmodel)   
-}
+    yhat = predict(object, X, top, estimator="MPM")$fit
+ #  nvar = ncol(X) - 1
+#   X = cbind(1,sweep(X[,-1], 2, object$mean.x))
+#   bestmodel<- (0:nvar)[object$probne0 > .5]
+#   best = NA
+#   model <- rep(0, nvar+1)
+#   model[bestmodel+1] <- 1
+#   if (sum(model) > 1) {
+#      object <- bas.lm(eval(object$call$formula),
+#                        data=eval(object$call$data), n.models=1, alpha=object$g,
+#                        initprobs=object$probne0,
+#                        prior=object$prior, update=NULL,bestmodel=model,
+#                        prob.local=.0)
+#     best=1
+#    yhat  <- as.vector(X[,object$which[[best]]+1, drop=FALSE] %*% object$mle[[best]]) * object$shrinkage[[best]]
+#     yhat = yhat + (1 - object$shrinkage[[best]])*(object$mle[[best]])[1]
+# }
+#   else { yhat = rep(nrow(X), 1) * as.numeric(object$mle[object$size == 1])}
+#   attributes(yhat) = list(model = bestmodel)   
+  }
   if (estimator=="BPM") {
-      ypred = predict(object, X, top=top)
-      dis =apply(sweep(ypred$Ypred, 2, ypred$Ybma),1, sd)
-      best = which.min(dis)
-      yhat = ypred$Ypred[best, ]
-      attributes(yhat) = list(model = unlist(object$which[ypred$best[best]]),
-                    best = ypred$best[best])
+      yhat = predict(object, X, top, estimator="BPM")$fit
+#      ypred = predict(object, X, top=top)
+#      dis =apply(sweep(ypred$Ypred, 2, ypred$Ybma),1, sd)
+#     best = which.min(dis)
+#      yhat = ypred$Ypred[best, ]
+#      attributes(yhat) = list(model = unlist(object$which[ypred$best[best]]),
+#                    best = ypred$best[best])
   }
 return(yhat)
 }
