@@ -31,7 +31,7 @@ type="link", estimator="BMA", ...)}
   \item{...}{optional extra arguments}
 }
 \value{a list of
-  \item{fit} {fitted values based on the selected estimator}
+  \item{fit}{fitted values based on the selected estimator}
   \item{Ybma}{predictions using BMA, the same as fit for non-BMA methods for compatibilty}
   \item{Ypred}{matrix of predictions under each model for BMA}
   \item{best}{index of top models included}
