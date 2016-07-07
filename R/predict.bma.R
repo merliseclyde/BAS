@@ -16,7 +16,9 @@ predict.basglm = function(object, newdata, top=NULL, type=c("link", "response"),
     
     
 predict.bas = function(object, newdata, top=NULL, type="link", estimator="BMA", ...) {
-
+  if (!(estimator %in% c("BMA", "HPM", "MPM", "BPM"))) {
+    stop("Estimator must be one of 'BMA', 'HPM', 'MPM'.")
+  }
   if (is.data.frame(newdata)) {
       newdata = model.matrix(eval(object$call$formula), newdata) 
   }
@@ -44,12 +46,12 @@ predict.bas = function(object, newdata, top=NULL, type="link", estimator="BMA", 
                            update=NULL,bestmodel=models,
                            prob.local=.0)
           best= which.max(object$postprobs)
-          yhat  <- as.vector(newdata[,object$which[[best]]+1, drop=FALSE] %*% object$mle[[best]]) * object$shrinkage[[best]]
-          yhat = yhat + (1 - object$shrinkage[[best]])*(object$mle[[best]])[1]
+          fit  <- as.vector(newdata[,object$which[[best]]+1, drop=FALSE] %*% object$mle[[best]]) * object$shrinkage[[best]]
+          fit = fit + (1 - object$shrinkage[[best]])*(object$mle[[best]])[1]
       }
-      else { yhat = rep(nrow(newdata), 1) * as.numeric(object$mle[object$size == 1])}
-      attributes(yhat) = list(model = bestmodel)
-      Ybma = yhat
+      else { fit = rep(nrow(newdata), 1) * as.numeric(object$mle[object$size == 1])}
+      attributes(fit) = list(model = bestmodel)
+      Ybma = fit
       Ypred = NULL
       postprobs=NULL  
   }
@@ -82,9 +84,19 @@ predict.bas = function(object, newdata, top=NULL, type="link", estimator="BMA", 
  }
   
   Ybma <- t(Ypred) %*% postprobs
-  yhat = Ybma
+  fit = Ybma
+  if (estimator == "HPM") {
+    attributes(fit) = list(model = unlist(object$which[best]), best=best)   
+  }
+  if (estimator=="BPM") {
+    dis =apply(sweep(Ypred, 2, Ybma),1, sd)
+    bestBPM = which.min(dis)
+    fit = Ypred[best, ]
+    attributes(fit) = list(model = unlist(object$which[best[bestBPM]]),
+                            best = best[bestBPM])
+  }
 }
-  return(list(fit=yhat, Ybma=Ybma, Ypred=Ypred, postprobs=postprobs, best=best, bestmodel=models))
+  return(list(fit=fit, Ybma=Ybma, Ypred=Ypred, postprobs=postprobs, best=best, bestmodel=models))
 }
 
 
