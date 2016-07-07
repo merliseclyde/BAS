@@ -2,11 +2,11 @@
 \alias{predict.bas}
 \alias{predict}
 \title{Prediction Method for an object of class BMA}
-\description{Predictions under model averaging from a BMA object of
-  class inheriting from 'bas'.
+\description{Predictions under model averaging or other estimators from
+  a BMA object of class inheriting from 'bas'.
 }
 \usage{\method{predict}{bas}(object, newdata, top=NULL,
-type="link", ...)}
+type="link", estimator="BMA", ...)}
 
 \arguments{
   \item{object}{An object of class BAS, created by \code{bas}}
@@ -18,12 +18,22 @@ type="link", ...)}
   based on posterior probabilities for model predictions and BMA.} 
   \item{type}{Type of predictions required. "Link" which is on the
   scale of the linear predictor is the only option currently.
- } 
+}
+ \item{estimator}{estimator used for predictions.  Currently supported
+   options include:
+    \cr
+    'HPM' the highest probability model \cr
+    'BMA' Bayesian model averaging, using optionally only the 'top'
+    models \cr
+    'MPM' the median probability model of Barbieri and Berger.
+    'BPM' the model that is closest to BMA predictions under squared
+  error loss.  (BMA may be computed using only the 'top' models if supplied}
   \item{...}{optional extra arguments}
 }
 \value{a list of
-  \item{Ybma}{predictions using BMA}
-  \item{Ypred}{matrix of predictions under each model}
+  \item{fit} {fitted values based on the selected estimator}
+  \item{Ybma}{predictions using BMA, the same as fit for non-BMA methods for compatibilty}
+  \item{Ypred}{matrix of predictions under each model for BMA}
   \item{best}{index of top models included}
 }
 \details{Use BMA and/or model selection to form predictions using the top highest probability
@@ -36,6 +46,7 @@ type="link", ...)}
 data("Hald")
 hald.gprior =  bas.lm(Y~ ., data=Hald, alpha=13, prior="g-prior")
 predict(hald.gprior, hald.gprior$X[,-1], top=5, type="response")
+predict(hald.gprior, newdata=Hald, estimator="MPM")
 }
 \author{Merlise Clyde}
 \keyword{regression}
