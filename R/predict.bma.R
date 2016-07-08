@@ -15,14 +15,19 @@ predict.basglm = function(object, newdata, top=NULL, type=c("link", "response"),
 
     
     
-predict.bas = function(object, newdata, top=NULL, type="link", estimator="BMA", ...) {
+predict.bas = function(object, newdata, top=NULL, type="link", 
+                       estimator="BMA", se=FALSE, prediction=TRUE, ...) {
   if (!(estimator %in% c("BMA", "HPM", "MPM", "BPM"))) {
     stop("Estimator must be one of 'BMA', 'BPM', 'HPM', or 'MPM'.")
   }
+  if (missing(newdata) || is.null(newdata))  {
+    newdata= object$X
+    prediction= FALSE}
   if (is.data.frame(newdata)) {
       newdata = model.matrix(eval(object$call$formula), newdata) 
   }
-  if (is.vector(newdata)) newdata=matrix(newdata, nrow=1)    
+  if (is.vector(newdata)) newdata=matrix(newdata, nrow=1)  
+  
   n <- nrow(newdata)
   if (ncol(newdata) == object$n.vars) newdata=newdata[,-1, drop=FALSE]  # drop intercept
   if (ncol(newdata) != (object$n.vars -1)) stop("Dimension of newdata does not match orginal model")
@@ -93,9 +98,16 @@ predict.bas = function(object, newdata, top=NULL, type="link", estimator="BMA", 
     fit = Ypred[bestBPM, ]
     attributes(fit) = list(model = unlist(object$which[best[bestBPM]]),
                             best = best[bestBPM])
+    }
   }
-}
-  return(list(fit=fit, Ybma=Ybma, Ypred=Ypred, postprobs=postprobs, best=best, bestmodel=models))
+  
+  if (se == T & estimator != "BMA" & prediction == FALSE) {
+     se = .se.fit(fit,  object)    
+  } 
+  else {se=NULL}
+  return(list(fit=fit, Ybma=Ybma, Ypred=Ypred, postprobs=postprobs,
+              se.fit=se$se.fit, se.pred=se$se.pred,
+              best=best, bestmodel=models))
 }
 
 
@@ -123,7 +135,7 @@ fitted.bas = function(object,  type="response", estimator=NULL, top=NULL, ...) {
   }
   if (estimator == "MPM") {
     yhat = predict(object, X, top, estimator="MPM")$fit
- #  nvar = ncol(X) - 1
+#  nvar = ncol(X) - 1
 #   X = cbind(1,sweep(X[,-1], 2, object$mean.x))
 #   bestmodel<- (0:nvar)[object$probne0 > .5]
 #   best = NA
@@ -153,3 +165,22 @@ fitted.bas = function(object,  type="response", estimator=NULL, top=NULL, ...) {
   }
 return(yhat)
 }
+
+.se.fit= function(yhat, object) {
+  n = object$n
+  model = attr(yhat, "model")
+  best = attr(yhat, "best")
+  if (object$prior == "BIC" | object$prior == "AIC") {
+    df = n - object$size[best]
+} else {
+  df = n - 1}
+
+  shrinkage= object$shrinkage[best]
+  xiXTXxiT = hat(object$X[, model[-1]+1]) -1/n
+  scale_fit = 1/n + object$shrinkage[best]*xiXTXxiT
+  ssy = var(object$Y)*(n-1)
+  bayes_mse = ssy*(1 - shrinkage*object$R2[best])/df
+  se.fit = sqrt(bayes_mse*scale_fit)
+  se.pred = sqrt(bayes_mse*(1 + scale_fit))
+  return(list(se.fit=se.fit, se.pred=se.pred, residual.scale=sqrt(bayes_mse)))
+  }

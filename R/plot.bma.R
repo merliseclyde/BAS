@@ -17,7 +17,7 @@ plot.bas = function (x, which = c(1:4),
     show <- rep(FALSE, 4)
     show[which] <- TRUE
 
-    yhat = fitted(x, type="BMA")
+    yhat = fitted(x, estimator="BMA")
     r = x$Y - yhat
     n <- length(r)
     if (id.n > 0) {
