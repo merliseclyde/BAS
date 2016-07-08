@@ -55,10 +55,13 @@ predict.bas = function(object, newdata, top=NULL, type="link",
           fit = fit + (1 - object$shrinkage[[best]])*(object$mle[[best]])[1]
       }
       else { fit = rep(nrow(newdata), 1) * as.numeric(object$mle[object$size == 1])}
-      attributes(fit) = list(model = bestmodel)
+      models=bestmodel
+      attributes(fit) = list(model = models)
+      
       Ybma = fit
       Ypred = NULL
-      postprobs=NULL  
+      postprobs=NULL
+      best=NULL
   }
   else {    
   if (estimator == "HPM") top=1
@@ -90,15 +93,19 @@ predict.bas = function(object, newdata, top=NULL, type="link",
   Ybma <- t(Ypred) %*% postprobs
   fit = Ybma
   if (estimator == "HPM") {
-    attributes(fit) = list(model = unlist(object$which[best]), best=best)   
+    models = unlist(object$which[best])
+    attributes(fit) = list(model = models, best=best)  
   }
   if (estimator=="BPM") {
     dis =apply(sweep(Ypred, 2, Ybma),1, sd)
     bestBPM = which.min(dis)
     fit = Ypred[bestBPM, ]
-    attributes(fit) = list(model = unlist(object$which[best[bestBPM]]),
-                            best = best[bestBPM])
-    }
+    models = unlist(object$which[best[bestBPM]])
+    best = bestBPM
+    attributes(fit) = list(model = models,
+                            best = best)
+   
+  }
   }
   
   if (se == T & estimator != "BMA" & prediction == FALSE) {
