@@ -1,10 +1,10 @@
-\name{update.bma}
+\name{update.bas}
 \alias{update}
-\alias{update.bma}
+\alias{update.bas}
 \title{Update BMA object using a new prior}
 \description{Update a BMA object using a new prior distribution on the coefficients.
 }
-\usage{\method{update}{bma}(object, newprior, alpha=NULL, ...)
+\usage{\method{update}{bas}(object, newprior, alpha=NULL, ...)
 }
 \arguments{
   \item{object}{BMA object to update}

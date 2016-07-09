@@ -1,28 +1,28 @@
-\name{coef.bma}
-\alias{coef.bma}
+\name{coef.bas}
+\alias{coef.bas}
 \alias{coef}
 \alias{coefficients}
-\alias{coefficients.bma}
-\alias{print.coef.bma}
+\alias{coefficients.bas}
+\alias{print.coef.bas}
 \title{Coefficients of a Bayesian Model Average object}
 
 \description{Extract conditional posterior means and standard deviations,
   marginal posterior means and standard deviations, posterior
   probabilities, and marginal inclusions probabilities under
-  Bayesian Model Averaging from an object of class BMA}
+  Bayesian Model Averaging from an object of class 'bas'}
 \usage{
-\method{coef}{bma}(object, ...)
-\method{print}{coef.bma}(x, n.models=5,digits = max(3, getOption("digits") - 3),...)
+\method{coef}{bas}(object, ...)
+\method{print}{coef.bas}(x, n.models=5,digits = max(3, getOption("digits") - 3),...)
 }
 \arguments{
-  \item{object}{object of class 'bma' created by BAS}
-  \item{x}{object of class 'coef.bma' to print}
+  \item{object}{object of class 'bas' created by BAS}
+  \item{x}{object of class 'coef.bas' to print}
   \item{n.models}{Number of top models to report in the printed summary}
   \item{digits}{number of significant digits to print}
   \item{...}{other optional arguments }
 }
 \value{
-  \code{coefficients} returns an object of class coef.bma with the following:
+  \code{coefficients} returns an object of class coef.bas with the following:
   \item{conditionalmeans}{a  matrix with conditional posterior means
   for each model}
 \item{conditionalsd}{ standard deviations for each model }
@@ -50,7 +50,7 @@
  
 }
 
-\seealso{\code{\link{bas}}
+\seealso{\code{\link{bas}}, \code{\link{confint.coef.bas}}
 }
 \examples{data("Hald")
 hald.gprior =  bas.lm(Y~ ., data=Hald, n.models=2^4, alpha=13,
@@ -62,5 +62,5 @@ plot(coef.hald.gprior)
 \author{Merlise Clyde \email{clyde@stat.duke.edu} }
 \note{With highly correlated variables,
   marginal summaries may not be representative of the joint
-  distribution. Use \code{\link{plot.coef.bma}} to view distributions.}
+  distribution. Use \code{\link{plot.coef.bas}} to view distributions.}
 \keyword{regression}

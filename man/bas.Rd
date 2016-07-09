@@ -119,7 +119,7 @@ the correlations of variables are small to modest.  The priors on
 coefficients include Zellner's g-prior, the Hyper-g prior (Liang et al
 2008, the Zellner-Siow Cauchy prior, Empirical Bayes (local and gobal)
 g-priors.  AIC and BIC are also included.  } \value{
-  \code{bas} returns an object of class \code{BMA}
+  \code{bas} returns an object of class \code{bas}
 
 An object of class \code{BAS} is a list containing at least the following components:
 
@@ -158,10 +158,10 @@ its mean.}
  posterior distributions for the coefficients and
  \code{\link{image.bas}} provides an image of the distribution over models.
  Posterior summaries of coefficients can be extracted using
- \code{\link{coefficients.bma}}.  Fitted values and predictions can be
+ \code{\link{coefficients.bas}}.  Fitted values and predictions can be
  obtained using the S3 functions  \code{\link{fitted.bas}} and \code{\link{predict.bas}}.
  BAS objects may be updated to use a different prior (without rerunning
- the sampler) using the function  \code{\link{update.bma}}.
+ the sampler) using the function  \code{\link{update.bas}}.
 }
 
 \references{
@@ -202,14 +202,14 @@ its mean.}
 \author{Merlise Clyde (\email{clyde@stat.duke.edu}) and Michael Littman}
   
 \seealso{ \code{\link{summary.bas}},
-          \code{\link{coefficients.bma}},
+          \code{\link{coefficients.bas}},
           \code{\link{print.bas}},
 	  \code{\link{predict.bas}},
 	  \code{\link{fitted.bas}}
           \code{\link{plot.bas}},
 	  \code{\link{image.bas}},
 	  \code{\link{eplogprob}},
-	  \code{\link{update.bma}}
+	  \code{\link{update.bas}}
 	  
 }
 	

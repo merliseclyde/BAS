@@ -1,4 +1,4 @@
-update.bma = function(object, newprior, alpha=NULL, ...) {
+update.bas = function(object, newprior, alpha=NULL, ...) {
   method.num = switch(newprior,
     "g-prior"=0,
     "hyper-g"=1,

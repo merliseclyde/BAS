@@ -29,7 +29,7 @@ The summary methods display a view specific to Bayesian model averaging
 giving the top highest probability models.
 }
 \author{Merlise Clyde \email{clyde@stat.duke.edu}}
-\seealso{\code{\link{coefficients.bma}}}
+\seealso{\code{\link{coef.bas}}}
 \examples{
 library(MASS)
 data(UScrime)
