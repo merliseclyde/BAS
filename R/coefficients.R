@@ -75,6 +75,7 @@ plot.coef.bas  = function(x, e = 1e-04, subset = 1:x$n.vars, ask=TRUE, ...) {
         on.exit(par(op))
     }
   df = x$df
+    if (length(df) == 1) df = rep(df, length(x$postprob))
  for (i in subset) {
     sel = x$conditionalmeans[,i] != 0
     prob0 = 1 - x$probne0[i]   
@@ -82,6 +83,8 @@ plot.coef.bas  = function(x, e = 1e-04, subset = 1:x$n.vars, ask=TRUE, ...) {
     means =   x$conditionalmeans[sel, i, drop=TRUE]
     sds   =   x$conditionalsd[sel, i, drop=TRUE]
     name  = x$namesx[i]
+    df = df[sel]
+    
     plotvar(prob0, mixprobs, df, means, sds, name, e = e, ...)
   }
   invisible()

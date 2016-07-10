@@ -6,7 +6,7 @@
 \description{Computes Credible Intervals for regression coefficients from BAS objects}
 
 \usage{
-\method{confint}{coef.bas}(object, parm, level = 0.95, nsim=10000, ...)
+\method{confint}{coef.bas}(object, parm, level = 0.95, approx=TRUE, nsim=10000, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -15,7 +15,8 @@
   \item{parm}{a specification of which parameters are to be given credible intervals, either a vector of numbers or a vector of names. If missing, all parameters are considered.
   }
   \item{level}{the probabilty coverage required}
-  \item{nsim}{number of Monte Carlo  draws from the posterior distribution}
+  \item{approx}{logical variable for whether to approximate the mixture using a single t distribution (TRUE) or a mixture of t-distributions in conjunction with Monte Carlo sampling (FALSE).  In the case that  n.models=1, approx = TRUE as there is just one mixture component.}
+  \item{nsim}{number of Monte Carlo draws from the posterior distribution.  Used with approx=FALSE.}
   \item{...}{other arguments to passed; none currently}
 }
 \details{
@@ -37,14 +38,12 @@ A matrix (or vector) with columns giving lower and upper HPD credible limits for
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (x) 
-{
-  }
+data("Hald")
+hald.gprior =  bas.lm(Y~ ., data=Hald, alpha=13, prior="g-prior")
+coef.hald = coef(hald.gprior)
+confint(coef.hald)
+confint(coef.hald, approx=FALSE, nsim=5000)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

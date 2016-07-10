@@ -1,17 +1,30 @@
-confint.coef.bas = function(object, parm, level=0.95, nsim=10000, ...) {
+confint.coef.bas = function(object, parm, level=0.95, approx=TRUE, nsim=10000, ...) {
   n.models = length(object$postprob)
-  models = sample(1:n.models, size=nsim, prob= object$postprobs, replace=TRUE)
   if (missing(parm)) parm= 1:object$n.vars
-  means = object$conditionalmeans[models,parm]
-  sd = object$conditionalsd[models,parm]
-  df = object$df
-  if (length(df) == length(object$postprobs)) df = object$df[models]
- 
-  betas = matrix(rt(nsim*length(subset), df=df), 
-                 nrow=nsim, ncol=length(parm), byrow=FALSE)
-
-  betas = betas*sd + means
-  .HPDinterval(betas, prob=level)
+  
+  if (n.models > 1 & !approx) {
+    models = sample(1:n.models, size=nsim, prob= object$postprobs, replace=TRUE)
+    means = object$conditionalmeans[models,parm]
+    sd = object$conditionalsd[models,parm]
+    df = object$df
+    if (length(df) == length(object$postprobs)) df = object$df[models]
+    betas = matrix(rt(nsim*length(subset), df=df), 
+                   nrow=nsim, ncol=length(parm), byrow=FALSE)
+    betas = betas*sd + means
+    ci = .HPDinterval(betas, prob=level)}
+  else {
+    df = sum(object$postprobs*object$df)
+    means = object$postmean[parm]
+    sd = object$postsd[parm]
+    tq = -qt((1 - level)/2, df= df)
+    ci = cbind(means - tq*sd, means + tq*sd)
+    lower = as.character(round((1 - level)/2), 2)
+    upper = as.character(round((1 + level)/2), 2)
+    colnames(ci) = c(upper, lower)
+    rownames(ci) = object$namesx[parm]
+    attr(ci, "Probability") <-  level
+  }
+return(ci)
 }
 
 .HPDinterval = function (obj, prob = 0.95, ...) 
@@ -30,7 +43,7 @@ confint.coef.bas = function(object, parm, level=0.95, nsim=10000, ...) {
   ans <- cbind(vals[cbind(inds, 1:npar)], vals[cbind(inds + 
                                                        gap, 1:npar)])
   lower = as.character(round(100*(1 - prob)/2, 2))
-  upper = as.character(round(100*prob/2, 2))
+  upper = as.character(round(100*(prob +1)/2, 2))
   
   dimnames(ans) <- list(colnames(obj), c(lower, upper))
   attr(ans, "Probability") <- gap/nsamp
