@@ -14,10 +14,11 @@ coef.bas = function(object, ...) {
   postsd = sqrt(object$postprob %*% conditionalsd^2   +
                 object$postprob %*% ((sweep(conditionalmeans, 2, postmean, FUN="-"))^2))
   postsd = as.vector(postsd) 
-  df = object$n
-  if (object$prior == "BIC" | object$prior == "AIC") {df = df - object$size}
-  else {df = df - 1}
-  
+  if (is.null(object$df)) {
+    df = rep(object$n, length(object$postprob))
+    if (object$prior == "BIC" | object$prior == "AIC") {df = df - object$size}
+    else {df = df - 1}
+  }
   out = list(postmean=postmean, postsd=postsd, probne0 = object$probne0,
              conditionalmeans=conditionalmeans,conditionalsd=conditionalsd,
              namesx=object$namesx, postprobs=object$postprobs,
@@ -83,9 +84,8 @@ plot.coef.bas  = function(x, e = 1e-04, subset = 1:x$n.vars, ask=TRUE, ...) {
     means =   x$conditionalmeans[sel, i, drop=TRUE]
     sds   =   x$conditionalsd[sel, i, drop=TRUE]
     name  = x$namesx[i]
-    df = df[sel]
-    
-    plotvar(prob0, mixprobs, df, means, sds, name, e = e, ...)
+    df.sel = df[sel]
+    plotvar(prob0, mixprobs, df.sel, means, sds, name, e = e, ...)
   }
   invisible()
 }
