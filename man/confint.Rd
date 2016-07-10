@@ -6,7 +6,7 @@
 \description{Computes Credible Intervals for regression coefficients from BAS objects}
 
 \usage{
-\method{confint}{coef.bas}(object, parm, level = 0.95, approx=TRUE, nsim=10000, ...)
+\method{confint}{coef.bas}(object, parm, level = 0.95, nsim=10000, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -15,12 +15,12 @@
   \item{parm}{a specification of which parameters are to be given credible intervals, either a vector of numbers or a vector of names. If missing, all parameters are considered.
   }
   \item{level}{the probabilty coverage required}
-  \item{approx}{logical variable for whether to approximate the mixture using a single t distribution (TRUE) or a mixture of t-distributions in conjunction with Monte Carlo sampling (FALSE).  In the case that  n.models=1, approx = TRUE as there is just one mixture component.}
-  \item{nsim}{number of Monte Carlo draws from the posterior distribution.  Used with approx=FALSE.}
+ 
+  \item{nsim}{number of Monte Carlo draws from the posterior distribution.  Used when number of models is greater than 1.}
   \item{...}{other arguments to passed; none currently}
 }
 \details{
-Uses Monte Carlo simulations using posterior means and standard deviations of coefficents to generate draws from the posterior distributions and returns highest posterior density (HPD) credible intervals.
+Uses Monte Carlo simulations using posterior means and standard deviations of coefficents to generate draws from the posterior distributions and returns highest posterior density (HPD) credible intervals.  If the number of models equals one, then use the t distribution to find intervals.  These currently condition on the estimate of $g$.
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{

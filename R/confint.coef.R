@@ -1,8 +1,8 @@
-confint.coef.bas = function(object, parm, level=0.95, approx=TRUE, nsim=10000, ...) {
+confint.coef.bas = function(object, parm, level=0.95, nsim=10000, ...) {
   n.models = length(object$postprob)
   if (missing(parm)) parm= 1:object$n.vars
   
-  if (n.models > 1 & !approx) {
+  if (n.models > 1) {
     models = sample(1:n.models, size=nsim, prob= object$postprobs, replace=TRUE)
     means = object$conditionalmeans[models,parm]
     sd = object$conditionalsd[models,parm]
