@@ -18,12 +18,13 @@ confint.coef.bas = function(object, parm, level=0.95, approx=TRUE, nsim=10000, .
     sd = object$postsd[parm]
     tq = -qt((1 - level)/2, df= df)
     ci = cbind(means - tq*sd, means + tq*sd)
-    lower = as.character(round((1 - level)/2), 2)
-    upper = as.character(round((1 + level)/2), 2)
-    colnames(ci) = c(upper, lower)
-    rownames(ci) = object$namesx[parm]
+
     attr(ci, "Probability") <-  level
   }
+  lower = paste(as.character(round(100*(1 - level)/2, 4)), " %")
+  upper = paste(as.character(round(100*(1 + level)/2, 4)), " %")
+  colnames(ci) = c(lower, upper)
+  rownames(ci) = object$namesx[parm]
 return(ci)
 }
 
