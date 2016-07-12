@@ -42,8 +42,8 @@ type="link", estimator="BMA", se=FALSE, prediction=TRUE, ...)}
 \examples{
 data("Hald")
 hald.gprior =  bas.lm(Y~ ., data=Hald, alpha=13, prior="g-prior")
-predict(hald.gprior, top=5, type="response", predict=FALSE)  # default is BMA
-predict(hald.gprior, newdata=Hald, estimator="MPM")
+predict(hald.gprior, top=5, type="response", predict=FALSE, se=TRUE)  # default is BMA
+predict(hald.gprior, newdata=Hald, estimator="MPM", se=TRUE)
 # same as fitted
 fitted(hald.gprior,estimator="MPM")
 }

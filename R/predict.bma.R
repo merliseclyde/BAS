@@ -108,10 +108,14 @@ predict.bas = function(object, newdata, top=NULL, type="link",
   }
   }
   
-  if (se == T & estimator != "BMA" & prediction == FALSE) {
-     se = .se.fit(fit,  object)    
+  if (se == T  &  prediction == FALSE) {
+    if (estimator != "BMA")  se = .se.fit(fit,  object)   
+    else   se = .se.bma(Ybma, Ypred, best, object)
   } 
-  else {se=NULL}
+  else {
+    se=NULL
+    warning("no standard errors available yet for out of sample prediction; returning NULL")}
+  
   return(list(fit=fit, Ybma=Ybma, Ypred=Ypred, postprobs=postprobs,
               se.fit=se$se.fit, se.pred=se$se.pred,
               best=best, bestmodel=models))
@@ -190,4 +194,40 @@ return(yhat)
   se.fit = sqrt(bayes_mse*scale_fit)
   se.pred = sqrt(bayes_mse*(1 + scale_fit))
   return(list(se.fit=se.fit, se.pred=se.pred, residual.scale=sqrt(bayes_mse)))
-  }
+}
+
+.se.bma = function(fit, Ypred, best, object){
+
+n = object$n
+
+if (object$prior == "BIC" | object$prior == "AIC") {
+  df = n - object$size[best]
+} else {
+  df = n - 1}
+
+shrinkage= object$shrinkage[best]
+xiXTXxiT =  sapply(object$which[best], 
+                   FUN=function(model, X) {
+                     hat(X[, model[-1]+1]) -1/n}, 
+                   object$X)
+
+scale_fit = 1/n + sweep(xiXTXxiT, 2, shrinkage, FUN="*")
+ssy = var(object$Y)*(n-1)
+bayes_mse = ssy*(1 - shrinkage*object$R2[best])/df
+var.fit = sweep(scale_fit, 2, bayes_mse, FUN="*")
+var.pred = sweep((1 + scale_fit), 2, bayes_mse, FUN="*")
+
+postprobs = object$postprobs[best]
+
+# expected variance
+evar.fit = as.vector(var.fit %*% postprobs)
+evar.pred = as.vector(var.pred %*% postprobs)
+# variance of expectations
+var.efit = as.vector(postprobs %*% (sweep(Ypred, 2, fit))^2 )
+
+se.fit = sqrt(evar.fit + var.efit)
+se.pred = sqrt(evar.pred + var.efit)
+  
+
+return(list(se.fit=se.fit, se.pred=se.pred, residual.scale=sqrt(bayes_mse)))
+}
