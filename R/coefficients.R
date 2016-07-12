@@ -90,17 +90,10 @@ plot.coef.bas  = function(x, e = 1e-04, subset = 1:x$n.vars, ask=TRUE, ...) {
   invisible()
 }
 
-cv.summary.bma = function(object, pred, ytrue) {
-  topmodel = pred$best[1]
-  best.model = rep(0, length(object$namesx))
-  best.model[object$which[[topmodel]] + 1] = 1                    
-  top.sum = rbind(c(best.model,
-                 object$postprob[topmodel],
-                 object$R2[topmodel],
-                 object$size[topmodel],
-                 sqrt(sum((pred$Ypred[1,]- ytrue)^2)/length(ytrue)),
-                 sqrt(sum((pred$Ybma- ytrue)^2)/length(ytrue))))
-  colnames(top.sum) = c(object$namesx, "postprob",  "R2", "dim", "APEbest", "APEMA")
-  return(top.sum)
+cv.summary.bas = function(pred, ytrue) {
+  
+  APE = sqrt(sum((pred - ytrue)^2)/length(ytrue))
+  
+  return(APE)
 }
 

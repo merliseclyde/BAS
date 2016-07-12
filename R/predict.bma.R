@@ -107,16 +107,19 @@ predict.bas = function(object, newdata, top=NULL, type="link",
    
   }
   }
+  se.calc = se
   
-  if (se == T  &  prediction == FALSE) {
-    if (estimator != "BMA")  se = .se.fit(fit,  object)   
-    else   se = .se.bma(Ybma, Ypred, best, object)
-  } 
-  else {
-    se=NULL
+  se=list(se.fit=NULL, se.pred=NULL)
+  
+  if (se.calc)  {
+    if (!prediction)  {
+       if (estimator != "BMA")  se = .se.fit(fit,  object)   
+       else   se = .se.bma(Ybma, Ypred, best, object) }
+    else {
     warning("no standard errors available yet for out of sample prediction; returning NULL")}
-  
-  return(list(fit=fit, Ybma=Ybma, Ypred=Ypred, postprobs=postprobs,
+    }
+    
+  return(list(fit=as.vector(fit), Ybma=Ybma, Ypred=Ypred, postprobs=postprobs,
               se.fit=se$se.fit, se.pred=se$se.pred,
               best=best, bestmodel=models))
 }
