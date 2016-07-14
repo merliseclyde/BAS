@@ -1,7 +1,8 @@
 Changes for BAS 1.2.3 July 12, 2016
-	- deprecated use of type to specify estimator in fitted.bas	
+  - added credible intervals for coefficients  'confint"  function
+	- deprecated use of type to specify estimator in fitted.bas	and replaced with 'estimator'
 	- added standard errors for fitted values and predicted values with in-sample fitting
-	- streamlined cv.summary.bas fucntion
+	- streamlined cv.summary.bas funbtion
 Changes for BAS 1.2.2 June 29, 2016
 	- added option to find "Best Predictive Model" or "BPM" for fitted.bas
 	- added local Empirical Bayes prior and fixed g-prior for bas.glm
