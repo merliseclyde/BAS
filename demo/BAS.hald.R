@@ -11,8 +11,8 @@ image(hald.gprior, subset=-1, vlas=0)
 hald.coef = coefficients(hald.gprior)
 hald.coef
 plot(hald.coef)
-predict(hald.gprior, hald.gprior$X[,-1], top=5)  # do not include the intercept in the design matrix
-fitted(hald.gprior, type="HPM")
+predict(hald.gprior, top=5, se.fit=TRUE)  
+fitted(hald.gprior, estimator="HPM")
 hald.gprior =  bas.lm(Y~ ., data=Hald, n.models=2^4,
                       prior="g-prior", alpha=13, modelprior=uniform(),
                       initprobs="eplogp")

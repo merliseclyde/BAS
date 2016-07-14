@@ -15,8 +15,8 @@ predict.basglm = function(object, newdata, top=NULL, type=c("link", "response"),
 
     
     
-predict.bas = function(object, newdata, top=NULL, type="link", 
-                       estimator="BMA", se=FALSE, prediction=TRUE, ...) {
+predict.bas = function(object, newdata, se.fit=FALSE, type="link", 
+                       top=NULL,  estimator="BMA", prediction=FALSE,   ...) {
   if (!(estimator %in% c("BMA", "HPM", "MPM", "BPM"))) {
     stop("Estimator must be one of 'BMA', 'BPM', 'HPM', or 'MPM'.")
   }
@@ -107,11 +107,11 @@ predict.bas = function(object, newdata, top=NULL, type="link",
    
   }
   }
-  se.calc = se
+
   
   se=list(se.fit=NULL, se.pred=NULL)
-  
-  if (se.calc)  {
+
+  if (se.fit)  {
     if (!prediction)  {
        if (estimator != "BMA")  se = .se.fit(fit,  object)   
        else   se = .se.bma(Ybma, Ypred, best, object) }
@@ -139,16 +139,16 @@ fitted.bas = function(object,  type="response", estimator=NULL, top=NULL, ...) {
 #    best =  which.max(object$logmarg)
 #    yhat  <- as.vector(X[,object$which[[best]]+1, drop=FALSE] %*% object$mle[[best]]) * object$shrinkage[[best]]
 #   yhat = yhat + (1 - object$shrinkage[[best]])*(object$mle[[best]])[1]
-   yhat = predict(object, X,  top=1, estimator="HPM")$fit
+   yhat = predict(object, top=1, estimator="HPM")$fit
 #  best = ypred$best
     #  yhat = ypred$fit   # note with ome model this is the HPM
       #attributes(yhat) = list(model = unlist(object$which[best]), best=best)   
   }
   if (estimator == "BMA") {
-   yhat = predict(object, X, top, estimator="BMA")$fit
+   yhat = predict(object, top=top, estimator="BMA")$fit
   }
   if (estimator == "MPM") {
-    yhat = predict(object, X, top, estimator="MPM")$fit
+    yhat = predict(object, top=top, estimator="MPM")$fit
 #  nvar = ncol(X) - 1
 #   X = cbind(1,sweep(X[,-1], 2, object$mean.x))
 #   bestmodel<- (0:nvar)[object$probne0 > .5]
@@ -169,7 +169,7 @@ fitted.bas = function(object,  type="response", estimator=NULL, top=NULL, ...) {
 #   attributes(yhat) = list(model = bestmodel)   
   }
   if (estimator=="BPM") {
-      yhat = predict(object, X, top, estimator="BPM")$fit
+      yhat = predict(object, top=top, estimator="BPM")$fit
 #      ypred = predict(object, X, top=top)
 #      dis =apply(sweep(ypred$Ypred, 2, ypred$Ybma),1, sd)
 #     best = which.min(dis)
