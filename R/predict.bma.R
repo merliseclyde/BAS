@@ -143,16 +143,16 @@ fitted.bas = function(object,  type="response", estimator="BMA", top=NULL, ...) 
   nmodels = length(object$which)
   X = object$X
   if (estimator=="HPM") {
-   yhat = predict(object, top=1, estimator="HPM")$fit
+   yhat = predict(object, top=1, estimator="HPM", predict=FALSE)$fit
   }
   if (estimator == "BMA") {
-   yhat = predict(object, top=top, estimator="BMA")$fit
+   yhat = predict(object, top=top, estimator="BMA", predict=FALSE)$fit
   }
   if (estimator == "MPM") {
-    yhat = predict(object, top=top, estimator="MPM")$fit
+    yhat = predict(object, top=top, estimator="MPM", predict=FALSE)$fit
  }
   if (estimator=="BPM") {
-      yhat = predict(object, top=top, estimator="BPM")$fit
+      yhat = predict(object, top=top, estimator="BPM", predict=FALSE)$fit
   }
 return(yhat)
 }
