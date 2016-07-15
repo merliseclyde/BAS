@@ -19,6 +19,8 @@ coef.bas = function(object, ...) {
     if (object$prior == "BIC" | object$prior == "AIC") {df = df - object$size}
     else {df = df - 1}
   }
+  else df = object$df
+  
   out = list(postmean=postmean, postsd=postsd, probne0 = object$probne0,
              conditionalmeans=conditionalmeans,conditionalsd=conditionalsd,
              namesx=object$namesx, postprobs=object$postprobs,
@@ -75,8 +77,8 @@ plot.coef.bas  = function(x, e = 1e-04, subset = 1:x$n.vars, ask=TRUE, ...) {
         op <- par(ask = TRUE)
         on.exit(par(op))
     }
-  df = x$df
-    if (length(df) == 1) df = rep(df, length(x$postprob))
+ df = x$df
+ 
  for (i in subset) {
     sel = x$conditionalmeans[,i] != 0
     prob0 = 1 - x$probne0[i]   

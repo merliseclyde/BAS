@@ -29,20 +29,27 @@
 }
 \value{a list of
   \item{fit}{fitted values based on the selected estimator}
-  \item{Ybma}{predictions using BMA, the same as fit for non-BMA methods for compatibilty}
+  \item{Ybma}{predictions using BMA, the same as fit for non-BMA methods for compatibilty; will be deprecated}
   \item{Ypred}{matrix of predictions under each model for BMA}
-  \item{se.fit}{se of fitted values}
-  \item{se.pred}{se for predicted values}
+  \item{se.fit}{se of fitted values; in the case of BMA this will be a matrix}
+  \item{se.pred}{se for predicted values; in the case of BMA this will be a matrix}
+  \item{se.bma.fit}{vector of posterior sd under BMA for posterior mean of the 
+  regression function. this will be NULL if estimator is not 'BMA'}
+  \item{se.bma.pred}{vector of posterior sd under BMA for posterior predictive values.
+    this will be NULL if estimator is not 'BMA'}
   \item{best}{index of top models included}
   \item{bestmodels}{subset of bestmodels used for fitting or prediction}
+  \item{df}{scalar or vector of degrees of freedom for models}
+  \item{estimator}{estimator upon which 'fit' is based.}
+  
 }
 \details{Use BMA and/or model selection to form predictions using the top highest probability models.}
-\seealso{\code{\link{bas}}, \code{\link{fitted.bas}}
+\seealso{\code{\link{bas}}, \code{\link{fitted.bas}}, \code{\link{confint.pred.bas}}
 }
 \examples{
 data("Hald")
 hald.gprior =  bas.lm(Y~ ., data=Hald, alpha=13, prior="g-prior")
-predict(hald.gprior, top=5, type="response", predict=FALSE, se.fit=TRUE)  # default is BMA
+predict(hald.gprior, top=5, predict=FALSE, se.fit=TRUE)  # default is BMA
 predict(hald.gprior, newdata=Hald, estimator="MPM", se.fit=TRUE, prediction=FALSE)
 # same as fitted
 fitted(hald.gprior,estimator="MPM")

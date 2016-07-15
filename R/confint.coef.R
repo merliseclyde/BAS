@@ -28,6 +28,40 @@ confint.coef.bas = function(object, parm, level=0.95, nsim=10000, ...) {
 return(ci)
 }
 
+confint.pred.bas = function(object, parm, level=0.95, nsim=10000, ...) {
+  
+  if (missing(parm)) parm="pred"
+  if (parm == "pred")  sd=object$se.pred
+  else  sd = object$se.fit
+  
+  if (object$estimator == "BMA") {
+    n.models = length(object$postprob)
+    models = sample(1:n.models, size=nsim, prob= object$postprobs, replace=TRUE)
+    means = object$Ypred[models,]
+    df = object$df[models]
+ #   browser()
+    sd = sd[models,]
+    npred = length(object$fit)
+    pred = matrix(rt(nsim*npred, df=df), 
+                   nrow=nsim, ncol=npred, byrow=FALSE)
+    pred= pred*sd + means
+    ci = .HPDinterval(pred, prob=level)}
+  else {
+    browser()
+    df = object$df
+    means = object$fit
+    tq = -qt((1 - level)/2, df= df)
+    ci = cbind(means - tq*sd, means + tq*sd)
+    
+    attr(ci, "Probability") <-  level
+  }
+  lower = paste(as.character(round(100*(1 - level)/2, 4)), " %")
+  upper = paste(as.character(round(100*(1 + level)/2, 4)), " %")
+  colnames(ci) = c(lower, upper)
+  rownames(ci) = object$namesx[parm]
+  return(ci)
+}
+
 .HPDinterval = function (obj, prob = 0.95, ...) 
 {
   # from library coda but used here so that library does not have to be loaded

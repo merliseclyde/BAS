@@ -289,7 +289,7 @@ if (method == "AMCMC") {
       method=as.integer(method.num),modelprior=modelprior,
       PACKAGE="BAS")
   )
-
+  
   result$namesx=namesx
   result$n=length(Yvec)
   result$prior=prior
@@ -300,6 +300,9 @@ if (method == "AMCMC") {
   } else {
   	result$n.models=n.models
   }
+  df = rep(n - 1, result$n.models)
+  if (prior == "AIC" | prior == "BIC" | prior=="IC") df = df - result$size + 1
+  result$df = df
   result$n.vars=p
   result$Y=Yvec
   result$X=Xorg

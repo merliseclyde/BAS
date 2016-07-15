@@ -4,7 +4,7 @@
 \title{Fitted values for a BAS BMA objects}
 \description{Calculate fitted values for a BAS BMA object}
 
-\usage{\method{fitted}{bas}(object,  type="response", estimator=NULL, top=NULL, ...)}
+\usage{\method{fitted}{bas}(object,  type="response", estimator="BMA", top=NULL, ...)}
 \arguments{
   \item{object}{An object of class 'bma' as created by
     \code{\link{bas}}}
@@ -12,7 +12,7 @@
     Prior to version 1.2.2 type was used to specify the type of
     estimator.  In order to be consistent with the predict.bas function
     this has been deprecated and replaced with the estimator option below}
-  \item{estimator}{estimator type of fitted value to return.  Options include
+  \item{estimator}{estimator type of fitted value to return. Default is to use BMA with all models. Options include
    \cr
     'HPM' the highest probability model \cr
     'BMA' Bayesian model averaging, using optionally only the 'top'
