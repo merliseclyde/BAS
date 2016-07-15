@@ -47,7 +47,7 @@ confint.pred.bas = function(object, parm, level=0.95, nsim=10000, ...) {
     pred= pred*sd + means
     ci = .HPDinterval(pred, prob=level)}
   else {
-    browser()
+ #   browser()
     df = object$df
     means = object$fit
     tq = -qt((1 - level)/2, df= df)
