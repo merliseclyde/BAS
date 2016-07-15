@@ -59,7 +59,7 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
       }
       else { fit = rep(nrow(newX), 1) * as.numeric(object$mle[object$size == 1])}
       models=bestmodel
-      attributes(fit) = list(model = models)
+      attributes(fit) = list(model = models, best=best)
       
       Ybma = fit
       Ypred = NULL
@@ -105,7 +105,7 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
     bestBPM = which.min(dis)
     fit = Ypred[bestBPM, ]
     models = unlist(object$which[best[bestBPM]])
-    best = bestBPM
+    best = best[bestBPM]
     df = df[best]
     attributes(fit) = list(model = models,
                             best = best)
@@ -158,6 +158,7 @@ return(yhat)
 }
 
 .se.fit= function(yhat, X, object, pred) {
+
   n = object$n
   model = attr(yhat, "model")
   best = attr(yhat, "best")
