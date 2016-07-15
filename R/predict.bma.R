@@ -109,11 +109,10 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
     df = df[best]
     attributes(fit) = list(model = models,
                             best = best)
-   
-  }
-  }
-
+   }
   
+}
+  #browser()
   se=list(se.fit=NULL, se.pred=NULL, se.bma.fit=NULL, se.bma.pred=NULL)
 
   if (se.fit)  {
@@ -121,7 +120,7 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
        else   se = .se.bma(Ybma, newdata, Ypred, best, object, prediction) 
   }
    
-  out = list(fit=as.vector(fit), Ybma=Ybma, Ypred=Ypred, postprobs=postprobs,
+  out = list(fit=fit, Ybma=Ybma, Ypred=Ypred, postprobs=postprobs,
              se.fit=se$se.fit, se.pred=se$se.pred, 
              se.bma.fit=se$se.bma.fit, se.bma.pred=se$se.bma.pred, 
              df=df,
@@ -154,7 +153,8 @@ fitted.bas = function(object,  type="response", estimator="BMA", top=NULL, ...) 
   if (estimator=="BPM") {
       yhat = predict(object, top=top, estimator="BPM", predict=FALSE)$fit
   }
-return(yhat)
+  
+return(as.vector(yhat))
 }
 
 .se.fit= function(yhat, X, object, pred) {
