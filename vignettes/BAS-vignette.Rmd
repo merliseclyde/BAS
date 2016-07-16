@@ -4,9 +4,9 @@ author: "Merlise A Clyde"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-   %\VignetteIndexEntry{Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging}
-   %\VignetteEngine{knitr::rmarkdown}
-   %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 ```{r setup}
 require(GGally)
