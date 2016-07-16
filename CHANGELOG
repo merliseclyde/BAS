@@ -1,4 +1,5 @@
 Changes for BAS 1.3.0 July 15, 2016
+  - vignetted added at last!
   - added crdible intervals for fitted and predicted values 'confint.pred.bas'
   - added credible intervals for coefficients  'confint.coef.bas'  function
 	- deprecated use of type to specify estimator in fitted.bas	and replaced with 'estimator'

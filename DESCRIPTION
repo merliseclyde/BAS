@@ -9,7 +9,9 @@ Authors@R: c(person("Merlise", "Clyde", email="clyde@stat.duke.edu",
 	   person("Joyee", "Ghosh", role="ctb"),
 	   person("Yingbo", "Li", role="ctb"))
 Depends: R (>= 3.0), stats, graphics
-Suggests: MASS
+Suggests: MASS,
+    knitr,
+    rmarkdown
 Description: Package for Bayesian Model Averaging in linear models and
 	     generalized linear models using stochastic or
 	     deterministic sampling without replacement from posterior
@@ -32,7 +34,7 @@ Description: Package for Bayesian Model Averaging in linear models and
 	     Details behind the sampling algorithm are provided in
 	     Clyde, Ghosh and Littman (2010) <http://dx.doi.org/10.1198/jcgs.2010.09049>.
 License: GPL (>= 3)
-URL:  http://www.r-project.org, http://github.com/merliseclyde/BAS
+URL: http://www.r-project.org, http://github.com/merliseclyde/BAS
 Repository: CRAN
 NeedsCompilation: yes
-
+VignetteBuilder: knitr
