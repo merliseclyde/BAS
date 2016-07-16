@@ -4,10 +4,13 @@ author: "Merlise A Clyde"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{}
+  %\VignetteIndexEntry{Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+```{r setup}
+require(GGally)
+```
 
 The `BAS` package provides easy to use fucntions to implement Bayesian Model Averaging in linear models and  generalized linear models. Prior distributions on coefficients are
 based on Zellner's g-prior or mixtures of g-priors, such as the 
