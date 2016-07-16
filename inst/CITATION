@@ -1,6 +1,5 @@
 citHeader("To cite package 'BAS' in publications use:")
      
-     desc <- packageDescription("BAS")
      year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date)
      vers <- paste("R package version", meta$Version)
      
