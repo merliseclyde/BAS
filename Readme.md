@@ -35,3 +35,5 @@ use the `devtools` package from
 ```r
 devtools::install_github('merliseclyde/BAS')
 ```
+
+Installing the package from source does require compilation of C and FORTRAN code as the library makes use of BLAS and LAPACK for efficient model fitting.  See [CRAN manuals](https://cran.r-project.org/doc/manuals/r-devel/R-admin.html) for installing packages from source under different operating systems.
