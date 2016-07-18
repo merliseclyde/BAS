@@ -43,16 +43,19 @@ A vignette has been added at long last!  This illustrates several of the new fea
 	constant pool of the byte-code  (Thanks to Tomas Kalibera for
 	catching this!)
 * fixed issue with dimensions for use with Simple Linear Regression
+
 # BAS 1.1.0   March 31, 2016
+
 ## New Features
 * added truncated Beta-Binomial prior and truncated Poisson (works
 	only with MCMC currently)
 * improved code for finding fitted values under the Median 
 * deprecated method = "AMCMC" and issue warning message
 
-## Minro Changes
+## Minor Changes
 * Changed S3 method for plot and image to use class `bas` rather than
 	 `bma` to avoid name conflicts with other packages
+
 # BAS 1.09
 	- added weights for linear models
 	- switched LINPACK calls in bayesreg to LAPACK finally should be
