@@ -1,28 +1,35 @@
-# BAS 1.3.0 
+# BAS 1.3.0   July 15, 2016
 
 ## New Features
 
 A vignette has been added at long last!  This illustrates several of the new features in `BAS` such as
   
-  * new functions for computing credible intervals for fitted and predicted values  `confint.pred.bas`
-  * new function for adding credible intervals for coefficients  `confint.coef.bas`  
-  * added posterior standard deviations for fitted values and predicted values in  `predict.bas`
+  * new functions for computing credible intervals for fitted and predicted values  `confint.pred.bas()`
+  * new function for adding credible intervals for coefficients  `confint.coef.bas()`  
+  * added posterior standard deviations for fitted values and predicted values in  `predict.bas()`
   
 
 
 ## Deprication 
 	* deprecated use of `type` to specify estimator in fitted.bas	and replaced with `estimator` so that `predict()` and `fitted()` are compatible with other S3 methods. 
+	* updated funtions to be of class `bas` to avoid NAMESPACE conficts with  other libraries
 	
 
 # BAS 1.2.2 June 29, 2016
 
+## New Features
+	 * added option to find "Best Predictive Model" or "BPM" for `fitted.bas` or `predict.bas`
+	 
+	* added local Empirical Bayes prior and fixed g-prior for `bas.glm`
+	* added `diagnostic()` function for checking convergence of `bas` objects created with `method = "MCMC"`"
+	* added truncated power prior as in Yang, Wainwright & Jordan (2016)
 
-	- added option to find "Best Predictive Model" or "BPM" for fitted.bas
-	- added local Empirical Bayes prior and fixed g-prior for bas.glm
-	- bug fix in plot.bas that appears with Sweave
-	- bug fix in coef.bma when there is just one predictor
-	- added diagnostic plot for MCMC
-	- added truncated power prior as in Yang, Wainwright & Jordan (2016)
+##	Minor Changes
+
+	* bug fix in `plot.bas` that appears with Sweave
+	* bug fix in `coef.bma` when there is just one predictor
+	
+	
 
 # BAS 1.2.1  April 16, 2016
 	- bug fix for method="MCMC" with truncated prior distributions
@@ -124,10 +131,10 @@ A vignette has been added at long last!  This illustrates several of the new fea
  
 # BAS 0.80
 
-	- Added hypergeometric2F1 function that is callable by R
+	- Added `hypergeometric2F1` function that is callable by R
 	- centered X's in bas.lm so that the intercept has the correct
   shrinkage
-	- changed predict.bma to center newdata using the mean(X)
+	- changed `predict.bma` to center newdata using the mean(X)
 	- Added new Adaptive MCMC option (method = "AMCMC")  (this is not
   stable at this point)
 
@@ -137,7 +144,7 @@ A vignette has been added at long last!  This illustrates several of the new fea
  
 # BAS 0.6
 
-	- Added MCMC option to create starting values for BAS (method = "MCMC+BAS")
+	- Added MCMC option to create starting values for BAS (`method = "MCMC+BAS"`)
 
 # BAS 0.5
 
@@ -151,9 +158,8 @@ A vignette has been added at long last!  This illustrates several of the new fea
 # BAS 0.4
 
 	- fixed fortran calls to use F77_NAME macro 
-	- changed  allocation of objects for .Call to prevent some
-  objects from being overwritten.  (still need to replace more)
-
+	- changed  allocation of objects for .Call to prevent some objects from being overwritten.  
+  
 # BAS 0.3
 
 	- fixed EB.global function to include prior probabilities on models
