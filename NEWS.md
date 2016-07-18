@@ -4,53 +4,55 @@
 
 A vignette has been added at long last!  This illustrates several of the new features in `BAS` such as
   
-  * new functions for computing credible intervals for fitted and predicted values  `confint.pred.bas()`
-  * new function for adding credible intervals for coefficients  `confint.coef.bas()`  
-  * added posterior standard deviations for fitted values and predicted values in  `predict.bas()`
+* new functions for computing credible intervals for fitted and predicted values  `confint.pred.bas()`
+* new function for adding credible intervals for coefficients  `confint.coef.bas()` 
+* added posterior standard deviations for fitted values and predicted values in  `predict.bas()`
   
 
 
 ## Deprication 
-	* deprecated use of `type` to specify estimator in fitted.bas	and replaced with `estimator` so that `predict()` and `fitted()` are compatible with other S3 methods. 
-	* updated funtions to be of class `bas` to avoid NAMESPACE conficts with  other libraries
+* deprecated use of `type` to specify estimator in fitted.bas	and replaced with `estimator` so that `predict()` and `fitted()` are compatible with other S3 methods. 
+* updated funtions to be of class `bas` to avoid NAMESPACE conficts with  other libraries
 	
 
 # BAS 1.2.2 June 29, 2016
 
 ## New Features
-	 * added option to find "Best Predictive Model" or "BPM" for `fitted.bas` or `predict.bas`
-	 
-	* added local Empirical Bayes prior and fixed g-prior for `bas.glm`
-	* added `diagnostic()` function for checking convergence of `bas` objects created with `method = "MCMC"`"
-	* added truncated power prior as in Yang, Wainwright & Jordan (2016)
+* added option to find "Best Predictive Model" or "BPM" for `fitted.bas` or `predict.bas`
+* added local Empirical Bayes prior and fixed g-prior for `bas.glm`
+* added `diagnostic()` function for checking convergence of `bas` objects created with `method = "MCMC"`"
+* added truncated power prior as in Yang, Wainwright & Jordan (2016)
 
 ##	Minor Changes
 
-	* bug fix in `plot.bas` that appears with Sweave
-	* bug fix in `coef.bma` when there is just one predictor
+* bug fix in `plot.bas` that appears with Sweave
+* bug fix in `coef.bma` when there is just one predictor
 	
 	
 
 # BAS 1.2.1  April 16, 2016
-	- bug fix for method="MCMC" with truncated prior distributions
+* bug fix for method="MCMC" with truncated prior distributions
 	where MH ratio was incorrect allowing models with 0 probability to
 	be sampled.
-	- fixed error in Zellner-Siow prior (ZS-null) when n=p+1 or
+* fixed error in Zellner-Siow prior (ZS-null) when n=p+1 or
 	saturated model  where log marginal likelihood should be 0 
+
 # BAS 1.2.0  April 11, 2016
-	- removed unsafe code where Rbestmarg (input) was being
+* removed unsafe code where Rbestmarg (input) was being
 	overwritten in .Call which would end up in corruption of the
 	constant pool of the byte-code  (Thanks to Tomas Kalibera for
 	catching this!)
-	- fixed issue with dimensions for use with Simple Linear Regression
+* fixed issue with dimensions for use with Simple Linear Regression
 # BAS 1.1.0   March 31, 2016
-	- New! added truncated Beta-Binomial prior and truncated Poisson (works
+## New Features
+* added truncated Beta-Binomial prior and truncated Poisson (works
 	only with MCMC currently)
-	- deprecated method = "AMCMC" and issue warning message
-	Probability model
-	- improved code for finding fitted values under the Median 
-	- Changed S3 method for plot and image to use "bas" rather than
-	'bma' to avoid name conflicts with other packages
+* improved code for finding fitted values under the Median 
+* deprecated method = "AMCMC" and issue warning message
+
+## Minro Changes
+* Changed S3 method for plot and image to use class `bas` rather than
+	 `bma` to avoid name conflicts with other packages
 # BAS 1.09
 	- added weights for linear models
 	- switched LINPACK calls in bayesreg to LAPACK finally should be
