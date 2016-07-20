@@ -1,3 +1,7 @@
+# BAS 1.3.1   July 18, 2016
+
+# New features - none yet, just getting started!
+
 # BAS 1.3.0   July 15, 2016
 
 ## New Features
