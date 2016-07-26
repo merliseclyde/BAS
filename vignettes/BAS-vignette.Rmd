@@ -150,8 +150,15 @@ To obtain credible interals for coefficients, `BAS` includes a `confint` method 
 
 confint(coef.ZS)
 ```
-
+where the third column is the posterior mean.
 This uses Monte Carlo sampling to draw from the mixture model over coefficient where models are sampled based on their posterior probabilities.
+
+We can also plot these via
+```{r plot-confint}
+plot(confint(coef.ZS, parm=2:16))
+```
+using the `parm` argument to select which coefficients to plot (the intercept is `parm=1`).
+
 
 ## Prediction
 
@@ -229,8 +236,8 @@ Using the `se.fit = TRUE` option with `predict` we can also calculate standard d
 BPM = predict(crime.ZS, estimator="BPM", se.fit=TRUE)
 crime.conf.fit = confint(BPM, parm="mean")
 crime.conf.pred = confint(BPM, parm="pred")
-cbind(BPM$fit, crime.conf.fit, crime.conf.pred)
-
+cbind(crime.conf.fit, crime.conf.pred)
+plot(crime.conf.fit)
 ```
 
 ## Beyond Enumeration

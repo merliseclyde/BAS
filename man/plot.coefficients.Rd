@@ -1,6 +1,5 @@
 \name{plot.coef.bas}
 \alias{plot.coef.bas}
-\alias{plot}
 \title{Plots the posterior distributions of coefficients derived from Bayesian model averaging}
 \description{
   Displays plots of the posterior distributions of the coefficients
