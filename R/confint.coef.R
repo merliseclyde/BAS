@@ -1,4 +1,4 @@
-confint.coef.bas = function(object, parm, level=0.95, nsim=10000, plot=F, ...) {
+confint.coef.bas = function(object, parm, level=0.95, nsim=10000, ...) {
   n.models = length(object$postprob)
   if (missing(parm)) parm= 1:object$n.vars
   
@@ -72,20 +72,23 @@ confint.pred.bas = function(object, parm, level=0.95, nsim=10000, ...) {
   return(ci)
 }
 
-plot.confint.bas = function(ci, horizontal=FALSE, ...) {  
+plot.confint.bas = function(x, horizontal=FALSE, ...) {  
+    ci = x  #  x is there for generic plot function
     namesx = rownames(ci)   
     y = ci[,3]
     x = 1:nrow(ci)
     xlim = range(x) + c(-0.5,0.2)
     ylim = range(pretty(ci))
     
+    xlab="case"
+    
     type = colnames(ci)[3]
     if (type == "beta") {
-      ylab = bquote(hat(beta))
+      ylab = bquote(beta)
       xlab = "coefficient" }
     else {
-      ylab = bquote(hat(Y))
-      xlab = type
+      if (type == "mean") ylab=bquote(mu)
+      else  ylab="predicted values"
     }
     par(mar=c(4.5,5,1,1), las=1)
     if (!horizontal) {
