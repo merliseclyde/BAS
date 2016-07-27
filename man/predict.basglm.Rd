@@ -4,7 +4,7 @@
 \description{Predictions under model averaging from a BMA (BAS) object for GLMS
 }
 \usage{\method{predict}{basglm}(object, newdata, se.fit=FALSE, 
-      type=c("link", "response"), top=NULL,
+      type=c("response", "link"), top=NULL,
       estimator="BMA", prediction=FALSE, ...)}
 
 \arguments{
@@ -12,7 +12,7 @@
   \item{newdata}{dataframe, new matrix or vector of data for predictions. May 
     include a column for the intercept or just the predictor variables.
   If a dataframe, the variables are extracted using model.matrix using
-  the call that created 'object'. } 
+  the call that created 'object'.  May be missing in which case the data used for fitting will be used for prediction.} 
    \item{se.fit}{indicator for whether to compute se of fitted and predictied values}
   \item{type}{Type of predictions required. The default is on the scale of the linear predictors; the alternative "response" is on the scale of the response variable. Thus for a default binomial model the default predictions are of log-odds (probabilities on logit scale) and type = "response" gives the predicted probabilities.
    }

@@ -1,8 +1,9 @@
 predict.basglm = function(object, newdata, se.fit=FALSE, 
-                          type=c("link", "response"), top=NULL,
+                          type=c("response", "link"), top=NULL,
                           estimator="BMA", prediction=FALSE, ...) {
 #    browser()
     if (estimator == "HPM") top=1
+    
     pred = predict.bas(object, newdata, se.fit=se.fit, top=top,
                        estimator=estimator, prediction=prediction, ...)
     
@@ -12,12 +13,20 @@ predict.basglm = function(object, newdata, se.fit=FALSE,
       if (estimator == "BMA") {
         Ypred = apply(pred$Ypred, 1, 
                       FUN = function(x) {eval(object$call$family)$linkinv(x)})
-        if (top > 1) fit = as.vector(Ypred %*% pred$postprobs)
+        if (length(pred$postprobs) > 1) fit = as.vector(Ypred %*% pred$postprobs)
         else fit= as.vector(Ypred)
       }
       else fit = eval(object$call$family)$linkinv(pred$fit)
       attributes(fit) = model.specs
       pred$fit = fit
+      if (se.fit) {
+        se.fit = pred$se.fit
+        se.pred = pred$se.pred
+        se.fit <- se.fit * abs(eval(object$call$family)$mu.eta(fit))
+        se.pred <- se.pred * abs(eval(object$call$family)$mu.eta(fit))
+        pred$se.fit = se.fit
+        pred$se.pred = se.pred
+      }
     }
 
     return(pred)       
@@ -151,6 +160,7 @@ fitted.bas = function(object,  type="response", estimator="BMA", top=NULL, ...) 
         
   nmodels = length(object$which)
   X = object$X
+  if (is.null(top)) top=nmodels
   if (estimator=="HPM") {
    yhat = predict(object, top=1, estimator="HPM", predict=FALSE)$fit
   }
@@ -185,8 +195,12 @@ return(as.vector(yhat))
     xiXTXxiT = apply(XRinv^2, 1, sum) -1/n 
   }
   scale_fit = 1/n + object$shrinkage[best]*xiXTXxiT
-  ssy = var(object$Y)*(n-1)
-  bayes_mse = ssy*(1 - shrinkage*object$R2[best])/df
+  if (is.null(object$call$family))family = gaussian()
+  if (eval(family)$family == "gaussian") {
+    ssy = var(object$Y)*(n-1)
+    bayes_mse = ssy*(1 - shrinkage*object$R2[best])/df
+    }
+  else bayes_mse = 1    # ToDo add overdispersion
   se.fit = sqrt(bayes_mse*scale_fit)
   se.pred = sqrt(bayes_mse*(1 + scale_fit))
   return(list(se.fit=se.fit, se.pred=se.pred, residual.scale=sqrt(bayes_mse)))
