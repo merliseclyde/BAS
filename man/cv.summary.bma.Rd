@@ -5,15 +5,19 @@
 
 \description{Compute average prediction error from out of sample predictions}
 
-\usage{cv.summary.bas(pred, ytrue)}
+\usage{cv.summary.bas(pred, ytrue, score="squared-error")}
 
 \arguments{
   \item{pred}{fitted or predicted value from the output from \code{\link{predict.bas}}}
   \item{ytrue}{vector of left out response values}
+  \item{score}{function used to summarize error rate.  Either "squared-error" or "miss-class"}
 }
 
-\value{the average  prediction error for the Bayesian estimator
-       APE = sqrt(sum(ytrue - yhat)^2/npred) }
+\value{For squared error, the average  prediction error for the Bayesian estimator
+       error = sqrt(sum(ytrue - yhat)^2/npred) 
+       while for binary data the missclassification rate is more appropriate.
+       
+       }
 
  
 \seealso{\code{\link{predict.bas}}}

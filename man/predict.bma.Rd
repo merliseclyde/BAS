@@ -10,10 +10,11 @@
 \arguments{
   \item{object}{An object of class BAS, created by \code{bas}}
   \item{newdata}{dataframe, new matrix or vector of data for predictions. If missing, then use the data used for fitting for obtaining fitted and predicted values. May include a column for the intercept or just the predictor variables. If a dataframe, the variables are extracted using model.matrix using the call that created 'object'.  }
-  \item{top}{a scalar integer M.  If supplied, subset the top M models,
-  based on posterior probabilities for model predictions and BMA.} 
+   \item{se.fit}{indicator for whether to compute se of fitted and predictied values}
   \item{type}{Type of predictions required. "Link" which is on the
   scale of the linear predictor is the only option currently.}
+  \item{top}{a scalar integer M.  If supplied, subset the top M models,
+  based on posterior probabilities for model predictions and BMA.} 
  \item{estimator}{estimator used for predictions.  Currently supported
    options include:
     \cr
@@ -23,8 +24,7 @@
     'MPM' the median probability model of Barbieri and Berger. \cr
     'BPM' the model that is closest to BMA predictions under squared
   error loss. BMA may be computed using only the 'top' models if supplied}
-  \item{se.fit}{indicator for whether to compute se of fitted and predictied values}
-  \item{prediction}{logical value to indicate whether the observed design matrix used in fitting or the newdata will be used for predictions}
+   \item{prediction}{logical value to indicate whether the observed design matrix used in fitting or the newdata will be used for predictions}
   \item{...}{optional extra arguments}
 }
 \value{a list of

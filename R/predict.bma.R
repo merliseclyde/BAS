@@ -1,15 +1,25 @@
-predict.basglm = function(object, newdata, top=NULL, type=c("link", "response"), ...) {
+predict.basglm = function(object, newdata, se.fit=FALSE, 
+                          type=c("link", "response"), top=NULL,
+                          estimator="BMA", prediction=FALSE, ...) {
 #    browser()
-    pred = predict.bas(object, newdata, top)
+    if (estimator == "HPM") top=1
+    pred = predict.bas(object, newdata, se.fit=se.fit, top=top,
+                       estimator=estimator, prediction=prediction, ...)
+    
     if (length(type) > 1) type = type[1]
-    if (type == "response") {
-        Ypred = apply(pred$Ypred, 1, FUN = function(x) {eval(object$call$family)$linkinv(x)})
-        if (top > 1) {
-            Ybma = Ypred %*% pred$postprobs}
-        else Ybma = Ypred
+    if (type == "response")  {
+      model.specs = attributes(pred$fit)
+      if (estimator == "BMA") {
+        Ypred = apply(pred$Ypred, 1, 
+                      FUN = function(x) {eval(object$call$family)$linkinv(x)})
+        if (top > 1) fit = as.vector(Ypred %*% pred$postprobs)
+        else fit= as.vector(Ypred)
+      }
+      else fit = eval(object$call$family)$linkinv(pred$fit)
+      attributes(fit) = model.specs
+      pred$fit = fit
+    }
 
-        pred = list(Ypred=Ypred, Ybma=Ybma, postprobs=pred$postprobs, best=pred$best)
-    }   
     return(pred)       
 }
 

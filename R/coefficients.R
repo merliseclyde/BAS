@@ -92,13 +92,4 @@ plot.coef.bas  = function(x, e = 1e-04, subset = 1:x$n.vars, ask=TRUE, ...) {
   invisible()
 }
 
-cv.summary.bas = function(pred, ytrue) {
-  if (length(pred) != length(ytrue)) {
-    warning("predicted values and observed values are not the same length")
-    return()
-  }
-  APE = sqrt(sum((pred - ytrue)^2)/length(ytrue))
-  
-  return(APE)
-}
 

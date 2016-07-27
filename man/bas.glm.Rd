@@ -157,7 +157,7 @@ data(Pima.tr)
 
 out = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7, method="BAS",
  betaprior=CCH(a=1, b=532/2, s=0), family=binomial(),
- modelprior=beta.binomial(1,1), laplace=FALSE)
+ modelprior=beta.binomial(1,1))
 
 summary(out)
 image(out)
