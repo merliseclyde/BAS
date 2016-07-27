@@ -11,8 +11,9 @@
 
 \value{an integer}
 
-\details{Used in \code{fitted.bas} to determine if the median
-  probability model is included in the sample.  Not meant to be used
+\details{Previously used in \code{fitted.bas} to determine if the median
+  probability model is included in the sample and will be deprecated. 
+  Not meant to be used
   directly by the user.  p must be less than or
   equal to 32.
   }

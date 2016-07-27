@@ -2,12 +2,12 @@
 #coefficients.default = base::coefficients
 
 coef.bas = function(object, ...) {
-  conditionalmeans = list2matrix.bma(object, "mle")
+  conditionalmeans = list2matrix.bas(object, "mle")
   conditionalmeans[,-1] = sweep(conditionalmeans[,-1, drop=F], 1, object$shrinkage,
                                 FUN="*") 
   postmean = as.vector(object$postprob %*% conditionalmeans)
 
-  conditionalsd  =  list2matrix.bma(object, "mle.se")
+  conditionalsd  =  list2matrix.bas(object, "mle.se")
   if (!(object$prior == "AIC" || object$prior == "BIC")) {
     conditionalsd[ , -1] = sweep(conditionalsd[ ,-1, drop=F], 1, sqrt(object$shrinkage), FUN="*") }
   
@@ -93,7 +93,10 @@ plot.coef.bas  = function(x, e = 1e-04, subset = 1:x$n.vars, ask=TRUE, ...) {
 }
 
 cv.summary.bas = function(pred, ytrue) {
-  
+  if (length(pred) != length(ytrue)) {
+    warning("predicted values and observed values are not the same length")
+    return()
+  }
   APE = sqrt(sum((pred - ytrue)^2)/length(ytrue))
   
   return(APE)

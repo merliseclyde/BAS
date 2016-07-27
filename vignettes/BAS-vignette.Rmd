@@ -12,18 +12,21 @@ vignette: >
 require(GGally)
 ```
 
-The `BAS` package provides easy to use fucntions to implement Bayesian Model Averaging in linear models and  generalized linear models. Prior distributions on coefficients are
+The `BAS` package provides easy to use functions to implement Bayesian Model Averaging in linear models and  generalized linear models.
+Prior distributions on coefficients are
 based on Zellner's g-prior or mixtures of g-priors, such as the 
-Zellner-Siow Cauchy Priors or mixtures of g-priors from 
+Zellner-Siow Cauchy prior or mixtures of g-priors from 
 [Liang et al (2008)](http://dx.doi.org/10.1198/016214507000001337)
-for linear models as well as other options include BIC and AIC.   Extensions to Generalized Linear Models are based on the  mixtures of
-g-priors in GLMs of [Li and Clyde (2015)](http://arxiv.org/abs/1503.06913).
+for linear models, as well as other options including AIC, BIC, RIC and Empirical Bayes methods.  Extensions to Generalized Linear Models are based on the 
+mixtures of g-priors in GLMs of
+[Li and Clyde (2015)](http://arxiv.org/abs/1503.06913) using an integrated 
+Laplace approximation.
 
-
+`BAS` uses an adaptive sampling algorithm  to sample without replacement from the space of models or MCMC sampling which is recommended for sampling problems with a large number of predictors. See [Clyde, Littman & Ghosh](http://dx.doi.org/10.1198/jcgs.2010.09049) for more details for the sampling algorithms.
 
 ## Installing BAS
 
-The stable version [![](http://www.r-pkg.org/badges/version/BAS)](https://cran.r-project.org/package=BAS) can be installed easily in the `R` console like any other package:
+The stable version can be installed easily in the `R` console like any other package:
 
 ```r
 install.packages('BAS')
@@ -40,7 +43,7 @@ use the `devtools` package from
 # devtools::install_github('merliseclyde/BAS')
 ```
 
-As the package does depend on BLAS and LAPACK, installing from GitHub will require that you have FORTRAN and C compilers on your system.
+As the package does depend on BLAS and LAPACK, installing from GitHub will require that you have FORTRAN and C compilers on your system.  
 
 ## Demo 
 
@@ -278,4 +281,4 @@ diagnostics(crime.ZS, type="model", pch=16)
 
 ## Summary
 
-`BAS` includes other prior distributions on coefficients and models.  Please see the documentation for more features and details.
+`BAS` includes other prior distributions on coefficients and models, as well as `bas.glm` for fitting Generalized Linear Models.  Some of the syntax for bas.glm and bas.lm have not converged, particularly how some of the priors are represented, so do please see the documentation for more features and details until this is updated!

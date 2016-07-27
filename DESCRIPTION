@@ -1,6 +1,6 @@
 Package: BAS
 Version: 1.3.1
-Date: 2016-07-26
+Date: Sys.Date()
 Title: Bayesian Model Averaging using Bayesian Adaptive Sampling
 Authors@R: c(person("Merlise", "Clyde", email="clyde@stat.duke.edu",
 	   		       role=c("aut","cre", "cph")),

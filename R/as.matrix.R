@@ -1,4 +1,4 @@
-list2matrix.bma = function(x, what, which.models=NULL) {
+list2matrix.bas = function(x, what, which.models=NULL) {
   namesx = x$namesx
   if (is.null(which.models)) which.models= 1:x$n.models
   
