@@ -2,9 +2,8 @@
 
 ## New features
 
-* new function to plot credible intervals created by `confint.pred.bas` or `confint.coef.bas`.  
-
-See the help files for an example or the vignette.
+* new function to plot credible intervals created by `confint.pred.bas` or `confint.coef.bas`.   See the help files for an example or the vignette.
+* added `se.fit` option in `predict.basglm`
 
 
 # BAS 1.3.0   July 15, 2016
