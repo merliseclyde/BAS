@@ -12,7 +12,7 @@ adaptive sampling without replacement algorithm and a MCMC algorithm
 that utilizes swapping to escape from local modes.  More details are
 in the R man pages.
 
-Current build and test coverage status: [![](https://travis-ci.org/merliseclyde/BAS.png?branch=master)](https://travis-ci.org/merliseclyde/BAS) 
+Current build and test coverage status courtesy Travis: [![](https://travis-ci.org/merliseclyde/BAS.png?branch=master)](https://travis-ci.org/merliseclyde/BAS) 
 
 Some CRAN statistics: [![](http://cranlogs.r-pkg.org/badges/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html) [![](http://cranlogs.r-pkg.org/badges/grand-total/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
 
