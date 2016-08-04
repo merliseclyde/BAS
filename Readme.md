@@ -16,7 +16,7 @@ Current build and test coverage status: [![](https://travis-ci.org/merliseclyde/
 
 Some CRAN statistics: [![](http://cranlogs.r-pkg.org/badges/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html) [![](http://cranlogs.r-pkg.org/badges/grand-total/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
 
-Stable release DOI [![DOI](https://zenodo.org/badge/23683/merliseclyde/BAS.svg)](https://zenodo.org/badge/latestdoi/23683/merliseclyde/BAS)
+Stable release DOI [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.59497.svg)](http://dx.doi.org/10.5281/zenodo.59497)
 
 # Installation
 
