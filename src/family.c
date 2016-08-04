@@ -35,12 +35,12 @@ static R_INLINE double x_d_omx(double x) {
  */
 static R_INLINE double x_d_opx(double x) {return x/(1 + x);}
 
-double poisson_loglik(double *Y, double*mu, int n) {
+double poisson_loglik(double *Y, double*mu, double *wts, int n) {
   int i;
   double ll = 0.0;
 
   for (i = 0; i < n; i++) {
-    ll += dpois(Y[i],mu[i],1);
+    ll += wts[i]*dpois(Y[i],mu[i],1);
   }
   return(ll);
 }
@@ -55,12 +55,12 @@ void poisson_variance(double *mu, double *var, int n) {
   }
 }
 
-void poisson_log_info(double *y, double *mu, double *var, int n) {
+void poisson_log_info(double *y, double *mu, double *weights, double *var, int n) {
 
   int i;
-
+//  CHECK IF USE OF WEIGHTS IS CORRECT
   for (i = 0; i<n; i++) {
-    var[i] = mu[i];
+    var[i] = weights[i]*mu[i];
   }
 }
 
@@ -121,12 +121,12 @@ double poisson_dispersion(double *resid,  double *weights, int n, int rank) {
 
 /* Binomial */
 
-double binomial_loglik(double *Y, double*mu, int n) {
+double binomial_loglik(double *Y, double*mu, double *wts, int n) {
   int i;
   double ll = 0.0;
 
   for (i = 0; i < n; i++) {
-    ll += dbinom(Y[i],1.0,mu[i],1);
+    ll += wts[i]*dbinom(Y[i],1.0,mu[i],1);
   }
   return(ll);
 }
@@ -140,12 +140,12 @@ void logit_variance(double *mu, double *var, int n) {
   }
 }
 
-void logit_info(double *y, double *mu, double *var, int n) {
+void logit_info(double *y, double *mu, double *weights, double *var, int n) {
 
   int i;
 
   for (i = 0; i<n; i++) {
-    var[i] = mu[i]*(1.0 - mu[i]);
+    var[i] = mu[i]*(1.0 - mu[i])*weights[i];
   }
 }
 

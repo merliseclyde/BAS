@@ -28,5 +28,5 @@ SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
 
 SEXP glm_bas(SEXP RX, SEXP RY, glmstptr * family, SEXP Roffset, SEXP Rweights, SEXP Rcontrol);
 
-SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, betapriorptr * betapriorfamily, SEXP Rlaplace);
+SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Rcoef, SEXP Rmu, SEXP Rweights, glmstptr * glmfamily, betapriorptr * betapriorfamily, SEXP Rlaplace);
 

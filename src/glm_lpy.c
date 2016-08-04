@@ -38,7 +38,7 @@ SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
   }
 
   
-  SEXP Rlpy = PROTECT(gglm_lpy(RXnow_noIntercept, RY, Rcoef, Rmu,
+  SEXP Rlpy = PROTECT(gglm_lpy(RXnow_noIntercept, RY, Rcoef, Rmu, Rweights,
 			       glmfamily, betapriorfamily,  Rlaplace));
   nprotected++;
 	
@@ -57,7 +57,7 @@ SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
 }
 
 
-SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, betapriorptr * betapriorfamily, SEXP  Rlaplace) {
+SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, SEXP Rwts, glmstptr * glmfamily, betapriorptr * betapriorfamily, SEXP  Rlaplace) {
 	int *xdims = INTEGER(getAttrib(RX,R_DimSymbol));
 	int n=xdims[0], p = xdims[1];
 	int nProtected = 0;  
@@ -66,7 +66,7 @@ SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, beta
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 5)); ++nProtected;
 	
 	//input, read only 
-	double *X=REAL(RX), *Y=REAL(RY), *coef=REAL(Rcoef), *mu=REAL(Rmu);
+	double *X=REAL(RX), *Y=REAL(RY), *coef=REAL(Rcoef), *mu=REAL(Rmu), *weights=REAL(Rwts); 
 	int laplace = INTEGER(Rlaplace)[0];
 	
 	//working variables (do we really need to make them R variables?)
@@ -93,8 +93,8 @@ SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, glmstptr * glmfamily, beta
 	double sum_Ieta = 0.0, logdet_Iintercept;
 	int i, j, l, base;
 
-	loglik_mle = glmfamily->loglik(Y, mu, n);
-	glmfamily->info_matrix(Y, mu, Ieta, n);
+	loglik_mle = glmfamily->loglik(Y, mu, weights, n);
+	glmfamily->info_matrix(Y, mu, weights, Ieta, n);
 
 	for (i = 0; i < n; i++) {
 	        sum_Ieta += Ieta[i];

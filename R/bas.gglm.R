@@ -1,3 +1,12 @@
+.extractResponse.glm <- function(frm, dat) {
+  # if (length(formula) == 3){
+  resp <- frm[[2]];
+  fdat <- eval(resp, envir=dat);
+  #    }
+  # else {stop("Formula missing Response") }
+  return(fdat)
+}
+
 .normalize.modelprior <- function(modelprior,p) {
 	if (modelprior$family == "Bernoulli") {
    		if (length(modelprior$hyper.parameters) == 1) 
@@ -57,7 +66,7 @@
 }
 
 bas.glm = function(formula, data,  
-    family = binomial(link = 'logit'),
+    family = binomial(link = 'logit'), weights, offset,
     n.models=NULL,
     betaprior=CCH(alpha=.5, beta=nrow(data), s=0),
     modelprior=beta.binomial(1,1),
@@ -67,29 +76,46 @@ bas.glm = function(formula, data,
     bestmodel=NULL, 
     prob.rw=0.5,  
     MCMC.iterations=NULL,
-    control = glm.control(), offset = rep(0, nobs), weights = rep(1, nobs), laplace=FALSE
+    control = glm.control(),  laplace=FALSE
                   )  {
     num.updates=10
     call = match.call()
-    glm.obj = glm(formula, data, family = family, y=TRUE, x=TRUE)
-	
-    Y = glm.obj$y
-    X = glm.obj$x
+   
+   
+   
+    #browser() 
+    mf <- match.call(expand.dots = FALSE)
+    m <- match(c("formula", "data", "subset", "weights", "na.action", 
+                 "etastart", "mustart", "offset"), names(mf), 0L)
+    mf <- mf[c(1L, m)]
+    mf$drop.unused.levels <- TRUE
+    mf[[1L]] <- quote(stats::model.frame)
+    mf <- eval(mf, parent.frame())  
+
+
+    Y = model.response(mf, type="any")
+    X = model.matrix(formula, data)
+    #    Y = glm.obj$y
+    #    X = glm.obj$x
     namesx = dimnames(X)[[2]]
     namesx[1] = "Intercept" 
     p = dim(X)[2]
     nobs = dim(X)[1]
-	
-	
-	if (is.null(offset)) {
-		offset = rep(0, nobs);
-	}
-	
-	if (is.null(weights)) {
-		weights = rep(1, nobs);
-	}
-	
-        prob <- .normalize.initprobs(initprobs, glm.obj)
+    
+#   weights = as.vector(model.weights(mf))
+   if (missing(weights)) {weights = rep(1, nobs)}
+   else weights=  model.weights(mf)
+
+    
+   if (missing(offset))  offset = rep(0, nobs)
+   else offset = model.offset(mf)  
+
+  
+  glm.obj = glm(Y ~ X[,-1],family = family, weights=weights, offset=offset, y=T, x=T)
+  
+  Y = glm.obj$y
+  
+  prob <- .normalize.initprobs(initprobs, glm.obj)
 	n.models <- .normalize.n.models(n.models, p, prob, method)
 	modelprior <- .normalize.modelprior(modelprior,p)
   	

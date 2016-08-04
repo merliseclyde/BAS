@@ -1,10 +1,18 @@
 .extractResponse <- function(frm, dat) {
-# if (length(formula) == 3){
-        resp <- frm[[2]];
-        fdat <- eval(resp, envir=dat);
-#    }
-# else {stop("Formula missing Response") }
-    return(fdat)
+  # if (length(formula) == 3){
+  resp <- frm[[2]];
+  fdat <- eval(resp, envir=dat);
+  #    }
+  # else {stop("Formula missing Response") }
+  return(fdat)
+}
+
+.extractWeights <- function(call, dat) {
+  # if (length(formula) == 3){
+  fdat <- eval(call$weights, envir=dat);
+  #    }
+  # else {stop("Formula missing Response") }
+  return(fdat)
 }
 
 .normalize.initprobs.lm <- function (initprobs, p) {

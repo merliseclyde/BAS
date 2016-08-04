@@ -4,13 +4,13 @@
 \description{Sample with or without replacement from a posterior distribution on GLMs}
 \usage{
  bas.glm(formula, data, 
- family = binomial(link = "logit"), 
+ family = binomial(link = "logit"), weights, offset,
  n.models = NULL, betaprior=CCH(alpha=.5, beta=nrow(data), s=0),
  modelprior = beta.binomial(1,1), 
  initprobs = "Uniform", method = "MCMC", update = NULL,
  bestmodel = NULL, prob.rw = 0.5, 
  MCMC.iterations = NULL, control = glm.control(), 
- offset = rep(0, nobs), weights = rep(1, nobs), laplace=FALSE)
+ laplace=FALSE)
 }
 \arguments{
   \item{formula}{generalized linear model formula for the full model with all
@@ -21,6 +21,10 @@
     function for exponential family;
     currently only binomial() with the logitistic linke is available in
     this version.}
+\item{weights}{optional vector of weights to be used in the fitting
+    process.  May be missing in which case weights are 1.}
+\item{offset}{a priori known component to be included in the linear
+predictor; by default 0.}
   \item{n.models}{number of unique models to keep. If NULL, BAS will
     attempt to enumerate unless p > 35 or method="MCMC". For any of
     methods using MCMC algorithms that sample with replacement, sampling
@@ -86,10 +90,6 @@
   \item{control}{a list of parameters that control convergence in the
     fitting process.  See the documentation for
     \code{glm.control()}}
-  \item{offset}{a priori known component to be included in the linear
-predictor}
-  \item{weights}{optional vector of weights to be used in the fitting
-    process.  SHould be NULL or a numeric vector.}
   \item{laplace}{logical variable for whether to use a Laplace
     approximate for integration with respect to g to obtain the marginal
     likelihood.  If FALSE the Cephes library is used which may be
@@ -156,8 +156,8 @@ library(MASS)
 data(Pima.tr)
 
 out = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7, method="BAS",
- betaprior=CCH(a=1, b=532/2, s=0), family=binomial(),
- modelprior=beta.binomial(1,1))
+              betaprior=CCH(a=1, b=532/2, s=0), family=binomial(),
+              modelprior=beta.binomial(1,1))
 
 summary(out)
 image(out)
