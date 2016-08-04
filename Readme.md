@@ -16,6 +16,8 @@ Current build and test coverage status: [![](https://travis-ci.org/merliseclyde/
 
 Some CRAN statistics: [![](http://cranlogs.r-pkg.org/badges/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html) [![](http://cranlogs.r-pkg.org/badges/grand-total/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
 
+Stable release DOI [![DOI](https://zenodo.org/badge/23683/merliseclyde/BAS.svg)](https://zenodo.org/badge/latestdoi/23683/merliseclyde/BAS)
+
 # Installation
 
 The stable version [![](http://www.r-pkg.org/badges/version/BAS)](https://cran.r-project.org/package=BAS) can be installed easily in the `R` console like any other package:
