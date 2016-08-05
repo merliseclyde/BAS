@@ -31,7 +31,7 @@ Some CRAN statistics: [![](http://cranlogs.r-pkg.org/badges/BAS)](http://cran.rs
 
 Stable release DOI [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.59497.svg)](http://dx.doi.org/10.5281/zenodo.59497)
 
-# Installation
+## Installation
 
 The stable version [![](http://www.r-pkg.org/badges/version/BAS)](https://cran.r-project.org/package=BAS) can be installed easily in the `R` console like any other package:
 
@@ -52,3 +52,24 @@ devtools::install_github('merliseclyde/BAS')
 ```
 
 Installing the package from source does require compilation of C and FORTRAN code as the library makes use of BLAS and LAPACK for efficient model fitting.  See [CRAN manuals](https://cran.r-project.org/doc/manuals/r-devel/R-admin.html) for installing packages from source under different operating systems.
+
+## Usage
+
+To begin load the pacakge:
+```{r}
+library(BAS)
+```
+
+The two main function in `BAS` are `bas.lm` and `bas.glm` for implementing Bayesian Model Averaging and Variable Selection and have a syntax similar to the `lm` and `glm` functions respectively.  To illustate using `BAS` on a simple example using the Zellner-Siow Cauchy prior enter
+
+```{r  hald}
+data(Hald)
+hald.ZS = bas.lm(Y ~ ., data=Hald, prior="ZS-null", modelprior=uniform(), method="BAS")
+```
+
+`BAS` has `summary`, `plot` `coef`, `predict` and `fitted` functions like the `lm`/`glm` functions.   Images of the model space highlighting which varaible are important may be obtained via
+```{r}
+image(hald.ZS)
+```
+
+Run `demo("BAS.hald")` or `demo("BAS.USCrime")` or see the package vignette for more examples and decription of the functions.
