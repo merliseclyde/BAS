@@ -55,21 +55,21 @@ Installing the package from source does require compilation of C and FORTRAN cod
 
 ## Usage
 
-To begin load the pacakge:
+To begin load the package:
 ```{r}
 library(BAS)
 ```
 
-The two main function in `BAS` are `bas.lm` and `bas.glm` for implementing Bayesian Model Averaging and Variable Selection and have a syntax similar to the `lm` and `glm` functions respectively.  To illustate using `BAS` on a simple example using the Zellner-Siow Cauchy prior enter
+The two main function in `BAS` are `bas.lm` and `bas.glm` for implementing Bayesian Model Averaging and Variable Selection and have a syntax similar to the `lm` and `glm` functions respectively.  To illustrate using `BAS` on a simple example using the Zellner-Siow Cauchy prior enter
 
 ```{r  hald}
 data(Hald)
 hald.ZS = bas.lm(Y ~ ., data=Hald, prior="ZS-null", modelprior=uniform(), method="BAS")
 ```
 
-`BAS` has `summary`, `plot` `coef`, `predict` and `fitted` functions like the `lm`/`glm` functions.   Images of the model space highlighting which varaible are important may be obtained via
+`BAS` has `summary`, `plot` `coef`, `predict` and `fitted` functions like the `lm`/`glm` functions.   Images of the model space highlighting which variable are important may be obtained via
 ```{r}
 image(hald.ZS)
 ```
 
-Run `demo("BAS.hald")` or `demo("BAS.USCrime")` or see the package vignette for more examples and decription of the functions.
+Run `demo("BAS.hald")` or `demo("BAS.USCrime")` or see the package vignette for more examples and description of the functions.
