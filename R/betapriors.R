@@ -32,7 +32,7 @@ intrinsic = function(n=NULL) {
 #                       class="prior")}
 #    else {      
         structure(list(family="intrinsic", class="TCCH",
-                       hyper.parameters=list(alpha=1, beta=1, s=0, r=1, n=n)),
+                       hyper.parameters=list(alpha=1.0, beta=1.0, s=0.0, r=1.0, n=n)),
                   class="prior")
     #}
     }
@@ -75,19 +75,24 @@ TG = function(alpha=2) {
 
 
 beta.prime=function(n=NULL) {
-    structure(list(family="betaprime", class="TCCH", hyper.parameters=list(n=n, alpha=.5)),
+    structure(list(family="betaprime", class="TCCH", 
+                   hyper.parameters=list(n=n, alpha=.5)),
               class="prior")
 }
 
 robust = function(n=NULL) {
-    structure(list(family="robust", class="TCCH",  hyper.parameters = list(n=n)),
+    structure(list(family="robust", class="TCCH",  
+                   hyper.parameters = list(n=n)),
                    class="prior")
 }
 
 bic.prior = function(n=NULL) {
-    structure(list(family="BIC", class="IC", 
-                   hyper.parameters = list(penalty=log(n), n=n),
-                   hyper=log(n)),
+   if (is.null(n)) penalty = NULL
+   else penalty = log(n)
+   
+  structure(list(family="BIC", class="IC", 
+                   hyper.parameters = list(penalty=penalty, n=as.numeric(n)),
+                   hyper=penalty),
                    class="prior")
 }
 

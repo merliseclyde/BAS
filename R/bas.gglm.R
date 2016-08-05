@@ -141,8 +141,8 @@ bas.glm = function(formula, data,
   	                                   family=eval(call$family))$null.deviance)
   	betaprior$hyper.parameters$loglik_null = loglik_null
   	if (is.null(betaprior$hyper.parameters$n)) {
-  	  betaprior$hyper.parameters$n = nobs
-  	  if (betaprior$family == "BIC.prior")  {
+  	  betaprior$hyper.parameters$n = as.numeric(nobs)
+  	  if (betaprior$family == "BIC")  {
   	    betaprior$hyper.parameters$penalty = log(nobs)}
   	  if (betaprior$family== "hyper-g/n") betaprior$hyper.parameters$theta = 1/nobs
   	}
