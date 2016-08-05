@@ -24,8 +24,8 @@
 }
 \details{Creates a structure used for \code{\link{bas.glm}}. 
     }
-\seealso{\code{\link{IC.prior}} \code{\link{bas.glm}}}
+\seealso{\code{\link{IC.prior}}, \code{\link{bic.prior}}, \code{\link{bas.glm}}}
 \examples{CCH(alpha=.5, beta=100, s=0) } 
 
-\author{Merlise Clyde}
+\author{Merlise A Clyde}
 

@@ -136,12 +136,20 @@ bas.glm = function(formula, data,
   	n.models = as.integer(n.models)
     if (is.null(MCMC.iterations)) MCMC.iterations = as.integer(2*n.models)
 	  
-  	if (betaprior$family == "test.BF") {
-  	   betaprior$hyperparameter$null.deviance =  glm(eval(call$formula), data=eval(call$data),
-  	                                                 family=eval(call$family))$null.deviance
+#  check on priors  	
+  	loglik_null =  as.numeric(-0.5*glm(Y ~ 1, weights=weights, offset=offset,
+  	                                   family=eval(call$family))$null.deviance)
+  	betaprior$hyper.parameters$loglik_null = loglik_null
+  	if (is.null(betaprior$hyper.parameters$n)) {
+  	  betaprior$hyper.parameters$n = nobs
+  	  if (betaprior$family == "BIC.prior")  {
+  	    betaprior$hyper.parameters$penalty = log(nobs)}
+  	  if (betaprior$family== "hyper-g/n") betaprior$hyper.parameters$theta = 1/nobs
   	}
+
+  
 	#save(list = ls(), file = "temp.RData")
-  	result = switch(method,
+  result = switch(method,
     		"MCMC"= .Call("glm_mcmc",
                     Y = Yvec, X = X,
                     Roffset = as.numeric(offset), Rweights = as.numeric(weights), 
@@ -185,12 +193,8 @@ bas.glm = function(formula, data,
   	result$namesx=namesx
   	result$n=length(Yvec)
   	result$modelprior=modelprior
-    if (method == "MCMC") {
-		result$n.models = result$n.Unique
-            }
-    else {
-        result$n.models=n.models
-    }
+    if (method == "MCMC") { result$n.models = result$n.Unique}
+    else { result$n.models=n.models}
 
     result$R2 = .R2.glm.bas(result$deviance, result$size, call)
     result$n.vars=p

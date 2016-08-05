@@ -7,11 +7,11 @@
   coefficients for BAS. 
 }
 
-\usage{intrinsic(n)}
+\usage{intrinsic(n=NULL)}
 
 
 \arguments{
-\item{n}{the sample size}
+\item{n}{the sample size; if NULL, the value derived from the data in the call to `bas.glm` will be used.}
  }
 
  \value{returns an object of class "prior", with the family "intrinsic"
@@ -35,5 +35,5 @@
   \url{http://amstat.tandfonline.com/doi/abs/10.1080/01621459.2014.880348} 
 
   }
-\author{Merlise Clyde}
+\author{Merlise A Clyde}
 

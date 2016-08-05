@@ -6,7 +6,7 @@
 #include "betapriorfamily.h"
 #include <float.h>
 
-// pmodel below has intercept removed !!!  //
+// WARNING pmodel below has intercept removed !!!  //
 
 struct betapriorfamilystruc * make_betaprior_structure(SEXP betaprior, SEXP glmfamily) {
 
@@ -41,7 +41,7 @@ struct betapriorfamilystruc * make_betaprior_structure(SEXP betaprior, SEXP glmf
     betapriorfamily->shrinkage_fun = CCH_glm_shrinkage;  // need to change
   }
 
-  else if (strcmp(betapriorfamily->priorfamily, "hyper.g.n") == 0) {
+  else if (strcmp(betapriorfamily->priorfamily, "hyper-g/n") == 0) {
     betapriorfamily->logmarglik_fun = tCCH_glm_logmarg;
     betapriorfamily->shrinkage_fun = CCH_glm_shrinkage;  // need to change
   }
@@ -82,8 +82,10 @@ struct betapriorfamilystruc * make_betaprior_structure(SEXP betaprior, SEXP glmf
     betapriorfamily->logmarglik_fun = g_prior_glm_logmarg;
     betapriorfamily->shrinkage_fun = g_prior_shrinkage;
   }
-
-
+  else if (strcmp(betapriorfamily->priorfamily, "testBF.prior") == 0) {
+    betapriorfamily->logmarglik_fun = testBF_prior_glm_logmarg;
+    betapriorfamily->shrinkage_fun = g_prior_shrinkage;
+  }
   else error("Prior %s has not been implemented or is misspelled\n", betapriorfamily->priorfamily);
   return(betapriorfamily);
 }
@@ -363,6 +365,22 @@ double IC_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace ) {
   return(shrinkage);
 }
 
+double testBF_prior_glm_logmarg(SEXP hyperparams, int pmodel, double W,
+                             double loglik_mle, double logdet_Iintercept,
+                             int Laplace ) {
+    double g, logmarglik, loglik_null, z;
+    
+    g = REAL(getListElement(hyperparams, "g"))[0];
+        
+    loglik_null = REAL(getListElement(hyperparams, "loglik_null"))[0];
+
+    // pmodel is 0 for null model      
+    z = -2.0*(loglik_mle - loglik_null);
+    logmarglik = - 0.5* (((double) pmodel)*(log(1.0 + g))  + z*g/(1.0 + g));
+    Rprintf("z = %lf  p = %d \n", z, pmodel );
+    return(logmarglik);
+  } 
+  
 double g_prior_glm_logmarg(SEXP hyperparams, int pmodel, double W,
 		       double loglik_mle, double logdet_Iintercept, int Laplace ) {
   double g, logmarglik;
