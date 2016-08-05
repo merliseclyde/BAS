@@ -3,9 +3,7 @@
 [BAS: An R package for Bayesian Model Averaging using Adaptive Samping](https://github.com/merliseclyde/BAS)
 ============================================================================================================
 
-The `BAS` [R](http://r-project.org) package is designed to provide an easy to use package and fast code for implementing Bayesian Model Averaging and Model Selection in `R` using state of the art prior distributions for linear and generalized linear models. The prior distributions in `BAS` are based on Zellner's g-prior or mixtures of g-priors. These have been shown to be consistent and have a number of computational advantages. `BAS` implements two main algorithms for sampling from the space of potential models: an adaptive sampling without replacement algorithm and a MCMC algorithm that utilizes swapping to escape from local modes. More details are below and in the R man pages.
-
-Current build and test coverage status courtesy Travis: [![](https://travis-ci.org/merliseclyde/BAS.png?branch=master)](https://travis-ci.org/merliseclyde/BAS)
+The `BAS` [R](http://r-project.org) package is designed to provide an easy to use package and fast code for implementing Bayesian Model Averaging and Model Selection in `R` using state of the art prior distributions for linear and generalized linear models. The prior distributions in `BAS` are based on Zellner's g-prior or mixtures of g-priors. These have been shown to be consistent and have a number of computational advantages. `BAS` implements two main algorithms for sampling from the space of potential models: an adaptive sampling without replacement algorithm and a MCMC algorithm that utilizes swapping to escape from local modes.
 
 Some CRAN statistics: [![](http://cranlogs.r-pkg.org/badges/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html) [![](http://cranlogs.r-pkg.org/badges/grand-total/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
 
@@ -25,6 +23,8 @@ On the other hand, I welcome everyone to use the most recent version of the pack
 ``` r
 devtools::install_github('merliseclyde/BAS')
 ```
+
+You can check out the current build and test coverage status courtesy Travis CI: [![](https://travis-ci.org/merliseclyde/BAS.png?branch=master)](https://travis-ci.org/merliseclyde/BAS) before installing.
 
 Installing the package from source does require compilation of C and FORTRAN code as the library makes use of BLAS and LAPACK for efficient model fitting. See [CRAN manuals](https://cran.r-project.org/doc/manuals/r-devel/R-admin.html) for installing packages from source under different operating systems.
 
