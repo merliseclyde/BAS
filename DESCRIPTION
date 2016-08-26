@@ -35,8 +35,7 @@ Description: Package for Bayesian Model Averaging in linear models and
   <http://dx.doi.org/10.1198/jcgs.2010.09049>.
   DOI <DOI:10.5281/zenodo.60948>
 License: GPL (>= 3)
-URL: http://www.r-project.org, http://github.com/merliseclyde/BAS, http://dx.doi.org/10.5281/zenodo.59497
-DOI: http://dx.doi.org/ 
+URL: http://www.r-project.org, http://github.com/merliseclyde/BAS, http://dx.doi.org/10.5281/zenodo.60948
 Repository: CRAN
 NeedsCompilation: yes
 ByteCompile: yes
