@@ -76,7 +76,7 @@
 }
 
 
-bas.lm = function(formula, data, weights = NULL,
+bas.lm = function(formula, data, weights = NULL, na.action="na.omit",
     n.models=NULL,  prior="ZS-null", alpha=NULL,
     modelprior=beta.binomial(1,1),
     initprobs="Uniform", method="BAS", update=NULL, 
@@ -85,8 +85,19 @@ bas.lm = function(formula, data, weights = NULL,
     MCMC.iterations=NULL,
     lambda=NULL, delta=0.025, thin=1)  {
 
+  
   num.updates=10
   call = match.call()
+  
+ 
+  data = model.frame(formula, data, na.action=na.action)
+  n.NA = length(attr(data, 'na.action'))
+  
+  if (n.NA > 0) {
+    warning(paste("dropping ", as.character(n.NA), 
+                  "rows due to missing data"))
+  }
+  
   if ( !is.numeric(initprobs) && initprobs == "eplogp") {
       lm.obj = lm(formula, data, y=TRUE, x=TRUE)
       Y = lm.obj$y

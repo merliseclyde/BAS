@@ -1,7 +1,8 @@
-# BAS 1.3.1   August 5, 2016
+# BAS 1.3.1   August 25, 2016
 
 ## New features
 
+* added `na.action` for `bas.glm` to omit missing data.
 * new function to plot credible intervals created by `confint.pred.bas` or `confint.coef.bas`.   See the help files for an example or the vignette.
 * added `se.fit` option in `predict.basglm`.
 * Added `testBF` as a `betaprior` option for `bas.glm` to implement Bayes Fators based on the likelihood ratio statistic's distribution for GLMs.
