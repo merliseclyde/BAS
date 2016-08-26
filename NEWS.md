@@ -5,8 +5,8 @@
 * added `na.action` for `bas.glm` to omit missing data.
 * new function to plot credible intervals created by `confint.pred.bas` or `confint.coef.bas`.   See the help files for an example or the vignette.
 * added `se.fit` option in `predict.basglm`.
-* Added `testBF` as a `betaprior` option for `bas.glm` to implement Bayes Fators based on the likelihood ratio statistic's distribution for GLMs.
-* added a DOI http://dx.doi.org/10.5281/zenodo.59497
+* Added `testBF` as a `betaprior` option for `bas.glm` to implement Bayes Fatcors based on the likelihood ratio statistic's distribution for GLMs.
+* DOI for this version is http://dx.doi.org/10.5281/zenodo.60948
 
 
 # BAS 1.3.0   July 15, 2016
