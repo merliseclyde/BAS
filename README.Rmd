@@ -27,11 +27,11 @@ that utilizes swapping to escape from local modes.
 
 Some CRAN statistics: [![](http://cranlogs.r-pkg.org/badges/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html) [![](http://cranlogs.r-pkg.org/badges/grand-total/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
 
-Current release DOI v1.3.1
-[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.60948.svg)](http://dx.doi.org/10.5281/zenodo.60948)
 
-DOI version v1.3.0
-[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.59497.svg)](http://dx.doi.org/10.5281/zenodo.59497)
+
+DOI version v1.4.0
+[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.61016.svg)](http://dx.doi.org/10.5281/zenodo.61016)
+
 
 ## Installation
 
