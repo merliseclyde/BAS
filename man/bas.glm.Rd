@@ -4,7 +4,7 @@
 \description{Sample with or without replacement from a posterior distribution on GLMs}
 \usage{
  bas.glm(formula, data, 
- family = binomial(link = "logit"), weights, offset,
+ family = binomial(link = "logit"), weights, offset, na.action="na.omit",
  n.models = NULL, betaprior=CCH(alpha=.5, beta=nrow(data), s=0),
  modelprior = beta.binomial(1,1), 
  initprobs = "Uniform", method = "MCMC", update = NULL,
@@ -25,6 +25,7 @@
     process.  May be missing in which case weights are 1.}
 \item{offset}{a priori known component to be included in the linear
 predictor; by default 0.}
+ \item{na.action}{a function which indicates what should happen when the data contain NAs. The default is "na.omit".}
   \item{n.models}{number of unique models to keep. If NULL, BAS will
     attempt to enumerate unless p > 35 or method="MCMC". For any of
     methods using MCMC algorithms that sample with replacement, sampling

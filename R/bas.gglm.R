@@ -66,7 +66,7 @@
 }
 
 bas.glm = function(formula, data,  
-    family = binomial(link = 'logit'), weights, offset,
+    family = binomial(link = 'logit'), weights, offset, na.action="na.omit",
     n.models=NULL,
     betaprior=CCH(alpha=.5, beta=nrow(data), s=0),
     modelprior=beta.binomial(1,1),
@@ -81,7 +81,13 @@ bas.glm = function(formula, data,
     num.updates=10
     call = match.call()
    
-   
+    data = model.frame(formula, data, na.action=na.action)
+    n.NA = length(attr(data, 'na.action'))
+    
+    if (n.NA > 0) {
+      warning(paste("dropping ", as.character(n.NA), 
+                    "rows due to missing data"))
+    }
    
     #browser() 
     mf <- match.call(expand.dots = FALSE)
@@ -92,7 +98,7 @@ bas.glm = function(formula, data,
     mf[[1L]] <- quote(stats::model.frame)
     mf <- eval(mf, parent.frame())  
 
-
+    
     Y = model.response(mf, type="any")
     X = model.matrix(formula, data)
     #    Y = glm.obj$y
