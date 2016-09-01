@@ -7,9 +7,7 @@ The `BAS` [R](http://r-project.org) package is designed to provide an easy to us
 
 Some CRAN statistics: [![](http://cranlogs.r-pkg.org/badges/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html) [![](http://cranlogs.r-pkg.org/badges/grand-total/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
 
-Current release DOI v1.3.1 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.60948.svg)](http://dx.doi.org/10.5281/zenodo.60948)
-
-DOI version v1.3.0 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.59497.svg)](http://dx.doi.org/10.5281/zenodo.59497)
+DOI version v1.4.0 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.61016.svg)](http://dx.doi.org/10.5281/zenodo.61016)
 
 Installation
 ------------
@@ -73,3 +71,8 @@ Feature Requests and Issues
 ---------------------------
 
 Feel free to report any issues or request features to be added via the github page.
+
+Support
+-------
+
+This material is based upon work supported by the National Science Foundation under Grant DMS-1106891. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the National Science Foundation.

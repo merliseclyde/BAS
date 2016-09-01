@@ -95,3 +95,11 @@ Note, the syntac for specifying priors on the coefficients in `bas.glm` uses a f
 ## Feature Requests and Issues
 
 Feel free to report any issues or request features to be added via the github page.
+
+### Support
+
+  This material is based upon work supported by the National Science
+	Foundation under Grant DMS-1106891.  Any opinions, findings, and 
+	conclusions or recommendations expressed in this material are those of
+	the author(s) and do not necessarily reflect the views of the 
+	National Science Foundation.

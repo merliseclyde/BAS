@@ -2,6 +2,8 @@
 title: "Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging"
 author: "Merlise A Clyde"
 date: "`r Sys.Date()`"
+r_packages:
+  - rmarkdown
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging}
