@@ -4,7 +4,7 @@
 \title{Bayesian Adaptive Sampling Without Replacement for Variable
   Selection in Linear Models}
 \description{Sample without replacement from a posterior distribution on models}
-\usage{bas.lm(formula, data, weights=NULL, na.action="na.omit", 
+\usage{bas.lm(formula, data, subset, weights, na.action="na.omit", 
  n.models=NULL,  prior="ZS-null", alpha=NULL,
  modelprior=beta.binomial(1,1),
  initprobs="Uniform", method="BAS", update=NULL,
@@ -16,6 +16,7 @@
     predictors, Y ~ X.  All code assumes that an intercept will be
     included in each model and that the X's will be centered.}
   \item{data}{data frame}
+  \item{subset}{an optional vector specifying a subset of observations to be used in the fitting process.}
   \item{weights}{an optional vector of weights to be used in the fitting
     process. Should be NULL or a numeric vector. If non-NULL, Bayes
     estimates are obtained assuming that Y ~ N(Xb, sigma^2
@@ -27,7 +28,7 @@
     method="BAS" will try to enumerate all 2^p models. If enumeration is
     not possible (memory or time) then a value should be supplied
     which controls the number of sampled models using 'n.models'.  
-    With method="MCMC", sampling will stop once  at the min(n.models, MCMC.iterations) so MCMC.iterations  be larger than n.models in order to explore the model space. On exit for method=
+    With method="MCMC", sampling will stop once  the min(n.models, MCMC.iterations) occurs so MCMC.iterations  be larger than n.models in order to explore the model space. On exit for method=
     "MCMC"  this is the  number of unique models that have been
     sampled with counts stored in the output as "freq"" }
   \item{prior}{prior distribution for regression coefficients.  Choices include
@@ -42,10 +43,12 @@
     \code{\link{Bernoulli}} or \code{\link{beta.binomial}} with the
     default being a \code{beta.binomial(1,1)}.  }
   \item{initprobs}{Vector of length
-    p or a character string for approach used to create the vector.
-    This is used to order variables for sampling all methods for
+    p or a character string specifiny which method is used to create
+    the vector. This is used to order variables for sampling 
+    all methods for
     potentially more  efficient storage while sampling and provides the
-    initial  inclusion  probabilities used for sampling without replacement with
+    initial  inclusion  probabilities used for sampling without 
+    replacement with
     method="BAS".  Options for the charactier string giving the method
     are:  "Uniform" or "uniform" where each predictor variable is
     equally likely to be sampled (equivalent to random sampling without
@@ -61,19 +64,19 @@
     determines the order of the variables in the lookup table and
     affects memory allocation in large problems where enumeration is not
     feasible.  For variables that should always be included set the
-    corresponding initprobs to 1, i.e. the intercept should be included with
-    probability one. 
+    corresponding initprobs to 1, 
+    i.e. the intercept should be included with probability one. 
    } 
   \item{method}{A character variable indicating which sampling method to
     use: method="BAS" uses Bayesian Adaptive Sampling (without
     replacement) using the sampling probabilities given in initprobs;
-    method="MCMC" samples with replacement via a MCMC algorithm based
+    method="MCMC" samples with replacement via a MCMC algorithm 
     that combines the birth/death random walk in Hoeting et al (1997) of
     MC3 with a random swap move to interchange a variable in the model
-    with one currently excluded as in Clyde, Ghosh and Littman (2010);
+    with one currently excluded as described in Clyde, Ghosh and Littman (2010);
     method="MCMC+BAS" runs an initial MCMC to calculate marginal
     inclusion probabilities and then samples without replacement as in
-    BAS.  For both  BAS and AMCMC, the sampling probabilities can be updated as
+    BAS.  For BAS, the sampling probabilities can be updated as
     more  models are sampled. (see  update below).  We recommend
     "MCMC+BAS" or "MCMC" for high dimensional problems where enumeration
     is not feasible.}
@@ -216,6 +219,20 @@ its mean.}
 }
 	
 \examples{
+library(MASS)
+data(UScrime)
+crime.bic =  bas.lm(log(y) ~ log(M) + So + log(Ed) + 
+                    log(Po1) + log(Po2) +
+                    log(LF) + log(M.F) + log(Pop) + log(NW) +
+                    log(U1) + log(U2) + log(GDP) + log(Ineq) +
+                    log(Prob) + log(Time), 
+                    data=UScrime, n.models=2^15, prior="BIC",
+                    modelprior=beta.binomial(1,1),
+                    initprobs= "eplogp") 
+summary(crime.bic)
+plot(crime.bic)
+image(crime.bic, subset=-1)
+# more complete demo's
 demo(BAS.hald)
 \dontrun{demo(BAS.USCrime) }
 }

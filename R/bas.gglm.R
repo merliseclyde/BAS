@@ -65,8 +65,8 @@
 	return(prob);
 }
 
-bas.glm = function(formula, data,  
-    family = binomial(link = 'logit'), weights, offset, na.action="na.omit",
+bas.glm = function(formula, family = binomial(link = 'logit'),
+    data, weights, subset, offset, na.action="na.omit",
     n.models=NULL,
     betaprior=CCH(alpha=.5, beta=nrow(data), s=0),
     modelprior=beta.binomial(1,1),
@@ -81,13 +81,8 @@ bas.glm = function(formula, data,
     num.updates=10
     call = match.call()
    
-    data = model.frame(formula, data, na.action=na.action)
-    n.NA = length(attr(data, 'na.action'))
+   # data = model.frame(formula, data, na.action=na.action)
     
-    if (n.NA > 0) {
-      warning(paste("dropping ", as.character(n.NA), 
-                    "rows due to missing data"))
-    }
    
     #browser() 
     mf <- match.call(expand.dots = FALSE)
@@ -97,10 +92,17 @@ bas.glm = function(formula, data,
     mf$drop.unused.levels <- TRUE
     mf[[1L]] <- quote(stats::model.frame)
     mf <- eval(mf, parent.frame())  
-
+    n.NA = length(attr(mf, 'na.action'))
     
-    Y = model.response(mf, type="any")
-    X = model.matrix(formula, data)
+    if (n.NA > 0) {
+      warning(paste("dropping ", as.character(n.NA), 
+                    "rows due to missing data"))
+    }
+    
+    Y = model.response(mf, type="numeric")
+    mt <- attr(mf, "terms")
+    X = model.matrix(mt, mf, contrasts)
+    #X = model.matrix(formula, mf)
     #    Y = glm.obj$y
     #    X = glm.obj$x
     namesx = dimnames(X)[[2]]
@@ -109,14 +111,14 @@ bas.glm = function(formula, data,
     nobs = dim(X)[1]
     
 #   weights = as.vector(model.weights(mf))
-   if (missing(weights)) {weights = rep(1, nobs)}
-   else weights=  model.weights(mf)
-
+   
+   weights=  as.vector(model.weights(mf))
+   if (is.null(weights)) {weights = rep(1, nobs)}
     
-   if (missing(offset))  offset = rep(0, nobs)
-   else offset = model.offset(mf)  
-
+   offset = model.offset(mf)  
+   if (is.null(offset))  offset = rep(0, nobs)
   
+   browser()
   glm.obj = glm(Y ~ X[,-1],family = family, weights=weights, offset=offset, y=T, x=T)
   
   Y = glm.obj$y

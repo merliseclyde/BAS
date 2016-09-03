@@ -1,19 +1,3 @@
-.extractResponse <- function(frm, dat) {
-  # if (length(formula) == 3){
-  resp <- frm[[2]];
-  fdat <- eval(resp, envir=dat);
-  #    }
-  # else {stop("Formula missing Response") }
-  return(fdat)
-}
-
-.extractWeights <- function(call, dat) {
-  # if (length(formula) == 3){
-  fdat <- eval(call$weights, envir=dat);
-  #    }
-  # else {stop("Formula missing Response") }
-  return(fdat)
-}
 
 .normalize.initprobs.lm <- function (initprobs, p) {
 
@@ -76,7 +60,7 @@
 }
 
 
-bas.lm = function(formula, data, weights = NULL, na.action="na.omit",
+bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
     n.models=NULL,  prior="ZS-null", alpha=NULL,
     modelprior=beta.binomial(1,1),
     initprobs="Uniform", method="BAS", update=NULL, 
@@ -89,34 +73,36 @@ bas.lm = function(formula, data, weights = NULL, na.action="na.omit",
   num.updates=10
   call = match.call()
   
- 
-  data = model.frame(formula, data, na.action=na.action)
-  n.NA = length(attr(data, 'na.action'))
+  # from lm
+  mf <- match.call(expand.dots = FALSE)
+  m <- match(c("formula", "data", "subset", "weights", "na.action", 
+               "offset"), names(mf), 0L)
+  mf <- mf[c(1L, m)]
+  mf$drop.unused.levels <- TRUE
+  mf[[1L]] <- quote(stats::model.frame)
+  mf <- eval(mf, parent.frame())
+  
+  #data = model.frame(formula, data, na.action=na.action, weights=weights)
+  n.NA = length(attr(mf, 'na.action'))
   
   if (n.NA > 0) {
     warning(paste("dropping ", as.character(n.NA), 
                   "rows due to missing data"))
   }
   
-  if ( !is.numeric(initprobs) && initprobs == "eplogp") {
-      lm.obj = lm(formula, data, y=TRUE, x=TRUE)
-      Y = lm.obj$y
-      X = lm.obj$x
-  }
-  else {
-      Y = .extractResponse(formula, data)    
-      X = model.matrix(formula, data)
-      lm.obj = NULL
-  }
-
+  Y = model.response(mf, "numeric") 
+  mt <- attr(mf, "terms")
+  X = model.matrix(mt, mf, contrasts)
+  #X = model.matrix(formula, mf)
+  
+  
   Xorg = X
   namesx = dimnames(X)[[2]]
   namesx[1] = "Intercept"
   n <- dim(X)[1]
-
-  if (is.null(weights)) {
-      weights = rep(1, n);
-  }
+  
+ weights=as.vector(model.weights(mf))
+ if (is.null(weights)) weights = rep(1, n) 
 
   if (length(weights) != n) stop(simpleError(paste("weights are of length ", length(weights), "not of length ", n)))
   
@@ -137,7 +123,7 @@ bas.lm = function(formula, data, weights = NULL, na.action="na.omit",
           simpleError("error: Full model is not full rank so cannot use the eplogp bound to create starting sampling probabilities, perhpas use 'marg-eplogp' for fiting marginal models\n")
       }
     initprobs = switch(initprobs,
-        "eplogp" = eplogprob(lm.obj),
+        "eplogp" = eplogprob(lm(Y ~ X)),
         "marg-eplogp" = eplogprob.marg(Y, X),
         "uniform"= c(1.0, rep(.5, p-1)),
         "Uniform"= c(1.0, rep(.5, p-1)),

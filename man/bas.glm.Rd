@@ -3,8 +3,8 @@
 \title{Bayesian Adaptive Sampling Without Replacement for Variable Selection in Generalized Linear Models}
 \description{Sample with or without replacement from a posterior distribution on GLMs}
 \usage{
- bas.glm(formula, data, 
- family = binomial(link = "logit"), weights, offset, na.action="na.omit",
+ bas.glm(formula, family = binomial(link = "logit"), data,
+ weights, subset, offset, na.action="na.omit",
  n.models = NULL, betaprior=CCH(alpha=.5, beta=nrow(data), s=0),
  modelprior = beta.binomial(1,1), 
  initprobs = "Uniform", method = "MCMC", update = NULL,
@@ -16,13 +16,13 @@
   \item{formula}{generalized linear model formula for the full model with all
     predictors, Y ~ X.  All code assumes that an intercept will be
     included in each model.}
-  \item{data}{data frame}
   \item{family}{a description of the error distribution and link 
     function for exponential family;
-    currently only binomial() with the logitistic linke is available in
-    this version.}
+    currently only binomial() with the logitistic link and poission() with     the log link are available.}
+\item{data}{data frame}
 \item{weights}{optional vector of weights to be used in the fitting
     process.  May be missing in which case weights are 1.}
+\item{subset}{subset of data used in fitting}    
 \item{offset}{a priori known component to be included in the linear
 predictor; by default 0.}
  \item{na.action}{a function which indicates what should happen when the data contain NAs. The default is "na.omit".}
@@ -152,7 +152,6 @@ An object of class \code{BMA} is a list containing at least the following compon
 }
 \author{Merlise Clyde (\email{clyde@stat.duke.edu}), Quanli Wang and Yingbo Li}
 \examples{
-##---- Should be DIRECTLY executable !! ----
 library(MASS)
 data(Pima.tr)
 

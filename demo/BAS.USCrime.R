@@ -1,8 +1,12 @@
 require(MASS)
 library(MASS)
 data(UScrime)
-UScrime[,-2] = log(UScrime[,-2])
-crime.bic =  bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC",
+#UScrime[,-2] = log(UScrime[,-2])
+crime.bic =  bas.lm(log(y) ~ log(M) + So + log(Ed) + log(Po1) + log(Po2)
+                    + log(LF) + log(M.F) + log(Pop) + log(NW) +
+                      log(U1) + log(U2) + log(GDP) + log(Ineq) + log(Prob)+
+                      log(Time), 
+                    data=UScrime, n.models=2^15, prior="BIC",
                     modelprior=beta.binomial(1,1),
                     initprobs= "eplogp") 
 summary(crime.bic)

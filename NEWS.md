@@ -1,3 +1,12 @@
+# BAS 1.4.1   September 2, 2016
+
+## Bug Fixes
+
+* the modification in 1.4.0 to automatically handle NA's leads to errors if the response is transformed.  
+
+## Features
+* added subset argument to `bas.lm` and `bas.glm`
+
 # BAS 1.4.0   August 25, 2016
 
 ## New features

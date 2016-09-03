@@ -78,6 +78,7 @@ crime.ZS =  bas.lm(y ~ .,
   * "AIC
   * "hyper-g"
   * "hyper-g-n"
+  * "ZS-null"
   * "EB-local"
 
 By default, `BAS` will try to enumerate all models, in this case $2^15$.  The prior distribution over the models is a `uniform()` distribution which assigns equal probabilities to all models.  The last optional argument `initprobs = eplogp` provides a way to initialize the sampling algorithm.
