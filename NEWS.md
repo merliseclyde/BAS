@@ -2,7 +2,9 @@
 
 ## Bug Fixes
 
-* the modification in 1.4.0 to automatically handle NA's leads to errors if the response is transformed.  
+* the modification in 1.4.0 to automatically handle NA's leads to
+  errors if the response is transformed as part of the forumula this
+  is fixed 
 
 ## Features
 * added subset argument to `bas.lm` and `bas.glm`
