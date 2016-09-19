@@ -1,10 +1,10 @@
-# BAS 1.4.1   September 2, 2016
+# BAS 1.4.1   September 17, 2016
 
 ## Bug Fixes
 
-* the modification in 1.4.0 to automatically handle NA's leads to
-  errors if the response is transformed as part of the forumula this
-  is fixed 
+* the modification in 1.4.0 to automatically handle NA's led to
+  errors if the response was transformed as part of the forumula; 
+  this is fixed 
 
 ## Features
 * added subset argument to `bas.lm` and `bas.glm`
