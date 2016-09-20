@@ -43,8 +43,7 @@ Description: Package for Bayesian Model Averaging in linear models and
 	  the author(s) and do not necessarily reflect the views of the 
 	  National Science Foundation.
 License: GPL (>= 3)
-URL: http://www.r-project.org, http://github.com/merliseclyde/BAS, http://
-    dx.doi.org/10.5281/zenodo.154457
+URL: http://www.r-project.org, http://github.com/merliseclyde/BAS
 Repository: CRAN
 NeedsCompilation: yes
 ByteCompile: yes
