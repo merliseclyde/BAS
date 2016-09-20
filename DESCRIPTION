@@ -36,7 +36,7 @@ Description: Package for Bayesian Model Averaging in linear models and
     space may be used.  The user may force variables to always be included.
     Details behind the sampling algorithm are provided in
     Clyde, Ghosh and Littman (2010)   <DOI:10.1198/jcgs.2010.09049>. The
-    DOI  for the stable package release is <DOI:10.5281/zenodo.61016>.dev
+    DOI  for the stable package release is <DOI:10.5281/zenodo.154457>.dev
     This material is based upon work supported by the National Science
 	  Foundation under Grant DMS-1106891.  Any opinions, findings, and 
 	  conclusions or recommendations expressed in this material are those of
@@ -44,7 +44,7 @@ Description: Package for Bayesian Model Averaging in linear models and
 	  National Science Foundation.
 License: GPL (>= 3)
 URL: http://www.r-project.org, http://github.com/merliseclyde/BAS, http://
-    dx.doi.org/10.5281/zenodo.61016
+    dx.doi.org/10.5281/zenodo.154457
 Repository: CRAN
 NeedsCompilation: yes
 ByteCompile: yes

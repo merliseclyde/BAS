@@ -29,8 +29,8 @@ Some CRAN statistics: [![](http://cranlogs.r-pkg.org/badges/BAS)](http://cran.rs
 
 
 
-DOI version v1.4.0
-[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.61016.svg)](http://dx.doi.org/10.5281/zenodo.61016)
+DOI version v1.4.1
+[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.154457.svg)](http://dx.doi.org/10.5281/zenodo.154457
 
 
 ## Installation
