@@ -2,7 +2,7 @@
 #include <Rmath.h>
 #include <Rinternals.h>
 
-extern double hyperg(double, double, double);
+extern double hyperg(double, double, double), lgammafn(double);
 double loghyperg1F1_laplace(double, double, double);
 
 
@@ -54,7 +54,7 @@ double loghyperg1F1_laplace(double a, double b, double x)
   if ( x <= 0.0) {
      if (x < 0.0) {
          x = -x;
-       logy =  -lgamma(b) - lgamma(a) + lgamma(a+b);
+       logy =  -lgammafn(b) - lgammafn(a) + lgammafn(a+b);
 
 	//	mode = (2.0 - 2.0* a + b - x - sqrt(pow(b, 2.0) - 2.0*b*x + x*(4.0*(a-1.0)+x)))/
 	//  (2*(a - 1.0 - b));

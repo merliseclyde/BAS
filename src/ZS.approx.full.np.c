@@ -1,7 +1,7 @@
 #include <R.h>
 #include <math.h>
 #include <Rmath.h>
-#define lgamma lgammafn
+
 /*  vectorized version of Log BFZS full that can be called from R directly */
 
  void posroot_full(double a, double b, double c, double *root, double *status);
@@ -96,7 +96,7 @@ double lik_full(double g, double eps, int n, int p, int k){
   aux=aux-((double)n-((double)k+1.))*log(1.+eps*g)-
     3.*log(g)-((double)n)/g;
   aux=aux/2.;
-  aux=aux+log((double)n/2.)/2.-lgamma(.5);
+  aux=aux+log((double)n/2.)/2.-lgammafn(.5);
   return(aux);
 }
 

@@ -1,3 +1,11 @@
+# BAS 1.4.2   October 1, 2016
+
+## Updates
+* removed Cephes definition of gamma and lgamma and repalced with R internals gammafn and lgammafn
+
+## Bug Fixes
+* corrected expected value of shrinkage for intrinsic, hyperg-n and TCCH priors for glms
+
 # BAS 1.4.1   September 17, 2016
 
 ## Bug Fixes

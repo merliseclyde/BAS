@@ -81,7 +81,7 @@ crime.ZS =  bas.lm(y ~ .,
   * "ZS-null"
   * "EB-local"
 
-By default, `BAS` will try to enumerate all models, in this case $2^15$.  The prior distribution over the models is a `uniform()` distribution which assigns equal probabilities to all models.  The last optional argument `initprobs = eplogp` provides a way to initialize the sampling algorithm.
+By default, `BAS` will try to enumerate all models, in this case $2^{15}$.  The prior distribution over the models is a `uniform()` distribution which assigns equal probabilities to all models.  The last optional argument `initprobs = eplogp` provides a way to initialize the sampling algorithm.
 
 ## Plots
 
@@ -244,6 +244,12 @@ crime.conf.fit = confint(BPM, parm="mean")
 crime.conf.pred = confint(BPM, parm="pred")
 cbind(crime.conf.fit, crime.conf.pred)
 plot(crime.conf.fit)
+```
+
+For prediction at new points, we can supply a new dataframe
+```{r pred}
+
+new.pred = predict(crime.ZS, newdata=UScrime, estimator="MPM")
 ```
 
 ## Beyond Enumeration

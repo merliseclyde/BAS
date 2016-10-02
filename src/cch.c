@@ -5,8 +5,8 @@
   This program assumes:  0<a<c, 0<b, y<=1.
   x is a column vector of real numbers, other parameters scalar.
 --------------------------------------------------------------------------*/
-
 #include <math.h>
+#include <Rmath.h>
 // #include "mex.h"
 #define FACCURACY 1e-12
 
@@ -28,7 +28,7 @@ double hyperg2F1(double a, double b, double c, double z) {
     F=pow(1-z,-a)*hyperg2F1(a,c-b,c,z/(z-1));
   }
   else if (z==1) {
-    F=exp(lgamma(c)+lgamma(c-a-b)-lgamma(c-a)-lgamma(c-b));
+    F=exp(lgammafn(c)+lgammafn(c-a-b)-lgammafn(c-a)-lgammafn(c-b));
   }
   else {
     while ((w/F)>FACCURACY) {

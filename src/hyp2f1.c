@@ -95,7 +95,6 @@ Copyright 1984, 1987, 1992, 2000 by Stephen L. Moshier
 extern double fabs ( double );
 extern double pow ( double, double );
 extern double round ( double );
-extern double gamma ( double );
 extern double log ( double );
 extern double exp ( double );
 extern double psi ( double );
@@ -103,7 +102,7 @@ static double hyt2f1(double, double, double, double, double *);
 static double hys2f1(double, double, double, double, double *);
 double hyp2f1(double, double, double, double);
 #else
-double fabs(), pow(), round(), gamma(), log(), exp(), psi();
+double fabs(), pow(), round(), gammafn(), lgammafn(), log(), exp(), psi();
 static double hyt2f1();
 static double hys2f1();
 double hyp2f1();
@@ -195,15 +194,17 @@ if( fabs(ax-1.0) < EPS )			/* |x| == 1.0	*/
 		{
 		if( flag & 12 ) /* negative int c-a or c-b */
 			{
+		  //Rprintf("c-a or c-b negative");
 			if( d >= 0.0 )
 				goto hypf;
 			else
 				goto hypdiv;
 			}
 		if( d <= 0.0 )
-			goto hypdiv;
-		/*		y = gamma(c)*gamma(d)/(gamma(p)*gamma(r)); */
-		y = exp(lgammafn(c) + lgammafn(d) -(lgammafn(p) + lgammafn(r)));
+		{
+			goto hypdiv;}
+		//y = exp(lgammafn(c)+lgammafn(d) -(lgammafn(p) + lgammafn(r))); 
+		y = gammafn(c)*gammafn(d)/(gammafn(p)*gammafn(r)); 
 		goto hypdon;
 		}
 
@@ -300,22 +301,29 @@ if( x < -0.5 )
 d = c - a - b;
 id = round(d);	/* nearest integer to d */
 
+// Rprintf("%lf  %lf %lf %lf\n" , d, a, b, c);
 if( x > 0.9 )
 {
 if( fabs(d-id) > EPS ) /* test for integer c-a-b */
 	{
+//  Rprintf("integer case\n");
 /* Try the power series first */
 	y = hys2f1( a, b, c, x, &err );
-	if( err < ETHRESH )
+	if( err < ETHRESH ) {
+	  //Rprintf("Power series failed");
 		goto done;
+	}
 /* If power series fails, then apply AMS55 #15.3.6 */
 	q = hys2f1( a, b, 1.0-d, s, &err );	
-	/*	q *= gamma(d) /(gamma(c-a) * gamma(c-b)); */
-	q *= exp(lgammafn(d)  - (lgammafn(c-a) + lgammafn(c-b)));
+	if (d < 0) 
+  	q *= gammafn(d) /(gammafn(c-a) * gammafn(c-b)); 
+	else q *= exp(lgammafn(d)  - (lgammafn(c-a) + lgammafn(c-b)));
 	r = pow(s,d) * hys2f1( c-a, c-b, d+1.0, s, &err1 );
-	r *= exp(lgammafn(-d) - (lgammafn(a) + lgammafn(b)));
+	if ( d > 0)
+	r *= gammafn(-d) /gammafn(a) * gammafn(b); 
+  else	r *= exp(lgammafn(-d) - (lgammafn(a) + lgammafn(b)));
 	y = q + r;
-
+//  Rprintf("\n %lf %lf %lf \n", y, q, r);
 	q = fabs(q); /* estimate cancellation error */
 	r = fabs(r);
 	if( q > r )
@@ -327,9 +335,12 @@ if( fabs(d-id) > EPS ) /* test for integer c-a-b */
 	}
 else
 	{
+//  Rprintf("non-int case R2 %lf\n", x);
+//  Rprintf("a = %lf, b=%lf, c=%lf\n ", a, b, c);
 /* Psi function expansion, AMS55 #15.3.10, #15.3.11, #15.3.12 */
 	if( id >= 0.0 )
 		{
+//	  Rprintf("id >= 0\n");
 		e = d;
 		d1 = d;
 		d2 = 0.0;
@@ -366,7 +377,7 @@ else
 
 	if( id == 0.0 )
 		{
-		y *= exp(lgammafn(c)-(lgammafn(a) + lgammafn(b)));
+		y *= gammafn(c)/(gammafn(a)*gammafn(b));
 		goto psidon;
 		}
 
@@ -374,7 +385,8 @@ else
 
 	if( aid == 1 )
 		goto nosum;
-
+  
+//  Rprintf("sum case b=%lf\n", b);
 	t = 0.0;
 	p = 1.0;
 	for( i=1; i<aid; i++ )
@@ -387,9 +399,11 @@ else
 		}
 nosum:
 	p = gammafn(c);
-	y1 *= exp(lgammafn(e) + log(p) - (lgammafn(a+d1) + lgammafn(b+d1)));
-
-	y *= exp(log(p) - (lgammafn(a+d2) + lgammafn(b+d2)));
+//	Rprintf("e = %lf, a=%lf, b=%lf, d1= %lf, d2=%lf\n ", e, a, b, d1, d2);
+//	y1 *= gammafn(e) * p / (gammafn(a+d1) * gammafn(b+d1));
+	y1 *= exp(lgammafn(e) + log(p) - (lgammafn(a+d1) - lgammafn(b+d1)));
+//  y *= p / (gammafn(a+d2) * gammafn(b+d2));
+	y *= exp(log(p) - lgammafn(a+d2+ .00001))/gammafn(b+d2 + .00001);
 	if( (aid & 1) != 0 )
 		y = -y;
 

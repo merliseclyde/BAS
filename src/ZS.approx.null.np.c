@@ -1,7 +1,7 @@
 #include <R.h>
 #include <math.h>
 #include <Rmath.h>
-#define lgamma lgammafn
+
 
 void LogBF_ZS_null_vect(double *r2curr, int *n, int *dim, int *nmodels, double *logmarg) {
   double LogBF_ZS_null(double r2curr, int n, int d);
@@ -70,7 +70,7 @@ double lik_null(double g, double R2, int n, int k){
   aux=((double)n-1.-(double)k)*log(1.+g)-((double)n-1.)*log(1.+(1.-R2)*g)-
     3.*log(g)-((double)n)/g;
   aux=aux/2.;
-  aux=aux+log((double)n/2.)/2.-lgamma(.5);
+  aux=aux+log((double)n/2.)/2.-lgammafn(.5);
   return(aux);
 }
 
