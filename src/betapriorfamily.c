@@ -34,16 +34,16 @@ struct betapriorfamilystruc * make_betaprior_structure(SEXP betaprior, SEXP glmf
   }
   else if (strcmp(betapriorfamily->priorfamily, "tCCH") == 0) {
     betapriorfamily->logmarglik_fun = tCCH_glm_logmarg;
-    betapriorfamily->shrinkage_fun = tCCH_glm_shrinkage;  // need to change
+    betapriorfamily->shrinkage_fun = tCCH_glm_shrinkage;  
   }
     else if (strcmp(betapriorfamily->priorfamily, "intrinsic") == 0) {
     betapriorfamily->logmarglik_fun = intrinsic_glm_logmarg;
-    betapriorfamily->shrinkage_fun = CCH_glm_shrinkage;  // need to change
+    betapriorfamily->shrinkage_fun = intrinsic_glm_shrinkage;  
   }
 
   else if (strcmp(betapriorfamily->priorfamily, "hyper-g/n") == 0) {
     betapriorfamily->logmarglik_fun = tCCH_glm_logmarg;
-    betapriorfamily->shrinkage_fun = tCCH_glm_shrinkage;  // need to change
+    betapriorfamily->shrinkage_fun = tCCH_glm_shrinkage;  
   }
   else if (strcmp(betapriorfamily->priorfamily, "Jeffreys") == 0) {
     betapriorfamily->logmarglik_fun = Jeffreys_glm_logmarg;
@@ -215,7 +215,7 @@ double intrinsic_glm_logmarg(SEXP hyperparams, int pmodel, double W,
 }
 
 double intrinsic_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace ) {
-  double a, b, s, r, v, theta, n, p, shrinkage;
+  double a, b, s, r, v, theta, n, p, u, shrinkage;
   
   a = REAL(getListElement(hyperparams, "alpha"))[0];
   b = REAL(getListElement(hyperparams, "beta"))[0];
@@ -229,12 +229,14 @@ double intrinsic_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Lapla
   
   shrinkage = 1.0;
   if (p >= 1.0) {
-    shrinkage -=   exp( -log(v)
-                      + lbeta((a + p) / 2.0 + 1.0, b / 2.0) 
-                      + log(HyperTwo(b/2.0, r, (a +b+p)/2.0 + 1.0, (s+W)/(2.0*v), 1.0-theta)) 
-                      - lbeta((a+p) / 2.0, b/2.0)
-                      - log(HyperTwo(b/2.0, r, (a + p+ b)/2.0, (s+W)/(2.0*v), 1.0 - theta)));
+     u = exp(-log(v)
+             + lbeta((a + p) / 2.0 + 1.0, b / 2.0) 
+             + log(HyperTwo(b/2.0, r, (a +b+p)/2.0 + 1.0, (s+W)/(2.0*v), 1.0-theta)) 
+             - lbeta((a+p) / 2.0, b/2.0)
+             - log(HyperTwo(b/2.0, r, (a + p+ b)/2.0, (s+W)/(2.0*v), 1.0 - theta)));
+    shrinkage = 1.0 - u;
   }	
+  
   return(shrinkage);
 }
 

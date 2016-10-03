@@ -81,8 +81,16 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
     num.updates=10
     call = match.call()
    
-   # data = model.frame(formula, data, na.action=na.action)
-    
+    if (is.character(family)) 
+      family <- get(family, mode = "function", envir = parent.frame())
+    if (is.function(family)) 
+      family <- family()
+    if (is.null(family$family)) {
+      print(family)
+      stop("'family' not recognized")
+    }
+    if (missing(data)) 
+      data <- environment(formula)
    
     #browser() 
     mf <- match.call(expand.dots = FALSE)
@@ -99,7 +107,7 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
                     "rows due to missing data"))
     }
     
-    Y = model.response(mf, type="numeric")
+    Y = model.response(mf, type="any")
     mt <- attr(mf, "terms")
     X = model.matrix(mt, mf, contrasts)
     #X = model.matrix(formula, mf)
@@ -118,10 +126,10 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
    offset = model.offset(mf)  
    if (is.null(offset))  offset = rep(0, nobs)
   
-   browser()
-  glm.obj = glm(Y ~ X[,-1],family = family, weights=weights, offset=offset, y=T, x=T)
+ #  browser()
+ glm.obj = glm(Y ~ X[,-1],family = family, weights=weights, offset=offset, y=T, x=T)
   
-  Y = glm.obj$y
+ Y = glm.obj$y
   
   prob <- .normalize.initprobs(initprobs, glm.obj)
 	n.models <- .normalize.n.models(n.models, p, prob, method)

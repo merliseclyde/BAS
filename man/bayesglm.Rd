@@ -62,6 +62,8 @@ out$coef
 out$se
 # using built in function
 glm(type ~ ., family=binomial(), data=Pima.tr)
+
+
 }
 \author{Merlise Clyde translated the \code{\link{glm.fit}} from R base
         into C using the .Call interface}

@@ -155,12 +155,18 @@ An object of class \code{BMA} is a list containing at least the following compon
 library(MASS)
 data(Pima.tr)
 
-out = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7, method="BAS",
+pima.cch = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7, method="BAS",
               betaprior=CCH(a=1, b=532/2, s=0), family=binomial(),
               modelprior=beta.binomial(1,1))
 
-summary(out)
-image(out)
+summary(pima.cch)
+image(pima.cch)
+
+pima.robust = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
+              method="BAS",
+              betaprior=robust(), family=binomial(),
+              modelprior=beta.binomial(1,1))
+
 }
 \keyword{GLM}
 \keyword{regression}
