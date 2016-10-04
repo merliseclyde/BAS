@@ -78,7 +78,7 @@ static double hy1f1a(double, double, double, double *);
 double hyperg (double, double, double);
 #else
 double exp(), log(), gammafn(), lgammafn(),fabs(), hyp2f0();
-extern double gamma(), lgam();
+double gamma(), lgam();
 static double hy1f1p();
 static double hy1f1a();
 double hyperg();
