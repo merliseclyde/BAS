@@ -6,10 +6,10 @@
  *
  * SYNOPSIS:
  *
- * double x, y, gamma();
+ * double x, y, gam();
  * extern int sgngam;
  *
- * y = gamma( x );
+ * y = gam( x );
  *
  *
  *
@@ -321,7 +321,7 @@ return( y );
 
 
 
-double gamma(x)
+double gam(x)
 double x;
 {
 double p, q, z;
