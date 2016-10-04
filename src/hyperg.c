@@ -72,12 +72,14 @@ Copyright 1984, 1987, 1988, 2000 by Stephen L. Moshier
 extern double exp ( double );
 extern double log ( double );
 extern double fabs ( double );
+double gamma(double), lgam(double);
 double hyp2f0 ( double, double, double, int, double * );
 static double hy1f1p(double, double, double, double *);
 static double hy1f1a(double, double, double, double *);
 double hyperg (double, double, double);
 #else
-double exp(), log(), gammafn(), lgammafn(),fabs(), hyp2f0();
+double exp(), log(), gammafn(), lgammafn(),fabs(), 
+double hyp2f0();
 double gamma(), lgam();
 static double hy1f1p();
 static double hy1f1a();
