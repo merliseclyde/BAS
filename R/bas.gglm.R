@@ -212,6 +212,9 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
     if (method == "MCMC") { result$n.models = result$n.Unique}
     else { result$n.models=n.models}
 
+  	df = rep(n - 1, result$n.models)
+  	if (prior$class == "IC") df = df - result$size + 1
+  	result$df = df
     result$R2 = .R2.glm.bas(result$deviance, result$size, call)
     result$n.vars=p
     result$Y=Yvec
