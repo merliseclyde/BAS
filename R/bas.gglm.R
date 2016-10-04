@@ -212,8 +212,8 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
     if (method == "MCMC") { result$n.models = result$n.Unique}
     else { result$n.models=n.models}
 
-  	df = rep(n - 1, result$n.models)
-  	if (prior$class == "IC") df = df - result$size + 1
+  	df = rep(nobs - 1, result$n.models)
+  	if (betaprior$class == "IC") df = df - result$size + 1
   	result$df = df
     result$R2 = .R2.glm.bas(result$deviance, result$size, call)
     result$n.vars=p
@@ -262,7 +262,7 @@ object$mle = object$mle[-drop]
 object$mle.se = object$mle.se[-drop]
 object$shrinkage = object$shrinkage[-drop]
 object$n.models = n.models - 1    
-
+object$df = object$df[-drop]
 return(object)
 }
 
