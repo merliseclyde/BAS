@@ -427,7 +427,7 @@ double testBF_prior_glm_logmarg(SEXP hyperparams, int pmodel, double W,
     // pmodel is 0 for null model      
     z = -2.0*(loglik_mle - loglik_null);
     logmarglik = - 0.5* (((double) pmodel)*(log(1.0 + g))  + z*g/(1.0 + g));
-    Rprintf("z = %lf  p = %d \n", z, pmodel );
+//    Rprintf("z = %lf  p = %d \n", z, pmodel );
     return(logmarglik);
   } 
   
