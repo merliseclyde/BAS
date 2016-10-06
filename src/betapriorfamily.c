@@ -257,7 +257,7 @@ double CCH_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace ) {
   if (p >= 1.0) 
     // shrinkage = shrinkage_chg(a + p, a + b + p, -(s+W), Laplace);
     shrinkage = 1.0 - exp(log(a + p) -log(a + b + p) 
-                    +loghyperg1F1((a+p+1.0)/2.0, (a+p+b)/2.0, -(s+W)/2, Laplace)
+                    +loghyperg1F1((a+p+2.0)/2.0, (a+p+b +2.0)/2.0, -(s+W)/2, Laplace)
                     -loghyperg1F1((a+p)/2,(a+p+b)/2.0, -(s+W)/2, Laplace)
     );
       
@@ -300,7 +300,7 @@ double betaprime_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Lapla
     if (p >= 1.0) 
       // shrinkage = shrinkage_chg(a + p, a + b + p, -(s+W), Laplace);
       shrinkage = 1.0 - exp(log(a + p) -log(a + b + p) 
-                            +loghyperg1F1((a+p+1.0)/2.0, (a+p+b)/2.0, -W/2.0, Laplace)
+                            +loghyperg1F1((a+p+2.0)/2.0, (a+p+b +2.0)/2.0, -W/2.0, Laplace)
                             -loghyperg1F1((a+p)/2,(a+p+b)/2.0, -W/2.0, Laplace)
       );
   return(shrinkage);
