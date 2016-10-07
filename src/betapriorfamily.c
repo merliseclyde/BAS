@@ -370,7 +370,7 @@ double TG_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace ) {
   
   shrinkage = 1.0;
   if (p >= 1.0) {
-    shrinkage = 1.0 - exp(log(a + p) - log(.5*W) +
+    shrinkage = 1.0 - exp(log((a + p)/2.0) - log(.5*W) +
 			  pgamma(1.0, .5*(a + p) + 1.0, 2.0/W, 1, 1) - 
 			  pgamma(1.0, .5*(a + p), 2.0/W, 1, 1));
   }
