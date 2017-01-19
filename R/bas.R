@@ -148,7 +148,7 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
   #  prob = as.numeric(initprobs)
   #MCMC-BAS
   if (is.null(n.models)) n.models = min(2^p, 2^19)
-  if (is.null(MCMC.iterations)) MCMC.iterations = as.integer(n.models*2)
+  if (is.null(MCMC.iterations)) MCMC.iterations = as.integer(n.models*10)
   Burnin.iterations = as.integer(MCMC.iterations)
   
   if (is.null(lambda)) lambda=1.0
