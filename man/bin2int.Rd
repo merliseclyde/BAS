@@ -1,7 +1,8 @@
 \name{bin2int}
 \alias{bin2int}
 \title{Convert binary model representation into an integer}
-\description{Takes a binary string representation of a model and
+\description{This function is deprecated.
+  Takes a binary string representation of a model and
   converts to an integer}
 
 \usage{bin2int(model)}

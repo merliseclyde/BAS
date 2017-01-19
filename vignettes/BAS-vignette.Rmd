@@ -11,6 +11,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 ```{r setup}
+require(knitr)
 require(GGally)
 ```
 
@@ -72,16 +73,29 @@ crime.ZS =  bas.lm(y ~ .,
                    modelprior=uniform(), initprobs="eplogp") 
 ```
 
-`BAS` uses a model formula similar toe `lm` to specify the full model with all of the potential predictors.  Here we are using the shorthand `.` to indicate that all remaining variables in the data frame will be included.  `BAS` require a data frame as the input for the `data` argument.   Different prior distributions on the regression coefficients may be specified using the `prior` argument, and include
+`BAS` uses a model formula similar to `lm` to specify the full model with all of the potential predictors.  Here we are using the shorthand `.` to indicate that all remaining variables in the data frame will be included.  `BAS` require a data frame as the input for the `data` argument.   Different prior distributions on the regression coefficients may be specified using the `prior` argument, and include
 
   * "BIC"
   * "AIC
+  * "g-prior"
   * "hyper-g"
+  * "hyper-g-laplace"
   * "hyper-g-n"
   * "ZS-null"
+  * "ZS-full"
   * "EB-local"
+  * "EB-global"
 
-By default, `BAS` will try to enumerate all models, in this case $2^{15}$.  The prior distribution over the models is a `uniform()` distribution which assigns equal probabilities to all models.  The last optional argument `initprobs = eplogp` provides a way to initialize the sampling algorithm.
+By default, `BAS` will try to enumerate all models, in this case $2^{15}$ using the default `method="BAS"`.  The prior distribution over the models is a `uniform()` distribution which assigns equal probabilities to all models.  The last optional argument `initprobs = eplogp` provides a way to initialize the sampling algorithm and order the variables in the tree structure that represents the model space in BAS.  The `eplogp` option uses the Bayes factor calibration of p-values  $-e p \log(p)$ to provide an approximation to the marginal inclusion probability that the coeffient of each predictor is zero, using the p-values from the full model.  Other options for `initprobs` include
+
+  * "marg-eplogp""
+  * "uniform"
+  * numeric vector of length p
+  
+The option "marg-eplogp" uses  p-values from the p siple linear regressions (useful for large p or highly correlated variables).
+The numeric provides a way to force variables to always be included  if the initialprob is 1.  
+
+Since we are enumerating under all possible models these options are not important. 
 
 ## Plots
 
@@ -92,7 +106,7 @@ plot(crime.ZS, ask=F)
 
 ```
 
-which produces a panel of four plots.  The first is a plot of residuals and fitted values under Bayesian Model Averaging.  Ideally,  of our model assumptions hold, we will not see outliers or non-constant variance. The second plot shows the cumulative probabilty of the models in the order that they are sampled.  This plot indicates that the cumulative probability is leveling off as each additional model adds only a small increment to the cumulative probability, which earlier, there are larger jumps corresponding to sampling high probabilty models.  The third plot shows the dimension of each model (the number of regression coefficients includeing the intercept) versus the log of the marginal likelihood of the model.    The last plot shows the marginal posterior inclusion probabilities (pip) for each of the covariates, with marginal pips greater than 0.5 shown in red.  The variables with pip > 0.5 correspond to what is known as the median probability model.  Variables with high inclusion probabilties are generally important for explaining the data or prediction, but marginal inclusion probabilities may be small if there are extreme correlations among predictors, similar to how p-values may be large in the presence of mullticollinearity.
+which produces a panel of four plots.  The first is a plot of residuals and fitted values under Bayesian Model Averaging.  Ideally,  of our model assumptions hold, we will not see outliers or non-constant variance. The second plot shows the cumulative probabilty of the models in the order that they are sampled.  This plot indicates that the cumulative probability is leveling off as each additional model adds only a small increment to the cumulative probability, which earlier, there are larger jumps corresponding to sampling high probabilty models.  The third plot shows the dimension of each model (the number of regression coefficients includeing the intercept) versus the log of the marginal likelihood of the model.    The last plot shows the marginal posterior inclusion probabilities (pip) for each of the covariates, with marginal pips greater than 0.5 shown in red.  The variables with pip > 0.5 correspond to what is known as the median probability model.  Variables with high inclusion probabilties are generally important for explaining the data or prediction, but marginal inclusion probabilities may be small if there  predictors are correlated, similar to how p-values may be large in the presence of mullticollinearity.
 
 Individual plots may be obtained using the `which` option.
 ```{r pip, fig.width=5, fig.height=5}
@@ -119,8 +133,7 @@ To see beyond the first five models, we can represent the collection of the mode
 image(crime.ZS, rotate=F)
 ```
 
-This image has rows that correspond to each of the variables and intercept, 
-with labels for the variables on the y-axis.  The x-axis corresponds to the possible models. These are sorted by their posterior probability from best at the left
+This image has rows that correspond to each of the variables and intercept, with labels for the variables on the y-axis.  The x-axis corresponds to the possible models. These are sorted by their posterior probability from best at the left
 to worst at the right with the rank on the top x-axis. 
 
 Each column represents one of the 16 models.  The variables
@@ -252,6 +265,34 @@ For prediction at new points, we can supply a new dataframe
 new.pred = predict(crime.ZS, newdata=UScrime, estimator="MPM")
 ```
 
+## Alternative algorithms
+
+`BAS` has several options for sampling from the model space with or without enumeration.  The (current) default `method="BAS"` samples models without replacement using estimates of the marginal inclusion probabilities using the algorithm described in  [http://dx.doi.org/10.1198/jcgs.2010.09049](Clyde et al 2011).  The initial sampling probabilities provided by `initprobs` are updated based on the sampled models, every `update` iterations.
+This can be more efficient in some cases if a large fraction of the model space has been sampled, however, in cases of high correlation and a large number of predictors, this can lead to biased estimates [http://dx.doi.org/10.1093/biomet/ass040](Clyde and Ghosh 20112), in which case MCMC is prefered.  The `method="MCMC"` is described below and is better for large $p$. 
+A deterministic sampling scheme is also available for enunermation or sampling;
+
+```{r}
+system.time(
+  for (i in 1:10) {
+    crime.ZS <- bas.lm(y ~ ., 
+                   data=UScrime,
+                   prior="ZS-null",
+                   modelprior=uniform(), initprobs="eplogp") 
+  }
+)
+
+system.time(
+  for (i in 1:10)  {
+    crime.ZS <-  bas.lm(y ~ ., 
+                   data=UScrime,
+                   prior="ZS-null", method="deterministic",
+                   modelprior=uniform(), initprobs="eplogp") 
+  }
+)
+
+```
+which is faster for enumeration than the default method="BAS".
+
 ## Beyond Enumeration
 
 Many problems are too large to enumerate all possible models.  In such cases we may use the `method=MCMC` option to sample models using Markov Chain Monte Carlo sampling to sample models based on their posterior probabilities.
@@ -287,6 +328,34 @@ crime.ZS =  bas.lm(y ~ .,
 
 diagnostics(crime.ZS, type="model", pch=16)
 ```
+
+
+## Outliers
+
+BAS can also be used for exploring mean shift or variance inflation outliers by adding in indicator variables for each case being an outlier (the mean is given by the regression) or not.  This is similar to the MC3.REG function in BMA, although here we are using a g-prior or mixture of g-priors for the coeeficents for the outlier means.
+
+Using the Stackloss data, we can add an identify matrix to the original dataframe, where each column is an indicator that the ith variable is an outlier.
+
+```{r add-out}
+data("stackloss")
+stackloss$out.ind = diag(nrow(stackloss))
+
+stack.bas = bas.lm(stack.loss ~ ., data=stackloss,
+                method="MCMC", initprobs="marg-eplogp",
+                prior="ZS-null", 
+                modelprior=tr.poisson(4,10),
+                MCMC.iterations=200000
+               )
+```
+
+The above call introduces using truncated prior distributions on the model space; in this case the distribution of the number of variables to be included has a Poisson distribution, with mean 4 (under no truncation), and the truncation point is at 11, so that all models with more than 10 (one half of cases rounded down) will have probability zero.
+
+Looking at the summaries
+```{r}
+kable(t(stack.bas))
+```
+
+
 
 ## Summary
 

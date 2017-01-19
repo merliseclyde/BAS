@@ -41,13 +41,15 @@ list2matrix.which = function(x, which.models=NULL) {
                   n.vars))
   mat}
 
-
-bin2int = function(model) { 
-  if (length(model) > 1) { 
-    i = sum(2^(model[-1] - 1)) + 1}
-  else{ i = 1}
+#  To be Deprecated 
+bin2int = function(model) {
+    .Deprecated(package="BAS", msg="This function is to be removed from BAS and is not intended for use")
+    
+#  if (length(model) > 1) { 
+#    i = sum(2^(model[-1] - 1)) + 1}
+#  else{ i = 1}
 #  if (!is.integer(i)) warning("Exceeded the largest integer for this machine")
-  return(unlist(i))
+#  return(unlist(i))
 }
 
 

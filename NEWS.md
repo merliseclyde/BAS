@@ -1,3 +1,12 @@
+#  BAS 1.4.3  January 19, 2017
+
+## Updates
+
+* bin2int is now deprecated
+* fixed default MCMC.iteration in `bas.lm` to agree with documentation
+* updated vignette
+
+
 # BAS 1.4.2   October 12, 2016
 
 ## Updates
