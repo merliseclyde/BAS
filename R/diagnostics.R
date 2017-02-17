@@ -1,17 +1,19 @@
 diagnostics = function(obj, type=c("pip","model"),...) {
     if (obj$call$method == "MCMC") {
-    if (type == "pip")  {   
-    plot(obj$probne0, obj$probs.MCMC,
-         xlab="pip (renormalized)",
-         ylab="pip (MCMC)", xlim=c(0,1), ylim=c(0,1),
-         ...)
-    abline(0,1) }
+    for (i in 1:length(type)) {  
+    if (type[i] == "pip")  {   
+      plot(obj$probne0.RN, obj$probne0.MCMC,
+          xlab="pip (renormalized)",
+          ylab="pip (MCMC)", xlim=c(0,1), ylim=c(0,1),
+          ...)
+      abline(0,1) }
     else {
-        plot(obj$postprob, obj$freq/sum(obj$freq),
+        plot(obj$postprobs.RN, obj$postprobs.MCMC,
          xlab="pip (renormalized)",
          ylab="pip (MCMC)",
              ...)
         abline(0,1)
+    }
     }
 }
     else {

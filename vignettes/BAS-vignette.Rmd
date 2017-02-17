@@ -10,9 +10,10 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-```{r setup}
+```{r setup, include=FALSE}
 require(knitr)
 require(GGally)
+require(MASS)
 ```
 
 The `BAS` package provides easy to use functions to implement Bayesian Model Averaging in linear models and  generalized linear models.
@@ -121,6 +122,7 @@ crime.ZS
 returns a summary of the marginal inclusion probabilities, while the `summary` function
 provides
 ```{r summary}
+options(width = 80)
 summary(crime.ZS)
 ```
 This lists the top 5 models (in terms of posterior probability)  with the zero-one indicators for variable inclusion.  The other columns in the summary are the Bayes factor of each model to the hiest probbility model (hence its Bayes factor is 1), the posterior probabilites of the models, the ordinary $R^2$ of the models, the dimension of the models (number of coeeficients includeing the intercept)  and the log marginal likelihood usnder the selected prior distribution. 
@@ -173,7 +175,7 @@ where the third column is the posterior mean.
 This uses Monte Carlo sampling to draw from the mixture model over coefficient where models are sampled based on their posterior probabilities.
 
 We can also plot these via
-```{r plot-confint}
+```{r plot-confint, fig.width=7}
 plot(confint(coef.ZS, parm=2:16))
 ```
 using the `parm` argument to select which coefficients to plot (the intercept is `parm=1`).
@@ -240,7 +242,7 @@ BPM = predict(crime.ZS, estimator="BPM")
 
 Let's see how they compare:
 
-```{r}
+```{r, fig.width=6, fig.height=6}
 library(GGally)
 ggpairs(data.frame(HPM = as.vector(HPM$fit),  #this used predict so we need to extract fitted values
                    MPM = as.vector(MPM$fit),  # this used fitted
@@ -251,7 +253,7 @@ ggpairs(data.frame(HPM = as.vector(HPM$fit),  #this used predict so we need to e
 
 Using the `se.fit = TRUE` option with `predict` we can also calculate standard deviations for prediction or for the mean and use this as imput for the `confint` function for the prediction object.
 
-```{r se}
+```{r se, fig.width=7}
 BPM = predict(crime.ZS, estimator="BPM", se.fit=TRUE)
 crime.conf.fit = confint(BPM, parm="mean")
 crime.conf.pred = confint(BPM, parm="pred")
@@ -269,14 +271,15 @@ new.pred = predict(crime.ZS, newdata=UScrime, estimator="MPM")
 
 `BAS` has several options for sampling from the model space with or without enumeration.  The (current) default `method="BAS"` samples models without replacement using estimates of the marginal inclusion probabilities using the algorithm described in  [http://dx.doi.org/10.1198/jcgs.2010.09049](Clyde et al 2011).  The initial sampling probabilities provided by `initprobs` are updated based on the sampled models, every `update` iterations.
 This can be more efficient in some cases if a large fraction of the model space has been sampled, however, in cases of high correlation and a large number of predictors, this can lead to biased estimates [http://dx.doi.org/10.1093/biomet/ass040](Clyde and Ghosh 20112), in which case MCMC is prefered.  The `method="MCMC"` is described below and is better for large $p$. 
-A deterministic sampling scheme is also available for enunermation or sampling;
+
+A deterministic sampling scheme is also available for enunermation;
 
 ```{r}
 system.time(
   for (i in 1:10) {
     crime.ZS <- bas.lm(y ~ ., 
                    data=UScrime,
-                   prior="ZS-null",
+                   prior="ZS-null", method="BAS",
                    modelprior=uniform(), initprobs="eplogp") 
   }
 )
@@ -332,7 +335,7 @@ diagnostics(crime.ZS, type="model", pch=16)
 
 ## Outliers
 
-BAS can also be used for exploring mean shift or variance inflation outliers by adding in indicator variables for each case being an outlier (the mean is given by the regression) or not.  This is similar to the MC3.REG function in BMA, although here we are using a g-prior or mixture of g-priors for the coeeficents for the outlier means.
+BAS can also be used for exploring mean shift or variance inflation outliers by adding indicator variables for each case being an outlier (the mean is not given by the regression) or not.  This is similar to the MC3.REG function in BMA, although here we are using a g-prior or mixture of g-priors for the coefficents for the outlier means.
 
 Using the Stackloss data, we can add an identify matrix to the original dataframe, where each column is an indicator that the ith variable is an outlier.
 
@@ -348,15 +351,18 @@ stack.bas = bas.lm(stack.loss ~ ., data=stackloss,
                )
 ```
 
-The above call introduces using truncated prior distributions on the model space; in this case the distribution of the number of variables to be included has a Poisson distribution, with mean 4 (under no truncation), and the truncation point is at 11, so that all models with more than 10 (one half of cases rounded down) will have probability zero.
+The above call introduces using truncated prior distributions on the model space; in this case the distribution of the number of variables to be included has a Poisson distribution, with mean 4 (under no truncation), and the truncation point is at 10, so that all models with more than 10 (one half of cases rounded down) will have probability zero.
 
 Looking at the summaries
 ```{r}
-kable(t(stack.bas))
+kable(as.data.frame(summary(stack.bas)))
 ```
 
 
 
 ## Summary
 
-`BAS` includes other prior distributions on coefficients and models, as well as `bas.glm` for fitting Generalized Linear Models.  Some of the syntax for bas.glm and bas.lm have not converged, particularly how some of the priors are represented, so do please see the documentation for more features and details until this is updated!
+`BAS` includes other prior distributions on coefficients and models, as well as `bas.glm` for fitting Generalized Linear Models.  The syntax for bas.glm and bas.lm are not yet the same, particularly for how some of the priors on coefficients are represented, so please see the documentation for more features and details until this is updated!
+
+For issues or feature requests please submit via the package's github page 
+[merliseclyde/BAS](http://github.com/merliseclyde/BAS)

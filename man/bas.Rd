@@ -9,7 +9,8 @@
  modelprior=beta.binomial(1,1),
  initprobs="Uniform", method="BAS", update=NULL,
  bestmodel = NULL, prob.local = 0.0, prob.rw=0.5,
- MCMC.iterations = NULL, lambda = NULL, delta = 0.025,thin=1)
+ MCMC.iterations = NULL, lambda = NULL, delta = 0.025,thin=1,
+ renormalize=FALSE)
 }
 \arguments{
   \item{formula}{linear model formula for the full model with all
@@ -97,12 +98,13 @@
     a new model.}
   \item{MCMC.iterations}{Number of iterations for the MCMC sampler; the
     default is n.models*10 if not set by the user.} 
-   \item{lambda}{Parameter in the AMCMC algorithm.}
+   \item{lambda}{Parameter in the AMCMC algorithm (depracated).}
    \item{delta}{truncation parameter to prevent sampling probabilities
-     to degenerate to 0 or 1 prior to enumeration for sampling withour
-     replacent.}
+     to degenerate to 0 or 1 prior to enumeration for sampling without
+     replacement.}
    \item{thin}{For "MCMC", thin the MCMC every "thin"
      iterations; default is no thinning.} 
+   \item{renormalize}{For MCMC sampling, should posterior probabilities be based on renormalizing the marginal likelihoods times prior probabilities (TRUE) or frequencies from MCMC.  The latter are unbiased in long runs, while the former may have less variability.  May be compared via the diagnostic plot function.} 
  }
 
 \details{BAS provides several search

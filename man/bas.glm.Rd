@@ -10,7 +10,7 @@
  initprobs = "Uniform", method = "MCMC", update = NULL,
  bestmodel = NULL, prob.rw = 0.5, 
  MCMC.iterations = NULL, control = glm.control(), 
- laplace=FALSE)
+ laplace=FALSE, renormalize=FALSE)
 }
 \arguments{
   \item{formula}{generalized linear model formula for the full model with all
@@ -95,6 +95,7 @@ predictor; by default 0.}
     approximate for integration with respect to g to obtain the marginal
     likelihood.  If FALSE the Cephes library is used which may be
     inaccurate for large n or large values of the Wald Chisquared statistic.}
+    \item{renormalize}{logical variable for whether posterior probabilities should be based on renormalizing marginal likelihoods times prior probabilities or use Monte Carlo frequencies. Applies only to MCMC sampling}
 }
 \details{BAS provides several search
 algorithms to find high probability models for use in Bayesian Model
@@ -167,6 +168,10 @@ pima.robust = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
               betaprior=robust(), family=binomial(),
               modelprior=beta.binomial(1,1))
 
+pima.BIC = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
+              method="BAS",
+              betaprior=bic.prior(), family=binomial(),
+              modelprior=uniform())
 }
 \keyword{GLM}
 \keyword{regression}

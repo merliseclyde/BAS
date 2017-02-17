@@ -50,7 +50,7 @@ hald.ZS = bas.lm(Y ~ ., data=Hald, prior="ZS-null", modelprior=uniform(), method
 image(hald.ZS)
 ```
 
-![](README-unnamed-chunk-3-1.png)
+![](README-fig/unnamed-chunk-3-1.png)
 
 Run `demo("BAS.hald")` or `demo("BAS.USCrime")` or see the package vignette for more examples and options such as using MCMC for model spaces that cannot be enumerated.
 

@@ -26,7 +26,7 @@
 \details{
 The print methods display a view similar to \code{print.lm} . 
 The summary methods display a view specific to Bayesian model averaging
-giving the top highest probability models.
+giving the top 5 highest probability models represented by their inclusion indicators.  Summaries of the models include the Bayes Facotr (BF) of each model to the model with the largest marginal likelihood, the posterior probabilty of the models, R2, dim (which includes the intercept) and the log of the marginal likelihood.
 }
 \author{Merlise Clyde \email{clyde@stat.duke.edu}}
 \seealso{\code{\link{coef.bas}}}

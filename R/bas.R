@@ -67,7 +67,7 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
     bestmodel=NULL, prob.local=0.0,
     prob.rw=0.5,  
     MCMC.iterations=NULL,
-    lambda=NULL, delta=0.025, thin=1)  {
+    lambda=NULL, delta=0.025, thin=1, renormalize=FALSE)  {
 
   
   num.updates=10
@@ -300,8 +300,17 @@ if (method == "AMCMC") {
   result$prior=prior
   result$modelprior=modelprior
   result$alpha=alpha
+  result$probne0.RN = result$probne0
+  result$postprobs.RN = result$postprobs
+  
   if (method == "MCMC" || method == "MCMC_new" ) {
-	result$n.models = result$n.Unique
+	  result$n.models = result$n.Unique
+	  result$postprobs.MCMC = result$freq/sum(result$freq)
+	
+	  if (!renormalize)  {
+	    result$probne0 = result$probne0.MCMC
+  	  result$postprobs = result$postprobs.MCMC
+	  }
   } else {
   	result$n.models=n.models
   }

@@ -5,3 +5,8 @@ Readme.md
 README.md
 ^README\.Rmd$
 ^README-.*\.png$
+params.json
+javascripts/
+index.html
+images/
+stylesheets/

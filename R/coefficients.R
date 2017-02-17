@@ -5,17 +5,17 @@ coef.bas = function(object, ...) {
   conditionalmeans = list2matrix.bas(object, "mle")
   conditionalmeans[,-1] = sweep(conditionalmeans[,-1, drop=F], 1, object$shrinkage,
                                 FUN="*") 
-  postmean = as.vector(object$postprob %*% conditionalmeans)
+  postmean = as.vector(object$postprobs %*% conditionalmeans)
 
   conditionalsd  =  list2matrix.bas(object, "mle.se")
   if (!(object$prior == "AIC" || object$prior == "BIC")) {
     conditionalsd[ , -1] = sweep(conditionalsd[ ,-1, drop=F], 1, sqrt(object$shrinkage), FUN="*") }
   
-  postsd = sqrt(object$postprob %*% conditionalsd^2   +
-                object$postprob %*% ((sweep(conditionalmeans, 2, postmean, FUN="-"))^2))
+  postsd = sqrt(object$postprobs %*% conditionalsd^2   +
+                object$postprobs %*% ((sweep(conditionalmeans, 2, postmean, FUN="-"))^2))
   postsd = as.vector(postsd) 
   if (is.null(object$df)) {
-    df = rep(object$n, length(object$postprob))
+    df = rep(object$n, length(object$postprobs))
     if (object$prior == "BIC" | object$prior == "AIC") {df = df - object$size}
     else {df = df - 1}
   }
@@ -82,7 +82,7 @@ plot.coef.bas  = function(x, e = 1e-04, subset = 1:x$n.vars, ask=TRUE, ...) {
  for (i in subset) {
     sel = x$conditionalmeans[,i] != 0
     prob0 = 1 - x$probne0[i]   
-    mixprobs = x$postprob[sel]/(1.0 - prob0)
+    mixprobs = x$postprobs[sel]/(1.0 - prob0)
     means =   x$conditionalmeans[sel, i, drop=TRUE]
     sds   =   x$conditionalsd[sel, i, drop=TRUE]
     name  = x$namesx[i]

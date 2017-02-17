@@ -1,11 +1,16 @@
-#  BAS 1.4.3  January 19, 2017
+#  BAS 1.4.3  February 17, 2017
 
 ## Updates
 
 * bin2int is now deprecated
 * fixed default MCMC.iteration in `bas.lm` to agree with documentation
-* updated vignette
+* updated vignette to include more examples, outlier detection, and finding the best predictive probability model
+* set a flag for MCMC sampling `renormalize` that selects whether the Monte Carlo frequencies are used to estimate posterior model and marginal inclusion probabilities (default `renormalize = FALSE`) or that marginal likelihoods time prior probabilities that are renormalized to sum to 1 are used.  (the latter is the only option for the other methods); new slots for probne0.MCMC, probne0.RN, postprobs.RN and postprobs.MCMC
 
+## Bug fixes
+
+ *  fixed problem with prior.bic, robust, and hyper.g.n where default had missing n that was not set in hyperparameters
+ 
 
 # BAS 1.4.2   October 12, 2016
 

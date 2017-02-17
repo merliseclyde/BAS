@@ -31,7 +31,7 @@
                 "degenerate sampling probabilities (0 or 1); decreasing the number of models to",                 as.character(n.models)))
   	}
 
-  	if (n.models > 2^35) stop("Dimension of model space is too big to enumerate\n  Rerun with a smaller value for n.models")
+  	if (n.models > 2^30) stop("Dimension of model space is too big to enumerate\n  Rerun with a smaller value for n.models")
   	if (n.models > 2^20)
             print("Number of models is BIG -this may take a while")
     return(n.models)
@@ -76,7 +76,7 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
     bestmodel=NULL, 
     prob.rw=0.5,  
     MCMC.iterations=NULL,
-    control = glm.control(),  laplace=FALSE
+    control = glm.control(),  laplace=FALSE,  renormalize=FALSE
                   )  {
     num.updates=10
     call = match.call()
@@ -156,12 +156,14 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
   	loglik_null =  as.numeric(-0.5*glm(Y ~ 1, weights=weights, offset=offset,
   	                                   family=eval(call$family))$null.deviance)
   	betaprior$hyper.parameters$loglik_null = loglik_null
-  	if (is.null(betaprior$hyper.parameters$n)) {
-  	  betaprior$hyper.parameters$n = as.numeric(nobs)
-  	  if (betaprior$family == "BIC")  {
-  	    betaprior$hyper.parameters$penalty = log(nobs)}
-  	  if (betaprior$family== "hyper-g/n") betaprior$hyper.parameters$theta = 1/nobs
+#  	browser()
+  	
+    if (betaprior$family == "BIC" & is.null(betaprior$n))  betaprior= bic.prior(nobs)
+  	if (betaprior$family== "hyper-g/n" & is.null(betaprior$n)) {
+  	  betaprior$hyper.parameters$theta = 1/nobs
+  	  betaprior$n = nobs
   	}
+  	if (betaprior$family == "robust"  & is.null(betaprior$n)) betaprior=robust(as.numeric(nobs))
 
   
 	#save(list = ls(), file = "temp.RData")
@@ -209,10 +211,16 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
   	result$namesx=namesx
   	result$n=length(Yvec)
   	result$modelprior=modelprior
-    if (method == "MCMC") { result$n.models = result$n.Unique}
-    else { result$n.models=n.models}
+  	result$probne0.RN = result$probne0
+  	result$postprobs.RN = result$postprobs
+  	
+ 
 
+  	if (method == "MCMC") { result$n.models = result$n.Unique }
+  	else  {result$n.models = n.models}
+  	
   	df = rep(nobs - 1, result$n.models)
+  	
   	if (betaprior$class == "IC") df = df - result$size + 1
   	result$df = df
     result$R2 = .R2.glm.bas(result$deviance, result$size, call)
@@ -220,8 +228,19 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
     result$Y=Yvec
     result$X=X
     result$call=call
-    if (betaprior$family == "Jeffreys") result = .drop.null.bas(result)
     
+      
+    # drop null model
+    if (betaprior$family == "Jeffreys") result = .drop.null.bas(result)
+ 
+    if (method == "MCMC") { 
+      result$postprobs.MCMC = result$freq/sum(result$freq)
+      if (!renormalize)  {
+        result$probne0 = result$probne0.MCMC
+        result$postprobs = result$postprobs.MCMC
+      }
+    }
+      
     class(result) = c("basglm","bas", "bma")
     return(result) 
 }
@@ -229,40 +248,40 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
 # Drop the null model from Jeffrey's prior
 
 .drop.null.bas = function(object) {
-n.models  = object$n.models
+  n.models  = object$n.models
 
 
-p = object$size
-drop = (1:n.models)[p == 1]
-logmarg = object$logmarg[-drop]
-prior = object$priorprobs[-drop]
+  p = object$size
+  drop = (1:n.models)[p == 1]
+  logmarg = object$logmarg[-drop]
+  prior = object$priorprobs[-drop]
 
-postprobs = .renormalize.postprobs(logmarg, log(prior))
-which = which.matrix(object$which[-drop], object$n.var)
+  postprobs = .renormalize.postprobs(logmarg, log(prior))
+  which = which.matrix(object$which[-drop], object$n.var)
 
-object$probne0 = postprobs %*% which 
-object$postprobs=postprobs
+  object$probne0 = postprobs %*% which 
+  object$postprobs=postprobs
 
-method = eval(object$call$method)
-if (method == "MCMC+BAS" | method == "MCMC") {
-    object$freq = object$freq[-drop]
-    object$probs.MCMC =  object$freq %*% which
-}
+  method = eval(object$call$method)
+  if (method == "MCMC+BAS" | method == "MCMC") {
+      object$freq = object$freq[-drop]
+      object$probne0.MCMC =  object$freq %*% which
+  }
 
-object$priorprobs=prior
-if (!is.null(object$sampleprobs)) object$sampleprobs = object$sampleprobs[-drop]
-object$which = object$which[-drop]
-object$logmarg = logmarg
-object$deviance = object$deviance[-drop]
-object$intercept = object$intercept[-drop]
-object$size = object$size[-drop]
-object$Q = object$Q[-drop]
-object$R2 = object$R2[-drop]
-object$mle = object$mle[-drop]
-object$mle.se = object$mle.se[-drop]
-object$shrinkage = object$shrinkage[-drop]
-object$n.models = n.models - 1    
-object$df = object$df[-drop]
+  object$priorprobs=prior
+ if (!is.null(object$sampleprobs)) object$sampleprobs = object$sampleprobs[-drop]
+ object$which = object$which[-drop]
+ object$logmarg = logmarg
+ object$deviance = object$deviance[-drop]
+ object$intercept = object$intercept[-drop]
+ object$size = object$size[-drop]
+ object$Q = object$Q[-drop]
+ object$R2 = object$R2[-drop]
+ object$mle = object$mle[-drop]
+ object$mle.se = object$mle.se[-drop]
+ object$shrinkage = object$shrinkage[-drop]
+ object$n.models = n.models - 1    
+ object$df = object$df[-drop]
 return(object)
 }
 

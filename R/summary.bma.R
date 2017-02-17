@@ -19,8 +19,13 @@ summary.bas = function(object, n.models = 5, ...) {
                round(object$R2[best], 4),
                object$size[best],
                object$logmarg[best])
-
-  colnames(x) = c(object$namesx, "BF", "PostProbs", "R2", "dim", "logmarg")
-  x}
+  x = t(x)
+  x = cbind(NA, x)
+  
+  x[1:object$n.vars, 1] = object$probne0
+  colnames(x) = c("P(B != 0 | Y)", paste("model", 1:n.models))
+  rownames(x) = c(object$namesx, "BF", "PostProbs", "R2", "dim", "logmarg")
+  return(x)
+  }
 
 
