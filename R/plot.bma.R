@@ -6,7 +6,7 @@ plot.bas = function (x, which = c(1:4),
     ask = prod(par("mfcol")) < length(which) && dev.interactive(), 
     col.in=2, col.ex=1, col.pch=1, cex.lab=1, ...,
   id.n = 3,
-  labels.id = names(residuals(x)), 
+  labels.id = NULL, 
   cex.id = 0.75,  add.smooth = getOption("add.smooth"),
   label.pos = c(4, 2))
 {
@@ -17,6 +17,8 @@ plot.bas = function (x, which = c(1:4),
     show <- rep(FALSE, 4)
     show[which] <- TRUE
 
+    
+    if (show[1]) {
     yhat = fitted(x, estimator="BMA")
     r = x$Y - yhat
     n <- length(r)
@@ -25,19 +27,21 @@ plot.bas = function (x, which = c(1:4),
         labels.id <- paste(1:n)
       iid <- 1:id.n
       show.r <- sort.list(abs(r), decreasing = TRUE)[iid]
-      text.id <- function(x, y, ind, adj.x = TRUE) {
-        labpos <- if (adj.x) 
-          label.pos[1 + as.numeric(x > mean(range(x)))]
-        else 3
-        text(x, y, labels.id[ind], cex = cex.id, xpd = TRUE, 
-             pos = labpos, offset = 0.25)
-      }
-      
+    }}
+    
+     text.id <- function(x, y, ind, adj.x = TRUE) {
+      labpos <- if (adj.x) 
+        label.pos[1 + as.numeric(x > mean(range(x)))]
+      else 3
+      text(x, y, labels.id[ind], cex = cex.id, xpd = TRUE, 
+           pos = labpos, offset = 0.25)
+     } 
+    
       if (any(show[2:3])) {
         show.m = sort.list(x$logmarg, decreasing = TRUE)[iid]
         label.m = paste(1:x$n.models)
       }
-    }
+
           
     if (is.null(sub.caption)) {
       cal <- x$call
@@ -131,4 +135,4 @@ plot.bas = function (x, which = c(1:4),
       mtext(sub.caption, outer = TRUE, cex = 1.25)}
     invisible()
     
-  }  
+}  
