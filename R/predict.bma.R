@@ -12,18 +12,18 @@ predict.basglm = function(object, newdata, se.fit=FALSE,
       model.specs = attributes(pred$fit)
       if (estimator == "BMA") {
         Ypred = apply(pred$Ypred, 1, 
-                      FUN = function(x) {eval(object$call$family)$linkinv(x)})
+                      FUN = function(x) {eval(object$family)$linkinv(x)})
         if (length(pred$postprobs) > 1) fit = as.vector(Ypred %*% pred$postprobs)
         else fit= as.vector(Ypred)
       }
-      else fit = eval(object$call$family)$linkinv(pred$fit)
+      else fit = eval(object$family)$linkinv(pred$fit)
       attributes(fit) = model.specs
       pred$fit = fit
       if (se.fit) {
         se.fit = pred$se.fit
         se.pred = pred$se.pred
-        se.fit <- se.fit * abs(eval(object$call$family)$mu.eta(fit))
-        se.pred <- se.pred * abs(eval(object$call$family)$mu.eta(fit))
+        se.fit <- se.fit * abs(eval(object$family)$mu.eta(fit))
+        se.pred <- se.pred * abs(eval(object$family)$mu.eta(fit))
         pred$se.fit = se.fit
         pred$se.pred = se.pred
       }
@@ -195,7 +195,7 @@ return(as.vector(yhat))
     xiXTXxiT = apply(XRinv^2, 1, sum) -1/n 
   }
   scale_fit = 1/n + object$shrinkage[best]*xiXTXxiT
-  if (is.null(object$call$family))family = gaussian()
+  if (is.null(object$family)) family = gaussian()
   if (eval(family)$family == "gaussian") {
     ssy = var(object$Y)*(n-1)
     bayes_mse = ssy*(1 - shrinkage*object$R2[best])/df

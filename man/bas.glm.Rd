@@ -116,9 +116,9 @@ the correlations of variables are small to modest.  The priors on
 coefficients are mixtures of g-priors that provide approximations to the
 power prior.} 
 \value{
-  \code{bas.glm} returns an object of class \code{BMA}
+  \code{bas.glm} returns an object of class \code{basglm}
 
-An object of class \code{BMA} is a list containing at least the following components:
+An object of class \code{basglm} is a list containing at least the following components:
 
 \item{postprobs}{the posterior probabilities of the models selected}
 \item{priorprobs}{the prior probabilities of the models selected}
@@ -139,6 +139,9 @@ An object of class \code{BMA} is a list containing at least the following compon
     marginal likelihood approximation}
   \item{Y}{response}
   \item{X}{matrix of predictors}
+  \item{family}{family object from the original call}
+  \item{betaprior}{family object for prior on coefficients, including hyperparamters}
+  \item{modelprior}{family object for prior on the models}
 }
 \references{Li, Y. and Clyde, M. (2015) Mixtures of g-priors in
   Generalized Linear Models. \url{http://arxiv.org/abs/1503.06913}

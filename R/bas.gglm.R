@@ -213,6 +213,9 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
   	result$modelprior=modelprior
   	result$probne0.RN = result$probne0
   	result$postprobs.RN = result$postprobs
+  	result$family = family
+  	result$betaprior=betaprior
+  	result$modelprior=modelprior
   	
  
 
