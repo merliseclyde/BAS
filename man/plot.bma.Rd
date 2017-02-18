@@ -15,8 +15,7 @@
                  prod(par("mfcol")) < length(which) &&
                  dev.interactive(),
                  col.in=2, col.ex=1, col.pch=1, cex.lab,
-                 ..., id.n = 3, labels.id =
-                 names(residuals(x)), cex.id = 0.75, add.smooth =
+                 ..., id.n = 3, labels.id =NULL, cex.id = 0.75, add.smooth =
                  getOption("add.smooth"), label.pos = c(4, 2))
 }
 \arguments{
