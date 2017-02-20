@@ -18,6 +18,7 @@ void print_subset(int subset, int rank, Bit **models, Bit *model,
 				  int n, struct Var *vars, int p);
 int withprob(double p);
 
+// [[register]]
 SEXP glm_deterministic(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights, 
 		       SEXP Rprobinit, SEXP Rmodeldim, SEXP modelprior, SEXP betaprior,
 		       SEXP family, SEXP Rcontrol, SEXP Rlaplace) {

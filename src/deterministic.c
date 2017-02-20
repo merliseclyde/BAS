@@ -1,6 +1,6 @@
 #include "sampling.h"
 
-
+// [[register]]
 SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha, SEXP method, SEXP modelprior) 
 {
   SEXP   RXwork = PROTECT(duplicate(X)), RYwork = PROTECT(duplicate(Y));

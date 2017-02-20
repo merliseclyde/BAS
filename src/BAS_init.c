@@ -6,6 +6,18 @@
 #include <R_ext/Rdynload.h>
 
 SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpriorcoef, SEXP Rcontrol);
+void cholreg(double *XtY, double *XtX, double *coefficients, double *se, double *mse, int p, int n);
+double logBF_gprior( double Rsquare, int n, int p, double g);
+double BIC(double Rsquare, int n, int p, double SSY);
+double AIC(double Rsquare, int n, int p, double SSY);
+double shrinkage_EB_local(double R2, int n, int p, double alpha);
+double logBF_hyperGprior(double R2, int n, int p, double alpha);
+double logBF_hyperGprior_laplace(double R2, int n, int p, double alpha);
+double shrinkage_laplace(double R2, int n, int p, double alpha);
+double log_laplace_2F1(double a, double b, double c, double z);
+void logHyperGauss2F1(double *a, double *b, double *c, double *z, double *integral);
+double logBF_EB(double R2, int n, int p, double alpha);
+SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha, SEXP method, SEXP modelprior) ;
 double poisson_loglik(double *Y, double*mu, double *wts, int n);
 void poisson_variance(double *mu, double *var, int n);
 void poisson_log_info(double *y, double *mu, double *weights, double *var, int n);
@@ -30,9 +42,25 @@ double quadform (double *bwork, double *R, int p);
 void chol2se(double *qr, double *se, double *R, double *covwork, int p, int n);
 void QR2cov(double *qr, double *R, double *covwork, int p, int n);
 void Lapack_chol2inv(double *A, int sz, double *ans);
+SEXP glm_deterministic(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP modelprior, SEXP betaprior,SEXP family, SEXP Rcontrol, SEXP Rlaplace);
+SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP plocal, SEXP BURNIN_Iterations, SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA, SEXP Rthin);
+SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP Rbestmarg, SEXP plocal);
+SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP plocal);
 
 R_CallMethodDef callMethods[]  = {
   {"C_glm_fit", (DL_FUNC) &glm_fit, 7},
+  {"C_cholreg", (DL_FUNC) &cholreg, 7},
+  {"C_logBF_gprior", (DL_FUNC) &logBF_gprior, 4},
+  {"C_BIC", (DL_FUNC) &BIC, 4},
+  {"C_AIC", (DL_FUNC) &AIC, 4},
+  {"C_shrinkage_EB_local", (DL_FUNC) &shrinkage_EB_local, 4},
+  {"C_logBF_hyperGprior", (DL_FUNC) &logBF_hyperGprior, 4},
+  {"C_logBF_hyperGprior_laplace", (DL_FUNC) &logBF_hyperGprior_laplace, 4},
+  {"C_shrinkage_laplace", (DL_FUNC) &shrinkage_laplace, 4},
+  {"C_log_laplace_2F1", (DL_FUNC) &log_laplace_2F1, 4},
+  {"C_logHyperGauss2F1", (DL_FUNC) &logHyperGauss2F1, 5},
+  {"C_logBF_EB", (DL_FUNC) &logBF_EB, 4},
+  {"C_deterministic", (DL_FUNC) &deterministic, 9},
   {"C_poisson_loglik", (DL_FUNC) &poisson_loglik, 4},
   {"C_poisson_variance", (DL_FUNC) &poisson_variance, 3},
   {"C_poisson_log_info", (DL_FUNC) &poisson_log_info, 5},
@@ -56,6 +84,10 @@ R_CallMethodDef callMethods[]  = {
   {"C_chol2se", (DL_FUNC) &chol2se, 6},
   {"C_QR2cov", (DL_FUNC) &QR2cov, 5},
   {"C_Lapack_chol2inv", (DL_FUNC) &Lapack_chol2inv, 3},
+  {"C_glm_deterministic", (DL_FUNC) &glm_deterministic, 11},
+  {"C_mcmc_new", (DL_FUNC) &mcmc_new, 17},
+  {"C_sampleworep_new", (DL_FUNC) &sampleworep_new, 13},
+  {"C_sampleworep", (DL_FUNC) &sampleworep, 12},
   {NULL, NULL, 0}
 };
 
