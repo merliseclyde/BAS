@@ -41,7 +41,7 @@ Description: Package for Bayesian Model Averaging in linear models and
 	  the author(s) and do not necessarily reflect the views of the 
 	  National Science Foundation.
 License: GPL (>= 2)
-URL: http://www.r-project.org, http://github.com/merliseclyde/BAS
+URL: https://www.r-project.org, https://github.com/merliseclyde/BAS
 Repository: CRAN
 NeedsCompilation: yes
 ByteCompile: yes

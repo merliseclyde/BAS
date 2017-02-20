@@ -1,5 +1,5 @@
 # Export all names
-useDynLib(BAS)
+useDynLib(BAS, .registration=TRUE)
 exportPattern("^[^\\.]")
 import("stats")
 importFrom("grDevices", "dev.interactive", "extendrange", "gray",

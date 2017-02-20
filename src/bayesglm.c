@@ -47,6 +47,7 @@ double log_marginal_likelihood_gprior(double dev, double regSS, int n, int p, in
 
 /* Version of glm.fit that can be called directly from R or C*/
 
+// [[register]]
 SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpriorcoef, SEXP Rcontrol)
 {
   int   *xdims = INTEGER(getAttrib(RX,R_DimSymbol)), n=xdims[0], p = xdims[1];
