@@ -80,7 +80,7 @@ R_CallMethodDef callMethods[]  = {
   {"C_binomial_dispersion", (DL_FUNC) &binomial_dispersion, 4},
   {"C_binomial_initialize", (DL_FUNC) &binomial_initialize, 4},
   {"C_Gaussian_dispersion", (DL_FUNC) &Gaussian_dispersion, 4},
-  {"C_deviance", (DL_FUNC) &deviance, 2},
+  {"C_deviance", (DL_FUNC) &deviance, 2}, 
   {"C_chol2se", (DL_FUNC) &chol2se, 6},
   {"C_QR2cov", (DL_FUNC) &QR2cov, 5},
   {"C_Lapack_chol2inv", (DL_FUNC) &Lapack_chol2inv, 3},
