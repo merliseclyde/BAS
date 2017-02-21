@@ -6,6 +6,7 @@
 
 
 /* .C calls */
+extern void gexpectations_vect(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void hypergeometric1F1(void *, void *, void *, void *, void *, void *);
 extern void hypergeometric2F1(void *, void *, void *, void *, void *);
 extern void logHyperGauss2F1(void *, void *, void *, void *, void *);
@@ -17,12 +18,20 @@ extern SEXP glm_fit(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP glm_mcmc(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP glm_mcmcbas(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP glm_sampleworep(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP amcmc(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP deterministic(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP mcmc_new(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP mcmcbas(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP sampleworep(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+
+  
 
 static const R_CMethodDef CEntries[] = {
-  {"hypergeometric1F1", (DL_FUNC) &hypergeometric1F1, 6},
-  {"hypergeometric2F1", (DL_FUNC) &hypergeometric2F1, 5},
-  {"logHyperGauss2F1",  (DL_FUNC) &logHyperGauss2F1,  5},
-  {"phi1",              (DL_FUNC) &phi1,              7},
+  {"gexpectations_vect", (DL_FUNC) &gexpectations_vect, 11},
+  {"hypergeometric1F1",  (DL_FUNC) &hypergeometric1F1,  6},
+  {"hypergeometric2F1",  (DL_FUNC) &hypergeometric2F1,  5},
+  {"logHyperGauss2F1",   (DL_FUNC) &logHyperGauss2F1,   5},
+  {"phi1",               (DL_FUNC) &phi1,               7},
   {NULL, NULL, 0}
 };
 
@@ -32,6 +41,11 @@ static const R_CallMethodDef CallEntries[] = {
   {"glm_mcmc",          (DL_FUNC) &glm_mcmc,          14},
   {"glm_mcmcbas",       (DL_FUNC) &glm_mcmcbas,       15},
   {"glm_sampleworep",   (DL_FUNC) &glm_sampleworep,   14},
+  {"mcmc_new",          (DL_FUNC) &mcmc_new,          17},
+  {"amcmc",             (DL_FUNC) &amcmc,             16},
+  {"deterministic",     (DL_FUNC) &deterministic,      9},
+  {"mcmcbas",           (DL_FUNC) &mcmcbas,           16},
+  {"sampleworep",       (DL_FUNC) &sampleworep,       12},
   {NULL, NULL, 0}
 };
 
@@ -39,7 +53,7 @@ void R_init_BAS(DllInfo *dll)
 {
   R_registerRoutines(dll, CEntries, CallEntries, NULL, NULL);
   R_useDynamicSymbols(dll, FALSE);
-//  R_forceSymbols(dll, TRUE);
+  R_forceSymbols(dll, TRUE);
 }
 
 
