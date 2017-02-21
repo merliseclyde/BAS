@@ -25,8 +25,11 @@ void update_cond_tree(SEXP modelspace, struct Node *tree, SEXP modeldim, struct 
 void  update_Cov(double *Cov, double *priorCov, double *SSgam, double *marg_probs, int n, int m, int print);
 
 void insert_model_tree(struct Node *tree, struct Var *vars,  int n, int *model, int num_models);
- 
-SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP plocal, SEXP BURNIN_Iterations, SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA, SEXP Rthin)
+
+// [[register]] 
+SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,
+          SEXP method, SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP plocal,
+          SEXP BURNIN_Iterations, SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA, SEXP Rthin)
 {
   SEXP   Rse_m, Rcoef_m, Rmodel_m; 
 

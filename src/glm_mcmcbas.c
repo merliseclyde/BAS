@@ -3,7 +3,7 @@
 #include "betapriorfamily.h"
 #include "bas-glm.h"
 
-
+// [[register]]
 SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights, 
 		 SEXP Rprobinit, SEXP Rmodeldim, 
 		 SEXP modelprior, SEXP betaprior, SEXP Rbestmodel,SEXP plocal, 

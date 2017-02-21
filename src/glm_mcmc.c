@@ -4,7 +4,7 @@
 #include "bas-glm.h"
 
 
-	
+// [[register]]	
 SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights, 
 	      SEXP Rprobinit, SEXP Rmodeldim, 
 	      SEXP modelprior,  SEXP betaprior, SEXP Rbestmodel,  SEXP plocal, 

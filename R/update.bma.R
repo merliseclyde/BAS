@@ -26,12 +26,11 @@ update.bas = function(object, newprior, alpha=NULL, ...) {
     R2Full = summary(lm(object$Y ~ object$X[,-1]))$r.squared
     logmarg=object$logmarg
     shrinkage=object$shrinkage
-    tmp = .C("gexpectations_vect",  nmodels=as.integer(length(object$which)),
+    tmp = .C(C_gexpectations_vect,  nmodels=as.integer(length(object$which)),
       p=as.integer(object$n.vars),  pmodel=as.integer(object$size),
       nobs=as.integer(object$n), R2=object$R2, alpha=as.double(alpha),
       method=as.integer(method.num), RSquareFull=as.double(R2Full), SSY=as.double(SSY),
-      logmarg=logmarg, shrinkage=shrinkage,
-      PACKAGE="BAS")
+      logmarg=logmarg, shrinkage=shrinkage)
     object$logmarg = tmp$logmarg
     object$shrinkage=tmp$shrinkage
     object$postprobs = exp(object$logmarg - min(object$logmarg))*object$priorprobs

@@ -5,7 +5,6 @@
 extern double hyperg(double, double, double), lgammafn(double);
 double loghyperg1F1_laplace(double, double, double);
 
-
 double loghyperg1F1(double a, double b, double x, int laplace)
 { 
   double y;
@@ -94,7 +93,7 @@ double loghyperg1F1_laplace(double a, double b, double x)
   return(logy);	
 }
 
-
+ 
 void hypergeometric1F1(double *a, double *b, double *x, double *y, int *npara, int *Method)
 { 
   int k;
