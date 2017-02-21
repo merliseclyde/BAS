@@ -35,7 +35,7 @@ static R_INLINE double x_d_omx(double x) {
  */
 static R_INLINE double x_d_opx(double x) {return x/(1 + x);}
 
-// [[register]]
+
 double poisson_loglik(double *Y, double*mu, double *wts, int n) {
   int i;
   double ll = 0.0;
@@ -46,7 +46,7 @@ double poisson_loglik(double *Y, double*mu, double *wts, int n) {
   return(ll);
 }
 
-// [[register]]
+
 void poisson_variance(double *mu, double *var, int n) {
 
   int i;
@@ -56,7 +56,7 @@ void poisson_variance(double *mu, double *var, int n) {
   }
 }
 
-// [[register]]
+
 void poisson_log_info(double *y, double *mu, double *weights, double *var, int n) {
 
   int i;
@@ -66,7 +66,7 @@ void poisson_log_info(double *y, double *mu, double *weights, double *var, int n
   }
 }
 
-// [[register]]
+
 void log_link(double *rmu, double *rans, int n) {
     int i;
 
@@ -74,7 +74,7 @@ void log_link(double *rmu, double *rans, int n) {
 	rans[i] = log(rmu[i]);
 }
 
-// [[register]] 
+
 void log_linkinv(double *reta, double *rans, int n) {
 
     int i;
@@ -84,7 +84,7 @@ void log_linkinv(double *reta, double *rans, int n) {
     }
 }
 
-// [[register]]
+ 
 void log_mu_eta(double *reta, double *rans, int n)
 {
     int i;
@@ -93,7 +93,7 @@ void log_mu_eta(double *reta, double *rans, int n)
     }
 }
 
-// [[register]]
+ 
 void poisson_dev_resids(double *ry, double *rmu, double *rwt, double *rans, int n)
 {
   int i;
@@ -111,7 +111,7 @@ void poisson_dev_resids(double *ry, double *rmu, double *rwt, double *rans, int 
 	}
 }
 
-// [[register]]
+ 
 void poisson_initialize(double *Y, double *mu,  double *weights, int n) {
   int i;
   for (i = 0; i < n; i++) {
@@ -120,7 +120,7 @@ void poisson_initialize(double *Y, double *mu,  double *weights, int n) {
   }
 }
 
-// [[register]]
+ 
 double poisson_dispersion(double *resid,  double *weights, int n, int rank) {
   return(1.0);
 }
@@ -137,7 +137,7 @@ double binomial_loglik(double *Y, double*mu, double *wts, int n) {
   return(ll);
 }
 
-// [[register]]
+ 
 void logit_variance(double *mu, double *var, int n) {
 
   int i;
@@ -147,7 +147,7 @@ void logit_variance(double *mu, double *var, int n) {
   }
 }
 
-// [[register]]
+ 
 void logit_info(double *y, double *mu, double *weights, double *var, int n) {
 
   int i;
@@ -157,7 +157,7 @@ void logit_info(double *y, double *mu, double *weights, double *var, int n) {
   }
 }
 
-// [[register]]
+ 
 void logit_precision(double *mu, double *prec, int n) {
 
   int i;
@@ -167,7 +167,7 @@ void logit_precision(double *mu, double *prec, int n) {
   }
 }
 
-// [[register]]
+ 
 void logit_link(double *rmu, double *rans, int n)
 {
     int i;
@@ -176,7 +176,7 @@ void logit_link(double *rmu, double *rans, int n)
 	rans[i] = log(x_d_omx(rmu[i]));
 }
 
-// [[register]]
+ 
 void logit_linkinv(double *reta, double *rans, int n) {
 
     int i;
@@ -189,7 +189,7 @@ void logit_linkinv(double *reta, double *rans, int n) {
     }
 }
 
-// [[register]]
+ 
 void logit_mu_eta(double *reta, double *rans, int n)
 {
     int i;
@@ -208,7 +208,7 @@ double y_log_y(double y, double mu)
     return (y) ? (y * log(y/mu)) : 0;
 }
 
-// [[register]]
+ 
 void binomial_dev_resids(double *ry, double *rmu, double *rwt, double *rans, int n)
 {
   int i;
@@ -221,12 +221,12 @@ void binomial_dev_resids(double *ry, double *rmu, double *rwt, double *rans, int
 	}
 }
 
-// [[register]]
+ 
 double binomial_dispersion(double *resid,  double *weights, int n, int rank) {
   return(1.0);
 }
 
-// [[register]]
+ 
 void binomial_initialize(double *Y, double *mu,  double *weights, int n) {
   int i;
   for (i = 0; i < n; i++) {
@@ -237,7 +237,7 @@ void binomial_initialize(double *Y, double *mu,  double *weights, int n) {
 
 
 /* Gaussian */
-// [[register]]
+ 
 double Gaussian_dispersion(double *resid,  double *weights, int n, int rank) {
   double dispersion = 0.0;
   int i, nwt=0;
@@ -252,7 +252,7 @@ double Gaussian_dispersion(double *resid,  double *weights, int n, int rank) {
 
 /* generic functions */
 
-// [[register]]
+ 
 double deviance(double *res, int n) {
   int i;
   double   dev = 0;
@@ -263,7 +263,7 @@ double deviance(double *res, int n) {
   return dev;
 }
 
-// [[register]]
+ 
 double quadform (double *bwork, double *R,  int p) {
 
   double Q = 0.0;
@@ -276,7 +276,7 @@ double quadform (double *bwork, double *R,  int p) {
   return(Q);
 }
 
-// [[register]]
+ 
 void chol2se(double *qr, double *se, double *R, double *covwork, int p, int n) {
 
   int i, j, l;
@@ -298,7 +298,7 @@ for (j=0; j < p; j++) {
  return;
 }
 
-// [[register]]
+ 
 void QR2cov(double *qr,  double *R, double *covwork, int p,  int n) {
 
   int i, j, l;
@@ -316,7 +316,7 @@ void QR2cov(double *qr,  double *R, double *covwork, int p,  int n) {
 }
 
 
-// [[register]]
+ 
 void  Lapack_chol2inv(double *A, int sz, double *ans)
 {
   int  i, j;

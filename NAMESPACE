@@ -1,5 +1,5 @@
 # Export all names
-useDynLib(BAS, .registration=TRUE)
+
 exportPattern("^[^\\.]")
 import("stats")
 importFrom("grDevices", "dev.interactive", "extendrange", "gray",
@@ -21,3 +21,4 @@ S3method(update, bas)
 S3method(fitted, bas)
 S3method(predict, bas)
 S3method(predict, basglm)
+useDynLib(BAS, .registration=TRUE, .fixes = "C_")

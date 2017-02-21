@@ -120,7 +120,7 @@ double maxeffect(double *beta, double *se, int p) {
   return(maxeffect);
 }	
 
-// [[register]]
+
 void cholreg(double *XtY, double *XtX, double *coefficients, double *se, double *mse, int p, int n)
 {
 	/* On entry *coefficients equals X'Y, which is over written with the OLS estimates */
@@ -167,7 +167,7 @@ void cholreg(double *XtY, double *XtX, double *coefficients, double *se, double 
 } 
 
 
-// [[register]]
+ 
 double logBF_gprior( double Rsquare, int n,  int p, double g)
   {  double logmargy;
   /* log Marginal under reference prior for phi, intercept and
@@ -178,7 +178,7 @@ double logBF_gprior( double Rsquare, int n,  int p, double g)
   return(logmargy);
   }
 
-// [[register]]
+ 
 double BIC(double Rsquare, int n,  int p, double SSY)
   {  double logmargy, sigma2, dn, dp;
   dn = (double) n;
@@ -188,7 +188,7 @@ double BIC(double Rsquare, int n,  int p, double SSY)
   return(logmargy);
   }
 
-// [[register]]
+ 
 double AIC(double Rsquare, int n,  int p, double SSY)
   {  double logmargy, sigma2, dn, dp;
   dn = (double) n;
@@ -198,7 +198,7 @@ double AIC(double Rsquare, int n,  int p, double SSY)
   return(logmargy);
   }
 
-// [[register]]
+ 
 double shrinkage_EB_local(double R2, int n, int p, double alpha)
  {  
    /* R2 = Y'PxY/Y'Y  
@@ -241,7 +241,7 @@ double shrinkage_hyperg(double R2, int n, int p, double alpha)
  return(s); 
 }
 
-// [[register]]
+ 
 double logBF_hyperGprior(double R2, int n, int p, double alpha)
   {  double logmargy,  a, b, c, z1, hf1;
   /* log Marginal under reference prior for phi & intercept
@@ -265,7 +265,7 @@ double logBF_hyperGprior(double R2, int n, int p, double alpha)
     return(logmargy);
   }
 
-// [[register]]
+ 
 double logBF_hyperGprior_laplace(double R2, int n, int p, double alpha)
  {  
    /* R2 = usual coefficient of determination
@@ -308,7 +308,7 @@ double logBF_hyperGprior_laplace(double R2, int n, int p, double alpha)
   return(logmarg);
 }
 
-// [[register]]
+
 double shrinkage_laplace(double R2, int n, int p, double alpha)
  {  
    /* R2 = usual R2
@@ -352,7 +352,7 @@ double shrinkage_laplace(double R2, int n, int p, double alpha)
   return(shrinkage);
  }
 
-// [[register]]
+ 
 double log_laplace_2F1(double a, double b, double c, double z)
  {  
    
@@ -414,13 +414,13 @@ double log_laplace_2F1(double a, double b, double c, double z)
   return(logint);
  }	
 
-// [[register]]
+ 
 void logHyperGauss2F1(double *a, double  *b, double *c, double *z, double *integral){
   // version that can be called from R using .Call 
   *integral = log_laplace_2F1(*a, *b, *c, *z);
 }
 
-// [[register]]
+ 
 double logBF_EB(double R2, int n, int p, double alpha)
  {
    double  ghat, dn, dp, logmarg;
