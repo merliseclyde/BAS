@@ -4,7 +4,7 @@
 coef.bas = function(object, n.models, ...) {
   postprobs= object$postprobs
   if (missing(n.models)) n.models=length(postprobs)
-  topm = order(postprobs)[1:n.models]
+  topm = order(-postprobs)[1:n.models]
   postprobs = postprobs[topm]/sum(postprobs[topm])
   shrinkage = object$shrinkage[topm]
   conditionalmeans = list2matrix.bas(object, "mle")[topm, , drop=F]
