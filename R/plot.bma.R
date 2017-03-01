@@ -17,6 +17,7 @@ plot.bas = function (x, which = c(1:4),
     show <- rep(FALSE, 4)
     show[which] <- TRUE
 
+    iid <- 1:id.n
     
     if (show[1]) {
     yhat = fitted(x, estimator="BMA")
@@ -24,8 +25,7 @@ plot.bas = function (x, which = c(1:4),
     n <- length(r)
     if (id.n > 0) {
       if (is.null(labels.id)) 
-        labels.id <- paste(1:n)
-      iid <- 1:id.n
+      labels.id <- paste(1:n)
       show.r <- sort.list(abs(r), decreasing = TRUE)[iid]
     }}
     

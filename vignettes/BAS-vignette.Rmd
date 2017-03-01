@@ -66,7 +66,7 @@ UScrime[,-2] = log(UScrime[,-2])
 
 To get started, we will use `BAS` with the Zellner-Siow Cauchy prior on the coefficients.
 
-``` {r bas}
+```{r bas}
 library(BAS)
 crime.ZS =  bas.lm(y ~ ., 
                    data=UScrime,

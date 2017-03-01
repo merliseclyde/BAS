@@ -11,13 +11,13 @@
   probabilities, and marginal inclusions probabilities under
   Bayesian Model Averaging from an object of class 'bas'}
 \usage{
-\method{coef}{bas}(object, ...)
-\method{print}{coef.bas}(x, n.models=5,digits = max(3, getOption("digits") - 3),...)
+\method{coef}{bas}(object, n.models, ...)
+\method{print}{coef.bas}(x, digits = max(3, getOption("digits") - 3),...)
 }
 \arguments{
   \item{object}{object of class 'bas' created by BAS}
   \item{x}{object of class 'coef.bas' to print}
-  \item{n.models}{Number of top models to report in the printed summary}
+  \item{n.models}{Number of top models to report in the printed summary, for coef the default is to use all models.  To extract summaries for the Highest Probability Model, use n.models=1.}
   \item{digits}{number of significant digits to print}
   \item{...}{other optional arguments }
 }

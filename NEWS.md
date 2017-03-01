@@ -1,3 +1,13 @@
+#  BAS 1.4.4  February 28, 2017
+
+## updates 
+
+* added a `top` argument to coef so that summaries are based on the top `top` highest probability models so that it is easier to extract summaries for the highest probability model
+
+## Bugs
+
+* fixed missing id in plot.bas for which=3
+
 #  BAS 1.4.3  February 18, 2017
 
 ## Updates
