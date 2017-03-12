@@ -53,7 +53,7 @@ print.coef.bas = function(x,
 plot.coef.bas  = function(x, e = 1e-04, subset = 1:x$n.vars, ask=TRUE, ...) {
   plotvar = function(prob0, mixprobs, df, means, sds, name,
                      e = 1e-04, nsteps = 500, ...) {
-    if (prob0 == 1) {
+    if (prob0 == 1 | (means == 0 & sds == 0)) {
       xlower = -0
       xupper = 0
       xmax = 1
@@ -67,7 +67,7 @@ plot.coef.bas  = function(x, e = 1e-04, subset = 1:x$n.vars, ask=TRUE, ...) {
     xx = seq(xlower, xupper, length.out = nsteps)
     yy = rep(0, times = length(xx))
     maxyy = 1
-    if (prob0 < 1) {
+    if (prob0 < 1 & sds > 0) {
       yy = mixprobs %*% apply(matrix(xx, ncol=1), 1,
                               FUN=function(x, d, m, s){dt(x=(x-m)/s, df=d)/s},
                               d=df, m=means, s=sds)

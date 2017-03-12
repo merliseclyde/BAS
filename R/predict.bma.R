@@ -39,14 +39,22 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
   if (!(estimator %in% c("BMA", "HPM", "MPM", "BPM"))) {
     stop("Estimator must be one of 'BMA', 'BPM', 'HPM', or 'MPM'.")
   }
+
+  
   if (missing(newdata) || is.null(newdata))  {
     newdata= object$X
     prediction= FALSE}
-  if (is.data.frame(newdata)) {
+  else{
+    if (is.data.frame(newdata)) {
       newdata = model.matrix(eval(object$call$formula), newdata) 
+    }
+    else {
+      stop("use of newdata as a vector is depricated, 
+       please supply newdata as a dataframe")
+      # if (is.vector(newdata)) newdata=matrix(newdata, nrow=1)  
+    }
   }
-  if (is.vector(newdata)) newdata=matrix(newdata, nrow=1)  
-  
+
   n <- nrow(newdata)
   if (ncol(newdata) == object$n.vars) newdata=newdata[,-1, drop=FALSE]  # drop intercept
   if (ncol(newdata) != (object$n.vars -1)) stop("Dimension of newdata does not match orginal model")
