@@ -1,9 +1,27 @@
 #coefficients = function(object, ...) {UseMethod("coefficients")}
 #coefficients.default = base::coefficients
 
-coef.bas = function(object, n.models, ...) {
+coef.bas = function(object, n.models, estimator="BMA", ...) {
+  if (estimator== "MPM") {
+    nvar = object$n.vars -1
+    bestmodel<- (0:nvar)[object$probne0 > .5]
+    best = 1
+    models <- rep(0, nvar+1)
+    models[bestmodel+1] <- 1
+    if (sum(models) > 1) {
+      object <- bas.lm(eval(object$call$formula),
+                       data=eval(object$call$data), 
+                       weights=eval(object$call$weights),
+                       n.models=1, alpha=object$g,
+                       initprobs=object$probne0, 
+                       prior=object$prior, modelprior=object$modelprior,
+                       update=NULL,bestmodel=models,
+                       prob.local=.0) 
+  }}
   postprobs= object$postprobs
+  if (estimator == "MPM" | estimator== "HPM" ) n.models = 1
   if (missing(n.models)) n.models=length(postprobs)
+  
   topm = order(-postprobs)[1:n.models]
   postprobs = postprobs[topm]/sum(postprobs[topm])
   shrinkage = object$shrinkage[topm]
@@ -31,7 +49,7 @@ coef.bas = function(object, n.models, ...) {
   out = list(postmean=postmean, postsd=postsd, probne0 = object$probne0,
              conditionalmeans=conditionalmeans,conditionalsd=conditionalsd,
              namesx=object$namesx, postprobs=postprobs,
-             n.vars=object$n.vars, n.models=n.models, df=df)
+             n.vars=object$n.vars, n.models=n.models, df=df, estimator=estimator)
   class(out) = 'coef.bas'
   return(out)
 }
@@ -42,18 +60,19 @@ print.coef.bas = function(x,
   dimnames(out) = list(x$namesx, c("post mean", "post SD", "post p(B != 0)"))
 
   cat("\n Marginal Posterior Summaries of Coefficients: \n")
+  cat("\n Using ", x$estimator, "\n")
   cat("\n Based on the top ", x$n.models, "models \n")
   print.default(format(out, digits = digits), print.gap = 2, 
                 quote = FALSE, ...)
   invisible()
 }
   
-# use to be pred.summary.top ???
 
 plot.coef.bas  = function(x, e = 1e-04, subset = 1:x$n.vars, ask=TRUE, ...) {
   plotvar = function(prob0, mixprobs, df, means, sds, name,
                      e = 1e-04, nsteps = 500, ...) {
-    if (prob0 == 1 | (means == 0 & sds == 0)) {
+    
+    if (prob0 == 1 | length(means) == 0) {
       xlower = -0
       xupper = 0
       xmax = 1
@@ -67,7 +86,7 @@ plot.coef.bas  = function(x, e = 1e-04, subset = 1:x$n.vars, ask=TRUE, ...) {
     xx = seq(xlower, xupper, length.out = nsteps)
     yy = rep(0, times = length(xx))
     maxyy = 1
-    if (prob0 < 1 & sds > 0) {
+    if (prob0 < 1 & length(sds) > 0) {
       yy = mixprobs %*% apply(matrix(xx, ncol=1), 1,
                               FUN=function(x, d, m, s){dt(x=(x-m)/s, df=d)/s},
                               d=df, m=means, s=sds)

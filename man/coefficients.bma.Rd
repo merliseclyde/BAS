@@ -11,13 +11,14 @@
   probabilities, and marginal inclusions probabilities under
   Bayesian Model Averaging from an object of class 'bas'}
 \usage{
-\method{coef}{bas}(object, n.models, ...)
+\method{coef}{bas}(object, n.models, estimator="BMA", ...)
 \method{print}{coef.bas}(x, digits = max(3, getOption("digits") - 3),...)
 }
 \arguments{
   \item{object}{object of class 'bas' created by BAS}
   \item{x}{object of class 'coef.bas' to print}
-  \item{n.models}{Number of top models to report in the printed summary, for coef the default is to use all models.  To extract summaries for the Highest Probability Model, use n.models=1.}
+  \item{n.models}{Number of top models to report in the printed summary, for coef the default is to use all models.  To extract summaries for the Highest Probability Model, use n.models=1 or estimator="HPM".}
+  \item{estimator}{return summaries for a selected model, rather than using BMA.  Options are 'HPM' (highest posterior probability model) ,'MPM' (median probability model),  and 'BMA'}
   \item{digits}{number of significant digits to print}
   \item{...}{other optional arguments }
 }
@@ -52,13 +53,30 @@
 
 \seealso{\code{\link{bas}}, \code{\link{confint.coef.bas}}
 }
-\examples{data("Hald")
+\examples{
+data("Hald")
 hald.gprior =  bas.lm(Y~ ., data=Hald, n.models=2^4, alpha=13,
                       prior="ZS-null", initprobs="Uniform", update=10)
 coef.hald.gprior = coefficients(hald.gprior)
 coef.hald.gprior
 plot(coef.hald.gprior)
+confint(coef.hald.gprior)
+
+#Estimation under Median Probability Model
+coef.hald.gprior = coefficients(hald.gprior, estimator="MPM")
+coef.hald.gprior
+plot(coef.hald.gprior)
+plot(confint(coef.hald.gprior))
+
+
+coef.hald.gprior = coefficients(hald.gprior, estimator="HPM")
+coef.hald.gprior
+plot(coef.hald.gprior)
+confint(coef.hald.gprior)
+
+# To add estimation under Best Predictive Model
 }
+
 \author{Merlise Clyde \email{clyde@stat.duke.edu} }
 \note{With highly correlated variables,
   marginal summaries may not be representative of the joint
