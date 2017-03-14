@@ -16,7 +16,7 @@
 
 ## Updates
 
-* Register symbols (in progress)
+* Register symbols for foreign function calls
 * bin2int is now deprecated
 * fixed default MCMC.iteration in `bas.lm` to agree with documentation
 * updated vignette to include more examples, outlier detection, and finding the best predictive probability model
