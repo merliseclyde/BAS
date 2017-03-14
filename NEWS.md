@@ -1,10 +1,13 @@
-#  BAS 1.4.4  February 28, 2017
+#  BAS 1.4.4 March 13, 2017
 
 ## updates 
 
 * added a `top` argument to coef so that summaries are based on the top `top` highest probability models so that it is easier to extract summaries for the highest probability model
+* use of newdata that is a vector is now depricated for predict.bas; newdata must be a dataframe or missing, in which case fitted values based on the dataframe used in fitting is used
 
 ## Bugs
+
+* fixed issue for prediction when newdata has just one row
 
 * fixed missing id in plot.bas for which=3
 

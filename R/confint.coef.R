@@ -43,8 +43,8 @@ confint.pred.bas = function(object, parm, level=0.95, nsim=10000, ...) {
     models = sample(1:n.models, size=nsim, prob= object$postprobs, replace=TRUE)
     means = object$Ypred[models,]
     df = object$df[models]
- #  # browser()
-    sd = sd[models,]
+ #   browser()
+    sd = sd[models, ]
     npred = length(object$fit)
     pred = matrix(rt(nsim*npred, df=df), 
                    nrow=nsim, ncol=npred, byrow=FALSE)

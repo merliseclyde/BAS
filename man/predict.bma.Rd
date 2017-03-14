@@ -9,7 +9,7 @@
  estimator="BMA", prediction=FALSE, ...)}
 \arguments{
   \item{object}{An object of class BAS, created by \code{bas}}
-  \item{newdata}{dataframe, new matrix or vector of data for predictions. If missing, then use the data used for fitting for obtaining fitted and predicted values. May include a column for the intercept or just the predictor variables. If a dataframe, the variables are extracted using model.matrix using the call that created 'object'.  }
+  \item{newdata}{dataframe for predictions. If missing, then use the dataframe used for fitting for obtaining fitted and predicted values.  }
    \item{se.fit}{indicator for whether to compute se of fitted and predictied values}
   \item{type}{Type of predictions required. "Link" which is on the
   scale of the linear predictor is the only option currently.}
@@ -24,7 +24,7 @@
     'MPM' the median probability model of Barbieri and Berger. \cr
     'BPM' the model that is closest to BMA predictions under squared
   error loss. BMA may be computed using only the 'top' models if supplied}
-   \item{prediction}{logical value to indicate whether the observed design matrix used in fitting or the newdata will be used for predictions}
+   \item{prediction}{logical value to indicate whether the observed design matrix used in fitting or the newdata will be used for estimating the mean or for making predictions.  The default is FALSE for estimation of the mean.}
   \item{...}{optional extra arguments}
 }
 \value{a list of
@@ -49,10 +49,18 @@
 \examples{
 data("Hald")
 hald.gprior =  bas.lm(Y~ ., data=Hald, alpha=13, prior="g-prior")
-predict(hald.gprior, top=5, predict=FALSE, se.fit=TRUE)  # default is BMA
-predict(hald.gprior, newdata=Hald, estimator="MPM", se.fit=TRUE, prediction=FALSE)
+
+predict(hald.gprior, newdata=Hald, estimator="BPM", se.fit=TRUE, prediction=FALSE)
 # same as fitted
-fitted(hald.gprior,estimator="MPM")
+fitted(hald.gprior,estimator="BPM")
+
+# default is BMA and estimation of mean vector
+hald.bma = predict(hald.gprior, top=5, se.fit=TRUE)  
+confint(hald.bma)
+
+hald.bma = predict(hald.gprior, newdata=Hald[1:2,],top=5,
+                    predict=TRUE, se.fit=TRUE, estimator="BMA") 
+confint(hald.bma)
 }
 \author{Merlise Clyde}
 \keyword{regression}
