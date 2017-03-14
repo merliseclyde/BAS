@@ -227,8 +227,11 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
     result$Y=Yvec
     result$X=X
     result$call=call
+    result$terms = mt
+    result$contrasts=attr(X, "contrasts")
+    result$xlevels = .getXlevels(mt, mf)
+    result$model = mf
     
-      
     # drop null model
     if (betaprior$family == "Jeffreys") result = .drop.null.bas(result)
  

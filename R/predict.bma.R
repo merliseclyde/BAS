@@ -40,6 +40,7 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
     stop("Estimator must be one of 'BMA', 'BPM', 'HPM', or 'MPM'.")
   }
 
+  tt = terms(object)
   
   if (missing(newdata) || is.null(newdata))  {
     newdata= object$X
@@ -47,7 +48,13 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
     }
   else{
     if (is.data.frame(newdata)) {
-      newdata = model.matrix(eval(object$call$formula), newdata) 
+    #  newdata = model.matrix(eval(object$call$formula), newdata) 
+      Terms = delete.response(tt)
+      m = model.frame(Terms, newdata, na.action = na.pass,
+                      xlev = object$xlevels)
+      newdata <- model.matrix(Terms, m, 
+                              contrasts.arg = object$contrasts)
+    
       insample=FALSE
     }
     else {
@@ -57,6 +64,7 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
     }
   }
 
+#  browser()
   n <- nrow(newdata)
   if (ncol(newdata) == object$n.vars) newdata=newdata[,-1, drop=FALSE]  # drop intercept
   if (ncol(newdata) != (object$n.vars -1)) stop("Dimension of newdata does not match orginal model")

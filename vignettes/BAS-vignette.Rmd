@@ -87,13 +87,13 @@ crime.ZS =  bas.lm(y ~ .,
   * "EB-local"
   * "EB-global"
 
-By default, `BAS` will try to enumerate all models, in this case $2^{15}$ using the default `method="BAS"`.  The prior distribution over the models is a `uniform()` distribution which assigns equal probabilities to all models.  The last optional argument `initprobs = eplogp` provides a way to initialize the sampling algorithm and order the variables in the tree structure that represents the model space in BAS.  The `eplogp` option uses the Bayes factor calibration of p-values  $-e p \log(p)$ to provide an approximation to the marginal inclusion probability that the coeffient of each predictor is zero, using the p-values from the full model.  Other options for `initprobs` include
+By default, `BAS` will try to enumerate all models, in this case $2^{15}$ using the default `method="BAS"`.  The prior distribution over the models is a `uniform()` distribution which assigns equal probabilities to all models.  The last optional argument `initprobs = eplogp` provides a way to initialize the sampling algorithm and order the variables in the tree structure that represents the model space in BAS.  The `eplogp` option uses the Bayes factor calibration of p-values  $-e p \log(p)$ to provide an approximation to the marginal inclusion probability that the coefficient of each predictor is zero, using the p-values from the full model.  Other options for `initprobs` include
 
   * "marg-eplogp""
   * "uniform"
   * numeric vector of length p
   
-The option "marg-eplogp" uses  p-values from the p siple linear regressions (useful for large p or highly correlated variables).
+The option "marg-eplogp" uses  p-values from the p simple linear regressions (useful for large p or highly correlated variables).
 The numeric provides a way to force variables to always be included  if the initialprob is 1.  
 
 Since we are enumerating under all possible models these options are not important. 
@@ -107,7 +107,7 @@ plot(crime.ZS, ask=F)
 
 ```
 
-which produces a panel of four plots.  The first is a plot of residuals and fitted values under Bayesian Model Averaging.  Ideally,  of our model assumptions hold, we will not see outliers or non-constant variance. The second plot shows the cumulative probabilty of the models in the order that they are sampled.  This plot indicates that the cumulative probability is leveling off as each additional model adds only a small increment to the cumulative probability, which earlier, there are larger jumps corresponding to sampling high probabilty models.  The third plot shows the dimension of each model (the number of regression coefficients includeing the intercept) versus the log of the marginal likelihood of the model.    The last plot shows the marginal posterior inclusion probabilities (pip) for each of the covariates, with marginal pips greater than 0.5 shown in red.  The variables with pip > 0.5 correspond to what is known as the median probability model.  Variables with high inclusion probabilties are generally important for explaining the data or prediction, but marginal inclusion probabilities may be small if there  predictors are correlated, similar to how p-values may be large in the presence of mullticollinearity.
+which produces a panel of four plots.  The first is a plot of residuals and fitted values under Bayesian Model Averaging.  Ideally,  of our model assumptions hold, we will not see outliers or non-constant variance. The second plot shows the cumulative probability of the models in the order that they are sampled.  This plot indicates that the cumulative probability is leveling off as each additional model adds only a small increment to the cumulative probability, which earlier, there are larger jumps corresponding to sampling high probability models.  The third plot shows the dimension of each model (the number of regression coefficients including the intercept) versus the log of the marginal likelihood of the model.    The last plot shows the marginal posterior inclusion probabilities (pip) for each of the covariates, with marginal pips greater than 0.5 shown in red.  The variables with pip > 0.5 correspond to what is known as the median probability model.  Variables with high inclusion probabilities are generally important for explaining the data or prediction, but marginal inclusion probabilities may be small if there  predictors are correlated, similar to how p-values may be large in the presence of mullticollinearity.
 
 Individual plots may be obtained using the `which` option.
 ```{r pip, fig.width=5, fig.height=5}
@@ -125,7 +125,7 @@ provides
 options(width = 80)
 summary(crime.ZS)
 ```
-This lists the top 5 models (in terms of posterior probability)  with the zero-one indicators for variable inclusion.  The other columns in the summary are the Bayes factor of each model to the hiest probbility model (hence its Bayes factor is 1), the posterior probabilites of the models, the ordinary $R^2$ of the models, the dimension of the models (number of coeeficients includeing the intercept)  and the log marginal likelihood usnder the selected prior distribution. 
+This lists the top 5 models (in terms of posterior probability)  with the zero-one indicators for variable inclusion.  The other columns in the summary are the Bayes factor of each model to the highest probability model (hence its Bayes factor is 1), the posterior probabilities of the models, the ordinary $R^2$ of the models, the dimension of the models (number of coefficients including the intercept)  and the log marginal likelihood under the selected prior distribution. 
 
 ## Visualization of the Model Space  
 
@@ -148,10 +148,17 @@ This plot indicates that the police expenditure in the two years do not enter th
 
 ## Posterior Distributions of Coefficients
 
-To examine the marginal distributions of the two coefficients for the police expenditures, we can estract their coefficents and then plot the posterior distributions averaging over all of the models.
+To examine the marginal distributions of the two coefficients for the police expenditures, we can extract the coefficients estimates and standard deviations under BMA.
+
+```{r coef}
+coef.ZS = coef(crime.ZS)
+
+```
+an optional argument, `n.models` to `coef` will use only the top `n.models` for BMA and may be more computationally efficient for large problems.
+
+Plots the posterior distributions averaging over all of the models are obtained using the `plot` method.
 
 ```{r plot}
-coef.ZS = coef(crime.ZS)
 plot(coef.ZS, subset=c(5:6),  ask=F)
 ```
 
@@ -166,7 +173,7 @@ plot(coef.ZS, ask=FALSE)
 ```
 
 
-To obtain credible interals for coefficients, `BAS` includes a `confint` method to create Highest Posterior Density intervals from the summaries from `coef`.
+To obtain credible intervals for coefficients, `BAS` includes a `confint` method to create Highest Posterior Density intervals from the summaries from `coef`.
 ```{r confint-coef}
 
 confint(coef.ZS)
@@ -180,6 +187,20 @@ plot(confint(coef.ZS, parm=2:16))
 ```
 using the `parm` argument to select which coefficients to plot (the intercept is `parm=1`).
 
+For estimation under selection, `BAS` supports additional arguments
+via `estimator`.  The default is `estimator="BMA"` which uses all models or `n.models`.  Other options include estimation under the highest probability model
+
+```{r, warning=FALSE,  fig.width=7}
+plot(confint(coef(crime.ZS, estimator="HPM")))
+```
+
+or the median probability model
+
+```{r, warning=FALSE,  fig.width=7}
+plot(confint(coef(crime.ZS, estimator="MPM")))
+```
+
+where variables that are excluded have distributions that are point masses at zero under selection.
 
 ## Prediction
 
@@ -251,7 +272,7 @@ ggpairs(data.frame(HPM = as.vector(HPM$fit),  #this used predict so we need to e
 ```
 
 
-Using the `se.fit = TRUE` option with `predict` we can also calculate standard deviations for prediction or for the mean and use this as imput for the `confint` function for the prediction object.
+Using the `se.fit = TRUE` option with `predict` we can also calculate standard deviations for prediction or for the mean and use this as input for the `confint` function for the prediction object.
 
 ```{r se, fig.width=7}
 BPM = predict(crime.ZS, estimator="BPM", se.fit=TRUE)
@@ -270,9 +291,9 @@ new.pred = predict(crime.ZS, newdata=UScrime, estimator="MPM")
 ## Alternative algorithms
 
 `BAS` has several options for sampling from the model space with or without enumeration.  The (current) default `method="BAS"` samples models without replacement using estimates of the marginal inclusion probabilities using the algorithm described in  [http://dx.doi.org/10.1198/jcgs.2010.09049](Clyde et al 2011).  The initial sampling probabilities provided by `initprobs` are updated based on the sampled models, every `update` iterations.
-This can be more efficient in some cases if a large fraction of the model space has been sampled, however, in cases of high correlation and a large number of predictors, this can lead to biased estimates [http://dx.doi.org/10.1093/biomet/ass040](Clyde and Ghosh 20112), in which case MCMC is prefered.  The `method="MCMC"` is described below and is better for large $p$. 
+This can be more efficient in some cases if a large fraction of the model space has been sampled, however, in cases of high correlation and a large number of predictors, this can lead to biased estimates [http://dx.doi.org/10.1093/biomet/ass040](Clyde and Ghosh 20112), in which case MCMC is preferred.  The `method="MCMC"` is described below and is better for large $p$. 
 
-A deterministic sampling scheme is also available for enunermation;
+A deterministic sampling scheme is also available for enumeration;
 
 ```{r}
 system.time(
@@ -308,11 +329,11 @@ crime.ZS =  bas.lm(y ~ .,
                    method = "MCMC") 
 ```
 
-This will run the MCMC sampler until the number of uniques sampled models exceeds `n.models` which is $2^p$ (if $p < 19$) by default  or until `MCMC.iterations` has been exceeded, where `MCMC.iterations = n.models*2` by default.
+This will run the MCMC sampler until the number of unique sampled models exceeds `n.models` which is $2^p$ (if $p < 19$) by default  or until `MCMC.iterations` has been exceeded, where `MCMC.iterations = n.models*2` by default.
 
 ### Estimates of Marginal Posterior Inclusion Probabilities (pip) ###
 
-With MCMC sampling there are two estimates of the marginal inclusion probabilities:  `object$probne0` which are obtained by using the renormalized posterior odds from sampled models to estimate probabilities and the estimates based on Monte Carlo frequencies `object$probs.MCMC`.  These should be in close agreement if the MCMC sampler has run for enough iterations.
+With MCMC sampling there are two estimates of the marginal inclusion probabilities:  `object$probne0` which are obtained by using the re-normalized posterior odds from sampled models to estimate probabilities and the estimates based on Monte Carlo frequencies `object$probs.MCMC`.  These should be in close agreement if the MCMC sampler has run for enough iterations.
 
 `BAS` includes a diagnostic function to compare the two sets of estimates of posterior inclusion probabilities and posterior model probabilities
 ```{r diagnostics}
@@ -320,7 +341,7 @@ diagnostics(crime.ZS, type="pip",  pch=16)
 diagnostics(crime.ZS, type="model",  pch=16)
 ```
 
-In the left hand plot of pips, each point represents one posterior inclusion probability for the 15 variables estimated under the two methods. The two estimators are in pretty close agreement.  The plot of the model probabilites suggests that we should use more `MCMC.iterations` if we want more accurate estimates of the posterior model probabilities.
+In the left hand plot of pips, each point represents one posterior inclusion probability for the 15 variables estimated under the two methods. The two estimators are in pretty close agreement.  The plot of the model probabilities suggests that we should use more `MCMC.iterations` if we want more accurate estimates of the posterior model probabilities.
 
 ```{r biggerMCMC}
 crime.ZS =  bas.lm(y ~ ., 
@@ -335,7 +356,7 @@ diagnostics(crime.ZS, type="model", pch=16)
 
 ## Outliers
 
-BAS can also be used for exploring mean shift or variance inflation outliers by adding indicator variables for each case being an outlier (the mean is not given by the regression) or not.  This is similar to the MC3.REG function in BMA, although here we are using a g-prior or mixture of g-priors for the coefficents for the outlier means.
+BAS can also be used for exploring mean shift or variance inflation outliers by adding indicator variables for each case being an outlier (the mean is not given by the regression) or not.  This is similar to the MC3.REG function in BMA, although here we are using a g-prior or mixture of g-priors for the coefficients for the outlier means.
 
 Using the Stackloss data, we can add an identify matrix to the original dataframe, where each column is an indicator that the ith variable is an outlier.
 
