@@ -81,6 +81,7 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
   mf$drop.unused.levels <- TRUE
   mf[[1L]] <- quote(stats::model.frame)
   mf <- eval(mf, parent.frame())
+ 
   
   #data = model.frame(formula, data, na.action=na.action, weights=weights)
   n.NA = length(attr(mf, 'na.action'))
@@ -307,6 +308,11 @@ if (method == "AMCMC") {
   result$mean.x = mean.x
   result$call=call
 
+  result$contrasts = attr(X, "contrasts")
+  result$xlevels = .getXlevels(mt, mf)
+  result$terms = mt
+  result$model = mf
+  
   class(result) = c("bas","bma")
   if (prior == "EB-global") result = EB.global.bma(result)
   return(result) 
