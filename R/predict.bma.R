@@ -94,7 +94,8 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
           fit = fit + (1 - object$shrinkage[[best]])*(object$mle[[best]])[1]
           df = df[best]
       }
-      else { fit = rep(nrow(newX), 1) * as.numeric(object$mle[object$size == 1])}
+      else {
+        fit = rep(nrow(newX), 1) * as.numeric(object$mle[object$size == 1])}
       models=bestmodel
       attributes(fit) = list(model = models, best=best)
       
@@ -213,9 +214,10 @@ return(as.vector(yhat))
   shrinkage= object$shrinkage[best]
   if (insample)  xiXTXxiT = hat(object$X[, model+1])  -1/n
   else {
-#    browser()
-    X = cbind(1, X[, model[-1]] )
+
+    X = cbind(1, X[, model[-1], drop=FALSE] )
     oldX = (sweep(object$X[, -1], 2, object$mean.x))[, model[-1]]
+#    browser()
     XRinv = X %*% solve(qr.R(qr(cbind(1,oldX))))
     xiXTXxiT = apply(XRinv^2, 1, sum) -1/n 
   }

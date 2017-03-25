@@ -7,6 +7,7 @@ importFrom("grDevices", "dev.interactive", "extendrange", "gray",
 importFrom("graphics", "arrows","abline", "axis", "box", "image", "lines",
              "mtext", "panel.smooth", "par", "plot", "points", 
              "strheight", "text", "title")
+importFrom("utils", "combn")
 S3method(plot, confint.bas)
 S3method(print, bas)
 S3method(print, coef.bas)

@@ -58,9 +58,20 @@ fitted(hald.gprior,estimator="BPM")
 hald.bma = predict(hald.gprior, top=5, se.fit=TRUE)  
 confint(hald.bma)
 
-hald.bma = predict(hald.gprior, newdata=Hald[1,],top=5,
-                    predict=TRUE, se.fit=TRUE, estimator="BMA") 
-confint(hald.bma)
+hald.BPM = predict(hald.gprior, newdata=Hald[1,],top=5,
+                    predict=TRUE, se.fit=TRUE,
+                    estimator="BPM") 
+confint(hald.BPM)
+
+hald.hpm = predict(hald.gprior, newdata=Hald[1,],top=5,
+                    predict=TRUE, se.fit=TRUE,
+                    estimator="HPM") 
+confint(hald.hpm)
+
+hald.mpm = predict(hald.gprior, newdata=Hald[1,],top=5,
+                    predict=TRUE, se.fit=TRUE,
+                    estimator="MPM") 
+confint(hald.mpm)
 }
 \author{Merlise Clyde}
 \keyword{regression}
