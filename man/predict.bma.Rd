@@ -48,7 +48,8 @@
 }
 \examples{
 data("Hald")
-hald.gprior =  bas.lm(Y~ ., data=Hald, alpha=13, prior="g-prior")
+model = Y ~ .
+hald.gprior =  bas.lm(model, data=Hald, alpha=13, prior="g-prior")
 
 predict(hald.gprior, newdata=Hald, estimator="BPM", se.fit=TRUE, prediction=FALSE)
 # same as fitted

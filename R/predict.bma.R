@@ -81,6 +81,16 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
       models <- rep(0, nvar+1)
       models[bestmodel+1] <- 1
       if (sum(models) > 1) {
+         if (is.null(eval(object$call$weights))) {
+          object <- bas.lm(eval(object$call$formula),
+                           data=eval(object$call$data), 
+                           n.models=1, alpha=object$g,
+                           initprobs=object$probne0, 
+                           prior=object$prior, modelprior=object$modelprior,
+                           update=NULL,bestmodel=models,
+                           prob.local=.0)
+         }
+        else {
           object <- bas.lm(eval(object$call$formula),
                            data=eval(object$call$data), 
                            weights=eval(object$call$weights),
@@ -89,6 +99,7 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
                            prior=object$prior, modelprior=object$modelprior,
                            update=NULL,bestmodel=models,
                            prob.local=.0)
+        }
           best= which.max(object$postprobs)
           fit  <- as.vector(newX[,object$which[[best]]+1, drop=FALSE] %*% object$mle[[best]]) * object$shrinkage[[best]]
           fit = fit + (1 - object$shrinkage[[best]])*(object$mle[[best]])[1]

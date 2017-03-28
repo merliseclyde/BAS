@@ -1,6 +1,8 @@
-#  BAS 1.4.5 March 25, 2017
+#  BAS 1.4.5 March 27, 2017
 
 * Fixed non-conformable error with `predict` when new data was from a dataframe with one row.
+
+* Fixed problem with missing weights for prediction using the median probability model with no new data.
 
 #  BAS 1.4.4 March 14, 2017
 
