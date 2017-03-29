@@ -1,4 +1,4 @@
-#  BAS 1.4.5 March 27, 2017
+#  BAS 1.4.5 March 28, 2017
 
 * Fixed non-conformable error with `predict` when new data was from a dataframe with one row.
 
