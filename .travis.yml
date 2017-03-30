@@ -1,6 +1,6 @@
 language: r
 cache: packages
-r_check_args: '--use-valgrind'
+r_check_args: '--use-valgrind --as-cran'
 
 addons:
   apt:
