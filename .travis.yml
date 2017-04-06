@@ -1,8 +1,17 @@
 language: r
 cache: packages
+r_check_args: '--use-valgrind --as-cran'
+
+addons:
+  apt:
+    packages:
+      - valgrind
+env:
+  - VALGRIND_OPTS='--leak-check=full --track-origins=yes'
 r:
   - devel
   - release
+  
 global:
   - _R_CRAN_CHECK_INCOMING_=true
 

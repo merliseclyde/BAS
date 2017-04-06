@@ -292,8 +292,10 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 	SET_STRING_ELT(ANS_names, 11, mkChar("R2"));
 
 	setAttrib(ANS, R_NamesSymbol, ANS_names);
+	PutRNGstate();
+	
 	UNPROTECT(nProtected);
 
-	PutRNGstate();
+
 	return(ANS);  
 }

@@ -195,8 +195,8 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_STRING_ELT(ANS_names, 13, mkChar("intercept"));
 
 	setAttrib(ANS, R_NamesSymbol, ANS_names);
-	UNPROTECT(nProtected);
-
 	PutRNGstate();
+	
+	UNPROTECT(nProtected);
 	return(ANS);  
 }

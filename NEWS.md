@@ -1,3 +1,17 @@
+#  BAS 1.4.6 April 8, 2017
+
+## Bugs
+
+* Fixed unprotected ANS in C code after call to PutRNGstate
+
+#  BAS 1.4.5 March 28, 2017
+
+## Bugs
+
+* Fixed non-conformable error with `predict` when new data was from a dataframe with one row.
+
+* Fixed problem with missing weights for prediction using the median probability model with no new data.
+
 #  BAS 1.4.4 March 14, 2017
 
 ## Updates 
