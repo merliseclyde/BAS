@@ -29,3 +29,10 @@ tr.poisson=function(lambda, trunc) {
     structure(list(family="Trunc-Poisson", hyper.parameters=c(lambda, trunc)),
               class="prior")
  }
+
+Bernoulli.heredity=function(pi = 0.5, parents) {
+  structure(list(family="Bernoulli.Constrained",
+                 hyper.parameters=c(hyper.parameters=probs, parents=parents)),
+            class="prior")
+}
+
