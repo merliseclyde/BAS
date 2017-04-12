@@ -94,15 +94,15 @@ force_heredity.bas = function(object, prior.prob=.5) {
 }
 
 
-data(Hald)
-par.Hald = make.parents.of.interactions(Y ~ .^2, data=Hald)
-bas.hald = bas.lm(Y ~ .^2, data=Hald)
-hald.models = which.matrix(bas.hald$which, n.vars=bas.hald$n.vars)
+#data(Hald)
+#par.Hald = make.parents.of.interactions(Y ~ .^2, data=Hald)
+#bas.hald = bas.lm(Y ~ .^2, data=Hald)
+#hald.models = which.matrix(bas.hald$which, n.vars=bas.hald$n.vars)
 
-prior = apply(hald.models[,-1], 1,
-              FUN=function(x) {prob.hereditary(model=x, parents=par.Hald$parents)})
+#prior = apply(hald.models[,-1], 1,
+#              FUN=function(x) {prob.hereditary(model=x, parents=par.Hald$parents)})
 
-prob.heredity(hald.models[1,-1], par.Hald$parents)
-force_heredity.bas(bas.hald)
+#.prob.heredity(hald.models[1,-1], par.Hald$parents)
+#force_heredity.bas(bas.hald)
 
 
