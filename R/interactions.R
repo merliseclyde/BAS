@@ -59,7 +59,7 @@ force_heredity.bas = function(object, prior.prob=.5) {
     priorprobs = apply(which[,-1], 1,
                   FUN=function(x) {prob.hereditary(model=x, parents=parents)}
                   )
-    keep = (prior != 0)
+    keep = (priorprobs != 0)
     object$n.models= sum(keep)
     object$sampleprobs = object$sampleprobs[keep]   # if method=MCMC ??? reweight
     object$which = object$which[keep]
