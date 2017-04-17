@@ -1,7 +1,3 @@
-# coefficients = function(object, ...) {
-# UseMethod("coefficients")}
-# coefficients.default = base::coefficients
-
 #' Coefficients of a Bayesian Model Average object
 #' 
 #' Extract conditional posterior means and standard deviations, marginal
@@ -69,7 +65,8 @@
 #' # To add estimation under Best Predictive Model
 #' 
 #' 
-#' @rdname coef
+#' @rdname coef 
+#' @family bas methods
 #' @method coef bas
 #' @export
 coef.bas = function(object, n.models, estimator="BMA", ...) {
