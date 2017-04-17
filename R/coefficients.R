@@ -1,6 +1,77 @@
-#coefficients = function(object, ...) {UseMethod("coefficients")}
-#coefficients.default = base::coefficients
+# coefficients = function(object, ...) {
+# UseMethod("coefficients")}
+# coefficients.default = base::coefficients
 
+#' Coefficients of a Bayesian Model Average object
+#' 
+#' Extract conditional posterior means and standard deviations, marginal
+#' posterior means and standard deviations, posterior probabilities, and
+#' marginal inclusions probabilities under Bayesian Model Averaging from an
+#' object of class 'bas'
+#' 
+#' Calculates posterior means and (approximate) standard deviations of the
+#' regression coefficients under Bayesian Model averaging using g-priors and
+#' mixtures of g-priors.  Print returns overall summaries. For fully Bayesian
+#' methods that place a prior on g, the posterior standard deviations do not
+#' take into account full uncertainty regarding g. Will be updated in future
+#' releases.
+#' 
+#' @aliases coef.bas coef coefficients coefficients.bas print.coef.bas
+#' @param object object of class 'bas' created by BAS
+#' @param x object of class 'coef.bas' to print
+#' @param n.models Number of top models to report in the printed summary, for
+#' coef the default is to use all models.  To extract summaries for the Highest
+#' Probability Model, use n.models=1 or estimator="HPM".
+#' @param estimator return summaries for a selected model, rather than using
+#' BMA.  Options are 'HPM' (highest posterior probability model) ,'MPM' (median
+#' probability model), and 'BMA'
+#' @param digits number of significant digits to print
+#' @param ... other optional arguments
+#' @return \code{coefficients} returns an object of class coef.bas with the
+#' following: \item{conditionalmeans}{a matrix with conditional posterior means
+#' for each model} \item{conditionalsd}{ standard deviations for each model }
+#' \item{postmean}{marginal posterior means of each regression coefficient
+#' using BMA} \item{postsd}{marginal posterior standard deviations using BMA}
+#' \item{postne0}{vector of posterior inclusion probabilities, marginal
+#' probability that a coefficient is non-zero}
+#' @note With highly correlated variables, marginal summaries may not be
+#' representative of the joint distribution. Use \code{\link{plot.coef.bas}} to
+#' view distributions.
+#' @author Merlise Clyde \email{clyde@@stat.duke.edu}
+#' @seealso \code{\link{bas}}, \code{\link{confint.coef.bas}}
+#' @references Liang, F., Paulo, R., Molina, G., Clyde, M. and Berger, J.O.
+#' (2005) Mixtures of g-priors for Bayesian Variable Selection.  Journal of the
+#' American Statistical Association.  103:410-423.  \cr
+#' \url{http://dx.doi.org/10.1198/016214507000001337}
+#' @keywords regression
+#' @examples
+#' 
+#' data("Hald")
+#' hald.gprior =  bas.lm(Y~ ., data=Hald, n.models=2^4, alpha=13,
+#'                       prior="ZS-null", initprobs="Uniform", update=10)
+#' coef.hald.gprior = coefficients(hald.gprior)
+#' coef.hald.gprior
+#' plot(coef.hald.gprior)
+#' confint(coef.hald.gprior)
+#' 
+#' #Estimation under Median Probability Model
+#' coef.hald.gprior = coefficients(hald.gprior, estimator="MPM")
+#' coef.hald.gprior
+#' plot(coef.hald.gprior)
+#' plot(confint(coef.hald.gprior))
+#' 
+#' 
+#' coef.hald.gprior = coefficients(hald.gprior, estimator="HPM")
+#' coef.hald.gprior
+#' plot(coef.hald.gprior)
+#' confint(coef.hald.gprior)
+#' 
+#' # To add estimation under Best Predictive Model
+#' 
+#' 
+#' @rdname coef
+#' @method coef bas
+#' @export
 coef.bas = function(object, n.models, estimator="BMA", ...) {
   if (estimator== "MPM") {
     nvar = object$n.vars -1
@@ -54,6 +125,10 @@ coef.bas = function(object, n.models, estimator="BMA", ...) {
   return(out)
 }
 
+#' Print coefficients generated from coef.bas
+#' @rdname  print
+#' @method print coef.bas
+#' @export 
 print.coef.bas = function(x, 
                           digits = max(3, getOption("digits") - 3), ...) {
   out = cbind(x$postmean, x$postsd, x$probne0)
@@ -68,56 +143,6 @@ print.coef.bas = function(x,
 }
   
 
-plot.coef.bas  = function(x, e = 1e-04, subset = 1:x$n.vars, ask=TRUE, ...) {
-  plotvar = function(prob0, mixprobs, df, means, sds, name,
-                     e = 1e-04, nsteps = 500, ...) {
-    
-    if (prob0 == 1 | length(means) == 0) {
-      xlower = -0
-      xupper = 0
-      xmax = 1
-    }
-    else {
-      qmin = min(qnorm(e/2, means, sds))
-      qmax = max(qnorm(1 - e/2, means, sds))
-      xlower = min(qmin, 0)
-      xupper = max(0, qmax)
-    }
-    xx = seq(xlower, xupper, length.out = nsteps)
-    yy = rep(0, times = length(xx))
-    maxyy = 1
-    if (prob0 < 1 & length(sds) > 0) {
-      yy = mixprobs %*% apply(matrix(xx, ncol=1), 1,
-                              FUN=function(x, d, m, s){dt(x=(x-m)/s, df=d)/s},
-                              d=df, m=means, s=sds)
-      maxyy = max(yy)
-    }
-    
-   ymax = max(prob0, 1 - prob0)
-   plot(c(xlower, xupper), c(0, ymax), type = "n",
-        xlab = "", ylab = "", main = name, ...)
-    lines(c(0, 0), c(0, prob0), lty = 1, lwd = 3, ...)
-    lines(xx, (1 - prob0) * yy/maxyy, lty = 1, lwd = 1, ...)
-    invisible()
-  }
 
- if (ask) {
-        op <- par(ask = TRUE)
-        on.exit(par(op))
-    }
- df = x$df
- 
- for (i in subset) {
-    sel = x$conditionalmeans[,i] != 0
-    prob0 = 1 - x$probne0[i]   
-    mixprobs = x$postprobs[sel]/(1.0 - prob0)
-    means =   x$conditionalmeans[sel, i, drop=TRUE]
-    sds   =   x$conditionalsd[sel, i, drop=TRUE]
-    name  = x$namesx[i]
-    df.sel = df[sel]
-    plotvar(prob0, mixprobs, df.sel, means, sds, name, e = e, ...)
-  }
-  invisible()
-}
 
 

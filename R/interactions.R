@@ -14,7 +14,7 @@ make.parents.of.interactions =
         parents.of.term = main
        for (i in 2:length(main)) {
         parents.of.term = c(parents.of.term, 
-                            combn(main, i, FUN=paste0, collapse=":"))
+                           utils::combn(main, i, FUN=paste0, collapse=":"))
               }
       parents[j, parents.of.term] = 1
     }

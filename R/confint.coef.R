@@ -1,3 +1,43 @@
+ #' Compute Credible Intervals for BAS regression coefficients from BAS objects
+#' 
+#' Uses Monte Carlo simulations using posterior means and standard deviations
+#' of coefficents to generate draws from the posterior distributions and
+#' returns highest posterior density (HPD) credible intervals.  If the number
+#' of models equals one, then use the t distribution to find intervals.  These
+#' currently condition on the estimate of $g$. %% ~~ If necessary, more details
+#' than the description above ~~
+#' 
+#' @aliases confint.coef.bas confint
+#' @param object a coef.bas object
+#' @param parm a specification of which parameters are to be given credible
+#' intervals, either a vector of numbers or a vector of names. If missing, all
+#' parameters are considered.
+#' @param level the probabilty coverage required
+#' @param nsim number of Monte Carlo draws from the posterior distribution.
+#' Used when number of models is greater than 1.
+#' @param ... other arguments to passed; none currently
+#' @return A matrix (or vector) with columns giving lower and upper HPD
+#' credible limits for each parameter. These will be labelled as 1-level)/2 and
+#' 1 - (1-level)/2 in percent (by default 2.5 and 97.5).
+#' @note For mixture of g-priors these are approximate.  This uses Monte Carlo
+#' sampling so results may be subjet to Monte Carlo variation and larger values
+#' of nsim may be needed to reduce variability. %% ~~further notes~~
+#' @author Merlise A Clyde
+#' @keywords regression
+#' @examples
+#' 
+#' 
+#' data("Hald")
+#' hald.gprior =  bas.lm(Y~ ., data=Hald, alpha=13, prior="g-prior")
+#' coef.hald = coef(hald.gprior)
+#' confint(coef.hald)
+#' confint(coef.hald, approx=FALSE, nsim=5000)
+#' 
+#' 
+#' @rdname confint.coef
+#' @family CI methods
+#' @method confint coef.bas
+#' @export
 confint.coef.bas = function(object, parm, level=0.95, nsim=10000, ...) {
   n.models = length(object$postprob)
   if (missing(parm)) parm= 1:object$n.vars
@@ -29,6 +69,48 @@ confint.coef.bas = function(object, parm, level=0.95, nsim=10000, ...) {
 return(ci)
 }
 
+
+
+#' Compute Credible (Bayesian Confidence) Intervals for a BAS predict object
+#' 
+#' Compute crebible intervals for in-sample or out of sample prediction or for
+#' the regression function
+#' 
+#' This constructs approximate 95 percent Highest Posterior Density intervals
+#' for 'pred.bas' objects.  If the estimator is based on model selection, the
+#' intervals use a Student t distribution using the estimate of g.  If the
+#' estimator is based on BMA, then nsim draws from the mixture of Student t
+#' distributions are obtained with the HPD interval obtained from the Monte
+#' Carlo draws. %% ~~ If necessary, more details than the description above ~~
+#' 
+#' @param object an object created by \code{\link{predict.bas}}
+#' @param parm character variable, "mean" or "pred".  If missing parm='pred'.
+#' @param level the nominal level of the (point-wise) credible interval
+#' @param nsim number of Monte Carlo simulations for sampling methods with BMA
+#' @param ... optional arguments to pass on to next function call; none at this
+#' time.
+#' @return a matrix with lower and upper level * 100 percent credible intevals
+#' for either the mean of the regression function or predicted values.  %%
+#' @author Merlise A Clyde
+#' @seealso \code{\link{predict.bas}}
+#' @keywords regression
+#' @examples
+#' 
+#' data("Hald")
+#' hald.gprior =  bas.lm(Y~ ., data=Hald, alpha=13, prior="g-prior")
+#' hald.pred = predict(hald.gprior, estimator="BPM", predict=FALSE, se.fit=TRUE) 
+#' confint(hald.pred, parm="mean") 
+#' confint(hald.pred)  #default
+#' hald.pred = predict(hald.gprior, estimator="BMA", predict=FALSE, se.fit=TRUE) 
+#' confint(hald.pred)
+#' 
+#' 
+#' @rdname confint.pred
+#' 
+#' @family CI methods
+#' @method confint pred.bas
+#' @export
+#' 
 confint.pred.bas = function(object, parm, level=0.95, nsim=10000, ...) {
   
   if (missing(parm)) parm="pred"
@@ -72,6 +154,42 @@ confint.pred.bas = function(object, parm, level=0.95, nsim=10000, ...) {
   return(ci)
 }
 
+
+
+#' Plot Bayesian Confidence Intervals
+#' 
+#' Function takes the the output of functions that return credible intervals
+#' from BAS objects, and creates a plot of the posterior mean with segments
+#' representing the credible interval.  %% ~~ A concise (1-5 lines) description
+#' of what the function does. ~~
+#' 
+#' This function takes the HPD intervals or credible intervals created by
+#' \code{\link{confint.coef.bas}} or \code{\link{confint.pred.bas}} from BAS
+#' objects, and creates a plot of the posterior mean with segments representing
+#' the credible interval.  BAS tries to return HPD intervals, and under model
+#' averaging these may not be symmetric.  %% ~~ If necessary, more details than
+#' the description above ~~
+#' 
+#' @param x the output from \code{\link{confint.coef.bas}} or
+#' \code{\link{confint.pred.bas}} containing credible intervals and estimates.
+#' @param horizontal orientation of the plot
+#' @param ... optional graphical arguments to pass on to plot
+#' @return A plot of the credible intervals.
+#' @author Merlise A Clyde
+#' @seealso \code{\link{confint.coef.bas}}, \code{\link{confint.pred.bas}},
+#' \code{\link{coef.bas}}, \code{\link{predict.bas}}, \code{link{bas.lm}}
+#' @keywords regression bayesian
+#' @examples
+#' 
+#' data(Hald)
+#' hald.ZS = bas.lm(Y ~ ., data=Hald, prior="ZS-null", modelprior=uniform())
+#' plot(confint(coef(hald.ZS),parm=2:5))
+#' plot(confint(predict(hald.ZS, se.fit=TRUE), parm="mean"))
+#' 
+#' @rdname  plot.confint
+#' @method  plot  confint.bas
+#' @family CI methods
+#' @export
 plot.confint.bas = function(x, horizontal=FALSE, ...) {  
     ci = x  #  x is there for generic plot function
     namesx = rownames(ci)   
@@ -110,7 +228,8 @@ return()
 
 .HPDinterval = function (obj, prob = 0.95, ...) 
 {
-  # from library coda but used here so that library does not have to be loaded
+  # from library coda but used here so that library
+  # does not have to be loaded
   obj <- as.matrix(obj)
   vals <- apply(obj, 2, sort)
   if (!is.matrix(vals)) 

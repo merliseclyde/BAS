@@ -1,3 +1,26 @@
+#' Confluent hypergeometric2F1 function
+#' 
+#' Compute the Confluetn Hypergeometric function: 1F1(a,b,c,t) =
+#' Gamma(b)/(Gamma(b-a)Gamma(a)) Int_0^1 t^(b-1) (1 - t)^(b-a-1) exp(c t) dt
+#' 
+#' 
+#' @param a arbitrary
+#' @param b Must be greater 0
+#' @param c arbitrary
+#' @param laplace The default is to use the Cephes library; for large a or s
+#' this may return an NA, Inf or negative values,, in which case you should use
+#' the Laplace approximation.
+#' @param log if TRUE, return log(1F1)
+#' @author Merlise Clyde (\email{clyde@@stat.duke.edu})
+#' @references Cephes library hyp1f1.c
+#' @keywords math
+#' @examples
+#' hypergeometric1F1(11.14756, 0.5, 0.00175097)
+#' 
+#' 
+#' @rdname hypergeometric1F1
+#' @family special functions
+#' @export
 hypergeometric1F1 = function(a,b,c, laplace=FALSE, log=TRUE) {
 
     n = length(a);
