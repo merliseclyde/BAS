@@ -6,9 +6,12 @@
 \alias{coefficients}
 \alias{coefficients.bas}
 \alias{print.coef.bas}
+\alias{print.coef.bas}
 \title{Coefficients of a Bayesian Model Average object}
 \usage{
 \method{coef}{bas}(object, n.models, estimator = "BMA", ...)
+
+\method{print}{coef.bas}(x, digits = max(3, getOption("digits") - 3), ...)
 }
 \arguments{
 \item{object}{object of class 'bas' created by BAS}
@@ -41,6 +44,8 @@ Extract conditional posterior means and standard deviations, marginal
 posterior means and standard deviations, posterior probabilities, and
 marginal inclusions probabilities under Bayesian Model Averaging from an
 object of class 'bas'
+
+Print coefficients generated from coef.bas
 }
 \details{
 Calculates posterior means and (approximate) standard deviations of the
@@ -89,6 +94,9 @@ American Statistical Association.  103:410-423.  \cr
 }
 \seealso{
 \code{\link{bas}}, \code{\link{confint.coef.bas}}
+
+Other bas methods: \code{\link{predict.basglm}},
+  \code{\link{predict.bas}}
 }
 \author{
 Merlise Clyde \email{clyde@stat.duke.edu}

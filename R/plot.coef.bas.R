@@ -39,7 +39,8 @@
 #' plot(coefficients(crime.bic), ask=TRUE)
 #' }
 #' 
-#' @rdname plot
+#' @rdname plot.coef
+#' @family bas plots
 #' @method plot coef.bas
 #' @export 
 #' 

@@ -78,7 +78,8 @@ Dawid, J.O. Berger, and A.F.M. Smith eds. Oxford University Press, pages
 \seealso{
 \code{\link{bas}}
 
-Other bas plots: \code{\link{plot.bas}}
+Other bas plots: \code{\link{plot.bas}},
+  \code{\link{plot.coef.bas}}
 }
 \author{
 Merlise Clyde \email{clyde@stat.duke.edu}

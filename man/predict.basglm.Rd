@@ -72,7 +72,8 @@ Pima.bas = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7, method="BAS",
 Other prediction methods: \code{\link{fitted.bas}},
   \code{\link{predict.bas}}
 
-Other bas methods: \code{\link{predict.bas}}
+Other bas methods: \code{\link{coef.bas}},
+  \code{\link{predict.bas}}
 }
 \author{
 Merlise Clyde

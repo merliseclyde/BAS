@@ -96,7 +96,8 @@ confint(hald.mpm)
 Other prediction methods: \code{\link{fitted.bas}},
   \code{\link{predict.basglm}}
 
-Other bas methods: \code{\link{predict.basglm}}
+Other bas methods: \code{\link{coef.bas}},
+  \code{\link{predict.basglm}}
 }
 \author{
 Merlise Clyde
