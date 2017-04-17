@@ -29,9 +29,15 @@ distribution over model size.
 }
 \examples{
 beta.binomial(1,10) #' @family priors modelpriors
+
 }
 \seealso{
 \code{\link{bas.lm}}, \code{\link{Bernoulli}},\code{\link{uniform}}
+
+Other priors modelpriors: \code{\link{Bernoulli.heredity}},
+  \code{\link{Bernoulli}}, \code{\link{tr.beta.binomial}},
+  \code{\link{tr.poisson}}, \code{\link{tr.power.prior}},
+  \code{\link{uniform}}
 }
 \author{
 Merlise Clyde

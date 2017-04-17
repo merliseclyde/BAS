@@ -31,9 +31,15 @@ probability to all models of size M > trunc.
 }
 \examples{
 tr.poisson(10, 50)
+
 }
 \seealso{
 \code{\link{bas.lm}}, \code{\link{Bernoulli}},\code{\link{uniform}}
+
+Other priors modelpriors: \code{\link{Bernoulli.heredity}},
+  \code{\link{Bernoulli}}, \code{\link{beta.binomial}},
+  \code{\link{tr.beta.binomial}},
+  \code{\link{tr.power.prior}}, \code{\link{uniform}}
 }
 \author{
 Merlise Clyde

@@ -42,9 +42,15 @@ crime.bic =  bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC",
                     modelprior=tr.beta.binomial(1,1,8),
                     initprobs= "eplogp")
 
+
 }
 \seealso{
 \code{\link{bas.lm}}, \code{\link{Bernoulli}},\code{\link{uniform}}
+
+Other priors modelpriors: \code{\link{Bernoulli.heredity}},
+  \code{\link{Bernoulli}}, \code{\link{beta.binomial}},
+  \code{\link{tr.poisson}}, \code{\link{tr.power.prior}},
+  \code{\link{uniform}}
 }
 \author{
 Merlise Clyde

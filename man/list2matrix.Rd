@@ -4,9 +4,12 @@
 \alias{list2matrix.bas}
 \alias{list2matrix.which}
 \alias{which.matrix}
+\alias{list2matrix.which}
 \title{Coerce a BAS list object into a matrix.}
 \usage{
 list2matrix.bas(x, what, which.models = NULL)
+
+list2matrix.which(x, which.models = NULL)
 }
 \arguments{
 \item{x}{a 'bas' object}
@@ -53,8 +56,9 @@ models = which.matrix(crime.bic$which, crime.bic$n.vars)     #matrix of model in
 \seealso{
 \code{\link{bas}}
 
-Other as.matrix methods: \code{\link{list2matrix.which}},
-  \code{\link{which.matrix}}
+Other as.matrix methods: \code{\link{which.matrix}}
+
+Other as.matrix methods: \code{\link{which.matrix}}
 }
 \author{
 Merlise Clyde \email{clyde@stat.duke.edu}
