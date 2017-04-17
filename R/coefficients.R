@@ -123,7 +123,8 @@ coef.bas = function(object, n.models, estimator="BMA", ...) {
 }
 
 #' Print coefficients generated from coef.bas
-#' @rdname  print
+#' @rdname coef
+#' @family bas coefs
 #' @method print coef.bas
 #' @export 
 print.coef.bas = function(x, 
