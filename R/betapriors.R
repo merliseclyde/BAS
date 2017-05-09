@@ -268,7 +268,7 @@ hyper.g = function(alpha=3.0) {
 #' @examples
 #' 
 #' TG(alpha=2)
-#' CCH(alpha, beta=100, s=0)
+#' CCH(alpha=2, beta=100, s=0)
 #' 
 #' @family prior functions
 #' @export
