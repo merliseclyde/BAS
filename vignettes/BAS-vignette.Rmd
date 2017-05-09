@@ -1,5 +1,5 @@
 ---
-title: "Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging"
+title: "Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging and Variable Selection"
 author: "Merlise A Clyde"
 date: "`r Sys.Date()`"
 r_packages:
