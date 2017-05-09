@@ -25,6 +25,7 @@ Index: \preformatted{ }
 demo(BAS.USCrime)
 demo(BAS.hald)
 
+
 }
 \references{
 Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive

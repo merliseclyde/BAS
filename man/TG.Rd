@@ -25,7 +25,7 @@ Creates a structure used for \code{\link{bas.glm}}.
 \examples{
 
 TG(alpha=2)
-CCH(alpha, beta=100, s=0)
+CCH(alpha=2, beta=100, s=0)
 
 }
 \seealso{
