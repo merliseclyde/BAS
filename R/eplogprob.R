@@ -46,6 +46,8 @@
 #' UScrime[,-2] = log(UScrime[,-2])
 #' eplogprob(lm(y ~ ., data=UScrime))
 #' 
+#' 
+#' @export
 eplogprob = function(lm.obj, thresh=.5, max = 0.99, int=TRUE) {
     pval = summary(lm.obj)$coefficients[,4]
     prob = 1/(1 - exp(1)*pval*log(pval))
@@ -53,7 +55,7 @@ eplogprob = function(lm.obj, thresh=.5, max = 0.99, int=TRUE) {
     prob[prob > max] = max
     if (int) prob[1] = 1.0
     if (any(is.na(prob))) {
-        warning("Model is not full rank, do not use eplogp approximation to start sampling\n")
+        warning("Model is not full rank,  use eplogprob.marg instead\n")
     }                    
 return(prob)
 }
@@ -110,7 +112,7 @@ return(prob)
 #' data(UScrime)
 #' UScrime[,-2] = log(UScrime[,-2])
 #' eplogprob(lm(y ~ ., data=UScrime))
-#' 
+#' @export
 eplogprob.marg = function(Y,X, thresh=.5, max = 0.99, int=TRUE) {
 #    browser()
     R2 = apply(X[,-1], 2, FUN=function(x, y=Y) {cor(x,y)^2})
