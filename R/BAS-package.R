@@ -47,11 +47,7 @@
 #' 
 #' @import stats
 #' @import graphics
-#' @importFrom utils combn
-#' @importFrom grDevices dev.interactive
-#' @importFrom grDevices extendrange
-#' @importFrom grDevices  gray
-#' @importFrom grDevices rainbow
+#' @import grDevices
 NULL
 
 
