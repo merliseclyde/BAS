@@ -14,7 +14,7 @@
 #' 
 #' 
 #' @rdname EB.local
-#' @family coef priors
+#' @family beta priors
 #' @export
 
 EB.local = function() {
@@ -47,7 +47,7 @@ EB.local = function() {
 #' CCH(alpha=.5, beta=100, s=0) 
 #' 
 #' @rdname CCH
-#' @family coef priors
+#' @family beta priors
 #' @export
 #' 
 #' 
@@ -87,7 +87,7 @@ CCH = function(alpha, beta, s=0) {
 #' n = 500;
 #'  tCCH(alpha=1, beta=2, s=0, r=1.5, v = 1, theta=1/n)
 #' @rdname tCCH
-#' @family coef priors
+#' @family beta priors
 #' @export
 tCCH = function(alpha=1, beta=2, s=0, r=3/2, v=1, theta=1) {
 #    if (beta == 2 & alpha == 2 & s == 0)   {
@@ -130,7 +130,7 @@ tCCH = function(alpha=1, beta=2, s=0, r=3/2, v=1, theta=1) {
 #' 
 #' 
 #' @rdname intrinsic
-#' @family coefpriors
+#' @family beta priors
 #' @export
 
 intrinsic = function(n=NULL) {
@@ -166,10 +166,10 @@ intrinsic = function(n=NULL) {
 #' \code{\link{CCH}}\code{\link{bas.glm}}
 #' @examples
 #' n = 500
-#'  hyper.g.n(alpha = 3, n=n)
+#' hyper.g.n(alpha = 3, n=n)
 #'
 #' @rdname hyper.g.n  
-#' @family coef priors
+#' @family beta priors
 #' @export
 hyper.g.n = function(alpha=3, n=NULL) {
 #    if (beta == 2 & alpha == 2 & s == 0)   {
@@ -207,7 +207,7 @@ hyper.g.n = function(alpha=3, n=NULL) {
 #' 
 #' 
 #' @rdname Jeffreys
-#' @family coef priors
+#' @family beta priors
 #' @export
 Jeffreys = function() {
         structure(list(family="Jeffreys", class="TCCH",
@@ -236,7 +236,7 @@ Jeffreys = function() {
 #' 
 #' 
 #' @rdname hyper.g
-#' @family coef priors
+#' @family beta priors
 #' @export
 hyper.g = function(alpha=3.0) {
     if (alpha <= 2 )   {
@@ -270,7 +270,7 @@ hyper.g = function(alpha=3.0) {
 #' TG(alpha=2)
 #' CCH(alpha=2, beta=100, s=0)
 #' 
-#' @family prior functions
+#' @family beta priors
 #' @export
 TG = function(alpha=2) {
     structure(list(family="TG", class="TCCH",
@@ -296,7 +296,12 @@ TG = function(alpha=2) {
 #' @seealso \code{\link{CCH}}
 #' @examples
 #' beta.prime(n=100)
-beta.prime=function(n=NULL) {
+#' 
+#' @rdname beta.prime
+#' @family beta priors
+#' @export
+
+beta.prime = function(n=NULL) {
     structure(list(family="betaprime", class="TCCH", 
                    hyper.parameters=list(n=n, alpha=.5)),
               class="prior")
@@ -309,7 +314,7 @@ beta.prime=function(n=NULL) {
 #' Creates an object representing the robust prior of Bayarri et al (2012) that
 #' is mixture of g-priors on coefficients for BAS.
 #' 
-#' Creates a structure used for \code{\link{bas.glm}}.
+#' Creates a prior structure used for \code{\link{bas.glm}}.
 #' 
 #' @param n the sample size.
 #' @return returns an object of class "prior", with the family and
@@ -319,7 +324,9 @@ beta.prime=function(n=NULL) {
 #' @examples
 #' robust(100)
 #' 
-#' @family prior functions
+#' 
+#' @rdname robust
+#' @family beta priors
 #' @export
 
 robust = function(n=NULL) {
@@ -341,7 +348,7 @@ bic.prior = function(n=NULL) {
                    class="prior")
 }
 
-#' @family prior functions
+#' @family beta priors
 #' @export
 
 aic.prior = function() {
@@ -377,7 +384,7 @@ aic.prior = function() {
 #'           aic.prior()
 #'           bic.prior(100)
 #'           
-#' @family prior functions
+#' @family beta priors 
 #' @export
 
 IC.prior = function(penalty) {
@@ -404,7 +411,7 @@ IC.prior = function(penalty) {
 #' @examples
 #' g.prior(100)
 #' 
-#' @family prior functions
+#' @family beta priors
 #' @export
 
 g.prior = function(g) {
@@ -440,7 +447,7 @@ g.prior = function(g) {
 #' bas.glm(type ~ ., data=Pima.tr, family=binomial(), 
 #'         betaprior=testBF.prior(nrow(Pima.tr)),
 #'         modelprior=uniform(), method="BAS")
-#' @family prior functions
+#' @family beta priors 
 #' @export
 
 testBF.prior = function(g) {

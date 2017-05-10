@@ -71,9 +71,6 @@ and Statistics.  20:80-101 \cr
 }
 \seealso{
 \code{\link{predict.bas}}
-
-Other prediction methods: \code{\link{predict.basglm}},
-  \code{\link{predict.bas}}
 }
 \author{
 Merlise Clyde \email{clyde@AT@stat.duke.edu}

@@ -23,9 +23,18 @@ Creates a structure used for \code{\link{bas.glm}}.
 }
 \examples{
 beta.prime(n=100)
+
 }
 \seealso{
 \code{\link{CCH}}
+
+Other beta priors: \code{\link{CCH}},
+  \code{\link{EB.local}}, \code{\link{IC.prior}},
+  \code{\link{Jeffreys}}, \code{\link{TG}},
+  \code{\link{g.prior}}, \code{\link{hyper.g.n}},
+  \code{\link{hyper.g}}, \code{\link{intrinsic}},
+  \code{\link{robust}}, \code{\link{tCCH}},
+  \code{\link{testBF.prior}}
 }
 \author{
 Merlise Clyde

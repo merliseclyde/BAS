@@ -6,7 +6,7 @@ r_packages:
   - rmarkdown
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging}
+  %\VignetteIndexEntry{Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging and Variable Selection}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -343,14 +343,14 @@ diagnostics(crime.ZS, type="model",  pch=16)
 
 In the left hand plot of pips, each point represents one posterior inclusion probability for the 15 variables estimated under the two methods. The two estimators are in pretty close agreement.  The plot of the model probabilities suggests that we should use more `MCMC.iterations` if we want more accurate estimates of the posterior model probabilities.
 
-```{r biggerMCMC}
+```{r biggerMCMC, eval=FALSE}
 crime.ZS =  bas.lm(y ~ ., 
                    data=UScrime,
                    prior="ZS-null",
                    modelprior=uniform(),
                    method = "MCMC", MCMC.iterations = 10^6)  
 
-diagnostics(crime.ZS, type="model", pch=16)
+# Don't run diagnostics(crime.ZS, type="model", pch=16)
 ```
 
 

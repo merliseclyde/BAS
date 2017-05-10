@@ -1,6 +1,4 @@
-
-
-#' Bayesian Model Averaging using Bayesian Adaptive Sampling
+#' BAS: Bayesian Model Averaging using Bayesian Adaptive Sampling
 #' 
 #' Package for Bayesian Model Averaging in linear models using stochastic or
 #' deterministic sampling without replacement from posterior distributions.
@@ -14,19 +12,11 @@
 #' GPL-2\cr URL: http://www.stat.duke.edu/~clyde\cr }
 #' 
 #' Index: \preformatted{ }
-#' 
-#' @name BAS-package
+#' @docType package
+#' @name BAS
 #' 
 #' @useDynLib BAS, .registration=TRUE, .fixes="C_"
-#' @import stats
-#' @import graphics
-#' @importFrom utils combn
-#' @importFrom grDevices dev.interactive
-#' @importFrom grDevices extendrange
-#' @importFrom grDevices  gray
-#' @importFrom grDevices rainbow
 #' @aliases BAS-package BAS
-#' @docType package
 #' @author Merlise Clyde, \cr Maintainer: Merlise Clyde <clyde@@stat.duke.edu>
 #' @seealso \code{\link[BAS]{bas}}
 #' @references Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive
@@ -49,12 +39,19 @@
 #' Statistical Association. 103:410-423.  \cr
 #' \url{http://dx.doi.org/10.1198/016214507000001337}
 #' @keywords package regression
+#' @family bas methods
 #' @examples
 #' 
 #' demo(BAS.USCrime)
 #' demo(BAS.hald)
 #' 
-#' 
+#' @import stats
+#' @import graphics
+#' @importFrom utils combn
+#' @importFrom grDevices dev.interactive
+#' @importFrom grDevices extendrange
+#' @importFrom grDevices  gray
+#' @importFrom grDevices rainbow
 NULL
 
 

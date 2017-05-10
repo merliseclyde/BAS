@@ -37,7 +37,8 @@ models = which.matrix(crime.bic$which, crime.bic$n.vars)     #matrix of model in
 \seealso{
 \code{\link{bas}}
 
-Other as.matrix methods: \code{\link{list2matrix.bas}}
+Other as.matrix methods: \code{\link{list2matrix.bas}},
+  \code{\link{list2matrix.which}}
 }
 \author{
 Merlise Clyde \email{clyde@stat.duke.edu}

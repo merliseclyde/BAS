@@ -25,10 +25,13 @@ EB.local()
 \seealso{
 \code{\link{CCH}} and \code{\link{bas.glm}}
 
-Other coef priors: \code{\link{CCH}},
-  \code{\link{EB.global}}, \code{\link{Jeffreys}},
-  \code{\link{hyper.g.n}}, \code{\link{hyper.g}},
-  \code{\link{tCCH}}
+Other beta priors: \code{\link{CCH}},
+  \code{\link{IC.prior}}, \code{\link{Jeffreys}},
+  \code{\link{TG}}, \code{\link{beta.prime}},
+  \code{\link{g.prior}}, \code{\link{hyper.g.n}},
+  \code{\link{hyper.g}}, \code{\link{intrinsic}},
+  \code{\link{robust}}, \code{\link{tCCH}},
+  \code{\link{testBF.prior}}
 }
 \author{
 Merlise Clyde

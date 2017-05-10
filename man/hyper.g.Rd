@@ -29,10 +29,13 @@ hyper.g(alpha=.5)
 \seealso{
 \code{\link{CCH}} \code{\link{bas.glm}}
 
-Other coef priors: \code{\link{CCH}},
-  \code{\link{EB.global}}, \code{\link{EB.local}},
-  \code{\link{Jeffreys}}, \code{\link{hyper.g.n}},
-  \code{\link{tCCH}}
+Other beta priors: \code{\link{CCH}},
+  \code{\link{EB.local}}, \code{\link{IC.prior}},
+  \code{\link{Jeffreys}}, \code{\link{TG}},
+  \code{\link{beta.prime}}, \code{\link{g.prior}},
+  \code{\link{hyper.g.n}}, \code{\link{intrinsic}},
+  \code{\link{robust}}, \code{\link{tCCH}},
+  \code{\link{testBF.prior}}
 }
 \author{
 Merlise Clyde

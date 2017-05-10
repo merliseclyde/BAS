@@ -3,7 +3,7 @@
 #' Predictions under model averaging from a BMA (BAS) object for GLMS
 #' 
 #' Use BMA to form predictions using the top highest probability models.
-#' @aliases predict.basglm predict
+#' @aliases predict.basglm
 #' @param object An object of class "basglm", created by \code{bas.glm}
 #' @param newdata dataframe, new matrix or vector of data for predictions. May
 #' include a column for the intercept or just the predictor variables.  If a
@@ -48,7 +48,7 @@
 #' 
 #' @rdname predict.basglm
 #' @method predict basglm
-#' @family prediction methods
+#' @family predict methods
 #' @family bas methods
 #' @export
 predict.basglm = function(object, newdata, se.fit=FALSE, 
@@ -164,7 +164,7 @@ predict.basglm = function(object, newdata, se.fit=FALSE,
 #' confint(hald.mpm)
 #' 
 #' @rdname predict
-#' @family prediction methods
+#' @family predict methods
 #' @family bas methods
 #' @method predict bas
 #' @export 

@@ -57,7 +57,7 @@ force_heredity.bas = function(object, prior.prob=.5) {
     parents = make.parents.of.interactions(eval(mf$formula), eval(mf$data))$parents
     which = which.matrix(object$which, object$n.vars)
     priorprobs = apply(which[,-1], 1,
-                  FUN=function(x) {prob.hereditary(model=x, parents=parents)}
+                  FUN=function(x) {prob.heredity(model=x, parents=parents)}
                   )
     keep = (priorprobs != 0)
     object$n.models= sum(keep)
@@ -70,7 +70,7 @@ force_heredity.bas = function(object, prior.prob=.5) {
          object$freq = object$freq[keep]  
          object$postprobs.MCMC = object$freq[keep]*wts
          object$postprobs.MCMC =  object$postprobs.MCMC/sum(object$postprobs.MCMC)
-        object$probne0.MCMC = as.vector(postprobs.MCMC %*% which[keep,]) 
+        object$probne0.MCMC = as.vector(object$postprobs.MCMC %*% which[keep,]) 
       }}
     object$priorprobs=priorprobs[keep]/sum(priorprobs[keep])
     object$logmarg = object$logmarg[keep]

@@ -16,6 +16,7 @@ Suggests:
     MASS,
     knitr,
     rmarkdown,
+    roxygen2,
     GGally
 Description: Package for Bayesian Model Averaging in linear models and
     generalized linear models using stochastic or

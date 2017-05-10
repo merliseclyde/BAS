@@ -18,17 +18,22 @@ Creates an object representing the robust prior of Bayarri et al (2012) that
 is mixture of g-priors on coefficients for BAS.
 }
 \details{
-Creates a structure used for \code{\link{bas.glm}}.
+Creates a prior structure used for \code{\link{bas.glm}}.
 }
 \examples{
 robust(100)
+
 
 }
 \seealso{
 \code{\link{CCH}} and\code{\link{bas.glm}}
 
-Other prior functions: \code{\link{IC.prior}},
-  \code{\link{TG}}, \code{\link{g.prior}},
+Other beta priors: \code{\link{CCH}},
+  \code{\link{EB.local}}, \code{\link{IC.prior}},
+  \code{\link{Jeffreys}}, \code{\link{TG}},
+  \code{\link{beta.prime}}, \code{\link{g.prior}},
+  \code{\link{hyper.g.n}}, \code{\link{hyper.g}},
+  \code{\link{intrinsic}}, \code{\link{tCCH}},
   \code{\link{testBF.prior}}
 }
 \author{

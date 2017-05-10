@@ -49,11 +49,6 @@ American Statistical Association. 103:410-423.  \cr
 }
 \seealso{
 \code{\link{bas}}, \code{\link{update}}
-
-Other coef priors: \code{\link{CCH}},
-  \code{\link{EB.local}}, \code{\link{Jeffreys}},
-  \code{\link{hyper.g.n}}, \code{\link{hyper.g}},
-  \code{\link{tCCH}}
 }
 \author{
 Merlise Clyde \email{clyde@stat.duke.edu}

@@ -2,7 +2,6 @@
 % Please edit documentation in R/predict.bas.R
 \name{predict.basglm}
 \alias{predict.basglm}
-\alias{predict}
 \title{Prediction Method for an object of class basglm}
 \usage{
 \method{predict}{basglm}(object, newdata, se.fit = FALSE,
@@ -69,11 +68,11 @@ Pima.bas = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7, method="BAS",
 \code{\link{bas.glm}}, \code{\link{predict.bas}},
 \code{\link{fitted.bas}}
 
-Other prediction methods: \code{\link{fitted.bas}},
-  \code{\link{predict.bas}}
+Other predict methods: \code{\link{predict.bas}}
 
-Other bas methods: \code{\link{coef.bas}},
-  \code{\link{predict.bas}}
+Other bas methods: \code{\link{BAS}},
+  \code{\link{coef.bas}}, \code{\link{predict.bas}},
+  \code{\link{summary.bas}}
 }
 \author{
 Merlise Clyde

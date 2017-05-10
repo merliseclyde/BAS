@@ -95,8 +95,9 @@ American Statistical Association.  103:410-423.  \cr
 \seealso{
 \code{\link{bas}}, \code{\link{confint.coef.bas}}
 
-Other bas methods: \code{\link{predict.basglm}},
-  \code{\link{predict.bas}}
+Other bas methods: \code{\link{BAS}},
+  \code{\link{predict.basglm}}, \code{\link{predict.bas}},
+  \code{\link{summary.bas}}
 }
 \author{
 Merlise Clyde \email{clyde@stat.duke.edu}

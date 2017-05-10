@@ -28,8 +28,12 @@ g.prior(100)
 \seealso{
 \code{\link{IC.prior}}
 
-Other prior functions: \code{\link{IC.prior}},
-  \code{\link{TG}}, \code{\link{robust}},
+Other beta priors: \code{\link{CCH}},
+  \code{\link{EB.local}}, \code{\link{IC.prior}},
+  \code{\link{Jeffreys}}, \code{\link{TG}},
+  \code{\link{beta.prime}}, \code{\link{hyper.g.n}},
+  \code{\link{hyper.g}}, \code{\link{intrinsic}},
+  \code{\link{robust}}, \code{\link{tCCH}},
   \code{\link{testBF.prior}}
 }
 \author{

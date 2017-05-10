@@ -207,7 +207,7 @@ tr.poisson=function(lambda, trunc) {
               class="prior")
  }
 
-#' Bernoulli prior on models that with constraints for 
+#' Independent Bernoulli prior on models that with constraints for 
 #' model hierarchy induced by interactions
 #' @param pi  Bernoulli probabibility that term is included
 #' @param parents matrix of terms and parents with indicators of which terms
@@ -217,7 +217,7 @@ tr.poisson=function(lambda, trunc) {
 #' @export
 Bernoulli.heredity=function(pi = 0.5, parents) {
   structure(list(family="Bernoulli.Constrained",
-                 hyper.parameters=c(hyper.parameters=probs, parents=parents)),
+                 hyper.parameters=c(hyper.parameters=pi, parents=parents)),
             class="prior")
 }
 
