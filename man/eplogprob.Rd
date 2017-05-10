@@ -55,6 +55,7 @@ data(UScrime)
 UScrime[,-2] = log(UScrime[,-2])
 eplogprob(lm(y ~ ., data=UScrime))
 
+
 }
 \references{
 Sellke, Thomas, Bayarri, M. J., and Berger, James O.  (2001),
