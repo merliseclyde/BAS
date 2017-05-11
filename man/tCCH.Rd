@@ -35,6 +35,9 @@ Creates a structure used for \code{\link{bas.glm}}.
 n = 500;
  tCCH(alpha=1, beta=2, s=0, r=1.5, v = 1, theta=1/n)
 }
+\author{
+Merlise Clyde
+}
 \seealso{
 \code{\link{CCH}}, \code{\link{robust}}, \code{\link{hyper.g}},
 \code{\link{hyper.g.n}}\code{\link{bas.glm}}
@@ -47,6 +50,4 @@ Other beta priors: \code{\link{CCH}},
   \code{\link{intrinsic}}, \code{\link{robust}},
   \code{\link{testBF.prior}}
 }
-\author{
-Merlise Clyde
-}
+

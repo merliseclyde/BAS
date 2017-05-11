@@ -50,3 +50,4 @@ diagnostics(crime.ZS)
 \author{
 Merlise Clyde (\email{clyde@stat.duke.edu})
 }
+

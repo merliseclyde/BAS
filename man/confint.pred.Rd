@@ -46,13 +46,14 @@ confint(hald.pred)
 
 
 }
+\author{
+Merlise A Clyde
+}
 \seealso{
 \code{\link{predict.bas}}
 
 Other CI methods: \code{\link{confint.coef.bas}},
   \code{\link{plot.confint.bas}}
 }
-\author{
-Merlise A Clyde
-}
 \keyword{regression}
+

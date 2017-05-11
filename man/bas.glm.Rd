@@ -182,6 +182,10 @@ pima.BIC = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
 
 
 }
+\author{
+Merlise Clyde (\email{clyde@stat.duke.edu}), Quanli Wang and Yingbo
+Li
+}
 \references{
 Li, Y. and Clyde, M. (2015) Mixtures of g-priors in Generalized
 Linear Models. \url{http://arxiv.org/abs/1503.06913}
@@ -198,10 +202,6 @@ Association.
 \seealso{
 Other BMA functions: \code{\link{bas.lm}}
 }
-\author{
-Merlise Clyde (\email{clyde@stat.duke.edu}), Quanli Wang and Yingbo
-Li
-}
 \concept{
 BMA
 
@@ -209,3 +209,4 @@ variable selection
 }
 \keyword{GLM}
 \keyword{regression}
+

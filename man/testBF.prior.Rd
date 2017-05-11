@@ -32,6 +32,9 @@ bas.glm(type ~ ., data=Pima.tr, family=binomial(),
         betaprior=testBF.prior(nrow(Pima.tr)),
         modelprior=uniform(), method="BAS")
 }
+\author{
+Merlise Clyde
+}
 \seealso{
 \code{\link{g.prior}}, \code{\link{bas.glm}}
 
@@ -43,6 +46,4 @@ Other beta priors: \code{\link{CCH}},
   \code{\link{intrinsic}}, \code{\link{robust}},
   \code{\link{tCCH}}
 }
-\author{
-Merlise Clyde
-}
+

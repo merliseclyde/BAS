@@ -28,6 +28,9 @@ hypergeometric1F1(11.14756, 0.5, 0.00175097)
 
 
 }
+\author{
+Merlise Clyde (\email{clyde@stat.duke.edu})
+}
 \references{
 Cephes library hyp1f1.c
 }
@@ -35,7 +38,5 @@ Cephes library hyp1f1.c
 Other special functions: \code{\link{hypergeometric2F1}},
   \code{\link{phi1}}
 }
-\author{
-Merlise Clyde (\email{clyde@stat.duke.edu})
-}
 \keyword{math}
+

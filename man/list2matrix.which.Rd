@@ -42,13 +42,14 @@ models = list2matrix.which(crime.bic)     #matrix of model indicators
 models = which.matrix(crime.bic$which, crime.bic$n.vars)     #matrix of model indicators}
 
 }
+\author{
+Merlise Clyde \email{clyde@stat.duke.edu}
+}
 \seealso{
 \code{\link{bas}}
 
 Other as.matrix methods: \code{\link{list2matrix.bas}},
   \code{\link{which.matrix}}
 }
-\author{
-Merlise Clyde \email{clyde@stat.duke.edu}
-}
 \keyword{regression}
+

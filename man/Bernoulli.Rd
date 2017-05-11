@@ -31,6 +31,9 @@ distribution.
 Bernoulli(.9)
 
 }
+\author{
+Merlise Clyde
+}
 \seealso{
 \code{\link{bas.lm}},
 \code{\link{beta.binomial}},\code{\link{uniform} }
@@ -40,6 +43,4 @@ Other priors modelpriors: \code{\link{Bernoulli.heredity}},
   \code{\link{tr.beta.binomial}}, \code{\link{tr.poisson}},
   \code{\link{tr.power.prior}}, \code{\link{uniform}}
 }
-\author{
-Merlise Clyde
-}
+

@@ -57,6 +57,9 @@ eplogprob(lm(y ~ ., data=UScrime))
 
 
 }
+\author{
+Merlise Clyde \email{clyde@stat.duke.edu}
+}
 \references{
 Sellke, Thomas, Bayarri, M. J., and Berger, James O.  (2001),
 ``Calibration of p-values for testing precise null hypotheses'', The
@@ -65,7 +68,5 @@ American Statistician, 55, 62-71.
 \seealso{
 \code{\link{bas}}
 }
-\author{
-Merlise Clyde \email{clyde@stat.duke.edu}
-}
 \keyword{regression}
+

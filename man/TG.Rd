@@ -28,6 +28,9 @@ TG(alpha=2)
 CCH(alpha=2, beta=100, s=0)
 
 }
+\author{
+Merlise Clyde
+}
 \seealso{
 \code{\link{CCH}} \code{\link{bas.glm}}
 
@@ -39,6 +42,4 @@ Other beta priors: \code{\link{CCH}},
   \code{\link{robust}}, \code{\link{tCCH}},
   \code{\link{testBF.prior}}
 }
-\author{
-Merlise Clyde
-}
+

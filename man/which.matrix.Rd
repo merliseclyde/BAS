@@ -34,13 +34,14 @@ crime.bic =  bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC",
 models = which.matrix(crime.bic$which, crime.bic$n.vars)     #matrix of model indicators}
 
 }
+\author{
+Merlise Clyde \email{clyde@stat.duke.edu}
+}
 \seealso{
 \code{\link{bas}}
 
 Other as.matrix methods: \code{\link{list2matrix.bas}},
   \code{\link{list2matrix.which}}
 }
-\author{
-Merlise Clyde \email{clyde@stat.duke.edu}
-}
 \keyword{regression}
+

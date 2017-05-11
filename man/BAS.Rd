@@ -4,7 +4,6 @@
 \name{BAS}
 \alias{BAS}
 \alias{BAS-package}
-\alias{BAS-package}
 \title{BAS: Bayesian Model Averaging using Bayesian Adaptive Sampling}
 \description{
 Package for Bayesian Model Averaging in linear models using stochastic or
@@ -26,6 +25,9 @@ Index: \preformatted{ }
 demo(BAS.USCrime)
 demo(BAS.hald)
 
+}
+\author{
+Merlise Clyde, \cr Maintainer: Merlise Clyde <clyde@stat.duke.edu>
 }
 \references{
 Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive
@@ -55,8 +57,6 @@ Other bas methods: \code{\link{coef.bas}},
   \code{\link{predict.basglm}}, \code{\link{predict.bas}},
   \code{\link{summary.bas}}
 }
-\author{
-Merlise Clyde, \cr Maintainer: Merlise Clyde <clyde@stat.duke.edu>
-}
 \keyword{package}
 \keyword{regression}
+

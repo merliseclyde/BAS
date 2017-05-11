@@ -50,6 +50,10 @@ plot(coefficients(crime.bic), ask=TRUE)
 }
 
 }
+\author{
+based on function \code{plot.bic} by Ian Painter in package BMA;
+adapted for 'bas' class by Merlise Clyde \email{clyde@stat.duke.edu}
+}
 \references{
 Hoeting, J.A., Raftery, A.E. and Madigan, D. (1996). A method
 for simultaneous variable selection and outlier identification in linear
@@ -61,8 +65,5 @@ regression. Computational Statistics and Data Analysis, 22, 251-270.
 Other bas plots: \code{\link{image.bas}},
   \code{\link{plot.bas}}
 }
-\author{
-based on function \code{plot.bic} by Ian Painter in package BMA;
-adapted for 'bas' class by Merlise Clyde \email{clyde@stat.duke.edu}
-}
 \keyword{regression}
+

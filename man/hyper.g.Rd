@@ -26,6 +26,9 @@ hyper.g(alpha=.5)
 
 
 }
+\author{
+Merlise Clyde
+}
 \seealso{
 \code{\link{CCH}} \code{\link{bas.glm}}
 
@@ -37,6 +40,4 @@ Other beta priors: \code{\link{CCH}},
   \code{\link{robust}}, \code{\link{tCCH}},
   \code{\link{testBF.prior}}
 }
-\author{
-Merlise Clyde
-}
+
