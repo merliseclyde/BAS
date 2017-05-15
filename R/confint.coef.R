@@ -208,13 +208,15 @@ plot.confint.bas = function(x, horizontal=FALSE, ...) {
     else {
       if (type == "mean") ylab=bquote(mu)
       else  ylab="predicted values"
-    }
+  }
+
+    not.deg = ci[,1] != ci[,2]
     par(mar=c(4.5,5,1,1), las=1)
     if (!horizontal) {
       plot(y, pch=16, xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, xaxt="n", bty="n", ...)
       axis(1, at=x, labels=namesx, tick=FALSE, ...)
       abline(h=0, lty=3, ...)
-      arrows(x,ci[,1],x,ci[,2], code=3, angle=90, length=0.05, ...)
+      arrows(x[not.deg],ci[not.deg,1],x[not.deg],ci[not.deg,2], code=3, angle=90, length=0.05, ...)
     }
 ### horizontal layout:
     else { 
@@ -222,7 +224,7 @@ plot.confint.bas = function(x, horizontal=FALSE, ...) {
            xlab=ylab, ylab="", yaxt="n", bty="n", ...)
       axis(2, at=x, labels=namesx, tick=FALSE, ...)
       abline(v=0, lty=3, ...)
-      arrows(ci[,1],x,ci[,2],x, code=3, angle=90, length=0.05, ...)
+      arrows(ci[,1],x,ci[,2],x,ci[,1],x,ci[,2], code=3, angle=90, length=0.05, ...)
     }
 return()
 }
