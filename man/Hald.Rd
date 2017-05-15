@@ -30,4 +30,3 @@ subset of (X1,X2,X3,X4) that includes one variable from highly correlated
 pair to do as any subset that also includes the other member.
 }
 \keyword{datasets}
-

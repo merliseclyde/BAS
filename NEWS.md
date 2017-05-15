@@ -1,8 +1,13 @@
-#  BAS 1.4.6 April 8, 2017
+#  BAS 1.4.6 May 15, 2017
+
+## Updates
+
+*  Added interactions
 
 ## Bugs
 
 * Fixed unprotected ANS in C code after call to PutRNGstate
+* Fixed problem with predict for estimator=BPM when newdata was one row
 
 #  BAS 1.4.5 March 28, 2017
 

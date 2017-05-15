@@ -64,18 +64,19 @@ Pima.bas = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7, method="BAS",
  cv.summary.bas(pred$fit, Pima.te$type, score="miss-class")
 
 }
-\author{
-Merlise Clyde
-}
 \seealso{
 \code{\link{bas.glm}}, \code{\link{predict.bas}},
 \code{\link{fitted.bas}}
 
-Other bas methods: \code{\link{BAS}},
-  \code{\link{coef.bas}}, \code{\link{predict.bas}},
-  \code{\link{summary.bas}}
+Other predict methods: \code{\link{fitted.bas}},
+  \code{\link{predict.bas}}
 
-Other predict methods: \code{\link{predict.bas}}
+Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
+  \code{\link{coef.bas}}, \code{\link{confint.coef.bas}},
+  \code{\link{confint.pred.bas}}, \code{\link{fitted.bas}},
+  \code{\link{predict.bas}}, \code{\link{summary.bas}}
+}
+\author{
+Merlise Clyde
 }
 \keyword{regression}
-

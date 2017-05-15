@@ -2,8 +2,8 @@
 % Please edit documentation in R/data.R
 \docType{data}
 \name{bodyfat}
-\alias{Bodyfat}
 \alias{bodyfat}
+\alias{Bodyfat}
 \title{Bodyfat Data}
 \format{A data frame with 252 observations on the following 15 variables.
 \describe{ \item{list("Density")}{a numeric vector for the density
@@ -114,4 +114,3 @@ Wilmore, Jack (1976). Athletic Training and Physical Fitness: Physiological
 Principles of the Conditioning Process, Allyn and Bacon, Inc., Boston.
 }
 \keyword{datasets}
-

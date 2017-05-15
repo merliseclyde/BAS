@@ -29,9 +29,6 @@ n = 500;
 
 
 }
-\author{
-Merlise A Clyde
-}
 \references{
 Womack, A., Novelo,L.L., Casella, G. (2014). "Inference From
 Intrinsic Bayes' Procedures Under Model Selection and Uncertainty". Journal
@@ -50,4 +47,6 @@ Other beta priors: \code{\link{CCH}},
   \code{\link{robust}}, \code{\link{tCCH}},
   \code{\link{testBF.prior}}
 }
-
+\author{
+Merlise A Clyde
+}

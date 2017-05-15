@@ -44,11 +44,10 @@ yhat = predict(cog_train, newdata=testdata, estimator="BMA", se=F)
 cv.summary.bas(yhat$fit, testdata$kid_score)
 }
 }
-\author{
-Merlise Clyde \email{clyde@stat.duke.edu}
-}
 \seealso{
 \code{\link{predict.bas}}
 }
+\author{
+Merlise Clyde \email{clyde@stat.duke.edu}
+}
 \keyword{regression}
-

@@ -40,9 +40,6 @@ This is used in the hyper-g prior to calculate marginal likelihoods.
 hypergeometric2F1(12,1,2,.65)
 
 }
-\author{
-Merlise Clyde (\email{clyde@stat.duke.edu})
-}
 \references{
 Cephes library hyp2f1.c
 
@@ -55,5 +52,7 @@ Statistical Association.  103:410-423.  \cr
 Other special functions: \code{\link{hypergeometric1F1}},
   \code{\link{phi1}}
 }
+\author{
+Merlise Clyde (\email{clyde@stat.duke.edu})
+}
 \keyword{math}
-

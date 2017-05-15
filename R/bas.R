@@ -247,6 +247,7 @@
 #' regression hypotheses. In Bayesian Statistics: Proceedings of the First
 #' International Meeting held in Valencia (Spain), pp. 585-603.
 #' @keywords regression
+#' @family bas methods
 #' @examples
 #' 
 #' library(MASS)

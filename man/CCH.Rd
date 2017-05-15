@@ -32,9 +32,6 @@ Creates a structure used for \code{\link{bas.glm}}.
 CCH(alpha=.5, beta=100, s=0) 
 
 }
-\author{
-Merlise A Clyde
-}
 \seealso{
 \code{\link{IC.prior}}, \code{\link{bic.prior}},
 \code{\link{bas.glm}}
@@ -47,4 +44,6 @@ Other beta priors: \code{\link{EB.local}},
   \code{\link{robust}}, \code{\link{tCCH}},
   \code{\link{testBF.prior}}
 }
-
+\author{
+Merlise A Clyde
+}

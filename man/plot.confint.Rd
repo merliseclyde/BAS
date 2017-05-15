@@ -39,9 +39,6 @@ plot(confint(coef(hald.ZS),parm=2:5))
 plot(confint(predict(hald.ZS, se.fit=TRUE), parm="mean"))
 
 }
-\author{
-Merlise A Clyde
-}
 \seealso{
 \code{\link{confint.coef.bas}}, \code{\link{confint.pred.bas}},
 \code{\link{coef.bas}}, \code{\link{predict.bas}}, \code{link{bas.lm}}
@@ -49,6 +46,8 @@ Merlise A Clyde
 Other CI methods: \code{\link{confint.coef.bas}},
   \code{\link{confint.pred.bas}}
 }
+\author{
+Merlise A Clyde
+}
 \keyword{bayesian}
 \keyword{regression}
-

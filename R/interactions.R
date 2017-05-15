@@ -51,8 +51,26 @@ prob.heredity = function(model, parents, prob=.5) {
 }
 
 
+#' Post processing function to force constraints on interaction inclusion bas BMA objects
+#'
+#' This function takes the output of a bas object and allows higher order interactions to be included only if their parent lower order interactions terms are in the model, by assigning zero prior probability, and hence posterior probability, to models that do include their respective parents.  
+#' 
+#' @param object a bas linear model or generalized linear model object
+#' @param prior.prob  prior probability that a term is included conditional on parents being included
+#' @return a bas object with updated models, coefficients and summaries obtained removing all models with   zero prior and posterior probabilities.
+#' @note Currently prior probabilities are computed using conditional Bernoulli distributions, i.e.  P(gamma_j = 1 | Parents(gamma_j) = 1) = prior.prob.  This is not very efficient for models with a large number of levels.  Future updates will force this at the time of sampling.
+#' @author Merlise A Clyde
+#' @keywords regression
+#' @examples
 
-force_heredity.bas = function(object, prior.prob=.5) {
+#' data(Hald)
+#' bas.hald = bas.lm(Y ~ .^2, data=Hald)
+
+#' bas.hald.int = force.heredity.bas(bas.hald)
+#' image(bas.hal.int)
+#' @export
+
+force.heredity.bas = function(object, prior.prob=.5) {
     mf <- object$call
     parents = make.parents.of.interactions(eval(mf$formula), eval(mf$data))$parents
     which = which.matrix(object$which, object$n.vars)
@@ -94,15 +112,15 @@ force_heredity.bas = function(object, prior.prob=.5) {
 }
 
 
+
+
 #data(Hald)
-#par.Hald = make.parents.of.interactions(Y ~ .^2, data=Hald)
 #bas.hald = bas.lm(Y ~ .^2, data=Hald)
 #hald.models = which.matrix(bas.hald$which, n.vars=bas.hald$n.vars)
 
+#par.Hald = make.parents.of.interactions(Y ~ .^2, data=Hald)
 #prior = apply(hald.models[,-1], 1,
 #              FUN=function(x) {prob.hereditary(model=x, parents=par.Hald$parents)})
 
 #.prob.heredity(hald.models[1,-1], par.Hald$parents)
 #force_heredity.bas(bas.hald)
-
-

@@ -23,4 +23,3 @@ Other priors modelpriors: \code{\link{Bernoulli}},
   \code{\link{tr.beta.binomial}}, \code{\link{tr.poisson}},
   \code{\link{tr.power.prior}}, \code{\link{uniform}}
 }
-

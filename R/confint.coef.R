@@ -1,4 +1,4 @@
- #' Compute Credible Intervals for BAS regression coefficients from BAS objects
+#' Compute Credible Intervals for BAS regression coefficients from BAS objects
 #' 
 #' Uses Monte Carlo simulations using posterior means and standard deviations
 #' of coefficents to generate draws from the posterior distributions and
@@ -36,6 +36,7 @@
 #' 
 #' @rdname confint.coef
 #' @family CI methods
+#' @family bas methods
 #' @method confint coef.bas
 #' @export
 confint.coef.bas = function(object, parm, level=0.95, nsim=10000, ...) {
@@ -62,8 +63,8 @@ confint.coef.bas = function(object, parm, level=0.95, nsim=10000, ...) {
   ci = cbind(ci, object$postmean[parm])
   attr(ci, "Probability") <-  level
   attr(ci, "class") = "confint.bas"
-  lower = paste(as.character(round(100*(1 - level)/2, 4)), " %")
-  upper = paste(as.character(round(100*(1 + level)/2, 4)), " %")
+  lower = paste0(as.character(round(100*(1 - level)/2, 4)), "%")
+  upper = paste0(as.character(round(100*(1 + level)/2, 4)), "%")
   colnames(ci) = c(lower, upper, "beta")
   rownames(ci) = object$namesx[parm]
 return(ci)
@@ -106,7 +107,7 @@ return(ci)
 #' 
 #' 
 #' @rdname confint.pred
-#' 
+#' @family bas methods
 #' @family CI methods
 #' @method confint pred.bas
 #' @export
@@ -145,8 +146,8 @@ confint.pred.bas = function(object, parm, level=0.95, nsim=10000, ...) {
   ci = cbind(ci, object$fit)
   attr(ci, "Probability") <-  level
   attr(ci, "class") = "confint.bas"
-  lower = paste(as.character(round(100*(1 - level)/2, 4)), " %")
-  upper = paste(as.character(round(100*(1 + level)/2, 4)), " %")
+  lower = paste0(as.character(round(100*(1 - level)/2, 4)), "%")
+  upper = paste0(as.character(round(100*(1 + level)/2, 4)), "%")
   colnames(ci) = c(lower, upper, parm)
   rownames(ci) = object$namesx[parm]
   

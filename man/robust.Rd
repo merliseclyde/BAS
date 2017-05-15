@@ -25,9 +25,6 @@ robust(100)
 
 
 }
-\author{
-Merlise Clyde
-}
 \seealso{
 \code{\link{CCH}} and\code{\link{bas.glm}}
 
@@ -39,4 +36,6 @@ Other beta priors: \code{\link{CCH}},
   \code{\link{intrinsic}}, \code{\link{tCCH}},
   \code{\link{testBF.prior}}
 }
-
+\author{
+Merlise Clyde
+}

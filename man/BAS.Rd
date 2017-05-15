@@ -4,6 +4,7 @@
 \name{BAS}
 \alias{BAS}
 \alias{BAS-package}
+\alias{BAS-package}
 \title{BAS: Bayesian Model Averaging using Bayesian Adaptive Sampling}
 \description{
 Package for Bayesian Model Averaging in linear models using stochastic or
@@ -21,13 +22,13 @@ GPL-2\cr URL: http://www.stat.duke.edu/~clyde\cr }
 Index: \preformatted{ }
 }
 \examples{
+data("Hald")
+hald.gprior =  bas.lm(Y ~ ., data=Hald, alpha=13, prior="g-prior")
 
+# more complete demos
 demo(BAS.USCrime)
 demo(BAS.hald)
 
-}
-\author{
-Merlise Clyde, \cr Maintainer: Merlise Clyde <clyde@stat.duke.edu>
 }
 \references{
 Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive
@@ -53,10 +54,14 @@ Statistical Association. 103:410-423.  \cr
 \seealso{
 \code{\link[BAS]{bas}}
 
-Other bas methods: \code{\link{coef.bas}},
+Other bas methods: \code{\link{bas.lm}},
+  \code{\link{coef.bas}}, \code{\link{confint.coef.bas}},
+  \code{\link{confint.pred.bas}}, \code{\link{fitted.bas}},
   \code{\link{predict.basglm}}, \code{\link{predict.bas}},
   \code{\link{summary.bas}}
 }
+\author{
+Merlise Clyde, \cr Maintainer: Merlise Clyde <clyde@stat.duke.edu>
+}
 \keyword{package}
 \keyword{regression}
-

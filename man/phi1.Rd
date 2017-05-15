@@ -42,9 +42,6 @@ phi1(1, 0, 1.5, 3, 1/100);
 hypergeometric1F1(1, 1.5, 3, log = FALSE);
 
 }
-\author{
-Merlise Clyde (\email{clyde@stat.duke.edu})
-}
 \references{
 Gordy 1998
 }
@@ -52,5 +49,7 @@ Gordy 1998
 Other special functions: \code{\link{hypergeometric1F1}},
   \code{\link{hypergeometric2F1}}
 }
+\author{
+Merlise Clyde (\email{clyde@stat.duke.edu})
+}
 \keyword{math}
-

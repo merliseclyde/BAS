@@ -25,9 +25,6 @@ Creates a structure used for BAS.
 g.prior(100)
 
 }
-\author{
-Merlise Clyde
-}
 \seealso{
 \code{\link{IC.prior}}
 
@@ -39,4 +36,6 @@ Other beta priors: \code{\link{CCH}},
   \code{\link{robust}}, \code{\link{tCCH}},
   \code{\link{testBF.prior}}
 }
-
+\author{
+Merlise Clyde
+}

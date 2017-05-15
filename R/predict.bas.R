@@ -137,8 +137,7 @@ predict.basglm = function(object, newdata, se.fit=FALSE,
 #' @examples
 #' 
 #' data("Hald")
-#' model = Y ~ .
-#' hald.gprior =  bas.lm(model, data=Hald, alpha=13, prior="g-prior")
+#' hald.gprior =  bas.lm(Y ~ ., data=Hald, alpha=13, prior="g-prior")
 #' 
 #' predict(hald.gprior, newdata=Hald, estimator="BPM", se.fit=TRUE, prediction=FALSE)
 #' # same as fitted
@@ -149,17 +148,17 @@ predict.basglm = function(object, newdata, se.fit=FALSE,
 #' confint(hald.bma)
 #' 
 #' hald.BPM = predict(hald.gprior, newdata=Hald[1,],
-#'                     predict=TRUE, se.fit=TRUE,
+#'                     prediction=TRUE, se.fit=TRUE,
 #'                     estimator="BPM") 
 #' confint(hald.BPM)
 #' 
 #' hald.hpm = predict(hald.gprior, newdata=Hald[1,],
-#'                     predict=TRUE, se.fit=TRUE,
+#'                     prediction=TRUE, se.fit=TRUE,
 #'                     estimator="HPM") 
 #' confint(hald.hpm)
 #' 
 #' hald.mpm = predict(hald.gprior, newdata=Hald[1,],
-#'                     predict=TRUE, se.fit=TRUE,
+#'                     prediction=TRUE, se.fit=TRUE,
 #'                     estimator="MPM") 
 #' confint(hald.mpm)
 #' 
@@ -286,7 +285,8 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
     attributes(fit) = list(model = models, best=best)  
   }
   if (estimator=="BPM") {
-    dis =apply(sweep(Ypred, 2, Ybma),1, sd)
+#    browser()  
+    dis =apply(sweep(Ypred, 2, Ybma),1, FUN=function(x) sum(x^2))
     bestBPM = which.min(dis)
     fit = Ypred[bestBPM, ]
     models = unlist(object$which[best[bestBPM]])
@@ -379,7 +379,8 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
 #' plot(Hald$Y, fitted(hald.gprior, estimator="BPM"))
 #' 
 #' @rdname fitted
-#' @family prediction methods
+#' @family bas methods
+#' @family predict methods
 #' @method fitted bas
 #' @export
 fitted.bas = function(object,  type="response", estimator="BMA", top=NULL, ...) {
@@ -393,16 +394,16 @@ fitted.bas = function(object,  type="response", estimator="BMA", top=NULL, ...) 
   X = object$X
   if (is.null(top)) top=nmodels
   if (estimator=="HPM") {
-   yhat = predict(object, top=1, estimator="HPM", predict=FALSE)$fit
+   yhat = predict.bas(object, top=1, estimator="HPM", prediction=FALSE)$fit
   }
   if (estimator == "BMA") {
-   yhat = predict(object, top=top, estimator="BMA", predict=FALSE)$fit
+   yhat = predict.bas(object, top=top, estimator="BMA", prediction=FALSE)$fit
   }
   if (estimator == "MPM") {
-    yhat = predict(object, top=top, estimator="MPM", predict=FALSE)$fit
+    yhat = predict(object, top=top, estimator="MPM", prediction=FALSE)$fit
  }
   if (estimator=="BPM") {
-      yhat = predict(object, top=top, estimator="BPM", predict=FALSE)$fit
+      yhat = predict.bas(object, top=top, estimator="BPM", prediction=FALSE)$fit
   }
   
 return(as.vector(yhat))
