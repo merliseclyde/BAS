@@ -571,7 +571,7 @@ flush(stderr()); flush(stdout())
 data(Hald)
 bas.hald = bas.lm(Y ~ .^2, data=Hald)
 bas.hald.int = force.heredity.bas(bas.hald)
-image(bas.hal.int)
+image(bas.hald.int)
 
 
 
