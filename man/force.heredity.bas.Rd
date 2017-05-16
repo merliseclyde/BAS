@@ -24,7 +24,7 @@ Currently prior probabilities are computed using conditional Bernoulli distribut
 data(Hald)
 bas.hald = bas.lm(Y ~ .^2, data=Hald)
 bas.hald.int = force.heredity.bas(bas.hald)
-image(bas.hal.int)
+image(bas.hald.int)
 }
 \author{
 Merlise A Clyde
