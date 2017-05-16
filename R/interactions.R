@@ -95,7 +95,7 @@ force.heredity.bas = function(object, prior.prob=.5) {
     object$shrinkage=object$shrinkage[keep]
     postprobs.RN = exp(object$logmarg - min(object$logmarg))*object$priorprobs
     object$postprobs.RN = postprobs.RN/sum(postprobs.RN)
-    browser()
+  #  browser()
     object$probne0.RN = as.vector(object$postprobs.RN %*% which[keep,])
 
     object$postprobs = object$postprobs[keep]*wts/sum(object$postprobs[keep]*wts)
@@ -123,4 +123,4 @@ force.heredity.bas = function(object, prior.prob=.5) {
 #              FUN=function(x) {prob.hereditary(model=x, parents=par.Hald$parents)})
 
 #.prob.heredity(hald.models[1,-1], par.Hald$parents)
-#force_heredity.bas(bas.hald)
+# force_heredity.bas(bas.hald)
