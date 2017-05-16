@@ -67,7 +67,7 @@ prob.heredity = function(model, parents, prob=.5) {
 #' bas.hald = bas.lm(Y ~ .^2, data=Hald)
 
 #' bas.hald.int = force.heredity.bas(bas.hald)
-#' image(bas.hal.int)
+#' image(bas.hald.int)
 #' @export
 
 force.heredity.bas = function(object, prior.prob=.5) {
