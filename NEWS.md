@@ -1,8 +1,8 @@
-#  BAS 1.4.6 May 15, 2017
+#  BAS 1.4.6 May 22, 2017
 
 ## Updates
 
-*  Added interactions
+*  Added force.heredity.interaction function to allow higher order interactions to be included only if their "parents" or lower order interactions or main effects were included.   Currently tested with two way interactions.  This is implemented post-sampling; future updates will add this at the sampling stage which will reduce memory usage and sampling times by reducing the number of models under consideration.
 
 ## Bugs
 
