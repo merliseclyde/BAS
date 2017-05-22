@@ -1,7 +1,8 @@
 make.parents.of.interactions =
-  function (mf, data) 
-  { 
-    termnamesX = attr(terms(mf, data=data), "term.labels") 
+  function (mf, df)
+  {
+#    browser()
+    termnamesX = attr(terms(mf, data=df), "term.labels")
     p = length(termnamesX)
     interactions = grep(":", termnamesX)
     parents = diag(p)
@@ -9,26 +10,27 @@ make.parents.of.interactions =
     rownames(parents) = termnamesX
     for (j in interactions) {
       term = interactions[j]
-      main = unlist(strsplit(termnamesX[j], ":", 
+      main = unlist(strsplit(termnamesX[j], ":",
                                       fixed = TRUE))
         parents.of.term = main
        for (i in 2:length(main)) {
-        parents.of.term = c(parents.of.term, 
+        parents.of.term = c(parents.of.term,
                            utils::combn(main, i, FUN=paste0, collapse=":"))
               }
       parents[j, parents.of.term] = 1
     }
-    
-    X = model.matrix(mf, data)
+
+    X = model.matrix(mf, df)
     loc = attr(X, "assign")[-1] #drop intercept
 
-    parents = parents[loc,]
-    row.names(parents) = colnames(X)[-1]
+    parents = parents[loc,loc]
+    rownames(parents) = colnames(X)[-1]
+    colnames(parents) = colnames(X)[-1]
     return(list(X = X, parents=parents))
   }
 
 
-# model.matrix(mf, data) 
+# model.matrix(mf, data)
 # attr( , "assign") has where terms are located
 
 # mp = .make.parents.of.interactions(mf, df)
@@ -36,8 +38,8 @@ make.parents.of.interactions =
 
 
 prob.heredity = function(model, parents, prob=.5) {
-  p = length(model) 
-  got.parents =  apply(parents, 1, 
+  p = length(model)
+  got.parents =  apply(parents, 1,
            FUN=function(x){
            all(as.logical(model[as.logical(x)]))}
   )
@@ -53,8 +55,8 @@ prob.heredity = function(model, parents, prob=.5) {
 
 #' Post processing function to force constraints on interaction inclusion bas BMA objects
 #'
-#' This function takes the output of a bas object and allows higher order interactions to be included only if their parent lower order interactions terms are in the model, by assigning zero prior probability, and hence posterior probability, to models that do include their respective parents.  
-#' 
+#' This function takes the output of a bas object and allows higher order interactions to be included only if their parent lower order interactions terms are in the model, by assigning zero prior probability, and hence posterior probability, to models that do include their respective parents.
+#'
 #' @param object a bas linear model or generalized linear model object
 #' @param prior.prob  prior probability that a term is included conditional on parents being included
 #' @return a bas object with updated models, coefficients and summaries obtained removing all models with   zero prior and posterior probabilities.
@@ -71,8 +73,8 @@ prob.heredity = function(model, parents, prob=.5) {
 #' @export
 
 force.heredity.bas = function(object, prior.prob=.5) {
-    mf <- object$call
-    parents = make.parents.of.interactions(eval(mf$formula), eval(mf$data))$parents
+    parents = make.parents.of.interactions(mf=eval(object$call$formula, parent.frame()),
+                                           df=eval(object$call$data, parent.frame()))$parents
     which = which.matrix(object$which, object$n.vars)
     priorprobs = apply(which[,-1], 1,
                   FUN=function(x) {prob.heredity(model=x, parents=parents)}
@@ -83,12 +85,12 @@ force.heredity.bas = function(object, prior.prob=.5) {
     object$which = object$which[keep]
     wts = priorprobs[keep]/object$priorprobs[keep]
     method = object$call$method
-    if (!is.null(method)) { 
+    if (!is.null(method)) {
       if (method == "MCMC" || method == "MCMC_new" ) {
-         object$freq = object$freq[keep]  
+         object$freq = object$freq[keep]
          object$postprobs.MCMC = object$freq[keep]*wts
          object$postprobs.MCMC =  object$postprobs.MCMC/sum(object$postprobs.MCMC)
-        object$probne0.MCMC = as.vector(object$postprobs.MCMC %*% which[keep,]) 
+        object$probne0.MCMC = as.vector(object$postprobs.MCMC %*% which[keep,])
       }}
     object$priorprobs=priorprobs[keep]/sum(priorprobs[keep])
     object$logmarg = object$logmarg[keep]

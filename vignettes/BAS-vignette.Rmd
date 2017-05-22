@@ -11,8 +11,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 ```{r setup, include=FALSE}
-require(knitr)
-require(GGally)
+#require(knitr)
 require(MASS)
 ```
 
@@ -264,8 +263,7 @@ BPM = predict(crime.ZS, estimator="BPM")
 Let's see how they compare:
 
 ```{r, fig.width=6, fig.height=6}
-library(GGally)
-ggpairs(data.frame(HPM = as.vector(HPM$fit),  #this used predict so we need to extract fitted values
+GGally::ggpairs(data.frame(HPM = as.vector(HPM$fit),  #this used predict so we need to extract fitted values
                    MPM = as.vector(MPM$fit),  # this used fitted
                    BPM = as.vector(BPM$fit),  # this used fitted
                    BMA = as.vector(BMA$fit))) # this used predict
@@ -376,7 +374,7 @@ The above call introduces using truncated prior distributions on the model space
 
 Looking at the summaries
 ```{r}
-kable(as.data.frame(summary(stack.bas)))
+knitr::kable(as.data.frame(summary(stack.bas)))
 ```
 
 
