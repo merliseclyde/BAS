@@ -21,14 +21,14 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
 {
   int  nProtected = 0;
   SEXP   Rse_m, Rcoef_m, Rmodel_m;
-  //  SEXP   Rbestmarg = PROTECT(allocVector(REALSXP, 1)); 
+  //  SEXP   Rbestmarg = PROTECT(allocVector(REALSXP, 1));
 
   SEXP   RXwork = PROTECT(duplicate(X)); nProtected++;
   SEXP   RYwork = PROTECT(duplicate(Y)); nProtected++;
-  
-  
+
+
   int  nModels=LENGTH(Rmodeldim);
-  
+
   //  Rprintf("Allocating Space for %d Models\n", nModels) ;
   SEXP ANS = PROTECT(allocVector(VECSXP, 12)); ++nProtected;
   SEXP ANS_names = PROTECT(allocVector(STRSXP, 12)); ++nProtected;
@@ -45,17 +45,17 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
   SEXP logmarg = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
   SEXP sampleprobs = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 
-  double *Xwork, *Ywork, *wts, *coefficients,*probs, shrinkage_m, 
-         SSY, yty, ybar, mse_m, *se_m, 
+  double *Xwork, *Ywork, *wts, *coefficients,*probs, shrinkage_m,
+         SSY, yty, ybar, mse_m, *se_m,
          R2_m, RSquareFull, alpha, prone, denom, logmargy;
   int nobs, p, k, i, j, m, n, l, pmodel, *xdims, *model_m, *bestmodel, local;
   int mcurrent,  update;
   double  mod, rem, problocal, *pigamma, eps, *hyper_parameters;
   double *XtX, *XtY, *XtXwork, *XtYwork;
   double one=1.0, zero=0.0;
- 
+
   int inc=1, p2;
-  int *model, bit, *modelwork;	
+  int *model, bit, *modelwork;
   char uplo[] = "U", trans[]="T";
   struct Var *vars;	/* Info about the model variables. */
   NODEPTR tree, branch;
@@ -79,11 +79,11 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
   Ywork = REAL(RYwork);
   Xwork = REAL(RXwork);
   wts = REAL(Rweights);
- 
- /* Allocate other variables.  */ 
+
+ /* Allocate other variables.  */
   XtX  = (double *) R_alloc(p * p, sizeof(double));
   XtXwork  = (double *) R_alloc(p * p, sizeof(double));
-  XtY = vecalloc(p);  
+  XtY = vecalloc(p);
   XtYwork = vecalloc(p);
 
   /* initialize X matrix */
@@ -95,8 +95,8 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
       //       Xmat[i][j] =  REAL(X)[l];
       //  Xwork[l] = Xmat[i][j];
        Xwork[l] = Xwork[l]*wts[i];
-       l = l + 1; 
-    } 
+       l = l + 1;
+    }
   }
 
   //  PROTECT(Rprobs = NEW_NUMERIC(p));
@@ -105,10 +105,10 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
   //memcpy(probs, initprobs,  p*sizeof(double));
 
  p2 = p*p;
- ybar = 0.0; SSY = 0.0; yty = 0.0; 
+ ybar = 0.0; SSY = 0.0; yty = 0.0;
 
- 
- F77_NAME(dsyrk)(uplo, trans, &p, &nobs, &one, &Xwork[0], &nobs, &zero, &XtX[0], &p); 
+
+ F77_NAME(dsyrk)(uplo, trans, &p, &nobs, &one, &Xwork[0], &nobs, &zero, &XtX[0], &p);
 
 
  for (i = 0; i< nobs; i++) {
@@ -122,37 +122,37 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
   yty = F77_NAME(ddot)(&nobs, &Ywork[0], &inc, &Ywork[0], &inc);
   SSY = yty - (double) nobs* ybar *ybar;
 
-  
+
   F77_NAME(dgemv)(trans, &nobs, &p, &one, &Xwork[0], &nobs, &Ywork[0], &inc, &zero, &XtY[0],&inc);
-  
+
   alpha = REAL(Ralpha)[0];
 
   vars = (struct Var *) R_alloc(p, sizeof(struct Var));
-  n = sortvars(vars, probs, p); 
+  n = sortvars(vars, probs, p);
 
-  /* Make space for the models and working variables. */ 
+  /* Make space for the models and working variables. */
 
-  /*  pivot = ivecalloc(p); 
+  /*  pivot = ivecalloc(p);
   qraux = vecalloc(p);
   work =  vecalloc(2 * p);
-  effects = vecalloc(nobs); 
-  v =  vecalloc(p * p); 
+  effects = vecalloc(nobs);
+  v =  vecalloc(p * p);
   betaols = vecalloc(p);
   */
 
- 
+
   pigamma = vecalloc(p);
   model = ivecalloc(p);
   modelwork= ivecalloc(p);
 
 
   /*  Rprintf("Fit Full Model\n"); */
-  
+
   if (nobs <= p) {RSquareFull = 1.0;}
   else {
     PROTECT(Rcoef_m = NEW_NUMERIC(p));
     PROTECT(Rse_m = NEW_NUMERIC(p));
-    coefficients = REAL(Rcoef_m);  
+    coefficients = REAL(Rcoef_m);
     se_m = REAL(Rse_m);
 
     memcpy(coefficients, XtY,  p*sizeof(double));
@@ -160,7 +160,7 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
     memcpy(XtYwork, XtY,  p*sizeof(double));
 
     mse_m = yty;
-    cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, p, nobs);  
+    cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, p, nobs);
   /*olsreg(Ywork, Xwork,  coefficients, se_m, &mse_m, &p, &nobs, pivot,qraux,work,residuals,effects,v, betaols); */
     RSquareFull = 1.0;
     if (nobs > p) {
@@ -179,7 +179,7 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
   tree = make_node(vars[0].prob);
 
 
-  //  Rprintf("For m=0, Initialize Tree with initial Model\n");  
+  //  Rprintf("For m=0, Initialize Tree with initial Model\n");
 
   m = 0;
   bestmodel = INTEGER(Rbestmodel);
@@ -197,7 +197,7 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
 
 	if (bit == 1) {
 	  for (j=0; j<=i; j++)  pigamma[j] *= branch->prob;
-	  if (i < n-1 && branch->one == NULL) 
+	  if (i < n-1 && branch->one == NULL)
 	    branch->one = make_node(vars[i+1].prob);
           if (i == n-1 && branch->one == NULL)
 	    branch->one = make_node(0.0);
@@ -210,12 +210,12 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
           if (i == n-1 && branch->zero == NULL)
 	    branch->zero = make_node(0.0);
 	  branch = branch->zero;
-	  } 
+	  }
 
-	model[vars[i].index] = bit; 
+	model[vars[i].index] = bit;
 	INTEGER(modeldim)[m]  += bit;
      }
-   
+
     /* Now subtract off the visited probability mass. */
     branch=tree;
     for (i = 0; i < n; i++) {
@@ -238,7 +238,7 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
 	}
 	else prone = prone/denom;
       }
-      if (prone > 1.0 || prone < 0.0) 
+      if (prone > 1.0 || prone < 0.0)
 	Rprintf("%d %d Probability > 1!!! %le %le  %le %le \n",
 		m, i, prone, branch->prob, denom, pigamma);
 
@@ -255,7 +255,7 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
 
     /*    Rprintf("Now get model specific calculations \n"); */
 
-      for (j = 0, l=0; j < p; j++) {  
+      for (j = 0, l=0; j < p; j++) {
 	if (model[j] == 1) {
             model_m[l] = j;
            l +=1;}
@@ -265,7 +265,7 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
 
     Rcoef_m = NEW_NUMERIC(pmodel); PROTECT(Rcoef_m);
     Rse_m = NEW_NUMERIC(pmodel);   PROTECT(Rse_m);
-    coefficients = REAL(Rcoef_m);  
+    coefficients = REAL(Rcoef_m);
     se_m = REAL(Rse_m);
 
       for (j=0, l=0; j < pmodel; j++) {
@@ -273,18 +273,18 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
         for  ( i = 0; i < pmodel; i++) {
 	  XtXwork[j*pmodel + i] = XtX[model_m[j]*p + model_m[i]];
 	}
-      } 
+      }
 
-      
+
     mse_m = yty;
-    memcpy(coefficients, XtYwork, sizeof(double)*pmodel); 
+    memcpy(coefficients, XtYwork, sizeof(double)*pmodel);
     cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, pmodel, nobs);
 
     R2_m = 1.0;
     if (nobs > pmodel) {
       R2_m = 1.0 - (mse_m * (double) ( nobs - pmodel))/SSY;
     }
-    
+
     SET_ELEMENT(beta, m, Rcoef_m);
     SET_ELEMENT(se, m, Rse_m);
 
@@ -317,14 +317,14 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
       local = withprob(problocal);
       if ( local == 1 && (branch->prob < .999) && (branch->prob > 0.001))
 	 bit = bestmodel[vars[i].index];
-      else { 
+      else {
 	bit =  withprob(branch->prob); }
 
       /*    branch->done += 1; */
 
 	if (bit == 1) {
 	  for (j=0; j<=i; j++)  pigamma[j] *= branch->prob;
-	  if (i < n-1 && branch->one == NULL) 
+	  if (i < n-1 && branch->one == NULL)
 	    branch->one = make_node(vars[i+1].prob);
           if (i == n-1 && branch->one == NULL)
 	    branch->one = make_node(0.0);
@@ -337,12 +337,12 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
           if (i == n-1 && branch->zero == NULL)
 	    branch->zero = make_node(0.0);
 	  branch = branch->zero;
-	  } 
-	model[vars[i].index] = bit; 
+	  }
+	model[vars[i].index] = bit;
 	INTEGER(modeldim)[m]  += bit;
     }
 
-    REAL(sampleprobs)[m] = pigamma[0]; 
+    REAL(sampleprobs)[m] = pigamma[0];
     pmodel = INTEGER(modeldim)[m];
 
     /* Now subtract off the visited probability mass. */
@@ -367,13 +367,13 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
 	}
 	else prone = prone/denom;
       }
-      if (prone > 1.0 || prone < 0.0) 
+      if (prone > 1.0 || prone < 0.0)
 	Rprintf("%d %d Probability > 1!!! %le %le  %le %le \n",
 		m, i, prone, branch->prob, denom, pigamma);
 
-      
+
       /*      if (bit == 1)  pigamma /= (branch->prob);
-	      else  pigamma /= (1.0 - branch->prob); 
+	      else  pigamma /= (1.0 - branch->prob);
 	      if (pigamma > 1.0) pigamma = 1.0; */
       branch->prob  = prone;
       if (bit == 1) branch = branch->one;
@@ -386,50 +386,53 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
       }
       else {
 	    branch->one = NULL;
-	    branch->zero = NULL; 
+	    branch->zero = NULL;
 	    break; } */
     }
-    
-    /* Now get model specific calculations */ 
+
+    /* Now get model specific calculations */
 
       PROTECT(Rmodel_m = allocVector(INTSXP, pmodel));
       model_m = INTEGER(Rmodel_m);
+    /* initialize */
+      for (j = 0; j < pmodel; j++) model_m[j] = 0;
+    /* update */
 
-      for (j = 0, l=0; j < p; j++) {  
-	if (model[j] == 1) {
+      for (j = 0, l=0; j < p; j++) {
+	    if (model[j] == 1) {
            model_m[l] = j;
            l +=1;}
       }
- 
+
 
      SET_ELEMENT(modelspace, m, Rmodel_m);
-   
+
       for (j=0, l=0; j < pmodel; j++) {
          XtYwork[j] = XtY[model_m[j]];
         for  ( i = 0; i < pmodel; i++) {
 	 XtXwork[j*pmodel + i] = XtX[model_m[j]*p + model_m[i]];
 	}
 
-      } 
+      }
 
-    
+
       PROTECT(Rcoef_m = allocVector(REALSXP,pmodel));
       PROTECT(Rse_m = allocVector(REALSXP,pmodel));
-      coefficients = REAL(Rcoef_m);  
+      coefficients = REAL(Rcoef_m);
       se_m = REAL(Rse_m);
-  
-    mse_m = yty;
-    
-    memcpy(coefficients, XtYwork, sizeof(double)*pmodel); 
-    cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, pmodel, nobs);  
 
-  
+    mse_m = yty;
+
+    memcpy(coefficients, XtYwork, sizeof(double)*pmodel);
+    cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, pmodel, nobs);
+
+
 /*    olsreg(Ywork, Xwork, coefficients, se_m, &mse_m, &pmodel, &nobs, pivot,qraux,work,residuals,effects,v,betaols);   */
     R2_m = 1.0;
     if (nobs > pmodel) {
     R2_m = 1.0 - (mse_m * (double) ( nobs - pmodel))/SSY;
     }
-    
+
     SET_ELEMENT(beta, m, Rcoef_m);
     SET_ELEMENT(se, m, Rse_m);
 
@@ -440,28 +443,28 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
    REAL(logmarg)[m] = logmargy;
    REAL(shrinkage)[m] = shrinkage_m;
    REAL(priorprobs)[m] = compute_prior_probs(model,pmodel,p, modelprior);
-    
-       
+
+
 
     if (m > 1) {
       rem = modf((double) m/(double) update, &mod);
       if (rem  == 0.0) {
 	mcurrent = m;
 	compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
-	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);        
+	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
 	if (update_probs(probs, vars, mcurrent, k, p) == 1) {
 	  //	  Rprintf("Updating Model Tree %d \n", m);
-	  update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);     
+	  update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);
 	}
 
       }}
-    UNPROTECT(3);  
+    UNPROTECT(3);
   }
 
-  
+
   compute_modelprobs(modelprobs, logmarg, priorprobs,k);
-  compute_margprobs(modelspace, modeldim, modelprobs, probs, k, p);  
-   
+  compute_margprobs(modelspace, modeldim, modelprobs, probs, k, p);
+
   SET_VECTOR_ELT(ANS, 0, Rprobs);
   SET_STRING_ELT(ANS_names, 0, mkChar("probne0"));
 
@@ -494,7 +497,7 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
 
   SET_VECTOR_ELT(ANS, 10, modeldim);
   SET_STRING_ELT(ANS_names, 10, mkChar("size"));
- 
+
   SET_VECTOR_ELT(ANS, 11, R2);
   SET_STRING_ELT(ANS_names, 11, mkChar("R2"));
 
@@ -503,7 +506,7 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
   PutRNGstate();
   UNPROTECT(nProtected);
 
-  return(ANS);  
+  return(ANS);
 }
 
 
@@ -518,7 +521,7 @@ void update_tree(SEXP modelspace, struct Node *tree, SEXP modeldim, struct Var *
 		branch = tree;
 		PROTECT(model_m = VECTOR_ELT(modelspace, m));
 		for (i = 0; i < p; i++)  model[i] = 0;
-		for (i = 0; i < INTEGER(modeldim)[m]; i++) 
+		for (i = 0; i < INTEGER(modeldim)[m]; i++)
 			model[INTEGER(model_m)[i]] = 1;
 
 		pigamma = 0.0;
