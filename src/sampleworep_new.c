@@ -83,8 +83,9 @@ void Substract_visited_probability_mass(NODEPTR branch, struct Var *vars, int *m
 		else  branch = branch->zero;
 	}
 }
-void GetNextModel_swop(NODEPTR branch, struct Var *vars, int *model, int n, int m,  double *pigamma,
-		double problocal, SEXP modeldim,int *bestmodel) {
+void GetNextModel_swop(NODEPTR branch, struct Var *vars,
+                       int *model, int n, int m,  double *pigamma,
+                   		 double problocal, SEXP modeldim, int *bestmodel) {
 	for (int i = 0; i< n; i++) {
 		pigamma[i] = 1.0;
 		int bit =  withprob(branch->prob);
@@ -141,6 +142,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 	int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
 	int k = LENGTH(modelprobs);
 	double alpha = REAL(Ralpha)[0];
+	SEXP Rbestmodel_new = PROTECT(duplicate(Rbestmodel)); nProtected++;
 
 	int update = INTEGER(Rupdate)[0];
 	double eps = DBL_EPSILON;
@@ -173,7 +175,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 	//	Rprintf("For m=0, Initialize Tree with initial Model\n");
 
 	int m = 0;
-	int *bestmodel = INTEGER(Rbestmodel);
+	int *bestmodel = INTEGER(Rbestmodel_new);
 	for (i = n; i < p; i++)  {
 		model[vars[i].index] = bestmodel[vars[i].index];
 		INTEGER(modeldim)[m]  +=  bestmodel[vars[i].index];
