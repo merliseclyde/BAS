@@ -26,9 +26,10 @@ data("Hald")
 hald.gprior =  bas.lm(Y ~ ., data=Hald, alpha=13, prior="g-prior")
 
 # more complete demos
+\dontrun{
 demo(BAS.USCrime)
 demo(BAS.hald)
-
+}
 }
 \references{
 Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive

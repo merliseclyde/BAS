@@ -24,15 +24,15 @@
 #        if (any(is.na(pval))) {
 #            print(paste("warning full model is rank deficient."))
 #        }}
-#    
+#
     return(prob);
 }
 
 .normalize.modelprior <- function(modelprior,p) {
 	if (modelprior$family == "Bernoulli") {
-   		if (length(modelprior$hyper.parameters) == 1) 
+   		if (length(modelprior$hyper.parameters) == 1)
       		modelprior$hyper.parameters = c(1, rep(modelprior$hyper.parameters, p-1))
-    		if  (length(modelprior$hyper.parameters) == (p-1)) 
+    		if  (length(modelprior$hyper.parameters) == (p-1))
      			modelprior$hyper.parameters = c(1, modelprior$hyper.parameters)
     		if  (length(modelprior$hyper.parameters) != p)
       		stop(" Number of probabilities in Bernoulli family is not equal to the number of variables or 1")
@@ -63,9 +63,9 @@
 
 #' Bayesian Adaptive Sampling Without Replacement for Variable Selection in
 #' Linear Models
-#' 
+#'
 #' Sample without replacement from a posterior distribution on models
-#' 
+#'
 #' BAS provides several search algorithms to find high probability models for
 #' use in Bayesian Model Averaging or Bayesian model selection. For p less than
 #' 20-25, BAS can enumerate all models depending on memory availability, for
@@ -83,7 +83,7 @@
 #' include Zellner's g-prior, the Hyper-g prior (Liang et al 2008, the
 #' Zellner-Siow Cauchy prior, Empirical Bayes (local and gobal) g-priors.  AIC
 #' and BIC are also included.
-#' 
+#'
 #' @aliases bas bas.lm
 #' @param formula linear model formula for the full model with all predictors,
 #' Y ~ X.  All code assumes that an intercept will be included in each model
@@ -170,10 +170,10 @@
 #' while the former may have less variability.  May be compared via the
 #' diagnostic plot function.
 #' @return \code{bas} returns an object of class \code{bas}
-#' 
+#'
 #' An object of class \code{BAS} is a list containing at least the following
 #' components:
-#' 
+#'
 #' \item{postprob}{the posterior probabilities of the models selected}
 #' \item{priorprobs}{the prior probabilities of the models selected}
 #' \item{namesx}{the names of the variables} \item{R2}{R2 values for the
@@ -201,7 +201,7 @@
 #' \item{X}{matrix of predictors}
 #' \item{mean.x}{vector of means for each column of X (used in
 #' \code{\link{predict.bas}})}
-#' 
+#'
 #' The function \code{\link{summary.bas}}, is used to print a summary of the
 #' results. The function \code{\link{plot.bas}} is used to plot posterior
 #' distributions for the coefficients and \code{\link{image.bas}} provides an
@@ -220,53 +220,53 @@
 #' Sampling for Variable Selection and Model Averaging. Journal of
 #' Computational Graphics and Statistics.  20:80-101 \cr
 #' \url{http://dx.doi.org/10.1198/jcgs.2010.09049}
-#' 
+#'
 #' Clyde, M. and George, E. I. (2004) Model Uncertainty. Statist. Sci., 19,
 #' 81-94. \cr \url{http://dx.doi.org/10.1214/088342304000000035}
-#' 
+#'
 #' Clyde, M. (1999) Bayesian Model Averaging and Model Search Strategies (with
 #' discussion). In Bayesian Statistics 6. J.M. Bernardo, A.P. Dawid, J.O.
 #' Berger, and A.F.M. Smith eds. Oxford University Press, pages 157-185.
-#' 
+#'
 #' Hoeting, J. A., Madigan, D., Raftery, A. E. and Volinsky, C. T. (1999)
 #' Bayesian model averaging: a tutorial (with discussion). Statist. Sci., 14,
 #' 382-401. \cr
 #' \url{http://www.stat.washington.edu/www/research/online/hoeting1999.pdf}
-#' 
+#'
 #' Liang, F., Paulo, R., Molina, G., Clyde, M. and Berger, J.O. (2008) Mixtures
 #' of g-priors for Bayesian Variable Selection. Journal of the American
 #' Statistical Association.  103:410-423.  \cr
 #' \url{http://dx.doi.org/10.1198/016214507000001337}
-#' 
+#'
 #' Zellner, A. (1986) On assessing prior distributions and Bayesian regression
 #' analysis with g-prior distributions. In Bayesian Inference and Decision
 #' Techniques: Essays in Honor of Bruno de Finetti, pp. 233-243.
 #' North-Holland/Elsevier.
-#' 
+#'
 #' Zellner, A. and Siow, A. (1980) Posterior odds ratios for selected
 #' regression hypotheses. In Bayesian Statistics: Proceedings of the First
 #' International Meeting held in Valencia (Spain), pp. 585-603.
 #' @keywords regression
 #' @family bas methods
 #' @examples
-#' 
+#'
 #' library(MASS)
 #' data(UScrime)
-#' crime.bic =  bas.lm(log(y) ~ log(M) + So + log(Ed) + 
+#' crime.bic =  bas.lm(log(y) ~ log(M) + So + log(Ed) +
 #'                     log(Po1) + log(Po2) +
 #'                     log(LF) + log(M.F) + log(Pop) + log(NW) +
 #'                     log(U1) + log(U2) + log(GDP) + log(Ineq) +
-#'                     log(Prob) + log(Time), 
+#'                     log(Prob) + log(Time),
 #'                     data=UScrime, n.models=2^15, prior="BIC",
 #'                     modelprior=beta.binomial(1,1),
-#'                     initprobs= "eplogp") 
+#'                     initprobs= "eplogp")
 #' summary(crime.bic)
 #' plot(crime.bic)
 #' image(crime.bic, subset=-1)
 #' # more complete demo's
 #' demo(BAS.hald)
 #' \dontrun{demo(BAS.USCrime) }
-#' 
+#'
 #' @rdname bas.lm
 #' @family BMA functions
 #' @concept BMA
@@ -275,58 +275,58 @@
 bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
     n.models=NULL,  prior="ZS-null", alpha=NULL,
     modelprior=beta.binomial(1,1),
-    initprobs="Uniform", method="BAS", update=NULL, 
+    initprobs="Uniform", method="BAS", update=NULL,
     bestmodel=NULL, prob.local=0.0,
-    prob.rw=0.5,  
+    prob.rw=0.5,
     MCMC.iterations=NULL,
     lambda=NULL, delta=0.025, thin=1, renormalize=FALSE)  {
 
-  
+
   num.updates=10
   call = match.call()
-  
+
   # from lm
   mf <- match.call(expand.dots = FALSE)
-  m <- match(c("formula", "data", "subset", "weights", "na.action", 
+  m <- match(c("formula", "data", "subset", "weights", "na.action",
                "offset"), names(mf), 0L)
   mf <- mf[c(1L, m)]
   mf$drop.unused.levels <- TRUE
   mf[[1L]] <- quote(stats::model.frame)
   mf <- eval(mf, parent.frame())
- 
-  
+
+
   #data = model.frame(formula, data, na.action=na.action, weights=weights)
   n.NA = length(attr(mf, 'na.action'))
-  
+
   if (n.NA > 0) {
-    warning(paste("dropping ", as.character(n.NA), 
+    warning(paste("dropping ", as.character(n.NA),
                   "rows due to missing data"))
   }
-  
-  Y = model.response(mf, "numeric") 
+
+  Y = model.response(mf, "numeric")
   mt <- attr(mf, "terms")
   X = model.matrix(mt, mf, contrasts)
   #X = model.matrix(formula, mf)
-  
-  
+
+
   Xorg = X
   namesx = dimnames(X)[[2]]
   namesx[1] = "Intercept"
   n <- dim(X)[1]
-  
+
  weights=as.vector(model.weights(mf))
- if (is.null(weights)) weights = rep(1, n) 
+ if (is.null(weights)) weights = rep(1, n)
 
   if (length(weights) != n) stop(simpleError(paste("weights are of length ", length(weights), "not of length ", n)))
-  
+
   mean.x = apply(X[,-1, drop=F], 2, weighted.mean, w=weights)
   ones = X[,1]
   X = cbind(ones, sweep(X[, -1, drop=FALSE], 2, mean.x))
   p <-  dim(X)[2]  # with intercept
 
 
-  
-  
+
+
   if (n <= p) {
       if (modelprior$family == "Uniform" || modelprior$family == "Bernoulli")
           warning("Uniform prior (Bernoulli)  distribution on the Model Space are not recommended for p > n; please consider using tr.beta.binomial or power.prior instead")
@@ -344,7 +344,7 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
   }
    if (length(initprobs) == (p-1))
        initprobs = c(1.0, initprobs)
-  
+
 #   if (length(initprobs) != p)
 #    stop(simpleError(paste("length of initprobs is not", p)))
 
@@ -363,9 +363,9 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
   if (is.null(n.models)) n.models = min(2^p, 2^19)
   if (is.null(MCMC.iterations)) MCMC.iterations = as.integer(n.models*10)
   Burnin.iterations = as.integer(MCMC.iterations)
-  
+
   if (is.null(lambda)) lambda=1.0
-      
+
   prob <- .normalize.initprobs.lm(initprobs, p)
   n.models <- .normalize.n.models(n.models, p, prob, method)
 #  print(n.models)
@@ -373,15 +373,15 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
 
 
 #  if (modelprior$family == "Bernoulli") {
-#   if (length(modelprior$hyper.parameters) == 1) 
+#   if (length(modelprior$hyper.parameters) == 1)
 #      modelprior$hyper.parameters = c(1, rep(modelprior$hyper.parameters, p-1))
-#    if  (length(modelprior$hyper.parameters) == (p-1)) 
+#    if  (length(modelprior$hyper.parameters) == (p-1))
 #     modelprior$hyper.parameters = c(1, modelprior$hyper.parameters)
 #    if  (length(modelprior$hyper.parameters) != p)
 #      stop(" Number of probabilities in Bernoulli family is not equal to the number of variables or 1")
 #}
-  
-  int = TRUE  # assume that an intercept is always included 
+
+  int = TRUE  # assume that an intercept is always included
   method.num = switch(prior,
       "g-prior"=0,
       "hyper-g"=1,
@@ -396,7 +396,7 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
     )
 
   if (is.null(alpha)) {
-    alpha = switch(prior, 
+    alpha = switch(prior,
         "g-prior"=n,
         "hyper-g"=3,
         "EB-local"=2,
@@ -411,7 +411,7 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
         )
 }
 
-  if (is.null(alpha)) alpha=0.0 
+  if (is.null(alpha)) alpha=0.0
   if (is.null(bestmodel)) {
     bestmodel = as.integer(initprobs)
 }
@@ -426,51 +426,51 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
   n.models = as.integer(n.models)
 
 if (method == "AMCMC") {
-  warning("argument method='AMCMC' is deprecated as of version 1.1.0; please use method='MCMC' instead.", 
+  warning("argument method='AMCMC' is deprecated as of version 1.1.0; please use method='MCMC' instead.",
           call. = FALSE)
 }
 #  sampleprobs = as.double(rep(0.0, n.models))
   result = switch(method,
-    "BAS" = .Call(C_sampleworep,
+    "BAS" = .Call(C_sampleworep_new,
       Yvec, X, sqrt(weights),
       prob, modeldim,
-      incint=as.integer(int), 
+      incint=as.integer(int),
       alpha= as.numeric(alpha),
       method=as.integer(method.num), modelprior=modelprior,
       update=as.integer(update),
       Rbestmodel=as.integer(bestmodel),
       plocal=as.numeric(prob.local),
-      PACKAGE="BAS"), 
+      PACKAGE="BAS"),
     "MCMC+BAS"= .Call(C_mcmcbas,
       Yvec, X, sqrt(weights),
       prob, modeldim,
-      incint=as.integer(int), 
+      incint=as.integer(int),
       alpha= as.numeric(alpha),
       method=as.integer(method.num), modelprior=modelprior,
       update=as.integer(update),
       Rbestmodel=as.integer(bestmodel),
-      plocal=as.numeric(1.0 - prob.rw), as.integer(Burnin.iterations), 
+      plocal=as.numeric(1.0 - prob.rw), as.integer(Burnin.iterations),
       as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta)),
     "MCMC"= .Call(C_mcmc_new,
       Yvec, X, sqrt(weights),
       prob, modeldim,
-      incint=as.integer(int), 
+      incint=as.integer(int),
       alpha= as.numeric(alpha),
       method=as.integer(method.num), modelprior=modelprior,
       update=as.integer(update),
       Rbestmodel=as.integer(bestmodel),
-      plocal=as.numeric(1.0 - prob.rw), as.integer(Burnin.iterations), 
+      plocal=as.numeric(1.0 - prob.rw), as.integer(Burnin.iterations),
         as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta),
         as.integer(thin)),
     "AMCMC" = .Call(C_amcmc,
       Yvec, X, sqrt(weights),
       prob, modeldim,
-      incint=as.integer(int), 
+      incint=as.integer(int),
       alpha= as.numeric(alpha),
       method=as.integer(method.num), modelprior=modelprior,
       update=as.integer(update),
       Rbestmodel=as.integer(bestmodel),
-      plocal=as.numeric(1.0-prob.rw), as.integer(Burnin.iterations), 
+      plocal=as.numeric(1.0-prob.rw), as.integer(Burnin.iterations),
       as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta)),
      "deterministic" = .Call(C_deterministic,
       Yvec, X, sqrt(weights),
@@ -479,7 +479,7 @@ if (method == "AMCMC") {
       alpha= as.numeric(alpha),
       method=as.integer(method.num),modelprior=modelprior)
   )
-  
+
   result$namesx=namesx
   result$n=length(Yvec)
   result$prior=prior
@@ -487,11 +487,11 @@ if (method == "AMCMC") {
   result$alpha=alpha
   result$probne0.RN = result$probne0
   result$postprobs.RN = result$postprobs
-  
+
   if (method == "MCMC" || method == "MCMC_new" ) {
 	  result$n.models = result$n.Unique
 	  result$postprobs.MCMC = result$freq/sum(result$freq)
-	
+
 	  if (!renormalize)  {
 	    result$probne0 = result$probne0.MCMC
   	  result$postprobs = result$postprobs.MCMC
@@ -512,8 +512,8 @@ if (method == "AMCMC") {
   result$xlevels = .getXlevels(mt, mf)
   result$terms = mt
   result$model = mf
-  
+
   class(result) = c("bas")
   if (prior == "EB-global") result = EB.global(result)
-  return(result) 
+  return(result)
   }

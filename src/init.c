@@ -22,9 +22,10 @@ extern SEXP amcmc(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SE
 extern SEXP deterministic(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP mcmc_new(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP mcmcbas(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP sampleworep_new(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP sampleworep(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 
-  
+
 
 static const R_CMethodDef CEntries[] = {
   {"gexpectations_vect", (DL_FUNC) &gexpectations_vect, 11},
@@ -45,7 +46,8 @@ static const R_CallMethodDef CallEntries[] = {
   {"amcmc",             (DL_FUNC) &amcmc,             16},
   {"deterministic",     (DL_FUNC) &deterministic,      9},
   {"mcmcbas",           (DL_FUNC) &mcmcbas,           16},
-  {"sampleworep",       (DL_FUNC) &sampleworep,       12},
+  {"sampleworep_new",   (DL_FUNC) &sampleworep_new,       12},
+  {"sampleworep)",  (DL_FUNC) &sampleworep,   12},
   {NULL, NULL, 0}
 };
 
