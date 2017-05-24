@@ -176,6 +176,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 
 	int m = 0;
 	int *bestmodel = INTEGER(Rbestmodel_new);
+	REAL(logmarg)[m] = 0.0;
 	for (i = n; i < p; i++)  {
 		model[vars[i].index] = bestmodel[vars[i].index];
 		INTEGER(modeldim)[m]  +=  bestmodel[vars[i].index];
@@ -198,13 +199,18 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 	R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m);
 	gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
 	double prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
-	Rbestmarg = REAL(logmarg)[m];
+
+
 
 	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
 	SetModel(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2, m);
 	//Rprintf("model %d max logmarg %lf\n", m, REAL(logmarg)[m]);
 
+	Rbestmarg = REAL(logmarg)[m];
+
 	int *modelwork= ivecalloc(p);
+
+	// Sample models
 	for (m = 1;  m < k; m++) {
 		for (i = n; i < p; i++)  {
 			INTEGER(modeldim)[m]  +=  model[vars[i].index];
