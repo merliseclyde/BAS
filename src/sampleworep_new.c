@@ -177,6 +177,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 	int m = 0;
 	int *bestmodel = INTEGER(Rbestmodel_new);
 	REAL(logmarg)[m] = 0.0;
+
 	for (i = n; i < p; i++)  {
 		model[vars[i].index] = bestmodel[vars[i].index];
 		INTEGER(modeldim)[m]  +=  bestmodel[vars[i].index];

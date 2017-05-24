@@ -45,9 +45,10 @@
 #' hald.gprior =  bas.lm(Y ~ ., data=Hald, alpha=13, prior="g-prior")
 #'
 #' # more complete demos
+#'
+#'demo(BAS.hald)
 #' \dontrun{
 #' demo(BAS.USCrime)
-#' demo(BAS.hald)
 #' }
 #' @import stats
 #' @import graphics

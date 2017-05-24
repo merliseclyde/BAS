@@ -2,11 +2,11 @@
 
 ## Updates
 
-*  Added force.heredity.interaction function to allow higher order interactions to be included only if their "parents" or lower order interactions or main effects were included.   Currently tested with two way interactions.  This is implemented post-sampling; future updates will add this at the sampling stage which will reduce memory usage and sampling times by reducing the number of models under consideration.
+*  Added force.heredity.interaction function to allow higher order interactions to be included only if their "parents" or lower order interactions or main effects were included.   Currently tested with two way interactions.  This is implemented post-sampling; future  updates will add this at the sampling stage which will reduce memory usage and sampling times by reducing the number of models under consideration.
 
 ## Bugs
 
-* Fixed unprotected ANS in C code after call to PutRNGstate
+* Fixed unprotected ANS in C code after call to PutRNGstate and other uninitialized variable
 * Fixed problem with predict for estimator=BPM when newdata was one row
 
 #  BAS 1.4.5 March 28, 2017
