@@ -392,9 +392,11 @@ extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmod
 
     /* Now get model specific calculations */
 
-      PROTECT(Rmodel_m = allocVector(INTSXP, pmodel));
-      model_m = INTEGER(Rmodel_m);
     /* initialize */
+      Rmodel_m = PROTECT(allocVector(INTSXP, pmodel));
+      memset(INTEGER(Rmodel_m), 0, pmodel * sizeof(int));
+      model_m = INTEGER(Rmodel_m);
+
       for (j = 0; j < pmodel; j++) model_m[j] = 0;
     /* update */
 
