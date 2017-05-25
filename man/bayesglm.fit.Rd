@@ -62,7 +62,7 @@ likelihood of model using a Laplace approximation.
 
 require(MASS)
 library(MASS)
-Pima.tr
+data(Pima.tr)
 Y = as.numeric(Pima.tr$type) - 1
 X = cbind(1, as.matrix(Pima.tr[,1:7]))
 out = bayesglm.fit(X, Y, family=binomial(),coefprior=bic.prior(n=length(Y)))
