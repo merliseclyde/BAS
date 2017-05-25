@@ -148,7 +148,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 	double eps = DBL_EPSILON;
 	double problocal = REAL(plocal)[0];
 
-	memset(INTEGER(modeldim), 1, k*sizeof(int));
+//	memset(INTEGER(modeldim), 1, k*sizeof(int));
 	Ywork = REAL(RYwork);
 	Xwork = REAL(RXwork);
 	wts = REAL(Rweights);
@@ -228,6 +228,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 
 		/* Now get model specific calculations */
 		pmodel = INTEGER(modeldim)[m];
+		if (pmodel < 1) Rprintf("%f\n", pmodel);
 		SEXP Rmodel_m = PROTECT(NEW_INTEGER(pmodel));
 		memset(INTEGER(Rmodel_m), 0, pmodel * sizeof(int));
 		PROTECT(Rcoef_m = NEW_NUMERIC(pmodel));
