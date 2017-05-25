@@ -215,6 +215,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 
 	// Sample models
 	for (m = 1;  m < k; m++) {
+	  INTEGER(modeldim)[m] = 0;
 		for (i = n; i < p; i++)  {
 			INTEGER(modeldim)[m]  +=  model[vars[i].index];
 		}
