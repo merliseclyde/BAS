@@ -135,7 +135,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 	SEXP sampleprobs = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 
 	double *Xwork, *Ywork, *wts, *probs, shrinkage_m, mse_m, R2_m, RSquareFull, Rbestmarg, logmargy;
-	int i;
+	int i, *model_m, *bestmodel;
 
 	//get dimsensions of all variables
 	int nobs = LENGTH(Y);
@@ -176,8 +176,9 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 	//	Rprintf("For m=0, Initialize Tree with initial Model\n");
 
 	int m = 0;
-	int *bestmodel = INTEGER(Rbestmodel_new);
+	bestmodel = INTEGER(Rbestmodel_new);
 	REAL(logmarg)[m] = 0.0;
+	INTEGER(modeldim)[m] = 0;
 
 	for (i = n; i < p; i++)  {
 		model[vars[i].index] = bestmodel[vars[i].index];
@@ -193,12 +194,13 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 
 	int pmodel = INTEGER(modeldim)[m];
 
-	SEXP Rmodel_m = PROTECT(NEW_INTEGER(pmodel));
+	SEXP Rmodel_m;
+	PROTECT(Rmodel_m = NEW_INTEGER(pmodel));
 	memset(INTEGER(Rmodel_m), 0, pmodel * sizeof(int));
 	PROTECT(Rcoef_m = NEW_NUMERIC(pmodel));
 	PROTECT(Rse_m = NEW_NUMERIC(pmodel));
-  GetModel_m(Rmodel_m, model, p);
-  int *model_m = INTEGER(Rmodel_m);
+  model_m = GetModel_m(Rmodel_m, model, p);
+
 	R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m);
 	gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
 	double prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
