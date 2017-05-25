@@ -40,7 +40,7 @@
 #' @references \code{\link{glm}}
 #' @keywords regression GLM
 #' @examples
-#'
+#'\dontrun{
 #' require(MASS)
 #' library(MASS)
 #' data(Pima.tr)
@@ -51,9 +51,9 @@
 #' out$se
 #' # using built in function
 #' glm(type ~ ., family=binomial(), data=Pima.tr)
+#'}
 #'
 #'
-#' @export
 bayesglm.fit <-
 function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
             mustart = NULL, offset = rep(0, nobs), family = binomial(),

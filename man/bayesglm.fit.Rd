@@ -59,7 +59,7 @@ C version of glm-fit.  For different prior choices returns, marginal
 likelihood of model using a Laplace approximation.
 }
 \examples{
-
+\dontrun{
 require(MASS)
 library(MASS)
 data(Pima.tr)
@@ -70,6 +70,7 @@ out$coef
 out$se
 # using built in function
 glm(type ~ ., family=binomial(), data=Pima.tr)
+}
 
 
 }
