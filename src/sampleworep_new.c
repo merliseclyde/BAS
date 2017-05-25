@@ -28,6 +28,8 @@ void SetModel2(double logmargy, double shrinkage_m, double prior_m,
 			  SEXP sampleprobs, SEXP logmarg, SEXP shrinkage, SEXP priorprobs, int m);
 void SetModel(SEXP Rcoef_m, SEXP Rse_m, SEXP Rmodel_m, double mse_m, double R2_m,
 			  SEXP beta, SEXP se, SEXP modelspace, SEXP mse, SEXP R2, int m);
+void SetModel_lm(SEXP Rcoef_m, SEXP Rse_m, SEXP Rmodel_m, double mse_m, double R2_m,
+              SEXP beta, SEXP se, SEXP modelspace, SEXP mse, SEXP R2, int m);
 
 void CreateTree_with_pigamma(NODEPTR branch, struct Var *vars, int *bestmodel, int *model, int n, int m, SEXP modeldim, double *pigamma) {
 	for (int i = 0; i< n; i++) {
@@ -195,7 +197,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 	int pmodel = INTEGER(modeldim)[m];
 
 	SEXP Rmodel_m;
-	PROTECT(Rmodel_m = NEW_INTEGER(pmodel));
+	PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
 	memset(INTEGER(Rmodel_m), 0, pmodel * sizeof(int));
 	PROTECT(Rcoef_m = NEW_NUMERIC(pmodel));
 	PROTECT(Rse_m = NEW_NUMERIC(pmodel));
@@ -208,9 +210,9 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 
 
 	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
-	SetModel(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2, m);
+	SetModel_lm(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2, m);
 	//Rprintf("model %d max logmarg %lf\n", m, REAL(logmarg)[m]);
-
+  UNPROTECT(3);
 	Rbestmarg = REAL(logmarg)[m];
 
 	int *modelwork= ivecalloc(p);
@@ -231,8 +233,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 
 		/* Now get model specific calculations */
 		pmodel = INTEGER(modeldim)[m];
-		if (pmodel < 1) Rprintf("%f\n", pmodel);
-		PROTECT(Rmodel_m = NEW_INTEGER(pmodel));
+		PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
 		memset(INTEGER(Rmodel_m), 0, pmodel * sizeof(int));
 		PROTECT(Rcoef_m = NEW_NUMERIC(pmodel));
 		PROTECT(Rse_m = NEW_NUMERIC(pmodel));
@@ -242,7 +243,9 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 		gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
 		prior_m = compute_prior_probs(model,pmodel,p, modelprior);
 		SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
-		SetModel(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2,m);
+		SetModel_lm(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2,m);
+	  UNPROTECT(3);
+
 		REAL(sampleprobs)[m] = pigamma[0];
 
 		//update best model
