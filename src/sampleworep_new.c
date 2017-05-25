@@ -162,7 +162,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 	probs =  REAL(Rprobs);
 	int n = sortvars(vars, probs, p);
 
-	SEXP  Rse_m = NULL, Rcoef_m = NULL;
+	SEXP  Rse_m = NULL, Rcoef_m = NULL, Rmodel_m = NULL;
 	RSquareFull = CalculateRSquareFull(XtY, XtX, XtXwork, XtYwork, Rcoef_m, Rse_m, p, nobs, yty, SSY);
 
 	int *model = ivecalloc(p);
@@ -196,9 +196,9 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 
 	int pmodel = INTEGER(modeldim)[m];
 
-	SEXP Rmodel_m;
+
 	PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
-	memset(INTEGER(Rmodel_m), 0, pmodel * sizeof(int));
+	//memset(INTEGER(Rmodel_m), 0, pmodel * sizeof(int));
 	PROTECT(Rcoef_m = NEW_NUMERIC(pmodel));
 	PROTECT(Rse_m = NEW_NUMERIC(pmodel));
   model_m = GetModel_m(Rmodel_m, model, p);
