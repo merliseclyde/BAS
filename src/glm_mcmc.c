@@ -194,79 +194,86 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_STRING_ELT(ANS_names, 0, mkChar("probne0"));
 
 	if (nUnique < nModels) {
-		SEXP modelspaceP = PROTECT(allocVector(VECSXP, nUnique)); ++nProtected;
+		SEXP modelspaceP = PROTECT(allocVector(VECSXP, nUnique));
 		for (i =0; i < nUnique; i++) {
 			SEXP model_temp = PROTECT(VECTOR_ELT(modelspace, i));
 			SET_ELEMENT(modelspaceP, i, model_temp);
 			UNPROTECT(1);
 		}
 		SET_VECTOR_ELT(ANS, 1, modelspaceP);
+		UNPROTECT(1);
 	} else {
 		SET_VECTOR_ELT(ANS, 1, modelspace);
 	}
 	SET_STRING_ELT(ANS_names, 1, mkChar("which"));
 
 	if (nUnique < nModels) {
-		SEXP logmargP = PROTECT(allocVector(REALSXP, nUnique)); ++nProtected;
+		SEXP logmargP = PROTECT(allocVector(REALSXP, nUnique));
 		for (i =0; i < nUnique; i++) {
 			REAL(logmargP)[i] = REAL(logmarg)[i];
 		}
 		SET_VECTOR_ELT(ANS, 2, logmargP);
-
+		UNPROTECT(1);
 	} else {
 		SET_VECTOR_ELT(ANS, 2, logmarg);
 	}
 	SET_STRING_ELT(ANS_names, 2, mkChar("logmarg"));
 
 	if (nUnique < nModels) {
-		SEXP modelprobsP = PROTECT(allocVector(REALSXP, nUnique)); ++nProtected;
+		SEXP modelprobsP = PROTECT(allocVector(REALSXP, nUnique));
 		for (i =0; i < nUnique; i++) {
 			REAL(modelprobsP)[i] = REAL(modelprobs)[i];
 		}
 		SET_VECTOR_ELT(ANS, 3, modelprobsP);
+		UNPROTECT(1);
 	} else {
 		SET_VECTOR_ELT(ANS, 3, modelprobs);
 	}
 	SET_STRING_ELT(ANS_names, 3, mkChar("postprobs"));
 
 	if (nUnique < nModels) {
-		SEXP priorprobsP = PROTECT(allocVector(REALSXP, nUnique)); ++nProtected;
+		SEXP priorprobsP = PROTECT(allocVector(REALSXP, nUnique));
 		for (i =0; i < nUnique; i++) {
 			REAL(priorprobsP)[i] = REAL(priorprobs)[i];
 		}
 		SET_VECTOR_ELT(ANS, 4, priorprobsP);
+		UNPROTECT(1);
 	} else {
 		SET_VECTOR_ELT(ANS, 4, priorprobs);
 	}
 	SET_STRING_ELT(ANS_names, 4, mkChar("priorprobs"));
 
 	if (nUnique < nModels) {
-		SEXP sampleprobsP = PROTECT(allocVector(REALSXP, nUnique));  ++nProtected;
+		SEXP sampleprobsP = PROTECT(allocVector(REALSXP, nUnique));
 		for (i =0; i < nUnique; i++) {
 			REAL(sampleprobsP)[i] = REAL(sampleprobs)[i];
 		}
 		SET_VECTOR_ELT(ANS, 5, sampleprobsP);
+		UNPROTECT(1);
 	} else {
 		SET_VECTOR_ELT(ANS, 5, sampleprobs);
 	}
 	SET_STRING_ELT(ANS_names, 5, mkChar("sampleprobs"));
 
 	if (nUnique < nModels) {
-		SEXP devianceP = PROTECT(allocVector(REALSXP, nUnique));   ++nProtected;
+		SEXP devianceP = PROTECT(allocVector(REALSXP, nUnique));
 		for (i =0; i < nUnique; i++) {
 			REAL(devianceP)[i] = REAL(deviance)[i];
 		}
 		SET_VECTOR_ELT(ANS, 6, devianceP);
-	} else {
+		UNPROTECT(1);
+	  }
+	else {
 		SET_VECTOR_ELT(ANS, 6, deviance);
 	}
 	SET_STRING_ELT(ANS_names, 6, mkChar("deviance"));
 
 	if (nUnique < nModels) {
-		SEXP betaP = PROTECT(allocVector(VECSXP, nUnique));   ++nProtected;
+		SEXP betaP = PROTECT(allocVector(VECSXP, nUnique));
 		for (i =0; i < nUnique; i++) {
 			SEXP beta_temp = PROTECT(VECTOR_ELT(beta, i));
 			SET_ELEMENT(betaP, i, beta_temp);
+			UNPROTECT(1);
 		}
 		SET_VECTOR_ELT(ANS, 7, betaP);
 		UNPROTECT(1);
@@ -276,88 +283,80 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_STRING_ELT(ANS_names, 7, mkChar("mle"));
 
 	if (nUnique < nModels) {
-		SEXP seP = PROTECT(allocVector(VECSXP, nUnique));  ++nProtected;
+		SEXP seP = PROTECT(allocVector(VECSXP, nUnique));
 		for (i =0; i < nUnique; i++) {
 			SEXP se_temp = PROTECT(VECTOR_ELT(se, i));
 			SET_ELEMENT(seP, i, se_temp);
 			UNPROTECT(1);
 		}
 		SET_VECTOR_ELT(ANS, 8, seP);
+		UNPROTECT(1);
 	} else {
 		SET_VECTOR_ELT(ANS, 8, se);
 	}
 	SET_STRING_ELT(ANS_names, 8, mkChar("mle.se"));
 
 	if (nUnique < nModels) {
-		SEXP shrinkageP = PROTECT(allocVector(REALSXP, nUnique));  ++nProtected;
+		SEXP shrinkageP = PROTECT(allocVector(REALSXP, nUnique));
 		for (i =0; i < nUnique; i++) {
 			REAL(shrinkageP)[i] = REAL(shrinkage)[i];
 		}
 		SET_VECTOR_ELT(ANS, 9, shrinkageP);
+		UNPROTECT(1);
 	} else {
 		SET_VECTOR_ELT(ANS, 9, shrinkage);
 	}
 	SET_STRING_ELT(ANS_names, 9, mkChar("shrinkage"));
 
 	if (nUnique < nModels) {
-		SEXP modeldimP = PROTECT(allocVector(INTSXP, nUnique));  ++nProtected;
+		SEXP modeldimP = PROTECT(allocVector(INTSXP, nUnique));
 		for (i =0; i < nUnique; i++) {
 			INTEGER(modeldimP)[i] = INTEGER(modeldim)[i];
 		}
 		SET_VECTOR_ELT(ANS, 10, modeldimP);
-	} else {
-		SET_VECTOR_ELT(ANS, 10, modeldim);
-	}
-	SET_STRING_ELT(ANS_names, 10, mkChar("size"));
 
-	if (nUnique < nModels) {
-		SEXP R2P = PROTECT(allocVector(REALSXP, nUnique));  ++nProtected;
+		SEXP R2P = PROTECT(allocVector(REALSXP, nUnique));
 		for (i =0; i < nUnique; i++) {
-			REAL(R2P)[i] = REAL(R2)[i];
+		  REAL(R2P)[i] = REAL(R2)[i];
 		}
 		SET_VECTOR_ELT(ANS, 11, R2P);
-	} else {
-		SET_VECTOR_ELT(ANS, 11, R2);
-	}
-	SET_STRING_ELT(ANS_names, 11, mkChar("R2"));
 
-	if (nUnique < nModels) {
-		SEXP countsP = PROTECT(allocVector(INTSXP, nUnique));  ++nProtected;
+		SEXP countsP = PROTECT(allocVector(INTSXP, nUnique));
 		for (i =0; i < nUnique; i++) {
-			INTEGER(countsP)[i] = INTEGER(counts)[i];
+		  INTEGER(countsP)[i] = INTEGER(counts)[i];
 		}
 		SET_VECTOR_ELT(ANS, 12, countsP);
-	} else {
-		SET_VECTOR_ELT(ANS, 12, counts);
-	}
-	SET_STRING_ELT(ANS_names, 12, mkChar("freq"));
 
-	SET_VECTOR_ELT(ANS, 13, MCMCprobs);
-	SET_STRING_ELT(ANS_names, 13, mkChar("probne0.MCMC"));
-
-	SET_VECTOR_ELT(ANS, 14, NumUnique);
-	SET_STRING_ELT(ANS_names, 14, mkChar("n.Unique"));
-
-	if (nUnique < nModels) {
-		SEXP QP = PROTECT(allocVector(REALSXP, nUnique));  ++nProtected;
+		SEXP QP = PROTECT(allocVector(REALSXP, nUnique));
 		for (i =0; i < nUnique; i++) {
-			REAL(QP)[i] = REAL(Q)[i];
+		  REAL(QP)[i] = REAL(Q)[i];
 		}
 		SET_VECTOR_ELT(ANS, 15, QP);
-	} else {
-		SET_VECTOR_ELT(ANS, 15, Q);
-	}
-	SET_STRING_ELT(ANS_names, 15, mkChar("Q"));
 
-	if (nUnique < nModels) {
-		SEXP RinterceptP = PROTECT(allocVector(REALSXP, nUnique));   ++nProtected;
+		SEXP RinterceptP = PROTECT(allocVector(REALSXP, nUnique));
 		for (i =0; i < nUnique; i++) {
-			REAL(RinterceptP)[i] = REAL(Rintercept)[i];
+		  REAL(RinterceptP)[i] = REAL(Rintercept)[i];
 		}
 		SET_VECTOR_ELT(ANS, 16, RinterceptP);
-	} else {
-		SET_VECTOR_ELT(ANS, 16, Rintercept);
+		UNPROTECT(5);
+		}
+		else {
+		SET_VECTOR_ELT(ANS, 10, modeldim);
+	  SET_VECTOR_ELT(ANS, 11, R2);
+	  SET_VECTOR_ELT(ANS, 12, counts);
+	  SET_VECTOR_ELT(ANS, 15, Q);
+	  SET_VECTOR_ELT(ANS, 16, Rintercept);
 	}
+
+	SET_VECTOR_ELT(ANS, 13, MCMCprobs);
+	SET_VECTOR_ELT(ANS, 14, NumUnique);
+
+	SET_STRING_ELT(ANS_names, 10, mkChar("size"));
+	SET_STRING_ELT(ANS_names, 11, mkChar("R2"));
+	SET_STRING_ELT(ANS_names, 12, mkChar("freq"));
+	SET_STRING_ELT(ANS_names, 13, mkChar("probne0.MCMC"));
+	SET_STRING_ELT(ANS_names, 14, mkChar("n.Unique"));
+	SET_STRING_ELT(ANS_names, 15, mkChar("Q"));
 	SET_STRING_ELT(ANS_names, 16, mkChar("intercept"));
 
 	setAttrib(ANS, R_NamesSymbol, ANS_names);

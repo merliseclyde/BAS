@@ -163,7 +163,10 @@ are mixtures of g-priors that provide approximations to the power prior.
 library(MASS)
 data(Pima.tr)
 
-pima.cch = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7, method="BAS",
+
+# enumeration  with default method="BAS"
+pima.cch = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
+              method="BAS",
               betaprior=CCH(a=1, b=532/2, s=0), family=binomial(),
               modelprior=beta.binomial(1,1))
 
@@ -171,12 +174,12 @@ summary(pima.cch)
 image(pima.cch)
 
 pima.robust = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
-              method="BAS",
+              method="MCMC", MCMC.iterations=20000,
               betaprior=robust(), family=binomial(),
               modelprior=beta.binomial(1,1))
 
 pima.BIC = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
-              method="BAS",
+              method="BAS+MCMC", MCMC.iterations=1000,
               betaprior=bic.prior(), family=binomial(),
               modelprior=uniform())
 

@@ -9,9 +9,9 @@
 
 .normalize.modelprior <- function(modelprior,p) {
 	if (modelprior$family == "Bernoulli") {
-   		if (length(modelprior$hyper.parameters) == 1) 
+   		if (length(modelprior$hyper.parameters) == 1)
       		modelprior$hyper.parameters = c(1, rep(modelprior$hyper.parameters, p-1))
-    		if  (length(modelprior$hyper.parameters) == (p-1)) 
+    		if  (length(modelprior$hyper.parameters) == (p-1))
      			modelprior$hyper.parameters = c(1, modelprior$hyper.parameters)
     		if  (length(modelprior$hyper.parameters) != p)
       		stop(" Number of probabilities in Bernoulli family is not equal to the number of variables or 1")
@@ -69,9 +69,9 @@
 
 #' Bayesian Adaptive Sampling Without Replacement for Variable Selection in
 #' Generalized Linear Models
-#' 
+#'
 #' Sample with or without replacement from a posterior distribution on GLMs
-#' 
+#'
 #' BAS provides several search algorithms to find high probability models for
 #' use in Bayesian Model Averaging or Bayesian model selection. For p less than
 #' 20-25, BAS can enumerate all models depending on memory availability, for
@@ -87,7 +87,7 @@
 #' other algorithms to identify high probability models and works well if the
 #' correlations of variables are small to modest.  The priors on coefficients
 #' are mixtures of g-priors that provide approximations to the power prior.
-#' 
+#'
 #' @param formula generalized linear model formula for the full model with all
 #' predictors, Y ~ X.  All code assumes that an intercept will be included in
 #' each model.
@@ -170,10 +170,10 @@
 #' should be based on renormalizing marginal likelihoods times prior
 #' probabilities or use Monte Carlo frequencies. Applies only to MCMC sampling
 #' @return \code{bas.glm} returns an object of class \code{basglm}
-#' 
+#'
 #' An object of class \code{basglm} is a list containing at least the following
 #' components:
-#' 
+#'
 #' \item{postprobs}{the posterior probabilities of the models selected}
 #' \item{priorprobs}{the prior probabilities of the models selected}
 #' \item{logmarg}{values of the log of the marginal likelihood for the models}
@@ -196,39 +196,42 @@
 #' Li
 #' @references Li, Y. and Clyde, M. (2015) Mixtures of g-priors in Generalized
 #' Linear Models. \url{http://arxiv.org/abs/1503.06913}
-#' 
+#'
 #' Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive Sampling for
 #' Variable Selection and Model Averaging. Journal of Computational Graphics
 #' and Statistics.  20:80-101 \cr
 #' \url{http://dx.doi.org/10.1198/jcgs.2010.09049}
-#' 
+#'
 #' Raftery, A.E, Madigan, D. and Hoeting, J.A. (1997) Bayesian Model Averaging
 #' for Linear Regression Models. Journal of the American Statistical
 #' Association.
 #' @keywords GLM regression
 #' @examples
-#' 
+#'
 #' library(MASS)
 #' data(Pima.tr)
-#' 
-#' pima.cch = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7, method="BAS",
+#'
+#'
+#' # enumeration  with default method="BAS"
+#' pima.cch = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
+#'               method="BAS",
 #'               betaprior=CCH(a=1, b=532/2, s=0), family=binomial(),
 #'               modelprior=beta.binomial(1,1))
-#' 
+#'
 #' summary(pima.cch)
 #' image(pima.cch)
-#' 
+#'
 #' pima.robust = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
-#'               method="BAS",
+#'               method="MCMC", MCMC.iterations=20000,
 #'               betaprior=robust(), family=binomial(),
 #'               modelprior=beta.binomial(1,1))
-#' 
+#'
 #' pima.BIC = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
-#'               method="BAS",
+#'               method="BAS+MCMC", MCMC.iterations=1000,
 #'               betaprior=bic.prior(), family=binomial(),
 #'               modelprior=uniform())
-#' 
-#' 
+#'
+#'
 #' @concept BMA
 #' @concept variable selection
 #' @family BMA functions
@@ -239,43 +242,43 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
     n.models=NULL,
     betaprior=CCH(alpha=.5, beta=nrow(data), s=0),
     modelprior=beta.binomial(1,1),
-    initprobs="Uniform", 
-    method="MCMC", 
-    update=NULL, 
-    bestmodel=NULL, 
-    prob.rw=0.5,  
+    initprobs="Uniform",
+    method="MCMC",
+    update=NULL,
+    bestmodel=NULL,
+    prob.rw=0.5,
     MCMC.iterations=NULL,
     control = glm.control(),  laplace=FALSE,  renormalize=FALSE
                   )  {
     num.updates=10
     call = match.call()
-   
-    if (is.character(family)) 
+
+    if (is.character(family))
       family <- get(family, mode = "function", envir = parent.frame())
-    if (is.function(family)) 
+    if (is.function(family))
       family <- family()
     if (is.null(family$family)) {
       print(family)
       stop("'family' not recognized")
     }
-    if (missing(data)) 
+    if (missing(data))
       data <- environment(formula)
-   
-    #browser() 
+
+    #browser()
     mf <- match.call(expand.dots = FALSE)
-    m <- match(c("formula", "data", "subset", "weights", "na.action", 
+    m <- match(c("formula", "data", "subset", "weights", "na.action",
                  "etastart", "mustart", "offset"), names(mf), 0L)
     mf <- mf[c(1L, m)]
     mf$drop.unused.levels <- TRUE
     mf[[1L]] <- quote(stats::model.frame)
-    mf <- eval(mf, parent.frame())  
+    mf <- eval(mf, parent.frame())
     n.NA = length(attr(mf, 'na.action'))
-    
+
     if (n.NA > 0) {
-      warning(paste("dropping ", as.character(n.NA), 
+      warning(paste("dropping ", as.character(n.NA),
                     "rows due to missing data"))
     }
-    
+
     Y = model.response(mf, type="any")
     mt <- attr(mf, "terms")
     X = model.matrix(mt, mf, contrasts)
@@ -283,33 +286,33 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
     #    Y = glm.obj$y
     #    X = glm.obj$x
     namesx = dimnames(X)[[2]]
-    namesx[1] = "Intercept" 
+    namesx[1] = "Intercept"
     p = dim(X)[2]
     nobs = dim(X)[1]
-    
+
 #   weights = as.vector(model.weights(mf))
-   
+
    weights=  as.vector(model.weights(mf))
    if (is.null(weights)) {weights = rep(1, nobs)}
-    
-   offset = model.offset(mf)  
+
+   offset = model.offset(mf)
    if (is.null(offset))  offset = rep(0, nobs)
-  
+
  #  browser()
  glm.obj = glm(Y ~ X[,-1],family = family, weights=weights, offset=offset, y=T, x=T)
-  
+
  Y = glm.obj$y
-  
+
   prob <- .normalize.initprobs(initprobs, glm.obj)
 	n.models <- .normalize.n.models(n.models, p, prob, method)
 	modelprior <- .normalize.modelprior(modelprior,p)
-  	
-  	
-  	#int = TRUE  # assume that an intercept is always included 
+
+
+  	#int = TRUE  # assume that an intercept is always included
     	if (is.null(bestmodel)) {
     		bestmodel = as.integer(prob)
 	}
-	
+
   	if (is.null(update)) {
     		if (n.models == 2^(p-1))  update = n.models+1
                 else (update = n.models/num.updates)
@@ -320,13 +323,13 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
   	modeldim = as.integer(rep(0, n.models))
   	n.models = as.integer(n.models)
     if (is.null(MCMC.iterations)) MCMC.iterations = as.integer(2*n.models)
-	  
-#  check on priors  	
+
+#  check on priors
   	loglik_null =  as.numeric(-0.5*glm(Y ~ 1, weights=weights, offset=offset,
   	                                   family=eval(call$family))$null.deviance)
   	betaprior$hyper.parameters$loglik_null = loglik_null
 #  	browser()
-  	
+
     if (betaprior$family == "BIC" & is.null(betaprior$n))  betaprior= bic.prior(nobs)
   	if (betaprior$family== "hyper-g/n" & is.null(betaprior$n)) {
   	  betaprior$hyper.parameters$theta = 1/nobs
@@ -334,12 +337,12 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
   	}
   	if (betaprior$family == "robust"  & is.null(betaprior$n)) betaprior=robust(as.numeric(nobs))
 
-  
+
 	#save(list = ls(), file = "temp.RData")
   result = switch(method,
     		"MCMC"= .Call(C_glm_mcmc,
                     Y = Yvec, X = X,
-                    Roffset = as.numeric(offset), Rweights = as.numeric(weights), 
+                    Roffset = as.numeric(offset), Rweights = as.numeric(weights),
                     Rprobinit = prob, Rmodeldim = modeldim,
                     modelprior= modelprior, betaprior=betaprior,
                     Rbestmodel= bestmodel,
@@ -372,7 +375,7 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
       		modelprior = modelprior,  betaprior = betaprior,
 			family = family, Rcontrol = control, Rlaplace=as.integer(laplace))
   	)
-	
+
   	result$namesx=namesx
   	result$n=length(Yvec)
   	result$modelprior=modelprior
@@ -381,14 +384,14 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
   	result$family = family
   	result$betaprior=betaprior
   	result$modelprior=modelprior
-  	
- 
+
+
 
   	if (method == "MCMC") { result$n.models = result$n.Unique }
   	else  {result$n.models = n.models}
-  	
+
   	df = rep(nobs - 1, result$n.models)
-  	
+
   	if (betaprior$class == "IC") df = df - result$size + 1
   	result$df = df
     result$R2 = .R2.glm.bas(result$deviance, result$size, call)
@@ -400,20 +403,20 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
     result$contrasts=attr(X, "contrasts")
     result$xlevels = .getXlevels(mt, mf)
     result$model = mf
-    
+
     # drop null model
     if (betaprior$family == "Jeffreys") result = .drop.null.bas(result)
- 
-    if (method == "MCMC") { 
+
+    if (method == "MCMC") {
       result$postprobs.MCMC = result$freq/sum(result$freq)
       if (!renormalize)  {
         result$probne0 = result$probne0.MCMC
         result$postprobs = result$postprobs.MCMC
       }
     }
-      
+
     class(result) = c("basglm","bas")
-    return(result) 
+    return(result)
 }
 
 # Drop the null model from Jeffrey's prior
@@ -430,7 +433,7 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
   postprobs = .renormalize.postprobs(logmarg, log(prior))
   which = which.matrix(object$which[-drop], object$n.var)
 
-  object$probne0 = postprobs %*% which 
+  object$probne0 = postprobs %*% which
   object$postprobs=postprobs
 
   method = eval(object$call$method)
@@ -451,7 +454,7 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
  object$mle = object$mle[-drop]
  object$mle.se = object$mle.se[-drop]
  object$shrinkage = object$shrinkage[-drop]
- object$n.models = n.models - 1    
+ object$n.models = n.models - 1
  object$df = object$df[-drop]
 return(object)
 }

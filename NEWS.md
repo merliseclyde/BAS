@@ -6,8 +6,10 @@
 
 ## Bugs
 
-* Fixed unprotected ANS in C code after call to PutRNGstate and other uninitialized variable
-* Fixed problem with predict for estimator=BPM when newdata was one row
+* Fixed unprotected ANS in C code in glm_sampleworep.c and sampleworep.c after call to PutRNGstate and possible stack imbalance in glm_mcmc  identified by [rchk](https://raw.githubusercontent.com/kalibera/cran-checks/master/rchk/results/BAS.out)
+
+* Fixed problem with predict for estimator=BPM when newdata was one row 
+
 
 #  BAS 1.4.5 March 28, 2017
 
