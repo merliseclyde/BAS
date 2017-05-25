@@ -1,5 +1,5 @@
 /* version  5/20/2005 */
-/* Rsample.c progrma for sampling without replacement in R  MC 11/2002 */
+/* Rsample.c program for sampling without replacement in R  MC 11/2002 */
 /* based on sim.c: program for running simulations with random and
 deterministic sampling. ML 6/97. */
 /*  top-k.c: Michael Littman, Sun Dec 15 19:29:05 EST 1996
@@ -191,8 +191,9 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 	Substract_visited_probability_mass(branch, vars, model, n, m, pigamma,eps);
 
 	int pmodel = INTEGER(modeldim)[m];
-	SEXP Rmodel_m;
-	PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
+
+	SEXP Rmodel_m = PROTECT(NEW_INTEGER(pmodel));
+	memset(INTEGER(Rmodel_m), 0, pmodel * sizeof(int));
 	PROTECT(Rcoef_m = NEW_NUMERIC(pmodel));
 	PROTECT(Rse_m = NEW_NUMERIC(pmodel));
 	int *model_m = GetModel_m(Rmodel_m, model, p);
@@ -226,10 +227,12 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 
 		/* Now get model specific calculations */
 		pmodel = INTEGER(modeldim)[m];
-		PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
+		SEXP Rmodel_m = PROTECT(NEW_INTEGER(pmodel));
+		memset(INTEGER(Rmodel_m), 0, pmodel * sizeof(int));
 		PROTECT(Rcoef_m = NEW_NUMERIC(pmodel));
 		PROTECT(Rse_m = NEW_NUMERIC(pmodel));
-		model_m = GetModel_m(Rmodel_m, model, p);
+		int *model_m = GetModel_m(Rmodel_m, model, p);
+
 		R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m);
 		gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
 		prior_m = compute_prior_probs(model,pmodel,p, modelprior);
