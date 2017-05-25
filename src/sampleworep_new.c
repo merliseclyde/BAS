@@ -232,12 +232,11 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 		/* Now get model specific calculations */
 		pmodel = INTEGER(modeldim)[m];
 		if (pmodel < 1) Rprintf("%f\n", pmodel);
-		SEXP Rmodel_m = PROTECT(NEW_INTEGER(pmodel));
+		PROTECT(Rmodel_m = NEW_INTEGER(pmodel));
 		memset(INTEGER(Rmodel_m), 0, pmodel * sizeof(int));
 		PROTECT(Rcoef_m = NEW_NUMERIC(pmodel));
 		PROTECT(Rse_m = NEW_NUMERIC(pmodel));
-		GetModel_m(Rmodel_m, model, p);
-    int *model_m = INTEGER(Rmodel_m);
+		model_m = GetModel_m(Rmodel_m, model, p);
 
 		R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m);
 		gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
