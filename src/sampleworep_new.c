@@ -148,6 +148,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 	double eps = DBL_EPSILON;
 	double problocal = REAL(plocal)[0];
 
+	memset(INTEGER(modeldim), 1, k*sizeof(int));
 	Ywork = REAL(RYwork);
 	Xwork = REAL(RXwork);
 	wts = REAL(Rweights);
@@ -196,8 +197,8 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 	memset(INTEGER(Rmodel_m), 0, pmodel * sizeof(int));
 	PROTECT(Rcoef_m = NEW_NUMERIC(pmodel));
 	PROTECT(Rse_m = NEW_NUMERIC(pmodel));
-	int *model_m = GetModel_m(Rmodel_m, model, p);
-
+  GetModel_m(Rmodel_m, model, p);
+  int *model_m = INTEGER(Rmodel_m);
 	R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m);
 	gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
 	double prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
@@ -231,7 +232,8 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 		memset(INTEGER(Rmodel_m), 0, pmodel * sizeof(int));
 		PROTECT(Rcoef_m = NEW_NUMERIC(pmodel));
 		PROTECT(Rse_m = NEW_NUMERIC(pmodel));
-		int *model_m = GetModel_m(Rmodel_m, model, p);
+		GetModel_m(Rmodel_m, model, p);
+    int *model_m = INTEGER(Rmodel_m);
 
 		R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m);
 		gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
