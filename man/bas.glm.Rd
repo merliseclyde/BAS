@@ -198,9 +198,6 @@ Raftery, A.E, Madigan, D. and Hoeting, J.A. (1997) Bayesian Model Averaging
 for Linear Regression Models. Journal of the American Statistical
 Association.
 }
-\seealso{
-Other BMA functions: \code{\link{bas.lm}}
-}
 \author{
 Merlise Clyde (\email{clyde@stat.duke.edu}), Quanli Wang and Yingbo
 Li

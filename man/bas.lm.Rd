@@ -196,6 +196,20 @@ crime.bic =  bas.lm(log(y) ~ log(M) + So + log(Ed) +
                     data=UScrime, n.models=2^15, prior="BIC",
                     modelprior=beta.binomial(1,1),
                     initprobs= "eplogp")
+
+
+# use MCMC rather than enumeration
+crime.mcmc =  bas.lm(log(y) ~ log(M) + So + log(Ed) +
+                    log(Po1) + log(Po2) +
+                    log(LF) + log(M.F) + log(Pop) + log(NW) +
+                    log(U1) + log(U2) + log(GDP) + log(Ineq) +
+                    log(Prob) + log(Time),
+                    data=UScrime,
+                    method="MCMC",
+                    MCMC.iterationss=20000, prior="BIC",
+                    modelprior=beta.binomial(1,1),
+                    initprobs= "eplogp")
+
 summary(crime.bic)
 plot(crime.bic)
 image(crime.bic, subset=-1)
@@ -247,8 +261,6 @@ Other bas methods: \code{\link{BAS}},
   \code{\link{confint.pred.bas}}, \code{\link{fitted.bas}},
   \code{\link{predict.basglm}}, \code{\link{predict.bas}},
   \code{\link{summary.bas}}
-
-Other BMA functions: \code{\link{bas.glm}}
 }
 \author{
 Merlise Clyde (\email{clyde@stat.duke.edu}) and Michael Littman
