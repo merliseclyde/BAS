@@ -260,6 +260,20 @@
 #'                     data=UScrime, n.models=2^15, prior="BIC",
 #'                     modelprior=beta.binomial(1,1),
 #'                     initprobs= "eplogp")
+#'
+#'
+#' # use MCMC rather than enumeration
+#' crime.mcmc =  bas.lm(log(y) ~ log(M) + So + log(Ed) +
+#'                     log(Po1) + log(Po2) +
+#'                     log(LF) + log(M.F) + log(Pop) + log(NW) +
+#'                     log(U1) + log(U2) + log(GDP) + log(Ineq) +
+#'                     log(Prob) + log(Time),
+#'                     data=UScrime,
+#'                     method="MCMC",
+#'                     MCMC.iterationss=20000, prior="BIC",
+#'                     modelprior=beta.binomial(1,1),
+#'                     initprobs= "eplogp")
+#'
 #' summary(crime.bic)
 #' plot(crime.bic)
 #' image(crime.bic, subset=-1)
@@ -268,7 +282,7 @@
 #' \dontrun{demo(BAS.USCrime) }
 #'
 #' @rdname bas.lm
-#' @family BMA functions
+#' @family BAS methods
 #' @concept BMA
 #' @concept variable selection
 #' @export

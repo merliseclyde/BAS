@@ -170,7 +170,7 @@ extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeld
 	for (i =n; i <p; i++) REAL(MCMCprobs)[vars[i].index] = probs[vars[i].index];
 	for (i =0; i <n; i++) REAL(MCMCprobs)[vars[i].index] = 0.0;
 
-	SEXP Rse_m = NULL, Rcoef_m = NULL;
+	SEXP Rse_m = NULL, Rcoef_m = NULL, Rmodel_m=NULL;
 	RSquareFull = CalculateRSquareFull(XtY, XtX, XtXwork, XtYwork, Rcoef_m, Rse_m, p, nobs, yty, SSY);
 
 	// fill in the sure things
@@ -195,7 +195,6 @@ extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeld
 	CreateTree(branch, vars, bestmodel, model, n, m, modeldim);
 
 	int pmodel = INTEGER(modeldim)[m];
-	SEXP Rmodel_m;
 	PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
 	PROTECT(Rcoef_m = NEW_NUMERIC(pmodel));
 	PROTECT(Rse_m = NEW_NUMERIC(pmodel));

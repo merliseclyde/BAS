@@ -198,13 +198,15 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 
 
 	PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
-	//memset(INTEGER(Rmodel_m), 0, pmodel * sizeof(int));
+	memset(INTEGER(Rmodel_m), 0, pmodel * sizeof(int));
 	PROTECT(Rcoef_m = NEW_NUMERIC(pmodel));
 	PROTECT(Rse_m = NEW_NUMERIC(pmodel));
+
   model_m = GetModel_m(Rmodel_m, model, p);
 
 	R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m);
 	gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
+
 	double prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
 
 

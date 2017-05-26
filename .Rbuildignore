@@ -2,8 +2,6 @@
 ^\.Rproj\.user$
 .travis.yml
 .build.timestamp
-Readme.md
-README.md
 ^README\.Rmd$
 ^README-.*\.png$
 params.json
