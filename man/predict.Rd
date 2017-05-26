@@ -98,7 +98,9 @@ Other predict methods: \code{\link{fitted.bas}},
 Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
   \code{\link{coef.bas}}, \code{\link{confint.coef.bas}},
   \code{\link{confint.pred.bas}}, \code{\link{fitted.bas}},
-  \code{\link{predict.basglm}}, \code{\link{summary.bas}}
+  \code{\link{force.heredity.bas}},
+  \code{\link{image.bas}}, \code{\link{predict.basglm}},
+  \code{\link{summary.bas}}, \code{\link{update.bas}}
 }
 \author{
 Merlise Clyde

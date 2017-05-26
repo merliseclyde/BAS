@@ -1,10 +1,10 @@
 #' Update BAS object using a new prior
-#' 
+#'
 #' Update a BMA object using a new prior distribution on the coefficients.
-#' 
+#'
 #' Recomputes the marginal likelihoods for the new methods for models already
 #' sampled in current object.
-#' 
+#'
 #' @aliases update update.bas
 #' @param object BMA object to update
 #' @param newprior Update posterior model probabilities, probne0, shrinkage,
@@ -21,7 +21,7 @@
 #' \url{http://dx.doi.org/10.1198/jcgs.2010.09049}
 #' @keywords regression
 #' @examples
-#' 
+#'
 #' \dontrun{
 #' library(MASS)
 #' data(UScrime)
@@ -30,9 +30,10 @@
 #' crime.ebg = update(crime.bic, newprior="EB-global")
 #' crime.zs = update(crime.bic, newprior="ZS-null")
 #' }
-#' 
+#'
 #' @rdname update
 #' @method update bas
+#' @family bas methods
 #' @export
 update.bas = function(object, newprior, alpha=NULL, ...) {
   method.num = switch(newprior,
@@ -51,7 +52,7 @@ update.bas = function(object, newprior, alpha=NULL, ...) {
       (method.num == 0 || method.num == 1 || method.num == 6)) {
     stop(paste("Must specify a value of alpha for", newprior))
   }
-  
+
   if (is.null(alpha)) alpha=0.0
   object$alpha = alpha
 

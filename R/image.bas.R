@@ -1,12 +1,12 @@
 #' Images of models used in Bayesian model averaging
-#' 
+#'
 #' Creates an image of the models selected using \code{\link{bas}}.
-#' 
+#'
 #' Creates an image of the model space sampled using \code{\link{bas}}.  If a
 #' subset of the top models are plotted, then probabilities are renormalized
 #' over the subset.
-#' 
-#' 
+#'
+#'
 #' @aliases image.bas image
 #' @param x A BMA object of type 'bas' created by BAS
 #' @param top.models Number of the top ranked models to plot
@@ -43,19 +43,19 @@
 #' 157-185.
 #' @keywords regression
 #' @examples
-#' 
+#'
 #' require(graphics)
 #' data("Hald")
 #' hald.ZSprior =  bas.lm(Y~ ., data=Hald,  prior="ZS-null")
 #' image(hald.ZSprior, subset=-1)
-#' 
+#'
 #' @rdname image
 #' @method image bas
-#' 
+#' @family bas methods
 #' @family bas plots
 #' @export
-image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, rotate=TRUE, color="rainbow", subset=NULL, offset=.75, digits=3, vlas=2,plas=0,rlas=0, ...) 
-{ 
+image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, rotate=TRUE, color="rainbow", subset=NULL, offset=.75, digits=3, vlas=2,plas=0,rlas=0, ...)
+{
   postprob = x$postprobs
   top.models = min(top.models, x$n.models)
   best = order(-x$postprobs)[1:top.models]
@@ -65,16 +65,16 @@ image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, ro
 
 
   if (is.null(subset)) subset=1:nvar
-  
+
   which.mat =  which.mat[,subset, drop=FALSE]
   nvar = ncol(which.mat)
   namesx = x$namesx[subset]
 
   scale = postprob
   prob.lab= "Posterior Probability"
-  
+
   if (log)   {
-    scale = log(postprob) - min(log(postprob)) 
+    scale = log(postprob) - min(log(postprob))
     prob.lab="Log Posterior Odds"
   }
 
@@ -86,12 +86,12 @@ image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, ro
   else  m.scale = seq(0, top.models)
 
   mat = (m.scale[-1] +  m.scale[-(top.models+1)])/2
-  
+
   colors = switch(color,
     "rainbow" = c("black", rainbow(top.models+1, start=.75, end=.05)),
     "blackandwhite" =  gray(seq(0, 1, length=top.models))
     )
-  
+
   par.old = par()$mar
 
   if (rotate) {
@@ -102,12 +102,12 @@ image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, ro
             xlab="",
             zlim=c(0, max(which.mat)),
             col=colors, ...)
-      
+
       axis(2,at=mat,labels=round(scale, digits=digits), las=plas, ...)
       axis(4,at=mat,labels=top.models:1, las=rlas, ...)
       mtext("Model Rank", side=4, line=3, las=0)
       mtext(prob.lab, side=2, line=4, las=0)
-      axis(1,at=(1:nvar -.5), labels=namesx, las=vlas, ...) 
+      axis(1,at=(1:nvar -.5), labels=namesx, las=vlas, ...)
     }
   else{
     par(mar = c(6,8,6,2) + .1)
@@ -117,16 +117,16 @@ image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, ro
           ylab="",
           zlim=c(0, max(which.mat)),
           col=colors, ...)
-    
+
     axis(1,at=mat,labels=round(scale, digits=digits), las=plas,...)
     axis(3,at=mat,labels=1:top.models, las=rlas, ...)
     mtext("Model Rank", side=3, line=3)
     mtext(prob.lab, side=1, line=4)
-    axis(2,at=(1:nvar -.5), labels=rev(namesx), las=vlas, ...) 
+    axis(2,at=(1:nvar -.5), labels=rev(namesx), las=vlas, ...)
   }
 
-  box() 
+  box()
 
   par(par.old)
   invisible()
-} 
+}

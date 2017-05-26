@@ -70,6 +70,7 @@ prob.heredity = function(model, parents, prob=.5) {
 
 #' bas.hald.int = force.heredity.bas(bas.hald)
 #' image(bas.hald.int)
+#' @family bas methods
 #' @export
 
 force.heredity.bas = function(object, prior.prob=.5) {

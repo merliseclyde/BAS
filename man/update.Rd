@@ -48,6 +48,13 @@ Computational Graphics and Statistics.  20:80-101 \cr
 }
 \seealso{
 \code{\link{bas}} for available methods and choices of alpha
+
+Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
+  \code{\link{coef.bas}}, \code{\link{confint.coef.bas}},
+  \code{\link{confint.pred.bas}}, \code{\link{fitted.bas}},
+  \code{\link{force.heredity.bas}},
+  \code{\link{image.bas}}, \code{\link{predict.basglm}},
+  \code{\link{predict.bas}}, \code{\link{summary.bas}}
 }
 \author{
 Merlise Clyde \email{clyde@stat.duke.edu}

@@ -98,8 +98,10 @@ American Statistical Association.  103:410-423.  \cr
 Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
   \code{\link{confint.coef.bas}},
   \code{\link{confint.pred.bas}}, \code{\link{fitted.bas}},
-  \code{\link{predict.basglm}}, \code{\link{predict.bas}},
-  \code{\link{summary.bas}}
+  \code{\link{force.heredity.bas}},
+  \code{\link{image.bas}}, \code{\link{predict.basglm}},
+  \code{\link{predict.bas}}, \code{\link{summary.bas}},
+  \code{\link{update.bas}}
 }
 \author{
 Merlise Clyde \email{clyde@stat.duke.edu}

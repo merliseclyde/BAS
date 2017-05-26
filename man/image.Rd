@@ -78,6 +78,13 @@ Dawid, J.O. Berger, and A.F.M. Smith eds. Oxford University Press, pages
 \seealso{
 \code{\link{bas}}
 
+Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
+  \code{\link{coef.bas}}, \code{\link{confint.coef.bas}},
+  \code{\link{confint.pred.bas}}, \code{\link{fitted.bas}},
+  \code{\link{force.heredity.bas}},
+  \code{\link{predict.basglm}}, \code{\link{predict.bas}},
+  \code{\link{summary.bas}}, \code{\link{update.bas}}
+
 Other bas plots: \code{\link{plot.bas}},
   \code{\link{plot.coef.bas}}
 }
