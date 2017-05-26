@@ -206,7 +206,7 @@ crime.mcmc =  bas.lm(log(y) ~ log(M) + So + log(Ed) +
                     log(Prob) + log(Time),
                     data=UScrime,
                     method="MCMC",
-                    MCMC.iterationss=20000, prior="BIC",
+                    MCMC.iterations=20000, prior="BIC",
                     modelprior=beta.binomial(1,1),
                     initprobs= "eplogp")
 
