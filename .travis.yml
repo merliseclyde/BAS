@@ -6,8 +6,8 @@ addons:
   apt:
     packages:
       - valgrind
-env:
-  - VALGRIND_OPTS='--leak-check=full --track-origins=yes'
+#env:
+#  - VALGRIND_OPTS='--leak-check=full --track-origins=yes'
 r:
   - devel
   - release
