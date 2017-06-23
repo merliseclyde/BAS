@@ -98,8 +98,8 @@ GGally::ggpairs(data.frame(HPM = as.vector(HPM$fit),  #this used predict so we n
 BPM = predict(crime.ZS, estimator="BPM", se.fit=TRUE)
 crime.conf.fit = confint(BPM, parm="mean")
 crime.conf.pred = confint(BPM, parm="pred")
-cbind(crime.conf.fit, crime.conf.pred)
 plot(crime.conf.fit)
+plot(crime.conf.pred)
 
 ## ----pred---------------------------------------------------------------------
 

@@ -80,10 +80,11 @@ void gexpectations(int p, int pmodel, int nobs, double R2, double alpha, int met
       break;
      case 4:
 //       *logmarg = LogBF_ZS_null(R2, nobs, pmodel);
-       *logmarg = ZS_logmarg(R2, nobs, pmodel, rscale);
+// alpha is rscale as in BayesFactor package
+       *logmarg = ZS_logmarg(R2, nobs, pmodel, alpha);
 //       Rprintf("logBF %lf R2 %lf rscale %lf  n %d p %d \n", *logmarg, R2, rscale,  nobs,  pmodel);
 //       *shrinkage = E_ZS_approx_null(R2,nobs,pmodel-1);
-       *shrinkage = ZS_shrinkage(R2,nobs,pmodel,rscale);
+       *shrinkage = ZS_shrinkage(R2,nobs,pmodel,alpha);
 //       Rprintf("shrinkage %lf R2 %lf rscale %lf  n %d p %d \n", *shrinkage, R2, rscale,  nobs,  pmodel);
       break;
      case 5:

@@ -47,7 +47,9 @@ include "AIC", "BIC", "g-prior", "ZS-null", "ZS-full", "hyper-g",
 \item{alpha}{optional hyperparameter in g-prior or hyper g-prior.  For
 Zellner's g-prior, alpha = g, for the Liang et al hyper-g or hyper-g-n
 method, recommended choice is alpha are between (2 < alpha < 4), with alpha
-= 3 recommended.}
+= 3 the default.  For the Zellner-Siow prior alpha = 1 by default, but can be used
+to modify the rate parameter in the gamma prior on g,  1/g ~ G(1/2, n*alpha/2) so that
+beta ~ C(0, sigma^2 alpha (X'X/n)^{-1}).}
 
 \item{modelprior}{Family of prior distribution on the models.  Choices
 include \code{\link{uniform}} \code{\link{Bernoulli}} or

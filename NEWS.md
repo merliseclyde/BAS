@@ -1,8 +1,8 @@
-#  BAS 1.4.7 June 22, 2017
+#  BAS 1.4.7 June 23, 2017
 
 ## Updates
 
-* Added new method to obtain marginal likelihoods with the Zellner-Siow Priors for method "ZS-null" using QUADMATH routines for numerical integration.   
+* Added new method to obtain marginal likelihoods with the Zellner-Siow Priors for method "ZS-null" using QUADMATH routines for numerical integration.  The optional hyperparameter alpha may now be used to adjust the scaling of the ZS prior where g ~ G(1/2, alpha*n/2) with a default of alpha=1 corresponding to the ZS prior used in Liang et al (2008).  
 
 #  BAS 1.4.6 May 24, 2017
 

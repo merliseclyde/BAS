@@ -111,7 +111,9 @@
 #' @param alpha optional hyperparameter in g-prior or hyper g-prior.  For
 #' Zellner's g-prior, alpha = g, for the Liang et al hyper-g or hyper-g-n
 #' method, recommended choice is alpha are between (2 < alpha < 4), with alpha
-#' = 3 recommended.
+#' = 3 the default.  For the Zellner-Siow prior alpha = 1 by default, but can be used
+#' to modify the rate parameter in the gamma prior on g,  1/g ~ G(1/2, n*alpha/2) so that
+#' beta ~ C(0, sigma^2 alpha (X'X/n)^{-1}).
 #' @param modelprior Family of prior distribution on the models.  Choices
 #' include \code{\link{uniform}} \code{\link{Bernoulli}} or
 #' \code{\link{beta.binomial}} with the default being a
@@ -415,7 +417,7 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
         "hyper-g"=3,
         "EB-local"=2,
         "BIC"=n,
-        "ZS-null"=n,
+        "ZS-null"=1,
         "ZS-full"=n,
         "hyper-g-laplace"=3,
         "AIC"=0,
