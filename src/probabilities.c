@@ -18,14 +18,14 @@ void compute_modelprobs(SEXP Rmodelprobs,  SEXP Rlogmarg, SEXP Rpriorprobs, int 
 
 	for (m = 0; m < k; m++) {
 		modelprobs[m] = logmarg[m] - bestmarg;
-		nc += exp(modelprobs[m])*priorprobs[m]; 
-	}	
+		nc += exp(modelprobs[m])*priorprobs[m];
+	}
 
 	for (m = 0; m < k; m++) {
 	  /*		modelprobs[m] = exp(modelprobs[m] +
 			log(priorprobs[m]) - log(nc)); */
 		modelprobs[m] = exp(modelprobs[m] - log(nc))*priorprobs[m];
-	}	
+	}
 }
 
 
@@ -39,7 +39,7 @@ void compute_margprobs(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, double 
 		model = INTEGER(VECTOR_ELT(modelspace,m));
 		for (j = 0; j < INTEGER(modeldim)[m]; j ++) {
 			margprobs[model[j]] += modelprobs[m];
-		} 
+		}
 	}
 }
 
@@ -69,19 +69,22 @@ double compute_prior_probs(int *model, int modeldim, int p, SEXP modelprior) {
   hyper_parameters = REAL(getListElement(modelprior,"hyper.parameters"));
 
 
-  if  (strcmp(family, "Beta-Binomial") == 0) 
+  if  (strcmp(family, "Beta-Binomial") == 0)
     priorprob = beta_binomial(modeldim, p, hyper_parameters);
-  if  (strcmp(family, "Trunc-Beta-Binomial") == 0) 
+  if  (strcmp(family, "Trunc-Beta-Binomial") == 0)
     priorprob = trunc_beta_binomial(modeldim, p, hyper_parameters);
-  if  (strcmp(family, "Trunc-Poisson") == 0) 
+  if  (strcmp(family, "Trunc-Poisson") == 0)
     priorprob = trunc_poisson(modeldim, p, hyper_parameters);
-  if  (strcmp(family, "Trunc-Power-Prior") == 0) 
+  if  (strcmp(family, "Trunc-Power-Prior") == 0)
     priorprob = trunc_power_prior(modeldim, p, hyper_parameters);
-  if (strcmp(family, "Bernoulli") == 0) 
+  if (strcmp(family, "Bernoulli") == 0)
     priorprob = Bernoulli(model, p, hyper_parameters);
+// Need to add
+//  if (strcmp(family, "Hereditary") == 0)
+//    priorprob = Hereditary(model, p, hyper_parameters);
   return(priorprob);
 }
-     
+
 double Bernoulli(int *model, int p, double *hyper) {
   double prior;
   int j;
@@ -104,7 +107,7 @@ double Bernoulli(int *model, int p, double *hyper) {
 
 
 double beta_binomial(int modeldim, int p, double *hyper) {
-  /* modeldim and p include the intercept so subtact 1 from each */ 
+  /* modeldim and p include the intercept so subtact 1 from each */
   return(exp(lbeta((double) modeldim - 1.0 + hyper[0], (double) (p - modeldim) + hyper[1]) -
 	     lbeta(hyper[0], hyper[1])));
 }
@@ -114,10 +117,10 @@ double trunc_beta_binomial(int modeldim, int p, double *hyper) {
 
   double prior;
   if ((double) (modeldim -1) <= hyper[2]) {
-      prior = exp(lbeta((double) modeldim - 1.0 + hyper[0], (double) (p - modeldim) + hyper[1]) - 
+      prior = exp(lbeta((double) modeldim - 1.0 + hyper[0], (double) (p - modeldim) + hyper[1]) -
 		  lbeta(hyper[0], hyper[1]));
       //      Rprintf("pass \n");
-      
+
     }
   else {prior = 0.0;}
 
@@ -134,7 +137,7 @@ double trunc_poisson(int modeldim, int p, double *hyper) {
       prior = dpois(modeldim - 1, hyper[0], 0);
     }
   else {prior = 0.0;}
-  
+
   return(prior);
 }
 
@@ -146,7 +149,7 @@ double trunc_power_prior(int modeldim, int p, double *hyper) {
     prior = exp(-((double) modeldim - 1.0)*((double) hyper[0])*log((double) p));
     }
   else {prior = 0.0;}
-  
+
   return(prior);
 }
 

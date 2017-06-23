@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "mconf.h"
-#include <math.h> 
+#include <math.h>
 #include <string.h>
 #include <float.h>
-#include <R.h> 
+#include <R.h>
 #include <Rmath.h>
 #include <Rdefines.h>
 #include <R_ext/Rdynload.h>
@@ -37,7 +37,7 @@ struct Node {
   double logmarg;
   int where;
   NODEPTR zero;
-  NODEPTR one;  
+  NODEPTR one;
 };
 
 
@@ -66,12 +66,12 @@ double random_walk(int *model, struct Var *vars, int n);
 int update_probs(double *probs, struct Var *var, int m, int k, int p);
 void update_MCMC_probs(double *probs, struct Var *vars, int n, int p);
 void print_subset(int subset, int rank, Bit **models, Bit *model,
-		  double *subsetsum, int *pattern, int *position, 
+		  double *subsetsum, int *pattern, int *position,
 		  int n, struct Var *vars, int p);
 int topk(Bit **models, double *prob, int k, struct Var *vars, int n, int p);
-void do_insert(int child, double *subsetsum, int *queue);		
+void do_insert(int child, double *subsetsum, int *queue);
 int get_next(double *subsetsum, int *queue, int *queuesize);
-void insert_children(int subset, double *list, double *subsetsum, 
+void insert_children(int subset, double *list, double *subsetsum,
 		     int *queue, int *queuesize, int *tablesize,
 		     int *parent, int *pattern, int *position,
 		     int *type, char *bits, int n);
@@ -88,12 +88,12 @@ void F77_NAME(drsk)(char *UPLO, char *TRANS, int *N, int *K, double *ALPHA,
            double *A, int *LDA, double *BETA, double *C, int *LDC);
 
 void  F77_NAME(dqrls)(double *x, int *n, int *p, double *y, int *inc, double *tol,
-	    double *start, double *residuals, double *effects, int *rank, 
+	    double *start, double *residuals, double *effects, int *rank,
 	    int *pivot, double *qraux, double *work);
 
 //void F77_NAME(dgtsv)( int *n, int *nrhs, double *dl, double *d, double *du, double *b, double *ldb, int *info);
 
-/*  Following defined in R_ext/BLAS.h 
+/*  Following defined in R_ext/BLAS.h
 
 double ddot_(int *n, double *x, int *incx, double *y, int *incy);
 void dcopy_(int *n, double *x, int *incx, double *y, int *incy);
@@ -102,7 +102,7 @@ void dsyrk_(const char *uplo, const char *trans,
 		const int *n, const int *k,
 		const double *alpha, const double *a, const int *lda,
 		const double *beta, double *c, const int *ldc);
-void dgemv_(const char *trans, int *m, int *n, double *alpha, double *A, 
+void dgemv_(const char *trans, int *m, int *n, double *alpha, double *A,
             int *lda, double  *x, int *incx, double *beta, double *y,
             int *incy);
 
@@ -121,7 +121,7 @@ int *ivecalloc(int das);
 int withprob(double p);
 void olsreg(double *Y, double *Xmat, double *coefficients, double *se, double *mse, int *p, int *n, int *pivot,double *qraux, double *work, double *residuals, double *effects, double *v, double *betaols);
 void gexpectations(int p, int pmodel, int nobs, double R2, double alpha,
-int method, double R2Full, double SSY, double *logmarg, double *shrinkage); 
+int method, double R2Full, double SSY, double *logmarg, double *shrinkage);
 double LogBF_Hg_null(double r2curr, int n, int d, double alpha, int gpower);
 void posroot(double a, double b, double c, double *root, double *status);
 double lik_null_HG(double g, double R2,int n,int k, double alpha, int gpower);
@@ -136,6 +136,10 @@ double logBF_intrinsic_hyperGprior(double Rsquare, double RSquareFull, int n, in
 double logBF_EB(double Rsquare, int n, int p, double alpha);
 double LogBF_ZS_full(double r2full, double r2curr, int n, int ptotal, int d);
 double LogBF_ZS_null(double R2, int n, int d);
+double ZS_logmarg(double R2, int n, int d, double rscale);
+double ZS_shrinkage(double R2, int n, int d, double rscale);
+void ZS_density(double *x, int n, SEXP Rtheta);
+void ZS_density_shrinkage(double *x, int n, SEXP Rtheta);
 double E_ZS_approx_null(double R2, int n, int d);
 double BIC(double Rsquare, int n,  int p, double SSY);
 double AIC(double Rsquare, int n,  int p, double SSY);

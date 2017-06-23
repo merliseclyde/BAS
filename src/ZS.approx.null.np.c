@@ -1,20 +1,164 @@
 #include <R.h>
 #include <math.h>
 #include <Rmath.h>
-
+#include <R_ext/Applic.h>
+#include "sampling.h"
 
 void LogBF_ZS_null_vect(double *r2curr, int *n, int *dim, int *nmodels, double *logmarg) {
+
   double LogBF_ZS_null(double r2curr, int n, int d);
+  double ZS_logmarg(double r2curr, int n, int d, double rscale);
+  double rscale = 1.0;
 
   int i;
      for (i=0; i < *nmodels; i++) {
-        logmarg[i] = LogBF_ZS_null(r2curr[i], *n, dim[i]);
+//        logmarg[i] = LogBF_ZS_null(r2curr[i], *n, dim[i]);
+          logmarg[i] = ZS_logmarg(r2curr[i], *n, dim[i], rscale);
      }
+}
+
+typedef struct C_int_struct
+{
+ void (*f)(double *x, int n, SEXP theta) ;    /* function */
+ SEXP theta;  /*other args to f */
+} C_int_struct, *IntStruct;
+
+static void Cintfn(double *x, int n, void *ex)
+{
+  int i;
+
+  IntStruct IS = (IntStruct) ex;
+
+  IS->f(x, n, IS->theta);
+
+    for( i=0; i<n; i++) {
+    if(!R_FINITE(x[i]))
+      error("non-finite function value");
+  }
+  return;
+}
+
+// use R's integrate code from QUADPACK to obtain marginal likelihood
+double ZS_logmarg(double R2, int n, int d, double rscale) {
+
+  double bound=0.0, epsabs, epsrel, result, abserr, *work, *ex;
+  int inf = 1L, neval, ier, limit=200, lenw, last, *iwork;
+  SEXP Rtheta;
+  C_int_struct is;
+
+  if (d <= 1 || n - d <= 1) return(0.0);
+
+  epsabs = R_pow(DOUBLE_EPS, 0.25);
+  epsrel = epsabs;
+  lenw = 4 * limit;
+  iwork = (int *) R_alloc((size_t) limit, sizeof(int));
+  work = (double *) R_alloc((size_t) lenw, sizeof(double));
+
+  PROTECT(Rtheta = allocVector(REALSXP, 4));
+  REAL(Rtheta)[0] = R2;
+  REAL(Rtheta)[1] = (double) n;
+  REAL(Rtheta)[2] = (double) d;
+  REAL(Rtheta)[3] = (double) rscale;
+
+  ex = REAL(Rtheta);
+
+  is.f = ZS_density;
+  is.theta = Rtheta;
+
+  Rdqagi(Cintfn, (void*)&is, &bound,&inf,&epsabs,&epsrel,&result,
+         &abserr,&neval,&ier,&limit,&lenw,&last,iwork,work);
+//  Rprintf("ZS return: logBF %lf R2=%lf n= %lf d=%lf r=%lf \n", log(result), ex[0], ex[1], ex[2], ex[3]);
+
+  UNPROTECT(1);
+  return(log(result));
+}
+
+double ZS_shrinkage(double R2, int n, int d, double rscale) {
+
+  double bound=0.0, epsabs, epsrel, result, abserr, *work, *ex;
+  int inf = 1L, neval, ier, limit=200, lenw, last, *iwork;
+  SEXP Rtheta;
+  C_int_struct is;
+
+  if (d <= 1) return(1.0);
+
+  epsabs = R_pow(DOUBLE_EPS, 0.25);
+  epsrel = epsabs;
+  lenw = 4 * limit;
+  iwork = (int *) R_alloc((size_t) limit, sizeof(int));
+  work = (double *) R_alloc((size_t) lenw, sizeof(double));
+
+  PROTECT(Rtheta = allocVector(REALSXP, 4));
+  REAL(Rtheta)[0] = R2;
+  REAL(Rtheta)[1] = (double) n;
+  REAL(Rtheta)[2] = (double) d;
+  REAL(Rtheta)[3] = (double) rscale;
+
+  ex = REAL(Rtheta);
+
+  is.f = ZS_density_shrinkage;
+  is.theta = Rtheta;
+
+  Rdqagi(Cintfn, (void*)&is, &bound,&inf,&epsabs,&epsrel,&result,
+         &abserr,&neval,&ier,&limit,&lenw,&last,iwork,work);
+
+
+  result = exp(log(result) - ZS_logmarg(R2, n, d, rscale));
+//  Rprintf("Shrinkage return: logBF %lf R2=%lf n= %lf d=%lf r=%lf \n", result, ex[0], ex[1], ex[2], ex[3]);
+  UNPROTECT(1);
+  return(result);
+}
+
+void ZS_density(double *x, int n, SEXP Rex) {
+// d is p + 1  and includes the intercept
+// prior for  1/g ~ gamma(1/2, rscale*n/2)
+   double g, R2, rscale, d, nobs;
+   int i;
+
+   PROTECT(Rex);
+   // SEXP Rex = PROTECT(duplicate(Rtheta));
+
+   R2 =  REAL(Rex)[0];
+   nobs = REAL(Rex)[1];
+   d = REAL(Rex)[2];
+   rscale = REAL(Rex)[3];
+   for (i=0; i < n; i++) {
+    g = x[i];
+    x[i]  = .5*(log(1.0 + g)* (nobs - d) - (nobs-1.0)*log(1.0 + (1.0 - R2)*g));
+    x[i] += .5*(log(.5*nobs*rscale) -3.0*log(g) - rscale* nobs/g) - lgamma(.5);
+
+//    Rprintf("integrate: g= %lf BF= %lf R2=%lf nobs= %lf d=%lf r=%lf \n",
+//            g, exp(x[i]), R2, nobs, d, rscale);
+
+    x[i] = exp(x[i]);
+  }
+ UNPROTECT(1);
+}
+
+void ZS_density_shrinkage(double *x, int n, SEXP Rex) {
+  // d is p + 1  and includes the intercept
+  // prior for  1/g ~ gamma(1/2, rscale*n/2)
+  double g, R2, rscale, d, nobs;
+  int i;
+
+  PROTECT(Rex);
+
+  R2 =  REAL(Rex)[0];
+  nobs = REAL(Rex)[1];
+  d = REAL(Rex)[2];
+  rscale = REAL(Rex)[3];
+  for (i=0; i < n; i++) {
+    g = x[i];
+    x[i]  = .5*(log(1.0 + g)* (nobs - d) - (nobs-1.0)*log(1.0 + (1.0 - R2)*g));
+    x[i] += .5*(log(.5*nobs*rscale) -3.0*log(g) - rscale* nobs/g) - lgamma(.5);
+    x[i] = exp(x[i])*g/(1.0+g);
+  }
+  UNPROTECT(1);
 }
 
 
 
-double LogBF_ZS_null(double R2, int n, int d){
+double LogBF_ZS_null(double R2, int n, int d) {
 
 /* this computes a Laplace approximation to the log of the Bayes factor
    with respect to the null model (intercept only), log(m_k)-log(m_0)
@@ -56,7 +200,8 @@ double LogBF_ZS_null(double R2, int n, int d){
 	else {
 	  Rprintf("\n More than one positive root  R2=%lf n=%d k=%d\n",R2,n,k);}
       }
-      else{return(lik_null(root,R2,n,k)+(log(4.*asin(1.))-log(-info_null(root,R2,n,k)))/2.);}
+      //    else{return(lik_null(root,R2,n,k)+(log(4.*asin(1.)) - log(info_null(root,R2,n,k)))/2.);}
+      else{return(lik_null(root,R2,n,k)+ log(sqrt(2.*PI)) - .5*log(info_null(root,R2,n,k)));}
     }
   return(NA_REAL);
 }
@@ -81,14 +226,14 @@ double info_null(double g,double R2,int n,int k){
   aux= -((double)n-1.-(double)k)/R_pow_di(1.+g,2);
   aux=aux+((double)n-1.)*R_pow_di(1.-R2,2)/R_pow_di(1.+(1.-R2)*g,2)+3/R_pow_di(g,2);
   aux=aux-2.*(double)n/R_pow_di(g,3);
-  aux=aux/2.;
+  aux=-aux/2.;
   return(aux);
 }
 
 void posroot(double a, double b, double c, double *root, double *status)
 { /* this computes the real roots of a cubic polynomial; in the end, if
-     status==1, root stores the nonegative root; if status is not one, 
-     then status is the total number of nonegative roots and root is 
+     status==1, root stores the nonegative root; if status is not one,
+     then status is the total number of nonegative roots and root is
      useless
   */
 

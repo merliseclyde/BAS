@@ -25,7 +25,7 @@
  * approximated by a rational function of degree 6/7 in the
  * interval (2,3).  Large arguments are handled by Stirling's
  * formula. Large negative arguments are made positive using
- * a reflection formula.  
+ * a reflection formula.
  *
  *
  * ACCURACY:
@@ -105,6 +105,9 @@ Copyright 1984, 1987, 1989, 1992, 2000 by Stephen L. Moshier
 
 
 #include "mconf.h"
+#include "math.h"
+
+
 
 #ifdef UNK
 static double P[] = {
@@ -182,7 +185,7 @@ static unsigned short LPI[4] = {
 0xa1bd,0x48e7,0x50d0,0x3ff2,
 };
 #define LOGPI *(double *)LPI
-#endif 
+#endif
 
 #ifdef MIEEE
 static unsigned short P[] = {
@@ -209,7 +212,7 @@ static unsigned short LPI[4] = {
 0x3ff2,0x50d0,0x48e7,0xa1bd,
 };
 #define LOGPI *(double *)LPI
-#endif 
+#endif
 
 /* Stirling's formula for the gamma function */
 #if UNK
@@ -278,21 +281,21 @@ extern double polevl ( double, void *, int );
 extern double p1evl ( double, void *, int );
 extern double floor ( double );
 extern double fabs ( double );
-extern int isnan ( double );
-extern int isfinite ( double );
+//extern int isnan ( double );
+//extern int isfinite ( double );
 static double stirf ( double );
 double lgam ( double );
 #else
 double pow(), log(), exp(), sin(), polevl(), p1evl(), floor(), fabs();
-int isnan(), isfinite();
+// int isnan(), isfinite();
 static double stirf();
 double lgam();
 #endif
 #ifdef INFINITIES
-extern double INFINITY;
+// extern double INFINITY;
 #endif
 #ifdef NANS
-extern double NAN;
+// extern double NAN;
 #endif
 
 /* Gamma function computed by Stirling's formula.

@@ -1,3 +1,9 @@
+#  BAS 1.4.7 June 22, 2017
+
+## Updates
+
+* Added new method to obtain marginal likelihoods with the Zellner-Siow Priors for method "ZS-null" using QUADMATH routines for numerical integration.   
+
 #  BAS 1.4.6 May 24, 2017
 
 ## Updates
