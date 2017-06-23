@@ -86,11 +86,13 @@ crime.ZS =  bas.lm(y ~ .,
   * "EB-local"
   * "EB-global"
 
+where the default is the Zellner-Siow prior, ZS-null, where all Bayes factors are compared to the null model.
+
 By default, `BAS` will try to enumerate all models, in this case $2^{15}$ using the default `method="BAS"`.  The prior distribution over the models is a `uniform()` distribution which assigns equal probabilities to all models.  The last optional argument `initprobs = eplogp` provides a way to initialize the sampling algorithm and order the variables in the tree structure that represents the model space in BAS.  The `eplogp` option uses the Bayes factor calibration of p-values  $-e p \log(p)$ to provide an approximation to the marginal inclusion probability that the coefficient of each predictor is zero, using the p-values from the full model.  Other options for `initprobs` include
 
   * "marg-eplogp""
   * "uniform"
-  * numeric vector of length p
+  *  numeric vector of length p
   
 The option "marg-eplogp" uses  p-values from the p simple linear regressions (useful for large p or highly correlated variables).
 The numeric provides a way to force variables to always be included  if the initialprob is 1.  
@@ -249,12 +251,13 @@ MPM = predict(crime.ZS, estimator="MPM")
 (crime.ZS$namesx[attr(MPM$fit, 'model') +1])[-1]
 ```
 
+This is the model where all predictors have an inclusion probability greater than or equal to 0.5.   This coincides with the HPM if the predictors are all mutually orthogonal, and in this case is the best predictive model under squared error loss.
 
 Note that we can also extract the best model from the attribute in the fitted values as well.
 
 **best predictive model:**
 
-This is the model that is closest to BMA predictions under squared error loss.
+In general, the HPM or MPM are not the best predictive models, which from a Bayesian decision theory perspective would be the model that is closest to BMA predictions under squared error loss.
 ```{r BPM}
 BPM = predict(crime.ZS, estimator="BPM")
 (crime.ZS$namesx[attr(BPM$fit, 'model') +1])[-1]
@@ -276,11 +279,11 @@ Using the `se.fit = TRUE` option with `predict` we can also calculate standard d
 BPM = predict(crime.ZS, estimator="BPM", se.fit=TRUE)
 crime.conf.fit = confint(BPM, parm="mean")
 crime.conf.pred = confint(BPM, parm="pred")
-cbind(crime.conf.fit, crime.conf.pred)
 plot(crime.conf.fit)
+plot(crime.conf.pred)
 ```
 
-For prediction at new points, we can supply a new dataframe
+For prediction at new points, we can supply a new dataframe to the predict function as in `lm`.
 ```{r pred}
 
 new.pred = predict(crime.ZS, newdata=UScrime, estimator="MPM")
@@ -317,7 +320,7 @@ which is faster for enumeration than the default method="BAS".
 
 ## Beyond Enumeration
 
-Many problems are too large to enumerate all possible models.  In such cases we may use the `method=MCMC` option to sample models using Markov Chain Monte Carlo sampling to sample models based on their posterior probabilities.
+Many problems are too large to enumerate all possible models.  In such cases we may use the `method="BAS"` to sample without replacement or the `method="MCMC"` option to sample models using Markov Chain Monte Carlo sampling to sample models based on their posterior probabilities.   For spaces where the number of models greatly exceeds the number of models to sample, the MCMC option tends to provide estimates with low bias compared to the sampling without replacement. 
 
 ```{r MCMC}
 crime.ZS =  bas.lm(y ~ ., 
