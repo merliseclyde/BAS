@@ -1,11 +1,11 @@
 language: r
 cache: packages
-r_check_args: '--as-cran'
+r_check_args: '--as-cran --no-build-vignettes'
 
-addons:
-  apt:
-    packages:
-      - valgrind
+#addons:
+#  apt:
+#    packages:
+#      - valgrind
 #env:
 #  - VALGRIND_OPTS='--leak-check=full --track-origins=yes'
 r:
