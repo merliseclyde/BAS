@@ -21,11 +21,11 @@ double hyperg2F1(double a, double b, double c, double z) {
   double w=1.0, F=1.0;
   if (a<0) {
     /* Apply Abramowitz and Stegun 15.3.3 */
-    F=pow(1-z,c-a-b)*hyperg2F1(c-a,c-b,c,z);
+    F=R_pow(1-z,c-a-b)*hyperg2F1(c-a,c-b,c,z);
   }
   else if (z<0) {
     /* Apply Abramowitz and Stegun 15.3.4 */
-    F=pow(1-z,-a)*hyperg2F1(a,c-b,c,z/(z-1));
+    F=R_pow(1-z,-a)*hyperg2F1(a,c-b,c,z/(z-1));
   }
   else if (z==1) {
     F=exp(lgammafn(c)+lgammafn(c-a-b)-lgammafn(c-a)-lgammafn(c-b));
@@ -51,7 +51,7 @@ double HyperTwo(double a, double b, double c, double x, double y) {
   double F, zf=1.0, zfg;
 
   if (y<0)
-    F=exp(x)*pow(1-y,-b)*HyperTwo(c-a,b,c,-x,y/(y-1));
+    F=exp(x)*R_pow(1-y,-b)*HyperTwo(c-a,b,c,-x,y/(y-1));
   else {
     zfg=hyperg2F1(b,a,c,y);
     F=zfg;
@@ -78,12 +78,12 @@ double HyperTwo(double a, double b, double c, double x, double y) {
 
 
 void phi1(double *a, double *b, double *c, double *x, double *y, double *phi, int *npara)
-{ 
+{
   int k;
   for (k = 0; k < *npara; k++) {
     //   if (x[k] <0) {
       /*  Since Linex system tends to report error for negative x, we
-	  use the following fomular to convert it to positive value 
+	  use the following fomular to convert it to positive value
 	  1F1(a, b, x) = 1F1(b - a, b, -x) * exp(x) */
     /*      a[k] = b[k] - a[k];
       y[k] = hyperg(a[k], b[k], -x[k])*exp(x[k]);
@@ -92,6 +92,6 @@ void phi1(double *a, double *b, double *c, double *x, double *y, double *phi, in
       y[k] = hyperg(a[k], b[k], x[k]);
     }*/
     phi[k] = HyperTwo(a[k], b[k], c[k], x[k], y[k]);
-  }   
+  }
 }
 

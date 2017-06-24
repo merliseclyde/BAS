@@ -1,11 +1,11 @@
-#include "sampling.h"
+#include "bas.h"
 
 // [[register]]
-SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha, SEXP method, SEXP modelprior) 
+SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha, SEXP method, SEXP modelprior)
 {
   SEXP   RXwork = PROTECT(duplicate(X)), RYwork = PROTECT(duplicate(Y));
   int nProtected = 2;
- 
+
   int  nModels=LENGTH(Rmodeldim);
 
   SEXP ANS = PROTECT(allocVector(VECSXP, 12)); ++nProtected;
@@ -29,7 +29,7 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim
     R2_m, RSquareFull, alpha, logmarg_m, shrinkage_m;
   double *XtX, *XtY, *XtXwork, *XtYwork;
   int nobs, p, k, i, j, m, n, l, pmodel, *xdims, *model_m, *model;
-  Bit **models;		
+  Bit **models;
   struct Var *vars;	/* Info about the model variables. */
 
 
@@ -45,16 +45,16 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim
   Ywork = REAL(RYwork);
   Xwork = REAL(RXwork);
   wts = REAL(Rweights);
-  
+
   /*  XtX  = (double *) R_alloc(p * p, sizeof(double));
   XtXwork  = (double *) R_alloc(p * p, sizeof(double));
-  XtY = vecalloc(p); 
+  XtY = vecalloc(p);
   XtYwork = vecalloc(p); */
 
 
 	PrecomputeData(Xwork, Ywork, wts, &XtXwork, &XtYwork, &XtX, &XtY, &yty, &SSY, p, nobs);
 
-  
+
   /* create X matrix */
 	/*  for (j=0, l=0; j < p; j++) {
     for (i = 0; i < p; i++) {
@@ -62,10 +62,10 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim
   }
 
  p2 = p*p;
- one = 1.0; zero = 0.0; ybar = 0.0; SSY = 0.0; yty = 0.0; 
+ one = 1.0; zero = 0.0; ybar = 0.0; SSY = 0.0; yty = 0.0;
  inc = 1;
- 
- F77_NAME(dsyrk)(uplo, trans, &p, &nobs, &one, &Xwork[0], &nobs, &zero, &XtX[0], &p); 
+
+ F77_NAME(dsyrk)(uplo, trans, &p, &nobs, &one, &Xwork[0], &nobs, &zero, &XtX[0], &p);
  yty = F77_NAME(ddot)(&nobs, &Ywork[0], &inc, &Ywork[0], &inc);
   for (i = 0; i< nobs; i++) {
      ybar += Ywork[i];
@@ -81,14 +81,14 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim
 
   vars = (struct Var *) R_alloc(p, sizeof(struct Var));
   probs =  REAL(Rprobs);
-  n = sortvars(vars, probs, p); 
-  
-  /* Make space for the models and working variables. */ 
+  n = sortvars(vars, probs, p);
+
+  /* Make space for the models and working variables. */
 
 
   models = cmatalloc(k,p);
   model = (int *) R_alloc(p, sizeof(int));
- 
+
   k = topk(models, probs, k, vars, n, p);
 
   /* Fit Full model */
@@ -103,9 +103,9 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim
     memcpy(coefficients, XtY,  p*sizeof(double));
     memcpy(XtXwork, XtX, p*p*sizeof(double));
     memcpy(XtYwork, XtY,  p*sizeof(double));
- 
-    mse_m = yty; 
-    cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, p, nobs);  
+
+    mse_m = yty;
+    cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, p, nobs);
 
   /*  olsreg(Ywork, Xwork,  coefficients, se_m, &mse_m, &p, &nobs, pivot,qraux,work,residuals,effects,v, betaols);  */
     RSquareFull =  1.0 - (mse_m * (double) ( nobs - p))/SSY;
@@ -115,34 +115,34 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim
   /* now fit all top k models */
 
   for (m=0; m < k; m++) {
-      pmodel = 0; 
+      pmodel = 0;
       pigamma = 1.0;
-      for (j = 0; j < p; j++) { 
+      for (j = 0; j < p; j++) {
           model[j] = (int) models[m][j];
           pmodel += (int) models[m][j];
-          pigamma *= (double)((int) models[m][j])*probs[j] + 
+          pigamma *= (double)((int) models[m][j])*probs[j] +
 	  (1.0 - (double)((int) models[m][j]))*(1.0 -  probs[j]);
       }
-  
+
       REAL(sampleprobs)[m] = pigamma;
       INTEGER(modeldim)[m] = pmodel;
       Rmodel_m = NEW_INTEGER(pmodel); PROTECT(Rmodel_m);
       model_m = INTEGER(Rmodel_m);
 
 
-      for (j = 0, l=0; j < p; j++) {  
+      for (j = 0, l=0; j < p; j++) {
 	if (models[m][j]) {
            model_m[l] = j;
            l +=1;  }
       }
- 
+
       INTEGER(modeldim)[m] = pmodel;
       SET_ELEMENT(modelspace, m, Rmodel_m);
       UNPROTECT(1);
 
       Rcoef_m = NEW_NUMERIC(pmodel); PROTECT(Rcoef_m);
       Rse_m = NEW_NUMERIC(pmodel);   PROTECT(Rse_m);
-      coefficients = REAL(Rcoef_m);  
+      coefficients = REAL(Rcoef_m);
       se_m = REAL(Rse_m);
 
       for (j=0, l=0; j < pmodel; j++) {
@@ -152,9 +152,9 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim
 	 }
       }
 
-      mse_m = yty; 
-      memcpy(coefficients, XtYwork, sizeof(double)*pmodel); 
-      cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, pmodel, nobs);  
+      mse_m = yty;
+      memcpy(coefficients, XtYwork, sizeof(double)*pmodel);
+      cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, pmodel, nobs);
 
       /*      olsreg(Ywork, Xwork, coefficients, se_m, &mse_m, &pmodel, &nobs, pivot,qraux,work,residuals,effects,v, betaols); */
       R2_m = 1.0 - (mse_m * (double) ( nobs - pmodel))/SSY;
@@ -164,7 +164,7 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim
 
       REAL(R2)[m] = R2_m;
       REAL(mse)[m] = mse_m;
-     
+
       gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull,
                     SSY, &logmarg_m, &shrinkage_m);
       REAL(logmarg)[m] = logmarg_m;
@@ -174,7 +174,7 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim
   }
 
   compute_modelprobs(modelprobs, logmarg, priorprobs, k);
-  compute_margprobs_old(models, modelprobs, probs, k, p); 
+  compute_margprobs_old(models, modelprobs, probs, k, p);
 
     /*    freechmat(models,k); */
   SET_VECTOR_ELT(ANS, 0, Rprobs);
@@ -209,14 +209,14 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim
 
   SET_VECTOR_ELT(ANS, 10, modeldim);
   SET_STRING_ELT(ANS_names, 10, mkChar("size"));
- 
+
   SET_VECTOR_ELT(ANS, 11, R2);
   SET_STRING_ELT(ANS_names, 11, mkChar("R2"));
 
   setAttrib(ANS, R_NamesSymbol, ANS_names);
   UNPROTECT(nProtected);
 
-  return(ANS);  
+  return(ANS);
 
 }
 
@@ -229,7 +229,7 @@ int topk(Bit **models, double *prob, int k, struct Var *vars, int n, int p)
   int tablesize;	/* Number of entries in the subset table. */
   int i, current, qsize, queuesize;
   Bit *model;		/* output for current model  */
-  double *list;		/* The list of numbers (logits). */	  
+  double *list;		/* The list of numbers (logits). */
   double *subsetsum;	/* Sum of some subset. */
   int *type;	/* How does subset differ from parent? */
   int *queue;	/* Subset number of item in priority queue. */
@@ -254,12 +254,12 @@ int topk(Bit **models, double *prob, int k, struct Var *vars, int n, int p)
   model = (unsigned char *) R_alloc(n, sizeof(Bit));
 
   qsize = 2*k;  /* Largest number of items in priority queue. */
-  subsetsum = (double *) R_alloc(qsize, sizeof(double));	
-  parent = (int *) R_alloc(qsize, sizeof(int));	
-  type =(int *) R_alloc(qsize, sizeof(int));	
-  position = (int *) R_alloc(qsize, sizeof(int));	
-  pattern = (int *) R_alloc(qsize, sizeof(int));	
-  queue = (int *) R_alloc(qsize, sizeof(int));	
+  subsetsum = (double *) R_alloc(qsize, sizeof(double));
+  parent = (int *) R_alloc(qsize, sizeof(int));
+  type =(int *) R_alloc(qsize, sizeof(int));
+  position = (int *) R_alloc(qsize, sizeof(int));
+  pattern = (int *) R_alloc(qsize, sizeof(int));
+  queue = (int *) R_alloc(qsize, sizeof(int));
   bits = (char *) R_alloc(n, sizeof(char));
 
   queuesize = 0;
@@ -277,9 +277,9 @@ int topk(Bit **models, double *prob, int k, struct Var *vars, int n, int p)
 		  parent,pattern, position,type, bits, n);
 
   for (rank = 1; rank < k-1; rank++) {
-    current = get_next(subsetsum, queue, &queuesize); 
+    current = get_next(subsetsum, queue, &queuesize);
     print_subset(current, rank, models, model, subsetsum, pattern,
-		 position, n, vars, p);  
+		 position, n, vars, p);
     insert_children(current, list, subsetsum, queue, &queuesize, &tablesize,
 		    parent, pattern, position, type, bits,n);
   }
@@ -312,7 +312,7 @@ void insert_children(int subset, double *list, double *subsetsum,
     position[current] = n-1;
     parent[current] = subset;
     pattern[current] = subset;
-    
+
     /* Put the subset into the priority queue. */
     queue[*queuesize] = current;
     do_insert(*queuesize, subsetsum, queue);	/* Fix up heap. */
@@ -328,7 +328,7 @@ void insert_children(int subset, double *list, double *subsetsum,
   current = *tablesize;
   subsetsum[current] =
     subsetsum[subset]+list[position[subset]]-list[position[subset]-1];
-  
+
   type[current] = 2;
   position[current] = position[subset]-1;
   parent[current] = subset;
@@ -338,7 +338,7 @@ void insert_children(int subset, double *list, double *subsetsum,
   queue[*queuesize] = current;
   do_insert(*queuesize, subsetsum, queue);	/* Fix up heap. */
   *queuesize = 1+ *queuesize;
-  
+
   return;
 
 }
@@ -408,13 +408,13 @@ void set_bits(char *bits, int subset, int *pattern, int *position, int n)
   /* We know the bit pattern for ROOT. */
   for (i = 0; i < n; i++) bits[i] = 0;
 
-  for (;subset != 0; subset = pattern[subset]) 
+  for (;subset != 0; subset = pattern[subset])
     bits[position[subset]] = 1;
 }
 
 /* Print current subset. */
 void print_subset(int subset, int rank, Bit **models, Bit *model,
-		  double *subsetsum, int *pattern, int *position, 
+		  double *subsetsum, int *pattern, int *position,
 		  int n, struct Var *vars, int p)
 {
   int i;

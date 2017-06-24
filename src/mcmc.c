@@ -15,7 +15,7 @@
 */
 
 /* Includes. */
-#include "sampling.h"
+#include "bas.h"
 
 void   update_MCMC_freq(double *MCMC_probs, int *model, int p, int m);
 double cond_prob(double *model, int j, int n, double *mean, double *beta_matrix , double eps);
@@ -26,18 +26,18 @@ void  update_Cov(double *Cov, double *priorCov, double *SSgam, double *marg_prob
 
 void insert_model_tree(struct Node *tree, struct Var *vars,  int n, int *model, int num_models);
 
-// [[register]] 
+// [[register]]
 SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,
           SEXP method, SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP plocal,
           SEXP BURNIN_Iterations, SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA, SEXP Rthin)
 {
-  SEXP   Rse_m, Rcoef_m, Rmodel_m; 
+  SEXP   Rse_m, Rcoef_m, Rmodel_m;
 
   SEXP   RXwork = PROTECT(duplicate(X)), RYwork = PROTECT(duplicate(Y));
   SEXP   Rbestmarg = PROTECT(allocVector(REALSXP, 1));
   int nProtected = 3, nUnique=0, newmodel=0;
   int nModels=LENGTH(Rmodeldim);
-  
+
   //  Rprintf("Allocating Space for %d Models\n", nModels) ;
   SEXP ANS = PROTECT(allocVector(VECSXP, 15)); ++nProtected;
   SEXP ANS_names = PROTECT(allocVector(STRSXP, 15)); ++nProtected;
@@ -58,16 +58,16 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
   SEXP NumUnique = PROTECT(allocVector(INTSXP, 1)); ++nProtected;
 
   double *Xwork, *Ywork, *coefficients,*probs, shrinkage_m, *MCMC_probs,
-    SSY, yty, ybar, mse_m, *se_m, MH=0.0, prior_m=1.0, *real_model, 
+    SSY, yty, ybar, mse_m, *se_m, MH=0.0, prior_m=1.0, *real_model,
     R2_m, RSquareFull, alpha, logmargy, postold, postnew;
   int nobs, p, k, i, j, m, n, l, pmodel, pmodel_old, *xdims, *model_m, *bestmodel, *varin, *varout;
   int mcurrent,  update, n_sure;
   double  problocal, *pigamma,  eps, *hyper_parameters;
   double *XtX, *XtY, *XtXwork, *XtYwork, *SSgam, *Cov, *priorCov, *marg_probs;
-  double one=1.0, zero=0.0, lambda,  delta; 
+  double one=1.0, zero=0.0, lambda,  delta;
 
   int inc=1, p2, thin;
-  int *model, *modelold, bit, *modelwork, old_loc, new_loc;	
+  int *model, *modelold, bit, *modelwork, old_loc, new_loc;
   char uplo[] = "U", trans[]="T";
   struct Var *vars;	/* Info about the model variables. */
   NODEPTR tree, branch;
@@ -95,11 +95,11 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
   Ywork = REAL(RYwork);
   Xwork = REAL(RXwork);
 
- 
- /* Allocate other variables.  */ 
+
+ /* Allocate other variables.  */
   XtX  = (double *) R_alloc(p * p, sizeof(double));
   XtXwork  = (double *) R_alloc(p * p, sizeof(double));
-  XtY = vecalloc(p);  
+  XtY = vecalloc(p);
   XtYwork = vecalloc(p);
 
 
@@ -111,7 +111,7 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
     /*    for (i=0; i < nobs; i++) {
        Xmat[i][j] =  REAL(X)[l];
        Xwork[l] = Xmat[i][j];
-       l = l + 1; 
+       l = l + 1;
        } */
   }
   //  PROTECT(Rprobs = NEW_NUMERIC(p));
@@ -119,10 +119,10 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 
 
  p2 = p*p;
- ybar = 0.0; SSY = 0.0; yty = 0.0; 
+ ybar = 0.0; SSY = 0.0; yty = 0.0;
 
- 
- F77_NAME(dsyrk)(uplo, trans, &p, &nobs, &one, &Xwork[0], &nobs, &zero, &XtX[0], &p); 
+
+ F77_NAME(dsyrk)(uplo, trans, &p, &nobs, &one, &Xwork[0], &nobs, &zero, &XtX[0], &p);
  yty = F77_NAME(ddot)(&nobs, &Ywork[0], &inc, &Ywork[0], &inc);
  for (i = 0; i< nobs; i++) {
      ybar += Ywork[i];
@@ -132,13 +132,13 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
   SSY = yty - (double) nobs* ybar *ybar;
 
   F77_NAME(dgemv)(trans, &nobs, &p, &one, &Xwork[0], &nobs, &Ywork[0], &inc, &zero, &XtY[0],&inc);
-  
+
   alpha = REAL(Ralpha)[0];
 
   vars = (struct Var *) R_alloc(p, sizeof(struct Var));
   probs =  REAL(Rprobs);
-  n = sortvars(vars, probs, p); 
- 
+  n = sortvars(vars, probs, p);
+
   for (i =n; i <p; i++) REAL(MCMCprobs)[vars[i].index] = probs[vars[i].index];
   for (i =0; i <n; i++) REAL(MCMCprobs)[vars[i].index] = 0.0;
   MCMC_probs =  REAL(MCMCprobs);
@@ -169,17 +169,17 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
   }
 
 
-  /* Make space for the models and working variables. */ 
+  /* Make space for the models and working variables. */
 
-  /*  pivot = ivecalloc(p); 
+  /*  pivot = ivecalloc(p);
   qraux = vecalloc(p);
   work =  vecalloc(2 * p);
-  effects = vecalloc(nobs); 
-  v =  vecalloc(p * p); 
+  effects = vecalloc(nobs);
+  v =  vecalloc(p * p);
   betaols = vecalloc(p);
   */
 
- 
+
 
   /*  Rprintf("Fit Full Model\n"); */
 
@@ -187,14 +187,14 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
   else {
   PROTECT(Rcoef_m = NEW_NUMERIC(p));
   PROTECT(Rse_m = NEW_NUMERIC(p));
-  coefficients = REAL(Rcoef_m);  
+  coefficients = REAL(Rcoef_m);
   se_m = REAL(Rse_m);
   memcpy(coefficients, XtY,  p*sizeof(double));
   memcpy(XtXwork, XtX, p2*sizeof(double));
   memcpy(XtYwork, XtY,  p*sizeof(double));
 
-  mse_m = yty; 
-  cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, p, nobs);  
+  mse_m = yty;
+  cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, p, nobs);
 
   /*olsreg(Ywork, Xwork,  coefficients, se_m, &mse_m, &p, &nobs, pivot,qraux,work,residuals,effects,v, betaols); */
   RSquareFull =  1.0 - (mse_m * (double) ( nobs - p))/SSY;
@@ -225,7 +225,7 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
    for (i = 0; i< n; i++) {
 		bit =  bestmodel[vars[i].index];
 		if (bit == 1) {
-			if (i < n-1 && branch->one == NULL) 
+			if (i < n-1 && branch->one == NULL)
 				branch->one = make_node(-1.0);
 			if (i == n-1 && branch->one == NULL)
 				branch->one = make_node(0.0);
@@ -236,22 +236,22 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 			if (i == n-1 && branch->zero == NULL)
 				branch->zero = make_node(0.0);
 			branch = branch->zero;
-		} 
-      
-		model[vars[i].index] = bit; 
+		}
+
+		model[vars[i].index] = bit;
 		INTEGER(modeldim)[m]  += bit;
 		branch->where = 0;
 	}
-  
+
 
 
     /*    Rprintf("Now get model specific calculations \n"); */
- 
+
     pmodel = INTEGER(modeldim)[m];
     PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
     model_m = INTEGER(Rmodel_m);
 
-    for (j = 0, l=0; j < p; j++) {  
+    for (j = 0, l=0; j < p; j++) {
 		if (model[j] == 1) {
             model_m[l] = j;
 			l +=1;
@@ -262,7 +262,7 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 
     Rcoef_m = NEW_NUMERIC(pmodel); PROTECT(Rcoef_m);
     Rse_m = NEW_NUMERIC(pmodel);   PROTECT(Rse_m);
-    coefficients = REAL(Rcoef_m);  
+    coefficients = REAL(Rcoef_m);
     se_m = REAL(Rse_m);
 
     for (j=0, l=0; j < pmodel; j++) {
@@ -270,11 +270,11 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
         for  ( i = 0; i < pmodel; i++) {
 			XtXwork[j*pmodel + i] = XtX[model_m[j]*p + model_m[i]];
 		}
-    } 
-  
-    mse_m = yty; 
-    memcpy(coefficients, XtYwork, sizeof(double)*pmodel); 
-    cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, pmodel, nobs);  
+    }
+
+    mse_m = yty;
+    memcpy(coefficients, XtYwork, sizeof(double)*pmodel);
+    cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, pmodel, nobs);
 
     R2_m = 1.0 - (mse_m * (double) ( nobs - pmodel))/SSY;
 
@@ -285,12 +285,12 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
     REAL(mse)[m] = mse_m;
 
     gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
- 
+
     REAL(sampleprobs)[m] = 1.0;
     REAL(logmarg)[m] = logmargy;
     REAL(shrinkage)[m] = shrinkage_m;
     prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
-    REAL(priorprobs)[m] = prior_m; 
+    REAL(priorprobs)[m] = prior_m;
     REAL(Rbestmarg)[0] = REAL(logmarg)[m];
     UNPROTECT(3);
 
@@ -304,8 +304,8 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
   /*   Rprintf("model %d max logmarg %lf\n", m, REAL(logmarg)[m]); */
 
     /*  Rprintf("Now Sample the Rest of the Models \n");  */
-    
-  
+
+
   m = 0;
 
   while (nUnique < k && m < INTEGER(BURNIN_Iterations)[0]) {
@@ -326,7 +326,7 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 			MH =  random_walk(model, vars,  n);
 		}
     }
-    
+
     branch = tree;
     newmodel= 0;
 
@@ -338,7 +338,7 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 		} else {
 			if (branch->zero != NULL)  branch = branch->zero;
 			else newmodel = 1.0;
-		} 
+		}
 		pmodel  += bit;
     }
 
@@ -348,26 +348,26 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 		new_loc = nUnique;
 		PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
 		model_m = INTEGER(Rmodel_m);
-		for (j = 0, l=0; j < p; j++) {  
+		for (j = 0, l=0; j < p; j++) {
 			if (model[j] == 1) {
 				model_m[l] = j;
 				l +=1;}
-		}	
+		}
 
 		Rcoef_m = NEW_NUMERIC(pmodel); PROTECT(Rcoef_m);
 		Rse_m = NEW_NUMERIC(pmodel);   PROTECT(Rse_m);
-		coefficients = REAL(Rcoef_m);  
+		coefficients = REAL(Rcoef_m);
 		se_m = REAL(Rse_m);
 		for (j=0, l=0; j < pmodel; j++) {
 			XtYwork[j] = XtY[model_m[j]];
 			for  ( i = 0; i < pmodel; i++) {
 				XtXwork[j*pmodel + i] = XtX[model_m[j]*p + model_m[i]];
-			}	
-		}	 
+			}
+		}
 
-		mse_m = yty; 
-		memcpy(coefficients, XtYwork, sizeof(double)*pmodel); 
-		cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, pmodel, nobs);  
+		mse_m = yty;
+		memcpy(coefficients, XtYwork, sizeof(double)*pmodel);
+		cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, pmodel, nobs);
 
 		R2_m = 1.0 - (mse_m * (double) ( nobs - pmodel))/SSY;
 		prior_m = compute_prior_probs(model,pmodel,p, modelprior);
@@ -375,8 +375,8 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 		postnew = logmargy + log(prior_m);
     } else {
 		new_loc = branch->where;
-		postnew =  REAL(logmarg)[new_loc] + log(REAL(priorprobs)[new_loc]);      
-    } 
+		postnew =  REAL(logmarg)[new_loc] + log(REAL(priorprobs)[new_loc]);
+    }
 
     MH *= exp(postnew - postold);
     //    Rprintf("MH new %lf old %lf\n", postnew, postold);
@@ -398,7 +398,7 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 			REAL(shrinkage)[nUnique] = shrinkage_m;
 			REAL(priorprobs)[nUnique] = prior_m;
 			UNPROTECT(3);
-			++nUnique; 
+			++nUnique;
 		}
 
 		old_loc = new_loc;
@@ -410,42 +410,42 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
     }
 
     INTEGER(counts)[old_loc] += 1;
-    
+
     for (i = 0; i < n; i++) {
 		/* store in opposite order so nth variable is first */
 		real_model[n-1-i] = (double) modelold[vars[i].index];
 		REAL(MCMCprobs)[vars[i].index] += (double) modelold[vars[i].index];
 	}
 
-	// Update SSgam = gamma gamma^T + SSgam 
+	// Update SSgam = gamma gamma^T + SSgam
     F77_NAME(dsyr)("U", &n,  &one, &real_model[0], &inc,  &SSgam[0], &n);
     m++;
   }
-  
+
   for (i = 0; i < n; i++) {
      REAL(MCMCprobs)[vars[i].index] /= (double) m;
   }
   //  Rprintf("\n%d \n", nUnique);
 
 
-  // Compute marginal probabilities  
+  // Compute marginal probabilities
   mcurrent = nUnique;
   compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
-  compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);        
+  compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
 
- 
- 
-  //  Now sample W/O Replacement 
+
+
+  //  Now sample W/O Replacement
   //  Rprintf("NumUnique Models Accepted %d \n", nUnique);
   INTEGER(NumUnique)[0] = nUnique;
-	
- 
+
+
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
 	SET_STRING_ELT(ANS_names, 0, mkChar("probne0"));
 
 	if (nUnique < nModels) {
 		SEXP modelspaceP = PROTECT(allocVector(VECSXP, nUnique));
-		for (i =0; i < nUnique; i++) { 
+		for (i =0; i < nUnique; i++) {
 			SEXP model_temp = PROTECT(VECTOR_ELT(modelspace, i));
 			SET_ELEMENT(modelspaceP, i, model_temp);
 			UNPROTECT(1);
@@ -459,7 +459,7 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 
 	if (nUnique < nModels) {
 		SEXP logmargP = PROTECT(allocVector(REALSXP, nUnique));
-		for (i =0; i < nUnique; i++) { 
+		for (i =0; i < nUnique; i++) {
 			REAL(logmargP)[i] = REAL(logmarg)[i];
 		}
 		SET_VECTOR_ELT(ANS, 2, logmargP);
@@ -471,7 +471,7 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 
 	if (nUnique < nModels) {
 		SEXP modelprobsP = PROTECT(allocVector(REALSXP, nUnique));
-		for (i =0; i < nUnique; i++) { 
+		for (i =0; i < nUnique; i++) {
 			REAL(modelprobsP)[i] = REAL(modelprobs)[i];
 		}
 		SET_VECTOR_ELT(ANS, 3, modelprobsP);
@@ -483,7 +483,7 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 
 	if (nUnique < nModels) {
 		SEXP priorprobsP = PROTECT(allocVector(REALSXP, nUnique));
-		for (i =0; i < nUnique; i++) { 
+		for (i =0; i < nUnique; i++) {
 			REAL(priorprobsP)[i] = REAL(priorprobs)[i];
 		}
 		SET_VECTOR_ELT(ANS, 4, priorprobsP);
@@ -495,7 +495,7 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 
 	if (nUnique < nModels) {
 		SEXP sampleprobsP = PROTECT(allocVector(REALSXP, nUnique));
-		for (i =0; i < nUnique; i++) { 
+		for (i =0; i < nUnique; i++) {
 			REAL(sampleprobsP)[i] = REAL(sampleprobs)[i];
 		}
 		SET_VECTOR_ELT(ANS, 5, sampleprobsP);
@@ -507,7 +507,7 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 
 	if (nUnique < nModels) {
 		SEXP mseP = PROTECT(allocVector(REALSXP, nUnique));
-		for (i =0; i < nUnique; i++) { 
+		for (i =0; i < nUnique; i++) {
 			REAL(mseP)[i] = REAL(mse)[i];
 		}
 		SET_VECTOR_ELT(ANS, 6, mseP);
@@ -519,7 +519,7 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 
 	if (nUnique < nModels) {
 		SEXP betaP = PROTECT(allocVector(VECSXP, nUnique));
-		for (i =0; i < nUnique; i++) { 
+		for (i =0; i < nUnique; i++) {
 			SEXP beta_temp = PROTECT(VECTOR_ELT(beta, i));
 			SET_ELEMENT(betaP, i, beta_temp);
 			UNPROTECT(1);
@@ -533,7 +533,7 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 
 	if (nUnique < nModels) {
 		SEXP seP = PROTECT(allocVector(VECSXP, nUnique));
-		for (i =0; i < nUnique; i++) { 
+		for (i =0; i < nUnique; i++) {
 			SEXP se_temp = PROTECT(VECTOR_ELT(se, i));
 			SET_ELEMENT(seP, i, se_temp);
 			UNPROTECT(1);
@@ -547,7 +547,7 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 
 	if (nUnique < nModels) {
 		SEXP shrinkageP = PROTECT(allocVector(REALSXP, nUnique));
-		for (i =0; i < nUnique; i++) { 
+		for (i =0; i < nUnique; i++) {
 			REAL(shrinkageP)[i] = REAL(shrinkage)[i];
 		}
 		SET_VECTOR_ELT(ANS, 9, shrinkageP);
@@ -559,7 +559,7 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 
 	if (nUnique < nModels) {
 		SEXP modeldimP = PROTECT(allocVector(INTSXP, nUnique));
-		for (i =0; i < nUnique; i++) { 
+		for (i =0; i < nUnique; i++) {
 			INTEGER(modeldimP)[i] = INTEGER(modeldim)[i];
 		}
 		SET_VECTOR_ELT(ANS, 10, modeldimP);
@@ -568,10 +568,10 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 		SET_VECTOR_ELT(ANS, 10, modeldim);
 	}
 	SET_STRING_ELT(ANS_names, 10, mkChar("size"));
- 
+
 	if (nUnique < nModels) {
 		SEXP R2P = PROTECT(allocVector(REALSXP, nUnique));
-		for (i =0; i < nUnique; i++) { 
+		for (i =0; i < nUnique; i++) {
 			REAL(R2P)[i] = REAL(R2)[i];
 		}
 		SET_VECTOR_ELT(ANS, 11, R2P);
@@ -583,7 +583,7 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 
 	if (nUnique < nModels) {
 		SEXP countsP = PROTECT(allocVector(INTSXP, nUnique));
-		for (i =0; i < nUnique; i++) { 
+		for (i =0; i < nUnique; i++) {
 			INTEGER(countsP)[i] = INTEGER(counts)[i];
 		}
 		SET_VECTOR_ELT(ANS, 12, countsP);
@@ -604,7 +604,7 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralp
 	//	Rprintf("Return\n");
 	PutRNGstate();
 
-	return(ANS);  
+	return(ANS);
 }
 
 

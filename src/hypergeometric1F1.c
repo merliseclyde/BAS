@@ -6,13 +6,13 @@ extern double hyperg(double, double, double), lgammafn(double);
 double loghyperg1F1_laplace(double, double, double);
 
 double loghyperg1F1(double a, double b, double x, int laplace)
-{ 
+{
   double y;
 
   if (laplace == 0) {
     if (x <0) {
       /*  Since Linux system tends to report error for negative x, we
-	  use the following fomular to convert it to positive value 
+	  use the following fomular to convert it to positive value
 	  1F1(a, b, x) = 1F1(b - a, b, -x) * exp(x) */
       y = log(hyperg(b-a, b, -x)) + x;
     }
@@ -21,14 +21,14 @@ double loghyperg1F1(double a, double b, double x, int laplace)
     }
   }
   else {
-    /* Laplace approximation assumes -x  for x positive 
+    /* Laplace approximation assumes -x  for x positive
     if ( x <= 0.0 ){y = loghyperg1F1_laplace(a, b, -x); }
     else { y = loghyperg1F1_laplace(b - a, b, x) + x;} */
     y = loghyperg1F1_laplace(a, b, x);
   }
-    
+
     //    Rprintf("LOG Cephes 1F1(%lf, %lf, %lf) = %lf (%lf)\n", a,b,x,log(y), y);
-    
+
 
     //    ly = hyperg1F1_laplace(a,b,x);
     //    Rprintf("called from hyperg1F1: LOG Pos 1F1(%lf, %lf, %lf) = %lf (%lf)\n", a,b,x,ly, exp(ly));
@@ -36,16 +36,16 @@ double loghyperg1F1(double a, double b, double x, int laplace)
     warning("Cephes 1F1 function returned NA, using Laplace approximation");
     y = loghyperg1F1_laplace(a, b, x);  // try Laplace approximation
   }
-  
+
   return(y);
-} 
+}
 
 
 double loghyperg1F1_laplace(double a, double b, double x)
-{ 
+{
   double  mode,mode1, mode2, lprec, prec, logy;
 
-  /* int u^(a-1) (1-u)^(b-1) exp(-x u) du   assuming that x >= 0 */  
+  /* int u^(a-1) (1-u)^(b-1) exp(-x u) du   assuming that x >= 0 */
 
   prec = 0.0;
   logy = 0.0;
@@ -75,14 +75,14 @@ double loghyperg1F1_laplace(double a, double b, double x)
 	         mode)*(1.0-mode); */
 	  prec = (1.0-mode)*((a + b - x)*pow(mode,2) + (1.0-mode)*mode*(a + b  + x));
 	  if (prec > 0)  {
-	      lprec = log(prec); 
+	      lprec = log(prec);
 	      logy += a*log(mode) + b*log(1.0 - mode) - x*mode;
 	      logy += -0.5*lprec + M_LN_SQRT_2PI;
 	  }
 	  else {prec = 0.0;}
 	}
-	    
-	//	Rprintf("mode %lf prec %lf, Lap 1F1(%lf, %lf, %lf) = %lf\n", mode, prec, a,b,x, logy); 
+
+	//	Rprintf("mode %lf prec %lf, Lap 1F1(%lf, %lf, %lf) = %lf\n", mode, prec, a,b,x, logy);
      }
      else {logy = 0.0;}
   }
@@ -90,17 +90,17 @@ double loghyperg1F1_laplace(double a, double b, double x)
     logy = x + loghyperg1F1_laplace(b - a, a, -x);
   }
 
-  return(logy);	
+  return(logy);
 }
 
- 
+
 void hypergeometric1F1(double *a, double *b, double *x, double *y, int *npara, int *Method)
-{ 
+{
   int k;
   for (k = 0; k < *npara; k++) {
     //   if (x[k] <0) {
       /*  Since Linex system tends to report error for negative x, we
-	  use the following fomular to convert it to positive value 
+	  use the following fomular to convert it to positive value
 	  1F1(a, b, x) = 1F1(b - a, b, -x) * exp(x) */
     /*      a[k] = b[k] - a[k];
       y[k] = hyperg(a[k], b[k], -x[k])*exp(x[k]);
@@ -109,31 +109,7 @@ void hypergeometric1F1(double *a, double *b, double *x, double *y, int *npara, i
       y[k] = hyperg(a[k], b[k], x[k]);
     }*/
     y[k] = loghyperg1F1(a[k], b[k], x[k], Method[k]);
-  }   
-}
-
-// Deprecate - compute shrinkage in betapriorfamily.c now
-double shrinkage_chg(double a, double b, double Q, int laplace) {
-
-  double shrinkage=1.0;
-  /* Beta(a/2,(b+2)/2) 1F1(a/2,(b+2)/2,(s+Q)/2 /
-     Beta(a/2,b/2) 1F1(a/2,b/2,(s+Q)/2
-  */		       
-  /* shrinkage = exp( lbeta(a/2.0, (b+2.0)/2.0) +
-		   log(hyperg1F1(a/2.0, b/2.0 + 1.0, Q/2.0)) -
-		   lbeta(a/2.0, (b)/2.0) -
-		   log(hyperg1F1(a/2.0, b/2.0, Q/2.0)));
-   */
-   //    Rprintf("shrinkage_chg:  %lf\n", shrinkage);
-  if (a > 0 & b > 0) {
-  shrinkage = exp( lbeta(a/2.0, b/2.0 + 1.0) +
-		     loghyperg1F1(a/2.0, b/2.0 + 1.0,  Q/2.0, laplace) -
-		     lbeta(a/2.0, b/2.0) -
-		     loghyperg1F1(a/2.0, b/2.0,  Q/2.0, laplace));	
   }
-  Rprintf("shrinkage_chg:  %lf\n", shrinkage);
-  if (shrinkage > 1.0)  shrinkage = 1.0;
-  else if (shrinkage < 0.0) shrinkage = 0.0;
-  
-  return (shrinkage);
 }
+
+

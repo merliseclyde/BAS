@@ -1,4 +1,4 @@
-#include "sampling.h"
+#include "bas.h"
 
 void compute_modelprobs(SEXP Rmodelprobs,  SEXP Rlogmarg, SEXP Rpriorprobs, int k)
 {

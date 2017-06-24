@@ -1,4 +1,5 @@
-#include "sampling.h"
+#include "bas.h"
+
 #define lgamma lgammafn
 double LogBF_Hg_null(double r2curr, int n, int d, double alpha, int gpower);
 void posroot(double a, double b, double c, double *root, double *status);
@@ -14,7 +15,7 @@ double lik_null_HG(double g, double R2, int n, int k, double alpha, int gpower){
   if (R2 >= 1.0) R2 = 1.0;
   aux=((double)n-1.-(double)k)*log(1.+g)-((double)n-1.)*log(1.+(1.-R2)*g)+ 2.*(double)gpower*log(g)-alpha*log(1.+g/(double)n);
   aux=aux/2.;
-  aux=aux - log((double)n) +  log(alpha/2.-1.); 
+  aux=aux - log((double)n) +  log(alpha/2.-1.);
 
   return(aux);
 }
@@ -44,15 +45,15 @@ double LogBF_Hg_null(double R2, int n, int d, double alpha, int gpower){
    with respect to the null model (intercept only), log(m_k)-log(m_0)
 
    R2 = 1-SSE/SST; the coefficient of determination
-   e = 1 - R2; 
+   e = 1 - R2;
    n  = sample size;
    k  = number of covariates of the current model (exclusing the intercept)
 
    The prior under consideration is Hyper-g with prior (1+g/n)^{-alpha/2}
-   
+
    The cubic equation for loglik'(g)=0 is
-   -e (alpha - 2 gpower + k) g^3 
-   - {[e (k - 2 gpower) - (1 - e)] n + (1 - e) + k + (1 + e) (alpha - 2 gpower)} g^2 
+   -e (alpha - 2 gpower + k) g^3
+   - {[e (k - 2 gpower) - (1 - e)] n + (1 - e) + k + (1 + e) (alpha - 2 gpower)} g^2
    + [(1 - e) (n - 1) n - k n - alpha + 2 gpower (1 + (1 + e) n)] g + 2 gpower n
 */
 

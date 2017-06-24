@@ -2,7 +2,7 @@
 #include <math.h>
 #include <Rmath.h>
 #include <R_ext/Applic.h>
-#include "sampling.h"
+#include "bas.h"
 
 void LogBF_ZS_null_vect(double *r2curr, int *n, int *dim, int *nmodels, double *logmarg) {
 

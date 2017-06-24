@@ -1,8 +1,4 @@
-#include "sampling.h"
-#include "family.h"
-#include <R_ext/BLAS.h>
-
-
+#include "bas.h"
 
 typedef struct coefpriorstruc {
   const char *family;
@@ -24,16 +20,16 @@ typedef struct coefpriorstruc {
   return g/(1.0 + g) ;
 }
 
- double g_EB_local(double dev,  double regSS, int n, int p, int pgamma, double *hyper) { 
+ double g_EB_local(double dev,  double regSS, int n, int p, int pgamma, double *hyper) {
   double g = regSS/pgamma - 1.0;
   return g > 0.0 ? g : 0.0;
 }
 
- double g_gprior(double dev,  double regSS, int n, int p, int pgamma, double *hyper) { 
+ double g_gprior(double dev,  double regSS, int n, int p, int pgamma, double *hyper) {
   return hyper[0];
 }
 
- double no_g(double dev,  double regSS, int n, int p, int pgamma, double *hyper) { 
+ double no_g(double dev,  double regSS, int n, int p, int pgamma, double *hyper) {
   return 1.0;
 }
 
@@ -53,33 +49,33 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
   int   *xdims = INTEGER(getAttrib(RX,R_DimSymbol)), n=xdims[0], p = xdims[1];
   int inc = 1,  nmodels=1,  nProtected = 0, it=0;
     // int job = 01, info = 1;
-  
+
 
   SEXP ANS = PROTECT(allocVector(VECSXP, 9)); ++nProtected;
   SEXP ANS_names = PROTECT(allocVector(STRSXP, 9)); ++nProtected;
   SEXP RXwork = PROTECT(duplicate(RX)); ++nProtected;
-  SEXP RYwork = PROTECT(duplicate(RY)); ++nProtected;  
-  SEXP RWwork = PROTECT(duplicate(RY)); ++nProtected; 
-  SEXP Rvariance = PROTECT(duplicate(RY)); ++nProtected; 
+  SEXP RYwork = PROTECT(duplicate(RY)); ++nProtected;
+  SEXP RWwork = PROTECT(duplicate(RY)); ++nProtected;
+  SEXP Rvariance = PROTECT(duplicate(RY)); ++nProtected;
   SEXP Rmu_eta = PROTECT(duplicate(RY)); ++nProtected;
   SEXP Reta = PROTECT(duplicate(RY)); ++nProtected;
   SEXP Rmu = PROTECT(duplicate(RY)); ++nProtected;
   SEXP Rcoef= PROTECT(allocVector(REALSXP,p)); ++nProtected;
   SEXP Rcoefwork= PROTECT(allocVector(REALSXP,p)); ++nProtected;
   SEXP Rrank=PROTECT(allocVector(INTSXP,1)); ++nProtected;
-  SEXP Rcov = PROTECT(allocVector(REALSXP, p*p)); ++nProtected;    
-  SEXP RR = PROTECT(allocVector(REALSXP, p*p)); ++nProtected;  
-  SEXP Rse= PROTECT(allocVector(REALSXP, p)); ++nProtected;  
+  SEXP Rcov = PROTECT(allocVector(REALSXP, p*p)); ++nProtected;
+  SEXP RR = PROTECT(allocVector(REALSXP, p*p)); ++nProtected;
+  SEXP Rse= PROTECT(allocVector(REALSXP, p)); ++nProtected;
   SEXP Rresiduals= PROTECT(duplicate(RY)); ++nProtected;
   SEXP Reffects= PROTECT(duplicate(RY)); ++nProtected;
   SEXP Rpivot=PROTECT(allocVector(INTSXP,p)); ++nProtected;
-  SEXP Rqrauxmat=PROTECT(allocVector(REALSXP,p)); ++nProtected; 
+  SEXP Rqrauxmat=PROTECT(allocVector(REALSXP,p)); ++nProtected;
   SEXP Rworkmat=PROTECT(allocVector(REALSXP,2*p)); ++nProtected;
-  SEXP Rlog_marg_lik=PROTECT(allocVector(REALSXP,nmodels)); ++nProtected; 
-  SEXP Rdeviance=PROTECT(allocVector(REALSXP,nmodels)); ++nProtected; 
-  SEXP RregSS=PROTECT(allocVector(REALSXP,nmodels)); ++nProtected; 
-  SEXP Rg = PROTECT(allocVector(REALSXP, nmodels)); ++nProtected; 
-  SEXP Rshrinkage = PROTECT(allocVector(REALSXP, nmodels)); ++nProtected; 
+  SEXP Rlog_marg_lik=PROTECT(allocVector(REALSXP,nmodels)); ++nProtected;
+  SEXP Rdeviance=PROTECT(allocVector(REALSXP,nmodels)); ++nProtected;
+  SEXP RregSS=PROTECT(allocVector(REALSXP,nmodels)); ++nProtected;
+  SEXP Rg = PROTECT(allocVector(REALSXP, nmodels)); ++nProtected;
+  SEXP Rshrinkage = PROTECT(allocVector(REALSXP, nmodels)); ++nProtected;
 
 
   double *X=REAL(RX), *Y=REAL(RY), *Xwork=REAL(RXwork),
@@ -97,7 +93,7 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
   glmstptr *glmfamily;
   coefdistptr *coefprior;
   char  trans[]="N";
-  
+
   tol = fmin(1e-07, REAL(getListElement(Rcontrol,"epsilon"))[0]/1000);
 
   coefprior = (struct coefpriorstruc *) R_alloc(1, sizeof(struct coefpriorstruc));
@@ -105,15 +101,15 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
   //  Rprintf("prior family %s\n", coefprior->family);
   coefprior->class  = CHAR(STRING_ELT(getListElement(Rpriorcoef, "class"),0));
   //  Rprintf("class %s\n", coefprior->class);
-  //  if (getListElement(Rpriorcoef, "hyper") != R_NilValue) 	
-  hyper = REAL(getListElement(Rpriorcoef, "hyper"));	
+  //  if (getListElement(Rpriorcoef, "hyper") != R_NilValue)
+  hyper = REAL(getListElement(Rpriorcoef, "hyper"));
 
   if  (strcmp(coefprior->class, "gprior") == 0) {
     coefprior->shrinkage = shrinkage_gprior;
     coefprior->log_marginal_likelihood = log_marginal_likelihood_gprior;
-    if  (strcmp(coefprior->family, "fixed-g-prior") == 0) 
+    if  (strcmp(coefprior->family, "fixed-g-prior") == 0)
       coefprior->g = g_gprior;
-    else 
+    else
       coefprior->g = g_EB_local;
 }
   if  (strcmp(coefprior->class, "IC") == 0) {
@@ -121,13 +117,13 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
     coefprior->log_marginal_likelihood = log_marginal_likelihood_IC;
     coefprior->g = no_g;
 }
-  
 
 
-  glmfamily = make_glmfamily_structure(family); 
+
+  glmfamily = make_glmfamily_structure(family);
 
 
-  
+
   for (m=0; m< nmodels; m++){
     glmfamily->initialize(Y, mu, weights, n);
     glmfamily->linkfun(mu, eta, n);
@@ -139,7 +135,7 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
     it = 0;
 
     while ( conv < 1 && it < REAL(getListElement(Rcontrol, "maxit"))[0]) {
-    
+
     glmfamily->mu_eta(eta, mu_eta, n);
     glmfamily->variance(mu, variance, n);
 
@@ -170,7 +166,7 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
       conv = 1;
     }
 
-    for (j=0; j<p; j++) { 
+    for (j=0; j<p; j++) {
       coef[pivot[j] - 1] = coefwork[j];
     }
 
@@ -198,11 +194,11 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
 
 
       if (rank == p)   chol2se(&Xwork[0], &se[0], &R[0], &cov[0], p, n);
-      else	{  
+      else	{
 	QR2cov(&Xwork[0], &R[0], &cov[0], rank, n);
 	for (j=0; j < rank; j++)  se[pivot[j]-1] = sqrt(cov[j*rank + j]);
       }
-  
+
   regSS[m] = quadform(coefwork, R, rank);
   g[m] = coefprior->g(dev[m],  regSS[m],  n,  p,  rank, hyper);
   REAL(Rshrinkage)[m]  = coefprior->shrinkage(dev[m],  regSS[m],  n,  p, rank, g[m],  hyper);
@@ -220,21 +216,21 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
   SET_VECTOR_ELT(ANS, 6, Rshrinkage);
   SET_VECTOR_ELT(ANS, 7, RregSS);
   SET_VECTOR_ELT(ANS, 8, Rlog_marg_lik);
-  
+
   SET_STRING_ELT(ANS_names, 0, mkChar("coefficients"));
   SET_STRING_ELT(ANS_names, 1, mkChar("se"));
-  SET_STRING_ELT(ANS_names, 2, mkChar("mu"));	
+  SET_STRING_ELT(ANS_names, 2, mkChar("mu"));
   SET_STRING_ELT(ANS_names, 3, mkChar("deviance"));
   SET_STRING_ELT(ANS_names, 4, mkChar("rank"));
   SET_STRING_ELT(ANS_names, 5, mkChar("g"));
   SET_STRING_ELT(ANS_names, 6, mkChar("shrinkage"));
   SET_STRING_ELT(ANS_names, 7, mkChar("RegSS"));
   SET_STRING_ELT(ANS_names, 8, mkChar("logmarglik"));
- 
+
   setAttrib(ANS, R_NamesSymbol, ANS_names);
-  
+
   UNPROTECT(nProtected);
-  
+
   return(ANS);
   }
 

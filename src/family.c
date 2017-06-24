@@ -1,11 +1,6 @@
-#include <Rinternals.h>
-#include <Rconfig.h>
-#include <Rmath.h>
-#include <R_ext/Constants.h>
-#include "sampling.h"
-#include "family.h"
-#include <float.h>
-#include <R_ext/BLAS.h>
+/* Code for implementing GLM families in C   */
+
+# include "bas.h"
 
 static const double THRESH = 30.;
 static const double MTHRESH = -30.;
@@ -84,7 +79,7 @@ void log_linkinv(double *reta, double *rans, int n) {
     }
 }
 
- 
+
 void log_mu_eta(double *reta, double *rans, int n)
 {
     int i;
@@ -93,12 +88,12 @@ void log_mu_eta(double *reta, double *rans, int n)
     }
 }
 
- 
+
 void poisson_dev_resids(double *ry, double *rmu, double *rwt, double *rans, int n)
 {
   int i;
   double mui, yi, wti;
-  
+
   	for (i = 0; i < n; i++) {
 	    mui = rmu[i];
 	    yi = ry[i];
@@ -111,7 +106,7 @@ void poisson_dev_resids(double *ry, double *rmu, double *rwt, double *rans, int 
 	}
 }
 
- 
+
 void poisson_initialize(double *Y, double *mu,  double *weights, int n) {
   int i;
   for (i = 0; i < n; i++) {
@@ -120,7 +115,7 @@ void poisson_initialize(double *Y, double *mu,  double *weights, int n) {
   }
 }
 
- 
+
 double poisson_dispersion(double *resid,  double *weights, int n, int rank) {
   return(1.0);
 }
@@ -137,7 +132,7 @@ double binomial_loglik(double *Y, double*mu, double *wts, int n) {
   return(ll);
 }
 
- 
+
 void logit_variance(double *mu, double *var, int n) {
 
   int i;
@@ -147,7 +142,7 @@ void logit_variance(double *mu, double *var, int n) {
   }
 }
 
- 
+
 void logit_info(double *y, double *mu, double *weights, double *var, int n) {
 
   int i;
@@ -157,7 +152,7 @@ void logit_info(double *y, double *mu, double *weights, double *var, int n) {
   }
 }
 
- 
+
 void logit_precision(double *mu, double *prec, int n) {
 
   int i;
@@ -167,7 +162,7 @@ void logit_precision(double *mu, double *prec, int n) {
   }
 }
 
- 
+
 void logit_link(double *rmu, double *rans, int n)
 {
     int i;
@@ -176,7 +171,7 @@ void logit_link(double *rmu, double *rans, int n)
 	rans[i] = log(x_d_omx(rmu[i]));
 }
 
- 
+
 void logit_linkinv(double *reta, double *rans, int n) {
 
     int i;
@@ -189,7 +184,7 @@ void logit_linkinv(double *reta, double *rans, int n) {
     }
 }
 
- 
+
 void logit_mu_eta(double *reta, double *rans, int n)
 {
     int i;
@@ -208,7 +203,7 @@ double y_log_y(double y, double mu)
     return (y) ? (y * log(y/mu)) : 0;
 }
 
- 
+
 void binomial_dev_resids(double *ry, double *rmu, double *rwt, double *rans, int n)
 {
   int i;
@@ -221,12 +216,12 @@ void binomial_dev_resids(double *ry, double *rmu, double *rwt, double *rans, int
 	}
 }
 
- 
+
 double binomial_dispersion(double *resid,  double *weights, int n, int rank) {
   return(1.0);
 }
 
- 
+
 void binomial_initialize(double *Y, double *mu,  double *weights, int n) {
   int i;
   for (i = 0; i < n; i++) {
@@ -237,7 +232,7 @@ void binomial_initialize(double *Y, double *mu,  double *weights, int n) {
 
 
 /* Gaussian */
- 
+
 double Gaussian_dispersion(double *resid,  double *weights, int n, int rank) {
   double dispersion = 0.0;
   int i, nwt=0;
@@ -252,7 +247,7 @@ double Gaussian_dispersion(double *resid,  double *weights, int n, int rank) {
 
 /* generic functions */
 
- 
+
 double deviance(double *res, int n) {
   int i;
   double   dev = 0;
@@ -263,31 +258,31 @@ double deviance(double *res, int n) {
   return dev;
 }
 
- 
+
 double quadform (double *bwork, double *R,  int p) {
 
   double Q = 0.0;
   int inc = 1;
   char uplo[] = "U", trans[]="T", diag[]="N";
-  //  F77_NAME(dcopy)(&p, &b[0], &inc,  &bwork[0], &inc); 
-  F77_NAME(dtrsv)(uplo, trans, diag, &p, &R[0], &p, &bwork[0], &inc);  	
+  //  F77_NAME(dcopy)(&p, &b[0], &inc,  &bwork[0], &inc);
+  F77_NAME(dtrsv)(uplo, trans, diag, &p, &R[0], &p, &bwork[0], &inc);
   Q = F77_NAME(dnrm2)(&p, &bwork[0], &inc);
   Q *=Q;
   return(Q);
 }
 
- 
+
 void chol2se(double *qr, double *se, double *R, double *covwork, int p, int n) {
 
   int i, j, l;
 
   for (j=0, l=0; j < p; j++) {
 
-    for (i = 0; i <p; i++, l++) { 
+    for (i = 0; i <p; i++, l++) {
       R[l] = 0;
       if (i < (j+1))   R[j*p+i] = qr[j*n + i];
-    }	
-  }	
+    }
+  }
   //  F77_NAME(ch2inv)(&R[0], &p, &p, &covwork[0], &info);
   Lapack_chol2inv(R, p, covwork);
 
@@ -298,29 +293,29 @@ for (j=0; j < p; j++) {
  return;
 }
 
- 
+
 void QR2cov(double *qr,  double *R, double *covwork, int p,  int n) {
 
   int i, j, l;
 
   for (j=0, l=0; j < p; j++) {
 
-    for (i = 0; i <p; i++, l++) { 
+    for (i = 0; i <p; i++, l++) {
       R[l] = 0;
       if (i < (j+1))   R[j*p+i] = qr[j*n + i];
-    }	
-  }	
+    }
+  }
   //  F77_NAME(ch2inv)(&R[0], &p, &p, &covwork[0], &info);
   Lapack_chol2inv(R, p, covwork);
   return;
 }
 
 
- 
+
 void  Lapack_chol2inv(double *A, int sz, double *ans)
 {
   int  i, j;
-  //	F77_NAME(dcopy)(&sz, &A[0], &inc,  &ans[0], &inc); 
+  //	F77_NAME(dcopy)(&sz, &A[0], &inc,  &ans[0], &inc);
 	for (j = 0; j < sz; j++) {
 	    for (i = 0; i <= j; i++)
 		ans[i + j * sz] = A[i + j * sz];
@@ -348,14 +343,14 @@ struct glmfamilystruc * make_glmfamily_structure(SEXP family) {
   glmstptr *glmfamily;
 
   //  Rprintf("Make family\n");
-  
+
   glmfamily = (struct glmfamilystruc *) R_alloc(1, sizeof(struct glmfamilystruc));
   glmfamily->family = CHAR(STRING_ELT(getListElement(family, "family"),0));
 	//	Rprintf("family %s\n", glmfamily->family);
 
 	glmfamily->link = CHAR(STRING_ELT(getListElement(family, "link"),0));
 	//	Rprintf("link %s\n", glmfamily->link);
-	
+
 	if  (strcmp(glmfamily->family, "binomial") == 0) {
 		glmfamily->dev_resids = binomial_dev_resids;
 		glmfamily->dispersion = binomial_dispersion;
@@ -364,10 +359,10 @@ struct glmfamilystruc * make_glmfamily_structure(SEXP family) {
 		if (strcmp(glmfamily->link, "logit") != 0) {
 		  warning("no other links implemented yet, using logit\n");
 		}
-		
-		glmfamily->linkfun = logit_link;	
+
+		glmfamily->linkfun = logit_link;
 		glmfamily->mu_eta = logit_mu_eta;
-		glmfamily->variance = logit_variance; 
+		glmfamily->variance = logit_variance;
 		glmfamily->linkinv =  logit_linkinv;
 		glmfamily->info_matrix =  logit_info;
 	}
@@ -380,7 +375,7 @@ struct glmfamilystruc * make_glmfamily_structure(SEXP family) {
 	  if (strcmp(glmfamily->link, "log") != 0) {
 	    warning("no other links implemented yet, using log\n");
 	  }
-	  glmfamily->linkfun = log_link;	
+	  glmfamily->linkfun = log_link;
 	  glmfamily->mu_eta = log_mu_eta;
 	  glmfamily->linkinv =  log_linkinv;
 	  glmfamily->info_matrix =  poisson_log_info;

@@ -1,7 +1,4 @@
-#include "sampling.h"
-#include "family.h"
-#include "betapriorfamily.h"
-#include "bas-glm.h"
+#include "bas.h"
 
 
 // [[register]]

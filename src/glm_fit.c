@@ -1,6 +1,5 @@
-#include "sampling.h"
-#include "family.h"
-#include <R_ext/BLAS.h>
+#include "bas.h"
+
 
 /*typedef struct glmfamilystruc {
 	const char *family;
@@ -24,32 +23,32 @@ SEXP glm_bas(SEXP RX, SEXP RY, glmstptr *glmfamily, SEXP Roffset, SEXP Rweights,
 	SEXP ANS = PROTECT(allocVector(VECSXP, 6)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 6)); ++nProtected;
 	SEXP RXwork = PROTECT(duplicate(RX)); ++nProtected;
-	SEXP RYwork = PROTECT(duplicate(RY)); ++nProtected;  
-	SEXP RWwork = PROTECT(duplicate(RY)); ++nProtected; 
-	SEXP Rvariance = PROTECT(duplicate(RY)); ++nProtected; 
+	SEXP RYwork = PROTECT(duplicate(RY)); ++nProtected;
+	SEXP RWwork = PROTECT(duplicate(RY)); ++nProtected;
+	SEXP Rvariance = PROTECT(duplicate(RY)); ++nProtected;
 	SEXP Rmu_eta = PROTECT(duplicate(RY)); ++nProtected;
 	SEXP Reta = PROTECT(duplicate(RY)); ++nProtected;
 	SEXP Rmu = PROTECT(duplicate(RY)); ++nProtected;
 	SEXP Rcoef= PROTECT(allocVector(REALSXP,p)); ++nProtected;
 	SEXP Rcoefwork= PROTECT(allocVector(REALSXP,p)); ++nProtected;
 	SEXP Rrank=PROTECT(allocVector(INTSXP,1)); ++nProtected;
-	SEXP Rcov = PROTECT(allocVector(REALSXP, p*p)); ++nProtected;    
-	SEXP RR = PROTECT(allocVector(REALSXP, p*p)); ++nProtected;  
-	SEXP Rse= PROTECT(allocVector(REALSXP, p)); ++nProtected;  
+	SEXP Rcov = PROTECT(allocVector(REALSXP, p*p)); ++nProtected;
+	SEXP RR = PROTECT(allocVector(REALSXP, p*p)); ++nProtected;
+	SEXP Rse= PROTECT(allocVector(REALSXP, p)); ++nProtected;
 	SEXP Rresiduals= PROTECT(duplicate(RY)); ++nProtected;
 	SEXP Reffects= PROTECT(duplicate(RY)); ++nProtected;
 	SEXP Rpivot=PROTECT(allocVector(INTSXP,p)); ++nProtected;
-	SEXP Rqrauxmat=PROTECT(allocVector(REALSXP,p)); ++nProtected; 
+	SEXP Rqrauxmat=PROTECT(allocVector(REALSXP,p)); ++nProtected;
 	SEXP Rworkmat=PROTECT(allocVector(REALSXP,2*p)); ++nProtected;
-	SEXP Rdeviance=PROTECT(allocVector(REALSXP,1)); ++nProtected; 
-	SEXP RregSS=PROTECT(allocVector(REALSXP,1)); ++nProtected; 
+	SEXP Rdeviance=PROTECT(allocVector(REALSXP,1)); ++nProtected;
+	SEXP RregSS=PROTECT(allocVector(REALSXP,1)); ++nProtected;
 
 	double *X=REAL(RX), *Y=REAL(RY), *Xwork=REAL(RXwork),
 		*w=REAL(RWwork),*Ywork=REAL(RYwork), *effects=REAL(Reffects),
 		*coef=REAL(Rcoef),*coefwork=REAL(Rcoefwork), *se=REAL(Rse), *cov = REAL(Rcov), *R = REAL(RR),
 		*work=REAL(Rworkmat), *qraux=REAL(Rqrauxmat), *weights=REAL(Rweights),
 		*mu=REAL(Rmu), *offset=REAL(Roffset),*eta=REAL(Reta),  *mu_eta=REAL(Rmu_eta),
-		*residuals=REAL(Rresiduals), *dev=REAL(Rdeviance), *regSS = REAL(RregSS), 
+		*residuals=REAL(Rresiduals), *dev=REAL(Rdeviance), *regSS = REAL(RregSS),
 		*variance=REAL(Rvariance);
 
 	double  one = 1.0,  tol, devold, devnew;
@@ -61,11 +60,11 @@ SEXP glm_bas(SEXP RX, SEXP RY, glmstptr *glmfamily, SEXP Roffset, SEXP Rweights,
 	//	glmstptr *glmfamily;
 	//      glmfamily = make_glmfamily_structure(family);
 
-	
+
 	tol = fmin(1e-07, REAL(getListElement(Rcontrol,"epsilon"))[0]/1000);
 
 
-	
+
 	//fit the model
 	glmfamily->initialize(Y, mu, weights, n);
 	glmfamily->linkfun(mu, eta, n);
@@ -107,7 +106,7 @@ SEXP glm_bas(SEXP RX, SEXP RY, glmstptr *glmfamily, SEXP Roffset, SEXP Rweights,
 			conv = 1;
 		}
 
-		for (j=0; j<p; j++) { 
+		for (j=0; j<p; j++) {
 			coef[pivot[j] - 1] = coefwork[j];
 		}
 
@@ -123,16 +122,16 @@ SEXP glm_bas(SEXP RX, SEXP RY, glmstptr *glmfamily, SEXP Roffset, SEXP Rweights,
 		devnew = deviance(residuals, n);
 		if (fabs(devnew - devold)/(0.1 + fabs(devnew)) < REAL(getListElement(Rcontrol, "epsilon"))[0]) {
 			conv = 1;
-		} else { 
+		} else {
 			devold = devnew;
 		}
 		it += 1;
-	
+
 		dev[0] = devnew;
 
 		if (rank == p)   {
 			chol2se(&Xwork[0], &se[0], &R[0], &cov[0], p, n);
-		} else {  
+		} else {
 			QR2cov(&Xwork[0], &R[0], &cov[0], rank, n);
 			for (j=0; j < rank; j++) {
 				se[pivot[j]-1] = sqrt(cov[j*rank + j]);
@@ -153,7 +152,7 @@ SEXP glm_bas(SEXP RX, SEXP RY, glmstptr *glmfamily, SEXP Roffset, SEXP Rweights,
 
 	SET_STRING_ELT(ANS_names, 0, mkChar("coefficients"));
 	SET_STRING_ELT(ANS_names, 1, mkChar("se"));
-	SET_STRING_ELT(ANS_names, 2, mkChar("mu"));	
+	SET_STRING_ELT(ANS_names, 2, mkChar("mu"));
 	SET_STRING_ELT(ANS_names, 3, mkChar("deviance"));
 	SET_STRING_ELT(ANS_names, 4, mkChar("rank"));
 	SET_STRING_ELT(ANS_names, 5, mkChar("RegSS"));

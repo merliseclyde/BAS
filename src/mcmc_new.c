@@ -1,4 +1,4 @@
-#include "sampling.h"
+#include "bas.h"
 
 void insert_model_tree(struct Node *tree, struct Var *vars,  int n, int *model, int num_models);
 

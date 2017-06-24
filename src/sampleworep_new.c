@@ -15,7 +15,7 @@ deterministic sampling. ML 6/97. */
 */
 
 /* Includes. */
-#include "sampling.h"
+#include "bas.h"
 void update_tree(SEXP modelspace, struct Node *tree, SEXP modeldim, struct Var *vars, int k, int p, int n, int kt, int *model);
 
 double CalculateRSquareFull(double *XtY, double *XtX, double *XtXwork, double *XtYwork,

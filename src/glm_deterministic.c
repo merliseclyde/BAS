@@ -1,7 +1,4 @@
-#include "sampling.h"
-#include "family.h"
-#include "betapriorfamily.h"
-#include "bas-glm.h"
+#include "bas.h"
 
 
 
@@ -14,12 +11,12 @@ void do_insert(int child, double *subsetsum, int *queue);
 int get_next(double *subsetsum, int *queue, int *queuesize);
 void set_bits(char *bits, int subset, int *pattern, int *position, int n);
 void print_subset(int subset, int rank, Bit **models, Bit *model,
-				  double *subsetsum, int *pattern, int *position, 
+				  double *subsetsum, int *pattern, int *position,
 				  int n, struct Var *vars, int p);
 int withprob(double p);
 
 // [[register]]
-SEXP glm_deterministic(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights, 
+SEXP glm_deterministic(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		       SEXP Rprobinit, SEXP Rmodeldim, SEXP modelprior, SEXP betaprior,
 		       SEXP family, SEXP Rcontrol, SEXP Rlaplace) {
 	int nProtected = 0;
@@ -31,7 +28,7 @@ SEXP glm_deterministic(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	betapriorptr *betapriorfamily;
 	betapriorfamily = make_betaprior_structure(betaprior, family);
 
-	
+
 	//  Rprintf("Allocating Space for %d Models\n", nModels) ;
 	SEXP ANS = PROTECT(allocVector(VECSXP, 14)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 14)); ++nProtected;
@@ -49,16 +46,16 @@ SEXP glm_deterministic(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SEXP sampleprobs = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP Q = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP Rintercept = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
-	
+
 	double *probs,shrinkage_m,logmargy;
 
-	//get dimsensions of all variables 
+	//get dimsensions of all variables
 	int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
 	int k = LENGTH(modelprobs);
 
-	struct Var *vars = (struct Var *) R_alloc(p, sizeof(struct Var)); // Info about the model variables. 
+	struct Var *vars = (struct Var *) R_alloc(p, sizeof(struct Var)); // Info about the model variables.
 	probs =  REAL(Rprobs);
-	int n = sortvars(vars, probs, p); 
+	int n = sortvars(vars, probs, p);
 
 	Bit **models = cmatalloc(k,p);
 	int *model = (int *) R_alloc(p, sizeof(int));
@@ -66,12 +63,12 @@ SEXP glm_deterministic(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	/* now fit all top k models */
 	for (int m=0; m < k; m++) {
-		int pmodel = 0; 
+		int pmodel = 0;
 		double pigamma = 1.0;
-		for (int j = 0; j < p; j++) { 
+		for (int j = 0; j < p; j++) {
 			model[j] = (int) models[m][j];
 			pmodel += (int) models[m][j];
-			pigamma *= (double)((int) models[m][j])*probs[j] + 
+			pigamma *= (double)((int) models[m][j])*probs[j] +
 				(1.0 - (double)((int) models[m][j]))*(1.0 -  probs[j]);
 		}
 
@@ -80,11 +77,11 @@ SEXP glm_deterministic(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		//evaluate logmargy and shrinkage
 		SEXP glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
 						    glmfamily, Rcontrol, Rlaplace,
-						    betapriorfamily));	
+						    betapriorfamily));
 		double prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
 		logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
-		shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),	
-						  "shrinkage"))[0];	
+		shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
+						  "shrinkage"))[0];
 		SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
 		REAL(sampleprobs)[m] = pigamma;
 		SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance,
@@ -93,7 +90,7 @@ SEXP glm_deterministic(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	}
 
 	compute_modelprobs(modelprobs, logmarg, priorprobs, k);
-	compute_margprobs_old(models, modelprobs, probs, k, p); 
+	compute_margprobs_old(models, modelprobs, probs, k, p);
 
 	/*    freechmat(models,k); */
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
@@ -142,6 +139,6 @@ SEXP glm_deterministic(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	setAttrib(ANS, R_NamesSymbol, ANS_names);
 	UNPROTECT(nProtected);
 
-	return(ANS);  
+	return(ANS);
 
 }

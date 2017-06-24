@@ -1,12 +1,10 @@
-#include "sampling.h"
-#include "family.h"
-#include "betapriorfamily.h"
-#include "bas-glm.h"
+#include "bas.h"
 
 
-SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights, 
-		     SEXP Rprobinit, SEXP Rmodeldim, 
-		     SEXP modelprior, SEXP betaprior,SEXP Rbestmodel,  SEXP plocal, 
+
+SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
+		     SEXP Rprobinit, SEXP Rmodeldim,
+		     SEXP modelprior, SEXP betaprior,SEXP Rbestmodel,  SEXP plocal,
 		     SEXP family, SEXP Rcontrol,
 		     SEXP Rupdate, SEXP Rlaplace
 			  ) {
@@ -15,7 +13,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	int nModels=LENGTH(Rmodeldim);
 
 	//  Rprintf("Allocating Space for %d Models\n", nModels) ;
-	
+
 
 	SEXP ANS = PROTECT(allocVector(VECSXP, 14)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 14)); ++nProtected;
@@ -33,7 +31,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SEXP sampleprobs = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP Q = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP Rintercept = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
-		
+
 	double *probs,logmargy, shrinkage_m;
 	int i;
 
@@ -42,20 +40,20 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	betapriorptr *betapriorfamily;
 	betapriorfamily = make_betaprior_structure(betaprior, family);
-        
-	
-	//get dimsensions of all variables 
+
+
+	//get dimsensions of all variables
 	int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
 	int k = LENGTH(modelprobs);
-	
+
 	int update = INTEGER(Rupdate)[0];
 	double eps = DBL_EPSILON;
 	double problocal = REAL(plocal)[0];
 
-	struct Var *vars = (struct Var *) R_alloc(p, sizeof(struct Var)); // Info about the model variables. 
+	struct Var *vars = (struct Var *) R_alloc(p, sizeof(struct Var)); // Info about the model variables.
 	probs =  REAL(Rprobs);
-	int n = sortvars(vars, probs, p); 
- 	
+	int n = sortvars(vars, probs, p);
+
 	int *model = ivecalloc(p);
 	/* fill in the sure things */
 	for (i = n; i < p; i++)  {
@@ -64,10 +62,10 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	GetRNGstate();
 
-	NODEPTR tree, branch;	
+	NODEPTR tree, branch;
 	tree = make_node(vars[0].prob);
-	//	Rprintf("For m=0, Initialize Tree with initial Model\n");  
-	
+	//	Rprintf("For m=0, Initialize Tree with initial Model\n");
+
 	int m = 0;
 	int *bestmodel = INTEGER(Rbestmodel);
 	for (i = n; i < p; i++)  {
@@ -88,7 +86,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	//evaluate logmargy and shrinkage
 	SEXP glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
 					    glmfamily, Rcontrol, Rlaplace,
-					    betapriorfamily));	
+					    betapriorfamily));
 	double prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
 	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
 	shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
@@ -98,7 +96,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, m);
 
 	UNPROTECT(2);
-	
+
 	int *modelwork= ivecalloc(p);
 	for (m = 1;  m < k; m++) {
 		for (i = n; i < p; i++)  {
@@ -107,11 +105,11 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 		branch = tree;
 		GetNextModel_swop(branch, vars, model, n, m, pigamma, problocal, modeldim, bestmodel);
-		
+
 		/* Now subtract off the visited probability mass. */
 		branch=tree;
 		Substract_visited_probability_mass(branch, vars, model, n, m, pigamma,eps);
-		
+
 		/* Now get model specific calculations */
 		pmodel = INTEGER(modeldim)[m];
 		PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
@@ -119,7 +117,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 		glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
 					       glmfamily, Rcontrol, Rlaplace,
-					       betapriorfamily));	
+					       betapriorfamily));
 		prior_m = compute_prior_probs(model,pmodel,p, modelprior);
 		logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
 		shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
@@ -129,28 +127,28 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2,Q,Rintercept, m);
 		UNPROTECT(2);
 
-		REAL(sampleprobs)[m] = pigamma[0];  
+		REAL(sampleprobs)[m] = pigamma[0];
 
 		//update best model
-		
+
 		//update marginal inclusion probs
 		if (m > 1) {
-			double mod; 
+			double mod;
 			double rem = modf((double) m/(double) update, &mod);
 			if (rem  == 0.0) {
 				int mcurrent = m;
 				compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
-				compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);        
+				compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
 				if (update_probs(probs, vars, mcurrent, k, p) == 1) {
 				  //					Rprintf("Updating Model Tree %d \n", m);
-					update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);     
+					update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);
 				}
 			}
-		}  
+		}
 	}
 
 	compute_modelprobs(modelprobs, logmarg, priorprobs,k);
-	compute_margprobs(modelspace, modeldim, modelprobs, probs, k, p);  
+	compute_margprobs(modelspace, modeldim, modelprobs, probs, k, p);
 
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
 	SET_STRING_ELT(ANS_names, 0, mkChar("probne0"));
@@ -196,7 +194,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	setAttrib(ANS, R_NamesSymbol, ANS_names);
 	PutRNGstate();
-	
+
 	UNPROTECT(nProtected);
-	return(ANS);  
+	return(ANS);
 }

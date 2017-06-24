@@ -14,7 +14,7 @@
 */
 
 /* Includes. */
-#include "sampling.h"
+#include "bas.h"
 
 
 extern SEXP sampleworep(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP plocal)

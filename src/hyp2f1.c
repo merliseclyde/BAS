@@ -63,7 +63,7 @@
 Cephes Math Library Release 2.8:  June, 2000
 Copyright 1984, 1987, 1992, 2000 by Stephen L. Moshier
 */
- 
+
 #include "mconf.h"
 #include <R.h>
 #include <Rmath.h>
@@ -94,7 +94,7 @@ Copyright 1984, 1987, 1992, 2000 by Stephen L. Moshier
 #ifdef ANSIPROT
 extern double fabs ( double );
 extern double pow ( double, double );
-extern double round ( double );
+//extern double round ( double );
 extern double log ( double );
 extern double exp ( double );
 extern double psi ( double );
@@ -102,7 +102,7 @@ static double hyt2f1(double, double, double, double, double *);
 static double hys2f1(double, double, double, double, double *);
 double hyp2f1(double, double, double, double);
 #else
-double fabs(), pow(), round(), gammafn(), lgammafn(), log(), exp(), psi();
+double fabs(), pow(), gammafn(), lgammafn(), log(), exp(), psi();
 static double hyt2f1();
 static double hys2f1();
 double hyp2f1();
@@ -121,8 +121,8 @@ err = 0.0;
 ax = fabs(x);
 s = 1.0 - x;
 flag = 0;
-ia = round(a); /* nearest integer to a */
-ib = round(b);
+ia = fround(a, 0.0); /* nearest integer to a */
+ib = fround(b, 0.0);
 
 if( a <= 0 )
 	{
@@ -154,7 +154,7 @@ if( ax < 1.0 )
 
 if( c <= 0.0 )
 	{
-	ic = round(c); 	/* nearest integer to c */
+	ic = fround(c, 0.0); 	/* nearest integer to c */
 	if( fabs(c-ic) < EPS )		/* c is a negative integer */
 		{
 		/* check if termination before explosion */
@@ -173,17 +173,17 @@ if( ax > 1.0 )			/* series diverges	*/
 	goto hypdiv;
 
 p = c - a;
-ia = round(p); /* nearest integer to c-a */
+ia = fround(p, 0.0); /* nearest integer to c-a */
 if( (ia <= 0.0) && (fabs(p-ia) < EPS) )	/* negative int c - a */
 	flag |= 4;
 
 r = c - b;
-ib = round(r); /* nearest integer to c-b */
+ib = fround(r, 0.0); /* nearest integer to c-b */
 if( (ib <= 0.0) && (fabs(r-ib) < EPS) )	/* negative int c - b */
 	flag |= 8;
 
 d = c - a - b;
-id = round(d); /* nearest integer to d */
+id = fround(d, 0.0); /* nearest integer to d */
 q = fabs(d-id);
 
 /* Thanks to Christian Burger <BURGER@DMRHRZ11.HRZ.Uni-Marburg.DE>
@@ -203,8 +203,8 @@ if( fabs(ax-1.0) < EPS )			/* |x| == 1.0	*/
 		if( d <= 0.0 )
 		{
 			goto hypdiv;}
-		//y = exp(lgammafn(c)+lgammafn(d) -(lgammafn(p) + lgammafn(r))); 
-		y = gammafn(c)*gammafn(d)/(gammafn(p)*gammafn(r)); 
+		//y = exp(lgammafn(c)+lgammafn(d) -(lgammafn(p) + lgammafn(r)));
+		y = gammafn(c)*gammafn(d)/(gammafn(p)*gammafn(r));
 		goto hypdon;
 		}
 
@@ -299,7 +299,7 @@ if( x < -0.5 )
 	}
 
 d = c - a - b;
-id = round(d);	/* nearest integer to d */
+id = fround(d, 0.0);	/* nearest integer to d */
 
 // Rprintf("%lf  %lf %lf %lf\n" , d, a, b, c);
 if( x > 0.9 )
@@ -314,13 +314,13 @@ if( fabs(d-id) > EPS ) /* test for integer c-a-b */
 		goto done;
 	}
 /* If power series fails, then apply AMS55 #15.3.6 */
-	q = hys2f1( a, b, 1.0-d, s, &err );	
-	if (d < 0) 
-  	q *= gammafn(d) /(gammafn(c-a) * gammafn(c-b)); 
+	q = hys2f1( a, b, 1.0-d, s, &err );
+	if (d < 0)
+  	q *= gammafn(d) /(gammafn(c-a) * gammafn(c-b));
 	else q *= exp(lgammafn(d)  - (lgammafn(c-a) + lgammafn(c-b)));
 	r = pow(s,d) * hys2f1( c-a, c-b, d+1.0, s, &err1 );
 	if ( d > 0)
-	r *= gammafn(-d) /gammafn(a) * gammafn(b); 
+	r *= gammafn(-d) /gammafn(a) * gammafn(b);
   else	r *= exp(lgammafn(-d) - (lgammafn(a) + lgammafn(b)));
 	y = q + r;
 //  Rprintf("\n %lf %lf %lf \n", y, q, r);
@@ -385,7 +385,7 @@ else
 
 	if( aid == 1 )
 		goto nosum;
-  
+
 //  Rprintf("sum case b=%lf\n", b);
 	t = 0.0;
 	p = 1.0;
