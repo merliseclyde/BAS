@@ -1,6 +1,6 @@
 Package: BAS
 Version: 1.4.7
-Title: Bayesian Model Averaging using Bayesian Adaptive Sampling
+Title: Bayesian Variable Selection and Model Averaging using Bayesian Adaptive Sampling
 Authors@R: c(person("Merlise", "Clyde", email="clyde@stat.duke.edu",
 	   		       role=c("aut","cre", "cph")),
            person("Michael", "Littman", role="ctb"),
@@ -20,7 +20,7 @@ Suggests:
     GGally,
     rmarkdown,
     roxygen2
-Description: Package for Bayesian Model Averaging in linear models and
+Description: Package for Bayesian Variable Selection and  Model Averaging in linear models and
     generalized linear models using stochastic or
     deterministic sampling without replacement from posterior
     distributions.  Prior distributions on coefficients are
