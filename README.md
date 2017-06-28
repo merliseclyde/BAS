@@ -9,6 +9,8 @@ Some CRAN statistics: [![](http://cranlogs.r-pkg.org/badges/BAS)](http://cran.rs
 
 DOI version v1.4.2 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.160791.svg)](https://doi.org/10.5281/zenodo.160791)
 
+Rdocumentation [![Rdoc](http://www.rdocumentation.org/badges/version/BAS)](http://www.rdocumentation.org/packages/BAS)
+
 Installation
 ------------
 
