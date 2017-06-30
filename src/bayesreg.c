@@ -180,7 +180,7 @@ double logBF_gprior( double Rsquare, int n,  int p, double g)
      g prior for regression coefficients
      log marginal for null model is 0 */
     logmargy =  .5*(log(1.0 + g) * ((double) (n - p))  - log(1.0 + g * (1.0- Rsquare)) * ((double)(n - 1)));
-  if (p == 1) logmargy = 0.0;
+  if (p == 1 ||  p >= n) logmargy = 0.0;
   return(logmargy);
   }
 
