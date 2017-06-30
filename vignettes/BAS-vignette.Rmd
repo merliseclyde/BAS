@@ -320,7 +320,7 @@ which is faster for enumeration than the default method="BAS".
 
 ## Beyond Enumeration
 
-Many problems are too large to enumerate all possible models.  In such cases we may use the `method="BAS"` to sample without replacement or the `method="MCMC"` option to sample models using Markov Chain Monte Carlo sampling to sample models based on their posterior probabilities.   For spaces where the number of models greatly exceeds the number of models to sample, the MCMC option tends to provide estimates with low bias compared to the sampling without replacement. 
+Many problems are too large to enumerate all possible models.  In such cases we may use the `method="BAS"` to sample without replacement or the `method="MCMC"` option to sample models using Markov Chain Monte Carlo sampling to sample models based on their posterior probabilities.   For spaces where the number of models greatly exceeds the number of models to sample, the MCMC option is recommended as it provides estimates with low bias compared to the sampling without replacement of BAS  (Clyde and Ghosh 2011).
 
 ```{r MCMC}
 crime.ZS =  bas.lm(y ~ ., 
@@ -373,7 +373,7 @@ stack.bas = bas.lm(stack.loss ~ ., data=stackloss,
                )
 ```
 
-The above call introduces using truncated prior distributions on the model space; in this case the distribution of the number of variables to be included has a Poisson distribution, with mean 4 (under no truncation), and the truncation point is at 10, so that all models with more than 10 (one half of cases rounded down) will have probability zero.
+The above call introduces using truncated prior distributions on the model space; in this case the distribution of the number of variables to be included has a Poisson distribution, with mean 4 (under no truncation), and the truncation point is at 10, so that all models with more than 10 (one half of cases rounded down) will have probability zero.  This avoids exploration of models that are not full rank. 
 
 Looking at the summaries
 ```{r}
