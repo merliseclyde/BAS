@@ -32,8 +32,8 @@ static void Cintfn(double *x, int n, void *ex)
   IS->f(x, n, IS->theta);
 
     for( i=0; i<n; i++) {
-    if(!R_FINITE(x[i]))
-      error("non-finite function value");
+//    if(!R_FINITE(x[i]))
+//      Rprintf("warning: non-finite function value for integral\n");
   }
   return;
 }
@@ -41,7 +41,7 @@ static void Cintfn(double *x, int n, void *ex)
 // use R's integrate code from QUADPACK to obtain marginal likelihood
 double ZS_logmarg(double R2, int n, int d, double rscale) {
 
-  double bound=0.0, epsabs, epsrel, result, abserr, *work, *ex;
+  double bound=DBL_EPSILON, epsabs, epsrel, result, abserr, *work, *ex;
   int inf = 1L, neval, ier, limit=200, lenw, last, *iwork;
   SEXP Rtheta;
   C_int_struct is;
@@ -67,7 +67,10 @@ double ZS_logmarg(double R2, int n, int d, double rscale) {
 
   Rdqagi(Cintfn, (void*)&is, &bound,&inf,&epsabs,&epsrel,&result,
          &abserr,&neval,&ier,&limit,&lenw,&last,iwork,work);
-//  Rprintf("ZS return: logBF %lf R2=%lf n= %lf d=%lf r=%lf \n", log(result), ex[0], ex[1], ex[2], ex[3]);
+
+  if (!R_FINITE(result)) {
+    Rprintf("ZS return: logBF %lf R2=%lf n= %lf d=%lf r=%lf \n", log(result), ex[0], ex[1], ex[2], ex[3]);
+  }
 
   UNPROTECT(1);
   return(log(result));
@@ -109,30 +112,31 @@ double ZS_shrinkage(double R2, int n, int d, double rscale) {
   return(result);
 }
 
-void ZS_density(double *x, int n, SEXP Rex) {
+void ZS_density(double *x, int n, SEXP Rtheta) {
 // d is p + 1  and includes the intercept
 // prior for  1/g ~ gamma(1/2, rscale*n/2)
    double g, R2, rscale, d, nobs;
    int i;
 
-   PROTECT(Rex);
-   // SEXP Rex = PROTECT(duplicate(Rtheta));
+   PROTECT(Rtheta);
+   SEXP Rex = PROTECT(duplicate(Rtheta));
 
    R2 =  REAL(Rex)[0];
+   // Hack for error with integration leading to marg that are NA - Fix
+   if (R2 > .999999)  R2 = .9999;
    nobs = REAL(Rex)[1];
    d = REAL(Rex)[2];
    rscale = REAL(Rex)[3];
    for (i=0; i < n; i++) {
     g = x[i];
-    x[i]  = .5*(log(1.0 + g)* (nobs - d) - (nobs-1.0)*log(1.0 + (1.0 - R2)*g));
+    x[i]  = .5*(log(1.0 + g)*(nobs - d) - (nobs-1.0)*log(1.0 + (1.0 - R2)*g));
     x[i] += .5*(log(.5*nobs*rscale) -3.0*log(g) - rscale* nobs/g) - lgamma(.5);
-
-//    Rprintf("integrate: g= %lf BF= %lf R2=%lf nobs= %lf d=%lf r=%lf \n",
-//            g, exp(x[i]), R2, nobs, d, rscale);
+  if (!R_FINITE(x[i]))  Rprintf("integrate: g= %lf BF= %lf R2=%lf nobs= %lf d=%lf r=%lf \n",
+            g, exp(x[i]), R2, nobs, d, rscale);
 
     x[i] = exp(x[i]);
   }
- UNPROTECT(1);
+ UNPROTECT(2);
 }
 
 void ZS_density_shrinkage(double *x, int n, SEXP Rex) {
