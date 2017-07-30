@@ -57,7 +57,7 @@ void gexpectations_vect(int *nmodels, int *p, int *pmodel, int *nobs, double *R2
 
 void gexpectations(int p, int pmodel, int nobs, double R2, double alpha, int method,  double RSquareFull, double SSY, double *logmarg, double *shrinkage) {
 
-  double rscale = 1;
+
   *shrinkage = 1.0;
 
     switch (method) {
@@ -79,13 +79,8 @@ void gexpectations(int p, int pmodel, int nobs, double R2, double alpha, int met
      *shrinkage = 1.0;
       break;
      case 4:
-//       *logmarg = LogBF_ZS_null(R2, nobs, pmodel);
-// alpha is rscale as in BayesFactor package
-       *logmarg = ZS_logmarg(R2, nobs, pmodel, alpha);
-//       Rprintf("logBF %lf R2 %lf rscale %lf  n %d p %d \n", *logmarg, R2, rscale,  nobs,  pmodel);
-//       *shrinkage = E_ZS_approx_null(R2,nobs,pmodel-1);
-       *shrinkage = ZS_shrinkage(R2,nobs,pmodel,alpha);
-//       Rprintf("shrinkage %lf R2 %lf rscale %lf  n %d p %d \n", *shrinkage, R2, rscale,  nobs,  pmodel);
+      *logmarg = LogBF_ZS_null(R2, nobs, pmodel);
+      *shrinkage = E_ZS_approx_null(R2,nobs,pmodel-1);
       break;
      case 5:
        *logmarg = LogBF_ZS_full(RSquareFull, R2, nobs, p, pmodel);
@@ -104,6 +99,11 @@ void gexpectations(int p, int pmodel, int nobs, double R2, double alpha, int met
  	  if (pmodel > 1) {
 	      *shrinkage = LogBF_Hg_null(R2,  nobs, pmodel+2, alpha, 2);
 	      *shrinkage = exp(*shrinkage - *logmarg); }
+      break;
+    case 9:
+      // alpha is rscale as in BayesFactor package
+      *logmarg = ZS_logmarg(R2, nobs, pmodel, alpha);
+      *shrinkage = ZS_shrinkage(R2,nobs,pmodel,alpha);
       break;
   default:
       Rprintf("Error: Method must be one of g-prior, hyper-g, laplace (hyper-g), AIC, BIC, ZS-null, or ZS-full\n");
@@ -127,33 +127,52 @@ double maxeffect(double *beta, double *se, int p) {
 }
 
 
-void cholreg(double *XtY, double *XtX, double *coefficients, double *se, double *mse, int p, int n)
+void cholregpivot(double *XtY, double *XtX, double *coefficients, double *se, double *mse, int p, int n)
 {
 	/* On entry *coefficients equals X'Y, which is over written with the OLS estimates */
 	/* On entry MSE = Y'Y */
 
-  double   ete, one, zero;
-	int  job, l, i, j, info, inc;
+  double   ete, one, zero, tol=100*DBL_EPSILON, *work, *tmpcoef;
+	int  job, l, i, j, info, inc, rank, *piv;
 	zero = 0.0;
 	one = 1.0;
 	inc = 1;
 	job = 01;
 	info = 1;
 
+	piv  = (int *)  R_alloc(p, sizeof(int));
+	tmpcoef  = (double *)  R_alloc(p, sizeof(double));
+  work =  (double *) R_alloc(p*p, sizeof(double));
 
-	/* LINPACK
-	F77_NAME(dpofa)(&XtX[0],&p,&p, &info);
-	F77_NAME(dposl)(&XtX[0],&p,&p,&coefficients[0]);
-	F77_NAME(dpodi)(&XtX[0],&p,&p, &det, &job);
-	*/
+	// compute Cholesky decomposition of X^TX using pivoting
+	F77_NAME(dpstrf)("U", &p, &XtX[0],&p, &piv[0], &rank, &tol, &work[0], &info);
 
-	// LAPACK Equivalent
-	//	F77_NAME(dpstrf)("U", &p, &XtX[0],&p, &piv[0], &rank, &tol, &work, &info);
+	// reorder input to coeffients based on pivot (starts at 1)
+  for (i = 0; i < p; i++) {
+    coefficients[i] = XtY[piv[i] - 1];
+  }
 
-	F77_NAME(dpotrf)("U",&p, &XtX[0],&p, &info);
-	F77_NAME(dpotrs)("U", &p, &inc, &XtX[0],&p,&coefficients[0],&p, &info);
-	F77_NAME(dpotri)("U", &p, &XtX[0],&p, &job);
-	ete = F77_NAME(ddot)(&p, &coefficients[0], &inc, &XtY[0], &inc);
+  Rprintf("p %d rank %d\n:",p, rank);
+//  if (rank < p) {
+//    for (i = rank; i < p; i++) {
+//      coefficients[i] = 0.0;
+//    }
+//  }
+
+	// solve for identifiable coefficients on input coefficients = XtY
+	F77_NAME(dpotrs)("U", &rank, &inc, &XtX[0],&rank,&coefficients[0],&rank, &info);
+
+// need to copy coefficients and re order
+memcpy(tmpcoef,XtY,  p*sizeof(double));
+
+
+  for (i=0; i < p; i++ ) {
+      tmpcoef[piv[i] - 1] = XtY[i];
+  }
+
+ // calculate regression Sum of Squares
+  	ete = F77_NAME(ddot)(&rank, &coefficients[0], &inc, &XtY[0], &inc);
+
 
 	if ( n <= p) {
 	  *mse = 0.0;
@@ -162,14 +181,68 @@ void cholreg(double *XtY, double *XtX, double *coefficients, double *se, double 
 	  *mse = (*mse - ete)/((double) (n - p));
 	  }
 
+	memcpy(tmpcoef,coefficients,  p*sizeof(double));
+	for (i=0; i < p; i++ ) {
+	  coefficients[piv[i] - 1] = tmpcoef[i];
+	  Rprintf("i %d, pivot %d coef %lf tmpcoef %lf \n",
+           i,piv[i] -1, coefficients[i], tmpcoef[i]);
+	}
+
+
+	// Find inverse
+	F77_NAME(dpotri)("U", &rank, &XtX[0],&rank, &job);
+
 	for (j=0, l=0; j < p; j++)  {
 		for (i=0; i <  p; i++) {
 			if (i == j)  {
-				se[j] = sqrt(XtX[l] * *mse);
+				se[piv[j]] = sqrt(XtX[l] * *mse);
 			}
 			l += 1;
 		}
 	}
+  }
+
+void cholreg(double *XtY, double *XtX, double *coefficients, double *se, double *mse, int p, int n)
+{
+  /* On entry *coefficients equals X'Y, which is over written with the OLS estimates */
+  /* On entry MSE = Y'Y */
+
+  double   ete, one, zero, tol=100*DBL_EPSILON;
+  int  job, l, i, j, info, inc;
+  zero = 0.0;
+  one = 1.0;
+  inc = 1;
+  job = 01;
+  info = 1;
+
+  // LAPACK Equivalent
+  // compute Cholesky decomposition of X^TX using pivoting
+  //  F77_NAME(dpstrf)("U", &p, &XtX[0],&p, &piv[0], &rank, &tol, &work[0], &info);
+
+  // compute Cholesky decomposition of X^TX; no pivoting
+   F77_NAME(dpotrf)("U",&p, &XtX[0],&p, &info);
+ // solve for coefficients
+   F77_NAME(dpotrs)("U", &p, &inc, &XtX[0],&p,&coefficients[0],&p, &info);
+
+  // Find inverse to obtain SE
+  F77_NAME(dpotri)("U", &p, &XtX[0],&p, &job);
+  ete = F77_NAME(ddot)(&p, &coefficients[0], &inc, &XtY[0], &inc);
+
+  if ( n <= p) {
+    *mse = 0.0;
+  }
+  else {
+    *mse = (*mse - ete)/((double) (n - p));
+  }
+
+  for (j=0, l=0; j < p; j++)  {
+    for (i=0; i <  p; i++) {
+      if (i == j)  {
+        se[j] = sqrt(XtX[l] * *mse);
+      }
+      l += 1;
+    }
+  }
 }
 
 

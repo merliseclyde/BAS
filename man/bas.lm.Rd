@@ -41,8 +41,37 @@ On exit for method= "MCMC" this is the number of unique models that have
 been sampled with counts stored in the output as "freq""}
 
 \item{prior}{prior distribution for regression coefficients.  Choices
-include "AIC", "BIC", "g-prior", "ZS-null", "ZS-full", "hyper-g",
-"hyper-g-laplace", "hyper-g-n", "EB-local", and "EB-global"}
+include
+\itemize{
+\item "AIC"
+\item "BIC"
+\item "g-prior", Zellner's g prior where `g` is specified using the argument `alpha`
+\item "JZS"  Jeffreys-Zellner-Siow prior which uses the Jeffreys
+prior on sigma and the Zellner-Siow Cauchy prior on the coefficients.
+The optional parameter `alpha` can be used to control
+the squared scale of the prior, where the default is alpha=1. Setting
+`alpha` is equal to rscale^2 in the BayesFactor package of Morey.
+This uses QUADMATH for numerical integration of g.
+\item  "ZS-null", a Laplace approximation to the 'JZS' prior
+for integration of g.  alpha = 1 only.
+\item "ZS-full" (to be deprecated),
+\item "hyper-g", a mixture of g-priors where the prior on
+g/(1+g) is a Beta(1, alpha/2) as in Liang et al (2008).  This
+uses the Cephes library for evaluation of the marginal
+likelihoods and may be numerically unstable for
+large n or R2 close to 1.  Default choice of alpha is 3.
+\item "hyper-g-laplace", Same as above but using a Laplace
+approximation to integrate over the prior on g.
+\item "hyper-g-n", a mixture of g-priors that where
+u = g/n and u ~ Beta(1, alpha/2)  to provide consistency
+when the null model is true.
+\item "EB-local", use the MLE of g from the marginal likelhood
+within each model
+\item "EB-global" uses an EM algorithm to find a common or
+global estimate of g, averaged over all models.  When it is not possible to
+enumerate all models, the EM algorithm uses only the
+models sampled under EB-local.
+}}
 
 \item{alpha}{optional hyperparameter in g-prior or hyper g-prior.  For
 Zellner's g-prior, alpha = g, for the Liang et al hyper-g or hyper-g-n
@@ -84,8 +113,7 @@ variable in the model with one currently excluded as described in Clyde,
 Ghosh and Littman (2010); method="MCMC+BAS" runs an initial MCMC to
 calculate marginal inclusion probabilities and then samples without
 replacement as in BAS.  For BAS, the sampling probabilities can be updated
-as more models are sampled. (see update below).  We recommend "MCMC+BAS" or
-"MCMC" for high dimensional problems where enumeration is not feasible.}
+as more models are sampled. (see update below).  We recommend "MCMC" for high dimensional problems where enumeration is not feasible.}
 
 \item{update}{number of iterations between potential updates of the sampling
 probabilities for method "BAS". If NULL do not update, otherwise the
@@ -128,26 +156,34 @@ components:
 
 \item{postprob}{the posterior probabilities of the models selected}
 \item{priorprobs}{the prior probabilities of the models selected}
-\item{namesx}{the names of the variables} \item{R2}{R2 values for the
-models} \item{logmarg}{values of the log of the marginal likelihood for the
-models} \item{n.vars}{total number of independent variables in the full
-model, including the intercept} \item{size}{the number of independent
-variables in each of the models, includes the intercept} \item{which}{a list
+\item{namesx}{the names of the variables}
+\item{R2}{R2 values for the
+models}
+\item{logmarg}{values of the log of the marginal likelihood for the
+models.  This is equivalent to the log Bayes Factor for compaing
+each model to a base model with intercept only.}
+\item{n.vars}{total number of independent variables in the full
+model, including the intercept}
+\item{size}{the number of independent
+variables in each of the models, includes the intercept}
+\item{which}{a list
 of lists with one list per model with variables that are included in the
-model} \item{probne0}{the posterior probability that each variable is
+model}
+\item{probne0}{the posterior probability that each variable is
 non-zero computed using the renormalized marginal likelihoods of sampled
 models.  This may be biased if the number of sampled models is much smaller
 than the total number of models. Unbiased estimates may be obtained using
-method "MCMC".} \item{mle}{list of lists with one list per model giving the
+method "MCMC".}
+\item{mle}{list of lists with one list per model giving the
 MLE (OLS) estimate of each (nonzero) coefficient for each model. NOTE: The
 intercept is the mean of Y as each column of X has been centered by
 subtracting its mean.}
- \item{mle.se}{list of lists with one list per model
+\item{mle.se}{list of lists with one list per model
 giving the MLE (OLS) standard error of each coefficient for each model}
 \item{prior}{the name of the prior that created the BMA object}
-\item{alpha}{value of hyperparameter in prior used to create the BMA
-object.}
- \item{modelprior}{the prior distribution on models that created the
+\item{alpha}{value of hyperparameter in coefficient prior used to create the BMA
+object. }
+\item{modelprior}{the prior distribution on models that created the
 BMA object}
 \item{Y}{response}
 \item{X}{matrix of predictors}
@@ -251,6 +287,14 @@ North-Holland/Elsevier.
 Zellner, A. and Siow, A. (1980) Posterior odds ratios for selected
 regression hypotheses. In Bayesian Statistics: Proceedings of the First
 International Meeting held in Valencia (Spain), pp. 585-603.
+
+Rouder, J. N., Speckman, P. L., Sun, D., Morey, R. D., \& Iverson, G.
+(2009). Bayesian t-tests for accepting and rejecting the null hypothesis.
+Psychonomic Bulletin & Review, 16, 225-237
+
+Rouder, J. N., Morey, R. D., Speckman, P. L., Province, J. M., (2012)
+Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
+56.  p. 356-374.
 }
 \seealso{
 \code{\link{summary.bas}}, \code{\link{coefficients.bas}},
