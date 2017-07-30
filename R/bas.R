@@ -145,8 +145,11 @@
 #' beta ~ C(0, sigma^2 alpha (X'X/n)^{-1}).
 #' @param modelprior Family of prior distribution on the models.  Choices
 #' include \code{\link{uniform}} \code{\link{Bernoulli}} or
-#' \code{\link{beta.binomial}} with the default being a
-#' \code{beta.binomial(1,1)}.
+#' \code{\link{beta.binomial}}, \code{\link{tr.beta.binomial}},
+#' (with truncation) \code{\link{tr.poisson}} (a truncated Poisson), and
+#' \code{\link{tr.power.prior}} (a truncated power family),
+#'  with the default being a
+#' \code{beta.binomial(1,1)}.  Truncated versions are useful for p > n.
 #' @param initprobs Vector of length p or a character string specifiny which
 #' method is used to create the vector. This is used to order variables for
 #' sampling all methods for potentially more efficient storage while sampling
