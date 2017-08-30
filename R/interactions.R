@@ -65,11 +65,21 @@ prob.heredity = function(model, parents, prob=.5) {
 #' @keywords regression
 #' @examples
 
+#' data("chickwts")
+#' bas.chk = bas.lm(weight ~ feed, data=chickwts)
+#  summary(bas.chk)  # 2^5 = 32 models
+#' bas.chk.int = force.heredity.bas(bas.chk)
+#  summary(bas.chk.int)  # two models now
+#'
+#'
 #' data(Hald)
 #' bas.hald = bas.lm(Y ~ .^2, data=Hald)
-
 #' bas.hald.int = force.heredity.bas(bas.hald)
 #' image(bas.hald.int)
+#'
+#' image(bas.hald.int)
+#'
+#'
 #' @family bas methods
 #' @export
 

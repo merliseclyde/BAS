@@ -21,10 +21,19 @@ This function takes the output of a bas object and allows higher order interacti
 Currently prior probabilities are computed using conditional Bernoulli distributions, i.e.  P(gamma_j = 1 | Parents(gamma_j) = 1) = prior.prob.  This is not very efficient for models with a large number of levels.  Future updates will force this at the time of sampling.
 }
 \examples{
+data("chickwts")
+bas.chk = bas.lm(weight ~ feed, data=chickwts)
+bas.chk.int = force.heredity.bas(bas.chk)
+
+
 data(Hald)
 bas.hald = bas.lm(Y ~ .^2, data=Hald)
 bas.hald.int = force.heredity.bas(bas.hald)
 image(bas.hald.int)
+
+image(bas.hald.int)
+
+
 }
 \seealso{
 Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
