@@ -1,7 +1,7 @@
 #' BAS MCMC diagnostic plot.
-#' 
+#'
 #' Function to help assess convergence of MCMC sampling for bas ojects.
-#' 
+#'
 #' BAS calculates posterior model probabilites in two ways when method="MCMC".
 #' The first is using the relative Monte Carlo frequencies of sampled models.
 #' The second is to renormalize the marginal likelihood times prior
@@ -10,7 +10,7 @@
 #' running longer may be required.  If the chain has not converged, the Monte
 #' Carlo frequencise may have have less bias, although may exhibit more
 #' variability.
-#' 
+#'
 #' @param obj an object created by bas.lm or bas.glm
 #' @param type type of diagnostic plot.  If "pip" the marginal inclusion
 #' probabilities are used, while if "model", plot posterior model probabilities
@@ -20,24 +20,24 @@
 #' model probabilities.
 #' @author Merlise Clyde (\email{clyde@@stat.duke.edu})
 #' @examples
-#' 
+#'
 #' library(MASS)
 #' data(UScrime)
 #' UScrime[,-2] = log(UScrime[,-2])
-#' crime.ZS =  bas.lm(y ~ ., 
+#' crime.ZS =  bas.lm(y ~ .,
 #'                    data=UScrime,
 #'                    prior="ZS-null",
 #'                    modelprior=uniform(),
 #'                    method = "MCMC",
 #'                    MCMC.iter = 1000)   # short run for the example
 #' diagnostics(crime.ZS)
-#' 
-#' 
+#'
+#' @family bas methods
 #' @export
 diagnostics = function(obj, type=c("pip","model"),...) {
     if (obj$call$method == "MCMC") {
-    for (i in 1:length(type)) {  
-    if (type[i] == "pip")  {   
+    for (i in 1:length(type)) {
+    if (type[i] == "pip")  {
       plot(obj$probne0.RN, obj$probne0.MCMC,
           xlab="pip (renormalized)",
           ylab="pip (MCMC)", xlim=c(0,1), ylim=c(0,1),

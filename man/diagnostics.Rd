@@ -37,7 +37,7 @@ variability.
 library(MASS)
 data(UScrime)
 UScrime[,-2] = log(UScrime[,-2])
-crime.ZS =  bas.lm(y ~ ., 
+crime.ZS =  bas.lm(y ~ .,
                    data=UScrime,
                    prior="ZS-null",
                    modelprior=uniform(),
@@ -45,7 +45,15 @@ crime.ZS =  bas.lm(y ~ .,
                    MCMC.iter = 1000)   # short run for the example
 diagnostics(crime.ZS)
 
-
+}
+\seealso{
+Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
+  \code{\link{coef.bas}}, \code{\link{confint.coef.bas}},
+  \code{\link{confint.pred.bas}}, \code{\link{fitted.bas}},
+  \code{\link{force.heredity.bas}},
+  \code{\link{image.bas}}, \code{\link{predict.basglm}},
+  \code{\link{predict.bas}}, \code{\link{summary.bas}},
+  \code{\link{update.bas}}
 }
 \author{
 Merlise Clyde (\email{clyde@stat.duke.edu})

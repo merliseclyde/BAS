@@ -16,6 +16,8 @@ a bas object with updated models, coefficients and summaries obtained removing a
 }
 \description{
 This function takes the output of a bas object and allows higher order interactions to be included only if their parent lower order interactions terms are in the model, by assigning zero prior probability, and hence posterior probability, to models that do include their respective parents.
+Currently only supports a common Bernoulli prior for inclusion.  Model probablities are given using the
+function `BAS:::prob.heredity`.
 }
 \note{
 Currently prior probabilities are computed using conditional Bernoulli distributions, i.e.  P(gamma_j = 1 | Parents(gamma_j) = 1) = prior.prob.  This is not very efficient for models with a large number of levels.  Future updates will force this at the time of sampling.
@@ -38,7 +40,8 @@ image(bas.hald.int)
 \seealso{
 Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
   \code{\link{coef.bas}}, \code{\link{confint.coef.bas}},
-  \code{\link{confint.pred.bas}}, \code{\link{fitted.bas}},
+  \code{\link{confint.pred.bas}},
+  \code{\link{diagnostics}}, \code{\link{fitted.bas}},
   \code{\link{image.bas}}, \code{\link{predict.basglm}},
   \code{\link{predict.bas}}, \code{\link{summary.bas}},
   \code{\link{update.bas}}

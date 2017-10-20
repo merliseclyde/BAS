@@ -102,9 +102,9 @@
 #' is not possible (memory or time) then a value should be supplied which
 #' controls the number of sampled models using 'n.models'.  With method="MCMC",
 #' sampling will stop once the min(n.models, MCMC.iterations) occurs so
-#' MCMC.iterations be larger than n.models in order to explore the model space.
+#' MCMC.iterations be significantly larger than n.models in order to explore the model space.
 #' On exit for method= "MCMC" this is the number of unique models that have
-#' been sampled with counts stored in the output as "freq""
+#' been sampled with counts stored in the output as "freq".
 #' @param prior prior distribution for regression coefficients.  Choices
 #' include
 #' \itemize{
@@ -167,7 +167,7 @@
 #' determines the order of the variables in the lookup table and affects memory
 #' allocation in large problems where enumeration is not feasible.  For
 #' variables that should always be included set the corresponding initprobs to
-#' 1, i.e. the intercept should be included with probability one.
+#' 1, to overide the `modelprior`.
 #' @param method A character variable indicating which sampling method to use:
 #' method="BAS" uses Bayesian Adaptive Sampling (without replacement) using the
 #' sampling probabilities given in initprobs; method="MCMC" samples with
@@ -177,7 +177,10 @@
 #' Ghosh and Littman (2010); method="MCMC+BAS" runs an initial MCMC to
 #' calculate marginal inclusion probabilities and then samples without
 #' replacement as in BAS.  For BAS, the sampling probabilities can be updated
-#' as more models are sampled. (see update below).  We recommend "MCMC" for high dimensional problems where enumeration is not feasible.
+#' as more models are sampled. (see update below).  We recommend "MCMC"
+#'for high dimensional
+#' problems where enumeration is not feasible or even modest $p$ if the number of
+#' models sampled is not close to the number of models.
 #' @param update number of iterations between potential updates of the sampling
 #' probabilities for method "BAS". If NULL do not update, otherwise the
 #' algorithm will update using the marginal inclusion probabilities as they
@@ -188,20 +191,24 @@
 #' @param prob.local A future option to allow sampling of models "near" the
 #' median probability model.  Not used at this time.
 #' @param prob.rw For any of the MCMC methods, probability of using the
-#' random-walk proposal; otherwise use a random "flip" move to propose a new
-#' model.
+#' random-walk Metropolis proposal; otherwise use a random "flip" move
+#' to propose swap a variable that is excluded with a variable in the model.
 #' @param MCMC.iterations Number of iterations for the MCMC sampler; the
 #' default is n.models*10 if not set by the user.
 #' @param lambda Parameter in the AMCMC algorithm (depracated).
 #' @param delta truncation parameter to prevent sampling probabilities to
 #' degenerate to 0 or 1 prior to enumeration for sampling without replacement.
 #' @param thin For "MCMC", thin the MCMC every "thin" iterations; default is no
-#' thinning.
+#' thinning.  For large p, thinning can be used to significantly reduce memory
+#' requirements.  For thin = p, the  model and associated output are recorded every p iterations,
+#' similar to the Gibbs sampler.
 #' @param renormalize For MCMC sampling, should posterior probabilities be
 #' based on renormalizing the marginal likelihoods times prior probabilities
 #' (TRUE) or frequencies from MCMC.  The latter are unbiased in long runs,
 #' while the former may have less variability.  May be compared via the
-#' diagnostic plot function.
+#' diagnostic plot function \code{\link{diagnostics}}.
+#' See details in Clyde and Ghosh (2012).
+#'
 #' @return \code{bas} returns an object of class \code{bas}
 #'
 #' An object of class \code{BAS} is a list containing at least the following
@@ -261,6 +268,9 @@
 #' Sampling for Variable Selection and Model Averaging. Journal of
 #' Computational Graphics and Statistics.  20:80-101 \cr
 #' \url{http://dx.doi.org/10.1198/jcgs.2010.09049}
+#'
+#' Clyde, M. and Ghosh. (2012) Finite population estimators in stochastic search variable selection.
+#' Biometrika, 99 (4), 981-988. \url{http://dx.doi.org/10.1093/biomet/ass040}
 #'
 #' Clyde, M. and George, E. I. (2004) Model Uncertainty. Statist. Sci., 19,
 #' 81-94. \cr \url{http://dx.doi.org/10.1214/088342304000000035}

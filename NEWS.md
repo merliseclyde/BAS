@@ -1,4 +1,4 @@
-#  BAS 1.4.7 July 30, 2017
+#  BAS 1.4.7 October 18, 2017
 
 ## Updates
 
