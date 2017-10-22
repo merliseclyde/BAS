@@ -178,9 +178,12 @@
 #' calculate marginal inclusion probabilities and then samples without
 #' replacement as in BAS.  For BAS, the sampling probabilities can be updated
 #' as more models are sampled. (see update below).  We recommend "MCMC"
-#'for high dimensional
+#' for  high dimensional
 #' problems where enumeration is not feasible or even modest $p$ if the number of
-#' models sampled is not close to the number of models.
+#' models sampled is not close to the number of possible models as the bias in estimates of inclusion
+#' probabilties from "BAS" or "MSMS+BAS" may be large relative to the reduced
+#' variability from using the normalized model probabilites as shown in Clyde and Ghosh, 2012.
+#' For large problems we recommend thinning with MCMC to reduce memory requirements.
 #' @param update number of iterations between potential updates of the sampling
 #' probabilities for method "BAS". If NULL do not update, otherwise the
 #' algorithm will update using the marginal inclusion probabilities as they
@@ -198,10 +201,10 @@
 #' @param lambda Parameter in the AMCMC algorithm (depracated).
 #' @param delta truncation parameter to prevent sampling probabilities to
 #' degenerate to 0 or 1 prior to enumeration for sampling without replacement.
-#' @param thin For "MCMC", thin the MCMC every "thin" iterations; default is no
+#' @param thin For "MCMC", thin the MCMC chain every "thin" iterations; default is no
 #' thinning.  For large p, thinning can be used to significantly reduce memory
 #' requirements.  For thin = p, the  model and associated output are recorded every p iterations,
-#' similar to the Gibbs sampler.
+#' similar to the Gibbs sampler in SSVS.
 #' @param renormalize For MCMC sampling, should posterior probabilities be
 #' based on renormalizing the marginal likelihoods times prior probabilities
 #' (TRUE) or frequencies from MCMC.  The latter are unbiased in long runs,
@@ -258,7 +261,7 @@
 #' predictions can be obtained using the S3 functions \code{\link{fitted.bas}}
 #' and \code{\link{predict.bas}}.  BAS objects may be updated to use a
 #' different prior (without rerunning the sampler) using the function
-#' \code{\link{update.bas}}.
+#' \code{\link{update.bas}}.  For more details see the associated demos and vignette.
 #' @author Merlise Clyde (\email{clyde@@stat.duke.edu}) and Michael Littman
 #' @seealso \code{\link{summary.bas}}, \code{\link{coefficients.bas}},
 #' \code{\link{print.bas}}, \code{\link{predict.bas}}, \code{\link{fitted.bas}}
@@ -458,11 +461,9 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
 
 if (prior == "ZS-full") .Deprecated("prior='JZS'",
   msg="The Zellner-Siow prior will be deprecated in the next version of the
-  package. Recommended alternative is the Jeffreys-Zellner-Siow prior")
+  package. Recommended alternative is the Jeffreys-Zellner-Siow prior 'JZS'")
 
-if (prior == "ZS-null") .Deprecated("prior='JZS'",
-                                      msg="The Laplace approximation to the Zellner-Siow prior will be deprecated in the next version of the
-                                      package. Recommended alternative is the Jeffreys-Zellner-Siow prior (prior='JZS' which uses numerical integration")
+if (prior == "ZS-null") warning("We recommend using the implementation using the Jeffreys-Zellner-Siow prior (prior='JZS') which uses numerical integration rahter than the Laplace approximation")
 
   method.num = switch(prior,
       "g-prior"=0,

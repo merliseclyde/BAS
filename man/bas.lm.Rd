@@ -117,9 +117,12 @@ Ghosh and Littman (2010); method="MCMC+BAS" runs an initial MCMC to
 calculate marginal inclusion probabilities and then samples without
 replacement as in BAS.  For BAS, the sampling probabilities can be updated
 as more models are sampled. (see update below).  We recommend "MCMC"
-for high dimensional
+for  high dimensional
 problems where enumeration is not feasible or even modest $p$ if the number of
-models sampled is not close to the number of models.}
+models sampled is not close to the number of possible models as the bias in estimates of inclusion
+probabilties from "BAS" or "MSMS+BAS" may be large relative to the reduced
+variability from using the normalized model probabilites as shown in Clyde and Ghosh, 2012.
+For large problems we recommend thinning with MCMC to reduce memory requirements.}
 
 \item{update}{number of iterations between potential updates of the sampling
 probabilities for method "BAS". If NULL do not update, otherwise the
@@ -145,10 +148,10 @@ default is n.models*10 if not set by the user.}
 \item{delta}{truncation parameter to prevent sampling probabilities to
 degenerate to 0 or 1 prior to enumeration for sampling without replacement.}
 
-\item{thin}{For "MCMC", thin the MCMC every "thin" iterations; default is no
+\item{thin}{For "MCMC", thin the MCMC chain every "thin" iterations; default is no
 thinning.  For large p, thinning can be used to significantly reduce memory
 requirements.  For thin = p, the  model and associated output are recorded every p iterations,
-similar to the Gibbs sampler.}
+similar to the Gibbs sampler in SSVS.}
 
 \item{renormalize}{For MCMC sampling, should posterior probabilities be
 based on renormalizing the marginal likelihoods times prior probabilities
@@ -207,7 +210,7 @@ can be extracted using \code{\link{coefficients.bas}}.  Fitted values and
 predictions can be obtained using the S3 functions \code{\link{fitted.bas}}
 and \code{\link{predict.bas}}.  BAS objects may be updated to use a
 different prior (without rerunning the sampler) using the function
-\code{\link{update.bas}}.
+\code{\link{update.bas}}.  For more details see the associated demos and vignette.
 }
 \description{
 Sample without replacement from a posterior distribution on models

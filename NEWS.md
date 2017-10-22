@@ -1,10 +1,10 @@
-#  BAS 1.4.7 October 18, 2017
+#  BAS 1.4.7 October 22, 2017
 
 ## Updates
 
 * Added new method for `bas.lm` to obtain marginal likelihoods with the Zellner-Siow Priors for "prior= 'JZS' using QUADMATH routines for numerical integration.  The optional hyperparameter alpha may now be used to adjust the scaling of the ZS prior where g ~ G(1/2, alpha*n/2) as in the `BayesFactor` package of Morey, with a default of alpha=1 corresponding to the ZS prior used in Liang et al (2008).  This also uses more stable evaluations of log(1 + x) to prevent underflow/overflow.
 
-* Priors `ZS-null` and `ZS-full` for bas.lm are planned to be deprecated with numerical integration providing more accurate answers.  
+* Priors `ZS-full` for bas.lm is planned to be deprecated.  
 
 * replaced math functions to use portable C code from Rmath and consolidated header files
 
@@ -16,7 +16,7 @@
 
 ## Bugs
 
-* Fixed unprotected ANS in C code in glm_sampleworep.c and sampleworep.c after call to PutRNGstate and possible stack imbalance in glm_mcmc  identified by [rchk](https://raw.githubusercontent.com/kalibera/cran-checks/master/rchk/results/BAS.out)
+* Fixed unprotected ANS in C code in glm_sampleworep.c and sampleworep.c after call to PutRNGstate and possible stack imbalance in glm_mcmc.
 
 * Fixed problem with predict for estimator=BPM when newdata was one row 
 
