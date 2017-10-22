@@ -3,7 +3,7 @@
 \name{bas.lm}
 \alias{bas.lm}
 \alias{bas}
-\title{Bayesian Adaptive Sampling Without Replacement for Variable Selection in
+\title{Bayesian Adaptive Sampling for Bayesian Model Averaging and Variable Selection in
 Linear Models}
 \usage{
 bas.lm(formula, data, subset, weights, na.action = "na.omit",
@@ -109,7 +109,7 @@ variables that should always be included set the corresponding initprobs to
 1, to overide the `modelprior`.}
 
 \item{method}{A character variable indicating which sampling method to use:
-\begin{itemize}
+\itemize{
 \item  "deterministic" uses the "top k" algorithm described in Ghosh and Clyde (2011)
 to sample models in order of approximate probability under conditional independence
 using the "initprobs".  This is the most efficient algorithm for enumeration.
@@ -125,7 +125,7 @@ Ghosh and Littman (2010).
 calculate marginal inclusion probabilities and then samples without
 replacement as in BAS.  For BAS, the sampling probabilities can be updated
 as more models are sampled. (see update below).
-\end{itemize}}
+}}
 
 \item{update}{number of iterations between potential updates of the sampling
 probabilities for method "BAS" or "MCMC+BAS". If NULL do not update, otherwise the
@@ -213,7 +213,9 @@ can be extracted using \code{\link{coefficients.bas}}.  Fitted values and
 predictions can be obtained using the S3 functions \code{\link{fitted.bas}}
 and \code{\link{predict.bas}}.  BAS objects may be updated to use a
 different prior (without rerunning the sampler) using the function
-\code{\link{update.bas}}.  For more details see the associated demos and vignette.
+\code{\link{update.bas}}. For MCMC sampling \code{\link{diagnostics}} can be used
+to assess whether the MCMC has run long enough so that the posterior probabilities
+are stable. For more details see the associated demos and vignette.
 }
 \description{
 Sample without replacement from a posterior distribution on models
@@ -225,7 +227,7 @@ use in Bayesian Model Averaging or Bayesian variable selection. For p less than
 20-25, BAS can enumerate all models depending on memory availability.  As BAS saves all
 models, MLEs, standard errors, log marginal liklihoods, prior and posterior and  probabilities
 memory requirements grow linearly with M*p where M is the number of models
-and p is the number of predictors.  For example, enumeration with p=21 takes just under
+and p is the number of predictors.  For example, enumeration with p=21 with 2,097,152 takes just under
 2 Gigabytes on a 64 bit machine to store all summaries that would be needed for model averaging.
 (A future version will likely include an option to not store all summaries if
 users do not plan on using  model averaging or model selection on Best Predictive models.)
@@ -240,12 +242,14 @@ list of the top models in order of an approximation of independence using
 the provided \code{initprobs}.  This may be effective after running the
 other algorithms to identify high probability models and works well if the
 correlations of variables are small to modest.
-We recommend "MCMC" for  high dimensional
-problems where enumeration is not feasible or even modest p if the number of
-models sampled is not close to the number of possible models and there are significant
+We recommend "MCMC" for
+problems where enumeration is not feasible (memory or time constrained)
+or even modest p if the number of
+models sampled is not close to the number of possible models and/or there are significant
 correlations among the predictors as the bias in estimates of inclusion
 probabilties from "BAS" or "MSMS+BAS" may be large relative to the reduced
 variability from using the normalized model probabilites as shown in Clyde and Ghosh, 2012.
+Diagnostic plots with MCMC can be used to assess convergence.
 For large problems we recommend thinning with MCMC to reduce memory requirements.
 The priors on coefficients
 include Zellner's g-prior, the Hyper-g prior (Liang et al 2008, the
@@ -345,7 +349,7 @@ Other bas methods: \code{\link{BAS}},
   \code{\link{update.bas}}
 }
 \author{
-Merlise Clyde (\email{clyde@stat.duke.edu}) and Michael Littman
+Merlise Clyde (\email{clyde@duke.edu}) and Michael Littman
 }
 \concept{
 BMA
