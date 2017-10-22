@@ -18,7 +18,8 @@ bas.lm(formula, data, subset, weights, na.action = "na.omit",
 Y ~ X.  All code assumes that an intercept will be included in each model
 and that the X's will be centered.}
 
-\item{data}{data frame}
+\item{data}{a data frame.  Factors will be converted to numerical vectors based on
+the using `model.matrix`.}
 
 \item{subset}{an optional vector specifying a subset of observations to be
 used in the fitting process.}
@@ -108,24 +109,26 @@ variables that should always be included set the corresponding initprobs to
 1, to overide the `modelprior`.}
 
 \item{method}{A character variable indicating which sampling method to use:
-method="BAS" uses Bayesian Adaptive Sampling (without replacement) using the
-sampling probabilities given in initprobs; method="MCMC" samples with
+\begin{itemize}
+\item  "deterministic" uses the "top k" algorithm described in Ghosh and Clyde (2011)
+to sample models in order of approximate probability under conditional independence
+using the "initprobs".  This is the most efficient algorithm for enumeration.
+\item  "BAS" uses Bayesian Adaptive Sampling (without replacement) using the
+sampling probabilities given in initprobs under a model of conditional independence.
+These can be updated based on estimates of the marginal inclusion probabilities.
+\item  "MCMC" samples with
 replacement via a MCMC algorithm that combines the birth/death random walk
 in Hoeting et al (1997) of MC3 with a random swap move to interchange a
 variable in the model with one currently excluded as described in Clyde,
-Ghosh and Littman (2010); method="MCMC+BAS" runs an initial MCMC to
+Ghosh and Littman (2010).
+\item  "MCMC+BAS" runs an initial MCMC to
 calculate marginal inclusion probabilities and then samples without
 replacement as in BAS.  For BAS, the sampling probabilities can be updated
-as more models are sampled. (see update below).  We recommend "MCMC"
-for  high dimensional
-problems where enumeration is not feasible or even modest $p$ if the number of
-models sampled is not close to the number of possible models as the bias in estimates of inclusion
-probabilties from "BAS" or "MSMS+BAS" may be large relative to the reduced
-variability from using the normalized model probabilites as shown in Clyde and Ghosh, 2012.
-For large problems we recommend thinning with MCMC to reduce memory requirements.}
+as more models are sampled. (see update below).
+\end{itemize}}
 
 \item{update}{number of iterations between potential updates of the sampling
-probabilities for method "BAS". If NULL do not update, otherwise the
+probabilities for method "BAS" or "MCMC+BAS". If NULL do not update, otherwise the
 algorithm will update using the marginal inclusion probabilities as they
 change while sampling takes place.  For large model spaces, updating is
 recommended. If the model space will be enumerated, leave at the default.}
@@ -150,7 +153,7 @@ degenerate to 0 or 1 prior to enumeration for sampling without replacement.}
 
 \item{thin}{For "MCMC", thin the MCMC chain every "thin" iterations; default is no
 thinning.  For large p, thinning can be used to significantly reduce memory
-requirements.  For thin = p, the  model and associated output are recorded every p iterations,
+requirements as models and associated summaries are saved only every thin iterations.  For thin = p, the  model and associated output are recorded every p iterations,
 similar to the Gibbs sampler in SSVS.}
 
 \item{renormalize}{For MCMC sampling, should posterior probabilities be
@@ -216,10 +219,17 @@ different prior (without rerunning the sampler) using the function
 Sample without replacement from a posterior distribution on models
 }
 \details{
-BAS provides several search algorithms to find high probability models for
-use in Bayesian Model Averaging or Bayesian model selection. For p less than
-20-25, BAS can enumerate all models depending on memory availability, for
-larger p, BAS samples without replacement using random or deterministic
+BAS provides several algorithms to sample from posterior distributions
+of models for
+use in Bayesian Model Averaging or Bayesian variable selection. For p less than
+20-25, BAS can enumerate all models depending on memory availability.  As BAS saves all
+models, MLEs, standard errors, log marginal liklihoods, prior and posterior and  probabilities
+memory requirements grow linearly with M*p where M is the number of models
+and p is the number of predictors.  For example, enumeration with p=21 takes just under
+2 Gigabytes on a 64 bit machine to store all summaries that would be needed for model averaging.
+(A future version will likely include an option to not store all summaries if
+users do not plan on using  model averaging or model selection on Best Predictive models.)
+For larger p, BAS samples without replacement using random or deterministic
 sampling. The Bayesian Adaptive Sampling algorithm of Clyde, Ghosh, Littman
 (2010) samples models without replacement using the initial sampling
 probabilities, and will optionally update the sampling probabilities every
@@ -229,10 +239,18 @@ results in high-dimensional problems. The deterinistic sampler provides a
 list of the top models in order of an approximation of independence using
 the provided \code{initprobs}.  This may be effective after running the
 other algorithms to identify high probability models and works well if the
-correlations of variables are small to modest.  The priors on coefficients
+correlations of variables are small to modest.
+We recommend "MCMC" for  high dimensional
+problems where enumeration is not feasible or even modest p if the number of
+models sampled is not close to the number of possible models and there are significant
+correlations among the predictors as the bias in estimates of inclusion
+probabilties from "BAS" or "MSMS+BAS" may be large relative to the reduced
+variability from using the normalized model probabilites as shown in Clyde and Ghosh, 2012.
+For large problems we recommend thinning with MCMC to reduce memory requirements.
+The priors on coefficients
 include Zellner's g-prior, the Hyper-g prior (Liang et al 2008, the
 Zellner-Siow Cauchy prior, Empirical Bayes (local and gobal) g-priors.  AIC
-and BIC are also included.
+and BIC are also included, while a range of priors on the model space are available.
 }
 \examples{
 
