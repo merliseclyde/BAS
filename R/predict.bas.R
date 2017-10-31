@@ -1,7 +1,7 @@
 #' Prediction Method for an object of class basglm
-#' 
+#'
 #' Predictions under model averaging from a BMA (BAS) object for GLMS
-#' 
+#'
 #' Use BMA to form predictions using the top highest probability models.
 #' @aliases predict.basglm
 #' @param object An object of class "basglm", created by \code{bas.glm}
@@ -36,7 +36,7 @@
 #' \code{\link{fitted.bas}}
 #' @keywords regression
 #' @examples
-#' 
+#'
 #' library(MASS)
 #' data(Pima.tr)
 #' data(Pima.te)
@@ -45,26 +45,25 @@
 #'            modelprior=uniform())
 #'  pred = predict(Pima.bas, newdata=Pima.te, top=1)  # Highest Probability model
 #'  cv.summary.bas(pred$fit, Pima.te$type, score="miss-class")
-#' 
+#'
 #' @rdname predict.basglm
-#' @method predict basglm
 #' @family predict methods
 #' @family bas methods
 #' @export
-predict.basglm = function(object, newdata, se.fit=FALSE, 
+predict.basglm = function(object, newdata, se.fit=FALSE,
                           type=c("response", "link"), top=NULL,
                           estimator="BMA", prediction=FALSE, ...) {
 #    browser()
     if (estimator == "HPM") top=1
-    
+
     pred = predict.bas(object, newdata, se.fit=se.fit, top=top,
                        estimator=estimator, prediction=prediction, ...)
-    
+
     if (length(type) > 1) type = type[1]
     if (type == "response")  {
       model.specs = attributes(pred$fit)
       if (estimator == "BMA") {
-        Ypred = apply(pred$Ypred, 1, 
+        Ypred = apply(pred$Ypred, 1,
                       FUN = function(x) {eval(object$family)$linkinv(x)})
         if (length(pred$postprobs) > 1) fit = as.vector(Ypred %*% pred$postprobs)
         else fit= as.vector(Ypred)
@@ -82,21 +81,21 @@ predict.basglm = function(object, newdata, se.fit=FALSE,
       }
     }
 
-    return(pred)       
+    return(pred)
 }
 
-    
-    
+
+
 
 
 #' Prediction Method for an object of class BMA
-#' 
+#'
 #' Predictions under model averaging or other estimators from a BMA object of
 #' class inheriting from 'bas'.
-#' 
+#'
 #' Use BMA and/or model selection to form predictions using the top highest
 #' probability models.
-#' 
+#'
 #' @aliases predict.bas predict
 #' @param object An object of class BAS, created by \code{bas}
 #' @param newdata dataframe for predictions. If missing, then use the dataframe
@@ -135,65 +134,64 @@ predict.basglm = function(object, newdata, se.fit=FALSE,
 #' \code{\link{confint.pred.bas}}
 #' @keywords regression
 #' @examples
-#' 
+#'
 #' data("Hald")
 #' hald.gprior =  bas.lm(Y ~ ., data=Hald, alpha=13, prior="g-prior")
-#' 
+#'
 #' predict(hald.gprior, newdata=Hald, estimator="BPM", se.fit=TRUE, prediction=FALSE)
 #' # same as fitted
 #' fitted(hald.gprior,estimator="BPM")
-#' 
+#'
 #' # default is BMA and estimation of mean vector
-#' hald.bma = predict(hald.gprior, top=5, se.fit=TRUE)  
+#' hald.bma = predict(hald.gprior, top=5, se.fit=TRUE)
 #' confint(hald.bma)
-#' 
+#'
 #' hald.BPM = predict(hald.gprior, newdata=Hald[1,],
 #'                     prediction=TRUE, se.fit=TRUE,
-#'                     estimator="BPM") 
+#'                     estimator="BPM")
 #' confint(hald.BPM)
-#' 
+#'
 #' hald.hpm = predict(hald.gprior, newdata=Hald[1,],
 #'                     prediction=TRUE, se.fit=TRUE,
-#'                     estimator="HPM") 
+#'                     estimator="HPM")
 #' confint(hald.hpm)
-#' 
+#'
 #' hald.mpm = predict(hald.gprior, newdata=Hald[1,],
 #'                     prediction=TRUE, se.fit=TRUE,
-#'                     estimator="MPM") 
+#'                     estimator="MPM")
 #' confint(hald.mpm)
-#' 
-#' @rdname predict
+#'
+#' @rdname predict.bas
 #' @family predict methods
 #' @family bas methods
-#' @method predict bas
-#' @export 
-predict.bas = function(object, newdata, se.fit=FALSE, type="link", 
+#' @export
+predict.bas = function(object, newdata, se.fit=FALSE, type="link",
                        top=NULL,  estimator="BMA", prediction=FALSE,   ...) {
   if (!(estimator %in% c("BMA", "HPM", "MPM", "BPM"))) {
     stop("Estimator must be one of 'BMA', 'BPM', 'HPM', or 'MPM'.")
   }
 
   tt = terms(object)
-  
+
   if (missing(newdata) || is.null(newdata))  {
     newdata= object$X
     insample=TRUE
     }
   else{
     if (is.data.frame(newdata)) {
-    #  newdata = model.matrix(eval(object$call$formula), newdata) 
+    #  newdata = model.matrix(eval(object$call$formula), newdata)
       Terms = delete.response(tt)
       m = model.frame(Terms, newdata, na.action = na.pass,
                       xlev = object$xlevels)
-      newdata <- model.matrix(Terms, m, 
+      newdata <- model.matrix(Terms, m,
                               contrasts.arg = object$contrasts)
-    
+
       insample=FALSE
     }
     else {
-      stop("use of newdata as a vector is depricated, 
+      stop("use of newdata as a vector is depricated,
        please supply newdata as a dataframe")
-      # if (is.vector(newdata)) newdata=matrix(newdata, nrow=1)  
+      # if (is.vector(newdata)) newdata=matrix(newdata, nrow=1)
     }
   }
 
@@ -205,7 +203,7 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
 
   df = object$df
 
-  
+
   if (estimator == "MPM" ) {
       nvar = object$n.vars -1
       bestmodel<- (0:nvar)[object$probne0 > .5]
@@ -215,20 +213,21 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
       models[bestmodel+1] <- 1
       if (sum(models) > 1) {
          if (is.null(eval(object$call$weights))) {
+
           object <- bas.lm(eval(object$call$formula),
-                           data=eval(object$call$data), 
+                           data=eval(object$call$data, parent.frame()),
                            n.models=1, alpha=object$g,
-                           initprobs=object$probne0, 
+                           initprobs=object$probne0,
                            prior=object$prior, modelprior=object$modelprior,
                            update=NULL,bestmodel=models,
                            prob.local=.0)
          }
         else {
           object <- bas.lm(eval(object$call$formula),
-                           data=eval(object$call$data), 
+                           data=eval(object$call$data, parent.frame()),
                            weights=eval(object$call$weights),
                            n.models=1, alpha=object$g,
-                           initprobs=object$probne0, 
+                           initprobs=object$probne0,
                            prior=object$prior, modelprior=object$modelprior,
                            update=NULL,bestmodel=models,
                            prob.local=.0)
@@ -242,14 +241,14 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
         fit = rep(nrow(newX), 1) * as.numeric(object$mle[object$size == 1])}
       models=bestmodel
       attributes(fit) = list(model = models, best=best)
-      
+
       Ybma = fit
       Ypred = NULL
       postprobs=NULL
       best=NULL
       df= object$n - 1
   }
-  else {    
+  else {
   if (estimator == "HPM") top=1
   postprobs <- object$postprobs
   best <- order(-postprobs)
@@ -257,36 +256,40 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
   models <- object$which[best]
   beta <- object$mle[best]
   gg <- object$shrinkage[best]
-  intercept <- object$intercept[best]  
+  intercept <- object$intercept[best]
   postprobs <- postprobs[best]
   postprobs <- postprobs/sum(postprobs)
   M <- length(postprobs)
   Ypred <- matrix(0, M, n)
                                         # lm case
-  if (is.null(intercept)) {      
+  if (is.null(intercept)) {
       for (i in 1:M) {
           beta.m <- beta[[i]]
           model.m <- models[[i]]
           Ypred[i,] <-  (newdata[,model.m[-1],drop=FALSE] %*% beta.m[-1])*gg[i]  + beta.m[1]}
   }
   else {
-     for (i in 1:M) { 
+     for (i in 1:M) {
       beta.m <- beta[[i]]
       model.m <- models[[i]]
       Ypred[i,] <-  (newdata[,model.m[-1],drop=FALSE] %*% beta.m[-1])*gg[i] + intercept[i]}
   }
-  
- 
+
+
   df = df[best]
   Ybma <- t(Ypred) %*% postprobs
   fit = Ybma
   if (estimator == "HPM") {
     models = unlist(object$which[best])
-    attributes(fit) = list(model = models, best=best)  
+    attributes(fit) = list(model = models, best=best)
   }
   if (estimator=="BPM") {
-#    browser()  
-    dis =apply(sweep(Ypred, 2, Ybma),1, FUN=function(x) sum(x^2))
+#    browser()
+    dis =apply(sweep(Ypred, 2, Ybma),1,
+               FUN=function(x) {
+                   x[is.na(x)] = 0  #ignore NA's in finding closest model
+                   sum(x^2)}
+               )
     bestBPM = which.min(dis)
     fit = Ypred[bestBPM, ]
     models = unlist(object$which[best[bestBPM]])
@@ -295,29 +298,29 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
     attributes(fit) = list(model = models,
                             best = best)
    }
-  
+
 }
   #browser()
-  se=list(se.fit=NULL, se.pred=NULL, 
+  se=list(se.fit=NULL, se.pred=NULL,
           se.bma.fit=NULL, se.bma.pred=NULL)
 
   if (se.fit)  {
        if (estimator != "BMA") {
          se = .se.fit(fit, newdata, object, prediction, insample)   }
        else   {
-         se = .se.bma(Ybma, newdata, Ypred, best, object, 
+         se = .se.bma(Ybma, newdata, Ypred, best, object,
                       prediction, insample) }
-    
+
   }
-   
+
   out = list(fit=fit, Ybma=Ybma, Ypred=Ypred, postprobs=postprobs,
-             se.fit=se$se.fit, se.pred=se$se.pred, 
-             se.bma.fit=se$se.bma.fit, se.bma.pred=se$se.bma.pred, 
+             se.fit=se$se.fit, se.pred=se$se.pred,
+             se.bma.fit=se$se.bma.fit, se.bma.pred=se$se.bma.pred,
              df=df,
-             best=best, bestmodel=models, 
+             best=best, bestmodel=models,
              prediction=prediction, estimator=estimator)
-    
-  class(out) = 'pred.bas'  
+
+  class(out) = 'pred.bas'
   return(out)
 }
 
@@ -325,9 +328,9 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
 
 
 #' Fitted values for a BAS BMA objects
-#' 
+#'
 #' Calculate fitted values for a BAS BMA object
-#' 
+#'
 #' Calcuates fitted values at observed design matrix using either the highest
 #' probability model, 'HPM', the posterior mean (under BMA) 'BMA', the median
 #' probability model 'MPM' or the best predictive model 'BPM".  The median
@@ -341,7 +344,7 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
 #' under BMA and returns the model with the smallest distance.  In the presence
 #' of multicollinearity this may be quite different from the MPM, with extreme
 #' collinearity may drop relevant predictors.
-#' 
+#'
 #' @aliases fitted.bas fitted
 #' @param object An object of class 'bma' as created by \code{\link{bas}}
 #' @param type type equals "response" is currently the only option.  Prior to
@@ -363,25 +366,24 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
 #' @references Barbieri, M.  and Berger, J.O. (2004) Optimal predictive model
 #' selection. Annals of Statistics. 32, 870-897. \cr
 #' \url{http://projecteuclid.org/Dienst/UI/1.0/Summarize/euclid.aos/1085408489}
-#' 
+#'
 #' Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive Sampling for
 #' Variable Selection and Model Averaging. Journal of Computational Graphics
 #' and Statistics.  20:80-101 \cr
 #' \url{http://dx.doi.org/10.1198/jcgs.2010.09049}
 #' @keywords regression
 #' @examples
-#' 
+#'
 #' data(Hald)
 #' hald.gprior =  bas.lm(Y~ ., data=Hald, prior="ZS-null", initprobs="Uniform")
 #' plot(Hald$Y, fitted(hald.gprior, estimator="HPM"))
 #' plot(Hald$Y, fitted(hald.gprior, estimator="BMA", top=3))
 #' plot(Hald$Y, fitted(hald.gprior, estimator="MPM"))
 #' plot(Hald$Y, fitted(hald.gprior, estimator="BPM"))
-#' 
+#'
 #' @rdname fitted
 #' @family bas methods
 #' @family predict methods
-#' @method fitted bas
 #' @export
 fitted.bas = function(object,  type="response", estimator="BMA", top=NULL, ...) {
     if (type %in% c("HPM", "MPM", "BPM", "BMA")) {
@@ -389,7 +391,7 @@ fitted.bas = function(object,  type="response", estimator="BMA", top=NULL, ...) 
                       " is being deprecated, use estimator = ", type))
        estimator = type
     }
-        
+
   nmodels = length(object$which)
   X = object$X
   if (is.null(top)) top=nmodels
@@ -405,7 +407,7 @@ fitted.bas = function(object,  type="response", estimator="BMA", top=NULL, ...) 
   if (estimator=="BPM") {
       yhat = predict.bas(object, top=top, estimator="BPM", prediction=FALSE)$fit
   }
-  
+
 return(as.vector(yhat))
 }
 
@@ -414,9 +416,9 @@ return(as.vector(yhat))
   n = object$n
   model = attr(yhat, "model")
   best = attr(yhat, "best")
-  
+
   df = object$df[best]
-  
+
   shrinkage= object$shrinkage[best]
   if (insample)  xiXTXxiT = hat(object$X[, model+1])  -1/n
   else {
@@ -425,7 +427,7 @@ return(as.vector(yhat))
     oldX = (sweep(object$X[, -1], 2, object$mean.x))[, model[-1]]
 #    browser()
     XRinv = X %*% solve(qr.R(qr(cbind(1,oldX))))
-    xiXTXxiT = apply(XRinv^2, 1, sum) -1/n 
+    xiXTXxiT = apply(XRinv^2, 1, sum) -1/n
   }
   scale_fit = 1/n + object$shrinkage[best]*xiXTXxiT
   if (is.null(object$family)) family = gaussian()
@@ -448,26 +450,26 @@ df = object$df[best]
 
 shrinkage= object$shrinkage[best]
 if (insample) {
-  xiXTXxiT =  sapply(object$which[best], 
+  xiXTXxiT =  sapply(object$which[best],
                      FUN=function(model, X) {
                        n = nrow(X)
-                       hat(X[, model[-1]+1]) -1/n}, 
+                       hat(X[, model[-1]+1]) -1/n},
                        object$X)
 }
 else {
   Xnew = cbind(1,Xnew)
   Xold = cbind(1,sweep(object$X[,-1], 2, object$mean.x))
-  xiXTXxiT =  sapply(object$which[best], 
+  xiXTXxiT =  sapply(object$which[best],
                      FUN=function(model, Xnew, Xold) {
                         Xnew =  Xnew[, model+1]
                         oldX = Xold[, model+1]
-                        n = nrow(Xold)                
+                        n = nrow(Xold)
                         XRinv = Xnew %*% solve(qr.R(qr(oldX)))
-                        xiXTXxiT = apply(XRinv^2, 1, sum) -1/n 
-                        }, 
+                        xiXTXxiT = apply(XRinv^2, 1, sum) -1/n
+                        },
                      Xnew, Xold)
-  
-  
+
+
 }
 
 ssy = var(object$Y)*(n-1)
@@ -475,7 +477,7 @@ bayes_mse = ssy*(1 - shrinkage*object$R2[best])/df
 
 
 if (is.vector(xiXTXxiT))  xiXTXxiT = matrix(xiXTXxiT, nrow=1)
-  
+
 scale_fit = 1/n + sweep(xiXTXxiT, 2, shrinkage, FUN="*")
 var.fit = sweep(scale_fit, 2, bayes_mse, FUN="*")
 var.pred = sweep((1 + scale_fit), 2, bayes_mse, FUN="*")
@@ -491,9 +493,9 @@ var.efit = as.vector(postprobs %*% (sweep(Ypred, 2, fit))^2 )
 
 se.fit = sqrt(evar.fit + var.efit)
 se.pred = sqrt(evar.pred + var.efit)
-  
 
-return(list(se.bma.fit = se.fit, se.bma.pred=se.pred, 
-            se.fit=t(sqrt(var.fit)), se.pred=t(sqrt(var.pred)), 
+
+return(list(se.bma.fit = se.fit, se.bma.pred=se.pred,
+            se.fit=t(sqrt(var.fit)), se.pred=t(sqrt(var.pred)),
             residual.scale=sqrt(bayes_mse)))
 }

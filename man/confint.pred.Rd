@@ -38,10 +38,10 @@ Carlo draws. %% ~~ If necessary, more details than the description above ~~
 
 data("Hald")
 hald.gprior =  bas.lm(Y~ ., data=Hald, alpha=13, prior="g-prior")
-hald.pred = predict(hald.gprior, estimator="BPM", predict=FALSE, se.fit=TRUE) 
-confint(hald.pred, parm="mean") 
+hald.pred = predict(hald.gprior, estimator="BPM", predict=FALSE, se.fit=TRUE)
+confint(hald.pred, parm="mean")
 confint(hald.pred)  #default
-hald.pred = predict(hald.gprior, estimator="BMA", predict=FALSE, se.fit=TRUE) 
+hald.pred = predict(hald.gprior, estimator="BMA", predict=FALSE, se.fit=TRUE)
 confint(hald.pred)
 
 

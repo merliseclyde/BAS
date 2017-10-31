@@ -26,10 +26,9 @@
 #' crime.bic =  bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC",initprobs= "eplogp")
 #' print(crime.bic)
 #' summary(crime.bic)
-#' @rdname print
+#' @rdname print.bas
 #' @method print bas
 #' @export
-#'
 print.bas = function (x, digits = max(3, getOption("digits") - 3), ...)
 {
     cat("\nCall:\n", deparse(x$call), "\n\n", sep = "")
@@ -73,9 +72,10 @@ print.bas = function (x, digits = max(3, getOption("digits") - 3), ...)
 #' print(crime.bic)
 #' summary(crime.bic)
 #' @rdname summary
-#' @method summary bas
 #' @family bas methods
+#' @method summary bas
 #' @export
+
 summary.bas = function(object, n.models = 5, ...) {
   best = order(-object$postprobs)
   n.models = min(n.models, length(best))

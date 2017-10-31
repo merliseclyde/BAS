@@ -1,19 +1,19 @@
 #' Plots the posterior distributions of coefficients derived from Bayesian
 #' model averaging
-#' 
+#'
 #' Displays plots of the posterior distributions of the coefficients generated
 #' by Bayesian model averaging over linear regression.
-#' 
+#'
 #' Produces plots of the posterior distributions of the coefficients under
 #' model averaging.  The posterior probability that the coefficient is zero is
 #' represented by a solid line at zero, with height equal to the probability.
 #' The nonzero part of the distribution is scaled so that the maximum height is
 #' equal to the probability that the coefficient is nonzero.
-#' 
+#'
 #' The parameter \code{e} specifies the range over which the distributions are
 #' to be graphed by specifying the tail probabilities that dictate the range to
 #' plot over.
-#' 
+#'
 #' @param x object of class coef.bas
 #' @param e optional numeric value specifying the range over which the
 #' distributions are to be graphed.
@@ -31,23 +31,21 @@
 #' regression. Computational Statistics and Data Analysis, 22, 251-270.
 #' @keywords regression
 #' @examples
-#' 
+#'
 #' \dontrun{library(MASS)
 #' data(UScrime)
 #' UScrime[,-2] = log(UScrime[,-2])
 #' crime.bic = bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC")
 #' plot(coefficients(crime.bic), ask=TRUE)
 #' }
-#' 
+#'
 #' @rdname plot.coef
 #' @family bas plots
-#' @method plot coef.bas
-#' @export 
-#' 
+#' @export
 plot.coef.bas  = function(x, e = 1e-04, subset = 1:x$n.vars, ask=TRUE, ...) {
   plotvar = function(prob0, mixprobs, df, means, sds, name,
                      e = 1e-04, nsteps = 500, ...) {
-    
+
     if (prob0 == 1 | length(means) == 0) {
       xlower = -0
       xupper = 0
@@ -68,7 +66,7 @@ plot.coef.bas  = function(x, e = 1e-04, subset = 1:x$n.vars, ask=TRUE, ...) {
                               d=df, m=means, s=sds)
       maxyy = max(yy)
     }
-    
+
     ymax = max(prob0, 1 - prob0)
     plot(c(xlower, xupper), c(0, ymax), type = "n",
          xlab = "", ylab = "", main = name, ...)
@@ -76,16 +74,16 @@ plot.coef.bas  = function(x, e = 1e-04, subset = 1:x$n.vars, ask=TRUE, ...) {
     lines(xx, (1 - prob0) * yy/maxyy, lty = 1, lwd = 1, ...)
     invisible()
   }
-  
+
   if (ask) {
     op <- par(ask = TRUE)
     on.exit(par(op))
   }
   df = x$df
-  
+
   for (i in subset) {
     sel = x$conditionalmeans[,i] != 0
-    prob0 = 1 - x$probne0[i]   
+    prob0 = 1 - x$probne0[i]
     mixprobs = x$postprobs[sel]/(1.0 - prob0)
     means =   x$conditionalmeans[sel, i, drop=TRUE]
     sds   =   x$conditionalsd[sel, i, drop=TRUE]

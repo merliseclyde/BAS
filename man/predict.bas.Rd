@@ -69,22 +69,22 @@ predict(hald.gprior, newdata=Hald, estimator="BPM", se.fit=TRUE, prediction=FALS
 fitted(hald.gprior,estimator="BPM")
 
 # default is BMA and estimation of mean vector
-hald.bma = predict(hald.gprior, top=5, se.fit=TRUE)  
+hald.bma = predict(hald.gprior, top=5, se.fit=TRUE)
 confint(hald.bma)
 
 hald.BPM = predict(hald.gprior, newdata=Hald[1,],
                     prediction=TRUE, se.fit=TRUE,
-                    estimator="BPM") 
+                    estimator="BPM")
 confint(hald.BPM)
 
 hald.hpm = predict(hald.gprior, newdata=Hald[1,],
                     prediction=TRUE, se.fit=TRUE,
-                    estimator="HPM") 
+                    estimator="HPM")
 confint(hald.hpm)
 
 hald.mpm = predict(hald.gprior, newdata=Hald[1,],
                     prediction=TRUE, se.fit=TRUE,
-                    estimator="MPM") 
+                    estimator="MPM")
 confint(hald.mpm)
 
 }

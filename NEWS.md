@@ -1,3 +1,13 @@
+#  BAS 1.4.8 October 30, 2017
+
+## Bugs 
+
+* fixed issue with scoping in eval of data in predict.bas if dataname is defined in local env.
+
+* fixed issue 10 in github (predict for estimator='BPM' failed
+  if there were NA's in the X data.  Delete NA's before finding the closest model.
+
+
 #  BAS 1.4.7 October 22, 2017
 
 ## Updates

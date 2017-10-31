@@ -49,10 +49,10 @@
 #' hald.ZSprior =  bas.lm(Y~ ., data=Hald,  prior="ZS-null")
 #' image(hald.ZSprior, subset=-1)
 #'
-#' @rdname image
-#' @method image bas
+#' @rdname image.bas
 #' @family bas methods
 #' @family bas plots
+#' @method image bas
 #' @export
 image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, rotate=TRUE, color="rainbow", subset=NULL, offset=.75, digits=3, vlas=2,plas=0,rlas=0, ...)
 {

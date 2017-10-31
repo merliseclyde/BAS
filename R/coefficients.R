@@ -1,17 +1,17 @@
 #' Coefficients of a Bayesian Model Average object
-#' 
+#'
 #' Extract conditional posterior means and standard deviations, marginal
 #' posterior means and standard deviations, posterior probabilities, and
 #' marginal inclusions probabilities under Bayesian Model Averaging from an
 #' object of class 'bas'
-#' 
+#'
 #' Calculates posterior means and (approximate) standard deviations of the
 #' regression coefficients under Bayesian Model averaging using g-priors and
 #' mixtures of g-priors.  Print returns overall summaries. For fully Bayesian
 #' methods that place a prior on g, the posterior standard deviations do not
 #' take into account full uncertainty regarding g. Will be updated in future
 #' releases.
-#' 
+#'
 #' @aliases coef.bas coef coefficients coefficients.bas print.coef.bas
 #' @param object object of class 'bas' created by BAS
 #' @param x object of class 'coef.bas' to print
@@ -41,7 +41,7 @@
 #' \url{http://dx.doi.org/10.1198/016214507000001337}
 #' @keywords regression
 #' @examples
-#' 
+#'
 #' data("Hald")
 #' hald.gprior =  bas.lm(Y~ ., data=Hald, n.models=2^4, alpha=13,
 #'                       prior="ZS-null", initprobs="Uniform", update=10)
@@ -49,25 +49,24 @@
 #' coef.hald.gprior
 #' plot(coef.hald.gprior)
 #' confint(coef.hald.gprior)
-#' 
+#'
 #' #Estimation under Median Probability Model
 #' coef.hald.gprior = coefficients(hald.gprior, estimator="MPM")
 #' coef.hald.gprior
 #' plot(coef.hald.gprior)
 #' plot(confint(coef.hald.gprior))
-#' 
-#' 
+#'
+#'
 #' coef.hald.gprior = coefficients(hald.gprior, estimator="HPM")
 #' coef.hald.gprior
 #' plot(coef.hald.gprior)
 #' confint(coef.hald.gprior)
-#' 
+#'
 #' # To add estimation under Best Predictive Model
-#' 
-#' 
-#' @rdname coef 
+#'
+#'
+#' @rdname coef
 #' @family bas methods
-#' @method coef bas
 #' @export
 coef.bas = function(object, n.models, estimator="BMA", ...) {
   if (estimator== "MPM") {
@@ -78,42 +77,42 @@ coef.bas = function(object, n.models, estimator="BMA", ...) {
     models[bestmodel+1] <- 1
     if (sum(models) > 1) {
       object <- bas.lm(eval(object$call$formula),
-                       data=eval(object$call$data), 
+                       data=eval(object$call$data),
                        weights=eval(object$call$weights),
                        n.models=1, alpha=object$g,
-                       initprobs=object$probne0, 
+                       initprobs=object$probne0,
                        prior=object$prior, modelprior=object$modelprior,
                        update=NULL,bestmodel=models,
-                       prob.local=.0) 
+                       prob.local=.0)
   }}
   postprobs= object$postprobs
   if (estimator == "MPM" | estimator== "HPM" ) n.models = 1
   if (missing(n.models)) n.models=length(postprobs)
-  
+
   topm = order(-postprobs)[1:n.models]
   postprobs = postprobs[topm]/sum(postprobs[topm])
   shrinkage = object$shrinkage[topm]
   conditionalmeans = list2matrix.bas(object, "mle")[topm, , drop=F]
   conditionalmeans[,-1] = sweep(conditionalmeans[,-1, drop=F], 1,
                                 shrinkage,
-                                FUN="*") 
+                                FUN="*")
   postmean = as.vector(postprobs %*% conditionalmeans)
 
   conditionalsd  =  list2matrix.bas(object, "mle.se")[topm, , drop=F]
   if (!(object$prior == "AIC" || object$prior == "BIC")) {
-    conditionalsd[ , -1] = sweep(conditionalsd[ ,-1, drop=F], 1, 
+    conditionalsd[ , -1] = sweep(conditionalsd[ ,-1, drop=F], 1,
                                  sqrt(shrinkage), FUN="*") }
-  
+
   postsd = sqrt(postprobs %*% conditionalsd^2   +
                 postprobs %*% ((sweep(conditionalmeans, 2, postmean, FUN="-"))^2))
-  postsd = as.vector(postsd) 
+  postsd = as.vector(postsd)
   if (is.null(object$df[topm])) {
     df = rep(object$n, length(postprobs))
     if (object$prior == "BIC" | object$prior == "AIC") {df = df - object$size}
     else {df = df - 1}
   }
   else df = object$df[topm]
-  
+
   out = list(postmean=postmean, postsd=postsd, probne0 = object$probne0,
              conditionalmeans=conditionalmeans,conditionalsd=conditionalsd,
              namesx=object$namesx, postprobs=postprobs,
@@ -126,8 +125,8 @@ coef.bas = function(object, n.models, estimator="BMA", ...) {
 #' @rdname coef
 #' @family bas coefs
 #' @method print coef.bas
-#' @export 
-print.coef.bas = function(x, 
+#' @export
+print.coef.bas = function(x,
                           digits = max(3, getOption("digits") - 3), ...) {
   out = cbind(x$postmean, x$postsd, x$probne0)
   dimnames(out) = list(x$namesx, c("post mean", "post SD", "post p(B != 0)"))
@@ -135,11 +134,11 @@ print.coef.bas = function(x,
   cat("\n Marginal Posterior Summaries of Coefficients: \n")
   cat("\n Using ", x$estimator, "\n")
   cat("\n Based on the top ", x$n.models, "models \n")
-  print.default(format(out, digits = digits), print.gap = 2, 
+  print.default(format(out, digits = digits), print.gap = 2,
                 quote = FALSE, ...)
   invisible()
 }
-  
+
 
 
 
