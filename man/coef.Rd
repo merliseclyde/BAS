@@ -58,7 +58,9 @@ releases.
 \note{
 With highly correlated variables, marginal summaries may not be
 representative of the joint distribution. Use \code{\link{plot.coef.bas}} to
-view distributions.
+view distributions.  The value reported for the intercept is
+under the centered parameterization.  Under the  Gaussian error
+model it will be centered at the sample mean of Y.
 }
 \examples{
 

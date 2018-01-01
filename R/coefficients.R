@@ -32,7 +32,9 @@
 #' probability that a coefficient is non-zero}
 #' @note With highly correlated variables, marginal summaries may not be
 #' representative of the joint distribution. Use \code{\link{plot.coef.bas}} to
-#' view distributions.
+#' view distributions.  The value reported for the intercept is
+#' under the centered parameterization.  Under the  Gaussian error
+#' model it will be centered at the sample mean of Y.
 #' @author Merlise Clyde \email{clyde@@stat.duke.edu}
 #' @seealso \code{\link{bas}}, \code{\link{confint.coef.bas}}
 #' @references Liang, F., Paulo, R., Molina, G., Clyde, M. and Berger, J.O.
