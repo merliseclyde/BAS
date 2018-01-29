@@ -54,8 +54,11 @@ the squared scale of the prior, where the default is alpha=1. Setting
 `alpha` is equal to rscale^2 in the BayesFactor package of Morey.
 This uses QUADMATH for numerical integration of g.
 \item  "ZS-null", a Laplace approximation to the 'JZS' prior
-for integration of g.  alpha = 1 only.
-\item "ZS-full" (to be deprecated),
+for integration of g.  alpha = 1 only. We recommend
+using 'JZS' for accuracy and compatibility
+with the BayesFactor package, although it is
+slower.
+\item "ZS-full" (to be deprecated)
 \item "hyper-g", a mixture of g-priors where the prior on
 g/(1+g) is a Beta(1, alpha/2) as in Liang et al (2008).  This
 uses the Cephes library for evaluation of the marginal

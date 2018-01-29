@@ -34,7 +34,7 @@ the penalty.
 IC.prior(2)
           aic.prior()
           bic.prior(100)
-          
+
 }
 \seealso{
 \code{\link{g.prior}}

@@ -27,8 +27,8 @@ testBF.prior(100)
 library(MASS)
 data(Pima.tr)
 
-# use g = n 
-bas.glm(type ~ ., data=Pima.tr, family=binomial(), 
+# use g = n
+bas.glm(type ~ ., data=Pima.tr, family=binomial(),
         betaprior=testBF.prior(nrow(Pima.tr)),
         modelprior=uniform(), method="BAS")
 }

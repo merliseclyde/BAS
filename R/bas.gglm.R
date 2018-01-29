@@ -240,7 +240,7 @@
 bas.glm = function(formula, family = binomial(link = 'logit'),
     data, weights, subset, offset, na.action="na.omit",
     n.models=NULL,
-    betaprior=CCH(alpha=.5, beta=nrow(data), s=0),
+    betaprior=CCH(alpha=.5, beta=as.numeric(nrow(data)), s=0),
     modelprior=beta.binomial(1,1),
     initprobs="Uniform",
     method="MCMC",
