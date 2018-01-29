@@ -1,13 +1,18 @@
-#  BAS 1.4.8 October 30, 2017
+#  BAS 1.4.8 January 29, 2018
 
 ## Bugs 
 
 * fixed issue with scoping in eval of data in predict.bas if dataname is defined in local env.
 
-* fixed issue 10 in github (predict for estimator='BPM' failed
-  if there were NA's in the X data.  Delete NA's before finding the closest model.
+* fixed issue 10 in github (predict for estimator='BPM'
+failed  if there were NA's in the X data.  Delete NA's
+before finding the closest model.
 
+* fixed bug in 'JZS' prior - merged pull request #12 from vandenman/master
 
+* fixed bug in bas.glm when default betaprior (CCH) is used and inputs were INTEGER instead of REAL
+
+* removed warning with use of 'ZS-null' for backwards compatibility
 #  BAS 1.4.7 October 22, 2017
 
 ## Updates
