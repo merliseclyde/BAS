@@ -100,7 +100,7 @@ double ZS_shrinkage(double R2, int n, int d, double rscale) {
   iwork = (int *) R_alloc((size_t) limit, sizeof(int));
   work = (double *) R_alloc((size_t) lenw, sizeof(double));
 
-  PROTECT(Rtheta = allocVector(REALSXP, 4));
+  PROTECT(Rtheta = allocVector(REALSXP, 5));
   REAL(Rtheta)[0] = R2;
   REAL(Rtheta)[1] = (double) n;
   REAL(Rtheta)[2] = (double) d;
