@@ -29,14 +29,16 @@
 #' @rdname print.bas
 #' @method print bas
 #' @export
-print.bas = function (x, digits = max(3, getOption("digits") - 3), ...)
+print.bas = function (x, digits = max(3L, getOption("digits") - 3L), ...)
 {
-    cat("\nCall:\n", deparse(x$call), "\n\n", sep = "")
+    cat("\nCall:\n", paste( deparse(x$call), sep = "\n",
+                            collapse = "\n"),
+                            "\n\n", sep = "")
     cat("\n Marginal Posterior Inclusion Probabilities: \n")
     out = x$probne0
     names(out) = x$namesx
-    print.default(format(out, digits = digits), print.gap = 2,
-        quote = FALSE, ...)
+    print.default(format(out, digits = digits), print.gap = 2L,
+        quote = FALSE)
     invisible()
 }
 
