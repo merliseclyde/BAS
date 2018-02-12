@@ -1,4 +1,4 @@
-#  BAS 1.4.8 January 29, 2018
+#  BAS 1.4.8 February 12, 2018
 
 ## Bugs 
 
@@ -13,6 +13,8 @@ before finding the closest model.
 * fixed bug in bas.glm when default betaprior (CCH) is used and inputs were INTEGER instead of REAL
 
 * removed warning with use of 'ZS-null' for backwards compatibility
+
+* updated print.bas to reflect changes in print.lm
 #  BAS 1.4.7 October 22, 2017
 
 ## Updates
