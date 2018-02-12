@@ -5,7 +5,7 @@
 \alias{print}
 \title{Print a Summary of Bayesian Model Averaging objects from BAS}
 \usage{
-\method{print}{bas}(x, digits = max(3, getOption("digits") - 3), ...)
+\method{print}{bas}(x, digits = max(3L, getOption("digits") - 3L), ...)
 }
 \arguments{
 \item{x}{object of class 'bas'}
