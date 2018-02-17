@@ -1,4 +1,4 @@
-#  BAS 1.4.8 February 12, 2018
+#  BAS 1.4.8 February 16, 2018
 
 ## Bugs 
 
@@ -15,6 +15,10 @@ before finding the closest model.
 * removed warning with use of 'ZS-null' for backwards compatibility
 
 * updated print.bas to reflect changes in print.lm
+
+* Added Bayes.outlier function to calculate posterior probabilities of outliers using the method from 
+Chaloner & Brant for linear models.
+
 #  BAS 1.4.7 October 22, 2017
 
 ## Updates
