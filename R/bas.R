@@ -297,7 +297,7 @@
 #' Computational Graphics and Statistics.  20:80-101 \cr
 #' \url{http://dx.doi.org/10.1198/jcgs.2010.09049}
 #'
-#' Clyde, M. and Ghosh. (2012) Finite population estimators in stochastic search variable selection.
+#' Clyde, M. and Ghosh. J. (2012) Finite population estimators in stochastic search variable selection.
 #' Biometrika, 99 (4), 981-988. \url{http://dx.doi.org/10.1093/biomet/ass040}
 #'
 #' Clyde, M. and George, E. I. (2004) Model Uncertainty. Statist. Sci., 19,
@@ -310,7 +310,7 @@
 #' Hoeting, J. A., Madigan, D., Raftery, A. E. and Volinsky, C. T. (1999)
 #' Bayesian model averaging: a tutorial (with discussion). Statist. Sci., 14,
 #' 382-401. \cr
-#' \url{http://www.stat.washington.edu/www/research/online/hoeting1999.pdf}
+#' \url{http://dx.doi.org/10.1214/ss/1009212519}
 #'
 #' Liang, F., Paulo, R., Molina, G., Clyde, M. and Berger, J.O. (2008) Mixtures
 #' of g-priors for Bayesian Variable Selection. Journal of the American

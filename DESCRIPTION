@@ -3,7 +3,7 @@ Version: 1.4.8
 Title: Bayesian Variable Selection and Model Averaging using Bayesian Adaptive Sampling
 Authors@R: c(person("Merlise", "Clyde", email="clyde@duke.edu",
 	   		       role=c("aut","cre", "cph"),
-	   		       comment=c(ORCID="0000-0002-3595-1872")
+	   		       comment=c(ORCID=0000-0002-3595-1872)
 	   		       ),
            person("Michael", "Littman", role="ctb"),
 	   person("Quanli", "Wang", role="ctb"),
