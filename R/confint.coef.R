@@ -28,10 +28,13 @@
 #'
 #'
 #' data("Hald")
-#' hald.gprior =  bas.lm(Y~ ., data=Hald, alpha=13, prior="g-prior")
+#' hald.gprior =  bas.lm(Y~ ., data=Hald, alpha=13,
+#'                             prior="g-prior")
 #' coef.hald = coef(hald.gprior)
 #' confint(coef.hald)
 #' confint(coef.hald, approx=FALSE, nsim=5000)
+#' # extract just the coefficent of X4
+#' confint(coef.hald, parm="X4")
 #'
 #'
 #' @rdname confint.coef
@@ -42,6 +45,7 @@
 confint.coef.bas = function(object, parm, level=0.95, nsim=10000, ...) {
   n.models = length(object$postprob)
   if (missing(parm)) parm= 1:object$n.vars
+  if (!is.numeric(parm)) parm = which(object$namesx %in% parm)
 
   if (n.models > 1) {
     models = sample(1:n.models, size=nsim, prob= object$postprobs, replace=TRUE)
