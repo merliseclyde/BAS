@@ -43,10 +43,13 @@ of nsim may be needed to reduce variability. %% ~~further notes~~
 
 
 data("Hald")
-hald.gprior =  bas.lm(Y~ ., data=Hald, alpha=13, prior="g-prior")
+hald.gprior =  bas.lm(Y~ ., data=Hald, alpha=13,
+                            prior="g-prior")
 coef.hald = coef(hald.gprior)
 confint(coef.hald)
 confint(coef.hald, approx=FALSE, nsim=5000)
+# extract just the coefficent of X4
+confint(coef.hald, parm="X4")
 
 
 }
