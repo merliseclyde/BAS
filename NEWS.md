@@ -1,3 +1,10 @@
+#  BAS 1.4.9 March 19, 2018
+
+## Bugs
+
+* fixed bug in confint.coef.bas when parm is a character string
+
+
 #  BAS 1.4.8 March 10, 2018
 
 ## Bugs 
