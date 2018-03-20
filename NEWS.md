@@ -2,14 +2,18 @@
 
 ## Bugs
 
-* fixed bug in confint.coef.bas when parm is a character string
+* fixed bug in `confint.coef.bas` when parm is a character string
+ 
+## Features
 
+* added option to determine k for `Bayes.outlier` if prior 
+probability of no outliers is provided
 
 #  BAS 1.4.8 March 10, 2018
 
 ## Bugs 
 
-* fixed issue with scoping in eval of data in predict.bas if dataname is defined in local env.
+* fixed issue with scoping in eval of data in `predict.bas` if dataname is defined in local env.
 
 * fixed issue 10 in github (predict for estimator='BPM'
 failed  if there were NA's in the X data.  Delete NA's
