@@ -4,19 +4,24 @@
 \alias{Bayes.outlier}
 \title{Bayesian Outlier Detection}
 \usage{
-Bayes.outlier(lmobj, k = 3)
+Bayes.outlier(lmobj, k, prior.prob)
 }
 \arguments{
 \item{lmobj}{An object of class `lm`}
 
 \item{k}{number of standard deviations used in calcuating
-default is `k=3`,}
+probability of an individual case being an outlier,
+P(|error| > k sigma | data)}
+
+\item{prior.prob}{The prior probability of there being no
+outliers in the sample of size n}
 }
 \value{
 Returns a list of three items:
 \item{e}{residuals}
 \item{hat}{leverage values}
-\item{pr}{posterior probabilities of a point being an outlier}
+\item{prob.outlier}{posterior probabilities of a point being an outlier}
+\item{prior.prob}{prior probability of a point being an outlier}
 }
 \description{
 Calculate the posterior  probability that the absolute value of
@@ -25,7 +30,8 @@ P(|epsilon_j| > k sigma | data)
 under the model Y = X B + epsilon,
 with epsilon ~ N(0, sigma^2 I)
 based on the paper
-by Chaloner & Brant Biometrika (1988).
+by Chaloner & Brant Biometrika (1988). Either k or the prior
+probability of there being no outliers must be provided.
 This only uses the reference prior p(B, sigma) = 1;
 other priors and model averaging to come.
 }
@@ -33,8 +39,13 @@ other priors and model averaging to come.
 library(MASS)
 data(stackloss)
 stack.lm =lm(stack.loss ~ ., data=stackloss)
-stack.outliers = Bayes.outlier(stack.lm)
-plot(stack.outliers$pr, type="h", ylab="Posterior Probability")
+stack.outliers = Bayes.outlier(stack.lm, k=3)
+plot(stack.outliers$prob.outlier, type="h", ylab="Posterior Probability")
+# adjust for sample size for calculating prior prob that a
+# a case is an outlier
+stack.outliers = Bayes.outlier(stack.lm, prior.prob=0.95)
+# cases where posterior probability exceeds prior probability
+which(stack.outliers$prob.outlier > stack.outliers$prior.prob)
 }
 \references{
 Chaloner & Brant (1988)
