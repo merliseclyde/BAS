@@ -1,8 +1,9 @@
-#  BAS 1.4.9 March 19, 2018
+#  BAS 1.4.9 March 24, 2018
 
 ## Bugs
 
 * fixed bug in `confint.coef.bas` when parm is a character string
+* added parentheses in betafamily.c line 382 as indicated in CRAN check for R devel
  
 ## Features
 

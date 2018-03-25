@@ -379,7 +379,7 @@ double EB_local_glm_logmarg(SEXP hyperparams, int pmodel, double W,
 
   ghat = fmax(0.0, W/p - 1);
   logmarglik =   loglik_mle + M_LN_SQRT_2PI - 0.5* logdet_Iintercept;
-  if (p >= 1.0 & ghat > 0) {
+  if ((p >= 1.0) & (ghat > 0)) {
     logmarglik +=   -.5*p*log(1.0 + ghat) -.5*W/(1.0 + ghat);
   }
   return(logmarglik);
