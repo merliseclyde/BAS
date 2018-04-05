@@ -6,7 +6,7 @@
 \title{Fitted values for a BAS BMA objects}
 \usage{
 \method{fitted}{bas}(object, type = "response", estimator = "BMA",
-  top = NULL, ...)
+  top = NULL, na.action = na.pass, ...)
 }
 \arguments{
 \item{object}{An object of class 'bma' as created by \code{\link{bas}}}
@@ -25,6 +25,8 @@ model that is closest to BMA predictions under squared error loss}
 \item{top}{optional argument specifying that the 'top' models will be used
 in constructing the BMA prediction, if NULL all models will be used.  If
 top=1, then this is equivalent to 'HPM'}
+
+\item{na.action}{function determining what should be done with missing values in newdata. The default is to predict NA.}
 
 \item{...}{optional arguments, not used currently}
 }
