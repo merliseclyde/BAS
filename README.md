@@ -7,7 +7,7 @@ The `BAS` [R](http://r-project.org) package is designed to provide an easy to us
 
 Some CRAN statistics: [![](http://cranlogs.r-pkg.org/badges/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html) [![](http://cranlogs.r-pkg.org/badges/grand-total/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
 
-DOI version v1.4.2 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.160791.svg)](https://doi.org/10.5281/zenodo.160791)
+DOI all versions [![DOI](https://zenodo.org/badge/DOI/110.5281/zenodo.595639.svg)](https://doi.org/10.5281/zenodo.595639)
 
 Rdocumentation [![Rdoc](http://www.rdocumentation.org/badges/version/BAS)](http://www.rdocumentation.org/packages/BAS)
 
