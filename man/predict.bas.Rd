@@ -6,7 +6,7 @@
 \title{Prediction Method for an object of class BMA}
 \usage{
 \method{predict}{bas}(object, newdata, se.fit = FALSE, type = "link",
-  top = NULL, estimator = "BMA", prediction = FALSE, ...)
+  top = NULL, estimator = "BMA", na.action = na.pass, ...)
 }
 \arguments{
 \item{object}{An object of class BAS, created by \code{bas}}
@@ -30,9 +30,8 @@ probability model of Barbieri and Berger. \cr 'BPM' the model that is
 closest to BMA predictions under squared error loss. BMA may be computed
 using only the 'top' models if supplied}
 
-\item{prediction}{logical value to indicate whether the observed design
-matrix used in fitting or the newdata will be used for estimating the mean
-or for making predictions.  The default is FALSE for estimation of the mean.}
+\item{na.action}{function determining what should be done with missing values in newdata.
+The default is to predict NA.}
 
 \item{...}{optional extra arguments}
 }
@@ -64,7 +63,7 @@ probability models.
 data("Hald")
 hald.gprior =  bas.lm(Y ~ ., data=Hald, alpha=13, prior="g-prior")
 
-predict(hald.gprior, newdata=Hald, estimator="BPM", se.fit=TRUE, prediction=FALSE)
+predict(hald.gprior, newdata=Hald, estimator="BPM", se.fit=TRUE)
 # same as fitted
 fitted(hald.gprior,estimator="BPM")
 
@@ -73,17 +72,17 @@ hald.bma = predict(hald.gprior, top=5, se.fit=TRUE)
 confint(hald.bma)
 
 hald.BPM = predict(hald.gprior, newdata=Hald[1,],
-                    prediction=TRUE, se.fit=TRUE,
+                    se.fit=TRUE,
                     estimator="BPM")
 confint(hald.BPM)
 
 hald.hpm = predict(hald.gprior, newdata=Hald[1,],
-                    prediction=TRUE, se.fit=TRUE,
+                    se.fit=TRUE,
                     estimator="HPM")
 confint(hald.hpm)
 
 hald.mpm = predict(hald.gprior, newdata=Hald[1,],
-                    prediction=TRUE, se.fit=TRUE,
+                    se.fit=TRUE,
                     estimator="MPM")
 confint(hald.mpm)
 

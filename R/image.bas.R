@@ -96,7 +96,7 @@ image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, ro
 
   if (rotate) {
       par(mar = c(6,6,3,5) + .1)
-      image(0:nvar, mat, t(which.mat[top.models:1,]),
+      image(0:nvar, mat, t(which.mat[top.models:1, , drop=FALSE]),
             xaxt="n", yaxt="n",
             ylab="",
             xlab="",
@@ -111,7 +111,7 @@ image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, ro
     }
   else{
     par(mar = c(6,8,6,2) + .1)
-    image(mat, 0:nvar, which.mat[ , nvar:1],
+    image(mat, 0:nvar, which.mat[ , nvar:1,  drop=FALSE],
           xaxt="n", yaxt="n",
           xlab="",
           ylab="",

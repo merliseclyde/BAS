@@ -1,3 +1,20 @@
+# BAS 1.5.0  April 4, 2018
+
+## Features
+
+* add na.action for handling NA's for predict methods 
+[issue #10]( https://github.com/merliseclyde/BAS/issues/10)
+
+## Bugs
+
+* fixed problem if there is only one model for `image` function;  
+github [issue #11](https://github.com/merliseclyde/BAS/issues/11)
+
+## Deprecated 
+ 
+* deprecate the `predict` argument in `predict.bas`, `predict.basglm` and internal functions as it is not utilized
+
+
 #  BAS 1.4.9 March 24, 2018
 
 ## Bugs

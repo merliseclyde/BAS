@@ -6,7 +6,7 @@
 \usage{
 \method{predict}{basglm}(object, newdata, se.fit = FALSE,
   type = c("response", "link"), top = NULL, estimator = "BMA",
-  prediction = FALSE, ...)
+  na.action = na.pass, ...)
 }
 \arguments{
 \item{object}{An object of class "basglm", created by \code{bas.glm}}
@@ -36,8 +36,8 @@ probability model of Barbieri and Berger. \cr 'BPM' the model that is
 closest to BMA predictions under squared error loss. BMA may be computed
 using only the 'top' models if supplied}
 
-\item{prediction}{logical value to indicate whether the observed design
-matrix used in fitting or the newdata will be used for predictions}
+\item{na.action}{function determining what should be done with missing values in newdata.
+The default is to predict NA.}
 
 \item{...}{optional extra arguments}
 }
