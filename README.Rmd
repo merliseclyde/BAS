@@ -35,6 +35,7 @@ DOI all versions
 Rdocumentation
 [![Rdoc](http://www.rdocumentation.org/badges/version/BAS)](http://www.rdocumentation.org/packages/BAS)
 
+
 ## Installation
 
 The stable version [![](http://www.r-pkg.org/badges/version/BAS)](https://cran.r-project.org/package=BAS) can be installed easily in the `R` console like any other package:
