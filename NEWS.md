@@ -1,9 +1,11 @@
-# BAS 1.5.0  April 4, 2018
+# BAS 1.5.0  April 6, 2018
 
 ## Features
 
 * add na.action for handling NA's for predict methods 
 [issue #10]( https://github.com/merliseclyde/BAS/issues/10)
+
+* added `include.always` as new argument to `bas.lm`.  This allows a formula to specify which terms should always be included in all models.  By default the intercept is always included.
 
 ## Bugs
 
