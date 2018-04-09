@@ -48,13 +48,13 @@
   	deg = sum(initprobs >= 1) + sum(initprobs <= 0)
   	if (deg > 1 & n.models == 2^(p - 1)) {
     		n.models = 2^(p - deg)
-    		warning(paste("There are", as.character(deg),
-                "degenerate sampling probabilities (0 or 1); decreasing the number of models to",                 as.character(n.models)))
+#    		warning(paste("There are", as.character(deg),
+#                "degenerate sampling probabilities (0 or 1); decreasing the number of models to",                 as.character(n.models)))
   	}
 
   	if (n.models > 2^30) stop("Dimension of model space is too big to enumerate\n  Rerun with a smaller value for n.models")
   	if (n.models > 2^25)
-            warning("Number of models is BIG -this may take a while")
+            warning("Number of models is BIG - this may take a while and you may run out of memory")
     return(n.models)
 }
 
@@ -188,7 +188,12 @@
 #' determines the order of the variables in the lookup table and affects memory
 #' allocation in large problems where enumeration is not feasible.  For
 #' variables that should always be included set the corresponding initprobs to
-#' 1, to overide the `modelprior`.
+#' 1, to overide the `modelprior` or use `include.always` to force these variables
+#' to always be included in the model.
+#' @param include.always A formula with terms that should always be included
+#' in the model with probability one.  By default this is `~ 1` meaning that the
+#' intercept is always included.  This will also overide any of the values in `initprobs`
+#' above by setting them to 1.
 #' @param method A character variable indicating which sampling method to use:
 #'\itemize{
 #'\item  "deterministic" uses the "top k" algorithm described in Ghosh and Clyde (2011)
@@ -376,7 +381,8 @@
 bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
     n.models=NULL,  prior="ZS-null", alpha=NULL,
     modelprior=beta.binomial(1,1),
-    initprobs="Uniform", method="BAS", update=NULL,
+    initprobs="Uniform", include.always = ~ 1,
+    method="BAS", update=NULL,
     bestmodel=NULL, prob.local=0.0,
     prob.rw=0.5,
     MCMC.iterations=NULL,
@@ -387,10 +393,10 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
   call = match.call()
 
   # from lm
-  mf <- match.call(expand.dots = FALSE)
+  mfall <- match.call(expand.dots = FALSE)
   m <- match(c("formula", "data", "subset", "weights", "na.action",
-               "offset"), names(mf), 0L)
-  mf <- mf[c(1L, m)]
+               "offset"), names(mfall), 0L)
+  mf <- mfall[c(1L, m)]
   mf$drop.unused.levels <- TRUE
   mf[[1L]] <- quote(stats::model.frame)
   mf <- eval(mf, parent.frame())
@@ -407,6 +413,7 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
   Y = model.response(mf, "numeric")
   mt <- attr(mf, "terms")
   X = model.matrix(mt, mf, contrasts)
+
   #X = model.matrix(formula, mf)
 
 
@@ -446,21 +453,26 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
    if (length(initprobs) == (p-1))
        initprobs = c(1.0, initprobs)
 
-#   if (length(initprobs) != p)
-#    stop(simpleError(paste("length of initprobs is not", p)))
+  # set up variables to always include
+  if ("include.always" %in% names(mfall)) {
+    minc <- match(c("include.always", "data", "subset"),  names(mfall), 0L)
+    mfinc <- mfall[c(1L, minc)]
+    mfinc$drop.unused.levels <- TRUE
+    names(mfinc)[2] = "formula"
+    mfinc[[1L]] <- quote(stats::model.frame)
+    mfinc <- eval(mfinc, parent.frame())
+    mtinc <- attr(mfinc, "terms")
+    X.always = model.matrix(mtinc, mfinc, contrasts)
 
-#  pval = summary(lm.obj)$coefficients[,4]
-#  if (any(is.na(pval))) {
-#    print(paste("warning full model is rank deficient"))
-#    initprobs[is.na(pval)] = 0.0
-#  }
-#
-#  if (initprobs[1] < 1.0 | initprobs[1] > 1.0) initprobs[1] = 1.0
-# intercept is always included otherwise we get a segmentation
-# fault (relax later)
+    keep = match(colnames(X.always)[-1], colnames(X))
+    initprobs[keep] = 1.0
+    if (ncol(X.always) == ncol(X)) {
+      # just one model with all variables forced in
+      # use method='BAS" as deterministic and MCMC fail in this context
+      method='BAS'
+    }
+  }
 
-  #  prob = as.numeric(initprobs)
-  #MCMC-BAS
   if (is.null(n.models)) n.models = min(2^p, 2^19)
   if (is.null(MCMC.iterations)) MCMC.iterations = as.integer(n.models*10)
   Burnin.iterations = as.integer(MCMC.iterations)
@@ -485,7 +497,7 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
   int = TRUE  # assume that an intercept is always included
 
 if (prior == "ZS-full") .Deprecated("prior='JZS'",
-  msg="The Zellner-Siow prior will be deprecated in the next version of the
+  msg="The Zellner-Siow full prior (Liang et al 2008)  will be deprecated in the next version of the
   package. Recommended alternative is the Jeffreys-Zellner-Siow prior 'JZS'")
 
 # if (prior == "ZS-null") warning("We recommend using the implementation using the Jeffreys-Zellner-Siow prior (prior='JZS') which uses numerical integration rahter than the Laplace approximation")

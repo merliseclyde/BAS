@@ -83,6 +83,7 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim
   probs =  REAL(Rprobs);
   n = sortvars(vars, probs, p);
 
+
   /* Make space for the models and working variables. */
 
 
@@ -90,6 +91,8 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim
   model = (int *) R_alloc(p, sizeof(int));
 
   k = topk(models, probs, k, vars, n, p);
+
+
 
   /* Fit Full model */
   if (nobs <= p) {RSquareFull = 1.0;}
