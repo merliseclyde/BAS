@@ -8,10 +8,10 @@ Linear Models}
 \usage{
 bas.lm(formula, data, subset, weights, na.action = "na.omit",
   n.models = NULL, prior = "ZS-null", alpha = NULL,
-  modelprior = beta.binomial(1, 1), initprobs = "Uniform", method = "BAS",
-  update = NULL, bestmodel = NULL, prob.local = 0, prob.rw = 0.5,
-  MCMC.iterations = NULL, lambda = NULL, delta = 0.025, thin = 1,
-  renormalize = FALSE)
+  modelprior = beta.binomial(1, 1), initprobs = "Uniform",
+  include.always = ~1, method = "BAS", update = NULL, bestmodel = NULL,
+  prob.local = 0, prob.rw = 0.5, MCMC.iterations = NULL, lambda = NULL,
+  delta = 0.025, thin = 1, renormalize = FALSE)
 }
 \arguments{
 \item{formula}{linear model formula for the full model with all predictors,
@@ -109,7 +109,13 @@ While the initprobs are not used in sampling for method="MCMC", this
 determines the order of the variables in the lookup table and affects memory
 allocation in large problems where enumeration is not feasible.  For
 variables that should always be included set the corresponding initprobs to
-1, to overide the `modelprior`.}
+1, to overide the `modelprior` or use `include.always` to force these variables
+to always be included in the model.}
+
+\item{include.always}{A formula with terms that should always be included
+in the model with probability one.  By default this is `~ 1` meaning that the
+intercept is always included.  This will also overide any of the values in `initprobs`
+above by setting them to 1.}
 
 \item{method}{A character variable indicating which sampling method to use:
 \itemize{

@@ -103,7 +103,7 @@ int sortvars(struct Var *vars, double *prob, int p)
 	}
 
 	if (n == 0) {
-		error("Probabilities are all 0 or 1 - Quitting!\n");
+		REprintf("Warning: prior inclusion probabilities are all 0 or 1 - Only 1 model!\n");
 	}
 	/* Ok, vars is set up.  Need to sort to get "list". */
 	qsort((char *) vars, p, sizeof(struct Var),(compfn) compare);
