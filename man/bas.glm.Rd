@@ -8,9 +8,10 @@ Generalized Linear Models}
 bas.glm(formula, family = binomial(link = "logit"), data, weights, subset,
   offset, na.action = "na.omit", n.models = NULL, betaprior = CCH(alpha =
   0.5, beta = as.numeric(nrow(data)), s = 0), modelprior = beta.binomial(1,
-  1), initprobs = "Uniform", method = "MCMC", update = NULL,
-  bestmodel = NULL, prob.rw = 0.5, MCMC.iterations = NULL,
-  control = glm.control(), laplace = FALSE, renormalize = FALSE)
+  1), initprobs = "Uniform", include.always = ~1, method = "MCMC",
+  update = NULL, bestmodel = NULL, prob.rw = 0.5,
+  MCMC.iterations = NULL, control = glm.control(), laplace = FALSE,
+  renormalize = FALSE)
 }
 \arguments{
 \item{formula}{generalized linear model formula for the full model with all
@@ -65,9 +66,19 @@ updated using estimates of the marginal inclusion probabilites. "eplogp"
 assumes that MLEs from the full model exist; for problems where that is not
 the case or 'p' is large, initial sampling probabilities may be obtained
 using \code{\link{eplogprob.marg}} which fits a model to each predictor
-seaparately.  For variables that should always be included set the
-corresponding initprobs to 1. To run a Markov Chain to provide initial
-estimates of marginal inclusion probabilities, use method="MCMC+BAS" below.}
+seaparately.  To run a Markov Chain to provide initial
+estimates of marginal inclusion probabilities, use method="MCMC+BAS" below.
+While the initprobs are not used in sampling for method="MCMC", this
+determines the order of the variables in the lookup table and affects memory
+allocation in large problems where enumeration is not feasible.  For
+variables that should always be included set the corresponding initprobs to
+1, to overide the `modelprior` or use `include.always` to force these variables
+to always be included in the model.}
+
+\item{include.always}{A formula with terms that should always be included
+in the model with probability one.  By default this is `~ 1` meaning that the
+intercept is always included.  This will also overide any of the values in `initprobs`
+above by setting them to 1.}
 
 \item{method}{A character variable indicating which sampling method to use:
 method="BAS" uses Bayesian Adaptive Sampling (without replacement) using the

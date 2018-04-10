@@ -130,9 +130,18 @@
 #' assumes that MLEs from the full model exist; for problems where that is not
 #' the case or 'p' is large, initial sampling probabilities may be obtained
 #' using \code{\link{eplogprob.marg}} which fits a model to each predictor
-#' seaparately.  For variables that should always be included set the
-#' corresponding initprobs to 1. To run a Markov Chain to provide initial
+#' seaparately.  To run a Markov Chain to provide initial
 #' estimates of marginal inclusion probabilities, use method="MCMC+BAS" below.
+#' While the initprobs are not used in sampling for method="MCMC", this
+#' determines the order of the variables in the lookup table and affects memory
+#' allocation in large problems where enumeration is not feasible.  For
+#' variables that should always be included set the corresponding initprobs to
+#' 1, to overide the `modelprior` or use `include.always` to force these variables
+#' to always be included in the model.
+#' @param include.always A formula with terms that should always be included
+#' in the model with probability one.  By default this is `~ 1` meaning that the
+#' intercept is always included.  This will also overide any of the values in `initprobs`
+#' above by setting them to 1.
 #' @param method A character variable indicating which sampling method to use:
 #' method="BAS" uses Bayesian Adaptive Sampling (without replacement) using the
 #' sampling probabilities given in initprobs and updates using the marginal
@@ -243,6 +252,7 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
     betaprior=CCH(alpha=.5, beta=as.numeric(nrow(data)), s=0),
     modelprior=beta.binomial(1,1),
     initprobs="Uniform",
+    include.always=~1,
     method="MCMC",
     update=NULL,
     bestmodel=NULL,
@@ -265,10 +275,10 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
       data <- environment(formula)
 
     #browser()
-    mf <- match.call(expand.dots = FALSE)
+    mfall <- match.call(expand.dots = FALSE)
     m <- match(c("formula", "data", "subset", "weights", "na.action",
-                 "etastart", "mustart", "offset"), names(mf), 0L)
-    mf <- mf[c(1L, m)]
+                 "etastart", "mustart", "offset"), names(mfall), 0L)
+    mf <- mfall[c(1L, m)]
     mf$drop.unused.levels <- TRUE
     mf[[1L]] <- quote(stats::model.frame)
     mf <- eval(mf, parent.frame())
@@ -303,7 +313,29 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
 
  Y = glm.obj$y
 
+
+
   prob <- .normalize.initprobs(initprobs, glm.obj)
+
+  # set up variables to always include
+  if ("include.always" %in% names(mfall)) {
+    minc <- match(c("include.always", "data", "subset"),  names(mfall), 0L)
+    mfinc <- mfall[c(1L, minc)]
+    mfinc$drop.unused.levels <- TRUE
+    names(mfinc)[2] = "formula"
+    mfinc[[1L]] <- quote(stats::model.frame)
+    mfinc <- eval(mfinc, parent.frame())
+    mtinc <- attr(mfinc, "terms")
+    X.always = model.matrix(mtinc, mfinc, contrasts)
+
+    keep = match(colnames(X.always)[-1], colnames(X))
+    prob[keep] = 1.0
+    if (ncol(X.always) == ncol(X)) {
+      # just one model with all variables forced in
+      # use method='BAS" as deterministic and MCMC fail in this context
+      method='BAS'
+    }
+  }
 	n.models <- .normalize.n.models(n.models, p, prob, method)
 	modelprior <- .normalize.modelprior(modelprior,p)
 
