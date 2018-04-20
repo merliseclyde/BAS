@@ -14,13 +14,13 @@ Rdocumentation [![Rdoc](http://www.rdocumentation.org/badges/version/BAS)](http:
 Installation
 ------------
 
-The stable version [![](http://www.r-pkg.org/badges/version/BAS)](https://cran.r-project.org/package=BAS) can be installed easily in the `R` console like any other package:
+The stable version [![](http://www.r-pkg.org/badges/version/BAS)](http://cran.r-project.org/package=BAS) can be installed easily in the `R` console like any other package:
 
 ``` r
 install.packages('BAS')
 ```
 
-On the other hand, I welcome everyone to use the most recent version of the package with quick-fixes, new features and probably new bugs. It's currently hosted on [GitHub](https://github.com/merliseclyde/BAS). To get the latest development version from [GitHub](https://github.com/merliseclyde), use the `devtools` package from [CRAN](https://cran.r-project.org/package=devtools) and enter in `R`:
+On the other hand, I welcome everyone to use the most recent version of the package with quick-fixes, new features and probably new bugs. It's currently hosted on [GitHub](https://github.com/merliseclyde/BAS). To get the latest development version from [GitHub](https://github.com/merliseclyde), use the `devtools` package from [CRAN](http://cran.r-project.org/package=devtools) and enter in `R`:
 
 ``` r
 devtools::install_github('merliseclyde/BAS')
@@ -28,7 +28,7 @@ devtools::install_github('merliseclyde/BAS')
 
 You can check out the current build and test coverage status courtesy Travis CI: [![](https://travis-ci.org/merliseclyde/BAS.png?branch=master)](https://travis-ci.org/merliseclyde/BAS) before installing.
 
-Installing the package from source does require compilation of C and FORTRAN code as the library makes use of BLAS and LAPACK for efficient model fitting. See [CRAN manuals](https://cran.r-project.org/doc/manuals/r-devel/R-admin.html) for installing packages from source under different operating systems.
+Installing the package from source does require compilation of C and FORTRAN code as the library makes use of BLAS and LAPACK for efficient model fitting. See [CRAN manuals](http://cran.r-project.org/doc/manuals/r-devel/R-admin.html) for installing packages from source under different operating systems.
 
 Usage
 -----
