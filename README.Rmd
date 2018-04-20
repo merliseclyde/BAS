@@ -1,6 +1,5 @@
 ---
 output: github_document
-self_contained: false
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
