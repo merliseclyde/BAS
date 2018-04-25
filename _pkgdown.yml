@@ -1,0 +1,18 @@
+template:
+  params:
+    bootswatch: cosmo
+
+navbar:
+  title: "BAS"
+  left:
+    - text: "Vignettes"
+      href: articles/index.html
+    - text: "Functions"
+      href: reference/index.html
+    - text: "News"
+      href: news/index.html
+  right:
+    - icon: fa-twitter
+      href: https://twitter.com/merliseclyde
+    - icon: fa-github
+      href: https://github.com/merliseclyde/BAS

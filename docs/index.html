@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bayesian Variable Selection and Model Averaging using Bayesian Adaptive Sampling • BAS</title>
-<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><meta property="og:title" content="Bayesian Variable Selection and Model Averaging using Bayesian Adaptive Sampling">
@@ -59,34 +59,25 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-  </a>
+  <a href="articles/index.html">Vignettes</a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/BAS-vignette.html">Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging and Variable Selection</a>
-    </li>
-  </ul>
+  <a href="reference/index.html">Functions</a>
 </li>
 <li>
-  <a href="news/index.html">Changelog</a>
+  <a href="news/index.html">News</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
+  <a href="https://twitter.com/merliseclyde">
+    <span class="fa fa-twitter"></span>
+     
+  </a>
+</li>
+<li>
   <a href="https://github.com/merliseclyde/BAS">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fa fa-github"></span>
      
   </a>
 </li>
@@ -114,6 +105,7 @@
 <p>The <code>BAS</code> <a href="http://r-project.org">R</a> package is designed to provide an easy to use package and fast code for implementing Bayesian Model Averaging and Model Selection in <code>R</code> using state of the art prior distributions for linear and generalized linear models. The prior distributions in <code>BAS</code> are based on Zellner’s g-prior or mixtures of g-priors. These have been shown to be consistent and have a number of computational advantages. <code>BAS</code> implements two main algorithms for sampling from the space of potential models: an adaptive sampling without replacement algorithm and a MCMC algorithm that utilizes swapping to escape from local modes.</p>
 <p>DOI all versions <a href="https://doi.org/10.5281/zenodo.595639"><img src="https://zenodo.org/badge/DOI/110.5281/zenodo.595639.svg" alt="DOI"></a></p>
 <p>Rdocumentation <a href="http://www.rdocumentation.org/packages/BAS"><img src="http://www.rdocumentation.org/badges/version/BAS" alt="Rdoc"></a></p>
+<p>CRAN Statistics: <a href="http://cran.rstudio.com/web/packages/BAS/index.html"><img src="http://cranlogs.r-pkg.org/badges/BAS"></a> <a href="http://cran.rstudio.com/web/packages/BAS/index.html"><img src="http://cranlogs.r-pkg.org/badges/grand-total/BAS"></a></p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
