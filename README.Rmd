@@ -8,9 +8,11 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "README-fig/"
+  fig.path = "man/figures/"
 )
 ```
+
+
 # [BAS: An R package for Bayesian Model Averaging using Adaptive Samping ](https://github.com/merliseclyde/BAS)
 
 [![](https://travis-ci.org/merliseclyde/BAS.png?branch=master)](https://travis-ci.org/merliseclyde/BAS) 
