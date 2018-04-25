@@ -3,6 +3,13 @@
 
 # [BAS: An R package for Bayesian Model Averaging using Adaptive Samping](https://github.com/merliseclyde/BAS)
 
+[![](https://travis-ci.org/merliseclyde/BAS.png?branch=master)](https://travis-ci.org/merliseclyde/BAS)
+[![](http://www.r-pkg.org/badges/version/BAS)](http://cran.r-project.org/package=BAS)
+[![](http://cranlogs.r-pkg.org/badges/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
+[![Rdoc](http://www.rdocumentation.org/badges/version/BAS)](http://www.rdocumentation.org/packages/BAS)
+[![DOI](https://zenodo.org/badge/DOI/110.5281/zenodo.595639.svg)](https://doi.org/10.5281/zenodo.595639)
+
 The `BAS` [R](http://r-project.org) package is designed to provide an
 easy to use package and fast code for implementing Bayesian Model
 Averaging and Model Selection in `R` using state of the art prior
@@ -14,15 +21,15 @@ sampling from the space of potential models: an adaptive sampling
 without replacement algorithm and a MCMC algorithm that utilizes
 swapping to escape from local modes.
 
-Some CRAN statistics:
-[![](http://cranlogs.r-pkg.org/badges/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
-[![](http://cranlogs.r-pkg.org/badges/grand-total/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
-
 DOI all versions
 [![DOI](https://zenodo.org/badge/DOI/110.5281/zenodo.595639.svg)](https://doi.org/10.5281/zenodo.595639)
 
 Rdocumentation
 [![Rdoc](http://www.rdocumentation.org/badges/version/BAS)](http://www.rdocumentation.org/packages/BAS)
+
+CRAN Statistics:
+[![](http://cranlogs.r-pkg.org/badges/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
 
 ## Installation
 
