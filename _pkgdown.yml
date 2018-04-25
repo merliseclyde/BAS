@@ -1,7 +1,11 @@
+url:  http://merliseclyde.github.io/BAS/
+
 template:
   params:
     bootswatch: cosmo
-
+    docsearch:
+      api_key: 94a8229a313e5475acdeffd26558ce98
+      index_name: bas
 navbar:
   title: "BAS"
   left:

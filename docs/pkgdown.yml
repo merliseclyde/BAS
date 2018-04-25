@@ -3,4 +3,7 @@ pkgdown: 1.0.0
 pkgdown_sha: d43ca38c74827d1d6babc3a80d48cd3a8e8fad8c
 articles:
   BAS-vignette: BAS-vignette.html
+urls:
+  reference: http://merliseclyde.github.io/BAS//reference
+  article: http://merliseclyde.github.io/BAS//articles
 

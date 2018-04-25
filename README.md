@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# [BAS: An R package for Bayesian Model Averaging using Adaptive Samping](https://github.com/merliseclyde/BAS)
+# [BAS: Bayesian Variable Selection and Model Averaging using Bayesian Adaptive Sampling](https://github.com/merliseclyde/BAS)
 
 [![](https://travis-ci.org/merliseclyde/BAS.png?branch=master)](https://travis-ci.org/merliseclyde/BAS)
 [![](http://www.r-pkg.org/badges/version/BAS)](http://cran.r-project.org/package=BAS)
@@ -92,7 +92,7 @@ which variable are important may be obtained via
 image(hald.ZS)
 ```
 
-![](README-fig/unnamed-chunk-3-1.png)<!-- -->
+![](man/figures/unnamed-chunk-3-1.png)<!-- -->
 
 Run `demo("BAS.hald")` or `demo("BAS.USCrime")` or see the package
 vignette for more examples and options such as using MCMC for model
@@ -122,7 +122,7 @@ the future.
 ## Feature Requests and Issues
 
 Feel free to report any issues or request features to be added via the
-github page.
+[github issues page](https://github.com/merliseclyde/BAS/issues).
 
 ### Support
 

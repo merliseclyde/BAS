@@ -14,3 +14,4 @@ NAMESPACE-preRoxygen
 BAS-Ex.Rout.fail
 BAS-Ex.R
 docs/*
+_pkgdown.yml
