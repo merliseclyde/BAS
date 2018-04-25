@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 ```
 
 
-# [BAS: An R package for Bayesian Model Averaging using Adaptive Samping ](https://github.com/merliseclyde/BAS)
+# [BAS: Bayesian Variable Selection and Model Averaging using Bayesian Adaptive Sampling ](https://github.com/merliseclyde/BAS)
 
 [![](https://travis-ci.org/merliseclyde/BAS.png?branch=master)](https://travis-ci.org/merliseclyde/BAS) 
 [![](http://www.r-pkg.org/badges/version/BAS)](http://cran.r-project.org/package=BAS)
@@ -106,7 +106,7 @@ Note, the syntac for specifying priors on the coefficients in `bas.glm` uses a f
 
 ## Feature Requests and Issues
 
-Feel free to report any issues or request features to be added via the github page.
+Feel free to report any issues or request features to be added via the [github issues page](https://github.com/merliseclyde/BAS/issues).
 
 ### Support
 
