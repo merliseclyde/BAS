@@ -374,6 +374,7 @@
 #' \dontrun{demo(BAS.USCrime) }
 #'
 #' @rdname bas.lm
+#' @keywords regression
 #' @family BAS methods
 #' @concept BMA
 #' @concept variable selection

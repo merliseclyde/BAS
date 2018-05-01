@@ -380,6 +380,7 @@ Looking at the summaries
 knitr::kable(as.data.frame(summary(stack.bas)))
 ```
 
+## Weighted Regression
 
 
 ## Summary

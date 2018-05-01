@@ -11,10 +11,10 @@ UScrime[,-2] = log(UScrime[,-2])
 
 ## ----bas-----------------------------------------------------------------
 library(BAS)
-crime.ZS =  bas.lm(y ~ .,
+crime.ZS =  bas.lm(y ~ ., 
                    data=UScrime,
                    prior="ZS-null",
-                   modelprior=uniform(), initprobs="eplogp")
+                   modelprior=uniform(), initprobs="eplogp") 
 
 ## ---- fig.show='hold'----------------------------------------------------
 plot(crime.ZS, ask=F)
@@ -66,8 +66,8 @@ names(BMA)
 
 ## ---- fig.width=5, fig.height=5-----------------------------------------------
 par(mar=c(9, 9, 3, 3))
-plot(muhat.BMA, BMA$fit,
-     pch=16,
+plot(muhat.BMA, BMA$fit, 
+     pch=16, 
      xlab=expression(hat(mu[i])), ylab=expression(hat(Y[i])))
 abline(0,1)
 
@@ -108,29 +108,29 @@ new.pred = predict(crime.ZS, newdata=UScrime, estimator="MPM")
 ## -----------------------------------------------------------------------------
 system.time(
   for (i in 1:10) {
-    crime.ZS <- bas.lm(y ~ .,
+    crime.ZS <- bas.lm(y ~ ., 
                    data=UScrime,
                    prior="ZS-null", method="BAS",
-                   modelprior=uniform(), initprobs="eplogp")
+                   modelprior=uniform(), initprobs="eplogp") 
   }
 )
 
 system.time(
   for (i in 1:10)  {
-    crime.ZS <-  bas.lm(y ~ .,
+    crime.ZS <-  bas.lm(y ~ ., 
                    data=UScrime,
                    prior="ZS-null", method="deterministic",
-                   modelprior=uniform(), initprobs="eplogp")
+                   modelprior=uniform(), initprobs="eplogp") 
   }
 )
 
 
 ## ----MCMC---------------------------------------------------------------------
-crime.ZS =  bas.lm(y ~ .,
+crime.ZS =  bas.lm(y ~ ., 
                    data=UScrime,
                    prior="ZS-null",
                    modelprior=uniform(),
-                   method = "MCMC")
+                   method = "MCMC") 
 
 ## ----diagnostics--------------------------------------------------------------
 diagnostics(crime.ZS, type="pip",  pch=16)
@@ -142,17 +142,16 @@ diagnostics(crime.ZS, type="model",  pch=16)
 #                     prior="ZS-null",
 #                     modelprior=uniform(),
 #                     method = "MCMC", MCMC.iterations = 10^6)
-#
+#  
 #  # Don't run diagnostics(crime.ZS, type="model", pch=16)
 
 ## ----add-out------------------------------------------------------------------
 data("stackloss")
-
 stackloss$out.ind = diag(nrow(stackloss))
 
 stack.bas = bas.lm(stack.loss ~ ., data=stackloss,
                 method="MCMC", initprobs="marg-eplogp",
-                prior="ZS-null",
+                prior="ZS-null", 
                 modelprior=tr.poisson(4,10),
                 MCMC.iterations=200000
                )

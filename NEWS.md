@@ -12,6 +12,8 @@
 * fixed problem if there is only one model for `image` function;  
 github [issue #11](https://github.com/merliseclyde/BAS/issues/11)
 
+* fixed error in `bas.lm` with non-equal weights where R2 was incorrect.
+ [issue #17](https://github.com/merliseclyde/BAS/issues/17)
 ## Deprecated 
  
 * deprecate the `predict` argument in `predict.bas`, `predict.basglm` and internal functions as it is not utilized
