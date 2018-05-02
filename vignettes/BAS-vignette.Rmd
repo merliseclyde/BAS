@@ -383,6 +383,55 @@ knitr::kable(as.data.frame(summary(stack.bas)))
 ## Weighted Regression
 
 
+`BAS` can perform weighted regression by supplying an optional weight vector that is of the same length as the response where the assumption is that the variance of the response is proportional to 1/weights.  The g-prior incporporates the 
+weights in the prior covariance, 
+$$
+ \sigma^2 g (X_\gamma^T W X_\gamma)
+$$
+where $X_\gamma$ is the design matrix under model $\gamma$ and $W$ is the $n \times n$ diagonal matrix with the weights on the diagonal.
+
+To illustrate, we will use the climate data, avaialable at the url below
+```{r climate}
+climate = read.table("https://stat.duke.edu/sites/stat.duke.edu/files/climate.dat", header=T)
+str(climate)
+summary(climate)
+
+```
+which includes measurements of changes in temperature (`deltaT`) at various `latitude`s as well as a meaure of the accuracy of the measured values `sdev` for 8 differenty types  `proxy` of obtaining  measurements.  We will use this to explore weighted regression and the option to group terms in factors or from `poly`.  For illustration purposes, we will eliminate `proxy == 6` which has only one level as the interactions are not estimable, and then convert `proxy` to a factor.
+
+```{r read-climate}
+climate = dplyr::filter(climate, proxy != 6) %>%
+          dplyr::mutate(proxy=factor(proxy))
+```
+
+
+We can fit a weighted regression with  `weights = 1/sdev^2` with the following code
+```{r wtreg}
+# takes a while to enumerate all 2^20 models
+climate.bas = bas.lm(deltaT ~ proxy*poly(latitude, 2), data=climate,
+                     weights=1/sdev^2, 
+                     prior="hyper-g-n", alpha=3.0,
+                     n.models=2^20,
+                     modelprior=uniform())
+```
+Examining the image of the top  $20$ models,
+```{r climate-image}
+image(climate.bas, rotate=F)
+```
+
+we see that any level of a factor may enter or drop from the model independently. If we want to force that all levels of a factor or interaction of a factor enter or leave simultaneously, then we may use the function `force.heredity.bas` to
+post-process the output to include or exclude terms.
+
+```{r force-herid}
+climate.herid.bas = force.heredity.bas(climate.bas)
+image(climate.herid.bas, rotate=F)
+```
+We now see that there are now 5 models, with the model with just `proxy` having the highest posterior model probability.
+
+A future version of `BAS` will implement this through the model prior which should allow for more efficient sampling and reduced memory requirements when dealing with factors that have many levels.
+
+
+
 ## Summary
 
 `BAS` includes other prior distributions on coefficients and models, as well as `bas.glm` for fitting Generalized Linear Models.  The syntax for bas.glm and bas.lm are not yet the same, particularly for how some of the priors on coefficients are represented, so please see the documentation for more features and details until this is updated!
