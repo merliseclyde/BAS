@@ -4,7 +4,7 @@
 
 void PrecomputeData(double *Xwork, double *Ywork, double *wts, double **pXtXwork, double **pXtYwork, double **pXtX, double **pXtY, double *yty, double *SSY, int p, int nobs) {
 	char uplo[] = "U", trans[]="T";
-	double one=1.0, zero=0.0;
+	double one=1.0, zero=0.0, nwts=0.0;
 	int inc=1, i, j,l;
 
 	int p2 = p * p;
@@ -20,8 +20,10 @@ void PrecomputeData(double *Xwork, double *Ywork, double *wts, double **pXtXwork
 	  }
 	}
 
+// wts are actully sqrt of weights
 	for (i = 0; i< nobs; i++) {
 	   Ywork[i] = Ywork[i]*wts[i];
+	   *yty += Ywork[i]*Ywork[i];
 	}
 
 	//precompute XtX
@@ -29,14 +31,14 @@ void PrecomputeData(double *Xwork, double *Ywork, double *wts, double **pXtXwork
 	F77_NAME(dsyrk)(uplo, trans, &p, &nobs, &one, &Xwork[0], &nobs, &zero, *pXtX, &p);
 
 	double ybar = 0.0;
-	for (int i = 0; i< nobs; i++) {
-		ybar += Ywork[i];
-	}
-	ybar = F77_NAME(ddot) (&nobs, &Ywork[0], &inc, &wts[0], &inc)/
-	       F77_NAME(ddot) (&nobs, &wts[0], &inc, &wts[0], &inc);
 
-	*yty = F77_NAME(ddot)(&nobs, &Ywork[0], &inc, &Ywork[0], &inc);	//	ybar = ybar/ (double) nobs;
-	*SSY = *yty - (double) nobs* ybar *ybar;
+	ybar = F77_NAME(ddot)(&nobs, &Ywork[0], &inc, &wts[0], &inc);	// sum y*wts^2
+	nwts = F77_NAME(ddot)(&nobs, &wts[0], &inc, &wts[0], &inc);	// sum wts^2
+	ybar = ybar/nwts;
+
+	*yty = F77_NAME(ddot)(&nobs, &Ywork[0], &inc, &Ywork[0], &inc);
+	*SSY = *yty - (double) nwts* ybar *ybar;
+
 	F77_NAME(dgemv)(trans, &nobs, &p, &one, &Xwork[0], &nobs, &Ywork[0], &inc, &zero, *pXtY,&inc);
 }
 
@@ -207,7 +209,8 @@ void cholreg(double *XtY, double *XtX, double *coefficients, double *se, double 
   /* On entry *coefficients equals X'Y, which is over written with the OLS estimates */
   /* On entry MSE = Y'Y */
 
-  double   ete, one, zero, tol=100*DBL_EPSILON;
+  double   ete, one, zero;
+//  double   tol=100*DBL_EPSILON;
   int  job, l, i, j, info, inc;
   zero = 0.0;
   one = 1.0;

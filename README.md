@@ -15,21 +15,13 @@ easy to use package and fast code for implementing Bayesian Model
 Averaging and Model Selection in `R` using state of the art prior
 distributions for linear and generalized linear models. The prior
 distributions in `BAS` are based on Zellner’s g-prior or mixtures of
-g-priors. These have been shown to be consistent and have a number of
-computational advantages. `BAS` implements two main algorithms for
-sampling from the space of potential models: an adaptive sampling
-without replacement algorithm and a MCMC algorithm that utilizes
-swapping to escape from local modes.
-
-DOI all versions
-[![DOI](https://zenodo.org/badge/DOI/110.5281/zenodo.595639.svg)](https://doi.org/10.5281/zenodo.595639)
-
-Rdocumentation
-[![Rdoc](http://www.rdocumentation.org/badges/version/BAS)](http://www.rdocumentation.org/packages/BAS)
-
-CRAN Statistics:
-[![](http://cranlogs.r-pkg.org/badges/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
-[![](http://cranlogs.r-pkg.org/badges/grand-total/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
+g-priors. These have been shown to be consistent asymptotically for
+model selection and inference and have a number of computational
+advantages. `BAS` implements three main algorithms for sampling from the
+space of potential models: a deterministic algorithm for efficient
+enumeration, adaptive sampling without replacement algorithm for modest
+problems, and a MCMC algorithm that utilizes swapping to escape from
+local modes with standard Metropolis-Hastings proposals.
 
 ## Installation
 
@@ -101,7 +93,7 @@ spaces that cannot be enumerated.
 ### Generalized Linear Models
 
 `BAS` now includes for support for binomial and binary regression and
-poisson regression using Laplace approximations to obtain Bayes Factors
+Poisson regression using Laplace approximations to obtain Bayes Factors
 used in calculating posterior probabilities of models or sampling of
 models. Here is an example using the Pima diabetes data set with the
 hyper-g/n prior:
@@ -113,10 +105,10 @@ Pima.hgn = bas.glm(type ~ ., data=Pima.tr, method="BAS", family=binomial(),
                   betaprior=hyper.g.n(), modelprior=uniform())
 ```
 
-Note, the syntac for specifying priors on the coefficients in `bas.glm`
-uses a function with arguments to specify the hyperparameters, rather
+Note, the syntax for specifying priors on the coefficients in `bas.glm`
+uses a function with arguments to specify the hyper-parameters, rather
 than a text string to specify the prior name and a separate argument for
-the hyperpameters. `bas.lm` will be moving to this format sometime in
+the hyper-parameters. `bas.lm` will be moving to this format sometime in
 the future.
 
 ## Feature Requests and Issues

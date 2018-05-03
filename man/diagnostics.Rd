@@ -2,7 +2,7 @@
 % Please edit documentation in R/diagnostics.R
 \name{diagnostics}
 \alias{diagnostics}
-\title{BAS MCMC diagnostic plot.}
+\title{BAS MCMC diagnostic plot}
 \usage{
 diagnostics(obj, type = c("pip", "model"), ...)
 }

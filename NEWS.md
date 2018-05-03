@@ -7,11 +7,24 @@
 
 * added `include.always` as new argument to `bas.lm`.  This allows a formula to specify which terms should always be included in all models.  By default the intercept is always included.
 
+<<<<<<< HEAD
+
+
+
+* added a section to the vignetted to illustrate weighted regression and the 
+`force.heredity.bas` function to group levels of a factor so that they enter 
+or leave the model together.
+
+
+=======
+>>>>>>> b7737ac68ee884eb5ac516a2d825f594e1956c8e
 ## Bugs
 
 * fixed problem if there is only one model for `image` function;  
 github [issue #11](https://github.com/merliseclyde/BAS/issues/11)
 
+* fixed error in `bas.lm` with non-equal weights where R2 was incorrect.
+ [issue #17](https://github.com/merliseclyde/BAS/issues/17)
 ## Deprecated 
  
 * deprecate the `predict` argument in `predict.bas`, `predict.basglm` and internal functions as it is not utilized

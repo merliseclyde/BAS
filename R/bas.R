@@ -374,6 +374,7 @@
 #' \dontrun{demo(BAS.USCrime) }
 #'
 #' @rdname bas.lm
+#' @keywords regression
 #' @family BAS methods
 #' @concept BMA
 #' @concept variable selection
@@ -425,7 +426,7 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
  weights=as.vector(model.weights(mf))
  if (is.null(weights)) weights = rep(1, n)
 
-  if (length(weights) != n) stop(simpleError(paste("weights are of length ", length(weights), "not of length ", n)))
+ if (length(weights) != n) stop(simpleError(paste("weights are of length ", length(weights), "not of length ", n)))
 
   mean.x = apply(X[,-1, drop=F], 2, weighted.mean, w=weights)
   ones = X[,1]
