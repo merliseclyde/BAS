@@ -13,7 +13,7 @@ aluminate X2: Amount of tricalcium silicate X3: Amount of tetracalcium
 alumino ferrite X4: Amount of dicalcium silicate}
 \source{
 Wood, H., Steinour, H.H., and Starke, H.R. (1932). "Effect of
-Composition of Portland cement on Heat Evolved During Hardening", Industrila
+Composition of Portland cement on Heat Evolved During Hardening", Industrial
 and Engineering Chemistry, 24, 1207-1214.
 }
 \description{

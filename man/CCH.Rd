@@ -13,13 +13,13 @@ recommended values in the range 2 < alpha_h <= 4}
 
 \item{beta}{a scalar > 0.  The value is not updated by the data; beta should
 be a function of n for consistency under the null model.  The hyper-g
-corresonds to b = 2}
+corresponds to b = 2}
 
 \item{s}{a scalar, recommended s=0}
 }
 \value{
 returns an object of class "prior", with the family and
-hyerparameters.
+hyperparameters.
 }
 \description{
 Creates an object representing the CCH mixture of g-priors on coefficients

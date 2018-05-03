@@ -18,7 +18,7 @@ cv.summary.bas(pred, ytrue, score = "squared-error")
 \value{
 For squared error, the average prediction error for the Bayesian
 estimator error = sqrt(sum(ytrue - yhat)^2/npred) while for binary data the
-missclassification rate is more appropriate.  For continuous data the
+misclassification rate is more appropriate.  For continuous data the
 "percent-explained" reports ar, similar to an out of sample R2.
 }
 \description{

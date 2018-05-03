@@ -23,8 +23,8 @@ created by \code{bas} Bayesian Adaptive Sampling
 The print methods display a view similar to \code{print.lm} .  The summary
 methods display a view specific to Bayesian model averaging giving the top 5
 highest probability models represented by their inclusion indicators.
-Summaries of the models include the Bayes Facotr (BF) of each model to the
-model with the largest marginal likelihood, the posterior probabilty of the
+Summaries of the models include the Bayes Factor (BF) of each model to the
+model with the largest marginal likelihood, the posterior probability of the
 models, R2, dim (which includes the intercept) and the log of the marginal
 likelihood.
 }

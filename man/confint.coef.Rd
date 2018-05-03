@@ -14,7 +14,7 @@
 intervals, either a vector of numbers or a vector of names. If missing, all
 parameters are considered.}
 
-\item{level}{the probabilty coverage required}
+\item{level}{the probability coverage required}
 
 \item{nsim}{number of Monte Carlo draws from the posterior distribution.
 Used when number of models is greater than 1.}
@@ -23,7 +23,7 @@ Used when number of models is greater than 1.}
 }
 \value{
 A matrix (or vector) with columns giving lower and upper HPD
-credible limits for each parameter. These will be labelled as 1-level)/2 and
+credible limits for each parameter. These will be labeled as 1-level)/2 and
 1 - (1-level)/2 in percent (by default 2.5 and 97.5).
 }
 \description{
@@ -36,7 +36,7 @@ than the description above ~~
 }
 \note{
 For mixture of g-priors these are approximate.  This uses Monte Carlo
-sampling so results may be subjet to Monte Carlo variation and larger values
+sampling so results may be subject to Monte Carlo variation and larger values
 of nsim may be needed to reduce variability. %% ~~further notes~~
 }
 \examples{
@@ -48,7 +48,7 @@ hald.gprior =  bas.lm(Y~ ., data=Hald, alpha=13,
 coef.hald = coef(hald.gprior)
 confint(coef.hald)
 confint(coef.hald, approx=FALSE, nsim=5000)
-# extract just the coefficent of X4
+# extract just the coefficient of X4
 confint(coef.hald, parm="X4")
 
 

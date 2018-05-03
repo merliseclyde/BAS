@@ -17,7 +17,7 @@ dataframe, the variables are extracted using model.matrix using the call
 that created 'object'.  May be missing in which case the data used for
 fitting will be used for prediction.}
 
-\item{se.fit}{indicator for whether to compute se of fitted and predictied
+\item{se.fit}{indicator for whether to compute se of fitted and predicted
 values}
 
 \item{type}{Type of predictions required. The default is on the scale of the
@@ -26,8 +26,8 @@ response variable. Thus for a default binomial model the default predictions
 are of log-odds (probabilities on logit scale) and type = "response" gives
 the predicted probabilities.}
 
-\item{top}{A scalar interger M.  If supplied, subset the top M models, based
-on posterior probabilities for model predictions and BMA.}
+\item{top}{A scalar integer M.  If supplied, calculate results using the subset of the top M models
+based on posterior probabilities.}
 
 \item{estimator}{estimator used for predictions.  Currently supported
 options include: \cr 'HPM' the highest probability model \cr 'BMA' Bayesian

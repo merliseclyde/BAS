@@ -20,7 +20,7 @@ the Laplace approximation.}
 \item{log}{if TRUE, return log(1F1)}
 }
 \description{
-Compute the Confluetn Hypergeometric function: 1F1(a,b,c,t) =
+Compute the Confluent Hypergeometric function: 1F1(a,b,c,t) =
 Gamma(b)/(Gamma(b-a)Gamma(a)) Int_0^1 t^(b-1) (1 - t)^(b-a-1) exp(c t) dt
 }
 \examples{

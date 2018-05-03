@@ -33,7 +33,7 @@ to freely distribute the data and use for non-commercial purposes.
 \description{
 Lists estimates of the percentage of body fat determined by underwater
 weighing and various body circumference measurements for 252 men.  Accurate
-measuremnt of body fat is inconvenient/costly and it is desirable to have
+measurement of body fat is inconvenient/costly and it is desirable to have
 easy methods of estimating body fat that are not inconvenient/costly.
 }
 \details{
@@ -79,7 +79,7 @@ Volume (liters)
 (Katch and McArdle (1977), p. 115). Other methods of determining body volume
 are given in Behnke and Wilmore (1974), p. 22 ff.
 
-Measurement standards are apparently those listed in Benhke and Wilmore
+Measurement standards are apparently those listed in Behnke and Wilmore
 (1974), pp. 45-48 where, for instance, the abdomen circumference is measured
 "laterally, at the level of the iliac crests, and anteriorly, at the
 umbilicus".)

@@ -16,7 +16,7 @@ a bas object with updated models, coefficients and summaries obtained removing a
 }
 \description{
 This function takes the output of a bas object and allows higher order interactions to be included only if their parent lower order interactions terms are in the model, by assigning zero prior probability, and hence posterior probability, to models that do include their respective parents.
-Currently only supports a common Bernoulli prior for inclusion.  Model probablities are given using the
+Currently only supports a common Bernoulli prior for inclusion.  Model probabilities are given using the
 function `BAS:::prob.heredity`.
 }
 \note{

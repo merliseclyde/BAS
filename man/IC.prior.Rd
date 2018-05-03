@@ -27,7 +27,7 @@ BAS.
 The log marginal likelihood is approximated as -2*(deviance +
 penalty*dimension).  Allows alternatives to AIC (penalty = 2) and BIC
 (penalty = log(n)).  For BIC, the argument may be missing, in which case the
-sample size is determined from the call to `bas.glm` and used to dertermine
+sample size is determined from the call to `bas.glm` and used to determine
 the penalty.
 }
 \examples{

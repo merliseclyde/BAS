@@ -12,7 +12,7 @@ EB.global(object, tol = 0.1, g.0 = NULL, max.iterations = 100)
 
 \item{tol}{tolerance for estimating g}
 
-\item{g.0}{intial value for g}
+\item{g.0}{initial value for g}
 
 \item{max.iterations}{Maximum number of iterations for the EM algorithm}
 }

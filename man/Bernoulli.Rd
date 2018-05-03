@@ -10,7 +10,7 @@ Bernoulli(probs = 0.5)
 \arguments{
 \item{probs}{a scalar or vector of prior inclusion probabilities. If a
 scalar, the values is replicated for all variables ans a 1 is added for the
-intercept. BAS checs to see if the length is equal to the dimension of the
+intercept. BAS checks to see if the length is equal to the dimension of the
 parameter vector for the full model and addas a 1 to include the intercept.}
 }
 \value{

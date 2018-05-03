@@ -20,17 +20,17 @@ by MCMC and renormalized marginal likelihoods times prior probabilities or
 model probabilities.
 }
 \description{
-Function to help assess convergence of MCMC sampling for bas ojects.
+Function to help assess convergence of MCMC sampling for bas objects.
 }
 \details{
-BAS calculates posterior model probabilites in two ways when method="MCMC".
+BAS calculates posterior model probabilities in two ways when method="MCMC".
 The first is using the relative Monte Carlo frequencies of sampled models.
 The second is to renormalize the marginal likelihood times prior
 probabilities over the sampled models.  If the markov chain has converged,
 these two quantities should be the same and fall on a 1-1 line.  If not,
 running longer may be required.  If the chain has not converged, the Monte
-Carlo frequencise may have have less bias, although may exhibit more
-variability.
+Carlo frequencies may have less bias, although may exhibit more
+variability on repeated runs.
 }
 \examples{
 

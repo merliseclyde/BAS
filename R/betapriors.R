@@ -36,10 +36,10 @@ EB.local = function() {
 #' recommended values in the range 2 < alpha_h <= 4
 #' @param beta a scalar > 0.  The value is not updated by the data; beta should
 #' be a function of n for consistency under the null model.  The hyper-g
-#' corresonds to b = 2
+#' corresponds to b = 2
 #' @param s a scalar, recommended s=0
 #' @return returns an object of class "prior", with the family and
-#' hyerparameters.
+#' hyperparameters.
 #' @author Merlise A Clyde
 #' @seealso \code{\link{IC.prior}}, \code{\link{bic.prior}},
 #' \code{\link{bas.glm}}
@@ -193,7 +193,7 @@ hyper.g.n = function(alpha=3, n=NULL) {
 #' CCH(a, 2, 0) with a = 0 or they hyper-g(a = 2) and is an improper prior.  As
 #' $g$ does not appear in the Null Model, Bayes Factors and model probabilities
 #' are not well-defined because of arbitrary normalizing constants, and for
-#' this reason the null model is excluded and the same c onstants are used
+#' this reason the null model is excluded and the same constants are used
 #' across other models.
 #'
 #' Creates a structure used for \code{\link{bas.glm}}.
@@ -369,7 +369,7 @@ aic.prior = function() {
 #' The log marginal likelihood is approximated as -2*(deviance +
 #' penalty*dimension).  Allows alternatives to AIC (penalty = 2) and BIC
 #' (penalty = log(n)).  For BIC, the argument may be missing, in which case the
-#' sample size is determined from the call to `bas.glm` and used to dertermine
+#' sample size is determined from the call to `bas.glm` and used to determine
 #' the penalty.
 #'
 #' @aliases IC.prior aic.prior AIC.prior bic.prior BIC.prior
@@ -426,7 +426,7 @@ g.prior = function(g) {
 #' Test based Bayes Factors for BMA Models
 #'
 #' Creates an object representing the prior distribution on coefficients for
-#' BAS that coreesponds to the test-based Bayes Factors.
+#' BAS that corresponds to the test-based Bayes Factors.
 #'
 #' Creates a prior object structure used for BAS in `bas.glm`.
 #'

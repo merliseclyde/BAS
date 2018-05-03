@@ -17,7 +17,7 @@ on coefficients for BAS. This is equivalent to a limiting version of the
 CCH(a, 2, 0) with a = 0 or they hyper-g(a = 2) and is an improper prior.  As
 $g$ does not appear in the Null Model, Bayes Factors and model probabilities
 are not well-defined because of arbitrary normalizing constants, and for
-this reason the null model is excluded and the same c onstants are used
+this reason the null model is excluded and the same constants are used
 across other models.
 }
 \details{

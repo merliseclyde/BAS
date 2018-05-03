@@ -16,7 +16,7 @@ hyerparameters.
 }
 \description{
 Creates an object representing the prior distribution on coefficients for
-BAS that coreesponds to the test-based Bayes Factors.
+BAS that corresponds to the test-based Bayes Factors.
 }
 \details{
 Creates a prior object structure used for BAS in `bas.glm`.

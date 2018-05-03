@@ -19,11 +19,11 @@
 time.}
 }
 \value{
-a matrix with lower and upper level * 100 percent credible intevals
+a matrix with lower and upper level * 100 percent credible intervals
 for either the mean of the regression function or predicted values.  %%
 }
 \description{
-Compute crebible intervals for in-sample or out of sample prediction or for
+Compute credible intervals for in-sample or out of sample prediction or for
 the regression function
 }
 \details{

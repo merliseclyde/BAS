@@ -69,7 +69,7 @@ approximation to integrate over the prior on g.
 \item "hyper-g-n", a mixture of g-priors that where
 u = g/n and u ~ Beta(1, alpha/2)  to provide consistency
 when the null model is true.
-\item "EB-local", use the MLE of g from the marginal likelhood
+\item "EB-local", use the MLE of g from the marginal likelihood
 within each model
 \item "EB-global" uses an EM algorithm to find a common or
 global estimate of g, averaged over all models.  When it is not possible to
@@ -92,16 +92,16 @@ include \code{\link{uniform}} \code{\link{Bernoulli}} or
  with the default being a
 \code{beta.binomial(1,1)}.  Truncated versions are useful for p > n.}
 
-\item{initprobs}{Vector of length p or a character string specifiny which
+\item{initprobs}{Vector of length p or a character string specifying which
 method is used to create the vector. This is used to order variables for
 sampling all methods for potentially more efficient storage while sampling
 and provides the initial inclusion probabilities used for sampling without
-replacement with method="BAS".  Options for the charactier string giving the
+replacement with method="BAS".  Options for the character string giving the
 method are: "Uniform" or "uniform" where each predictor variable is equally
 likely to be sampled (equivalent to random sampling without replacement);
-"eplogp" uses the \code{\link{eplogprob}} function to aproximate the Bayes
+"eplogp" uses the \code{\link{eplogprob}} function to approximate the Bayes
 factor from p-values from the full model to find initial marginal inclusion
-probabilitites; "marg-eplogp" uses\code{\link{eplogprob.marg}} function to
+probabilities; "marg-eplogp" uses\code{\link{eplogprob.marg}} function to
 aproximate the Bayes factor from p-values from the full model each simple
 linear regression.  To run a Markov Chain to provide initial estimates of
 marginal inclusion probabilities for "BAS", use method="MCMC+BAS" below.
@@ -109,7 +109,7 @@ While the initprobs are not used in sampling for method="MCMC", this
 determines the order of the variables in the lookup table and affects memory
 allocation in large problems where enumeration is not feasible.  For
 variables that should always be included set the corresponding initprobs to
-1, to overide the `modelprior` or use `include.always` to force these variables
+1, to override the `modelprior` or use `include.always` to force these variables
 to always be included in the model.}
 
 \item{include.always}{A formula with terms that should always be included
@@ -184,7 +184,7 @@ components:
 \item{R2}{R2 values for the
 models}
 \item{logmarg}{values of the log of the marginal likelihood for the
-models.  This is equivalent to the log Bayes Factor for compaing
+models.  This is equivalent to the log Bayes Factor for comparing
 each model to a base model with intercept only.}
 \item{n.vars}{total number of independent variables in the full
 model, including the intercept}
@@ -234,7 +234,7 @@ BAS provides several algorithms to sample from posterior distributions
 of models for
 use in Bayesian Model Averaging or Bayesian variable selection. For p less than
 20-25, BAS can enumerate all models depending on memory availability.  As BAS saves all
-models, MLEs, standard errors, log marginal liklihoods, prior and posterior and  probabilities
+models, MLEs, standard errors, log marginal likelihoods, prior and posterior and  probabilities
 memory requirements grow linearly with M*p where M is the number of models
 and p is the number of predictors.  For example, enumeration with p=21 with 2,097,152 takes just under
 2 Gigabytes on a 64 bit machine to store all summaries that would be needed for model averaging.
@@ -246,7 +246,7 @@ sampling. The Bayesian Adaptive Sampling algorithm of Clyde, Ghosh, Littman
 probabilities, and will optionally update the sampling probabilities every
 "update" models using the estimated marginal inclusion probabilties. BAS
 uses different methods to obtain the \code{initprobs}, which may impact the
-results in high-dimensional problems. The deterinistic sampler provides a
+results in high-dimensional problems. The deterministic sampler provides a
 list of the top models in order of an approximation of independence using
 the provided \code{initprobs}.  This may be effective after running the
 other algorithms to identify high probability models and works well if the
@@ -256,13 +256,13 @@ problems where enumeration is not feasible (memory or time constrained)
 or even modest p if the number of
 models sampled is not close to the number of possible models and/or there are significant
 correlations among the predictors as the bias in estimates of inclusion
-probabilties from "BAS" or "MSMS+BAS" may be large relative to the reduced
-variability from using the normalized model probabilites as shown in Clyde and Ghosh, 2012.
+probabilities from "BAS" or "MSMS+BAS" may be large relative to the reduced
+variability from using the normalized model probabilities as shown in Clyde and Ghosh, 2012.
 Diagnostic plots with MCMC can be used to assess convergence.
 For large problems we recommend thinning with MCMC to reduce memory requirements.
 The priors on coefficients
 include Zellner's g-prior, the Hyper-g prior (Liang et al 2008, the
-Zellner-Siow Cauchy prior, Empirical Bayes (local and gobal) g-priors.  AIC
+Zellner-Siow Cauchy prior, Empirical Bayes (local and global) g-priors.  AIC
 and BIC are also included, while a range of priors on the model space are available.
 }
 \examples{

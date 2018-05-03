@@ -1,9 +1,9 @@
 #' Confluent hypergeometric2F1 function
-#' 
-#' Compute the Confluetn Hypergeometric function: 1F1(a,b,c,t) =
+#'
+#' Compute the Confluent Hypergeometric function: 1F1(a,b,c,t) =
 #' Gamma(b)/(Gamma(b-a)Gamma(a)) Int_0^1 t^(b-1) (1 - t)^(b-a-1) exp(c t) dt
-#' 
-#' 
+#'
+#'
 #' @param a arbitrary
 #' @param b Must be greater 0
 #' @param c arbitrary
@@ -16,8 +16,8 @@
 #' @keywords math
 #' @examples
 #' hypergeometric1F1(11.14756, 0.5, 0.00175097)
-#' 
-#' 
+#'
+#'
 #' @rdname hypergeometric1F1
 #' @family special functions
 #' @export
@@ -25,7 +25,7 @@ hypergeometric1F1 = function(a,b,c, laplace=FALSE, log=TRUE) {
 
     n = length(a);
     out = rep(0, n);
-    ans = .C(C_hypergeometric1F1, as.numeric(a), as.numeric(b), as.numeric(c), out=as.numeric(out), as.integer(n), 
+    ans = .C(C_hypergeometric1F1, as.numeric(a), as.numeric(b), as.numeric(c), out=as.numeric(out), as.integer(n),
              as.integer(rep(laplace, n)))$out
     if (!log) ans = exp(ans)
     return(ans)

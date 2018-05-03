@@ -12,15 +12,15 @@
 #' @param parm a specification of which parameters are to be given credible
 #' intervals, either a vector of numbers or a vector of names. If missing, all
 #' parameters are considered.
-#' @param level the probabilty coverage required
+#' @param level the probability coverage required
 #' @param nsim number of Monte Carlo draws from the posterior distribution.
 #' Used when number of models is greater than 1.
 #' @param ... other arguments to passed; none currently
 #' @return A matrix (or vector) with columns giving lower and upper HPD
-#' credible limits for each parameter. These will be labelled as 1-level)/2 and
+#' credible limits for each parameter. These will be labeled as 1-level)/2 and
 #' 1 - (1-level)/2 in percent (by default 2.5 and 97.5).
 #' @note For mixture of g-priors these are approximate.  This uses Monte Carlo
-#' sampling so results may be subjet to Monte Carlo variation and larger values
+#' sampling so results may be subject to Monte Carlo variation and larger values
 #' of nsim may be needed to reduce variability. %% ~~further notes~~
 #' @author Merlise A Clyde
 #' @keywords regression
@@ -33,7 +33,7 @@
 #' coef.hald = coef(hald.gprior)
 #' confint(coef.hald)
 #' confint(coef.hald, approx=FALSE, nsim=5000)
-#' # extract just the coefficent of X4
+#' # extract just the coefficient of X4
 #' confint(coef.hald, parm="X4")
 #'
 #'
@@ -78,7 +78,7 @@ return(ci)
 
 #' Compute Credible (Bayesian Confidence) Intervals for a BAS predict object
 #'
-#' Compute crebible intervals for in-sample or out of sample prediction or for
+#' Compute credible intervals for in-sample or out of sample prediction or for
 #' the regression function
 #'
 #' This constructs approximate 95 percent Highest Posterior Density intervals
@@ -94,7 +94,7 @@ return(ci)
 #' @param nsim number of Monte Carlo simulations for sampling methods with BMA
 #' @param ... optional arguments to pass on to next function call; none at this
 #' time.
-#' @return a matrix with lower and upper level * 100 percent credible intevals
+#' @return a matrix with lower and upper level * 100 percent credible intervals
 #' for either the mean of the regression function or predicted values.  %%
 #' @author Merlise A Clyde
 #' @seealso \code{\link{predict.bas}}

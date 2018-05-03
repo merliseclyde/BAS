@@ -31,7 +31,7 @@ exponential family; currently only binomial() and poisson() with canonical
 links are implemented.}
 
 \item{coefprior}{function specifying prior distribution on coefficients with
-optionlal hyperparamters leading to marginal likelihood calculations;
+optional hyperparameters leading to marginal likelihood calculations;
 options include \code{bic.prior()},\code{ aic.prior()}, and
 \code{ic.prior()}}
 
@@ -52,7 +52,7 @@ integrated log likelihood (up to a constant)}
 }
 \description{
 A version of glm.fit rewritten in C; also returns marginal likelihoods for
-Baysesian model comparison
+Bayesian model comparison
 }
 \details{
 C version of glm-fit.  For different prior choices returns, marginal

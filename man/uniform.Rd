@@ -15,7 +15,7 @@ Creates an object representing the prior distribution on models for BAS.
 }
 \details{
 The Uniform prior distribution is a commonly used prior in BMA, and is a
-special case of the indpendent Bernoulli prior with probs=.5. The implied
+special case of the independent Bernoulli prior with probs=.5. The implied
 prior distribution on model size is binomial(p, .5).
 }
 \examples{

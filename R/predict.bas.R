@@ -10,15 +10,15 @@
 #' dataframe, the variables are extracted using model.matrix using the call
 #' that created 'object'.  May be missing in which case the data used for
 #' fitting will be used for prediction.
-#' @param se.fit indicator for whether to compute se of fitted and predictied
+#' @param se.fit indicator for whether to compute se of fitted and predicted
 #' values
 #' @param type Type of predictions required. The default is on the scale of the
 #' linear predictors; the alternative "response" is on the scale of the
 #' response variable. Thus for a default binomial model the default predictions
 #' are of log-odds (probabilities on logit scale) and type = "response" gives
 #' the predicted probabilities.
-#' @param top A scalar interger M.  If supplied, subset the top M models, based
-#' on posterior probabilities for model predictions and BMA.
+#' @param top A scalar integer M.  If supplied, calculate results using the subset of the top M models
+#' based on posterior probabilities.
 #' @param estimator estimator used for predictions.  Currently supported
 #' options include: \cr 'HPM' the highest probability model \cr 'BMA' Bayesian
 #' model averaging, using optionally only the 'top' models \cr 'MPM' the median
@@ -117,7 +117,7 @@ predict.basglm = function(object, newdata, se.fit=FALSE,
 #' @param ... optional extra arguments
 #' @return a list of \item{fit}{fitted values based on the selected estimator}
 #' \item{Ybma}{predictions using BMA, the same as fit for non-BMA methods for
-#' compatibilty; will be deprecated} \item{Ypred}{matrix of predictions under
+#' compatabilty; will be deprecated} \item{Ypred}{matrix of predictions under
 #' each model for BMA} \item{se.fit}{se of fitted values; in the case of BMA
 #' this will be a matrix} \item{se.pred}{se for predicted values; in the case
 #' of BMA this will be a matrix} \item{se.bma.fit}{vector of posterior sd under
@@ -330,7 +330,7 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
 #'
 #' Calculate fitted values for a BAS BMA object
 #'
-#' Calcuates fitted values at observed design matrix using either the highest
+#' Calculates fitted values at observed design matrix using either the highest
 #' probability model, 'HPM', the posterior mean (under BMA) 'BMA', the median
 #' probability model 'MPM' or the best predictive model 'BPM".  The median
 #' probability model is defined by including variable where the marginal
@@ -345,7 +345,7 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
 #' collinearity may drop relevant predictors.
 #'
 #' @aliases fitted.bas fitted
-#' @param object An object of class 'bma' as created by \code{\link{bas}}
+#' @param object An object of class 'bas' as created by \code{\link{bas}}
 #' @param type type equals "response" is currently the only option.  Prior to
 #' version 1.2.2 type was used to specify the type of estimator.  In order to
 #' be consistent with the predict.bas function this has been deprecated and

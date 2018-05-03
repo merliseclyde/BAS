@@ -38,7 +38,7 @@ The default is to predict NA.}
 \value{
 a list of \item{fit}{fitted values based on the selected estimator}
 \item{Ybma}{predictions using BMA, the same as fit for non-BMA methods for
-compatibilty; will be deprecated} \item{Ypred}{matrix of predictions under
+compatabilty; will be deprecated} \item{Ypred}{matrix of predictions under
 each model for BMA} \item{se.fit}{se of fitted values; in the case of BMA
 this will be a matrix} \item{se.pred}{se for predicted values; in the case
 of BMA this will be a matrix} \item{se.bma.fit}{vector of posterior sd under

@@ -1,15 +1,15 @@
 #' Find the global Empirical Bayes estimates for BMA
-#' 
+#'
 #' Finds the global Empirical Bayes estimates of g in Zellner's g-prior and
 #' model probabilities
-#' 
+#'
 #' Uses the EM algorithm in Liang et al to estimate the type II MLE of g in
 #' Zellner's g prior
-#' 
+#'
 #' @aliases EB.global EB.global.bas
 #' @param object A 'bas' object created by \code{\link{bas}}
 #' @param tol tolerance for estimating g
-#' @param g.0 intial value for g
+#' @param g.0 initial value for g
 #' @param max.iterations Maximum number of iterations for the EM algorithm
 #' @return An object of class 'bas' using Zellner's g prior with an estimate of
 #' g based on all models
@@ -21,7 +21,7 @@
 #' \url{http://dx.doi.org/10.1198/016214507000001337}
 #' @keywords regression
 #' @examples
-#' 
+#'
 #' library(MASS)
 #' data(UScrime)
 #' UScrime[,-2] = log(UScrime[,-2])
@@ -30,8 +30,8 @@
 #'                     prior="EB-local", initprobs= "eplogp")
 #' # use a common (global) estimate of g
 #' crime.EBG = EB.global(crime.EBL)
-#' 
-#' 
+#'
+#'
 #' @rdname EB.global
 #' @family coef priors
 #' @export
@@ -70,7 +70,7 @@ while (abs(tau - tau.0) > tol | it < max.iterations) {
   post.prob = postmodelprob(object$R2,p, n, g, prior)
   tau.0 = tau
   tau = sum(post.prob*SSR*phi)/(sum(post.prob*p))
-  it = it + 1  
+  it = it + 1
 }
 
 g = max(tau -1, 0)

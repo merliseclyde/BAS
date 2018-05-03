@@ -9,7 +9,7 @@
   top = NULL, na.action = na.pass, ...)
 }
 \arguments{
-\item{object}{An object of class 'bma' as created by \code{\link{bas}}}
+\item{object}{An object of class 'bas' as created by \code{\link{bas}}}
 
 \item{type}{type equals "response" is currently the only option.  Prior to
 version 1.2.2 type was used to specify the type of estimator.  In order to
@@ -37,7 +37,7 @@ A vector of length n of fitted values.
 Calculate fitted values for a BAS BMA object
 }
 \details{
-Calcuates fitted values at observed design matrix using either the highest
+Calculates fitted values at observed design matrix using either the highest
 probability model, 'HPM', the posterior mean (under BMA) 'BMA', the median
 probability model 'MPM' or the best predictive model 'BPM".  The median
 probability model is defined by including variable where the marginal

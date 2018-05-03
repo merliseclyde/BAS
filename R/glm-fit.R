@@ -2,7 +2,7 @@
 #' evaluation
 #'
 #' A version of glm.fit rewritten in C; also returns marginal likelihoods for
-#' Baysesian model comparison
+#' Bayesian model comparison
 #'
 #' C version of glm-fit.  For different prior choices returns, marginal
 #' likelihood of model using a Laplace approximation.
@@ -20,7 +20,7 @@
 #' exponential family; currently only binomial() and poisson() with canonical
 #' links are implemented.
 #' @param coefprior function specifying prior distribution on coefficients with
-#' optionlal hyperparamters leading to marginal likelihood calculations;
+#' optional hyperparameters leading to marginal likelihood calculations;
 #' options include \code{bic.prior()},\code{ aic.prior()}, and
 #' \code{ic.prior()}
 #' @param control a list of parameters that control convergence in the fitting
