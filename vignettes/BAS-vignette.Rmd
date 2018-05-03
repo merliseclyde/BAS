@@ -384,10 +384,10 @@ knitr::kable(as.data.frame(summary(stack.bas)))
 ## Weighted Regression
 
 
-`BAS` can perform weighted regression by supplying an optional weight vector that is of the same length as the response where the assumption is that the variance of the response is proportional to 1/weights.  The g-prior incporporates the 
+`BAS` can perform weighted regression by supplying an optional weight vector that is of the same length as the response where the assumption is that the variance of the response is proportional to 1/weights.  The g-prior incorporates the 
 weights in the prior covariance, 
 $$
- \sigma^2 g (X_\gamma^T W X_\gamma)
+ \sigma^2 g (X_\gamma^T W X_\gamma)^{-1}
 $$
 where $X_\gamma$ is the design matrix under model $\gamma$ and $W$ is the $n \times n$ diagonal matrix with the weights on the diagonal.
 

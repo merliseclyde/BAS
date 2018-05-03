@@ -81,7 +81,7 @@
       <h1>Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging and Variable Selection</h1>
                         <h4 class="author">Merlise A Clyde</h4>
             
-            <h4 class="date">2018-04-26</h4>
+            <h4 class="date">2018-05-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/merliseclyde/BAS/blob/master/vignettes/BAS-vignette.Rmd"><code>vignettes/BAS-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>BAS-vignette.Rmd</code></div>
@@ -216,22 +216,22 @@
 <p>To obtain credible intervals for coefficients, <code>BAS</code> includes a <code>confint</code> method to create Highest Posterior Density intervals from the summaries from <code>coef</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/confint.coef.html">confint</a></span>(coef.ZS)</a></code></pre></div>
 <pre><code>##                    2.5%       97.5%        beta
-## Intercept  6.6670187494 6.779698849  6.72493620
-## M         -0.0000469748 2.177452837  1.14359433
-## So        -0.0641303961 0.304803752  0.03547522
-## Ed         0.6356804674 3.143993238  1.85848834
-## Po1        0.0000000000 1.482288409  0.60067372
-## Po2       -0.2046602832 1.462673976  0.31841766
-## LF        -0.4799276827 1.100217569  0.05933737
-## M.F       -1.7840684839 2.165783969 -0.02702786
-## Pop       -0.1240255894 0.008464495 -0.02248283
-## NW         0.0000000000 0.165813521  0.06668437
-## U1        -0.5420558541 0.343265121 -0.02456854
-## U2        -0.0023740587 0.675903786  0.20702927
-## GDP       -0.0826126928 1.153557200  0.20625063
-## Ineq       0.6442170785 2.111678234  1.39012647
-## Prob      -0.4107484364 0.000000000 -0.21536203
-## Time      -0.5008372051 0.073289660 -0.08433479
+## Intercept  6.6679133279 6.780839744  6.72493620
+## M          0.0000000000 2.180101029  1.14359433
+## So        -0.0584406668 0.317086951  0.03547522
+## Ed         0.6237050385 3.118548748  1.85848834
+## Po1        0.0000000000 1.450216476  0.60067372
+## Po2       -0.3310083341 1.393799225  0.31841766
+## LF        -0.4563992234 1.056385718  0.05933737
+## M.F       -2.1032269039 1.982451216 -0.02702786
+## Pop       -0.1302469183 0.002265553 -0.02248283
+## NW        -0.0002839456 0.167095251  0.06668437
+## U1        -0.5355899951 0.360505002 -0.02456854
+## U2        -0.0100946485 0.648287080  0.20702927
+## GDP       -0.0561870846 1.173762494  0.20625063
+## Ineq       0.6798550924 2.116515264  1.39012647
+## Prob      -0.4104487751 0.000000000 -0.21536203
+## Time      -0.5209260993 0.038154792 -0.08433479
 ## attr(,"Probability")
 ## [1] 0.95
 ## attr(,"class")
@@ -330,7 +330,7 @@
 <a class="sourceLine" id="cb41-7" data-line-number="7">  }</a>
 <a class="sourceLine" id="cb41-8" data-line-number="8">)</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.589   0.047   1.674</code></pre>
+##   1.639   0.076   1.768</code></pre>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">system.time</span>(</a>
 <a class="sourceLine" id="cb43-2" data-line-number="2">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)  {</a>
 <a class="sourceLine" id="cb43-3" data-line-number="3">    crime.ZS &lt;-<span class="st">  </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(y <span class="op">~</span><span class="st"> </span>., </a>
@@ -340,7 +340,7 @@
 <a class="sourceLine" id="cb43-7" data-line-number="7">  }</a>
 <a class="sourceLine" id="cb43-8" data-line-number="8">)</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.111   0.036   1.155</code></pre>
+##   1.072   0.037   1.121</code></pre>
 <p>which is faster for enumeration than the default method=“BAS”.</p>
 </div>
 <div id="beyond-enumeration" class="section level2">
@@ -411,7 +411,7 @@
 </tr>
 <tr class="even">
 <td>Air.Flow</td>
-<td align="right">0.999285</td>
+<td align="right">0.999825</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -420,16 +420,16 @@
 </tr>
 <tr class="odd">
 <td>Water.Temp</td>
-<td align="right">0.459530</td>
+<td align="right">0.461980</td>
 <td align="right">1.00000</td>
-<td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
+<td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
 </tr>
 <tr class="even">
 <td>Acid.Conc.</td>
-<td align="right">0.095085</td>
+<td align="right">0.089840</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -438,7 +438,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind1</td>
-<td align="right">0.589780</td>
+<td align="right">0.601695</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -447,16 +447,16 @@
 </tr>
 <tr class="even">
 <td>out.ind2</td>
-<td align="right">0.153585</td>
+<td align="right">0.166805</td>
 <td align="right">0.00000</td>
-<td align="right">0.0000000</td>
-<td align="right">0.0000000</td>
-<td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
 </tr>
 <tr class="odd">
 <td>out.ind3</td>
-<td align="right">0.619750</td>
+<td align="right">0.629515</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -465,7 +465,7 @@
 </tr>
 <tr class="even">
 <td>out.ind4</td>
-<td align="right">0.949100</td>
+<td align="right">0.950145</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -474,7 +474,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind5</td>
-<td align="right">0.067630</td>
+<td align="right">0.068485</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -483,7 +483,7 @@
 </tr>
 <tr class="even">
 <td>out.ind6</td>
-<td align="right">0.074985</td>
+<td align="right">0.081595</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -492,7 +492,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind7</td>
-<td align="right">0.063525</td>
+<td align="right">0.065960</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -501,7 +501,7 @@
 </tr>
 <tr class="even">
 <td>out.ind8</td>
-<td align="right">0.060880</td>
+<td align="right">0.065415</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -510,7 +510,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind9</td>
-<td align="right">0.063855</td>
+<td align="right">0.065505</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -519,7 +519,7 @@
 </tr>
 <tr class="even">
 <td>out.ind10</td>
-<td align="right">0.067615</td>
+<td align="right">0.066385</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -528,7 +528,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind11</td>
-<td align="right">0.061025</td>
+<td align="right">0.064620</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -537,7 +537,7 @@
 </tr>
 <tr class="even">
 <td>out.ind12</td>
-<td align="right">0.091805</td>
+<td align="right">0.083985</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -546,16 +546,16 @@
 </tr>
 <tr class="odd">
 <td>out.ind13</td>
-<td align="right">0.343330</td>
+<td align="right">0.346160</td>
 <td align="right">0.00000</td>
-<td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
 </tr>
 <tr class="even">
 <td>out.ind14</td>
-<td align="right">0.183960</td>
+<td align="right">0.186240</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -564,7 +564,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind15</td>
-<td align="right">0.075105</td>
+<td align="right">0.075365</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -573,7 +573,7 @@
 </tr>
 <tr class="even">
 <td>out.ind16</td>
-<td align="right">0.060685</td>
+<td align="right">0.058720</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -582,7 +582,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind17</td>
-<td align="right">0.066855</td>
+<td align="right">0.066095</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -591,7 +591,7 @@
 </tr>
 <tr class="even">
 <td>out.ind18</td>
-<td align="right">0.062495</td>
+<td align="right">0.065740</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -600,7 +600,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind19</td>
-<td align="right">0.089675</td>
+<td align="right">0.090235</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -609,7 +609,7 @@
 </tr>
 <tr class="even">
 <td>out.ind20</td>
-<td align="right">0.120115</td>
+<td align="right">0.131110</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -618,7 +618,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind21</td>
-<td align="right">0.980295</td>
+<td align="right">0.983115</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -629,49 +629,98 @@
 <td>BF</td>
 <td align="right">NA</td>
 <td align="right">1.00000</td>
+<td align="right">0.5555328</td>
+<td align="right">0.2016282</td>
 <td align="right">0.3397571</td>
 <td align="right">0.5779604</td>
-<td align="right">0.2016282</td>
-<td align="right">0.5555328</td>
 </tr>
 <tr class="odd">
 <td>PostProbs</td>
 <td align="right">NA</td>
-<td align="right">0.06680</td>
-<td align="right">0.0210000</td>
-<td align="right">0.0201000</td>
-<td align="right">0.0198000</td>
-<td align="right">0.0186000</td>
+<td align="right">0.06720</td>
+<td align="right">0.0222000</td>
+<td align="right">0.0212000</td>
+<td align="right">0.0208000</td>
+<td align="right">0.0188000</td>
 </tr>
 <tr class="even">
 <td>R2</td>
 <td align="right">NA</td>
 <td align="right">0.98920</td>
+<td align="right">0.9922000</td>
+<td align="right">0.9803000</td>
 <td align="right">0.9873000</td>
 <td align="right">0.9923000</td>
-<td align="right">0.9803000</td>
-<td align="right">0.9922000</td>
 </tr>
 <tr class="odd">
 <td>dim</td>
 <td align="right">NA</td>
 <td align="right">7.00000</td>
-<td align="right">7.0000000</td>
 <td align="right">8.0000000</td>
 <td align="right">6.0000000</td>
+<td align="right">7.0000000</td>
 <td align="right">8.0000000</td>
 </tr>
 <tr class="even">
 <td>logmarg</td>
 <td align="right">NA</td>
 <td align="right">23.82319</td>
+<td align="right">23.2353597</td>
+<td align="right">22.2218573</td>
 <td align="right">22.7436630</td>
 <td align="right">23.2749373</td>
-<td align="right">22.2218573</td>
-<td align="right">23.2353597</td>
 </tr>
 </tbody>
 </table>
+</div>
+<div id="weighted-regression" class="section level2">
+<h2 class="hasAnchor">
+<a href="#weighted-regression" class="anchor"></a>Weighted Regression</h2>
+<p><code>BAS</code> can perform weighted regression by supplying an optional weight vector that is of the same length as the response where the assumption is that the variance of the response is proportional to 1/weights. The g-prior incorporates the weights in the prior covariance, <span class="math display">\[
+ \sigma^2 g (X_\gamma^T W X_\gamma)^{-1}
+\]</span> where <span class="math inline">\(X_\gamma\)</span> is the design matrix under model <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(W\)</span> is the <span class="math inline">\(n \times n\)</span> diagonal matrix with the weights on the diagonal.</p>
+<p>To illustrate, we will use the climate data, avaialable at the url below</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">climate =<span class="st"> </span><span class="kw">read.table</span>(<span class="st">"https://stat.duke.edu/sites/stat.duke.edu/files/climate.dat"</span>, <span class="dt">header=</span>T)</a>
+<a class="sourceLine" id="cb51-2" data-line-number="2"><span class="kw">str</span>(climate)</a></code></pre></div>
+<pre><code>## 'data.frame':    63 obs. of  5 variables:
+##  $ deltaT  : num  -2.6 -2.6 -2.9 -2.4 -2.8 -1.2 -2.4 -2.6 -2.4 -2.5 ...
+##  $ sdev    : num  0.7 0.8 0.9 0.7 0.7 0.3 1.3 1.3 1.3 0.5 ...
+##  $ proxy   : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ T.M     : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ latitude: num  2.5 2.2 0.5 0.3 0.2 -1.1 5.2 11.4 14.6 6.3 ...</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw"><a href="../reference/summary.html">summary</a></span>(climate)</a></code></pre></div>
+<pre><code>##      deltaT            sdev            proxy            T.M        
+##  Min.   :-7.000   Min.   :0.1500   Min.   :1.000   Min.   :0.0000  
+##  1st Qu.:-3.900   1st Qu.:0.5000   1st Qu.:2.000   1st Qu.:1.0000  
+##  Median :-2.900   Median :0.7000   Median :3.000   Median :1.0000  
+##  Mean   :-3.111   Mean   :0.8579   Mean   :3.333   Mean   :0.8254  
+##  3rd Qu.:-2.000   3rd Qu.:1.3000   3rd Qu.:5.000   3rd Qu.:1.0000  
+##  Max.   : 0.200   Max.   :2.5000   Max.   :8.000   Max.   :1.0000  
+##     latitude      
+##  Min.   :-22.500  
+##  1st Qu.: -3.450  
+##  Median :  0.200  
+##  Mean   :  2.187  
+##  3rd Qu.:  9.700  
+##  Max.   : 29.000</code></pre>
+<p>which includes measurements of changes in temperature (<code>deltaT</code>) at various <code>latitude</code>s as well as a meaure of the accuracy of the measured values <code>sdev</code> for 8 differenty types <code>proxy</code> of obtaining measurements. We will use this to explore weighted regression and the option to group terms in factors or from <code>poly</code>. For illustration purposes, we will eliminate <code>proxy == 6</code> which has only one level as the interactions are not estimable, and then convert <code>proxy</code> to a factor.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1">climate =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(climate, proxy <span class="op">!=</span><span class="st"> </span><span class="dv">6</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb55-2" data-line-number="2"><span class="st">          </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">proxy=</span><span class="kw">factor</span>(proxy))</a></code></pre></div>
+<p>We can fit a weighted regression with <code>weights = 1/sdev^2</code> with the following code</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="co"># takes a while to enumerate all 2^20 models</span></a>
+<a class="sourceLine" id="cb56-2" data-line-number="2">climate.bas =<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(deltaT <span class="op">~</span><span class="st"> </span>proxy<span class="op">*</span><span class="kw">poly</span>(latitude, <span class="dv">2</span>), <span class="dt">data=</span>climate,</a>
+<a class="sourceLine" id="cb56-3" data-line-number="3">                     <span class="dt">weights=</span><span class="dv">1</span><span class="op">/</span>sdev<span class="op">^</span><span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb56-4" data-line-number="4">                     <span class="dt">prior=</span><span class="st">"hyper-g-n"</span>, <span class="dt">alpha=</span><span class="fl">3.0</span>,</a>
+<a class="sourceLine" id="cb56-5" data-line-number="5">                     <span class="dt">n.models=</span><span class="dv">2</span><span class="op">^</span><span class="dv">20</span>,</a>
+<a class="sourceLine" id="cb56-6" data-line-number="6">                     <span class="dt">modelprior=</span><span class="kw"><a href="../reference/uniform.html">uniform</a></span>())</a></code></pre></div>
+<p>Examining the image of the top <span class="math inline">\(20\)</span> models,</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(climate.bas, <span class="dt">rotate=</span>F)</a></code></pre></div>
+<p><img src="BAS-vignette_files/figure-html/climate-image-1.png" width="700"></p>
+<p>we see that any level of a factor may enter or drop from the model independently. If we want to force that all levels of a factor or interaction of a factor enter or leave simultaneously, then we may use the function <code>force.heredity.bas</code> to post-process the output to include or exclude terms.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1">climate.herid.bas =<span class="st"> </span><span class="kw"><a href="../reference/force.heredity.bas.html">force.heredity.bas</a></span>(climate.bas)</a>
+<a class="sourceLine" id="cb58-2" data-line-number="2"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(climate.herid.bas, <span class="dt">rotate=</span>F)</a></code></pre></div>
+<p><img src="BAS-vignette_files/figure-html/force-herid-1.png" width="700"> We now see that there are now 5 models, with the model with just <code>proxy</code> having the highest posterior model probability.</p>
+<p>A future version of <code>BAS</code> will implement this through the model prior which should allow for more efficient sampling and reduced memory requirements when dealing with factors that have many levels.</p>
 </div>
 <div id="summary" class="section level2">
 <h2 class="hasAnchor">
@@ -695,6 +744,7 @@
       <li><a href="#alternative-algorithms">Alternative algorithms</a></li>
       <li><a href="#beyond-enumeration">Beyond Enumeration</a></li>
       <li><a href="#outliers">Outliers</a></li>
+      <li><a href="#weighted-regression">Weighted Regression</a></li>
       <li><a href="#summary">Summary</a></li>
       </ul>
 </div>

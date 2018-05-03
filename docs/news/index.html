@@ -112,32 +112,45 @@
       <small>Source: <a href='https://github.com/merliseclyde/BAS/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="bas-1-5-0-april-6-2018" class="section level1">
+    <div id="bas-1-5-0-may-2-2018" class="section level1">
 <h1 class="page-header">
-<a href="#bas-1-5-0-april-6-2018" class="anchor"></a>BAS 1.5.0 April 6, 2018<small> Unreleased </small>
+<a href="#bas-1-5-0-may-2-2018" class="anchor"></a>BAS 1.5.0 May 2, 2018<small> Unreleased </small>
 </h1>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>ec94920ef3d5a1d723dac4f35565100d9ccaad08</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <div id="features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#features" class="anchor"></a>Features</h2>
 <ul>
 <li><p>add na.action for handling NA’s for predict methods <a href="https://github.com/merliseclyde/BAS/issues/10">issue <a href='https://github.com/merliseclyde/BAS/issues/10'>#10</a></a></p></li>
 <li><p>added <code>include.always</code> as new argument to <code>bas.lm</code>. This allows a formula to specify which terms should always be included in all models. By default the intercept is always included.</p></li>
+<li><p>added a section to the vignetted to illustrate weighted regression and the <code>force.heredity.bas</code> function to group levels of a factor so that they enter or leave the model together.</p></li>
 </ul>
 </div>
 <div id="bugs" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bugs" class="anchor"></a>Bugs</h2>
 <ul>
-<li>fixed problem if there is only one model for <code>image</code> function;<br>
-github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='https://github.com/merliseclyde/BAS/issues/11'>#11</a></a>
+<li><p>fixed problem if there is only one model for <code>image</code> function;<br>
+github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='https://github.com/merliseclyde/BAS/issues/11'>#11</a></a></p></li>
+<li>
+<p>fixed error in <code>bas.lm</code> with non-equal weights where R2 was incorrect. <a href="https://github.com/merliseclyde/BAS/issues/17">issue <a href='https://github.com/merliseclyde/BAS/issues/17'>#17</a></a></p>
+<h2 id="deprecated">Deprecated</h2>
 </li>
-</ul>
-</div>
-<div id="deprecated" class="section level2">
-<h2 class="hasAnchor">
-<a href="#deprecated" class="anchor"></a>Deprecated</h2>
-<ul>
-<li>deprecate the <code>predict</code> argument in <code>predict.bas</code>, <code>predict.basglm</code> and internal functions as it is not utilized</li>
+<li><p>deprecate the <code>predict</code> argument in <code>predict.bas</code>, <code>predict.basglm</code> and internal functions as it is not utilized</p></li>
 </ul>
 </div>
 </div>
@@ -596,7 +609,7 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#bas-1-5-0-april-6-2018">1.5.0</a></li>
+        <li><a href="#bas-1-5-0-may-2-2018">1.5.0</a></li>
         <li><a href="#bas-1-4-9-march-24-2018">1.4.9</a></li>
         <li><a href="#bas-1-4-8-march-10-2018">1.4.8</a></li>
         <li><a href="#bas-1-4-7-october-22-2017">1.4.7</a></li>
