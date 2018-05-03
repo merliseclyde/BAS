@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>BAS MCMC diagnostic plot. — diagnostics • BAS</title>
+<title>BAS MCMC diagnostic plot — diagnostics • BAS</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -33,7 +33,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="BAS MCMC diagnostic plot. — diagnostics" />
+<meta property="og:title" content="BAS MCMC diagnostic plot — diagnostics" />
 
 <meta property="og:description" content="Function to help assess convergence of MCMC sampling for bas ojects." />
 <meta name="twitter:card" content="summary" />
@@ -111,7 +111,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>BAS MCMC diagnostic plot.</h1>
+    <h1>BAS MCMC diagnostic plot</h1>
     <small class="dont-index">Source: <a href='https://github.com/merliseclyde/BAS/blob/master/R/diagnostics.R'><code>R/diagnostics.R</code></a></small>
     <div class="hidden name"><code>diagnostics.Rd</code></div>
     </div>
@@ -172,8 +172,10 @@ variability.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>library</span>(<span class='no'>MASS</span>)
-<span class='fu'>data</span>(<span class='no'>UScrime</span>)
+<span class='fu'>library</span>(<span class='no'>MASS</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘MASS’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked _by_ ‘.GlobalEnv’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    UScrime</span></div><div class='input'><span class='fu'>data</span>(<span class='no'>UScrime</span>)
 <span class='no'>UScrime</span>[,-<span class='fl'>2</span>] <span class='kw'>=</span> <span class='fu'>log</span>(<span class='no'>UScrime</span>[,-<span class='fl'>2</span>])
 <span class='no'>crime.ZS</span> <span class='kw'>=</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>y</span> ~ <span class='no'>.</span>,
                    <span class='kw'>data</span><span class='kw'>=</span><span class='no'>UScrime</span>,
@@ -200,7 +202,7 @@ variability.</p>
 
     <h2>Author</h2>
     
-Merlise Clyde (<a href='mailto:clyde@stat.duke.edu'>clyde@stat.duke.edu</a>)
+Merlise Clyde (<a href='mailto:clyde@duke.edu'>clyde@duke.edu</a>)
 
   </div>
 </div>

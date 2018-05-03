@@ -4,6 +4,7 @@ author: "Merlise A Clyde"
 date: "`r Sys.Date()`"
 r_packages:
   - rmarkdown
+  - dplyr
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging and Variable Selection}
@@ -401,8 +402,9 @@ summary(climate)
 which includes measurements of changes in temperature (`deltaT`) at various `latitude`s as well as a meaure of the accuracy of the measured values `sdev` for 8 differenty types  `proxy` of obtaining  measurements.  We will use this to explore weighted regression and the option to group terms in factors or from `poly`.  For illustration purposes, we will eliminate `proxy == 6` which has only one level as the interactions are not estimable, and then convert `proxy` to a factor.
 
 ```{r read-climate}
-climate = dplyr::filter(climate, proxy != 6) %>%
-          dplyr::mutate(proxy=factor(proxy))
+library(dplyr)
+climate = filter(climate, proxy != 6) %>%
+          mutate(proxy=factor(proxy))
 ```
 
 

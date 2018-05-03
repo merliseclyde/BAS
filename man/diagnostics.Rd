@@ -56,5 +56,5 @@ Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
   \code{\link{update.bas}}
 }
 \author{
-Merlise Clyde (\email{clyde@stat.duke.edu})
+Merlise Clyde (\email{clyde@duke.edu})
 }

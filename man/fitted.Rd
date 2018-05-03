@@ -64,7 +64,7 @@ plot(Hald$Y, fitted(hald.gprior, estimator="BPM"))
 \references{
 Barbieri, M.  and Berger, J.O. (2004) Optimal predictive model
 selection. Annals of Statistics. 32, 870-897. \cr
-\url{http://projecteuclid.org/Dienst/UI/1.0/Summarize/euclid.aos/1085408489}
+\url{https://projecteuclid.org/euclid.aos/1085408489&url=/UI/1.0/Summarize/euclid.aos/1085408489}
 
 Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive Sampling for
 Variable Selection and Model Averaging. Journal of Computational Graphics

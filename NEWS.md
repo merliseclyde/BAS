@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-# BAS 1.5.0  April 6, 2018
-=======
+
 # BAS 1.5.0  May 2, 2018
->>>>>>> ec94920ef3d5a1d723dac4f35565100d9ccaad08
 
 ## Features
 

@@ -1,6 +1,7 @@
 ## ----setup, include=FALSE------------------------------------------------
 #require(knitr)
 require(MASS)
+require(dplyr)
 
 ## ----data----------------------------------------------------------------
 library(MASS)
@@ -158,4 +159,30 @@ stack.bas = bas.lm(stack.loss ~ ., data=stackloss,
 
 ## -----------------------------------------------------------------------------
 knitr::kable(as.data.frame(summary(stack.bas)))
+
+## ----climate------------------------------------------------------------------
+climate = read.table("https://stat.duke.edu/sites/stat.duke.edu/files/climate.dat", header=T)
+str(climate)
+summary(climate)
+
+
+## ----read-climate-------------------------------------------------------------
+library(dplyr)
+climate = filter(climate, proxy != 6) %>%
+          mutate(proxy=factor(proxy))
+
+## ----wtreg--------------------------------------------------------------------
+# takes a while to enumerate all 2^20 models
+climate.bas = bas.lm(deltaT ~ proxy*poly(latitude, 2), data=climate,
+                     weights=1/sdev^2, 
+                     prior="hyper-g-n", alpha=3.0,
+                     n.models=2^20,
+                     modelprior=uniform())
+
+## ----climate-image------------------------------------------------------------
+image(climate.bas, rotate=F)
+
+## ----force-herid--------------------------------------------------------------
+climate.herid.bas = force.heredity.bas(climate.bas)
+image(climate.herid.bas, rotate=F)
 

@@ -56,6 +56,7 @@ diagnostics = function(obj, type=c("pip","model"),...) {
     }
 }
     else {
-        simpleError("diagnostic plot is only availble using method='MCMC' for sampling with bas objects.")
+        simpleError("Diagnostic plots are only availble using method='MCMC'
+                    for sampling with bas. Please rerun.")
     }
 }
