@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # BAS 1.5.0  April 6, 2018
+=======
+# BAS 1.5.0  May 2, 2018
+>>>>>>> ec94920ef3d5a1d723dac4f35565100d9ccaad08
 
 ## Features
 
@@ -7,17 +11,12 @@
 
 * added `include.always` as new argument to `bas.lm`.  This allows a formula to specify which terms should always be included in all models.  By default the intercept is always included.
 
-<<<<<<< HEAD
-
-
-
 * added a section to the vignetted to illustrate weighted regression and the 
 `force.heredity.bas` function to group levels of a factor so that they enter 
 or leave the model together.
 
 
-=======
->>>>>>> b7737ac68ee884eb5ac516a2d825f594e1956c8e
+
 ## Bugs
 
 * fixed problem if there is only one model for `image` function;  
