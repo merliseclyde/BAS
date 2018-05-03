@@ -150,7 +150,7 @@ parameters are considered.</p></td>
     </tr>
     <tr>
       <th>level</th>
-      <td><p>the probabilty coverage required</p></td>
+      <td><p>the probability coverage required</p></td>
     </tr>
     <tr>
       <th>nsim</th>
@@ -166,13 +166,13 @@ Used when number of models is greater than 1.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A matrix (or vector) with columns giving lower and upper HPD
-credible limits for each parameter. These will be labelled as 1-level)/2 and
+credible limits for each parameter. These will be labeled as 1-level)/2 and
 1 - (1-level)/2 in percent (by default 2.5 and 97.5).</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>For mixture of g-priors these are approximate.  This uses Monte Carlo
-sampling so results may be subjet to Monte Carlo variation and larger values
+sampling so results may be subject to Monte Carlo variation and larger values
 of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -213,7 +213,7 @@ of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
-#&gt; [1] "confint.bas"</div><div class='input'><span class='co'># extract just the coefficent of X4</span>
+#&gt; [1] "confint.bas"</div><div class='input'><span class='co'># extract just the coefficient of X4</span>
 <span class='fu'>confint</span>(<span class='no'>coef.hald</span>, <span class='kw'>parm</span><span class='kw'>=</span><span class='st'>"X4"</span>)</div><div class='output co'>#&gt;         2.5%    97.5%      beta
 #&gt; X4 -1.687395 0.272389 -0.326871
 #&gt; attr(,"Probability")
