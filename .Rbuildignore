@@ -17,3 +17,4 @@ docs/*
 _pkgdown.yml
 LICENSE
 CODE_OF_CONDUCT.md
+cran-comments.md
