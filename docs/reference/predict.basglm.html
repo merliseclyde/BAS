@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Prediction Method for an object of class basglm — predict.basglm • BAS</title>
+<title>Prediction Method for an Object of Class basglm — predict.basglm • BAS</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -33,9 +33,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Prediction Method for an object of class basglm — predict.basglm" />
+<meta property="og:title" content="Prediction Method for an Object of Class basglm — predict.basglm" />
 
-<meta property="og:description" content="Predictions under model averaging from a BMA (BAS) object for GLMS" />
+<meta property="og:description" content="Predictions under model averaging from a BMA (BAS) object for GLMs
+under different loss functions." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -63,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BAS</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.1</span>
       </span>
     </div>
 
@@ -111,14 +112,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Prediction Method for an object of class basglm</h1>
+    <h1>Prediction Method for an Object of Class basglm</h1>
     <small class="dont-index">Source: <a href='https://github.com/merliseclyde/BAS/blob/master/R/predict.bas.R'><code>R/predict.bas.R</code></a></small>
     <div class="hidden name"><code>predict.basglm.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Predictions under model averaging from a BMA (BAS) object for GLMS</p>
+    <p>Predictions under model averaging from a BMA (BAS) object for GLMs
+under different loss functions.</p>
     
     </div>
 
@@ -149,11 +151,12 @@ values</p></td>
     </tr>
     <tr>
       <th>type</th>
-      <td><p>Type of predictions required. The default is on the scale of the
-linear predictors; the alternative "response" is on the scale of the
-response variable. Thus for a default binomial model the default predictions
-are of log-odds (probabilities on logit scale) and type = "response" gives
-the predicted probabilities.</p></td>
+      <td><p>Type of predictions required. The default is  "response" is on the scale of the
+response variable, with the alternative being on the linear predictor
+scale, `type ='link'`. Thus for a default binomial model
+`type = 'response'` gives
+the predicted probabilities, while with `'link'`, the estimates
+are of log-odds (probabilities on logit scale).</p></td>
     </tr>
     <tr>
       <th>top</th>
@@ -183,14 +186,24 @@ The default is to predict NA.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a list of</p>
-<dt>Ybma</dt><dd><p>predictions using BMA</p></dd> <dt>Ypred</dt><dd><p>matrix of
-predictions under each model</p></dd> <dt>postprobs</dt><dd><p>renormalized probabilities of
-the top models</p></dd> <dt>best</dt><dd><p>index of top models included</p></dd>
+<dt>Ybma</dt><dd><p>predictions using BMA</p></dd>
+ <dt>Ypred</dt><dd><p>matrix of predictions under each model</p></dd>
+ <dt>postprobs</dt><dd><p>renormalized probabilities of
+the top models</p></dd>
+<dt>best</dt><dd><p>index of top models included</p></dd>
 
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Use BMA to form predictions using the top highest probability models.</p>
+    <p>This function first calls the predict method for class bas
+(linear models) to form predictions on the linear predictor
+scale for `BMA`, `HPM`, `MPM` etc. If the estimator is `BMA`
+and `type='response'` then the
+inverse link is applied to fitted values for type equal `'link'`
+and model averaging takes place in the `reponse` scale. Thus applying
+the inverse link to BMA estimate with `type = 'link'` is
+not equal to the fitted values for `type = 'response'` under
+BMA due to the  nonlinear transformation under the inverse link.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

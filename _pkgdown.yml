@@ -6,6 +6,9 @@ template:
     docsearch:
       api_key: 94a8229a313e5475acdeffd26558ce98
       index_name: bas
+authors:
+  Merlise Clyde:
+    href: http://stat.duke.edu/~clyde
 navbar:
   title: "BAS"
   left:

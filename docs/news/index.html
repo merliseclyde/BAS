@@ -116,7 +116,11 @@
 <h1 class="page-header">
 <a href="#bas-1-5-1" class="anchor"></a>BAS 1.5.1<small> Unreleased </small>
 </h1>
-<p>Nothing new so far but update the number now!</p>
+<div id="bugs" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bugs" class="anchor"></a>Bugs</h2>
+<p>Fixed incorrect documentation in <code>predict.basglm</code> which had that <code>type = "link"</code> was the default for prediction <a href="https://github.com/merliseclyde/BAS/issues/18">issue <a href='https://github.com/merliseclyde/BAS/issues/18'>#18</a></a></p>
+</div>
 </div>
     <div id="bas-1-5-0-may-2-2018" class="section level1">
 <h1 class="page-header">
@@ -131,9 +135,9 @@
 <li><p>added a section to the vignetted to illustrate weighted regression and the <code>force.heredity.bas</code> function to group levels of a factor so that they enter or leave the model together.</p></li>
 </ul>
 </div>
-<div id="bugs" class="section level2">
+<div id="bugs-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bugs" class="anchor"></a>Bugs</h2>
+<a href="#bugs-1" class="anchor"></a>Bugs</h2>
 <ul>
 <li><p>fixed problem if there is only one model for <code>image</code> function;<br>
 github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='https://github.com/merliseclyde/BAS/issues/11'>#11</a></a></p></li>
@@ -149,9 +153,9 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <h1 class="page-header">
 <a href="#bas-1-4-9-march-24-2018" class="anchor"></a>BAS 1.4.9 March 24, 2018<small> 2018-03-25 </small>
 </h1>
-<div id="bugs-1" class="section level2">
+<div id="bugs-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bugs-1" class="anchor"></a>Bugs</h2>
+<a href="#bugs-2" class="anchor"></a>Bugs</h2>
 <ul>
 <li>fixed bug in <code>confint.coef.bas</code> when parm is a character string</li>
 <li>added parentheses in betafamily.c line 382 as indicated in CRAN check for R devel</li>
@@ -169,9 +173,9 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <h1 class="page-header">
 <a href="#bas-1-4-8-march-10-2018" class="anchor"></a>BAS 1.4.8 March 10, 2018<small> 2018-03-12 </small>
 </h1>
-<div id="bugs-2" class="section level2">
+<div id="bugs-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bugs-2" class="anchor"></a>Bugs</h2>
+<a href="#bugs-3" class="anchor"></a>Bugs</h2>
 <ul>
 <li><p>fixed issue with scoping in eval of data in <code>predict.bas</code> if dataname is defined in local env.</p></li>
 <li><p>fixed issue 10 in github (predict for estimator=‘BPM’ failed if there were NA’s in the X data. Delete NA’s before finding the closest model.</p></li>
@@ -214,9 +218,9 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <li>Added force.heredity.interaction function to allow higher order interactions to be included only if their “parents” or lower order interactions or main effects were included. Currently tested with two way interactions. This is implemented post-sampling; future updates will add this at the sampling stage which will reduce memory usage and sampling times by reducing the number of models under consideration.</li>
 </ul>
 </div>
-<div id="bugs-3" class="section level2">
+<div id="bugs-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bugs-3" class="anchor"></a>Bugs</h2>
+<a href="#bugs-4" class="anchor"></a>Bugs</h2>
 <ul>
 <li><p>Fixed unprotected ANS in C code in glm_sampleworep.c and sampleworep.c after call to PutRNGstate and possible stack imbalance in glm_mcmc.</p></li>
 <li><p>Fixed problem with predict for estimator=BPM when newdata was one row</p></li>
@@ -227,9 +231,9 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <h1 class="page-header">
 <a href="#bas-1-4-5-march-28-2017" class="anchor"></a>BAS 1.4.5 March 28, 2017<small> 2017-03-31 </small>
 </h1>
-<div id="bugs-4" class="section level2">
+<div id="bugs-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bugs-4" class="anchor"></a>Bugs</h2>
+<a href="#bugs-5" class="anchor"></a>Bugs</h2>
 <ul>
 <li><p>Fixed non-conformable error with <code>predict</code> when new data was from a dataframe with one row.</p></li>
 <li><p>Fixed problem with missing weights for prediction using the median probability model with no new data.</p></li>
@@ -249,9 +253,9 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <li><p>factor levels are handled as in <code>lm</code> or <code>glm</code> for prediction when there may be only level of a factor in the newdata</p></li>
 </ul>
 </div>
-<div id="bugs-5" class="section level2">
+<div id="bugs-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bugs-5" class="anchor"></a>Bugs</h2>
+<a href="#bugs-6" class="anchor"></a>Bugs</h2>
 <ul>
 <li><p>fixed issue for prediction when newdata has just one row</p></li>
 <li><p>fixed missing id in plot.bas for which=3</p></li>
@@ -646,7 +650,7 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 
       <footer>
       <div class="copyright">
-  <p>Developed by Merlise Clyde.</p>
+  <p>Developed by <a href='http://stat.duke.edu/~clyde'>Merlise Clyde</a>.</p>
 </div>
 
 <div class="pkgdown">
