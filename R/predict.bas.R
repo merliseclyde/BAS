@@ -1,8 +1,6 @@
-#' Prediction Method for an object of class basglm
-#'
-#' Predictions under model averaging from a BMA (BAS) object for GLMS
-#'
-#' Use BMA to form predictions using the top highest probability models.
+#' Prediction Method for an Object of Class basglm
+#' @description Predictions under model averaging from a BMA (BAS) object for GLMs
+#' under different loss functions.
 #' @aliases predict.basglm
 #' @param object An object of class "basglm", created by \code{bas.glm}
 #' @param newdata dataframe, new matrix or vector of data for predictions. May
@@ -12,11 +10,12 @@
 #' fitting will be used for prediction.
 #' @param se.fit indicator for whether to compute se of fitted and predicted
 #' values
-#' @param type Type of predictions required. The default is on the scale of the
-#' linear predictors; the alternative "response" is on the scale of the
-#' response variable. Thus for a default binomial model the default predictions
-#' are of log-odds (probabilities on logit scale) and type = "response" gives
-#' the predicted probabilities.
+#' @param type Type of predictions required. The default is  "response" is on the scale of the
+#' response variable, with the alternative being on the linear predictor
+#' scale, `type ='link'`. Thus for a default binomial model
+#' `type = 'response'` gives
+#' the predicted probabilities, while with `'link'`, the estimates
+#' are of log-odds (probabilities on logit scale).
 #' @param top A scalar integer M.  If supplied, calculate results using the subset of the top M models
 #' based on posterior probabilities.
 #' @param estimator estimator used for predictions.  Currently supported
@@ -28,9 +27,22 @@
 #' @param na.action  function determining what should be done with missing values in newdata.
 #' The default is to predict NA.
 #' @param ... optional extra arguments
-#' @return a list of \item{Ybma}{predictions using BMA} \item{Ypred}{matrix of
-#' predictions under each model} \item{postprobs}{renormalized probabilities of
-#' the top models} \item{best}{index of top models included}
+#' @return a list of
+#'  \item{Ybma}{predictions using BMA}
+#'  \item{Ypred}{matrix of predictions under each model}
+#'  \item{postprobs}{renormalized probabilities of
+#' the top models}
+#' \item{best}{index of top models included}
+#' @details  This function first calls the predict method for class bas
+#' (linear models) to form predictions on the linear predictor
+#' scale for `BMA`, `HPM`, `MPM` etc. If the estimator is `BMA`
+#' and `type='response'` then the
+#' inverse link is applied to fitted values for type equal `'link'`
+#' and model averaging takes place in the `reponse` scale. Thus applying
+#' the inverse link to BMA estimate with `type = 'link'` is
+#' not equal to the fitted values for `type = 'response'` under
+#' BMA due to the  nonlinear transformation under the inverse link.
+#'
 #' @author Merlise Clyde
 #' @seealso \code{\link{bas.glm}}, \code{\link{predict.bas}},
 #' \code{\link{fitted.bas}}
@@ -56,21 +68,32 @@ predict.basglm = function(object, newdata, se.fit=FALSE,
 #    browser()
     if (estimator == "HPM") top=1
 
+    # get predictions on linear predictor scale
     pred = predict.bas(object, newdata, se.fit=se.fit, top=top,
                        estimator=estimator, na.action=na.action, ...)
 
     if (length(type) > 1) type = type[1]
+    #
+    # if type is 'link' do not need to do  anything; just return
+    # pred at end
+    #
     if (type == "response")  {
       model.specs = attributes(pred$fit)
       if (estimator == "BMA") {
         Ypred = apply(pred$Ypred, 1,
-                      FUN = function(x) {eval(object$family)$linkinv(x)})
+                      FUN = function(x) {
+                        eval(object$family)$linkinv(x)}
+                      )
         if (length(pred$postprobs) > 1) fit = as.vector(Ypred %*% pred$postprobs)
         else fit= as.vector(Ypred)
       }
       else fit = eval(object$family)$linkinv(pred$fit)
       attributes(fit) = model.specs
+
+      # replace predictions
+      #
       pred$fit = fit
+
       if (se.fit) {
         se.fit = pred$se.fit
         se.pred = pred$se.pred
