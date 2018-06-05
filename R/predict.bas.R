@@ -558,7 +558,7 @@ return(list(se.bma.fit = se.fit, se.bma.pred=se.pred,
 #' for the selected models using estimators for 'HPM', 'MPM' or 'BPM".
 #' for the selected model created by \code{predict} for BAS
 #' objects.
-#' @param obj a BAS object created by \code{predict} from a BAS
+#' @param object a BAS object created by \code{predict} from a BAS
 #' `bas.lm` or `bas.glm` object
 #' @return a character vector with the names of the variables
 #' included in the selected model; in the case of 'BMA' this will
@@ -571,7 +571,7 @@ return(list(se.bma.fit = se.fit, se.bma.pred=se.pred,
 #' @family bas methods
 #' @export
 #'
-variable.names.pred.bas = function(obj, ...) {
+variable.names.pred.bas = function(object, ...) {
  if (class(obj) == 'pred.bas')
    obj$best.vars
 }

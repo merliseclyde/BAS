@@ -5,10 +5,10 @@
 \alias{variable.names}
 \title{Extract the variable names for a model from a BAS prediction object}
 \usage{
-\method{variable.names}{pred.bas}(obj, ...)
+\method{variable.names}{pred.bas}(object, ...)
 }
 \arguments{
-\item{obj}{a BAS object created by \code{predict} from a BAS
+\item{object}{a BAS object created by \code{predict} from a BAS
 `bas.lm` or `bas.glm` object}
 }
 \value{
