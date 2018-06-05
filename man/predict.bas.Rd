@@ -86,7 +86,7 @@ hald.bpm = predict(hald.gprior, newdata=Hald[1,],
                     estimator="BPM")
 confint(hald.bpm)
 # extract variables
-variable.namesl(hald.bpm)
+variable.names(hald.bpm)
 
 hald.hpm = predict(hald.gprior, newdata=Hald[1,],
                     se.fit=TRUE,

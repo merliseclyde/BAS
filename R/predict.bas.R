@@ -183,7 +183,7 @@ predict.basglm = function(object, newdata, se.fit=FALSE,
 #'                     estimator="BPM")
 #' confint(hald.bpm)
 #' # extract variables
-#' variable.namesl(hald.bpm)
+#' variable.names(hald.bpm)
 #'
 #' hald.hpm = predict(hald.gprior, newdata=Hald[1,],
 #'                     se.fit=TRUE,
