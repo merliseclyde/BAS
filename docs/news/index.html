@@ -21,19 +21,23 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 <!-- docsearch -->
+<script src="../docsearch.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
 <meta property="og:title" content="Changelog" />
+
 
 
 <!-- mathjax -->
@@ -112,10 +116,17 @@
       <small>Source: <a href='https://github.com/merliseclyde/BAS/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="bas-1-5-1" class="section level1">
+    <div id="bas-1-5-1-june-4-2018" class="section level1">
 <h1 class="page-header">
-<a href="#bas-1-5-1" class="anchor"></a>BAS 1.5.1<small> Unreleased </small>
+<a href="#bas-1-5-1-june-4-2018" class="anchor"></a>BAS 1.5.1 June 4, 2018<small> Unreleased </small>
 </h1>
+<div id="features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#features" class="anchor"></a>Features</h2>
+<ul>
+<li>added S3 method <code>variable.names</code> to extract variable names in the highest probability model, median probability model, and best probability model for objects created by <code>predict</code>.</li>
+</ul>
+</div>
 <div id="bugs" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bugs" class="anchor"></a>Bugs</h2>
@@ -126,9 +137,9 @@
 <h1 class="page-header">
 <a href="#bas-1-5-0-may-2-2018" class="anchor"></a>BAS 1.5.0 May 2, 2018<small> 2018-05-03 </small>
 </h1>
-<div id="features" class="section level2">
+<div id="features-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#features" class="anchor"></a>Features</h2>
+<a href="#features-1" class="anchor"></a>Features</h2>
 <ul>
 <li><p>add na.action for handling NA’s for predict methods <a href="https://github.com/merliseclyde/BAS/issues/10">issue <a href='https://github.com/merliseclyde/BAS/issues/10'>#10</a></a></p></li>
 <li><p>added <code>include.always</code> as new argument to <code>bas.lm</code>. This allows a formula to specify which terms should always be included in all models. By default the intercept is always included.</p></li>
@@ -161,9 +172,9 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <li>added parentheses in betafamily.c line 382 as indicated in CRAN check for R devel</li>
 </ul>
 </div>
-<div id="features-1" class="section level2">
+<div id="features-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#features-1" class="anchor"></a>Features</h2>
+<a href="#features-2" class="anchor"></a>Features</h2>
 <ul>
 <li>added option to determine k for <code>Bayes.outlier</code> if prior probability of no outliers is provided</li>
 </ul>
@@ -316,9 +327,9 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <li>the modification in 1.4.0 to automatically handle NA’s led to errors if the response was transformed as part of the forumula; this is fixed</li>
 </ul>
 </div>
-<div id="features-2" class="section level2">
+<div id="features-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#features-2" class="anchor"></a>Features</h2>
+<a href="#features-3" class="anchor"></a>Features</h2>
 <ul>
 <li>added subset argument to <code>bas.lm</code> and <code>bas.glm</code>
 </li>
@@ -604,7 +615,7 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#bas-1-5-1">1.5.1</a></li>
+        <li><a href="#bas-1-5-1-june-4-2018">1.5.1</a></li>
         <li><a href="#bas-1-5-0-may-2-2018">1.5.0</a></li>
         <li><a href="#bas-1-4-9-march-24-2018">1.4.9</a></li>
         <li><a href="#bas-1-4-8-march-10-2018">1.4.8</a></li>

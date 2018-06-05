@@ -572,7 +572,7 @@ return(list(se.bma.fit = se.fit, se.bma.pred=se.pred,
 #' @export
 #'
 variable.names.pred.bas = function(object, ...) {
- if (class(obj) == 'pred.bas')
-   obj$best.vars
+ if (class(object) == 'pred.bas')
+   object$best.vars
 }
 

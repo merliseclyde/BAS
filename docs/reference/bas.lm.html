@@ -22,13 +22,16 @@ Linear Models — bas.lm • BAS</title>
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 <!-- docsearch -->
+<script src="../docsearch.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
@@ -39,6 +42,7 @@ Linear Models — bas.lm" />
 
 <meta property="og:description" content="Sample without replacement from a posterior distribution on models" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -65,7 +69,7 @@ Linear Models — bas.lm" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BAS</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.1</span>
       </span>
     </div>
 
@@ -474,7 +478,8 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
   <code><a href='force.heredity.bas.html'>force.heredity.bas</a></code>,
   <code><a href='image.bas.html'>image.bas</a></code>, <code><a href='predict.basglm.html'>predict.basglm</a></code>,
   <code><a href='predict.bas.html'>predict.bas</a></code>, <code><a href='summary.html'>summary.bas</a></code>,
-  <code><a href='update.html'>update.bas</a></code></p></div>
+  <code><a href='update.html'>update.bas</a></code>,
+  <code><a href='variable.names.pred.bas.html'>variable.names.pred.bas</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -691,7 +696,7 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; [1] 12 12 12 12 12
 #&gt; 
 #&gt; $best
-#&gt; [1]  3  4 13  7  6
+#&gt; [1] 11  6  3 12  8
 #&gt; 
 #&gt; $bestmodel
 #&gt; $bestmodel[[1]]
@@ -710,6 +715,9 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; [1] 0 1 2 3
 #&gt; 
 #&gt; 
+#&gt; $best.vars
+#&gt; [1] "Intercept" "X1"        "X2"        "X3"        "X4"       
+#&gt; 
 #&gt; $estimator
 #&gt; [1] "BMA"
 #&gt; 
@@ -718,19 +726,19 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; 
 #&gt; &gt; confint(predict(hald.gprior, Hald, estimator="BMA", se.fit=TRUE, top=5), parm="mean")
 #&gt;            2.5%     97.5%      mean
-#&gt;  [1,]  73.35371  86.34507  79.74246
-#&gt;  [2,]  69.31377  79.53741  74.50010
-#&gt;  [3,] 100.76281 109.42370 105.29268
-#&gt;  [4,]  84.78281  94.44618  89.88693
-#&gt;  [5,]  90.35169 100.10887  95.57177
-#&gt;  [6,] 101.26951 107.96003 104.56409
-#&gt;  [7,]  97.33081 108.84942 103.40145
-#&gt;  [8,]  71.72889  82.78968  77.13668
-#&gt;  [9,]  87.63046  96.35905  91.99731
-#&gt; [10,] 106.78688 122.27228 114.21325
-#&gt; [11,]  77.50816  88.22266  82.78446
-#&gt; [12,] 106.45949 115.41141 111.00723
-#&gt; [13,] 105.62752 115.34943 110.40160
+#&gt;  [1,]  72.97368  85.93717  79.74246
+#&gt;  [2,]  69.26549  79.52851  74.50010
+#&gt;  [3,] 101.09726 109.74941 105.29268
+#&gt;  [4,]  85.27917  94.63800  89.88693
+#&gt;  [5,]  90.59400 100.39925  95.57177
+#&gt;  [6,] 101.23121 107.85882 104.56409
+#&gt;  [7,]  97.55599 109.01326 103.40145
+#&gt;  [8,]  71.69691  82.80563  77.13668
+#&gt;  [9,]  87.52419  96.38509  91.99731
+#&gt; [10,] 106.72127 121.96568 114.21325
+#&gt; [11,]  77.47161  88.06094  82.78446
+#&gt; [12,] 106.60321 115.49931 111.00723
+#&gt; [13,] 105.68087 115.36117 110.40160
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
@@ -744,6 +752,8 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; [1] 0 1 2 4
 #&gt; attr(,"best")
 #&gt; [1] 1
+#&gt; attr(,"estimator")
+#&gt; [1] "MPM"
 #&gt; 
 #&gt; $Ybma
 #&gt;  [1]  79.65151  74.47846 105.42183  89.83174  95.62799 104.59616 103.50684
@@ -752,6 +762,8 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; [1] 0 1 2 4
 #&gt; attr(,"best")
 #&gt; [1] 1
+#&gt; attr(,"estimator")
+#&gt; [1] "MPM"
 #&gt; 
 #&gt; $Ypred
 #&gt; NULL
@@ -781,6 +793,9 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; 
 #&gt; $bestmodel
 #&gt; [1] 0 1 2 4
+#&gt; 
+#&gt; $best.vars
+#&gt; [1] "Intercept" "X1"        "X2"        "X4"       
 #&gt; 
 #&gt; $estimator
 #&gt; [1] "MPM"
@@ -850,7 +865,7 @@ Merlise Clyde (<a href='mailto:clyde@duke.edu'>clyde@duke.edu</a>) and Michael L
 
       <footer>
       <div class="copyright">
-  <p>Developed by Merlise Clyde.</p>
+  <p>Developed by <a href='http://stat.duke.edu/~clyde'>Merlise Clyde</a>.</p>
 </div>
 
 <div class="pkgdown">

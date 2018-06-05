@@ -244,13 +244,13 @@ HPM$bestmodel
 
 A little more interpretable version with names:
 ```{r}
-(crime.ZS$namesx[HPM$bestmodel +1])[-1]
+variable.names(HPM)
 ```
 
 **median probability model:**
 ```{r MPM}
 MPM = predict(crime.ZS, estimator="MPM")
-(crime.ZS$namesx[attr(MPM$fit, 'model') +1])[-1]
+variable.names(MPM)
 ```
 
 This is the model where all predictors have an inclusion probability greater than or equal to 0.5.   This coincides with the HPM if the predictors are all mutually orthogonal, and in this case is the best predictive model under squared error loss.
@@ -262,7 +262,7 @@ Note that we can also extract the best model from the attribute in the fitted va
 In general, the HPM or MPM are not the best predictive models, which from a Bayesian decision theory perspective would be the model that is closest to BMA predictions under squared error loss.
 ```{r BPM}
 BPM = predict(crime.ZS, estimator="BPM")
-(crime.ZS$namesx[attr(BPM$fit, 'model') +1])[-1]
+variable.names(BPM)
 ```
 
 Let's see how they compare:

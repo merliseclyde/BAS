@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute Credible Intervals for BAS regression coefficients from BAS objects — confint.coef.bas • BAS</title>
+<title>Extract the variable names for a model from a BAS prediction object — variable.names.pred.bas • BAS</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -36,14 +36,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Compute Credible Intervals for BAS regression coefficients from BAS objects — confint.coef.bas" />
+<meta property="og:title" content="Extract the variable names for a model from a BAS prediction object — variable.names.pred.bas" />
 
-<meta property="og:description" content="Uses Monte Carlo simulations using posterior means and standard deviations
-of coefficents to generate draws from the posterior distributions and
-returns highest posterior density (HPD) credible intervals.  If the number
-of models equals one, then use the t distribution to find intervals.  These
-currently condition on the estimate of $g$. 
-than the description above ~~" />
+<meta property="og:description" content="S3 method for class 'pred.bas'.  Simple utility
+function to extract the variable names.  Used to print names
+for the selected models using estimators for 'HPM', 'MPM' or 'BPM&quot;.
+for the selected model created by predict for BAS
+objects." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,113 +119,55 @@ than the description above ~~" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute Credible Intervals for BAS regression coefficients from BAS objects</h1>
-    <small class="dont-index">Source: <a href='https://github.com/merliseclyde/BAS/blob/master/R/confint.coef.R'><code>R/confint.coef.R</code></a></small>
-    <div class="hidden name"><code>confint.coef.Rd</code></div>
+    <h1>Extract the variable names for a model from a BAS prediction object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/merliseclyde/BAS/blob/master/R/predict.bas.R'><code>R/predict.bas.R</code></a></small>
+    <div class="hidden name"><code>variable.names.pred.bas.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Uses Monte Carlo simulations using posterior means and standard deviations
-of coefficents to generate draws from the posterior distributions and
-returns highest posterior density (HPD) credible intervals.  If the number
-of models equals one, then use the t distribution to find intervals.  These
-currently condition on the estimate of $g$. <!-- %% ~~ If necessary, more details -->
-than the description above ~~</p>
+    <p>S3 method for class 'pred.bas'.  Simple utility
+function to extract the variable names.  Used to print names
+for the selected models using estimators for 'HPM', 'MPM' or 'BPM".
+for the selected model created by <code>predict</code> for BAS
+objects.</p>
     
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for coef.bas</span>
-<span class='fu'>confint</span>(<span class='no'>object</span>, <span class='no'>parm</span>, <span class='kw'>level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>nsim</span> <span class='kw'>=</span> <span class='fl'>10000</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for pred.bas</span>
+<span class='fu'>variable.names</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>a coef.bas object</p></td>
-    </tr>
-    <tr>
-      <th>parm</th>
-      <td><p>a specification of which parameters are to be given credible
-intervals, either a vector of numbers or a vector of names. If missing, all
-parameters are considered.</p></td>
-    </tr>
-    <tr>
-      <th>level</th>
-      <td><p>the probability coverage required</p></td>
-    </tr>
-    <tr>
-      <th>nsim</th>
-      <td><p>number of Monte Carlo draws from the posterior distribution.
-Used when number of models is greater than 1.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>other arguments to passed; none currently</p></td>
+      <td><p>a BAS object created by <code>predict</code> from a BAS
+`bas.lm` or `bas.glm` object</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A matrix (or vector) with columns giving lower and upper HPD
-credible limits for each parameter. These will be labeled as 1-level)/2 and
-1 - (1-level)/2 in percent (by default 2.5 and 97.5).</p>
-    
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
-
-    <p>For mixture of g-priors these are approximate.  This uses Monte Carlo
-sampling so results may be subject to Monte Carlo variation and larger values
-of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
+    <p>a character vector with the names of the variables
+included in the selected model; in the case of 'BMA' this will
+be all variables</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other CI methods: <code><a href='confint.pred.html'>confint.pred.bas</a></code>,
-  <code><a href='plot.confint.html'>plot.confint.bas</a></code></p>
+    <div class='dont-index'><p><code><a href='predict.bas.html'>predict.bas</a></code></p>
+<p>Other predict methods: <code><a href='fitted.html'>fitted.bas</a></code>,
+  <code><a href='predict.basglm.html'>predict.basglm</a></code>, <code><a href='predict.bas.html'>predict.bas</a></code></p>
 <p>Other bas methods: <code><a href='BAS.html'>BAS</a></code>, <code><a href='bas.lm.html'>bas.lm</a></code>,
-  <code><a href='coef.html'>coef.bas</a></code>, <code><a href='confint.pred.html'>confint.pred.bas</a></code>,
+  <code><a href='coef.html'>coef.bas</a></code>, <code><a href='confint.coef.html'>confint.coef.bas</a></code>,
+  <code><a href='confint.pred.html'>confint.pred.bas</a></code>,
   <code><a href='diagnostics.html'>diagnostics</a></code>, <code><a href='fitted.html'>fitted.bas</a></code>,
   <code><a href='force.heredity.bas.html'>force.heredity.bas</a></code>,
   <code><a href='image.bas.html'>image.bas</a></code>, <code><a href='predict.basglm.html'>predict.basglm</a></code>,
   <code><a href='predict.bas.html'>predict.bas</a></code>, <code><a href='summary.html'>summary.bas</a></code>,
-  <code><a href='update.html'>update.bas</a></code>,
-  <code><a href='variable.names.pred.bas.html'>variable.names.pred.bas</a></code></p></div>
+  <code><a href='update.html'>update.bas</a></code></p></div>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-
-<span class='fu'>data</span>(<span class='st'>"Hald"</span>)
-<span class='no'>hald.gprior</span> <span class='kw'>=</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>Y</span>~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>13</span>,
-                            <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"g-prior"</span>)
-<span class='no'>coef.hald</span> <span class='kw'>=</span> <span class='fu'><a href='coef.html'>coef</a></span>(<span class='no'>hald.gprior</span>)
-<span class='fu'>confint</span>(<span class='no'>coef.hald</span>)</div><div class='output co'>#&gt;                2.5%      97.5%       beta
-#&gt; Intercept 93.865384 96.9019971 95.4230769
-#&gt; X1         0.000000  1.8596030  1.2150202
-#&gt; X2        -1.102851  0.8680956  0.2756235
-#&gt; X3        -1.517326  0.5422725 -0.1270575
-#&gt; X4        -1.668277  0.2525684 -0.3268710
-#&gt; attr(,"Probability")
-#&gt; [1] 0.95
-#&gt; attr(,"class")
-#&gt; [1] "confint.bas"</div><div class='input'><span class='fu'>confint</span>(<span class='no'>coef.hald</span>, <span class='kw'>approx</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>nsim</span><span class='kw'>=</span><span class='fl'>5000</span>)</div><div class='output co'>#&gt;                    2.5%      97.5%       beta
-#&gt; Intercept 93.7715357849 96.8785311 95.4230769
-#&gt; X1        -0.0003053322  1.9304755  1.2150202
-#&gt; X2        -1.1350226085  0.9713394  0.2756235
-#&gt; X3        -1.5356773222  0.6124995 -0.1270575
-#&gt; X4        -1.7877865370  0.2592215 -0.3268710
-#&gt; attr(,"Probability")
-#&gt; [1] 0.95
-#&gt; attr(,"class")
-#&gt; [1] "confint.bas"</div><div class='input'><span class='co'># extract just the coefficient of X4</span>
-<span class='fu'>confint</span>(<span class='no'>coef.hald</span>, <span class='kw'>parm</span><span class='kw'>=</span><span class='st'>"X4"</span>)</div><div class='output co'>#&gt;         2.5%     97.5%      beta
-#&gt; X4 -1.701107 0.2532565 -0.326871
-#&gt; attr(,"Probability")
-#&gt; [1] 0.95
-#&gt; attr(,"class")
-#&gt; [1] "confint.bas"</div><div class='input'>
-
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -235,16 +176,8 @@ of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#note">Note</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    
-Merlise A Clyde
+          </ul>
 
   </div>
 </div>

@@ -8,8 +8,8 @@
 <title>Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging and Variable Selection • BAS</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- docsearch --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script><!-- docsearch --><script src="../docsearch.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging and Variable Selection">
 <meta property="og:description" content="">
@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BAS</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.1</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@
       <h1>Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging and Variable Selection</h1>
                         <h4 class="author">Merlise A Clyde</h4>
             
-            <h4 class="date">2018-05-03</h4>
+            <h4 class="date">2018-06-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/merliseclyde/BAS/blob/master/vignettes/BAS-vignette.Rmd"><code>vignettes/BAS-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>BAS-vignette.Rmd</code></div>
@@ -216,22 +216,22 @@
 <p>To obtain credible intervals for coefficients, <code>BAS</code> includes a <code>confint</code> method to create Highest Posterior Density intervals from the summaries from <code>coef</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/confint.coef.html">confint</a></span>(coef.ZS)</a></code></pre></div>
 <pre><code>##                    2.5%       97.5%        beta
-## Intercept  6.6706835015 6.782477791  6.72493620
-## M          0.0000000000 2.196238282  1.14359433
-## So        -0.0668440241 0.301689550  0.03547522
-## Ed         0.6814613177 3.192296591  1.85848834
-## Po1        0.0000000000 1.447724980  0.60067372
-## Po2       -0.0922189212 1.477644779  0.31841766
-## LF        -0.4700212311 0.993209341  0.05933737
-## M.F       -2.1740882763 2.010323738 -0.02702786
-## Pop       -0.1243871096 0.008793951 -0.02248283
-## NW         0.0000000000 0.166298859  0.06668437
-## U1        -0.5510362505 0.349378113 -0.02456854
-## U2        -0.0006145143 0.644481939  0.20702927
-## GDP       -0.0034690493 1.236210729  0.20625063
-## Ineq       0.6922262998 2.141385438  1.39012647
-## Prob      -0.4082997402 0.000000000 -0.21536203
-## Time      -0.5030633358 0.068705812 -0.08433479
+## Intercept  6.666485e+00 6.780628056  6.72493620
+## M         -5.091215e-04 2.190413243  1.14359433
+## So        -5.528720e-02 0.304861970  0.03547522
+## Ed         5.696743e-01 3.141144238  1.85848834
+## Po1       -6.053757e-04 1.440600670  0.60067372
+## Po2       -2.089450e-01 1.434842064  0.31841766
+## LF        -4.369512e-01 1.022052877  0.05933737
+## M.F       -1.982875e+00 2.173639812 -0.02702786
+## Pop       -1.261847e-01 0.004711294 -0.02248283
+## NW         0.000000e+00 0.166312567  0.06668437
+## U1        -5.379104e-01 0.334542429 -0.02456854
+## U2        -2.714111e-06 0.674291315  0.20702927
+## GDP       -6.349551e-02 1.177608641  0.20625063
+## Ineq       6.685661e-01 2.095647057  1.39012647
+## Prob      -4.077739e-01 0.000000000 -0.21536203
+## Time      -5.200025e-01 0.058718740 -0.08433479
 ## attr(,"Probability")
 ## [1] 0.95
 ## attr(,"class")
@@ -263,7 +263,7 @@
 <a class="sourceLine" id="cb24-5" data-line-number="5"><span class="kw">names</span>(BMA)</a></code></pre></div>
 <pre><code>##  [1] "fit"         "Ybma"        "Ypred"       "postprobs"   "se.fit"     
 ##  [6] "se.pred"     "se.bma.fit"  "se.bma.pred" "df"          "best"       
-## [11] "bestmodel"   "estimator"</code></pre>
+## [11] "bestmodel"   "best.vars"   "estimator"</code></pre>
 <p>Plotting the two sets of fitted values,</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">3</span>, <span class="dv">3</span>))</a>
 <a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw">plot</span>(muhat.BMA, BMA<span class="op">$</span>fit, </a>
@@ -283,19 +283,22 @@
 <a class="sourceLine" id="cb27-4" data-line-number="4">HPM<span class="op">$</span>bestmodel</a></code></pre></div>
 <pre><code>## [1]  0  1  3  4  9 11 13 14 15</code></pre>
 <p>A little more interpretable version with names:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">(crime.ZS<span class="op">$</span>namesx[HPM<span class="op">$</span>bestmodel <span class="op">+</span><span class="dv">1</span>])[<span class="op">-</span><span class="dv">1</span>]</a></code></pre></div>
-<pre><code>## [1] "M"    "Ed"   "Po1"  "NW"   "U2"   "Ineq" "Prob" "Time"</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw"><a href="../reference/variable.names.pred.bas.html">variable.names</a></span>(HPM)</a></code></pre></div>
+<pre><code>## [1] "Intercept" "M"         "Ed"        "Po1"       "NW"        "U2"       
+## [7] "Ineq"      "Prob"      "Time"</code></pre>
 <p><strong>median probability model:</strong></p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">MPM =<span class="st"> </span><span class="kw"><a href="../reference/predict.bas.html">predict</a></span>(crime.ZS, <span class="dt">estimator=</span><span class="st">"MPM"</span>)</a>
-<a class="sourceLine" id="cb31-2" data-line-number="2">(crime.ZS<span class="op">$</span>namesx[<span class="kw">attr</span>(MPM<span class="op">$</span>fit, <span class="st">'model'</span>) <span class="op">+</span><span class="dv">1</span>])[<span class="op">-</span><span class="dv">1</span>]</a></code></pre></div>
-<pre><code>## [1] "M"    "Ed"   "Po1"  "NW"   "U2"   "Ineq" "Prob"</code></pre>
+<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="kw"><a href="../reference/variable.names.pred.bas.html">variable.names</a></span>(MPM)</a></code></pre></div>
+<pre><code>## [1] "Intercept" "M"         "Ed"        "Po1"       "NW"        "U2"       
+## [7] "Ineq"      "Prob"</code></pre>
 <p>This is the model where all predictors have an inclusion probability greater than or equal to 0.5. This coincides with the HPM if the predictors are all mutually orthogonal, and in this case is the best predictive model under squared error loss.</p>
 <p>Note that we can also extract the best model from the attribute in the fitted values as well.</p>
 <p><strong>best predictive model:</strong></p>
 <p>In general, the HPM or MPM are not the best predictive models, which from a Bayesian decision theory perspective would be the model that is closest to BMA predictions under squared error loss.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">BPM =<span class="st"> </span><span class="kw"><a href="../reference/predict.bas.html">predict</a></span>(crime.ZS, <span class="dt">estimator=</span><span class="st">"BPM"</span>)</a>
-<a class="sourceLine" id="cb33-2" data-line-number="2">(crime.ZS<span class="op">$</span>namesx[<span class="kw">attr</span>(BPM<span class="op">$</span>fit, <span class="st">'model'</span>) <span class="op">+</span><span class="dv">1</span>])[<span class="op">-</span><span class="dv">1</span>]</a></code></pre></div>
-<pre><code>##  [1] "M"    "So"   "Ed"   "Po1"  "Po2"  "M.F"  "NW"   "U2"   "Ineq" "Prob"</code></pre>
+<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="kw"><a href="../reference/variable.names.pred.bas.html">variable.names</a></span>(BPM)</a></code></pre></div>
+<pre><code>##  [1] "Intercept" "M"         "So"        "Ed"        "Po1"       "Po2"      
+##  [7] "M.F"       "NW"        "U2"        "Ineq"      "Prob"</code></pre>
 <p>Let’s see how they compare:</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">GGally<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/GGally/topics/ggpairs">ggpairs</a></span>(<span class="kw">data.frame</span>(<span class="dt">HPM =</span> <span class="kw">as.vector</span>(HPM<span class="op">$</span>fit),  <span class="co">#this used predict so we need to extract fitted values</span></a>
 <a class="sourceLine" id="cb35-2" data-line-number="2">                   <span class="dt">MPM =</span> <span class="kw">as.vector</span>(MPM<span class="op">$</span>fit),  <span class="co"># this used fitted</span></a>
@@ -330,7 +333,7 @@
 <a class="sourceLine" id="cb41-7" data-line-number="7">  }</a>
 <a class="sourceLine" id="cb41-8" data-line-number="8">)</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   2.164   0.042   2.226</code></pre>
+##   1.466   0.042   1.516</code></pre>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">system.time</span>(</a>
 <a class="sourceLine" id="cb43-2" data-line-number="2">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)  {</a>
 <a class="sourceLine" id="cb43-3" data-line-number="3">    crime.ZS &lt;-<span class="st">  </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(y <span class="op">~</span><span class="st"> </span>., </a>
@@ -340,7 +343,7 @@
 <a class="sourceLine" id="cb43-7" data-line-number="7">  }</a>
 <a class="sourceLine" id="cb43-8" data-line-number="8">)</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.294   0.028   1.332</code></pre>
+##   1.050   0.028   1.087</code></pre>
 <p>which is faster for enumeration than the default method=“BAS”.</p>
 </div>
 <div id="beyond-enumeration" class="section level2">
@@ -411,7 +414,7 @@
 </tr>
 <tr class="even">
 <td>Air.Flow</td>
-<td align="right">0.999260</td>
+<td align="right">0.998935</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -420,16 +423,16 @@
 </tr>
 <tr class="odd">
 <td>Water.Temp</td>
-<td align="right">0.454585</td>
+<td align="right">0.465890</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
+<td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td>Acid.Conc.</td>
-<td align="right">0.093485</td>
+<td align="right">0.094960</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -438,7 +441,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind1</td>
-<td align="right">0.594905</td>
+<td align="right">0.608525</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -447,7 +450,7 @@
 </tr>
 <tr class="even">
 <td>out.ind2</td>
-<td align="right">0.165205</td>
+<td align="right">0.171190</td>
 <td align="right">0.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
@@ -456,7 +459,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind3</td>
-<td align="right">0.626195</td>
+<td align="right">0.637140</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -465,7 +468,7 @@
 </tr>
 <tr class="even">
 <td>out.ind4</td>
-<td align="right">0.950055</td>
+<td align="right">0.955020</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -474,7 +477,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind5</td>
-<td align="right">0.067045</td>
+<td align="right">0.064825</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -483,7 +486,7 @@
 </tr>
 <tr class="even">
 <td>out.ind6</td>
-<td align="right">0.079250</td>
+<td align="right">0.079110</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -492,7 +495,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind7</td>
-<td align="right">0.060815</td>
+<td align="right">0.063580</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -501,7 +504,7 @@
 </tr>
 <tr class="even">
 <td>out.ind8</td>
-<td align="right">0.067495</td>
+<td align="right">0.065170</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -510,7 +513,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind9</td>
-<td align="right">0.065775</td>
+<td align="right">0.066610</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -519,7 +522,7 @@
 </tr>
 <tr class="even">
 <td>out.ind10</td>
-<td align="right">0.062140</td>
+<td align="right">0.065935</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -528,7 +531,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind11</td>
-<td align="right">0.060275</td>
+<td align="right">0.064415</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -537,7 +540,7 @@
 </tr>
 <tr class="even">
 <td>out.ind12</td>
-<td align="right">0.088645</td>
+<td align="right">0.084610</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -546,7 +549,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind13</td>
-<td align="right">0.352315</td>
+<td align="right">0.350380</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
@@ -555,7 +558,7 @@
 </tr>
 <tr class="even">
 <td>out.ind14</td>
-<td align="right">0.190815</td>
+<td align="right">0.182885</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -564,7 +567,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind15</td>
-<td align="right">0.070095</td>
+<td align="right">0.068025</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -573,7 +576,7 @@
 </tr>
 <tr class="even">
 <td>out.ind16</td>
-<td align="right">0.061345</td>
+<td align="right">0.058030</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -582,7 +585,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind17</td>
-<td align="right">0.060700</td>
+<td align="right">0.068810</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -591,7 +594,7 @@
 </tr>
 <tr class="even">
 <td>out.ind18</td>
-<td align="right">0.060615</td>
+<td align="right">0.062650</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -600,7 +603,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind19</td>
-<td align="right">0.089340</td>
+<td align="right">0.094045</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -609,7 +612,7 @@
 </tr>
 <tr class="even">
 <td>out.ind20</td>
-<td align="right">0.128790</td>
+<td align="right">0.127165</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -618,7 +621,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind21</td>
-<td align="right">0.988100</td>
+<td align="right">0.985940</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -630,26 +633,26 @@
 <td align="right">NA</td>
 <td align="right">1.00000</td>
 <td align="right">0.5555328</td>
-<td align="right">0.5779604</td>
 <td align="right">0.3397571</td>
+<td align="right">0.5779604</td>
 <td align="right">0.2016282</td>
 </tr>
 <tr class="odd">
 <td>PostProbs</td>
 <td align="right">NA</td>
-<td align="right">0.06090</td>
-<td align="right">0.0227000</td>
-<td align="right">0.0227000</td>
-<td align="right">0.0216000</td>
-<td align="right">0.0195000</td>
+<td align="right">0.05870</td>
+<td align="right">0.0237000</td>
+<td align="right">0.0223000</td>
+<td align="right">0.0212000</td>
+<td align="right">0.0199000</td>
 </tr>
 <tr class="even">
 <td>R2</td>
 <td align="right">NA</td>
 <td align="right">0.98920</td>
 <td align="right">0.9922000</td>
-<td align="right">0.9923000</td>
 <td align="right">0.9873000</td>
+<td align="right">0.9923000</td>
 <td align="right">0.9803000</td>
 </tr>
 <tr class="odd">
@@ -657,8 +660,8 @@
 <td align="right">NA</td>
 <td align="right">7.00000</td>
 <td align="right">8.0000000</td>
-<td align="right">8.0000000</td>
 <td align="right">7.0000000</td>
+<td align="right">8.0000000</td>
 <td align="right">6.0000000</td>
 </tr>
 <tr class="even">
@@ -666,8 +669,8 @@
 <td align="right">NA</td>
 <td align="right">23.82319</td>
 <td align="right">23.2353597</td>
-<td align="right">23.2749373</td>
 <td align="right">22.7436630</td>
+<td align="right">23.2749373</td>
 <td align="right">22.2218573</td>
 </tr>
 </tbody>
@@ -755,7 +758,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Merlise Clyde.</p>
+  <p>Developed by <a href="http://stat.duke.edu/~clyde">Merlise Clyde</a>.</p>
 </div>
 
 <div class="pkgdown">

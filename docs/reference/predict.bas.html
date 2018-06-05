@@ -21,13 +21,16 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 <!-- docsearch -->
+<script src="../docsearch.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
@@ -38,6 +41,7 @@
 <meta property="og:description" content="Predictions under model averaging or other estimators from a BMA object of
 class inheriting from 'bas'." />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -64,7 +68,7 @@ class inheriting from 'bas'." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BAS</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.1</span>
       </span>
     </div>
 
@@ -180,16 +184,26 @@ The default is to predict NA.</p></td>
     <p>a list of</p>
 <dt>fit</dt><dd><p>fitted values based on the selected estimator</p></dd>
 <dt>Ybma</dt><dd><p>predictions using BMA, the same as fit for non-BMA methods for
-compatabilty; will be deprecated</p></dd> <dt>Ypred</dt><dd><p>matrix of predictions under
-each model for BMA</p></dd> <dt>se.fit</dt><dd><p>se of fitted values; in the case of BMA
-this will be a matrix</p></dd> <dt>se.pred</dt><dd><p>se for predicted values; in the case
-of BMA this will be a matrix</p></dd> <dt>se.bma.fit</dt><dd><p>vector of posterior sd under
-BMA for posterior mean of the regression function. this will be NULL if
-estimator is not 'BMA'</p></dd> <dt>se.bma.pred</dt><dd><p>vector of posterior sd under BMA
+compatabilty; will be deprecated</p></dd>
+<dt>Ypred</dt><dd><p>matrix of predictions under
+each model for BMA</p></dd>
+<dt>se.fit</dt><dd><p>se of fitted values; in the case of BMA
+this will be a matrix</p></dd>
+ <dt>se.pred</dt><dd><p>se for predicted values; in the case
+of BMA this will be a matrix</p></dd>
+ <dt>se.bma.fit</dt><dd><p>vector of posterior sd under
+BMA for posterior mean of the regression function.
+This will be NULL if estimator is not 'BMA'</p></dd>
+<dt>se.bma.pred</dt><dd><p>vector of posterior sd under BMA
 for posterior predictive values.  this will be NULL if estimator is not
-'BMA'</p></dd> <dt>best</dt><dd><p>index of top models included</p></dd> <dt>bestmodels</dt><dd><p>subset of
-bestmodels used for fitting or prediction</p></dd> <dt>df</dt><dd><p>scalar or vector of
-degrees of freedom for models</p></dd> <dt>estimator</dt><dd><p>estimator upon which 'fit'
+'BMA'</p></dd>
+ <dt>best</dt><dd><p>index of top models included</p></dd>
+ <dt>bestmodels</dt><dd><p>subset of
+bestmodels used for fitting or prediction</p></dd>
+<dt>best.vars</dt><dd><p>names of variables in the top model; NULL if estimator='BMA'</p></dd>
+<dt>df</dt><dd><p>scalar or vector of
+degrees of freedom for models</p></dd>
+ <dt>estimator</dt><dd><p>estimator upon which 'fit'
 is based.</p></dd>
 
     
@@ -201,16 +215,18 @@ probability models.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='bas.lm.html'>bas</a></code>, <code><a href='fitted.html'>fitted.bas</a></code>,
-<code><a href='confint.pred.html'>confint.pred.bas</a></code></p>
+<code><a href='confint.pred.html'>confint.pred.bas</a></code>,  <code><a href='variable.names.pred.bas.html'>variable.names.pred.bas</a></code></p>
 <p>Other predict methods: <code><a href='fitted.html'>fitted.bas</a></code>,
-  <code><a href='predict.basglm.html'>predict.basglm</a></code></p>
+  <code><a href='predict.basglm.html'>predict.basglm</a></code>,
+  <code><a href='variable.names.pred.bas.html'>variable.names.pred.bas</a></code></p>
 <p>Other bas methods: <code><a href='BAS.html'>BAS</a></code>, <code><a href='bas.lm.html'>bas.lm</a></code>,
   <code><a href='coef.html'>coef.bas</a></code>, <code><a href='confint.coef.html'>confint.coef.bas</a></code>,
   <code><a href='confint.pred.html'>confint.pred.bas</a></code>,
   <code><a href='diagnostics.html'>diagnostics</a></code>, <code><a href='fitted.html'>fitted.bas</a></code>,
   <code><a href='force.heredity.bas.html'>force.heredity.bas</a></code>,
   <code><a href='image.bas.html'>image.bas</a></code>, <code><a href='predict.basglm.html'>predict.basglm</a></code>,
-  <code><a href='summary.html'>summary.bas</a></code>, <code><a href='update.html'>update.bas</a></code></p></div>
+  <code><a href='summary.html'>summary.bas</a></code>, <code><a href='update.html'>update.bas</a></code>,
+  <code><a href='variable.names.pred.bas.html'>variable.names.pred.bas</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -224,7 +240,9 @@ probability models.</p>
 #&gt; attr(,"model")
 #&gt; [1] 0 1 2 4
 #&gt; attr(,"best")
-#&gt; [1] 13
+#&gt; [1] 12
+#&gt; attr(,"estimator")
+#&gt; [1] "BPM"
 #&gt; 
 #&gt; $Ybma
 #&gt;            [,1]
@@ -306,10 +324,13 @@ probability models.</p>
 #&gt; [1] 12
 #&gt; 
 #&gt; $best
-#&gt; [1] 13
+#&gt; [1] 12
 #&gt; 
 #&gt; $bestmodel
 #&gt; [1] 0 1 2 4
+#&gt; 
+#&gt; $best.vars
+#&gt; [1] "Intercept" "X1"        "X2"        "X4"       
 #&gt; 
 #&gt; $estimator
 #&gt; [1] "BPM"
@@ -317,36 +338,36 @@ probability models.</p>
 #&gt; attr(,"class")
 #&gt; [1] "pred.bas"</div><div class='input'><span class='co'># same as fitted</span>
 <span class='fu'><a href='fitted.html'>fitted</a></span>(<span class='no'>hald.gprior</span>,<span class='kw'>estimator</span><span class='kw'>=</span><span class='st'>"BPM"</span>)</div><div class='output co'>#&gt;  [1]  79.65151  74.47846 105.42183  89.83174  95.62799 104.59616 103.50684
-#&gt;  [8]  77.00839  92.07571 114.10876  82.68233 111.04286 110.46741</div><div class='input'>
-<span class='co'># default is BMA and estimation of mean vector</span>
+#&gt;  [8]  77.00839  92.07571 114.10876  82.68233 111.04286 110.46741</div><div class='input'><span class='co'># default is BMA and estimation of mean vector</span>
 <span class='no'>hald.bma</span> <span class='kw'>=</span> <span class='fu'>predict</span>(<span class='no'>hald.gprior</span>, <span class='kw'>top</span><span class='kw'>=</span><span class='fl'>5</span>, <span class='kw'>se.fit</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='fu'><a href='confint.coef.html'>confint</a></span>(<span class='no'>hald.bma</span>)</div><div class='output co'>#&gt;            2.5%     97.5%      pred
-#&gt;  [1,]  67.50869  90.89751  79.74246
-#&gt;  [2,]  63.51741  85.90535  74.50010
-#&gt;  [3,]  94.45597 115.96962 105.29268
-#&gt;  [4,]  78.40656 100.53861  89.88693
-#&gt;  [5,]  84.65244 106.39548  95.57177
-#&gt;  [6,]  94.45426 115.26224 104.56409
-#&gt;  [7,]  92.00230 114.57936 103.40145
-#&gt;  [8,]  65.66313  88.23670  77.13668
-#&gt;  [9,]  80.80259 102.52335  91.99731
-#&gt; [10,] 101.94716 126.77018 114.21325
-#&gt; [11,]  71.26161  93.77054  82.78446
-#&gt; [12,] 100.26404 122.37865 111.00723
-#&gt; [13,]  98.84680 120.84350 110.40160
+#&gt;  [1,]  67.72751  91.65451  79.74246
+#&gt;  [2,]  63.02483  85.06608  74.50010
+#&gt;  [3,]  94.41736 116.10727 105.29268
+#&gt;  [4,]  78.75412 100.65951  89.88693
+#&gt;  [5,]  84.89922 107.08421  95.57177
+#&gt;  [6,]  94.18207 115.13782 104.56409
+#&gt;  [7,]  91.90804 114.41929 103.40145
+#&gt;  [8,]  65.96953  88.65960  77.13668
+#&gt;  [9,]  80.38679 102.12147  91.99731
+#&gt; [10,] 101.83466 126.79984 114.21325
+#&gt; [11,]  72.11446  94.01475  82.78446
+#&gt; [12,] 100.17141 121.98928 111.00723
+#&gt; [13,]  98.65325 120.81543 110.40160
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
 #&gt; [1] "confint.bas"</div><div class='input'>
-<span class='no'>hald.BPM</span> <span class='kw'>=</span> <span class='fu'>predict</span>(<span class='no'>hald.gprior</span>, <span class='kw'>newdata</span><span class='kw'>=</span><span class='no'>Hald</span>[<span class='fl'>1</span>,],
+<span class='no'>hald.bpm</span> <span class='kw'>=</span> <span class='fu'>predict</span>(<span class='no'>hald.gprior</span>, <span class='kw'>newdata</span><span class='kw'>=</span><span class='no'>Hald</span>[<span class='fl'>1</span>,],
                     <span class='kw'>se.fit</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
                     <span class='kw'>estimator</span><span class='kw'>=</span><span class='st'>"BPM"</span>)
-<span class='fu'><a href='confint.coef.html'>confint</a></span>(<span class='no'>hald.BPM</span>)</div><div class='output co'>#&gt;          2.5%    97.5%     pred
+<span class='fu'><a href='confint.coef.html'>confint</a></span>(<span class='no'>hald.bpm</span>)</div><div class='output co'>#&gt;          2.5%    97.5%     pred
 #&gt; [1,] 67.74454 91.66421 79.70437
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
-#&gt; [1] "confint.bas"</div><div class='input'>
+#&gt; [1] "confint.bas"</div><div class='input'><span class='co'># extract variables</span>
+<span class='fu'><a href='variable.names.pred.bas.html'>variable.names</a></span>(<span class='no'>hald.bpm</span>)</div><div class='output co'>#&gt; <span class='error'>Error in variable.names.pred.bas(hald.bpm): object 'obj' not found</span></div><div class='input'>
 <span class='no'>hald.hpm</span> <span class='kw'>=</span> <span class='fu'>predict</span>(<span class='no'>hald.gprior</span>, <span class='kw'>newdata</span><span class='kw'>=</span><span class='no'>Hald</span>[<span class='fl'>1</span>,],
                     <span class='kw'>se.fit</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
                     <span class='kw'>estimator</span><span class='kw'>=</span><span class='st'>"HPM"</span>)
@@ -355,7 +376,7 @@ probability models.</p>
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
-#&gt; [1] "confint.bas"</div><div class='input'>
+#&gt; [1] "confint.bas"</div><div class='input'><span class='fu'><a href='variable.names.pred.bas.html'>variable.names</a></span>(<span class='no'>hald.hpm</span>)</div><div class='output co'>#&gt; <span class='error'>Error in variable.names.pred.bas(hald.hpm): object 'obj' not found</span></div><div class='input'>
 <span class='no'>hald.mpm</span> <span class='kw'>=</span> <span class='fu'>predict</span>(<span class='no'>hald.gprior</span>, <span class='kw'>newdata</span><span class='kw'>=</span><span class='no'>Hald</span>[<span class='fl'>1</span>,],
                     <span class='kw'>se.fit</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
                     <span class='kw'>estimator</span><span class='kw'>=</span><span class='st'>"MPM"</span>)
@@ -364,7 +385,7 @@ probability models.</p>
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
-#&gt; [1] "confint.bas"</div><div class='input'>
+#&gt; [1] "confint.bas"</div><div class='input'><span class='fu'><a href='variable.names.pred.bas.html'>variable.names</a></span>(<span class='no'>hald.mpm</span>)</div><div class='output co'>#&gt; <span class='error'>Error in variable.names.pred.bas(hald.mpm): object 'obj' not found</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -390,7 +411,7 @@ Merlise Clyde
 
       <footer>
       <div class="copyright">
-  <p>Developed by Merlise Clyde.</p>
+  <p>Developed by <a href='http://stat.duke.edu/~clyde'>Merlise Clyde</a>.</p>
 </div>
 
 <div class="pkgdown">

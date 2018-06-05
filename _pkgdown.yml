@@ -50,6 +50,7 @@ reference:
   - '`print.bas`'
   - '`summary.bas`'
   - '`update.bas`'
+  - '`variable.names`'
 - title: "coefficient priors"
   desc: ~
   contents:
