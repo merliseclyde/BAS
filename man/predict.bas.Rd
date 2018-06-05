@@ -36,18 +36,29 @@ The default is to predict NA.}
 \item{...}{optional extra arguments}
 }
 \value{
-a list of \item{fit}{fitted values based on the selected estimator}
+a list of
+\item{fit}{fitted values based on the selected estimator}
 \item{Ybma}{predictions using BMA, the same as fit for non-BMA methods for
-compatabilty; will be deprecated} \item{Ypred}{matrix of predictions under
-each model for BMA} \item{se.fit}{se of fitted values; in the case of BMA
-this will be a matrix} \item{se.pred}{se for predicted values; in the case
-of BMA this will be a matrix} \item{se.bma.fit}{vector of posterior sd under
-BMA for posterior mean of the regression function. this will be NULL if
-estimator is not 'BMA'} \item{se.bma.pred}{vector of posterior sd under BMA
+compatabilty; will be deprecated}
+\item{Ypred}{matrix of predictions under
+each model for BMA}
+\item{se.fit}{se of fitted values; in the case of BMA
+this will be a matrix}
+ \item{se.pred}{se for predicted values; in the case
+of BMA this will be a matrix}
+ \item{se.bma.fit}{vector of posterior sd under
+BMA for posterior mean of the regression function.
+This will be NULL if estimator is not 'BMA'}
+\item{se.bma.pred}{vector of posterior sd under BMA
 for posterior predictive values.  this will be NULL if estimator is not
-'BMA'} \item{best}{index of top models included} \item{bestmodels}{subset of
-bestmodels used for fitting or prediction} \item{df}{scalar or vector of
-degrees of freedom for models} \item{estimator}{estimator upon which 'fit'
+'BMA'}
+ \item{best}{index of top models included}
+ \item{bestmodels}{subset of
+bestmodels used for fitting or prediction}
+\item{best.vars}{names of variables in the top model; NULL if estimator='BMA'}
+\item{df}{scalar or vector of
+degrees of freedom for models}
+ \item{estimator}{estimator upon which 'fit'
 is based.}
 }
 \description{
@@ -66,33 +77,37 @@ hald.gprior =  bas.lm(Y ~ ., data=Hald, alpha=13, prior="g-prior")
 predict(hald.gprior, newdata=Hald, estimator="BPM", se.fit=TRUE)
 # same as fitted
 fitted(hald.gprior,estimator="BPM")
-
 # default is BMA and estimation of mean vector
 hald.bma = predict(hald.gprior, top=5, se.fit=TRUE)
 confint(hald.bma)
 
-hald.BPM = predict(hald.gprior, newdata=Hald[1,],
+hald.bpm = predict(hald.gprior, newdata=Hald[1,],
                     se.fit=TRUE,
                     estimator="BPM")
-confint(hald.BPM)
+confint(hald.bpm)
+# extract variables
+variable.namesl(hald.bpm)
 
 hald.hpm = predict(hald.gprior, newdata=Hald[1,],
                     se.fit=TRUE,
                     estimator="HPM")
 confint(hald.hpm)
+variable.names(hald.hpm)
 
 hald.mpm = predict(hald.gprior, newdata=Hald[1,],
                     se.fit=TRUE,
                     estimator="MPM")
 confint(hald.mpm)
+variable.names(hald.mpm)
 
 }
 \seealso{
 \code{\link{bas}}, \code{\link{fitted.bas}},
-\code{\link{confint.pred.bas}}
+\code{\link{confint.pred.bas}},  \code{\link{variable.names.pred.bas}}
 
 Other predict methods: \code{\link{fitted.bas}},
-  \code{\link{predict.basglm}}
+  \code{\link{predict.basglm}},
+  \code{\link{variable.names.pred.bas}}
 
 Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
   \code{\link{coef.bas}}, \code{\link{confint.coef.bas}},
@@ -100,7 +115,8 @@ Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
   \code{\link{diagnostics}}, \code{\link{fitted.bas}},
   \code{\link{force.heredity.bas}},
   \code{\link{image.bas}}, \code{\link{predict.basglm}},
-  \code{\link{summary.bas}}, \code{\link{update.bas}}
+  \code{\link{summary.bas}}, \code{\link{update.bas}},
+  \code{\link{variable.names.pred.bas}}
 }
 \author{
 Merlise Clyde

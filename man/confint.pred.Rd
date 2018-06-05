@@ -55,7 +55,8 @@ Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
   \code{\link{force.heredity.bas}},
   \code{\link{image.bas}}, \code{\link{predict.basglm}},
   \code{\link{predict.bas}}, \code{\link{summary.bas}},
-  \code{\link{update.bas}}
+  \code{\link{update.bas}},
+  \code{\link{variable.names.pred.bas}}
 
 Other CI methods: \code{\link{confint.coef.bas}},
   \code{\link{plot.confint.bas}}

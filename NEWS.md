@@ -1,5 +1,9 @@
 # BAS 1.5.1  
 
+## Features
+
+* added S3 method `variable.names` to extract variable names in the highest probability model, median probability
+model, and best probability model for objects created by `predict`.
 
 ## Bugs
 

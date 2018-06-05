@@ -355,7 +355,8 @@ Other bas methods: \code{\link{BAS}},
   \code{\link{force.heredity.bas}},
   \code{\link{image.bas}}, \code{\link{predict.basglm}},
   \code{\link{predict.bas}}, \code{\link{summary.bas}},
-  \code{\link{update.bas}}
+  \code{\link{update.bas}},
+  \code{\link{variable.names.pred.bas}}
 }
 \author{
 Merlise Clyde (\email{clyde@duke.edu}) and Michael Littman

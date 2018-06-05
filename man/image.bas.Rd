@@ -84,7 +84,8 @@ Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
   \code{\link{diagnostics}}, \code{\link{fitted.bas}},
   \code{\link{force.heredity.bas}},
   \code{\link{predict.basglm}}, \code{\link{predict.bas}},
-  \code{\link{summary.bas}}, \code{\link{update.bas}}
+  \code{\link{summary.bas}}, \code{\link{update.bas}},
+  \code{\link{variable.names.pred.bas}}
 
 Other bas plots: \code{\link{plot.bas}},
   \code{\link{plot.coef.bas}}

@@ -63,7 +63,8 @@ Other bas methods: \code{\link{bas.lm}},
   \code{\link{force.heredity.bas}},
   \code{\link{image.bas}}, \code{\link{predict.basglm}},
   \code{\link{predict.bas}}, \code{\link{summary.bas}},
-  \code{\link{update.bas}}
+  \code{\link{update.bas}},
+  \code{\link{variable.names.pred.bas}}
 }
 \author{
 Merlise Clyde, \cr Maintainer: Merlise Clyde <clyde@stat.duke.edu>

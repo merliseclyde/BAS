@@ -44,8 +44,8 @@ The default is to predict NA.}
 }
 \value{
 a list of
- \item{Ybma}{predictions using BMA}
- \item{Ypred}{matrix of predictions under each model}
+ \item{fit}{predictions using BMA or other estimators}
+ \item{Ypred}{matrix of predictions under model(s)}
  \item{postprobs}{renormalized probabilities of
 the top models}
 \item{best}{index of top models included}
@@ -67,9 +67,9 @@ BMA due to the  nonlinear transformation under the inverse link.
 }
 \examples{
 
-library(MASS)
-data(Pima.tr)
-data(Pima.te)
+
+data(Pima.tr, package="MASS")
+data(Pima.te, package="MASS")
 Pima.bas = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7, method="BAS",
            betaprior=CCH(a=1, b=nrow(Pima.tr)/2, s=0), family=binomial(),
            modelprior=uniform())
@@ -82,7 +82,8 @@ Pima.bas = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7, method="BAS",
 \code{\link{fitted.bas}}
 
 Other predict methods: \code{\link{fitted.bas}},
-  \code{\link{predict.bas}}
+  \code{\link{predict.bas}},
+  \code{\link{variable.names.pred.bas}}
 
 Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
   \code{\link{coef.bas}}, \code{\link{confint.coef.bas}},
@@ -90,7 +91,8 @@ Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
   \code{\link{diagnostics}}, \code{\link{fitted.bas}},
   \code{\link{force.heredity.bas}},
   \code{\link{image.bas}}, \code{\link{predict.bas}},
-  \code{\link{summary.bas}}, \code{\link{update.bas}}
+  \code{\link{summary.bas}}, \code{\link{update.bas}},
+  \code{\link{variable.names.pred.bas}}
 }
 \author{
 Merlise Clyde

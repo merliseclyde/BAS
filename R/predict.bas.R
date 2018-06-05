@@ -28,8 +28,8 @@
 #' The default is to predict NA.
 #' @param ... optional extra arguments
 #' @return a list of
-#'  \item{Ybma}{predictions using BMA}
-#'  \item{Ypred}{matrix of predictions under each model}
+#'  \item{fit}{predictions using BMA or other estimators}
+#'  \item{Ypred}{matrix of predictions under model(s)}
 #'  \item{postprobs}{renormalized probabilities of
 #' the top models}
 #' \item{best}{index of top models included}
@@ -49,9 +49,9 @@
 #' @keywords regression
 #' @examples
 #'
-#' library(MASS)
-#' data(Pima.tr)
-#' data(Pima.te)
+#'
+#' data(Pima.tr, package="MASS")
+#' data(Pima.te, package="MASS")
 #' Pima.bas = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7, method="BAS",
 #'            betaprior=CCH(a=1, b=nrow(Pima.tr)/2, s=0), family=binomial(),
 #'            modelprior=uniform())
@@ -138,22 +138,33 @@ predict.basglm = function(object, newdata, se.fit=FALSE,
 #' @param na.action  function determining what should be done with missing values in newdata.
 #' The default is to predict NA.
 #' @param ... optional extra arguments
-#' @return a list of \item{fit}{fitted values based on the selected estimator}
+#' @return a list of
+#' \item{fit}{fitted values based on the selected estimator}
 #' \item{Ybma}{predictions using BMA, the same as fit for non-BMA methods for
-#' compatabilty; will be deprecated} \item{Ypred}{matrix of predictions under
-#' each model for BMA} \item{se.fit}{se of fitted values; in the case of BMA
-#' this will be a matrix} \item{se.pred}{se for predicted values; in the case
-#' of BMA this will be a matrix} \item{se.bma.fit}{vector of posterior sd under
-#' BMA for posterior mean of the regression function. this will be NULL if
-#' estimator is not 'BMA'} \item{se.bma.pred}{vector of posterior sd under BMA
+#' compatabilty; will be deprecated}
+#' \item{Ypred}{matrix of predictions under
+#' each model for BMA}
+#' \item{se.fit}{se of fitted values; in the case of BMA
+#' this will be a matrix}
+#'  \item{se.pred}{se for predicted values; in the case
+#' of BMA this will be a matrix}
+#'  \item{se.bma.fit}{vector of posterior sd under
+#' BMA for posterior mean of the regression function.
+#' This will be NULL if estimator is not 'BMA'}
+#' \item{se.bma.pred}{vector of posterior sd under BMA
 #' for posterior predictive values.  this will be NULL if estimator is not
-#' 'BMA'} \item{best}{index of top models included} \item{bestmodels}{subset of
-#' bestmodels used for fitting or prediction} \item{df}{scalar or vector of
-#' degrees of freedom for models} \item{estimator}{estimator upon which 'fit'
+#' 'BMA'}
+#'  \item{best}{index of top models included}
+#'  \item{bestmodels}{subset of
+#' bestmodels used for fitting or prediction}
+#' \item{best.vars}{names of variables in the top model; NULL if estimator='BMA'}
+#' \item{df}{scalar or vector of
+#' degrees of freedom for models}
+#'  \item{estimator}{estimator upon which 'fit'
 #' is based.}
 #' @author Merlise Clyde
 #' @seealso \code{\link{bas}}, \code{\link{fitted.bas}},
-#' \code{\link{confint.pred.bas}}
+#' \code{\link{confint.pred.bas}},  \code{\link{variable.names.pred.bas}}
 #' @keywords regression
 #' @examples
 #'
@@ -163,25 +174,28 @@ predict.basglm = function(object, newdata, se.fit=FALSE,
 #' predict(hald.gprior, newdata=Hald, estimator="BPM", se.fit=TRUE)
 #' # same as fitted
 #' fitted(hald.gprior,estimator="BPM")
-#'
 #' # default is BMA and estimation of mean vector
 #' hald.bma = predict(hald.gprior, top=5, se.fit=TRUE)
 #' confint(hald.bma)
 #'
-#' hald.BPM = predict(hald.gprior, newdata=Hald[1,],
+#' hald.bpm = predict(hald.gprior, newdata=Hald[1,],
 #'                     se.fit=TRUE,
 #'                     estimator="BPM")
-#' confint(hald.BPM)
+#' confint(hald.bpm)
+#' # extract variables
+#' variable.namesl(hald.bpm)
 #'
 #' hald.hpm = predict(hald.gprior, newdata=Hald[1,],
 #'                     se.fit=TRUE,
 #'                     estimator="HPM")
 #' confint(hald.hpm)
+#' variable.names(hald.hpm)
 #'
 #' hald.mpm = predict(hald.gprior, newdata=Hald[1,],
 #'                     se.fit=TRUE,
 #'                     estimator="MPM")
 #' confint(hald.mpm)
+#' variable.names(hald.mpm)
 #'
 #' @rdname predict.bas
 #' @family predict methods
@@ -262,7 +276,9 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
       else {
         fit = rep(nrow(newX), 1) * as.numeric(object$mle[object$size == 1])}
       models=bestmodel
-      attributes(fit) = list(model = models, best=best)
+      attributes(fit) = list(model = models,
+                             best=best,
+                             estimator=estimator)
 
       Ybma = fit
       Ypred = NULL
@@ -303,7 +319,9 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
   fit = Ybma
   if (estimator == "HPM") {
     models = unlist(object$which[best])
-    attributes(fit) = list(model = models, best=best)
+    attributes(fit) = list(model = models,
+                           best=best,
+                           estimator=estimator)
   }
   if (estimator=="BPM") {
 #    browser()
@@ -318,7 +336,8 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
     best = best[bestBPM]
     df = df[best]
     attributes(fit) = list(model = models,
-                            best = best)
+                           best = best,
+                          estimator=estimator)
    }
 
 }
@@ -335,11 +354,15 @@ predict.bas = function(object, newdata, se.fit=FALSE, type="link",
 
   }
 
+  best.vars = object$namesx   # BMA case
+  if (!is.list(models))  best.vars = object$namesx[models + 1]
+
+
   out = list(fit=fit, Ybma=Ybma, Ypred=Ypred, postprobs=postprobs,
              se.fit=se$se.fit, se.pred=se$se.pred,
              se.bma.fit=se$se.bma.fit, se.bma.pred=se$se.bma.pred,
              df=df,
-             best=best, bestmodel=models,
+             best=best, bestmodel=models, best.vars=best.vars,
              estimator=estimator)
 
   class(out) = 'pred.bas'
@@ -527,3 +550,29 @@ return(list(se.bma.fit = se.fit, se.bma.pred=se.pred,
             se.fit=t(sqrt(var.fit)), se.pred=t(sqrt(var.pred)),
             residual.scale=sqrt(bayes_mse)))
 }
+
+#' Extract the variable names for a model from a BAS prediction object
+#'
+#' @description S3 method for class 'pred.bas'.  Simple utility
+#' function to extract the variable names.  Used to print names
+#' for the selected models using estimators for 'HPM', 'MPM' or 'BPM".
+#' for the selected model created by \code{predict} for BAS
+#' objects.
+#' @param obj a BAS object created by \code{predict} from a BAS
+#' `bas.lm` or `bas.glm` object
+#' @return a character vector with the names of the variables
+#' included in the selected model; in the case of 'BMA' this will
+#' be all variables
+#' @seealso \code{\link{predict.bas}}
+#' @method variable.names pred.bas
+#' @rdname variable.names.pred.bas
+#' @aliases variable.names.pred.bas variable.names
+#' @family predict methods
+#' @family bas methods
+#' @export
+#'
+variable.names.pred.bas = function(obj, ...) {
+ if (class(obj) == 'pred.bas')
+   obj$best.vars
+}
+
