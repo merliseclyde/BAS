@@ -560,6 +560,7 @@ return(list(se.bma.fit = se.fit, se.bma.pred=se.pred,
 #' objects.
 #' @param object a BAS object created by \code{predict} from a BAS
 #' `bas.lm` or `bas.glm` object
+#' @param ...  other arguments to pass on
 #' @return a character vector with the names of the variables
 #' included in the selected model; in the case of 'BMA' this will
 #' be all variables

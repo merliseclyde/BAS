@@ -10,6 +10,8 @@
 \arguments{
 \item{object}{a BAS object created by \code{predict} from a BAS
 `bas.lm` or `bas.glm` object}
+
+\item{...}{other arguments to pass on}
 }
 \value{
 a character vector with the names of the variables
