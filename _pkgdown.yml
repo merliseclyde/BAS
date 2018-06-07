@@ -1,5 +1,5 @@
 url:  http://merliseclyde.github.io/BAS/
-
+development: release
 template:
   params:
     bootswatch: cosmo
