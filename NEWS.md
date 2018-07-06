@@ -1,6 +1,6 @@
 # BAS 1.5.2  
 
-nothing yet
+nothing yet  working on interactions!
 
 # BAS 1.5.1  June 6, 2018
 
