@@ -33,7 +33,7 @@ Laplace approximation.
 
 The stable version can be installed easily in the `R` console like any other package:
 
-```r
+```{r install, eval=FALSE}
 install.packages('BAS')
 ```
 
@@ -44,8 +44,8 @@ development version from [GitHub](https://github.com/merliseclyde),
 use the `devtools` package from
 [CRAN](https://cran.r-project.org/package=devtools) and enter in `R`:
 
-```r
-# devtools::install_github('merliseclyde/BAS')
+```{r devtools, eval=FALSE}
+devtools::install_github('merliseclyde/BAS')
 ```
 
 As the package does depend on BLAS and LAPACK, installing from GitHub will require that you have FORTRAN and C compilers on your system.  
@@ -55,8 +55,7 @@ As the package does depend on BLAS and LAPACK, installing from GitHub will requi
 We will use the UScrime data to illustrate some of the commands and functionality.
 
 ```{r data}
-library(MASS)
-data(UScrime)
+data(UScrime, package='MASS')
 ```
 
 Following other analyses, we will go ahead and log transform all of the variables except column 2, which is the indicator variable of the state being a southern state.

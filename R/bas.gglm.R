@@ -177,7 +177,7 @@
 #' values of the Wald Chisquared statistic.
 #' @param renormalize logical variable for whether posterior probabilities
 #' should be based on renormalizing marginal likelihoods times prior
-#' probabilities or use Monte Carlo frequencies. Applies only to MCMC sampling
+#' probabilities or use Monte Carlo frequencies. Applies only to MCMC sampling.
 #' @return \code{bas.glm} returns an object of class \code{basglm}
 #'
 #' An object of class \code{basglm} is a list containing at least the following
@@ -339,11 +339,20 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
 	n.models <- .normalize.n.models(n.models, p, prob, method)
 	modelprior <- .normalize.modelprior(modelprior,p)
 
+	parents = make.parents.of.interactions(mf, data)
+
+	# check to see if really necessary
+	if (sum(parents) == nrow(parents)) {
+	  parents = matrix(1,1,1)
+	  force.heredity = FALSE}
+
+	# fix to insure bestmodel respects heredity
 
   	#int = TRUE  # assume that an intercept is always included
     	if (is.null(bestmodel)) {
     		bestmodel = as.integer(prob)
 	}
+
 
   	if (is.null(update)) {
     		if (n.models == 2^(p-1))  update = n.models+1
@@ -380,7 +389,9 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
                     Rbestmodel= bestmodel,
                     plocal=as.numeric(1.0 - prob.rw),
                     BURNIN_Iterations = as.integer(MCMC.iterations),
-                    family = family, Rcontrol = control, Rlaplace=as.integer(laplace)),
+                    family = family, Rcontrol = control,
+                    Rlaplace=as.integer(laplace),
+                    Rparents = as.integer(parents)),
             "BAS" = .Call(C_glm_sampleworep,
       		Y = Yvec, X = X,
                     Roffset = as.numeric(offset), Rweights = as.numeric(weights),

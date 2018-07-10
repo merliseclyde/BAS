@@ -774,42 +774,6 @@ SEXP amcmc(SEXP Y, SEXP X,  SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP 
   return(ANS);
 }
 
-double random_walk(int *model, struct Var *vars, int n) {
-  int index;
-      index = ftrunc(n*unif_rand());
-      model[vars[index].index] = 1 - model[vars[index].index];
-      return(1.0);
- }
-
-double random_switch(int *model, struct Var *vars, int n, int pmodel, int *varin, int *varout) {
-  int  j, k, swapin, swapout, num_to_swap_in, num_to_swap_out;
-
-
-      j = 0; k = 0;
-      while (j < n && k < pmodel)
-        {
-	  if (model[vars[j].index]==1) {varin[k] = vars[j].index; k++;}
-	  j++ ;
-	}
-      num_to_swap_in = k;
-      j = 0; k = 0;
-
-      while (j< n)
-        {
-	  if (model[vars[j].index]==0) {varout[k] = vars[j].index; k++;}
-	  j++ ;
-        }
-      num_to_swap_out = k;
-
-      swapin = ftrunc(unif_rand()*num_to_swap_in);    // swapin :corresponds to position of randomly chosen included variable
-      swapout = ftrunc(unif_rand()*num_to_swap_out);  // swapout :corresponds to position of randomly chosen excluded variable
-
-      model[varin[swapin]] = 0;
-      model[varout[swapout]] =1;
-
-
-    return(1.0);
-}
 
 
 double cond_prob(double *model, int j, int n, double *mean, double *beta_matrix , double delta) {

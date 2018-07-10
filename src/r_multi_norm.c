@@ -14,8 +14,8 @@
    Sigma: covaraince vector, p by p non-singular symmetric matrix
    x: p by n, each column is a sample
 */
-/* for matirx calculation */
-static const char *TRANSYES = "T", *TRANSNO = "N", *UPLO = "U";
+/* for matrix calculation */
+static const char  *TRANSNO = "N", *UPLO = "U";
 static const double ONE = 1.0, ZERO = 0.0;
 
 void r_multi_norm(int *p, int *n, double *Mu, double *Sigma, double *x)

@@ -1,6 +1,13 @@
 # BAS 1.5.2  
 
-nothing yet  working on interactions!
+## Features
+
+* Added option to force lower order terms to be included if higher order terms are present (hierarchical constraint).  Currently only with 
+`method='MCMC' and random-walk proposal for `bas.lm`
+
+## Bugs
+
+* corrected count for first model with `method='MCMC'` which lead to potential model with 0 probabiliy and errors in `image`.
 
 # BAS 1.5.1  June 6, 2018
 

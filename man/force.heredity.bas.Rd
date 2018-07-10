@@ -35,6 +35,13 @@ image(bas.hald.int)
 
 image(bas.hald.int)
 
+# two-way interactions
+data(ToothGrowth)
+ToothGrowth$dose = factor(ToothGrowth$dose)
+levels(ToothGrowth$dose) = c("Low", "Medium", "High")
+TG.bas = bas.lm(len ~ supp*dose, data=ToothGrowth, modelprior=uniform())
+TG.bas.int = force.heredity.bas(TG.bas)
+image(TG.bas.int)
 
 }
 \seealso{

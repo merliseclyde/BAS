@@ -68,7 +68,7 @@ class inheriting from 'bas'." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BAS</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.2</span>
       </span>
     </div>
 
@@ -240,7 +240,7 @@ probability models.</p>
 #&gt; attr(,"model")
 #&gt; [1] 0 1 2 4
 #&gt; attr(,"best")
-#&gt; [1] 12
+#&gt; [1] 14
 #&gt; attr(,"estimator")
 #&gt; [1] "BPM"
 #&gt; 
@@ -324,7 +324,7 @@ probability models.</p>
 #&gt; [1] 12
 #&gt; 
 #&gt; $best
-#&gt; [1] 12
+#&gt; [1] 14
 #&gt; 
 #&gt; $bestmodel
 #&gt; [1] 0 1 2 4
@@ -341,19 +341,19 @@ probability models.</p>
 #&gt;  [8]  77.00839  92.07571 114.10876  82.68233 111.04286 110.46741</div><div class='input'><span class='co'># default is BMA and estimation of mean vector</span>
 <span class='no'>hald.bma</span> <span class='kw'>=</span> <span class='fu'>predict</span>(<span class='no'>hald.gprior</span>, <span class='kw'>top</span><span class='kw'>=</span><span class='fl'>5</span>, <span class='kw'>se.fit</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='fu'><a href='confint.coef.html'>confint</a></span>(<span class='no'>hald.bma</span>)</div><div class='output co'>#&gt;            2.5%     97.5%      pred
-#&gt;  [1,]  67.72751  91.65451  79.74246
-#&gt;  [2,]  63.02483  85.06608  74.50010
-#&gt;  [3,]  94.41736 116.10727 105.29268
-#&gt;  [4,]  78.75412 100.65951  89.88693
-#&gt;  [5,]  84.89922 107.08421  95.57177
-#&gt;  [6,]  94.18207 115.13782 104.56409
-#&gt;  [7,]  91.90804 114.41929 103.40145
-#&gt;  [8,]  65.96953  88.65960  77.13668
-#&gt;  [9,]  80.38679 102.12147  91.99731
-#&gt; [10,] 101.83466 126.79984 114.21325
-#&gt; [11,]  72.11446  94.01475  82.78446
-#&gt; [12,] 100.17141 121.98928 111.00723
-#&gt; [13,]  98.65325 120.81543 110.40160
+#&gt;  [1,]  67.69727  91.24396  79.74246
+#&gt;  [2,]  63.56374  85.90535  74.50010
+#&gt;  [3,]  94.52745 116.12947 105.29268
+#&gt;  [4,]  78.34413 100.47619  89.88693
+#&gt;  [5,]  84.52087 106.36857  95.57177
+#&gt;  [6,]  94.27290 115.00143 104.56409
+#&gt;  [7,]  92.00964 114.59568 103.40145
+#&gt;  [8,]  66.06191  88.60940  77.13668
+#&gt;  [9,]  80.83267 102.39854  91.99731
+#&gt; [10,] 101.68719 126.31977 114.21325
+#&gt; [11,]  71.73074  94.26355  82.78446
+#&gt; [12,] 100.02467 122.27753 111.00723
+#&gt; [13,]  99.59050 121.50526 110.40160
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
@@ -367,7 +367,7 @@ probability models.</p>
 #&gt; [1] 0.95
 #&gt; attr(,"class")
 #&gt; [1] "confint.bas"</div><div class='input'><span class='co'># extract variables</span>
-<span class='fu'><a href='variable.names.pred.bas.html'>variable.names</a></span>(<span class='no'>hald.bpm</span>)</div><div class='output co'>#&gt; <span class='error'>Error in variable.names.pred.bas(hald.bpm): object 'obj' not found</span></div><div class='input'>
+<span class='fu'><a href='variable.names.pred.bas.html'>variable.names</a></span>(<span class='no'>hald.bpm</span>)</div><div class='output co'>#&gt; [1] "Intercept" "X1"        "X2"        "X3"        "X4"       </div><div class='input'>
 <span class='no'>hald.hpm</span> <span class='kw'>=</span> <span class='fu'>predict</span>(<span class='no'>hald.gprior</span>, <span class='kw'>newdata</span><span class='kw'>=</span><span class='no'>Hald</span>[<span class='fl'>1</span>,],
                     <span class='kw'>se.fit</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
                     <span class='kw'>estimator</span><span class='kw'>=</span><span class='st'>"HPM"</span>)
@@ -376,7 +376,7 @@ probability models.</p>
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
-#&gt; [1] "confint.bas"</div><div class='input'><span class='fu'><a href='variable.names.pred.bas.html'>variable.names</a></span>(<span class='no'>hald.hpm</span>)</div><div class='output co'>#&gt; <span class='error'>Error in variable.names.pred.bas(hald.hpm): object 'obj' not found</span></div><div class='input'>
+#&gt; [1] "confint.bas"</div><div class='input'><span class='fu'><a href='variable.names.pred.bas.html'>variable.names</a></span>(<span class='no'>hald.hpm</span>)</div><div class='output co'>#&gt; [1] "Intercept" "X1"        "X2"       </div><div class='input'>
 <span class='no'>hald.mpm</span> <span class='kw'>=</span> <span class='fu'>predict</span>(<span class='no'>hald.gprior</span>, <span class='kw'>newdata</span><span class='kw'>=</span><span class='no'>Hald</span>[<span class='fl'>1</span>,],
                     <span class='kw'>se.fit</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
                     <span class='kw'>estimator</span><span class='kw'>=</span><span class='st'>"MPM"</span>)
@@ -385,7 +385,7 @@ probability models.</p>
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
-#&gt; [1] "confint.bas"</div><div class='input'><span class='fu'><a href='variable.names.pred.bas.html'>variable.names</a></span>(<span class='no'>hald.mpm</span>)</div><div class='output co'>#&gt; <span class='error'>Error in variable.names.pred.bas(hald.mpm): object 'obj' not found</span></div><div class='input'>
+#&gt; [1] "confint.bas"</div><div class='input'><span class='fu'><a href='variable.names.pred.bas.html'>variable.names</a></span>(<span class='no'>hald.mpm</span>)</div><div class='output co'>#&gt; [1] "Intercept" "X1"        "X2"        "X4"       </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

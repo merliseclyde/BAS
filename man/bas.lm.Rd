@@ -11,7 +11,7 @@ bas.lm(formula, data, subset, weights, na.action = "na.omit",
   modelprior = beta.binomial(1, 1), initprobs = "Uniform",
   include.always = ~1, method = "BAS", update = NULL, bestmodel = NULL,
   prob.local = 0, prob.rw = 0.5, MCMC.iterations = NULL, lambda = NULL,
-  delta = 0.025, thin = 1, renormalize = FALSE)
+  delta = 0.025, thin = 1, renormalize = FALSE, force.heredity = TRUE)
 }
 \arguments{
 \item{formula}{linear model formula for the full model with all predictors,
@@ -171,6 +171,11 @@ based on renormalizing the marginal likelihoods times prior probabilities
 while the former may have less variability.  May be compared via the
 diagnostic plot function \code{\link{diagnostics}}.
 See details in Clyde and Ghosh (2012).}
+
+\item{force.heredity}{Logical variable to force all levels of a factor to be
+included together and to include higher order interactions only if lower
+order terms are included.  Currently only supported with `method='MCMC'`.
+Default is TRUE.}
 }
 \value{
 \code{bas} returns an object of class \code{bas}

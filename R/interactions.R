@@ -1,8 +1,9 @@
 make.parents.of.interactions =
-  function (mf, df)
+  function (mf, data)
   {
-#    browser()
-    termnamesX = attr(terms(mf, data=df), "term.labels")
+
+    modelterms = terms(mf, data=data)
+    termnamesX = attr(modelterms, "term.labels")
     p = length(termnamesX)
     interactions = grep(":", termnamesX)
     parents = diag(p)
@@ -20,25 +21,32 @@ make.parents.of.interactions =
       parents[j, parents.of.term] = 1
     }
 
-    X = model.matrix(mf, df)
+
+    X = model.matrix(modelterms, data=data)
+
     loc = attr(X, "assign")[-1] #drop intercept
 
     parents = parents[loc,loc]
-    rownames(parents) = colnames(X)[-1]
-    colnames(parents) = colnames(X)[-1]
-    return(list(X = X, parents=parents))
+    parents = rbind(0, parents)
+    parents = cbind(0, parents)
+    parents[1,1] = 1
+    rownames(parents) = colnames(X)
+    colnames(parents) = colnames(X)
+
+    return(parents)
   }
 
 
 # model.matrix(mf, data)
 # attr( , "assign") has where terms are located
 
-# mp = .make.parents.of.interactions(mf, df)
+# mp = BAS:::make.parents.of.interactions(mf, df)
 
 
 
 prob.heredity = function(model, parents, prob=.5) {
-  p = length(model)
+  p = length(model) + 1  # model has no intercept, while parents does
+  parents = parents[2:p, 2:p]
   got.parents =  apply(parents, 1,
            FUN=function(x){
            all(as.logical(model[as.logical(x)]))}
@@ -81,22 +89,29 @@ prob.heredity = function(model, parents, prob=.5) {
 #'
 #' image(bas.hald.int)
 #'
+#' # two-way interactions
+#' data(ToothGrowth)
+#' ToothGrowth$dose = factor(ToothGrowth$dose)
+#' levels(ToothGrowth$dose) = c("Low", "Medium", "High")
+#' TG.bas = bas.lm(len ~ supp*dose, data=ToothGrowth, modelprior=uniform())
+#' TG.bas.int = force.heredity.bas(TG.bas)
+#' image(TG.bas.int)
 #'
 #' @family bas methods
 #' @export
 
 force.heredity.bas = function(object, prior.prob=.5) {
-    parents = make.parents.of.interactions(mf=eval(object$call$formula, parent.frame()),
-                                           df=eval(object$call$data, parent.frame()))$parents
+    parents = BAS:::make.parents.of.interactions(mf=eval(object$call$formula, parent.frame()),
+                                                 data=eval(object$call$data, parent.frame()))
     which = which.matrix(object$which, object$n.vars)
     priorprobs = apply(which[,-1], 1,
-                  FUN=function(x) {prob.heredity(model=x, parents=parents)}
+                  FUN=function(x) {BAS:::prob.heredity(model=x, parents=parents)}
                   )
     keep = (priorprobs != 0)
     object$n.models= sum(keep)
     object$sampleprobs = object$sampleprobs[keep]   # if method=MCMC ??? reweight
     object$which = object$which[keep]
-    wts = priorprobs[keep]/object$priorprobs[keep]
+    wts = priorprobs[keep]/object$priorprobs[keep]  #importance weights
     method = object$call$method
     if (!is.null(method)) {
       if (method == "MCMC" || method == "MCMC_new" ) {

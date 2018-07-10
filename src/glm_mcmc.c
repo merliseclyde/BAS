@@ -6,7 +6,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	      SEXP Rprobinit, SEXP Rmodeldim,
 	      SEXP modelprior,  SEXP betaprior, SEXP Rbestmodel,  SEXP plocal,
 	      SEXP BURNIN_Iterations,
-	      SEXP family, SEXP Rcontrol, SEXP Rlaplace
+	      SEXP family, SEXP Rcontrol, SEXP Rlaplace, SEXP Rparents
 			  )
 {
 	int nProtected = 0;
@@ -107,7 +107,8 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		memcpy(model, modelold, sizeof(int)*p);
 		pmodel =  n_sure;
 
-		MH = GetNextModelCandidate(pmodel_old, n, n_sure, model, vars, problocal, varin, varout);
+		MH = GetNextModelCandidate(pmodel_old, n, n_sure, model, vars, problocal,
+                             varin, varout, Rparents);
 
 		branch = tree;
 		newmodel= 0;

@@ -122,7 +122,7 @@ values of the Wald Chisquared statistic.}
 
 \item{renormalize}{logical variable for whether posterior probabilities
 should be based on renormalizing marginal likelihoods times prior
-probabilities or use Monte Carlo frequencies. Applies only to MCMC sampling}
+probabilities or use Monte Carlo frequencies. Applies only to MCMC sampling.}
 }
 \value{
 \code{bas.glm} returns an object of class \code{basglm}

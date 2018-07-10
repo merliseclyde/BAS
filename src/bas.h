@@ -65,6 +65,8 @@ double *makeprob(double *prob, double *y, double c, double w, double
 		 sigma2, int p, int inc_int);
 void update_tree(SEXP modelspace, struct Node *tree, SEXP modeldim, struct Var *vars, int k, int p, int n, int kt, int *model);
 void update_tree_file(struct Node *tree, SEXP modeldim, struct Var *vars, int k, int p, int n, int kt, FILE *file);
+double random_switch_heredity(int *model, struct Var *vars, int n, int pmodel, int *varin, int *varout, SEXP Rparents);
+double random_walk_heredity(int *model, struct Var *vars, int n, SEXP Rparents);
 double random_switch(int *model, struct Var *vars, int n, int pmodel, int *varin, int *varout);
 double random_walk(int *model, struct Var *vars, int n);
 int update_probs(double *probs, struct Var *var, int m, int k, int p);
@@ -277,7 +279,7 @@ void CreateTree_with_pigamma(NODEPTR branch, struct Var *vars, int *bestmodel, i
                              SEXP modeldim, double *pigamma);
 
 double GetNextModelCandidate(int pmodel_old, int n, int n_sure, int *model, struct Var *vars, double problocal,
-                             int *varin, int *varout);
+                             int *varin, int *varout, SEXP Rparents);
 
 void GetNextModel_swop(NODEPTR branch, struct Var *vars, int *model, int n, int m,  double *pigamma,
                        double problocal, SEXP modeldim,int *bestmodel);

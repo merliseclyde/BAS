@@ -52,9 +52,9 @@
 #                "degenerate sampling probabilities (0 or 1); decreasing the number of models to",                 as.character(n.models)))
   	}
 
-  	if (n.models > 2^30) stop("Dimension of model space is too big to enumerate\n  Rerun with a smaller value for n.models")
+  	if (n.models > 2^30) stop("Dimension of model space is too big to enumerate\n  Rerun with a smaller value for n.models or use MCMC")
   	if (n.models > 2^25)
-            warning("Number of models is BIG - this may take a while and you may run out of memory")
+            warning("Number of models is BIG - this may take a while and you may run out of physical memory")
     return(n.models)
 }
 
@@ -239,6 +239,10 @@
 #' while the former may have less variability.  May be compared via the
 #' diagnostic plot function \code{\link{diagnostics}}.
 #' See details in Clyde and Ghosh (2012).
+#' @param force.heredity  Logical variable to force all levels of a factor to be
+#' included together and to include higher order interactions only if lower
+#' order terms are included.  Currently only supported with `method='MCMC'`.
+#' Default is TRUE.
 #'
 #' @return \code{bas} returns an object of class \code{bas}
 #'
@@ -387,7 +391,8 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
     bestmodel=NULL, prob.local=0.0,
     prob.rw=0.5,
     MCMC.iterations=NULL,
-    lambda=NULL, delta=0.025, thin=1, renormalize=FALSE)  {
+    lambda=NULL, delta=0.025, thin=1, renormalize=FALSE,
+    force.heredity=TRUE)  {
 
 
   num.updates=10
@@ -535,6 +540,15 @@ if (prior == "ZS-full") .Deprecated("prior='JZS'",
 }
 
   if (is.null(alpha)) alpha=0.0
+
+  parents = make.parents.of.interactions(mf, data)
+
+  # check to see if really necessary
+  if (sum(parents) == nrow(parents)) {
+    parents = matrix(1,1,1)
+    force.heredity = FALSE}
+
+  # fix to insure bestmodel respects heredity
   if (is.null(bestmodel)) {
     bestmodel = as.integer(initprobs)
 }
@@ -547,6 +561,8 @@ if (prior == "ZS-full") .Deprecated("prior='JZS'",
   Yvec = as.numeric(Y)
   modeldim = as.integer(rep(0, n.models))
   n.models = as.integer(n.models)
+
+
 
 if (method == "AMCMC") {
   warning("argument method='AMCMC' is deprecated as of version 1.1.0; please use method='MCMC' instead.",
@@ -575,16 +591,17 @@ if (method == "AMCMC") {
       plocal=as.numeric(1.0 - prob.rw), as.integer(Burnin.iterations),
       as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta)),
     "MCMC"= .Call(C_mcmc_new,
-      Yvec, X, sqrt(weights),
-      prob, modeldim,
-      incint=as.integer(int),
-      alpha= as.numeric(alpha),
-      method=as.integer(method.num), modelprior=modelprior,
-      update=as.integer(update),
-      Rbestmodel=as.integer(bestmodel),
-      plocal=as.numeric(1.0 - prob.rw), as.integer(Burnin.iterations),
+        Yvec, X, sqrt(weights),
+        prob, modeldim,
+        incint=as.integer(int),
+        alpha= as.numeric(alpha),
+        method=as.integer(method.num), modelprior=modelprior,
+        update=as.integer(update),
+        Rbestmodel=as.integer(bestmodel),
+        plocal=as.numeric(1.0 - prob.rw), as.integer(Burnin.iterations),
         as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta),
-        as.integer(thin)),
+        as.integer(thin),
+        parents),
     "AMCMC" = .Call(C_amcmc,
       Yvec, X, sqrt(weights),
       prob, modeldim,

@@ -92,27 +92,134 @@ void SetModel_lm(SEXP Rcoef_m, SEXP Rse_m, SEXP Rmodel_m, double mse_m, double R
 
 
 double GetNextModelCandidate(int pmodel_old, int n, int n_sure, int *model, struct Var *vars, double problocal,
-							 int *varin, int *varout) {
+							 int *varin, int *varout, SEXP Rparents) {
 	double MH = 1.0;
 	if (pmodel_old == n_sure || pmodel_old == n_sure + n){
-		MH =  random_walk(model, vars,  n);
+		MH =  random_walk_heredity(model, vars,  n, Rparents);
 		MH =  1.0 - problocal;
 	} else {
 		if (unif_rand() < problocal) {
 			// random
-			MH =  random_switch(model, vars, n, pmodel_old, varin, varout );
+			MH =  random_switch_heredity(model, vars, n, pmodel_old, varin, varout, Rparents );
 		} else {
 			// Random walk proposal flip bit//
-			MH =  random_walk(model, vars,  n);
+			MH =  random_walk_heredity(model, vars,  n, Rparents);
 		}
 	}
 	return MH;
 }
 
+double random_walk(int *model, struct Var *vars, int n) {
+  int index;
+  index = ftrunc(n*unif_rand());
+  model[vars[index].index] = 1 - model[vars[index].index];
+  return(1.0);
+}
+
+double random_switch(int *model, struct Var *vars, int n, int pmodel, int *varin, int *varout) {
+  int  j, k, swapin, swapout, num_to_swap_in, num_to_swap_out;
+
+
+  j = 0; k = 0;
+  while (j < n && k < pmodel)
+  {
+    if (model[vars[j].index]==1) {varin[k] = vars[j].index; k++;}
+    j++ ;
+  }
+  num_to_swap_in = k;
+  j = 0; k = 0;
+
+  while (j< n)
+  {
+    if (model[vars[j].index]==0) {varout[k] = vars[j].index; k++;}
+    j++ ;
+  }
+  num_to_swap_out = k;
+
+  swapin = ftrunc(unif_rand()*num_to_swap_in);    // swapin :corresponds to position of randomly chosen included variable
+  swapout = ftrunc(unif_rand()*num_to_swap_out);  // swapout :corresponds to position of randomly chosen excluded variable
+
+  model[varin[swapin]] = 0;
+  model[varout[swapout]] =1;
+
+
+  return(1.0);
+}
+
+double random_walk_heredity(int *model, struct Var *vars, int n, SEXP Rparents) {
+  int index,p,j;
+  double *parents;
+
+  parents = REAL(Rparents);
+
+  index = ftrunc(n*unif_rand());
+  model[vars[index].index] = 1 - model[vars[index].index];
+
+
+ int *dims = INTEGER(getAttrib(Rparents,R_DimSymbol));
+ p = dims[0];
+
+
+  if (p > 1) {
+   // force in parents
+ //  Rprintf("%d %d %d %d\n",n,p,  vars[index].index, model[vars[index].index]);
+    if (model[vars[index].index] == 1) {
+    for (j = 0; j < p; j++) {
+ //     Rprintf("%d ", (int) parents[vars[index].index*p + j]);
+      if (parents[vars[index].index + p*j] == 1.0) {
+         model[j] =  model[vars[index].index];
+      }
+    }}
+    else {
+      for (j = 0; j < p; j++) {
+  //      Rprintf("%d ", (int) parents[vars[index].index + p*j]);
+        if (parents[vars[index].index*p +j] == 1.0) {
+          model[j] =  model[vars[index].index];
+        } }
+    }
+//    Rprintf("\n");
+
+  }
+  return(1.0);
+}
+
+double random_switch_heredity(int *model, struct Var *vars, int n, int pmodel, int *varin, int *varout, SEXP Rparents) {
+  int  j, k, swapin, swapout, num_to_swap_in, num_to_swap_out;
+
+
+  j = 0; k = 0;
+  while (j < n && k < pmodel)
+  {
+    if (model[vars[j].index]==1) {varin[k] = vars[j].index; k++;}
+    j++ ;
+  }
+  num_to_swap_in = k;
+  j = 0; k = 0;
+
+  while (j< n)
+  {
+    if (model[vars[j].index]==0) {varout[k] = vars[j].index; k++;}
+    j++ ;
+  }
+  num_to_swap_out = k;
+
+  swapin = ftrunc(unif_rand()*num_to_swap_in);    // swapin :corresponds to position of randomly chosen included variable
+  swapout = ftrunc(unif_rand()*num_to_swap_out);  // swapout :corresponds to position of randomly chosen excluded variable
+
+  model[varin[swapin]] = 0;
+  model[varout[swapout]] =1;
+
+
+  return(1.0);
+}
+
+
 // [[register]]
-extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method,
-			  SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel,  SEXP plocal,
-	      SEXP BURNIN_Iterations, SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA, SEXP Rthin)
+extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint,
+                     SEXP Ralpha,SEXP method,SEXP modelprior, SEXP Rupdate,
+                     SEXP Rbestmodel, SEXP plocal, SEXP BURNIN_Iterations,
+                     SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA,
+                     SEXP Rthin,SEXP Rparents)
 {
 	int nProtected = 0;
 	SEXP RXwork = PROTECT(duplicate(X)); nProtected++;
@@ -144,6 +251,7 @@ extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeld
 	int i, m, n, pmodel_old, *model_m, *bestmodel;
 	int mcurrent, n_sure;
 
+
 	//get dimsensions of all variables
 	int nobs = LENGTH(Y);
 	int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
@@ -152,6 +260,8 @@ extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeld
 	//	double delta = REAL(DELTA)[0];
 	double alpha = REAL(Ralpha)[0];
 	int thin = INTEGER(Rthin)[0];
+
+
 
 	//	Rprintf("delta %f lambda %f", delta, lambda);
 
@@ -217,7 +327,7 @@ extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeld
 	int new_loc;
 	pmodel_old = pmodel;
 	nUnique=1;
-	INTEGER(counts)[0] = 0;
+	INTEGER(counts)[0] = 1;
 	postold =  REAL(logmarg)[m] + log(REAL(priorprobs)[m]);
 	memcpy(modelold, model, sizeof(int)*p);
 	m = 0;
@@ -229,7 +339,8 @@ extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeld
 	  memcpy(model, modelold, sizeof(int)*p);
 		pmodel =  n_sure;
 
-		MH = GetNextModelCandidate(pmodel_old, n, n_sure, model, vars, problocal, varin, varout);
+		MH = GetNextModelCandidate(pmodel_old, n, n_sure, model, vars, problocal,
+                             varin, varout, Rparents);
 
 		branch = tree;
 		newmodel= 0;
