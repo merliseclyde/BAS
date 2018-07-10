@@ -240,14 +240,14 @@
 #'               betaprior=bic.prior(), family=binomial(),
 #'               modelprior=uniform())
 #'# Poisson example
-#'
-#' data(crabs, package='glmbb')
-#' #short run for illustration
-#' crabs.bas = bas.glm(satell ~ color*spine*width + weight, data=crabs,
-#'                     family=poisson(),
-#'                     betaprior=EB.local(), modelprior=uniform(),
-#'                     method='MCMC', n.models=2^10, MCMC.iterations=10000,
-#'                     prob.rw=.95)
+#' if(requireNamespace("glmbb", quietly=TRUE)) {
+#'   data(crabs, package='glmbb')
+#'   #short run for illustration
+#'   crabs.bas = bas.glm(satell ~ color*spine*width + weight, data=crabs,
+#'                       family=poisson(),
+#'                       betaprior=EB.local(), modelprior=uniform(),
+#'                       method='MCMC', n.models=2^10, MCMC.iterations=10000,
+#' }                      prob.rw=.95)
 #' @concept BMA
 #' @concept variable selection
 #' @family BMA functions

@@ -99,7 +99,7 @@ image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, ro
     )
 
   par.old = par()$mar
-  browser()
+
 
   if (rotate) {
       par(mar = c(6,6,3,5) + .1)
