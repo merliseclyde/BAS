@@ -6,7 +6,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		     SEXP Rprobinit, SEXP Rmodeldim,
 		     SEXP modelprior, SEXP betaprior,SEXP Rbestmodel,  SEXP plocal,
 		     SEXP family, SEXP Rcontrol,
-		     SEXP Rupdate, SEXP Rlaplace
+		     SEXP Rupdate, SEXP Rlaplace, SEXP Rparents
 			  ) {
 	int nProtected = 0;
 
@@ -104,7 +104,8 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		}
 
 		branch = tree;
-		GetNextModel_swop(branch, vars, model, n, m, pigamma, problocal, modeldim, bestmodel);
+		GetNextModel_swop(branch, vars, model, n, m, pigamma, problocal,
+                      modeldim, bestmodel,Rparents);
 
 		/* Now subtract off the visited probability mass. */
 		branch=tree;

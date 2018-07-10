@@ -178,6 +178,10 @@
 #' @param renormalize logical variable for whether posterior probabilities
 #' should be based on renormalizing marginal likelihoods times prior
 #' probabilities or use Monte Carlo frequencies. Applies only to MCMC sampling.
+#' @param force.heredity Logical variable to force all levels of a factor to be
+#' included together and to include higher order interactions only if lower
+#' order terms are included.  Currently only supported with `method='MCMC'`.
+#' Default is TRUE.
 #' @return \code{bas.glm} returns an object of class \code{basglm}
 #'
 #' An object of class \code{basglm} is a list containing at least the following
@@ -247,7 +251,8 @@
 #'                       family=poisson(),
 #'                       betaprior=EB.local(), modelprior=uniform(),
 #'                       method='MCMC', n.models=2^10, MCMC.iterations=10000,
-#' }                      prob.rw=.95)
+#'                       prob.rw=.95)
+#' }
 #' @concept BMA
 #' @concept variable selection
 #' @family BMA functions
@@ -265,8 +270,9 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
     bestmodel=NULL,
     prob.rw=0.5,
     MCMC.iterations=NULL,
-    control = glm.control(),  laplace=FALSE,  renormalize=FALSE
-                  )  {
+    control = glm.control(),  laplace=FALSE,  renormalize=FALSE,
+    force.heredity=TRUE)
+{
     num.updates=10
     call = match.call()
 
@@ -399,15 +405,17 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
                     family = family, Rcontrol = control,
                     Rlaplace=as.integer(laplace),
                     Rparents = parents),
-            "BAS" = .Call(C_glm_sampleworep,
-      		Y = Yvec, X = X,
+       "BAS" = .Call(C_glm_sampleworep,
+      		          Y = Yvec, X = X,
                     Roffset = as.numeric(offset), Rweights = as.numeric(weights),
                     Rprobinit = prob, Rmodeldim = modeldim,
                     modelprior = modelprior, betaprior=betaprior,
                     Rbestmodel= bestmodel,
                     plocal=as.numeric(1.0 - prob.rw),
                     family = family, Rcontrol = control,
-                    Rupdate=as.integer(update), Rlaplace=as.integer(laplace)),
+                    Rupdate=as.integer(update),
+      		          Rlaplace=as.integer(laplace),
+      		          Rparents=parents),
 		"MCMC+BAS" = .Call(C_glm_mcmcbas,
       		Y = Yvec, X = X,
 			Roffset = as.numeric(offset), Rweights = as.numeric(weights),
@@ -417,7 +425,8 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
 			plocal=as.numeric(1.0 - prob.rw),
 			BURNIN_Iterations = as.integer(MCMC.iterations),
 			family = family, Rcontrol = control,
-      		Rupdate=as.integer(update), Rlaplace=as.integer(laplace)),
+      		Rupdate=as.integer(update), Rlaplace=as.integer(laplace),
+			Rparents=parents),
 		"deterministic" = .Call(C_glm_deterministic,
       		Y = Yvec, X = X,
 			Roffset = as.numeric(offset), Rweights = as.numeric(weights),

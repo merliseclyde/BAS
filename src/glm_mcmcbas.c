@@ -204,7 +204,8 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 			}
 
 			branch = tree;
-			GetNextModel_swop(branch, vars, model, n, m, pigamma, problocal, modeldim, bestmodel);
+			GetNextModel_swop(branch, vars, model, n, m, pigamma, problocal, modeldim,
+                     bestmodel, Rparents);
 
 			/* Now subtract off the visited probability mass. */
 	branch=tree;

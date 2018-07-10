@@ -282,7 +282,8 @@ double GetNextModelCandidate(int pmodel_old, int n, int n_sure, int *model, stru
                              int *varin, int *varout, SEXP Rparents);
 
 void GetNextModel_swop(NODEPTR branch, struct Var *vars, int *model, int n, int m,  double *pigamma,
-                       double problocal, SEXP modeldim,int *bestmodel);
+                       double problocal, SEXP modeldim,int *bestmodel,
+                       SEXP Rparents);
 
 void Substract_visited_probability_mass(NODEPTR branch, struct Var *vars, int *model, int n, int m, double *pigamma, double eps);
 

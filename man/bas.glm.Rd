@@ -11,7 +11,7 @@ bas.glm(formula, family = binomial(link = "logit"), data, weights, subset,
   1), initprobs = "Uniform", include.always = ~1, method = "MCMC",
   update = NULL, bestmodel = NULL, prob.rw = 0.5,
   MCMC.iterations = NULL, control = glm.control(), laplace = FALSE,
-  renormalize = FALSE)
+  renormalize = FALSE, force.heredity = TRUE)
 }
 \arguments{
 \item{formula}{generalized linear model formula for the full model with all
@@ -123,6 +123,11 @@ values of the Wald Chisquared statistic.}
 \item{renormalize}{logical variable for whether posterior probabilities
 should be based on renormalizing marginal likelihoods times prior
 probabilities or use Monte Carlo frequencies. Applies only to MCMC sampling.}
+
+\item{force.heredity}{Logical variable to force all levels of a factor to be
+included together and to include higher order interactions only if lower
+order terms are included.  Currently only supported with `method='MCMC'`.
+Default is TRUE.}
 }
 \value{
 \code{bas.glm} returns an object of class \code{basglm}
@@ -193,8 +198,16 @@ pima.BIC = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
               method="BAS+MCMC", MCMC.iterations=1000,
               betaprior=bic.prior(), family=binomial(),
               modelprior=uniform())
-
-
+# Poisson example
+if(requireNamespace("glmbb", quietly=TRUE)) {
+  data(crabs, package='glmbb')
+  #short run for illustration
+  crabs.bas = bas.glm(satell ~ color*spine*width + weight, data=crabs,
+                      family=poisson(),
+                      betaprior=EB.local(), modelprior=uniform(),
+                      method='MCMC', n.models=2^10, MCMC.iterations=10000,
+                      prob.rw=.95)
+}
 }
 \references{
 Li, Y. and Clyde, M. (2015) Mixtures of g-priors in Generalized

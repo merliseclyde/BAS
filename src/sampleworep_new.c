@@ -87,7 +87,8 @@ void Substract_visited_probability_mass(NODEPTR branch, struct Var *vars, int *m
 }
 void GetNextModel_swop(NODEPTR branch, struct Var *vars,
                        int *model, int n, int m,  double *pigamma,
-                   		 double problocal, SEXP modeldim, int *bestmodel) {
+                   		 double problocal, SEXP modeldim, int *bestmodel,
+                   		 SEXP Rparents) {
 	for (int i = 0; i< n; i++) {
 		pigamma[i] = 1.0;
 		int bit =  withprob(branch->prob);
@@ -114,7 +115,10 @@ void GetNextModel_swop(NODEPTR branch, struct Var *vars,
 }
 
 
-extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel, SEXP plocal) {
+extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
+                            SEXP Rmodeldim, SEXP incint, SEXP Ralpha,
+                            SEXP method, SEXP modelprior, SEXP Rupdate,
+                            SEXP Rbestmodel, SEXP plocal, SEXP Rparents) {
 	int nProtected = 0;
 	SEXP RXwork = PROTECT(duplicate(X)); nProtected++;
 	SEXP RYwork = PROTECT(duplicate(Y)); nProtected++;
@@ -227,7 +231,8 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP 
 		}
 
 		branch = tree;
-		GetNextModel_swop(branch, vars, model, n, m, pigamma, problocal, modeldim, bestmodel);
+		GetNextModel_swop(branch, vars, model, n, m, pigamma, problocal,
+                    modeldim, bestmodel, Rparents);
 
 		/* Now subtract off the visited probability mass. */
 		branch=tree;
