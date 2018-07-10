@@ -299,6 +299,17 @@ crime.mcmc =  bas.lm(log(y) ~ log(M) + So + log(Ed) +
 summary(crime.bic)
 plot(crime.bic)
 image(crime.bic, subset=-1)
+
+# example with two-way interactions and hierarchical constraints
+data(ToothGrowth)
+ToothGrowth$dose = factor(ToothGrowth$dose)
+levels(ToothGrowth$dose) = c("Low", "Medium", "High")
+TG.bas = bas.lm(len ~ supp*dose, data=ToothGrowth,
+                 modelprior=uniform(), method='MCMC',
+                 prob.rw=.95,            # use random-walk predominantly
+                 MCMC.iterations=10000)  # should run longer
+summary(TG.bas)
+image(TG.bas)
 # more complete demo's
 demo(BAS.hald)
 \dontrun{demo(BAS.USCrime) }

@@ -164,6 +164,7 @@ double random_walk_heredity(int *model, struct Var *vars, int n, SEXP Rparents) 
    // force in parents
  //  Rprintf("%d %d %d %d\n",n,p,  vars[index].index, model[vars[index].index]);
     if (model[vars[index].index] == 1) {
+//  traverse row index of parents to add any missing parents/sibs
     for (j = 0; j < p; j++) {
  //     Rprintf("%d ", (int) parents[vars[index].index*p + j]);
       if (parents[vars[index].index + p*j] == 1.0) {
@@ -171,6 +172,8 @@ double random_walk_heredity(int *model, struct Var *vars, int n, SEXP Rparents) 
       }
     }}
     else {
+//  to drop index, traverse column of parents to identify children/sibs
+//  that also need to be dropped.
       for (j = 0; j < p; j++) {
   //      Rprintf("%d ", (int) parents[vars[index].index + p*j]);
         if (parents[vars[index].index*p +j] == 1.0) {
@@ -183,14 +186,18 @@ double random_walk_heredity(int *model, struct Var *vars, int n, SEXP Rparents) 
   return(1.0);
 }
 
-double random_switch_heredity(int *model, struct Var *vars, int n, int pmodel, int *varin, int *varout, SEXP Rparents) {
-  int  j, k, swapin, swapout, num_to_swap_in, num_to_swap_out;
-
+double random_switch_heredity(int *model, struct Var *vars, int n,
+                              int pmodel, int *varin, int *varout, SEXP Rparents)
+  {
+  int  j, k, p, swapin, swapout, num_to_swap_in, num_to_swap_out;
+  double *parents;
 
   j = 0; k = 0;
   while (j < n && k < pmodel)
   {
-    if (model[vars[j].index]==1) {varin[k] = vars[j].index; k++;}
+    if (model[vars[j].index]==1) {
+      varin[k] = vars[j].index;
+      k++;}
     j++ ;
   }
   num_to_swap_in = k;
@@ -198,7 +205,9 @@ double random_switch_heredity(int *model, struct Var *vars, int n, int pmodel, i
 
   while (j< n)
   {
-    if (model[vars[j].index]==0) {varout[k] = vars[j].index; k++;}
+    if (model[vars[j].index]==0) {
+      varout[k] = vars[j].index;
+      k++;}
     j++ ;
   }
   num_to_swap_out = k;
@@ -207,11 +216,28 @@ double random_switch_heredity(int *model, struct Var *vars, int n, int pmodel, i
   swapout = ftrunc(unif_rand()*num_to_swap_out);  // swapout :corresponds to position of randomly chosen excluded variable
 
   model[varin[swapin]] = 0;
-  model[varout[swapout]] =1;
+  model[varout[swapout]] = 1;
 
+  parents = REAL(Rparents);
+  int *dims = INTEGER(getAttrib(Rparents,R_DimSymbol));
+  p = dims[0];
 
+  // force in parents and sibs of variable that was swapped in
+
+  if (p > 1) {
+    //  to drop swapin, traverse column of parents to identify children/sibs
+    //  that also need to be dropped.  ignore others
+      for (j = 0; j < p; j++) {
+        if (parents[varin[swapin]*p +j] == 1.0)   model[j] = 0;
+        }
+
+    //  now traverse row of added variable in parents to add any missing parents/sibs
+      for (j = 0; j < p; j++) {
+        if (parents[varout[swapout] + p*j] == 1.0)   model[j] = 1;
+      }
+  }
   return(1.0);
-}
+  }
 
 
 // [[register]]
@@ -219,7 +245,7 @@ extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeld
                      SEXP Ralpha,SEXP method,SEXP modelprior, SEXP Rupdate,
                      SEXP Rbestmodel, SEXP plocal, SEXP BURNIN_Iterations,
                      SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA,
-                     SEXP Rthin,SEXP Rparents)
+                     SEXP Rthin, SEXP Rparents)
 {
 	int nProtected = 0;
 	SEXP RXwork = PROTECT(duplicate(X)); nProtected++;

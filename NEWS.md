@@ -2,8 +2,7 @@
 
 ## Features
 
-* Added option to force lower order terms to be included if higher order terms are present (hierarchical constraint).  Currently only with 
-`method='MCMC' and random-walk proposal for `bas.lm`
+* Added option to force lower order terms to be included if higher order terms are present (hierarchical constraint).  Currently only supported with `method='MCMC' and tested in `bas.lm`.
 See [enhancement #19](https://github.com/merliseclyde/BAS/issues/19)
 
 ## Bugs
