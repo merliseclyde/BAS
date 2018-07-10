@@ -101,11 +101,11 @@ prob.heredity = function(model, parents, prob=.5) {
 #' @export
 
 force.heredity.bas = function(object, prior.prob=.5) {
-    parents = BAS:::make.parents.of.interactions(mf=eval(object$call$formula, parent.frame()),
-                                                 data=eval(object$call$data, parent.frame()))
+    parents = make.parents.of.interactions(mf=eval(object$call$formula, parent.frame()),
+                                           data=eval(object$call$data, parent.frame()))
     which = which.matrix(object$which, object$n.vars)
     priorprobs = apply(which[,-1], 1,
-                  FUN=function(x) {BAS:::prob.heredity(model=x, parents=parents)}
+                  FUN=function(x) {prob.heredity(model=x, parents=parents)}
                   )
     keep = (priorprobs != 0)
     object$n.models= sum(keep)
