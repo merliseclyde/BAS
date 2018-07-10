@@ -76,6 +76,12 @@ image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, ro
   if (log)   {
     scale = log(postprob) - min(log(postprob))
     prob.lab="Log Posterior Odds"
+    # fix problem when scale has duplicate zeros
+    zeros = which(scale == 0.0)
+    nzeros = length(zeros)
+    if (nzeros > 1) {
+      scale[zeros] = seq(scale[zeros[1]-1],0,length=nzeros)/1000
+    }
   }
 
   if (intensity)  which.mat = sweep(which.mat, 1, scale+offset,"*")
@@ -93,6 +99,7 @@ image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, ro
     )
 
   par.old = par()$mar
+  browser()
 
   if (rotate) {
       par(mar = c(6,6,3,5) + .1)

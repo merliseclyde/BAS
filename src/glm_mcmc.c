@@ -96,7 +96,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	int new_loc;
 	pmodel_old = pmodel;
 	nUnique=1;
-	INTEGER(counts)[0] = 0;
+	INTEGER(counts)[0] = 1;
 	postold =  REAL(logmarg)[m] + log(REAL(priorprobs)[m]);
 	memcpy(modelold, model, sizeof(int)*p);
 	m = 0;
