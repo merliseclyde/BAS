@@ -81,7 +81,7 @@
       <h1>Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging and Variable Selection</h1>
                         <h4 class="author">Merlise A Clyde</h4>
             
-            <h4 class="date">2018-07-06</h4>
+            <h4 class="date">2018-07-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/merliseclyde/BAS/blob/master/vignettes/BAS-vignette.Rmd"><code>vignettes/BAS-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>BAS-vignette.Rmd</code></div>
@@ -98,15 +98,14 @@
 <p>The stable version can be installed easily in the <code>R</code> console like any other package:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">'BAS'</span>)</a></code></pre></div>
 <p>On the other hand, I welcome everyone to use the most recent version of the package with quick-fixes, new features and probably new bugs. To get the latest development version from <a href="https://github.com/merliseclyde">GitHub</a>, use the <code>devtools</code> package from <a href="https://cran.r-project.org/package=devtools">CRAN</a> and enter in <code>R</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># devtools::install_github('merliseclyde/BAS')</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">'merliseclyde/BAS'</span>)</a></code></pre></div>
 <p>As the package does depend on BLAS and LAPACK, installing from GitHub will require that you have FORTRAN and C compilers on your system.</p>
 </div>
 <div id="demo" class="section level2">
 <h2 class="hasAnchor">
 <a href="#demo" class="anchor"></a>Demo</h2>
 <p>We will use the UScrime data to illustrate some of the commands and functionality.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(MASS)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">data</span>(UScrime)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">data</span>(UScrime, <span class="dt">package=</span><span class="st">'MASS'</span>)</a></code></pre></div>
 <p>Following other analyses, we will go ahead and log transform all of the variables except column 2, which is the indicator variable of the state being a southern state.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">UScrime[,<span class="op">-</span><span class="dv">2</span>] =<span class="st"> </span><span class="kw">log</span>(UScrime[,<span class="op">-</span><span class="dv">2</span>])</a></code></pre></div>
 <p>To get started, we will use <code>BAS</code> with the Zellner-Siow Cauchy prior on the coefficients.</p>
@@ -136,7 +135,7 @@
 <li>numeric vector of length p</li>
 </ul>
 <p>The option “marg-eplogp” uses p-values from the p simple linear regressions (useful for large p or highly correlated variables). The numeric provides a way to force variables to always be included if the initialprob is 1.</p>
-<p>Since we are enumerating under all possible models these options are not important.</p>
+<p>Since we are enumerating under all possible models these options are not important and the <code>method="deterministic"</code> may be faster if there are no factors or interactions in the model.</p>
 </div>
 <div id="plots" class="section level2">
 <h2 class="hasAnchor">
@@ -215,23 +214,23 @@
 <p><img src="BAS-vignette_files/figure-html/coefall-1.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-2.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-3.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-4.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-5.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-6.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-7.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-8.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-9.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-10.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-11.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-12.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-13.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-14.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-15.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-16.png" width="700"></p>
 <p>To obtain credible intervals for coefficients, <code>BAS</code> includes a <code>confint</code> method to create Highest Posterior Density intervals from the summaries from <code>coef</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/confint.coef.html">confint</a></span>(coef.ZS)</a></code></pre></div>
-<pre><code>##                  2.5%       97.5%        beta
-## Intercept  6.67058078 6.784135538  6.72493620
-## M          0.00000000 2.176481625  1.14359433
-## So        -0.05222875 0.313175095  0.03547522
-## Ed         0.64072150 3.150403914  1.85848834
-## Po1        0.00000000 1.451824337  0.60067372
-## Po2       -0.20568090 1.435615463  0.31841766
-## LF        -0.50015476 1.012368176  0.05933737
-## M.F       -2.18529760 1.942838390 -0.02702786
-## Pop       -0.12828643 0.004919037 -0.02248283
-## NW         0.00000000 0.166411465  0.06668437
-## U1        -0.54629312 0.338400627 -0.02456854
-## U2         0.00000000 0.677101250  0.20702927
-## GDP       -0.05349092 1.185103785  0.20625063
-## Ineq       0.69248536 2.136234939  1.39012647
-## Prob      -0.41254532 0.000000000 -0.21536203
-## Time      -0.52556492 0.046491974 -0.08433479
+<pre><code>##                    2.5%       97.5%        beta
+## Intercept  6.6666300786 6.781131228  6.72493620
+## M          0.0000000000 2.170228179  1.14359433
+## So        -0.0677485767 0.301967249  0.03547522
+## Ed         0.6096933294 3.123885609  1.85848834
+## Po1        0.0000000000 1.428356305  0.60067372
+## Po2       -0.1507433986 1.465952607  0.31841766
+## LF        -0.5354532196 1.019019322  0.05933737
+## M.F       -1.9997621428 2.170155416 -0.02702786
+## Pop       -0.1264898427 0.005017195 -0.02248283
+## NW        -0.0001287891 0.165494580  0.06668437
+## U1        -0.4874619520 0.368223390 -0.02456854
+## U2        -0.0023559727 0.664555379  0.20702927
+## GDP       -0.0422850292 1.171955935  0.20625063
+## Ineq       0.7016612952 2.164380662  1.39012647
+## Prob      -0.4142443310 0.000000000 -0.21536203
+## Time      -0.5205698378 0.044109325 -0.08433479
 ## attr(,"Probability")
 ## [1] 0.95
 ## attr(,"class")
@@ -333,7 +332,7 @@
 <a class="sourceLine" id="cb41-7" data-line-number="7">  }</a>
 <a class="sourceLine" id="cb41-8" data-line-number="8">)</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.498   0.059   1.584</code></pre>
+##   1.586   0.047   1.675</code></pre>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">system.time</span>(</a>
 <a class="sourceLine" id="cb43-2" data-line-number="2">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)  {</a>
 <a class="sourceLine" id="cb43-3" data-line-number="3">    crime.ZS &lt;-<span class="st">  </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(y <span class="op">~</span><span class="st"> </span>., </a>
@@ -343,7 +342,7 @@
 <a class="sourceLine" id="cb43-7" data-line-number="7">  }</a>
 <a class="sourceLine" id="cb43-8" data-line-number="8">)</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.070   0.038   1.125</code></pre>
+##   1.267   0.044   1.349</code></pre>
 <p>which is faster for enumeration than the default method=“BAS”.</p>
 </div>
 <div id="beyond-enumeration" class="section level2">
@@ -405,7 +404,7 @@
 <tbody>
 <tr class="odd">
 <td>Intercept</td>
-<td align="right">1.000000</td>
+<td align="right">1.00000</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -414,70 +413,70 @@
 </tr>
 <tr class="even">
 <td>Air.Flow</td>
-<td align="right">0.999655</td>
+<td align="right">0.99969</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
+<td align="right">0.0000000</td>
 </tr>
 <tr class="odd">
 <td>Water.Temp</td>
-<td align="right">0.479390</td>
+<td align="right">0.96174</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
-<td align="right">0.0000000</td>
-<td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td>Acid.Conc.</td>
-<td align="right">0.094375</td>
+<td align="right">0.20504</td>
 <td align="right">0.00000</td>
+<td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
-<td align="right">0.0000000</td>
-<td align="right">0.0000000</td>
+<td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
 </tr>
 <tr class="odd">
 <td>out.ind1</td>
-<td align="right">0.610585</td>
-<td align="right">1.00000</td>
-<td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td>out.ind2</td>
-<td align="right">0.166220</td>
 <td align="right">0.00000</td>
-<td align="right">1.0000000</td>
+<td align="right">0.00000</td>
+<td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
 </tr>
 <tr class="odd">
 <td>out.ind3</td>
-<td align="right">0.633710</td>
-<td align="right">1.00000</td>
-<td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td>out.ind4</td>
-<td align="right">0.954375</td>
-<td align="right">1.00000</td>
-<td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
 </tr>
 <tr class="odd">
 <td>out.ind5</td>
-<td align="right">0.066235</td>
+<td align="right">0.00000</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -486,7 +485,7 @@
 </tr>
 <tr class="even">
 <td>out.ind6</td>
-<td align="right">0.077745</td>
+<td align="right">0.00000</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -495,7 +494,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind7</td>
-<td align="right">0.064185</td>
+<td align="right">0.00000</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -504,7 +503,7 @@
 </tr>
 <tr class="even">
 <td>out.ind8</td>
-<td align="right">0.069115</td>
+<td align="right">0.00000</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -513,7 +512,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind9</td>
-<td align="right">0.067435</td>
+<td align="right">0.00000</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -522,7 +521,7 @@
 </tr>
 <tr class="even">
 <td>out.ind10</td>
-<td align="right">0.061760</td>
+<td align="right">0.00000</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -531,7 +530,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind11</td>
-<td align="right">0.065480</td>
+<td align="right">0.00000</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -540,7 +539,7 @@
 </tr>
 <tr class="even">
 <td>out.ind12</td>
-<td align="right">0.085250</td>
+<td align="right">0.00000</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -549,16 +548,16 @@
 </tr>
 <tr class="odd">
 <td>out.ind13</td>
-<td align="right">0.337470</td>
+<td align="right">0.00000</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
-<td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td>out.ind14</td>
-<td align="right">0.178520</td>
+<td align="right">0.00000</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -567,7 +566,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind15</td>
-<td align="right">0.075460</td>
+<td align="right">0.00000</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -576,7 +575,7 @@
 </tr>
 <tr class="even">
 <td>out.ind16</td>
-<td align="right">0.059960</td>
+<td align="right">0.00000</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -585,7 +584,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind17</td>
-<td align="right">0.072960</td>
+<td align="right">0.00000</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -594,7 +593,7 @@
 </tr>
 <tr class="even">
 <td>out.ind18</td>
-<td align="right">0.061150</td>
+<td align="right">0.00000</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -603,7 +602,7 @@
 </tr>
 <tr class="odd">
 <td>out.ind19</td>
-<td align="right">0.089465</td>
+<td align="right">0.00000</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -612,7 +611,7 @@
 </tr>
 <tr class="even">
 <td>out.ind20</td>
-<td align="right">0.135660</td>
+<td align="right">0.00000</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -621,60 +620,97 @@
 </tr>
 <tr class="odd">
 <td>out.ind21</td>
-<td align="right">0.986075</td>
-<td align="right">1.00000</td>
-<td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td>BF</td>
 <td align="right">NA</td>
 <td align="right">1.00000</td>
-<td align="right">0.5555328</td>
-<td align="right">0.5779604</td>
-<td align="right">0.3397571</td>
-<td align="right">0.2016282</td>
+<td align="right">0.2060945</td>
+<td align="right">0.0793637</td>
+<td align="right">0.0148082</td>
+<td align="right">0.0018721</td>
 </tr>
 <tr class="odd">
 <td>PostProbs</td>
 <td align="right">NA</td>
-<td align="right">0.06510</td>
-<td align="right">0.0217000</td>
-<td align="right">0.0214000</td>
-<td align="right">0.0198000</td>
-<td align="right">0.0177000</td>
+<td align="right">0.76660</td>
+<td align="right">0.1949000</td>
+<td align="right">0.0281000</td>
+<td align="right">0.0102000</td>
+<td align="right">0.0003000</td>
 </tr>
 <tr class="even">
 <td>R2</td>
 <td align="right">NA</td>
-<td align="right">0.98920</td>
-<td align="right">0.9922000</td>
-<td align="right">0.9923000</td>
-<td align="right">0.9873000</td>
-<td align="right">0.9803000</td>
+<td align="right">0.90880</td>
+<td align="right">0.9136000</td>
+<td align="right">0.8458000</td>
+<td align="right">0.8506000</td>
+<td align="right">0.7665000</td>
 </tr>
 <tr class="odd">
 <td>dim</td>
 <td align="right">NA</td>
-<td align="right">7.00000</td>
-<td align="right">8.0000000</td>
-<td align="right">8.0000000</td>
-<td align="right">7.0000000</td>
-<td align="right">6.0000000</td>
+<td align="right">3.00000</td>
+<td align="right">4.0000000</td>
+<td align="right">2.0000000</td>
+<td align="right">3.0000000</td>
+<td align="right">2.0000000</td>
 </tr>
 <tr class="even">
 <td>logmarg</td>
 <td align="right">NA</td>
-<td align="right">23.82319</td>
-<td align="right">23.2353597</td>
-<td align="right">23.2749373</td>
-<td align="right">22.7436630</td>
-<td align="right">22.2218573</td>
+<td align="right">17.00475</td>
+<td align="right">15.4253279</td>
+<td align="right">14.4710340</td>
+<td align="right">12.7921754</td>
+<td align="right">10.7240624</td>
+</tr>
+<tr class="odd">
+<td>## Factors an</td>
+<td align="right">d Hierarchical H</td>
+<td align="right">eredity</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
 </tr>
 </tbody>
 </table>
+<p>BAS now includes constraints for factors so that all terms that represent a factor are either included or excluded togehter. To illustrate, we will use the data set <code>ToothGrowth</code> and convert <code>dose</code> to a factor:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">data</span>(ToothGrowth)</a>
+<a class="sourceLine" id="cb51-2" data-line-number="2">ToothGrowth<span class="op">$</span>dose =<span class="st"> </span><span class="kw">factor</span>(ToothGrowth<span class="op">$</span>dose)</a>
+<a class="sourceLine" id="cb51-3" data-line-number="3"><span class="kw">levels</span>(ToothGrowth<span class="op">$</span>dose) =<span class="st"> </span><span class="kw">c</span>(<span class="st">"Low"</span>, <span class="st">"Medium"</span>, <span class="st">"High"</span>)</a></code></pre></div>
+<p>and fit the model</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">TG.bas =<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(len <span class="op">~</span><span class="st"> </span>supp <span class="op">+</span><span class="st"> </span>dose, <span class="dt">data=</span>ToothGrowth,</a>
+<a class="sourceLine" id="cb52-2" data-line-number="2">                 <span class="dt">modelprior=</span><span class="kw"><a href="../reference/uniform.html">uniform</a></span>(), <span class="dt">method=</span><span class="st">'BAS'</span>)</a>
+<a class="sourceLine" id="cb52-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb52-4" data-line-number="4"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(TG.bas)</a></code></pre></div>
+<p><img src="BAS-vignette_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p>From the image of the model space, we see that all levels of a factor enter or drop from the model together. This hierarchical “heredity” is the default option set by <code>force.heredity = TRUE</code>. To drop that restriction and allow levels of a factor or interaction of a factor to enter or leave independently use <code>force.heredity = FALSE</code>.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">TG.bas =<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(len <span class="op">~</span><span class="st"> </span>supp <span class="op">+</span><span class="st"> </span>dose, <span class="dt">data=</span>ToothGrowth,</a>
+<a class="sourceLine" id="cb53-2" data-line-number="2">                 <span class="dt">modelprior=</span><span class="kw"><a href="../reference/uniform.html">uniform</a></span>(), <span class="dt">method=</span><span class="st">'BAS'</span>, <span class="dt">force.heredity =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb53-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb53-4" data-line-number="4"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(TG.bas)</a></code></pre></div>
+<p><img src="BAS-vignette_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<p>This may lead to more parsimonious models, however, the hypotheses that are being tested about the coefficients that represent the factor depend on the choice for the reference group.</p>
+<p>The <code>force.heredity</code> option also forces interactions to be included only if the main effects are also included, or for models with several factors and higher order interactions, the heredity constraint implies that all lower order interactions must be included before adding higher order interactions.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">TG.bas =<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(len <span class="op">~</span><span class="st"> </span>supp<span class="op">*</span>dose, <span class="dt">data=</span>ToothGrowth,</a>
+<a class="sourceLine" id="cb54-2" data-line-number="2">                 <span class="dt">modelprior=</span><span class="kw"><a href="../reference/uniform.html">uniform</a></span>(), <span class="dt">method=</span><span class="st">'BAS'</span>, <span class="dt">force.heredity =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb54-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb54-4" data-line-number="4"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(TG.bas)</a></code></pre></div>
+<p><img src="BAS-vignette_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p>The <code>force.heredity</code> is set to FALSE for the sampling methods <code>MCMC+BAS</code> and <code>deterministic</code>. If there are more than 20 predictors and factors, then we recommend using <code>MCMC</code> to enforce the constraints. Alternatively, there is a function, <code>force.heredity.bas</code>, to post-process the output to drop models that violate the hierachical heredity constraint:</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1">TG.bas =<span class="st">  </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(len <span class="op">~</span><span class="st"> </span>supp<span class="op">*</span>dose, <span class="dt">data=</span>ToothGrowth,</a>
+<a class="sourceLine" id="cb55-2" data-line-number="2">                 <span class="dt">modelprior=</span><span class="kw"><a href="../reference/uniform.html">uniform</a></span>(), <span class="dt">method=</span><span class="st">'BAS'</span>, <span class="dt">force.heredity =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb55-3" data-line-number="3">TG.herid.bas =<span class="st"> </span><span class="kw"><a href="../reference/force.heredity.bas.html">force.heredity.bas</a></span>(TG.bas)</a></code></pre></div>
+<p>that can be used with those sampling methods.</p>
 </div>
 <div id="weighted-regression" class="section level2">
 <h2 class="hasAnchor">
@@ -683,15 +719,15 @@
  \sigma^2 g (X_\gamma^T W X_\gamma)^{-1}
 \]</span> where <span class="math inline">\(X_\gamma\)</span> is the design matrix under model <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(W\)</span> is the <span class="math inline">\(n \times n\)</span> diagonal matrix with the weights on the diagonal.</p>
 <p>To illustrate, we will use the climate data, avaialable at the url below</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">climate =<span class="st"> </span><span class="kw">read.table</span>(<span class="st">"https://stat.duke.edu/sites/stat.duke.edu/files/climate.dat"</span>, <span class="dt">header=</span>T)</a>
-<a class="sourceLine" id="cb51-2" data-line-number="2"><span class="kw">str</span>(climate)</a></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">climate =<span class="st"> </span><span class="kw">read.table</span>(<span class="st">"https://stat.duke.edu/sites/stat.duke.edu/files/climate.dat"</span>, <span class="dt">header=</span>T)</a>
+<a class="sourceLine" id="cb56-2" data-line-number="2"><span class="kw">str</span>(climate)</a></code></pre></div>
 <pre><code>## 'data.frame':    63 obs. of  5 variables:
 ##  $ deltaT  : num  -2.6 -2.6 -2.9 -2.4 -2.8 -1.2 -2.4 -2.6 -2.4 -2.5 ...
 ##  $ sdev    : num  0.7 0.8 0.9 0.7 0.7 0.3 1.3 1.3 1.3 0.5 ...
 ##  $ proxy   : int  1 1 1 1 1 1 1 1 1 1 ...
 ##  $ T.M     : int  1 1 1 1 1 1 1 1 1 1 ...
 ##  $ latitude: num  2.5 2.2 0.5 0.3 0.2 -1.1 5.2 11.4 14.6 6.3 ...</code></pre>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw"><a href="../reference/summary.html">summary</a></span>(climate)</a></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw"><a href="../reference/summary.html">summary</a></span>(climate)</a></code></pre></div>
 <pre><code>##      deltaT            sdev            proxy            T.M        
 ##  Min.   :-7.000   Min.   :0.1500   Min.   :1.000   Min.   :0.0000  
 ##  1st Qu.:-3.900   1st Qu.:0.5000   1st Qu.:2.000   1st Qu.:1.0000  
@@ -707,29 +743,35 @@
 ##  3rd Qu.:  9.700  
 ##  Max.   : 29.000</code></pre>
 <p>which includes measurements of changes in temperature (<code>deltaT</code>) at various <code>latitude</code>s as well as a meaure of the accuracy of the measured values <code>sdev</code> for 8 differenty types <code>proxy</code> of obtaining measurements. We will use this to explore weighted regression and the option to group terms in factors or from <code>poly</code>. For illustration purposes, we will eliminate <code>proxy == 6</code> which has only one level as the interactions are not estimable, and then convert <code>proxy</code> to a factor.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb55-2" data-line-number="2">climate =<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(climate, proxy <span class="op">!=</span><span class="st"> </span><span class="dv">6</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb55-3" data-line-number="3"><span class="st">          </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">proxy=</span><span class="kw">factor</span>(proxy))</a></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb60-2" data-line-number="2">climate =<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(climate, proxy <span class="op">!=</span><span class="st"> </span><span class="dv">6</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb60-3" data-line-number="3"><span class="st">          </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">proxy=</span><span class="kw">factor</span>(proxy))</a></code></pre></div>
 <p>We can fit a weighted regression with <code>weights = 1/sdev^2</code> with the following code</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="co"># takes a while to enumerate all 2^20 models</span></a>
-<a class="sourceLine" id="cb56-2" data-line-number="2">climate.bas =<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(deltaT <span class="op">~</span><span class="st"> </span>proxy<span class="op">*</span><span class="kw">poly</span>(latitude, <span class="dv">2</span>), <span class="dt">data=</span>climate,</a>
-<a class="sourceLine" id="cb56-3" data-line-number="3">                     <span class="dt">weights=</span><span class="dv">1</span><span class="op">/</span>sdev<span class="op">^</span><span class="dv">2</span>, </a>
-<a class="sourceLine" id="cb56-4" data-line-number="4">                     <span class="dt">prior=</span><span class="st">"hyper-g-n"</span>, <span class="dt">alpha=</span><span class="fl">3.0</span>,</a>
-<a class="sourceLine" id="cb56-5" data-line-number="5">                     <span class="dt">n.models=</span><span class="dv">2</span><span class="op">^</span><span class="dv">20</span>,</a>
-<a class="sourceLine" id="cb56-6" data-line-number="6">                     <span class="dt">modelprior=</span><span class="kw"><a href="../reference/uniform.html">uniform</a></span>())</a></code></pre></div>
-<p>Examining the image of the top <span class="math inline">\(20\)</span> models,</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(climate.bas, <span class="dt">rotate=</span>F)</a></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">climate.bas =<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(deltaT <span class="op">~</span><span class="st"> </span>proxy<span class="op">*</span><span class="kw">poly</span>(latitude, <span class="dv">2</span>), <span class="dt">data=</span>climate,</a>
+<a class="sourceLine" id="cb61-2" data-line-number="2">                     <span class="dt">weights=</span><span class="dv">1</span><span class="op">/</span>sdev<span class="op">^</span><span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb61-3" data-line-number="3">                     <span class="dt">prior=</span><span class="st">"hyper-g-n"</span>, <span class="dt">alpha=</span><span class="fl">3.0</span>,</a>
+<a class="sourceLine" id="cb61-4" data-line-number="4">                     <span class="dt">n.models=</span><span class="dv">2</span><span class="op">^</span><span class="dv">20</span>,</a>
+<a class="sourceLine" id="cb61-5" data-line-number="5">                     <span class="dt">modelprior=</span><span class="kw"><a href="../reference/uniform.html">uniform</a></span>())</a></code></pre></div>
+<p>Examining the image of the top models,</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(climate.bas, <span class="dt">rotate=</span>F)</a></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/climate-image-1.png" width="700"></p>
-<p>we see that any level of a factor may enter or drop from the model independently. If we want to force that all levels of a factor or interaction of a factor enter or leave simultaneously, then we may use the function <code>force.heredity.bas</code> to post-process the output to include or exclude terms.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1">climate.herid.bas =<span class="st"> </span><span class="kw"><a href="../reference/force.heredity.bas.html">force.heredity.bas</a></span>(climate.bas)</a>
-<a class="sourceLine" id="cb58-2" data-line-number="2"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(climate.herid.bas, <span class="dt">rotate=</span>F)</a></code></pre></div>
-<p><img src="BAS-vignette_files/figure-html/force-herid-1.png" width="700"> We now see that there are now 5 models, with the model with just <code>proxy</code> having the highest posterior model probability.</p>
-<p>A future version of <code>BAS</code> will implement this through the model prior which should allow for more efficient sampling and reduced memory requirements when dealing with factors that have many levels.</p>
+<p>we see that all levels of a factor enter or drop from the model together, as well as the vectors in the design matrix to represent the term <code>poly</code>.<br>
+Rerunning without the constraint,</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="co"># May take a while to enumerate all 2^20 models</span></a>
+<a class="sourceLine" id="cb63-2" data-line-number="2">climate.bas =<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(deltaT <span class="op">~</span><span class="st"> </span>proxy<span class="op">*</span><span class="kw">poly</span>(latitude, <span class="dv">2</span>), <span class="dt">data=</span>climate,</a>
+<a class="sourceLine" id="cb63-3" data-line-number="3">                     <span class="dt">weights=</span><span class="dv">1</span><span class="op">/</span>sdev<span class="op">^</span><span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb63-4" data-line-number="4">                     <span class="dt">prior=</span><span class="st">"hyper-g-n"</span>, <span class="dt">alpha=</span><span class="fl">3.0</span>,</a>
+<a class="sourceLine" id="cb63-5" data-line-number="5">                     <span class="dt">n.models=</span><span class="dv">2</span><span class="op">^</span><span class="dv">20</span>,</a>
+<a class="sourceLine" id="cb63-6" data-line-number="6">                     <span class="dt">modelprior=</span><span class="kw"><a href="../reference/uniform.html">uniform</a></span>(),</a>
+<a class="sourceLine" id="cb63-7" data-line-number="7">                     <span class="dt">force.heredity=</span><span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb63-8" data-line-number="8"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(climate.bas)</a></code></pre></div>
+<p><img src="BAS-vignette_files/figure-html/wtreg-wo-contraint-1.png" width="700"></p>
+<p>allows one to see which factors levels are different from the reference group.</p>
 </div>
 <div id="summary" class="section level2">
 <h2 class="hasAnchor">
 <a href="#summary" class="anchor"></a>Summary</h2>
-<p><code>BAS</code> includes other prior distributions on coefficients and models, as well as <code>bas.glm</code> for fitting Generalized Linear Models. The syntax for bas.glm and bas.lm are not yet the same, particularly for how some of the priors on coefficients are represented, so please see the documentation for more features and details until this is updated!</p>
+<p><code>BAS</code> includes other prior distributions on coefficients and models, as well as <code>bas.glm</code> for fitting Generalized Linear Models. The syntax for bas.glm and bas.lm are not yet the same, particularly for how some of the priors on coefficients are represented, so please see the documentation for more features and details until this is updated or another vignette is added!</p>
 <p>For issues or feature requests please submit via the package’s github page <a href="http://github.com/merliseclyde/BAS">merliseclyde/BAS</a></p>
 </div>
   </div>
