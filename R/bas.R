@@ -470,7 +470,7 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
   }
    if (length(initprobs) == (p-1))
        initprobs = c(1.0, initprobs)
-
+  keep = 1
   # set up variables to always include
   if ("include.always" %in% names(mfall)) {
     minc <- match(c("include.always", "data", "subset"),  names(mfall), 0L)
@@ -484,6 +484,7 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
 
     keep = match(colnames(X.always)[-1], colnames(X))
     initprobs[keep] = 1.0
+
     if (ncol(X.always) == ncol(X)) {
       # just one model with all variables forced in
       # use method='BAS" as deterministic and MCMC fail in this context
@@ -497,20 +498,8 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
 
   if (is.null(lambda)) lambda=1.0
 
-  prob <- .normalize.initprobs.lm(initprobs, p)
-  n.models <- .normalize.n.models(n.models, p, prob, method)
-#  print(n.models)
-  modelprior <- .normalize.modelprior(modelprior,p)
 
 
-#  if (modelprior$family == "Bernoulli") {
-#   if (length(modelprior$hyper.parameters) == 1)
-#      modelprior$hyper.parameters = c(1, rep(modelprior$hyper.parameters, p-1))
-#    if  (length(modelprior$hyper.parameters) == (p-1))
-#     modelprior$hyper.parameters = c(1, modelprior$hyper.parameters)
-#    if  (length(modelprior$hyper.parameters) != p)
-#      stop(" Number of probabilities in Bernoulli family is not equal to the number of variables or 1")
-#}
 
   int = TRUE  # assume that an intercept is always included
 
@@ -553,17 +542,36 @@ if (prior == "ZS-full") .Deprecated("prior='JZS'",
 
   if (is.null(alpha)) alpha=0.0
 
-  parents = make.parents.of.interactions(mf, data)
+  parents = matrix(1,1,1)
+  if (method =="MCMC+BAS" | method =="deterministic") force.heredity = FALSE # does not work with updating the tree
+  if (force.heredity) {
+   parents = make.parents.of.interactions(mf, data)
 
   # check to see if really necessary
-  if (sum(parents) == nrow(parents)) {
-    parents = matrix(1,1,1)
-    force.heredity = FALSE}
+   if (sum(parents) == nrow(parents)) {
+     parents = matrix(1,1,1)
+     force.heredity = FALSE}
+  }
 
-  # fix to insure bestmodel respects heredity
   if (is.null(bestmodel)) {
-    bestmodel = as.integer(initprobs)
-}
+#    bestmodel = as.integer(initprobs)
+    bestmodel = c(1, rep(0, p-1))
+  }
+    bestmodel[keep] = 1
+  if (force.heredity) {
+    update=NULL  # do not update tree  FIXME LATER
+    if (prob.heredity(bestmodel, parents) == 0) {
+      warning("bestmodel violates heredity conditions; resetting to null model")
+      bestmodel = c(1, rep(0, p-1))
+      }
+    initprobs=c(1, seq(.95, .55, length=(p-1) ))
+  }
+
+  prob <- .normalize.initprobs.lm(initprobs, p)
+  n.models <- .normalize.n.models(n.models, p, prob, method)
+  #  print(n.models)
+  modelprior <- .normalize.modelprior(modelprior,p)
+
   if (is.null(update)) {
     if (n.models == 2^(p-1))  update = n.models+1
     else (update = n.models/num.updates)
@@ -634,6 +642,7 @@ if (method == "AMCMC") {
       method=as.integer(method.num),modelprior=modelprior)
   )
 
+  result$n.models = length(result$postprobs)
   result$namesx=namesx
   result$n=length(Yvec)
   result$prior=prior
@@ -641,6 +650,7 @@ if (method == "AMCMC") {
   result$alpha=alpha
   result$probne0.RN = result$probne0
   result$postprobs.RN = result$postprobs
+  result$include.always = keep
 
   if (method == "MCMC" || method == "MCMC_new" ) {
 	  result$n.models = result$n.Unique
@@ -650,9 +660,8 @@ if (method == "AMCMC") {
 	    result$probne0 = result$probne0.MCMC
   	  result$postprobs = result$postprobs.MCMC
 	  }
-  } else {
-  	result$n.models=n.models
   }
+
   df = rep(n - 1, result$n.models)
   if (prior == "AIC" | prior == "BIC" | prior=="IC") df = df - result$size + 1
   result$df = df

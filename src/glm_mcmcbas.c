@@ -74,7 +74,7 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	// Rprintf("Create Tree\n");
 	branch = tree;
-	CreateTree(branch, vars, bestmodel, model, n, m, modeldim);
+	CreateTree(branch, vars, bestmodel, model, n, m, modeldim, Rparents);
 	int pmodel = INTEGER(modeldim)[m];
 	SEXP Rmodel_m =	PROTECT(allocVector(INTSXP,pmodel));
 	GetModel_m(Rmodel_m, model, p);
@@ -198,7 +198,9 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		double *pigamma = vecalloc(p);
 		update_probs(probs, vars, mcurrent, k, p);
 		update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);
-		for (m = nUnique;  m < k; m++) {
+
+ // now sample
+		for (m = nUnique;  m < k && pigamma[0] < 1.0; m++) {
 			for (i = n; i < p; i++)  {
 				INTEGER(modeldim)[m]  +=  model[vars[i].index];
 			}
@@ -247,6 +249,24 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		}
 	}
 
+
+	if (mcurrent < k) {
+	  SETLENGTH(modelspace, mcurrent);
+	  SETLENGTH(logmarg, mcurrent);
+	  SETLENGTH(modelprobs, mcurrent);
+	  SETLENGTH(priorprobs, mcurrent);
+	  SETLENGTH(sampleprobs, mcurrent);
+	  SETLENGTH(counts, mcurrent);
+	  SETLENGTH(MCMCprobs, mcurrent);
+	  SETLENGTH(beta, mcurrent);
+	  SETLENGTH(se, mcurrent);
+	  SETLENGTH(deviance, mcurrent);
+	  SETLENGTH(Q, mcurrent);
+	  SETLENGTH(shrinkage, mcurrent);
+	  SETLENGTH(modeldim, mcurrent);
+	  SETLENGTH(R2, mcurrent);
+	  SETLENGTH(Rintercept, mcurrent);
+	}
 	compute_modelprobs(modelprobs, logmarg, priorprobs,k);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, k, p);
 

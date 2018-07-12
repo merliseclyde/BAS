@@ -328,9 +328,9 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
 
 
 
-  prob <- .normalize.initprobs(initprobs, glm.obj)
 
   # set up variables to always include
+  keep = 1
   if ("include.always" %in% names(mfall)) {
     minc <- match(c("include.always", "data", "subset"),  names(mfall), 0L)
     mfinc <- mfall[c(1L, minc)]
@@ -349,23 +349,36 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
       method='BAS'
     }
   }
-	n.models <- .normalize.n.models(n.models, p, prob, method)
-	modelprior <- .normalize.modelprior(modelprior,p)
 
-	parents = make.parents.of.interactions(mf, data)
+	parents = matrix(1,1,1)
+	if (method =="deterministic" | method == "MCMC+BAS") force.heredity=FALSE  # not working yet
+	if (force.heredity) {
+	  parents = make.parents.of.interactions(mf, data)
 
-	# check to see if really necessary
-	if (sum(parents) == nrow(parents)) {
-	  parents = matrix(1,1,1)
-	  force.heredity = FALSE}
-
-	# fix to insure bestmodel respects heredity
-
-  	#int = TRUE  # assume that an intercept is always included
-    	if (is.null(bestmodel)) {
-    		bestmodel = as.integer(prob)
+	  # check to see if really necessary
+	  if (sum(parents) == nrow(parents)) {
+	    parents = matrix(1,1,1)
+	    force.heredity = FALSE}
 	}
 
+	if (is.null(bestmodel)) {
+	  #    bestmodel = as.integer(initprobs)
+	  bestmodel = c(1, rep(0, p-1))
+	}
+	bestmodel[keep] = 1
+	if (force.heredity) {
+	  update=NULL  # do not update tree  FIXME LATER
+	  if (prob.heredity(bestmodel, parents) == 0) {
+	    warning("bestmodel violates heredity conditions; resetting to null model.  Please check  include.always and bestmodel")
+	    bestmodel = c(1, rep(0, p-1))
+	  }
+	  initprobs=c(1, seq(.95, .55, length=(p-1) ))  #keep same order
+	}
+
+  bestmodel = as.integer(bestmodel)
+	prob <- .normalize.initprobs(initprobs, glm.obj)
+	n.models <- .normalize.n.models(n.models, p, prob, method)
+	modelprior <- .normalize.modelprior(modelprior,p)
 
   	if (is.null(update)) {
     		if (n.models == 2^(p-1))  update = n.models+1
@@ -444,10 +457,11 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
   	result$betaprior=betaprior
   	result$modelprior=modelprior
 
+  	result$n.models = length(result$postprobs)
+  	result$include.always = keep
 
+# 	if (method == "MCMC") result$n.models = result$n.Unique
 
-  	if (method == "MCMC") { result$n.models = result$n.Unique }
-  	else  {result$n.models = n.models}
 
   	df = rep(nobs - 1, result$n.models)
 

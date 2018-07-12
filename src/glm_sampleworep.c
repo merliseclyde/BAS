@@ -6,8 +6,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		     SEXP Rprobinit, SEXP Rmodeldim,
 		     SEXP modelprior, SEXP betaprior,SEXP Rbestmodel,  SEXP plocal,
 		     SEXP family, SEXP Rcontrol,
-		     SEXP Rupdate, SEXP Rlaplace, SEXP Rparents
-			  ) {
+		     SEXP Rupdate, SEXP Rlaplace, SEXP Rparents) {
 	int nProtected = 0;
 
 	int nModels=LENGTH(Rmodeldim);
@@ -75,7 +74,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	double *pigamma = vecalloc(p);
 	branch = tree;
-	CreateTree_with_pigamma(branch, vars, bestmodel, model, n, m, modeldim,pigamma);
+	CreateTree_with_pigamma(branch, vars, bestmodel, model, n, m, modeldim,pigamma, Rparents);
 
 	branch=tree;
 	Substract_visited_probability_mass(branch, vars, model, n, m, pigamma,eps);
@@ -98,7 +97,10 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	UNPROTECT(2);
 
 	int *modelwork= ivecalloc(p);
-	for (m = 1;  m < k; m++) {
+
+	// sample models
+	for (m = 1;  m < k  && pigamma[0] < 1.0; m++) {
+	  INTEGER(modeldim)[m] = 0.0;
 		for (i = n; i < p; i++)  {
 			INTEGER(modeldim)[m]  +=  model[vars[i].index];
 		}
@@ -114,6 +116,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		/* Now get model specific calculations */
 		pmodel = INTEGER(modeldim)[m];
 		PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
+		memset(INTEGER(Rmodel_m), 0, pmodel * sizeof(int));
 		GetModel_m(Rmodel_m, model, p);
 
 		glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
@@ -146,6 +149,24 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 				}
 			}
 		}
+	}
+
+	if (m < k) {
+	  // resize if constraints have reduced the number of models
+	  k = m;
+	  SETLENGTH(modelspace, m);
+	  SETLENGTH(logmarg, m);
+	  SETLENGTH(modelprobs, m);
+	  SETLENGTH(priorprobs, m);
+	  SETLENGTH(sampleprobs, m);
+	  SETLENGTH(beta, m);
+	  SETLENGTH(se, m);
+	  SETLENGTH(deviance, m);
+	  SETLENGTH(Q, m);
+	  SETLENGTH(Rintercept, m);
+	  SETLENGTH(shrinkage, m);
+	  SETLENGTH(modeldim, m);
+	  SETLENGTH(R2, m);
 	}
 
 	compute_modelprobs(modelprobs, logmarg, priorprobs,k);

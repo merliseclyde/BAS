@@ -98,7 +98,7 @@ By default, `BAS` will try to enumerate all models, in this case $2^{15}$ using 
 The option "marg-eplogp" uses  p-values from the p simple linear regressions (useful for large p or highly correlated variables).
 The numeric provides a way to force variables to always be included  if the initialprob is 1.  
 
-Since we are enumerating under all possible models these options are not important. 
+Since we are enumerating under all possible models these options are not important and the `method="deterministic"` may be faster if there are no factors or interactions in the model. 
 
 ## Plots
 
@@ -409,34 +409,48 @@ climate = filter(climate, proxy != 6) %>%
 
 We can fit a weighted regression with  `weights = 1/sdev^2` with the following code
 ```{r wtreg}
-# takes a while to enumerate all 2^20 models
 climate.bas = bas.lm(deltaT ~ proxy*poly(latitude, 2), data=climate,
                      weights=1/sdev^2, 
                      prior="hyper-g-n", alpha=3.0,
                      n.models=2^20,
                      modelprior=uniform())
 ```
+
 Examining the image of the top  $20$ models,
 ```{r climate-image}
 image(climate.bas, rotate=F)
 ```
 
-we see that any level of a factor may enter or drop from the model independently. If we want to force that all levels of a factor or interaction of a factor enter or leave simultaneously, then we may use the function `force.heredity.bas` to
-post-process the output to include or exclude terms.
+we see that all levels of a factor  enter or drop from the model together, as well as the vectors in the design matrix to represent the term `poly`.  This  hierarchical "heredity" is the default option set by 
+`force.heredity = TRUE`.  
+
+To drop that restriction and allow levels of a factor or interaction of a factor  to enter or leave independently use `force.heredity = FALSE`. 
+```{r wtreg-wo-contraint}
+# May take a while to enumerate all 2^20 models
+climate.bas = bas.lm(deltaT ~ proxy*poly(latitude, 2), data=climate,
+                     weights=1/sdev^2, 
+                     prior="hyper-g-n", alpha=3.0,
+                     n.models=2^20,
+                     modelprior=uniform(),
+                     force.heredity=FALSE)
+```
+
+Note, while this may lead to more parsimonious models, the hypotheses that are being tested for about the coefficients that represent the factor depend on the choice for the reference group.
+
+The `force.heredity` is set to FALSE for the sampling methods `MCMC+BAS` and `deterministic`.   If there are more than 20 predictors and factors, then we recommend using `MCMC` to enforce the constraints.  Alternatively,
+there is a function,  `force.heredity.bas`, to
+post-process the output to drop models that violate the hierachical heredity constraint:
 
 ```{r force-herid}
 climate.herid.bas = force.heredity.bas(climate.bas)
 image(climate.herid.bas, rotate=F)
 ```
-We now see that there are now 5 models, with the model with just `proxy` having the highest posterior model probability.
-
-A future version of `BAS` will implement this through the model prior which should allow for more efficient sampling and reduced memory requirements when dealing with factors that have many levels.
 
 
 
 ## Summary
 
-`BAS` includes other prior distributions on coefficients and models, as well as `bas.glm` for fitting Generalized Linear Models.  The syntax for bas.glm and bas.lm are not yet the same, particularly for how some of the priors on coefficients are represented, so please see the documentation for more features and details until this is updated!
+`BAS` includes other prior distributions on coefficients and models, as well as `bas.glm` for fitting Generalized Linear Models.  The syntax for bas.glm and bas.lm are not yet the same, particularly for how some of the priors on coefficients are represented, so please see the documentation for more features and details until this is updated or another vignette is added!
 
 For issues or feature requests please submit via the package's github page 
 [merliseclyde/BAS](http://github.com/merliseclyde/BAS)

@@ -31,29 +31,39 @@ void SetModel(SEXP Rcoef_m, SEXP Rse_m, SEXP Rmodel_m, double mse_m, double R2_m
 void SetModel_lm(SEXP Rcoef_m, SEXP Rse_m, SEXP Rmodel_m, double mse_m, double R2_m,
               SEXP beta, SEXP se, SEXP modelspace, SEXP mse, SEXP R2, int m);
 
-void CreateTree_with_pigamma(NODEPTR branch, struct Var *vars, int *bestmodel, int *model, int n, int m, SEXP modeldim, double *pigamma) {
+void CreateTree_with_pigamma(NODEPTR branch, struct Var *vars,
+                             int *bestmodel, int *model, int n,
+                             int m, SEXP modeldim, double *pigamma,
+                             SEXP Rparents) {
+  double prob_parents;
 	for (int i = 0; i< n; i++) {
 		pigamma[i] = 1.0;
 		int bit =  bestmodel[vars[i].index];
+		model[vars[i].index] = bit;
+		INTEGER(modeldim)[m]  += bit;
 		if (bit == 1) {
 			for (int j=0; j<=i; j++)  pigamma[j] *= branch->prob;
-			if (i < n-1 && branch->one == NULL)
-				branch->one = make_node(vars[i+1].prob);
+			if (i < n-1 && branch->one == NULL) {
+			  prob_parents = got_parents(bestmodel, Rparents, i+1, vars);
+				branch->one = make_node(prob_parents);
+			}
 			if (i == n-1 && branch->one == NULL)
 				branch->one = make_node(0.0);
 			branch = branch->one;
-		} else {
+		}
+		else {
 			for (int j=0; j<=i; j++)  pigamma[j] *= (1.0 - branch->prob);
-			if (i < n-1 && branch->zero == NULL)
-				branch->zero = make_node(vars[i+1].prob);
+			if (i < n-1 && branch->zero == NULL) {
+			  prob_parents = got_parents(bestmodel, Rparents, i+1, vars);
+				branch->zero = make_node(prob_parents);
+			}
 			if (i == n-1 && branch->zero == NULL)
 				branch->zero = make_node(0.0);
 			branch = branch->zero;
 		}
-		model[vars[i].index] = bit;
-		INTEGER(modeldim)[m]  += bit;
 	}
 }
+
 void Substract_visited_probability_mass(NODEPTR branch, struct Var *vars, int *model, int n, int m,  double *pigamma, double eps) {
 	for (int i = 0; i < n; i++) {
 		int bit = model[vars[i].index];
@@ -68,7 +78,8 @@ void Substract_visited_probability_mass(NODEPTR branch, struct Var *vars, int *m
 				}
 			}
 			denom = 0.0;
-		} else {
+		}
+		else {
 			if  (prone <= 0)  prone = 0.0;
 			if  (prone > denom)  {
 				if (prone <= eps) prone = 0.0;
@@ -77,9 +88,9 @@ void Substract_visited_probability_mass(NODEPTR branch, struct Var *vars, int *m
 			}
 			else prone = prone/denom;
 		}
-		if (prone > 1.0 || prone < 0.0)
+		if (prone > 1.0 || prone < 0.0) {
 			Rprintf("%d %d Probability > 1!!! %le %le  %le %le \n",
-			m, i, prone, branch->prob, denom, pigamma);
+			m, i, prone, branch->prob, denom, pigamma);}
 		branch->prob  = prone;
 		if (bit == 1) branch = branch->one;
 		else  branch = branch->zero;
@@ -89,31 +100,73 @@ void GetNextModel_swop(NODEPTR branch, struct Var *vars,
                        int *model, int n, int m,  double *pigamma,
                    		 double problocal, SEXP modeldim, int *bestmodel,
                    		 SEXP Rparents) {
+  double prob_parents = 1.0;
 	for (int i = 0; i< n; i++) {
 		pigamma[i] = 1.0;
 		int bit =  withprob(branch->prob);
-		int local = withprob(problocal);
-		if ( local == 1 && (branch->prob < .999) && (branch->prob > 0.001)) {
-			bit = bestmodel[vars[i].index];
-		} else {
-			bit =  withprob(branch->prob);
-		}
+
+		model[vars[i].index] = bit;
+		INTEGER(modeldim)[m]  += bit;
+
 		if (bit == 1) {
-			for (int j=0; j<=i; j++)  pigamma[j] *= branch->prob;
-			if (i < n-1 && branch->one == NULL) branch->one = make_node(vars[i+1].prob);
-			if (i == n-1 && branch->one == NULL) branch->one = make_node(0.0);
-			branch = branch->one;
+			for (int j=0; j<=i; j++) {
+			  pigamma[j] *= branch->prob; } // calculate probabilty of model
+  			if (i < n-1 && branch->one == NULL) {
+  			  //  add new branch
+  			  //  check if parents
+  			  prob_parents =  got_parents(model, Rparents, i+1, vars);
+  			  branch->one = make_node(prob_parents);
+  			}
+  			if (i == n-1 && branch->one == NULL) branch->one = make_node(0.0);
+	  		branch = branch->one;
 		} else {
 			for (int j=0; j<=i; j++)  pigamma[j] *= (1.0 - branch->prob);
-			if (i < n-1 && branch->zero == NULL) branch->zero = make_node(vars[i+1].prob);
+			if (i < n-1 && branch->zero == NULL)
+			{
+			  //  add new branch
+			  //  check if parents
+			  prob_parents =  got_parents(model, Rparents, i+1, vars);
+			  branch->zero = make_node(prob_parents);
+			}
 			if (i == n-1 && branch->zero == NULL) branch->zero = make_node(0.0);
 			branch = branch->zero;
 		}
-		model[vars[i].index] = bit;
-		INTEGER(modeldim)[m]  += bit;
 	}
 }
 
+double got_parents(int *model, SEXP Rparents, int level, struct Var *var)
+{ double prob=1.0, *parents;
+  int j=0, p, nsibs=0;
+
+  int *dims = INTEGER(getAttrib(Rparents,R_DimSymbol));
+  p = dims[0];
+  if (p > 1) {
+   parents = REAL(Rparents);
+   // Rprintf("level %d\n", level);
+    for (j=0, nsibs=0, prob=1.0; j < level; j++) {
+      if ((parents[var[level].index + p*var[j].index]) == 1.0) {
+        if (model[var[j].index] == 0) {
+        // missing parent so probability of model is 0
+            prob *= 0.0;}
+        if (model[var[j].index] == 1) {
+        // got parent so probability of variable is 1
+            prob *= 1.0;
+            nsibs += parents[var[j].index + p*var[level].index];
+          }
+      }
+  /*    Rprintf("%d pos %d, index %d, parents %lf, model %d nsibs %d, prob %lf\n",
+              j, var[j].index,var[level].index,parents[var[level].index + p*var[j].index],
+                                                      model[var[j].index], nsibs, prob);
+  */
+  }
+    if ((nsibs == 0) && (prob > 0.0))  prob = var[level].prob;
+
+  }
+  else{ prob = var[level].prob;}
+
+//  Rprintf("Prob 1 = %lf\n", prob);
+return(prob);
+}
 
 extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
                             SEXP Rmodeldim, SEXP incint, SEXP Ralpha,
@@ -193,7 +246,8 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 
 	double *pigamma = vecalloc(p);
 	branch = tree;
-	CreateTree_with_pigamma(branch, vars, bestmodel, model, n, m, modeldim,pigamma);
+	CreateTree_with_pigamma(branch, vars, bestmodel, model, n, m,
+                         modeldim, pigamma, Rparents);
 
 	branch=tree;
 	Substract_visited_probability_mass(branch, vars, model, n, m, pigamma,eps);
@@ -220,11 +274,23 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 	//Rprintf("model %d max logmarg %lf\n", m, REAL(logmarg)[m]);
   UNPROTECT(3);
 	Rbestmarg = REAL(logmarg)[m];
-
+  double *parents = REAL(Rparents);
+  int j;
 	int *modelwork= ivecalloc(p);
+	/*
+  for (j =0; j < p; j++) Rprintf("%d ", vars[j].index);
+    Rprintf("\n");
+	for (i=0; i < p; i++) {
+	  Rprintf("%d ", vars[i].index);
+	  for (j = 0; j < p; j++) {
+	    Rprintf("%lf ", parents[vars[i].index + p*vars[j].index]);
+	  }
+	  Rprintf("\n");
+	}  */
 
 	// Sample models
-	for (m = 1;  m < k; m++) {
+	for (m = 1;  m < k && pigamma[0] < 1.0; m++) {
+	//  Rprintf("model %d, starting pigamma = %lf\n", m, pigamma[0]);
 	  INTEGER(modeldim)[m] = 0;
 		for (i = n; i < p; i++)  {
 			INTEGER(modeldim)[m]  +=  model[vars[i].index];
@@ -278,6 +344,23 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 			}
 		}
 	}
+
+  if (m < k) {  // resize
+    k = m;
+    SETLENGTH(modelspace, m);
+    SETLENGTH(logmarg, m);
+    SETLENGTH(modelprobs, m);
+    SETLENGTH(priorprobs, m);
+    SETLENGTH(sampleprobs, m);
+    SETLENGTH(beta, m);
+    SETLENGTH(se, m);
+    SETLENGTH(mse, m);
+    SETLENGTH(shrinkage, m);
+    SETLENGTH(modeldim, m);
+    SETLENGTH(R2, m);
+//  	Rprintf("m %d k %d", m, LENGTH(modelprobs));
+  }
+
 
 	compute_modelprobs(modelprobs, logmarg, priorprobs,k);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, k, p);

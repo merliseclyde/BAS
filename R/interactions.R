@@ -45,8 +45,8 @@ make.parents.of.interactions =
 
 
 prob.heredity = function(model, parents, prob=.5) {
-  p = length(model) + 1  # model has no intercept, while parents does
-  parents = parents[2:p, 2:p]
+#  p = length(model)  # model has no intercept, while parents does
+#  parents = parents[2:p, 2:p]
   got.parents =  apply(parents, 1,
            FUN=function(x){
            all(as.logical(model[as.logical(x)]))}
@@ -104,7 +104,7 @@ force.heredity.bas = function(object, prior.prob=.5) {
     parents = make.parents.of.interactions(mf=eval(object$call$formula, parent.frame()),
                                            data=eval(object$call$data, parent.frame()))
     which = which.matrix(object$which, object$n.vars)
-    priorprobs = apply(which[,-1], 1,
+    priorprobs = apply(which, 1,
                   FUN=function(x) {prob.heredity(model=x, parents=parents)}
                   )
     keep = (priorprobs != 0)
