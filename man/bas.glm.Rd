@@ -153,6 +153,7 @@ likelihood approximation} \item{Y}{response} \item{X}{matrix of predictors}
 \item{family}{family object from the original call} \item{betaprior}{family
 object for prior on coefficients, including hyperparameters}
 \item{modelprior}{family object for prior on the models}
+\item{include.always}{indices of variables that are forced into the model}
 }
 \description{
 Sample with or without replacement from a posterior distribution on GLMs

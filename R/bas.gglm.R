@@ -205,6 +205,7 @@
 #' \item{family}{family object from the original call} \item{betaprior}{family
 #' object for prior on coefficients, including hyperparameters}
 #' \item{modelprior}{family object for prior on the models}
+#' \item{include.always}{indices of variables that are forced into the model}
 #' @author Merlise Clyde (\email{clyde@@stat.duke.edu}), Quanli Wang and Yingbo
 #' Li
 #' @references Li, Y. and Clyde, M. (2015) Mixtures of g-priors in Generalized
@@ -330,7 +331,7 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
 
 
   # set up variables to always include
-  keep = 1
+  keep = NULL
   if ("include.always" %in% names(mfall)) {
     minc <- match(c("include.always", "data", "subset"),  names(mfall), 0L)
     mfinc <- mfall[c(1L, minc)]

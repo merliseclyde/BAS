@@ -284,6 +284,7 @@
 #' \item{X}{matrix of predictors}
 #' \item{mean.x}{vector of means for each column of X (used in
 #' \code{\link{predict.bas}})}
+#' \item{include.always}{indices of variables that are forced into the model}
 #'
 #' The function \code{\link{summary.bas}}, is used to print a summary of the
 #' results. The function \code{\link{plot.bas}} is used to plot posterior
