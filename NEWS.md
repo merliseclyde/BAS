@@ -4,6 +4,8 @@
 
 * Added option to force lower order terms to be included if higher order terms are present (hierarchical constraint).  Currently only supported with `method='MCMC'` and `method='BAS'` with `bas.lm` and `bas.glm`.  Updated Vignette to illustrate. [enhancement #19](https://github.com/merliseclyde/BAS/issues/19)
 
+* Added option `drop.always.included` to `image.bas` so that variables that are always included are not shown.  The intercept is no longer shown as well. [enhancement #23](https://github.com/merliseclyde/BAS/issues/23)
+
 ## Bugs
 
 * corrected count for first model with `method='MCMC'` which lead to potential model with 0 probabiliy and errors in `image`.
