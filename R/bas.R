@@ -379,9 +379,8 @@
 #' ToothGrowth$dose = factor(ToothGrowth$dose)
 #' levels(ToothGrowth$dose) = c("Low", "Medium", "High")
 #' TG.bas = bas.lm(len ~ supp*dose, data=ToothGrowth,
-#'                  modelprior=uniform(), method='MCMC',
-#'                  prob.rw=.95,            # use random-walk predominantly
-#'                  MCMC.iterations=10000)  # should run longer
+#'                  modelprior=uniform(), method='BAS',
+#'                  force.heredity=TRUE)
 #' summary(TG.bas)
 #' image(TG.bas)
 
@@ -470,7 +469,7 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
   }
    if (length(initprobs) == (p-1))
        initprobs = c(1.0, initprobs)
-  keep = 1
+  keep = NULL
   # set up variables to always include
   if ("include.always" %in% names(mfall)) {
     minc <- match(c("include.always", "data", "subset"),  names(mfall), 0L)

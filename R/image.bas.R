@@ -25,7 +25,9 @@
 #' @param color The color scheme for image intensities. The value "rainbow"
 #' uses the rainbow palette. The value "blackandwhite" produces a black and
 #' white image (greyscale image)
-#' @param subset indices of variables to include in plot; 1 is the intercept
+#' @param subset indices of variables to include in plot; (excludes the intercept)
+#' @param drop.always.included logical variable to drop variables that are
+#' always in the model.  TRUE by default.
 #' @param offset numeric value to add to intensity
 #' @param digits number of digits in posterior probabilities to keep
 #' @param vlas las parameter for placing variable names; see par
@@ -54,7 +56,8 @@
 #' @family bas plots
 #' @method image bas
 #' @export
-image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, rotate=TRUE, color="rainbow", subset=NULL, offset=.75, digits=3, vlas=2,plas=0,rlas=0, ...)
+image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, rotate=TRUE, color="rainbow", subset=NULL, drop.always.included = TRUE,
+                       offset=.75, digits=3, vlas=2,plas=0,rlas=0, ...)
 {
   postprob = x$postprobs
   top.models = min(top.models, x$n.models)
@@ -64,8 +67,10 @@ image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, ro
   nvar <- ncol(which.mat)
 
 
-  if (is.null(subset)) subset=1:nvar
-
+  if (is.null(subset)) subset=2:nvar
+  keep = x$include.always
+  subset = subset[!subset %in% keep]
+  if (length(subset) == 0) stop("no models in subset to show; modify subset or drop.always.included")
   which.mat =  which.mat[,subset, drop=FALSE]
   nvar = ncol(which.mat)
   namesx = x$namesx[subset]

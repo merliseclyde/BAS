@@ -380,6 +380,57 @@ Looking at the summaries
 ```{r}
 knitr::kable(as.data.frame(summary(stack.bas)))
 ```
+## Factors and Hierarchical Heredity 
+
+BAS now includes constraints for factors so that all terms that represent a factor are either included or excluded togehter. 
+To illustrate, we will use the data set `ToothGrowth` and convert `dose` to a factor:
+```{r}
+data(ToothGrowth)
+ToothGrowth$dose = factor(ToothGrowth$dose)
+levels(ToothGrowth$dose) = c("Low", "Medium", "High")
+
+```
+
+and fit the model
+```{r}
+TG.bas = bas.lm(len ~ supp + dose, data=ToothGrowth,
+                 modelprior=uniform(), method='BAS')
+
+image(TG.bas)
+```
+
+From the image of the model space, we see that all levels of a factor  enter or drop from the model together.  This  hierarchical "heredity" is the default option set by `force.heredity = TRUE`.  To drop that restriction and allow levels of a factor or interaction of a factor  to enter or leave independently use `force.heredity = FALSE`. 
+
+```{r}
+TG.bas = bas.lm(len ~ supp + dose, data=ToothGrowth,
+                 modelprior=uniform(), method='BAS', force.heredity = FALSE)
+
+image(TG.bas)
+```
+
+This may lead to more parsimonious models, however, the hypotheses that are being tested  about the coefficients that represent the factor depend on the choice for the reference group.
+
+The `force.heredity` option also forces interactions to be included only if the main effects are also included, or for models with several factors and higher order interactions, the heredity constraint implies that all lower order interactions must be included before adding higher order interactions.
+
+```{r}
+TG.bas = bas.lm(len ~ supp*dose, data=ToothGrowth,
+                 modelprior=uniform(), method='BAS', force.heredity = TRUE)
+
+image(TG.bas)
+```
+
+The `force.heredity` is set to FALSE for the sampling methods `MCMC+BAS` and `deterministic`.   If there are more than 20 predictors and factors, then we recommend using `MCMC` to enforce the constraints.  Alternatively,
+there is a function,  `force.heredity.bas`, to
+post-process the output to drop models that violate the hierachical heredity constraint:
+
+```{r force-herid}
+TG.bas =  bas.lm(len ~ supp*dose, data=ToothGrowth,
+                 modelprior=uniform(), method='BAS', force.heredity = FALSE)
+TG.herid.bas = force.heredity.bas(TG.bas)
+
+```
+
+that can be used with those sampling methods.
 
 ## Weighted Regression
 
@@ -416,15 +467,14 @@ climate.bas = bas.lm(deltaT ~ proxy*poly(latitude, 2), data=climate,
                      modelprior=uniform())
 ```
 
-Examining the image of the top  $20$ models,
+Examining the image of the top  models,
 ```{r climate-image}
 image(climate.bas, rotate=F)
 ```
 
-we see that all levels of a factor  enter or drop from the model together, as well as the vectors in the design matrix to represent the term `poly`.  This  hierarchical "heredity" is the default option set by 
-`force.heredity = TRUE`.  
+we see that all levels of a factor  enter or drop from the model together, as well as the vectors in the design matrix to represent the term `poly`.   
+Rerunning without the constraint, 
 
-To drop that restriction and allow levels of a factor or interaction of a factor  to enter or leave independently use `force.heredity = FALSE`. 
 ```{r wtreg-wo-contraint}
 # May take a while to enumerate all 2^20 models
 climate.bas = bas.lm(deltaT ~ proxy*poly(latitude, 2), data=climate,
@@ -433,18 +483,11 @@ climate.bas = bas.lm(deltaT ~ proxy*poly(latitude, 2), data=climate,
                      n.models=2^20,
                      modelprior=uniform(),
                      force.heredity=FALSE)
+image(climate.bas)
 ```
 
-Note, while this may lead to more parsimonious models, the hypotheses that are being tested for about the coefficients that represent the factor depend on the choice for the reference group.
+allows one to see which factors levels are different from the reference group.
 
-The `force.heredity` is set to FALSE for the sampling methods `MCMC+BAS` and `deterministic`.   If there are more than 20 predictors and factors, then we recommend using `MCMC` to enforce the constraints.  Alternatively,
-there is a function,  `force.heredity.bas`, to
-post-process the output to drop models that violate the hierachical heredity constraint:
-
-```{r force-herid}
-climate.herid.bas = force.heredity.bas(climate.bas)
-image(climate.herid.bas, rotate=F)
-```
 
 
 

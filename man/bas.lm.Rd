@@ -305,9 +305,8 @@ data(ToothGrowth)
 ToothGrowth$dose = factor(ToothGrowth$dose)
 levels(ToothGrowth$dose) = c("Low", "Medium", "High")
 TG.bas = bas.lm(len ~ supp*dose, data=ToothGrowth,
-                 modelprior=uniform(), method='MCMC',
-                 prob.rw=.95,            # use random-walk predominantly
-                 MCMC.iterations=10000)  # should run longer
+                 modelprior=uniform(), method='BAS',
+                 force.heredity=TRUE)
 summary(TG.bas)
 image(TG.bas)
 # more complete demo's
