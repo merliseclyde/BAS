@@ -7,7 +7,7 @@
 \usage{
 \method{image}{bas}(x, top.models = 20, intensity = TRUE, prob = TRUE,
   log = TRUE, rotate = TRUE, color = "rainbow", subset = NULL,
-  drop.always.included = TRUE, offset = 0.75, digits = 3, vlas = 2,
+  drop.always.included = FALSE, offset = 0.75, digits = 3, vlas = 2,
   plas = 0, rlas = 0, ...)
 }
 \arguments{
@@ -35,10 +35,10 @@ the y-axis and variables are on the x-axis (TRUE)}
 uses the rainbow palette. The value "blackandwhite" produces a black and
 white image (greyscale image)}
 
-\item{subset}{indices of variables to include in plot; (excludes the intercept)}
+\item{subset}{indices of variables to include/exclude in plot}
 
 \item{drop.always.included}{logical variable to drop variables that are
-always in the model.  TRUE by default.}
+always forced into the model.  FALSE by default.}
 
 \item{offset}{numeric value to add to intensity}
 
@@ -70,7 +70,7 @@ probability due to Thomas Lumley
 require(graphics)
 data("Hald")
 hald.ZSprior =  bas.lm(Y~ ., data=Hald,  prior="ZS-null")
-image(hald.ZSprior, subset=-1)
+image(hald.ZSprior, drop.always.included=TRUE) #drop the intercept
 
 }
 \references{

@@ -120,22 +120,37 @@
 <h1 class="page-header">
 <a href="#bas-1-5-2" class="anchor"></a>BAS 1.5.2<small> Unreleased </small>
 </h1>
-<p>nothing yet working on interactions!</p>
-</div>
-    <div id="bas-1-5-1-june-6-2018" class="section level1">
-<h1 class="page-header">
-<a href="#bas-1-5-1-june-6-2018" class="anchor"></a>BAS 1.5.1 June 6, 2018<small> 2018-06-07 </small>
-</h1>
 <div id="features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#features" class="anchor"></a>Features</h2>
 <ul>
-<li>added S3 method <code>variable.names</code> to extract variable names in the highest probability model, median probability model, and best probability model for objects created by <code>predict</code>.</li>
+<li><p>Added option to force lower order terms to be included if higher order terms are present (hierarchical constraint). Currently only supported with <code>method='MCMC'</code> and <code>method='BAS'</code> with <code>bas.lm</code> and <code>bas.glm</code>. Updated Vignette to illustrate. <a href="https://github.com/merliseclyde/BAS/issues/19">enhancement <a href='https://github.com/merliseclyde/BAS/issues/19'>#19</a></a></p></li>
+<li><p>Added option <code>drop.always.included</code> to <code>image.bas</code> so that variables that are always included may be excluded from the image. By default all are shown <a href="https://github.com/merliseclyde/BAS/issues/23">enhancement <a href='https://github.com/merliseclyde/BAS/issues/23'>#23</a></a></p></li>
+<li><p>Added option <code>drop.always.included</code> and <code>subset</code> to <code>plot.bas</code> so that variables that are always included may be excluded from the plot showing the marginal posterior inclusion probabilities (<code>which=4</code>). By default all are shown <a href="https://github.com/merliseclyde/BAS/issues/23">enhancement <a href='https://github.com/merliseclyde/BAS/issues/23'>#23</a></a></p></li>
 </ul>
 </div>
 <div id="bugs" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bugs" class="anchor"></a>Bugs</h2>
+<ul>
+<li>corrected count for first model with <code>method='MCMC'</code> which lead to potential model with 0 probabiliy and errors in <code>image</code>.</li>
+</ul>
+</div>
+</div>
+    <div id="bas-1-5-1-june-6-2018" class="section level1">
+<h1 class="page-header">
+<a href="#bas-1-5-1-june-6-2018" class="anchor"></a>BAS 1.5.1 June 6, 2018<small> 2018-06-07 </small>
+</h1>
+<div id="features-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#features-1" class="anchor"></a>Features</h2>
+<ul>
+<li>added S3 method <code>variable.names</code> to extract variable names in the highest probability model, median probability model, and best probability model for objects created by <code>predict</code>.</li>
+</ul>
+</div>
+<div id="bugs-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bugs-1" class="anchor"></a>Bugs</h2>
 <ul>
 <li>Fixed incorrect documentation in <code>predict.basglm</code> which had that <code>type = "link"</code> was the default for prediction <a href="https://github.com/merliseclyde/BAS/issues/18">issue <a href='https://github.com/merliseclyde/BAS/issues/18'>#18</a></a>
 </li>
@@ -146,18 +161,18 @@
 <h1 class="page-header">
 <a href="#bas-1-5-0-may-2-2018" class="anchor"></a>BAS 1.5.0 May 2, 2018<small> 2018-05-03 </small>
 </h1>
-<div id="features-1" class="section level2">
+<div id="features-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#features-1" class="anchor"></a>Features</h2>
+<a href="#features-2" class="anchor"></a>Features</h2>
 <ul>
 <li><p>add na.action for handling NA’s for predict methods <a href="https://github.com/merliseclyde/BAS/issues/10">issue <a href='https://github.com/merliseclyde/BAS/issues/10'>#10</a></a></p></li>
 <li><p>added <code>include.always</code> as new argument to <code>bas.lm</code>. This allows a formula to specify which terms should always be included in all models. By default the intercept is always included.</p></li>
 <li><p>added a section to the vignetted to illustrate weighted regression and the <code>force.heredity.bas</code> function to group levels of a factor so that they enter or leave the model together.</p></li>
 </ul>
 </div>
-<div id="bugs-1" class="section level2">
+<div id="bugs-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bugs-1" class="anchor"></a>Bugs</h2>
+<a href="#bugs-2" class="anchor"></a>Bugs</h2>
 <ul>
 <li><p>fixed problem if there is only one model for <code>image</code> function;<br>
 github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='https://github.com/merliseclyde/BAS/issues/11'>#11</a></a></p></li>
@@ -173,17 +188,17 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <h1 class="page-header">
 <a href="#bas-1-4-9-march-24-2018" class="anchor"></a>BAS 1.4.9 March 24, 2018<small> 2018-03-25 </small>
 </h1>
-<div id="bugs-2" class="section level2">
+<div id="bugs-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bugs-2" class="anchor"></a>Bugs</h2>
+<a href="#bugs-3" class="anchor"></a>Bugs</h2>
 <ul>
 <li>fixed bug in <code>confint.coef.bas</code> when parm is a character string</li>
 <li>added parentheses in betafamily.c line 382 as indicated in CRAN check for R devel</li>
 </ul>
 </div>
-<div id="features-2" class="section level2">
+<div id="features-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#features-2" class="anchor"></a>Features</h2>
+<a href="#features-3" class="anchor"></a>Features</h2>
 <ul>
 <li>added option to determine k for <code>Bayes.outlier</code> if prior probability of no outliers is provided</li>
 </ul>
@@ -193,9 +208,9 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <h1 class="page-header">
 <a href="#bas-1-4-8-march-10-2018" class="anchor"></a>BAS 1.4.8 March 10, 2018<small> 2018-03-12 </small>
 </h1>
-<div id="bugs-3" class="section level2">
+<div id="bugs-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bugs-3" class="anchor"></a>Bugs</h2>
+<a href="#bugs-4" class="anchor"></a>Bugs</h2>
 <ul>
 <li><p>fixed issue with scoping in eval of data in <code>predict.bas</code> if dataname is defined in local env.</p></li>
 <li><p>fixed issue 10 in github (predict for estimator=‘BPM’ failed if there were NA’s in the X data. Delete NA’s before finding the closest model.</p></li>
@@ -238,9 +253,9 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <li>Added force.heredity.interaction function to allow higher order interactions to be included only if their “parents” or lower order interactions or main effects were included. Currently tested with two way interactions. This is implemented post-sampling; future updates will add this at the sampling stage which will reduce memory usage and sampling times by reducing the number of models under consideration.</li>
 </ul>
 </div>
-<div id="bugs-4" class="section level2">
+<div id="bugs-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bugs-4" class="anchor"></a>Bugs</h2>
+<a href="#bugs-5" class="anchor"></a>Bugs</h2>
 <ul>
 <li><p>Fixed unprotected ANS in C code in glm_sampleworep.c and sampleworep.c after call to PutRNGstate and possible stack imbalance in glm_mcmc.</p></li>
 <li><p>Fixed problem with predict for estimator=BPM when newdata was one row</p></li>
@@ -251,9 +266,9 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <h1 class="page-header">
 <a href="#bas-1-4-5-march-28-2017" class="anchor"></a>BAS 1.4.5 March 28, 2017<small> 2017-03-31 </small>
 </h1>
-<div id="bugs-5" class="section level2">
+<div id="bugs-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bugs-5" class="anchor"></a>Bugs</h2>
+<a href="#bugs-6" class="anchor"></a>Bugs</h2>
 <ul>
 <li><p>Fixed non-conformable error with <code>predict</code> when new data was from a dataframe with one row.</p></li>
 <li><p>Fixed problem with missing weights for prediction using the median probability model with no new data.</p></li>
@@ -273,9 +288,9 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <li><p>factor levels are handled as in <code>lm</code> or <code>glm</code> for prediction when there may be only level of a factor in the newdata</p></li>
 </ul>
 </div>
-<div id="bugs-6" class="section level2">
+<div id="bugs-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bugs-6" class="anchor"></a>Bugs</h2>
+<a href="#bugs-7" class="anchor"></a>Bugs</h2>
 <ul>
 <li><p>fixed issue for prediction when newdata has just one row</p></li>
 <li><p>fixed missing id in plot.bas for which=3</p></li>
@@ -336,9 +351,9 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <li>the modification in 1.4.0 to automatically handle NA’s led to errors if the response was transformed as part of the forumula; this is fixed</li>
 </ul>
 </div>
-<div id="features-3" class="section level2">
+<div id="features-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#features-3" class="anchor"></a>Features</h2>
+<a href="#features-4" class="anchor"></a>Features</h2>
 <ul>
 <li>added subset argument to <code>bas.lm</code> and <code>bas.glm</code>
 </li>

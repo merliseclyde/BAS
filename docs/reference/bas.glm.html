@@ -135,7 +135,7 @@ Generalized Linear Models</h1>
   <span class='fl'>1</span>), <span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"Uniform"</span>, <span class='kw'>include.always</span> <span class='kw'>=</span> ~<span class='fl'>1</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"MCMC"</span>,
   <span class='kw'>update</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bestmodel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prob.rw</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>MCMC.iterations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'>glm.control</span>(), <span class='kw'>laplace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>renormalize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>renormalize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -288,7 +288,14 @@ values of the Wald Chisquared statistic.</p></td>
       <th>renormalize</th>
       <td><p>logical variable for whether posterior probabilities
 should be based on renormalizing marginal likelihoods times prior
-probabilities or use Monte Carlo frequencies. Applies only to MCMC sampling</p></td>
+probabilities or use Monte Carlo frequencies. Applies only to MCMC sampling.</p></td>
+    </tr>
+    <tr>
+      <th>force.heredity</th>
+      <td><p>Logical variable to force all levels of a factor to be
+included together and to include higher order interactions only if lower
+order terms are included.  Currently only supported with `method='MCMC'`.
+Default is TRUE.</p></td>
     </tr>
     </table>
     
@@ -315,6 +322,7 @@ likelihood approximation</p></dd> <dt>Y</dt><dd><p>response</p></dd> <dt>X</dt><
 <dt>family</dt><dd><p>family object from the original call</p></dd> <dt>betaprior</dt><dd><p>family
 object for prior on coefficients, including hyperparameters</p></dd>
 <dt>modelprior</dt><dd><p>family object for prior on the models</p></dd>
+<dt>include.always</dt><dd><p>indices of variables that are forced into the model</p></dd>
 
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -396,7 +404,17 @@ Association.</p>
 <span class='no'>pima.BIC</span> <span class='kw'>=</span> <span class='fu'>bas.glm</span>(<span class='no'>type</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Pima.tr</span>, <span class='kw'>n.models</span><span class='kw'>=</span> <span class='fl'>2</span>^<span class='fl'>7</span>,
               <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"BAS+MCMC"</span>, <span class='kw'>MCMC.iterations</span><span class='kw'>=</span><span class='fl'>1000</span>,
               <span class='kw'>betaprior</span><span class='kw'>=</span><span class='fu'><a href='IC.prior.html'>bic.prior</a></span>(), <span class='kw'>family</span><span class='kw'>=</span><span class='fu'>binomial</span>(),
-              <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'><a href='uniform.html'>uniform</a></span>())</div></pre>
+              <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'><a href='uniform.html'>uniform</a></span>())
+<span class='co'># Poisson example</span>
+<span class='kw'>if</span>(<span class='fu'>requireNamespace</span>(<span class='st'>"glmbb"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) {
+  <span class='fu'>data</span>(<span class='no'>crabs</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>'glmbb'</span>)
+  <span class='co'>#short run for illustration</span>
+  <span class='no'>crabs.bas</span> <span class='kw'>=</span> <span class='fu'>bas.glm</span>(<span class='no'>satell</span> ~ <span class='no'>color</span>*<span class='no'>spine</span>*<span class='no'>width</span> + <span class='no'>weight</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>crabs</span>,
+                      <span class='kw'>family</span><span class='kw'>=</span><span class='fu'>poisson</span>(),
+                      <span class='kw'>betaprior</span><span class='kw'>=</span><span class='fu'><a href='EB.local.html'>EB.local</a></span>(), <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'><a href='uniform.html'>uniform</a></span>(),
+                      <span class='kw'>method</span><span class='kw'>=</span><span class='st'>'MCMC'</span>, <span class='kw'>n.models</span><span class='kw'>=</span><span class='fl'>2</span>^<span class='fl'>10</span>, <span class='kw'>MCMC.iterations</span><span class='kw'>=</span><span class='fl'>10000</span>,
+                      <span class='kw'>prob.rw</span><span class='kw'>=</span><span class='fl'>.95</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

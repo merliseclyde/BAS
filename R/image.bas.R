@@ -25,9 +25,9 @@
 #' @param color The color scheme for image intensities. The value "rainbow"
 #' uses the rainbow palette. The value "blackandwhite" produces a black and
 #' white image (greyscale image)
-#' @param subset indices of variables to include in plot; (excludes the intercept)
+#' @param subset indices of variables to include/exclude in plot
 #' @param drop.always.included logical variable to drop variables that are
-#' always in the model.  TRUE by default.
+#' always forced into the model.  FALSE by default.
 #' @param offset numeric value to add to intensity
 #' @param digits number of digits in posterior probabilities to keep
 #' @param vlas las parameter for placing variable names; see par
@@ -49,14 +49,14 @@
 #' require(graphics)
 #' data("Hald")
 #' hald.ZSprior =  bas.lm(Y~ ., data=Hald,  prior="ZS-null")
-#' image(hald.ZSprior, subset=-1)
+#' image(hald.ZSprior, drop.always.included=TRUE) #drop the intercept
 #'
 #' @rdname image.bas
 #' @family bas methods
 #' @family bas plots
 #' @method image bas
 #' @export
-image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, rotate=TRUE, color="rainbow", subset=NULL, drop.always.included = TRUE,
+image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, rotate=TRUE, color="rainbow", subset=NULL, drop.always.included = FALSE,
                        offset=.75, digits=3, vlas=2,plas=0,rlas=0, ...)
 {
   postprob = x$postprobs
@@ -67,10 +67,14 @@ image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, ro
   nvar <- ncol(which.mat)
 
 
-  if (is.null(subset)) subset=2:nvar
-  keep = x$include.always
-  subset = subset[!subset %in% keep]
-  if (length(subset) == 0) stop("no models in subset to show; modify subset or drop.always.included")
+  if (is.null(subset)) subset=1:nvar
+  if (drop.always.included) {
+    keep = x$include.always
+    if (is.null(keep)) keep = 1
+    subset = subset[!subset %in% keep]
+    if (length(subset) == 0) stop("no models in subset to show; modify subset or drop.always.included")
+  }
+
   which.mat =  which.mat[,subset, drop=FALSE]
   nvar = ncol(which.mat)
   namesx = x$namesx[subset]
@@ -84,8 +88,9 @@ image.bas <- function (x, top.models=20, intensity=TRUE, prob=TRUE, log=TRUE, ro
     # fix problem when scale has duplicate zeros
     zeros = which(scale == 0.0)
     nzeros = length(zeros)
+
     if (nzeros > 1) {
-      scale[zeros] = seq(scale[zeros[1]-1],0,length=nzeros)/1000
+      scale[zeros] = seq(scale[zeros[1]-1],0.0,length=nzeros)/1000
     }
   }
 

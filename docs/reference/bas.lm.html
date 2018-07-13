@@ -134,7 +134,7 @@ Linear Models</h1>
   <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>), <span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"Uniform"</span>,
   <span class='kw'>include.always</span> <span class='kw'>=</span> ~<span class='fl'>1</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"BAS"</span>, <span class='kw'>update</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bestmodel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>prob.local</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>prob.rw</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>MCMC.iterations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>delta</span> <span class='kw'>=</span> <span class='fl'>0.025</span>, <span class='kw'>thin</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>renormalize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>delta</span> <span class='kw'>=</span> <span class='fl'>0.025</span>, <span class='kw'>thin</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>renormalize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -337,6 +337,13 @@ while the former may have less variability.  May be compared via the
 diagnostic plot function <code><a href='diagnostics.html'>diagnostics</a></code>.
 See details in Clyde and Ghosh (2012).</p></td>
     </tr>
+    <tr>
+      <th>force.heredity</th>
+      <td><p>Logical variable to force all levels of a factor to be
+included together and to include higher order interactions only if lower
+order terms are included.  Currently only supported with `method='MCMC'`.
+Default is TRUE.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -379,6 +386,7 @@ BMA object</p></dd>
 <dt>X</dt><dd><p>matrix of predictors</p></dd>
 <dt>mean.x</dt><dd><p>vector of means for each column of X (used in
 <code><a href='predict.bas.html'>predict.bas</a></code>)</p></dd>
+<dt>include.always</dt><dd><p>indices of variables that are forced into the model</p></dd>
 
 The function <a href='summary.html'>summary.bas</a>, is used to print a summary of the
 results. The function <a href='plot.html'>plot.bas</a> is used to plot posterior
@@ -551,7 +559,38 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; PostProbs   0.0099000
 #&gt; R2          0.8375000
 #&gt; dim         9.0000000
-#&gt; logmarg   -22.8118635</div><div class='input'><span class='fu'>plot</span>(<span class='no'>crime.bic</span>)</div><div class='img'><img src='bas.lm-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='image.bas.html'>image</a></span>(<span class='no'>crime.bic</span>, <span class='kw'>subset</span><span class='kw'>=</span>-<span class='fl'>1</span>)</div><div class='img'><img src='bas.lm-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># more complete demo's</span>
+#&gt; logmarg   -22.8118635</div><div class='input'><span class='fu'>plot</span>(<span class='no'>crime.bic</span>)</div><div class='img'><img src='bas.lm-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='image.bas.html'>image</a></span>(<span class='no'>crime.bic</span>, <span class='kw'>subset</span><span class='kw'>=</span>-<span class='fl'>1</span>)</div><div class='img'><img src='bas.lm-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># example with two-way interactions and hierarchical constraints</span>
+<span class='fu'>data</span>(<span class='no'>ToothGrowth</span>)
+<span class='no'>ToothGrowth</span>$<span class='no'>dose</span> <span class='kw'>=</span> <span class='fu'>factor</span>(<span class='no'>ToothGrowth</span>$<span class='no'>dose</span>)
+<span class='fu'>levels</span>(<span class='no'>ToothGrowth</span>$<span class='no'>dose</span>) <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Low"</span>, <span class='st'>"Medium"</span>, <span class='st'>"High"</span>)
+<span class='no'>TG.bas</span> <span class='kw'>=</span> <span class='fu'>bas.lm</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>*<span class='no'>dose</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>ToothGrowth</span>,
+                 <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'><a href='uniform.html'>uniform</a></span>(), <span class='kw'>method</span><span class='kw'>=</span><span class='st'>'BAS'</span>,
+                 <span class='kw'>force.heredity</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='fu'><a href='summary.html'>summary</a></span>(<span class='no'>TG.bas</span>)</div><div class='output co'>#&gt;                   P(B != 0 | Y)  model 1    model 2     model 3      model 4
+#&gt; Intercept             1.0000000  1.00000  1.0000000  1.00000000 1.000000e+00
+#&gt; suppVC                0.9910702  1.00000  1.0000000  0.00000000 0.000000e+00
+#&gt; doseMedium            1.0000000  1.00000  1.0000000  1.00000000 0.000000e+00
+#&gt; doseHigh              1.0000000  1.00000  1.0000000  1.00000000 0.000000e+00
+#&gt; suppVC:doseMedium     0.4500943  0.00000  1.0000000  0.00000000 0.000000e+00
+#&gt; suppVC:doseHigh       0.4500943  0.00000  1.0000000  0.00000000 0.000000e+00
+#&gt; BF                           NA  1.00000  0.8320043  0.01650685 2.812754e-15
+#&gt; PostProbs                    NA  0.54100  0.4501000  0.00890000 0.000000e+00
+#&gt; R2                           NA  0.76230  0.7937000  0.70290000 0.000000e+00
+#&gt; dim                          NA  4.00000  6.0000000  3.00000000 1.000000e+00
+#&gt; logmarg                      NA 33.50461 33.3206946 29.40063248 0.000000e+00
+#&gt;                         model 5
+#&gt; Intercept          1.000000e+00
+#&gt; suppVC             1.000000e+00
+#&gt; doseMedium         0.000000e+00
+#&gt; doseHigh           0.000000e+00
+#&gt; suppVC:doseMedium  0.000000e+00
+#&gt; suppVC:doseHigh    0.000000e+00
+#&gt; BF                 7.895214e-16
+#&gt; PostProbs          0.000000e+00
+#&gt; R2                 5.950000e-02
+#&gt; dim                2.000000e+00
+#&gt; logmarg           -1.270492e+00</div><div class='input'><span class='fu'><a href='image.bas.html'>image</a></span>(<span class='no'>TG.bas</span>)</div><div class='img'><img src='bas.lm-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># more complete demo's</span>
 <span class='fu'>demo</span>(<span class='no'>BAS.hald</span>)</div><div class='output co'>#&gt; 
 #&gt; 
 #&gt; 	demo(BAS.hald)
@@ -574,7 +613,7 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; Intercept         X1         X2         X3         X4  
 #&gt;    1.0000     0.9019     0.6896     0.4653     0.6329  
 #&gt; 
-#&gt; &gt; plot(hald.gprior)</div><div class='img'><img src='bas.lm-6.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-7.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-8.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-9.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; &gt; plot(hald.gprior)</div><div class='img'><img src='bas.lm-7.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-8.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-9.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-10.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
 #&gt; &gt; summary(hald.gprior)
 #&gt;           P(B != 0 | Y)  model 1    model 2    model 3    model 4    model 5
 #&gt; Intercept     1.0000000  1.00000  1.0000000 1.00000000  1.0000000  1.0000000
@@ -588,7 +627,7 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; dim                  NA  3.00000  3.0000000 5.00000000  4.0000000  4.0000000
 #&gt; logmarg              NA 11.72735 11.3597547 9.31845348 10.6354335 10.6322138
 #&gt; 
-#&gt; &gt; image(hald.gprior, subset=-1, vlas=0)</div><div class='img'><img src='bas.lm-10.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; &gt; image(hald.gprior, subset=-1, vlas=0)</div><div class='img'><img src='bas.lm-11.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
 #&gt; &gt; hald.coef = coefficients(hald.gprior)
 #&gt; 
 #&gt; &gt; hald.coef
@@ -605,7 +644,7 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; X3         -0.1271     0.4976   0.4653       
 #&gt; X4         -0.3269     0.4717   0.6329       
 #&gt; 
-#&gt; &gt; plot(hald.coef)</div><div class='img'><img src='bas.lm-11.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-12.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-13.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-14.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-15.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; &gt; plot(hald.coef)</div><div class='img'><img src='bas.lm-12.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-13.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-14.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-15.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-16.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
 #&gt; &gt; predict(hald.gprior, top=5, se.fit=TRUE)  
 #&gt; $fit
 #&gt;            [,1]
@@ -696,7 +735,7 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; [1] 12 12 12 12 12
 #&gt; 
 #&gt; $best
-#&gt; [1]  3  4 13  7  6
+#&gt; [1] 10 13  2  7  9
 #&gt; 
 #&gt; $bestmodel
 #&gt; $bestmodel[[1]]
@@ -726,19 +765,19 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; 
 #&gt; &gt; confint(predict(hald.gprior, Hald, estimator="BMA", se.fit=TRUE, top=5), parm="mean")
 #&gt;            2.5%     97.5%      mean
-#&gt;  [1,]  73.35371  86.34507  79.74246
-#&gt;  [2,]  69.31377  79.53741  74.50010
-#&gt;  [3,] 100.76281 109.42370 105.29268
-#&gt;  [4,]  84.78281  94.44618  89.88693
-#&gt;  [5,]  90.35169 100.10887  95.57177
-#&gt;  [6,] 101.26951 107.96003 104.56409
-#&gt;  [7,]  97.33081 108.84942 103.40145
-#&gt;  [8,]  71.72889  82.78968  77.13668
-#&gt;  [9,]  87.63046  96.35905  91.99731
-#&gt; [10,] 106.78688 122.27228 114.21325
-#&gt; [11,]  77.50816  88.22266  82.78446
-#&gt; [12,] 106.45949 115.41141 111.00723
-#&gt; [13,] 105.62752 115.34943 110.40160
+#&gt;  [1,]  73.17137  85.94839  79.74246
+#&gt;  [2,]  69.50134  79.65722  74.50010
+#&gt;  [3,] 100.99463 109.55043 105.29268
+#&gt;  [4,]  85.10793  94.64280  89.88693
+#&gt;  [5,]  90.62907 100.40460  95.57177
+#&gt;  [6,] 101.29763 107.91759 104.56409
+#&gt;  [7,]  97.63080 109.34610 103.40145
+#&gt;  [8,]  71.75529  82.72972  77.13668
+#&gt;  [9,]  87.62652  96.35853  91.99731
+#&gt; [10,] 106.78775 121.78193 114.21325
+#&gt; [11,]  77.66622  88.30411  82.78446
+#&gt; [12,] 106.79528 115.57300 111.00723
+#&gt; [13,] 105.44359 114.93066 110.40160
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")

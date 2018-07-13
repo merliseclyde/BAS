@@ -10,7 +10,7 @@
   main = "", ask = prod(par("mfcol")) < length(which) && dev.interactive(),
   col.in = 2, col.ex = 1, col.pch = 1, cex.lab = 1, ..., id.n = 3,
   labels.id = NULL, cex.id = 0.75, add.smooth = getOption("add.smooth"),
-  label.pos = c(4, 2))
+  label.pos = c(4, 2), subset = NULL, drop.always.included = FALSE)
 }
 \arguments{
 \item{x}{\code{bas} BMA object result of 'bas'}
@@ -55,6 +55,12 @@ plots; see also 'panel' above}
 
 \item{label.pos}{positioning of labels, for the left half and right half of
 the graph respectively, for plots 1-4}
+
+\item{subset}{indices of variables to include/exclude in plot of marginal posterior
+inclusion probabilities (NULL).}
+
+\item{drop.always.included}{logical variable to drop marginal posterior inclusiond probabilities
+for variables that are always forced into the model.  FALSE by default.}
 }
 \description{
 Four plots (selectable by 'which') are currently available: a plot of

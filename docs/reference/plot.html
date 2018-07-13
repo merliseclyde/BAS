@@ -139,7 +139,7 @@ probabilities.</p>
   <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fu'>prod</span>(<span class='fu'>par</span>(<span class='st'>"mfcol"</span>)) <span class='kw'>&lt;</span> <span class='fu'>length</span>(<span class='no'>which</span>) <span class='kw'>&amp;&amp;</span> <span class='fu'>dev.interactive</span>(),
   <span class='kw'>col.in</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>col.ex</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>col.pch</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>cex.lab</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>, <span class='kw'>id.n</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='kw'>labels.id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cex.id</span> <span class='kw'>=</span> <span class='fl'>0.75</span>, <span class='kw'>add.smooth</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"add.smooth"</span>),
-  <span class='kw'>label.pos</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>4</span>, <span class='fl'>2</span>))</pre>
+  <span class='kw'>label.pos</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>4</span>, <span class='fl'>2</span>), <span class='kw'>subset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>drop.always.included</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -220,6 +220,16 @@ plots; see also 'panel' above</p></td>
       <th>label.pos</th>
       <td><p>positioning of labels, for the left half and right half of
 the graph respectively, for plots 1-4</p></td>
+    </tr>
+    <tr>
+      <th>subset</th>
+      <td><p>indices of variables to include/exclude in plot of marginal posterior
+inclusion probabilities (NULL).</p></td>
+    </tr>
+    <tr>
+      <th>drop.always.included</th>
+      <td><p>logical variable to drop marginal posterior inclusiond probabilities
+for variables that are always forced into the model.  FALSE by default.</p></td>
     </tr>
     </table>
     

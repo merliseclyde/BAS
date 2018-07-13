@@ -38,6 +38,10 @@
 #' plots; see also 'panel' above
 #' @param label.pos positioning of labels, for the left half and right half of
 #' the graph respectively, for plots 1-4
+#' @param subset indices of variables to include/exclude in plot of marginal posterior
+#' inclusion probabilities (NULL).
+#' @param drop.always.included logical variable to drop marginal posterior inclusiond probabilities
+#' for variables that are always forced into the model.  FALSE by default.
 #' @author Merlise Clyde, based on plot.lm by John Maindonald and Martin
 #' Maechler
 #' @seealso \code{\link{plot.coef.bas}} and \code{\link{image.bas}}.
@@ -65,7 +69,7 @@ plot.bas = function (x, which = c(1:4),
   id.n = 3,
   labels.id = NULL,
   cex.id = 0.75,  add.smooth = getOption("add.smooth"),
-  label.pos = c(4, 2))
+  label.pos = c(4, 2), subset=NULL, drop.always.included=FALSE)
 {
     if (!inherits(x, "bas"))
       stop("use only with \"bas\" objects")
@@ -168,10 +172,19 @@ plot.bas = function (x, which = c(1:4),
         text.id(dim[show.m], logmarg[show.m], show.m)
     }
     if (show[4]) {
-      probne0 = x$probne0
-      variables = 1:x$n.vars
+
+      if (is.null(subset)) subset=1:x$n.vars
+      if (drop.always.included) {
+        keep = x$include.always
+        if (is.null(keep)) keep = 1
+        subset = subset[!subset %in% keep]
+        if (length(subset) == 0) stop("no models in subset to show; modify subset or drop.always.included")
+      }
+      probne0 = x$probne0[subset]
+      nvars = length(subset)
+      variables = 1:nvars
       ylim <- c(0,1)
-      colors=rep(0, x$n.vars)
+      colors=rep(0, nvars)
       colors[probne0 > .5] = col.in
       colors[probne0 <= .5] = col.ex
 
@@ -182,7 +195,7 @@ plot.bas = function (x, which = c(1:4),
            ylim = ylim, ...)
       if (one.fig)
         title(sub = sub.caption, ...)
-      mtext(x$namesx, side=1, line=0.25, at=variables, las=2, cex=cex.lab, ...)
+      mtext(x$namesx[subset], side=1, line=0.25, at=variables, las=2, cex=cex.lab, ...)
       mtext(caption[4], 3, 0.25)
       #if (id.n > 0)
        # text.id(dim[show.m], logmarg[show.m], show.m)
