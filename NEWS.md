@@ -32,7 +32,7 @@ model, and best probability model for objects created by `predict`.
 
 * added `include.always` as new argument to `bas.lm`.  This allows a formula to specify which terms should always be included in all models.  By default the intercept is always included.
 
-* added a section to the vignetted to illustrate weighted regression and the 
+* added a section to the vignette to illustrate weighted regression and the 
 `force.heredity.bas` function to group levels of a factor so that they enter 
 or leave the model together.
 
