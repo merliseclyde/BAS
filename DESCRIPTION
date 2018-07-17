@@ -34,7 +34,7 @@ Description: Package for Bayesian Variable Selection and  Model Averaging in lin
     corresponding to the Zellner-Siow Cauchy Priors or the
     mixture of g-priors from Liang et al (2008)
     <DOI:10.1198/016214507000001337>
-    for linear models or mixtures of g-priors in GLMs of Li and Clyde (2015)
+    for linear models or mixtures of g-priors in GLMs of Li and Clyde (2018)
     <arXiv:1503.06913>. Other model
     selection criteria include AIC, BIC and Empirical Bayes estimates of g.
     Sampling probabilities may be updated based on the sampled models

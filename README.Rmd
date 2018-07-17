@@ -27,7 +27,7 @@ provide an easy to use package and fast code for implementing Bayesian Model
 Averaging and Model Selection in `R` using state of the art prior
 distributions for linear and generalized linear models.  The
 prior distributions in `BAS` are based on Zellner's g-prior or
-mixtures of g-priors. These have been shown to be consistent asymptotically for model selection and inference  and have
+mixtures of g-priors for linear and generalized linear models. These have been shown to be consistent asymptotically for model selection and inference  and have
 a number of computational advantages. `BAS` implements three main
 algorithms for sampling from the space of potential models: a deterministic algorithm for efficient enumeration,
 adaptive sampling without replacement algorithm for modest problems, and a MCMC algorithm 
