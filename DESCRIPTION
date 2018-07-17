@@ -24,7 +24,8 @@ Suggests:
     rmarkdown,
     roxygen2,
     dplyr,
-    glmbb
+    glmbb,
+    pkgdown
 Description: Package for Bayesian Variable Selection and  Model Averaging in linear models and
     generalized linear models using stochastic or
     deterministic sampling without replacement from posterior
