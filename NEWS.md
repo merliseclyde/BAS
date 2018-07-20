@@ -2,6 +2,8 @@
 
 ## Features
 
+* Included an option `pivot=TRUE` in `bas.lm` to fit the models using a pivoted Cholesky decomposition to allow models that are rank-deficient.  Addresses [Enhancment #21](https://github.com/merliseclyde/BAS/issues/21)
+
 * Added option to force lower order terms to be included if higher order terms are present (hierarchical constraint).  Currently only supported with `method='MCMC'` and `method='BAS'` with `bas.lm` and `bas.glm`.  Updated Vignette to illustrate. [enhancement #19](https://github.com/merliseclyde/BAS/issues/19)
 
 * Added option `drop.always.included` to `image.bas` so that variables that are always included may be excluded from the image. By default all are shown [enhancement #23](https://github.com/merliseclyde/BAS/issues/23)
