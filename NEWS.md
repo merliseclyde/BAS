@@ -2,7 +2,7 @@
 
 ## Features
 
-* Included an option `pivot=TRUE` in `bas.lm` to fit the models using a pivoted Cholesky decomposition to allow models that are rank-deficient.  Addresses [Enhancment #21](https://github.com/merliseclyde/BAS/issues/21)
+* Included an option `pivot=TRUE` in `bas.lm` to fit the models using a pivoted Cholesky decomposition to allow models that are rank-deficient.  [Enhancment #24](https://github.com/merliseclyde/BAS/issues/24) and [Bug #21](https://github.com/merliseclyde/BAS/issues/21).  Currently coefficients that are not-estimable are set to zero so that `predict` and other methods will work as before.  With more testing and timing this may become the default; otherwise the default method without pivoting issues a warning if log marginals are `NA`.
 
 * Added option to force lower order terms to be included if higher order terms are present (hierarchical constraint).  Currently only supported with `method='MCMC'` and `method='BAS'` with `bas.lm` and `bas.glm`.  Updated Vignette to illustrate. [enhancement #19](https://github.com/merliseclyde/BAS/issues/19)
 
@@ -11,6 +11,8 @@
 * Added option `drop.always.included` and `subset` to `plot.bas` so that variables that are always included may be excluded from the plot showing the marginal posterior inclusion probabilities (`which=4`). By default all are shown [enhancement #23](https://github.com/merliseclyde/BAS/issues/23)
 
 ## Bugs
+
+* added warning if marginal likelihoods/posterior probabilities are NA with default model fitting method with suggestion that models be rerun with `pivot = TRUE`.  This uses a modified Cholesky decomposition with pivoting so that if the model is rank deficient or nearly singular the dimensionality is reduced.  [Bug #21](https://github.com/merliseclyde/BAS/issues/21).   
 
 * corrected count for first model with `method='MCMC'` which lead to potential model with 0 probabiliy and errors in `image`.
 
