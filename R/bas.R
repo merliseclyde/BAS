@@ -243,6 +243,8 @@
 #' included together and to include higher order interactions only if lower
 #' order terms are included.  Currently only supported with `method='MCMC'`.
 #' Default is TRUE.
+#' @param pivot Logical variable to allow pivoting of columns when obtaining the
+#' OLS estimates of a model so that models that are not full rank can be fit.
 #'
 #' @return \code{bas} returns an object of class \code{bas}
 #'
@@ -356,7 +358,7 @@
 #'                     log(Prob) + log(Time),
 #'                     data=UScrime, n.models=2^15, prior="BIC",
 #'                     modelprior=beta.binomial(1,1),
-#'                     initprobs= "eplogp")
+#'                     initprobs= "eplogp", pivot=FALSE)
 #'
 #'
 #' # use MCMC rather than enumeration
@@ -369,7 +371,7 @@
 #'                     method="MCMC",
 #'                     MCMC.iterations=20000, prior="BIC",
 #'                     modelprior=beta.binomial(1,1),
-#'                     initprobs= "eplogp")
+#'                     initprobs= "eplogp", pivot=FALSE)
 #'
 #' summary(crime.bic)
 #' plot(crime.bic)
@@ -404,7 +406,8 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
     prob.rw=0.5,
     MCMC.iterations=NULL,
     lambda=NULL, delta=0.025, thin=1, renormalize=FALSE,
-    force.heredity=TRUE)  {
+    force.heredity=TRUE,
+    pivot=FALSE)  {
 
 
   num.updates=10
@@ -600,6 +603,7 @@ if (method == "AMCMC") {
       Rbestmodel=as.integer(bestmodel),
       plocal=as.numeric(prob.local),
       Rparents = parents,
+      Rpivot=pivot,
       PACKAGE="BAS"),
     "MCMC+BAS"= .Call(C_mcmcbas,
       Yvec, X, sqrt(weights),
@@ -623,7 +627,8 @@ if (method == "AMCMC") {
         plocal=as.numeric(1.0 - prob.rw), as.integer(Burnin.iterations),
         as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta),
         as.integer(thin),
-        Rparents=parents),
+        Rparents=parents,
+        Rpivot=pivot),
     "AMCMC" = .Call(C_amcmc,
       Yvec, X, sqrt(weights),
       prob, modeldim,

@@ -37,10 +37,11 @@ void CreateTree(NODEPTR branch, struct Var *vars, int *bestmodel,
 //caller is responsible to call UNPROTECT(2);
 double FitModel(SEXP Rcoef_m, SEXP Rse_m, double *XtY, double *XtX, int *model_m,
 			  double *XtYwork, double *XtXwork, double yty, double SSY, int pmodel, int p,
-			  int nobs, int m, double *pmse_m) {
+			  int nobs, int m, double *pmse_m, int *rank_m, int pivot) {
 
 	double *coefficients = REAL(Rcoef_m);
 	double *se_m = REAL(Rse_m);
+
 
 	for (int j=0; j < pmodel; j++) { //subsetting matrix
 		XtYwork[j] = XtY[model_m[j]];
@@ -49,11 +50,18 @@ double FitModel(SEXP Rcoef_m, SEXP Rse_m, double *XtY, double *XtX, int *model_m
 		}
 	}
 	*pmse_m = yty;
-	memcpy(coefficients, XtYwork, sizeof(double)*pmodel);
-	cholreg(XtYwork, XtXwork, coefficients, se_m, pmse_m, pmodel, nobs);
+	 memcpy(coefficients, XtYwork, sizeof(double)*pmodel);
+	if (pivot == 1) {
+  	*rank_m = cholregpivot(XtYwork, XtXwork, coefficients, se_m, pmse_m, pmodel, nobs);
+	}
+	else {
+	  cholreg(XtYwork, XtXwork, coefficients, se_m, pmse_m, pmodel, nobs);
+	  *rank_m = pmodel;
+}
 
-	double R2_m = 1.0 - (*pmse_m * (double) ( nobs - pmodel))/SSY;
-        if (R2_m < 0.0 || pmodel == 1) R2_m = 0.0;
+	 double R2_m = 1.0 - (*pmse_m * (double) ( nobs - *rank_m))/SSY;
+//	 Rprintf("R2 = %lf, mse = %lf, rank = %d\n", R2_m, *pmse_m, *rank_m);
+        if (R2_m < 0.0 || *rank_m == 1) R2_m = 0.0;
 
 	return R2_m;
 }
@@ -246,12 +254,13 @@ extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeld
                      SEXP Ralpha,SEXP method,SEXP modelprior, SEXP Rupdate,
                      SEXP Rbestmodel, SEXP plocal, SEXP BURNIN_Iterations,
                      SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA,
-                     SEXP Rthin, SEXP Rparents)
+                     SEXP Rthin, SEXP Rparents, SEXP Rpivot)
 {
 	int nProtected = 0;
 	SEXP RXwork = PROTECT(duplicate(X)); nProtected++;
 	SEXP RYwork = PROTECT(duplicate(Y)); nProtected++;
 	int nModels=LENGTH(Rmodeldim);
+	int pivot = LOGICAL(Rpivot)[0];
 
 	//  Rprintf("Allocating Space for %d Models\n", nModels) ;
 	SEXP ANS = PROTECT(allocVector(VECSXP, 15)); ++nProtected;
@@ -275,7 +284,7 @@ extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeld
 	double *Xwork, *Ywork,*wts, *probs, shrinkage_m,
 		mse_m, MH=0.0, prior_m=1.0,
 		R2_m, RSquareFull, logmargy, postold, postnew;
-	int i, m, n, pmodel_old, *model_m, *bestmodel;
+	int i, m, n, pmodel_old, *model_m, *bestmodel, rank_m;
 	int mcurrent, n_sure;
 
 
@@ -339,8 +348,8 @@ extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeld
 	model_m = GetModel_m(Rmodel_m, model, p);
 	//evaluate logmargy and shrinkage
 
-	R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m);
-	gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
+	R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m, &rank_m, pivot);
+	gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
 
 	prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
 	if (prior_m == 0.0)  Rprintf("warning initial model has 0 prior probabilty\n");
@@ -399,8 +408,10 @@ extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeld
 		    PROTECT(Rse_m = NEW_NUMERIC(pmodel));
 		    model_m = GetModel_m(Rmodel_m, model, p);
 
-		    R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m);
-		    gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
+		    R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m, &rank_m, pivot);
+
+
+		    gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
 
 
 		    postnew = logmargy + log(prior_m);

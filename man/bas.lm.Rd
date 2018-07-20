@@ -11,7 +11,8 @@ bas.lm(formula, data, subset, weights, na.action = "na.omit",
   modelprior = beta.binomial(1, 1), initprobs = "Uniform",
   include.always = ~1, method = "BAS", update = NULL, bestmodel = NULL,
   prob.local = 0, prob.rw = 0.5, MCMC.iterations = NULL, lambda = NULL,
-  delta = 0.025, thin = 1, renormalize = FALSE, force.heredity = TRUE)
+  delta = 0.025, thin = 1, renormalize = FALSE, force.heredity = TRUE,
+  pivot = FALSE)
 }
 \arguments{
 \item{formula}{linear model formula for the full model with all predictors,
@@ -176,6 +177,9 @@ See details in Clyde and Ghosh (2012).}
 included together and to include higher order interactions only if lower
 order terms are included.  Currently only supported with `method='MCMC'`.
 Default is TRUE.}
+
+\item{pivot}{Logical variable to allow pivoting of columns when obtaining the
+OLS estimates of a model so that models that are not full rank can be fit.}
 }
 \value{
 \code{bas} returns an object of class \code{bas}
@@ -282,7 +286,7 @@ crime.bic =  bas.lm(log(y) ~ log(M) + So + log(Ed) +
                     log(Prob) + log(Time),
                     data=UScrime, n.models=2^15, prior="BIC",
                     modelprior=beta.binomial(1,1),
-                    initprobs= "eplogp")
+                    initprobs= "eplogp", pivot=FALSE)
 
 
 # use MCMC rather than enumeration
@@ -295,7 +299,7 @@ crime.mcmc =  bas.lm(log(y) ~ log(M) + So + log(Ed) +
                     method="MCMC",
                     MCMC.iterations=20000, prior="BIC",
                     modelprior=beta.binomial(1,1),
-                    initprobs= "eplogp")
+                    initprobs= "eplogp", pivot=FALSE)
 
 summary(crime.bic)
 plot(crime.bic)

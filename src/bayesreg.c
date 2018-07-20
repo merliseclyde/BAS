@@ -114,94 +114,118 @@ void gexpectations(int p, int pmodel, int nobs, double R2, double alpha, int met
 }
 
 
-double maxeffect(double *beta, double *se, int p) {
-  int j;
-  double t, maxeffect;
-
-  maxeffect = 0;
-  if (p > 1) {
-    for (j = 2; j < p; j++) {
-      t = fabs(beta[j]/se[j]);
-      maxeffect = fmax2(maxeffect, t);
-    }
-  }
-  return(maxeffect);
-}
 
 
-void cholregpivot(double *XtY, double *XtX, double *coefficients, double *se, double *mse, int p, int n)
+int cholregpivot(double *XtY, double *XtX, double *coefficients, double *se, double *mse, int p, int n)
 {
 	/* On entry *coefficients equals X'Y, which is over written with the OLS estimates */
 	/* On entry MSE = Y'Y */
 
-  double   ete, one, zero, tol=100*DBL_EPSILON, *work, *tmpcoef;
-	int  job, l, i, j, info, inc, rank, *piv;
+  double  one, ete=0.0, zero, tol=100*DBL_EPSILON, *work, *tmpcoef;
+	int  job, l, i, j, info, inc, rank, *piv, p2;
 	zero = 0.0;
 	one = 1.0;
 	inc = 1;
 	job = 01;
 	info = 1;
+	p2 = p*p;
 
 	piv  = (int *)  R_alloc(p, sizeof(int));
 	tmpcoef  = (double *)  R_alloc(p, sizeof(double));
   work =  (double *) R_alloc(p*p, sizeof(double));
 
-	// compute Cholesky decomposition of X^TX using pivoting
-	F77_NAME(dpstrf)("U", &p, &XtX[0],&p, &piv[0], &rank, &tol, &work[0], &info);
 
-	// reorder input to coeffients based on pivot (starts at 1)
-  for (i = 0; i < p; i++) {
-    coefficients[i] = XtY[piv[i] - 1];
+// compute Cholesky decomposition of X^TX using pivoting
+	F77_NAME(dpstrf)("U", &p, &XtX[0], &p, &piv[0], &rank, &tol, &work[0], &info);
+
+	// copy XtY to tmpcoef based on pivot order
+  for (i=0; i < p; i++){
+    tmpcoef[i] = XtY[piv[i]-1];
   }
 
-  Rprintf("p %d rank %d\n:",p, rank);
-//  if (rank < p) {
-//    for (i = rank; i < p; i++) {
-//      coefficients[i] = 0.0;
-//    }
-//  }
 
-	// solve for identifiable coefficients on input coefficients = XtY
-	F77_NAME(dpotrs)("U", &rank, &inc, &XtX[0],&rank,&coefficients[0],&rank, &info);
-
-// need to copy coefficients and re order
-memcpy(tmpcoef,XtY,  p*sizeof(double));
-
-
-  for (i=0; i < p; i++ ) {
-      tmpcoef[piv[i] - 1] = XtY[i];
+  if (rank < p) {
+    memset(work, 0.0 , p*p*sizeof(double));
+  // get  r x r part of pivoted XtX
+    for (j =0, l=0; j < rank; j++) {
+      for (i=0; i <  rank; i++) {
+       work[l] = XtX[j*p + i];
+         l += 1;
+        }
+      }
   }
+  else {
+    memcpy(work, XtX, p*p*sizeof(double));
+    }
+ // solve for OLS as before
+ //
+ F77_NAME(dpotrs)("U", &rank, &inc, &work[0],&rank,&tmpcoef[0],&rank, &info);
 
- // calculate regression Sum of Squares
-  	ete = F77_NAME(ddot)(&rank, &coefficients[0], &inc, &XtY[0], &inc);
+
+ /* R^TR b = XtY
+  * let  m = R b
+  * solve for m R^T m = XtY
+  * solve for b Rb = m
+  */
+
+//  F77_NAME(dtrsm)("L", "U", "T", "N", &rank, &inc, &one,
+//                  &work[0], &rank, &tmpcoef[0], &rank);
+
+// now solve second
+//
+//  F77_NAME(dtrsm)("L", "U", "N", "N", &rank, &inc, &one,
+//           &work[0], &rank, &tmpcoef[0], &rank);
 
 
-	if ( n <= p) {
+ // memset(coefficients, 0.0, p*sizeof(double));
+for (i = rank; i < p; i++) {tmpcoef[i] = 0.0;}
+//  copy back in correct order; non-estimable coefficients are 0
+	for (i = 0; i < p; i++) {
+	  coefficients[piv[i] -1] = tmpcoef[i];
+//	  Rprintf("%d %lf\n", piv[i]-1, coefficients[piv[i]-1]);
+	}
+
+
+
+//  Find inverse
+//   extract upper rank x rank component of R
+
+// calculate hat-beta^T X^TX hat-beta = hat-beta^T R^TR hat-beta
+// so calculate w = R hat-beta using chol
+// then calculate w^Tw using ddot
+ete = 0.0;
+// F77_CALL(dtrmv)("U", "N", "N", &rank, &XtX[0], &p, &tmpcoef[0], &inc);
+//  ete = F77_NAME(ddot)(&rank, &tmpcoef[0], &inc, &tmpcoef[0], &inc);
+
+//	Rprintf("using chol YtY= %lf ete = %lf rank = %d,  p = %d\n", *mse, ete, rank, p);
+
+	// calculate regression Sum of Squares
+		ete = F77_NAME(ddot)(&p, &coefficients[0], &inc, &XtY[0], &inc);
+
+//	Rprintf("YtY= %lf ete = %lf rank = %d,  p = %d", *mse, ete, rank, p);
+	if ( n <= p ) {
 	  *mse = 0.0;
 	}
 	else {
-	  *mse = (*mse - ete)/((double) (n - p));
-	  }
-
-	memcpy(tmpcoef,coefficients,  p*sizeof(double));
-	for (i=0; i < p; i++ ) {
-	  coefficients[piv[i] - 1] = tmpcoef[i];
-	  Rprintf("i %d, pivot %d coef %lf tmpcoef %lf \n",
-           i,piv[i] -1, coefficients[i], tmpcoef[i]);
+	  *mse = (*mse - ete)/((double) (n - rank));
 	}
 
+//	Rprintf(" mse = %lf\n", *mse);
 
-	// Find inverse
-	F77_NAME(dpotri)("U", &rank, &XtX[0],&rank, &job);
+   F77_NAME(dpotri)("U", &rank, &work[0],&rank, &job);
+//  QR2cov(&XtX[0], &work[0], &XtX[0], rank, p);
 
-	for (j=0, l=0; j < p; j++)  {
-		for (i=0; i <  p; i++) {
+  memset(se, 0.0, p*sizeof(double));
+
+	for (j=0, l=0; j < rank; j++)  {
+		for (i=0; i <  rank; i++) {
 			if (i == j)  {
-				se[piv[j]] = sqrt(XtX[l] * *mse);
+  				se[piv[j]-1] = sqrt(work[l] * *mse);
 			}
 			l += 1;
 		}
 	}
+return(rank);
   }
 
 void cholreg(double *XtY, double *XtX, double *coefficients, double *se, double *mse, int p, int n)

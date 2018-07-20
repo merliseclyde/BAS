@@ -71,7 +71,8 @@ library(BAS)
 crime.ZS =  bas.lm(y ~ ., 
                    data=UScrime,
                    prior="ZS-null",
-                   modelprior=uniform(), initprobs="eplogp") 
+                   modelprior=uniform(), initprobs="eplogp",
+                   force.heredity=FALSE, pivot=TRUE) 
 ```
 
 `BAS` uses a model formula similar to `lm` to specify the full model with all of the potential predictors.  Here we are using the shorthand `.` to indicate that all remaining variables in the data frame will be included.  `BAS` require a data frame as the input for the `data` argument.   Different prior distributions on the regression coefficients may be specified using the `prior` argument, and include

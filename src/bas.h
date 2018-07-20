@@ -114,7 +114,7 @@ void dgemv_(const char *trans, int *m, int *n, double *alpha, double *A,
 
 */
 
-void cholregold(double *residuals, double *X, double *XtX, double *coefficients,double *se, double *mse,  int p, int n);
+int cholregpivot(double *XtY, double *XtX, double *coefficients,double *se, double *mse,  int p, int n);
 void cholreg(double *XtY, double *XtX, double *coefficients,double *se, double *mse,  int p, int n);
 double quadform (double *bwork, double *R,  int p);
 double **matalloc(int das,int dbs);
@@ -294,7 +294,9 @@ void SetModel1(SEXP Rfit, SEXP Rmodel_m,
 
 void SetModel2(double logmargy, double shrinkage_m, double prior_m,
                SEXP sampleprobs, SEXP logmarg, SEXP shrinkage, SEXP priorprobs, int m);
-
+double FitModel(SEXP Rcoef_m, SEXP Rse_m, double *XtY, double *XtX, int *model_m,
+                double *XtYwork, double *XtXwork, double yty, double SSY, int pmodel, int p,
+                int nobs, int m, double *pmse_m, int *rank_m, int pivot);
 SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
                   SEXP Roffset, SEXP Rweights,
                   glmstptr * glmfamily, SEXP Rcontrol,

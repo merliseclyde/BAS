@@ -21,9 +21,6 @@ void update_tree(SEXP modelspace, struct Node *tree, SEXP modeldim, struct Var *
 double CalculateRSquareFull(double *XtY, double *XtX, double *XtXwork, double *XtYwork,
 							SEXP Rcoef_m, SEXP Rse_m, int p, int nobs, double yty, double SSY);
 int *GetModel_m(SEXP Rmodel_m, int *model, int p);
-double FitModel(SEXP Rcoef_m, SEXP Rse_m, double *XtY, double *XtX, int *model_m,
-			  double *XtYwork, double *XtXwork, double yty, double SSY, int pmodel, int p,
-			  int nobs, int m, double *pmse_m);
 void SetModel2(double logmargy, double shrinkage_m, double prior_m,
 			  SEXP sampleprobs, SEXP logmarg, SEXP shrinkage, SEXP priorprobs, int m);
 void SetModel(SEXP Rcoef_m, SEXP Rse_m, SEXP Rmodel_m, double mse_m, double R2_m,
@@ -171,11 +168,12 @@ return(prob);
 extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
                             SEXP Rmodeldim, SEXP incint, SEXP Ralpha,
                             SEXP method, SEXP modelprior, SEXP Rupdate,
-                            SEXP Rbestmodel, SEXP plocal, SEXP Rparents) {
+                            SEXP Rbestmodel, SEXP plocal, SEXP Rparents, SEXP Rpivot) {
 	int nProtected = 0;
 	SEXP RXwork = PROTECT(duplicate(X)); nProtected++;
 	SEXP RYwork = PROTECT(duplicate(Y)); nProtected++;
 	int nModels=LENGTH(Rmodeldim);
+	int pivot = LOGICAL(Rpivot)[0];
 
 	//  Rprintf("Allocating Space for %d Models\n", nModels) ;
 	SEXP ANS = PROTECT(allocVector(VECSXP, 12)); ++nProtected;
@@ -185,6 +183,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 	SEXP shrinkage = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP modelspace = PROTECT(allocVector(VECSXP, nModels)); ++nProtected;
 	SEXP modeldim =  PROTECT(duplicate(Rmodeldim)); ++nProtected;
+	SEXP rank =  PROTECT(duplicate(Rmodeldim)); ++nProtected;
 	SEXP beta = PROTECT(allocVector(VECSXP, nModels)); ++nProtected;
 	SEXP se = PROTECT(allocVector(VECSXP, nModels)); ++nProtected;
 	SEXP mse = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
@@ -194,7 +193,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 	SEXP sampleprobs = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 
 	double *Xwork, *Ywork, *wts, *probs, shrinkage_m, mse_m, R2_m, RSquareFull, Rbestmarg, logmargy;
-	int i, *model_m, *bestmodel;
+	int i, *model_m, *bestmodel, rank_m;
 
 	//get dimsensions of all variables
 	int nobs = LENGTH(Y);
@@ -262,9 +261,12 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 
   model_m = GetModel_m(Rmodel_m, model, p);
 
-	R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m);
-	gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
+	R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m, &rank_m, pivot);
+	gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
+//	Rprintf("rank %d dim %d\n", rank_m, pmodel);
+//	gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
 
+//  check should this depend on rank or pmodel?
 	double prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
 
 
@@ -274,8 +276,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 	//Rprintf("model %d max logmarg %lf\n", m, REAL(logmarg)[m]);
   UNPROTECT(3);
 	Rbestmarg = REAL(logmarg)[m];
-  double *parents = REAL(Rparents);
-  int j;
+//  double *parents = REAL(Rparents);
 	int *modelwork= ivecalloc(p);
 	/*
   for (j =0; j < p; j++) Rprintf("%d ", vars[j].index);
@@ -312,8 +313,11 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 		PROTECT(Rse_m = NEW_NUMERIC(pmodel));
 		model_m = GetModel_m(Rmodel_m, model, p);
 
-		R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m);
-		gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
+		R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m, &rank_m, pivot);
+		gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
+//    Rprintf("rank %d dim %d\n", rank_m, pmodel);
+//		gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
+
 		prior_m = compute_prior_probs(model,pmodel,p, modelprior);
 		SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
 		SetModel_lm(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2,m);
