@@ -179,7 +179,9 @@ order terms are included.  Currently only supported with `method='MCMC'`.
 Default is TRUE.}
 
 \item{pivot}{Logical variable to allow pivoting of columns when obtaining the
-OLS estimates of a model so that models that are not full rank can be fit.}
+OLS estimates of a model so that models that are not full rank can be fit.
+Currently coefficients that are not estimable are set to zero.  Use caution with
+interpreting BMA estimates of parameters.  (Experimental).}
 }
 \value{
 \code{bas} returns an object of class \code{bas}
@@ -199,6 +201,8 @@ each model to a base model with intercept only.}
 model, including the intercept}
 \item{size}{the number of independent
 variables in each of the models, includes the intercept}
+ \item{rank}{the rank of the design matrix; if `pivot = FALSE`, this is the same as size
+ as no checking of rank is conducted.}
 \item{which}{a list
 of lists with one list per model with variables that are included in the
 model}
