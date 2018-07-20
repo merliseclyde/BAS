@@ -245,6 +245,8 @@
 #' Default is TRUE.
 #' @param pivot Logical variable to allow pivoting of columns when obtaining the
 #' OLS estimates of a model so that models that are not full rank can be fit.
+#' Currently coefficients that are not estimable are set to zero.  Use caution with
+#' interpreting BMA estimates of parameters.  (Experimental).
 #'
 #' @return \code{bas} returns an object of class \code{bas}
 #'
@@ -263,6 +265,8 @@
 #' model, including the intercept}
 #' \item{size}{the number of independent
 #' variables in each of the models, includes the intercept}
+#'  \item{rank}{the rank of the design matrix; if `pivot = FALSE`, this is the same as size
+#'  as no checking of rank is conducted.}
 #' \item{which}{a list
 #' of lists with one list per model with variables that are included in the
 #' model}
@@ -647,6 +651,7 @@ if (method == "AMCMC") {
       method=as.integer(method.num),modelprior=modelprior)
   )
 
+  if (any(is.na(result$logmarg))) warning("log marginals and posterior probabilities contain NA's.  Consider using `pivot=TRUE` if there are models that are not full rank")
   result$n.models = length(result$postprobs)
   result$namesx=namesx
   result$n=length(Yvec)
@@ -668,7 +673,7 @@ if (method == "AMCMC") {
   }
 
   df = rep(n - 1, result$n.models)
-  if (prior == "AIC" | prior == "BIC" | prior=="IC") df = df - result$size + 1
+  if (prior == "AIC" | prior == "BIC" | prior=="IC") df = df - result$rank + 1
   result$df = df
   result$n.vars=p
   result$Y=Yvec

@@ -8,4 +8,4 @@ src/*.dll
 *~
 BAS-github.Rproj
 .build.timestamp
-docs
+docs/*

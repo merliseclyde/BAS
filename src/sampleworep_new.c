@@ -176,8 +176,8 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 	int pivot = LOGICAL(Rpivot)[0];
 
 	//  Rprintf("Allocating Space for %d Models\n", nModels) ;
-	SEXP ANS = PROTECT(allocVector(VECSXP, 12)); ++nProtected;
-	SEXP ANS_names = PROTECT(allocVector(STRSXP, 12)); ++nProtected;
+	SEXP ANS = PROTECT(allocVector(VECSXP, 13)); ++nProtected;
+	SEXP ANS_names = PROTECT(allocVector(STRSXP, 13)); ++nProtected;
 	SEXP Rprobs = PROTECT(duplicate(Rprobinit)); ++nProtected;
 	SEXP R2 = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP shrinkage = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
@@ -262,6 +262,8 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
   model_m = GetModel_m(Rmodel_m, model, p);
 
 	R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m, &rank_m, pivot);
+	INTEGER(rank)[m] = rank_m;
+
 	gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
 //	Rprintf("rank %d dim %d\n", rank_m, pmodel);
 //	gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
@@ -314,6 +316,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 		model_m = GetModel_m(Rmodel_m, model, p);
 
 		R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m, &rank_m, pivot);
+		INTEGER(rank)[m] = rank_m;
 		gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
 //    Rprintf("rank %d dim %d\n", rank_m, pmodel);
 //		gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
@@ -362,6 +365,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
     SETLENGTH(shrinkage, m);
     SETLENGTH(modeldim, m);
     SETLENGTH(R2, m);
+    SETLENGTH(rank, m);
 //  	Rprintf("m %d k %d", m, LENGTH(modelprobs));
   }
 
@@ -404,6 +408,9 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 
 	SET_VECTOR_ELT(ANS, 11, R2);
 	SET_STRING_ELT(ANS_names, 11, mkChar("R2"));
+
+	SET_VECTOR_ELT(ANS, 12, rank);
+	SET_STRING_ELT(ANS_names, 12, mkChar("rank"));
 
 	setAttrib(ANS, R_NamesSymbol, ANS_names);
 	PutRNGstate();
