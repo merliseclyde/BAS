@@ -1,9 +1,0 @@
-pandoc: 2.1.3
-pkgdown: 1.1.0.9000
-pkgdown_sha: 977646146af6df860111f6438de0d33ae585b342
-articles:
-  BAS-vignette: BAS-vignette.html
-urls:
-  reference: http://merliseclyde.github.io/BAS//reference
-  article: http://merliseclyde.github.io/BAS//articles
-
