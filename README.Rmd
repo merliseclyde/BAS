@@ -42,7 +42,7 @@ that utilizes swapping to escape from local modes with standard Metropolis-Hasti
 
 The stable version [![](http://www.r-pkg.org/badges/version/BAS)](http://cran.r-project.org/package=BAS) can be installed easily in the `R` console like any other package:
 
-```r
+```{r install, eval=FALSE}
 install.packages('BAS')
 ```
 
@@ -54,7 +54,7 @@ development version from [GitHub](https://github.com/merliseclyde),
 use the `devtools` package from
 [CRAN](http://cran.r-project.org/package=devtools) and enter in `R`:
 
-```r
+```{r dev, eval=FALSE}
 devtools::install_github('merliseclyde/BAS')
 ```
 

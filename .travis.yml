@@ -17,7 +17,7 @@ r:
   - release
 
 after_success:
-  - Rscript -e 'pkgdown::build_site()'
+  - Rscript -e 'devtools::install_github("merliseclyde/BAS"); pkgdown::build_site()'
 
 deploy:
   provider: pages
