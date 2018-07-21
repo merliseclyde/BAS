@@ -1,0 +1,8 @@
+pandoc: '2.2'
+pkgdown: 1.1.0
+pkgdown_sha: ~
+articles: []
+urls:
+  reference: http://merliseclyde.github.io/BAS//reference
+  article: http://merliseclyde.github.io/BAS//articles
+
