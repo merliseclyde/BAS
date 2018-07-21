@@ -117,6 +117,9 @@ the future.
 Feel free to report any issues or request features to be added via the
 [github issues page](https://github.com/merliseclyde/BAS/issues).
 
+For current documentation and vignettes see the [BAS
+website](http://merliseclyde.github.io/BAS)
+
 ### Support
 
 This material is based upon work supported by the National Science
