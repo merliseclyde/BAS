@@ -54,7 +54,7 @@
 
   	if (n.models > 2^30) stop("Dimension of model space is too big to enumerate\n  Rerun with a smaller value for n.models or use MCMC")
   	if (n.models > 2^25)
-            warning("Number of models is BIG - this may take a while and you may run out of physical memory")
+            warning("Number of models is BIG - this may take a while and you may run out of physical memory; you may want to consider using MCMC if your machine has limited memory.")
     return(n.models)
 }
 
@@ -650,8 +650,11 @@ if (method == "AMCMC") {
       alpha= as.numeric(alpha),
       method=as.integer(method.num),modelprior=modelprior)
   )
-
-  if (any(is.na(result$logmarg))) warning("log marginals and posterior probabilities contain NA's.  Consider using `pivot=TRUE` if there are models that are not full rank")
+  result$rank_deficient = FALSE
+  if (any(is.na(result$logmarg))) {
+    warning("log marginals and posterior probabilities contain NA's.  Consider re-running with the option `pivot=TRUE` if there are models that are not full rank")
+    result$rank_deficient=TRUE}
+  if (any(result$rank != result$size)) result$rank_deficient=TRUE
   result$n.models = length(result$postprobs)
   result$namesx=namesx
   result$n=length(Yvec)
