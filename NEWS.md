@@ -16,6 +16,11 @@
 
 * corrected count for first model with `method='MCMC'` which lead to potential model with 0 probabiliy and errors in `image`.
 
+## Other
+
+*  suppress `warning` when sampling probabilities are 1 or 0 and the number of models is decremented  
+[Issue #25](https://github.com/merliseclyde/BAS/issues/25)
+
 # BAS 1.5.1  June 6, 2018
 
 ## Features
