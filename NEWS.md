@@ -4,7 +4,7 @@
 
 * Included an option `pivot=TRUE` in `bas.lm` to fit the models using a pivoted Cholesky decomposition to allow models that are rank-deficient.  [Enhancment #24](https://github.com/merliseclyde/BAS/issues/24) and [Bug #21](https://github.com/merliseclyde/BAS/issues/21).  Currently coefficients that are not-estimable are set to zero so that `predict` and other methods will work as before.  With more testing and timing this may become the default; otherwise the default method without pivoting issues a warning if log marginals are `NA`.  The vector `rank` is added to the output (see documenation for `bas.lm`) and the degrees of freedom methods that assume a uniform prior for obtaining estimates (AIC and BIC) are adjusted to use `rank` rather than `size`.  
 
-* Added option to force lower order terms to be included if higher order terms are present (hierarchical constraint).  Currently only supported with `method='MCMC'` and `method='BAS'` with `bas.lm` and `bas.glm`.  Updated Vignette to illustrate. [enhancement #19](https://github.com/merliseclyde/BAS/issues/19)
+* Added option `force.heredity=TRUE`to force lower order terms to be included if higher order terms are present (hierarchical constraint) for `method='MCMC'` and `method='BAS'` with `bas.lm` and `bas.glm`.  Updated Vignette to illustrate. [enhancement #19](https://github.com/merliseclyde/BAS/issues/19).  Checks to see if  _parents_ are included using `include.always` pass  [issue #26](https://github.com/merliseclyde/BAS/issues/26).
 
 * Added option `drop.always.included` to `image.bas` so that variables that are always included may be excluded from the image. By default all are shown [enhancement #23](https://github.com/merliseclyde/BAS/issues/23)
 

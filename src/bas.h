@@ -281,7 +281,7 @@ void CreateTree_with_pigamma(NODEPTR branch, struct Var *vars, int *bestmodel, i
 
 double GetNextModelCandidate(int pmodel_old, int n, int n_sure, int *model, struct Var *vars, double problocal,
                              int *varin, int *varout, SEXP Rparents);
-double got_parents(int *model, SEXP Rparents, int level, struct Var *var);
+double got_parents(int *model, SEXP Rparents, int level, struct Var *var, int nsure);
 
 void GetNextModel_swop(NODEPTR branch, struct Var *vars, int *model, int n, int m,  double *pigamma,
                        double problocal, SEXP modeldim,int *bestmodel,

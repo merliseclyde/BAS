@@ -48,8 +48,6 @@
   	deg = sum(initprobs >= 1) + sum(initprobs <= 0)
   	if (deg > 1 & n.models == 2^(p - 1)) {
     		n.models = 2^(p - deg)
-# #  		warning(paste("There are", as.character(deg),
-# #                   "degenerate sampling probabilities (0 or 1); decreasing the number of models to",                 as.character(n.models)))
   	}
 
   	if (n.models > 2^30) stop("Dimension of model space is too big to enumerate\n  Rerun with a smaller value for n.models or use MCMC")
@@ -226,7 +224,7 @@
 #' to propose swap a variable that is excluded with a variable in the model.
 #' @param MCMC.iterations Number of iterations for the MCMC sampler; the
 #' default is n.models*10 if not set by the user.
-#' @param lambda Parameter in the AMCMC algorithm (depracated).
+#' @param lambda Parameter in the AMCMC algorithm (deprecated).
 #' @param delta truncation parameter to prevent sampling probabilities to
 #' degenerate to 0 or 1 prior to enumeration for sampling without replacement.
 #' @param thin For "MCMC", thin the MCMC chain every "thin" iterations; default is no
@@ -571,7 +569,7 @@ if (prior == "ZS-full") .Deprecated("prior='JZS'",
       warning("bestmodel violates heredity conditions; resetting to null model")
       bestmodel = c(1, rep(0, p-1))
       }
-    initprobs=c(1, seq(.95, .55, length=(p-1) ))
+#    initprobs=c(1, seq(.95, .55, length=(p-1) ))
   }
 
   prob <- .normalize.initprobs.lm(initprobs, p)

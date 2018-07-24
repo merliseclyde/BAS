@@ -27,8 +27,6 @@
   	deg = sum(initprobs >= 1) + sum(initprobs <= 0)
   	if (deg > 1 & n.models == 2^(p - 1)) {
     		n.models = 2^(p - deg)
-    		print(paste("There are", as.character(deg),
-                "degenerate sampling probabilities (0 or 1); decreasing the number of models to",                 as.character(n.models)))
   	}
 
   	if (n.models > 2^30) stop("Dimension of model space is too big to enumerate\n  Rerun with a smaller value for n.models")
@@ -37,13 +35,13 @@
     return(n.models)
 }
 
-.normalize.initprobs <- function (initprobs, glm.obj) {
+.normalize.initprobs.glm <- function (initprobs, glm.obj) {
 	p <- dim(glm.obj$x)[2]
 	if (!is.numeric(initprobs)) {
     		initprobs = switch(initprobs,
      			"eplogp" = eplogprob(glm.obj),
           "uniform" = c(1.0, rep(.5, p-1)),
-          "Uniform" = c(1.0, rep(.5, p-1)),
+          "Uniform" = c(1.0, rep(.5, p-1))
                     )
             }
    	if (length(initprobs) == (p-1)) {
@@ -377,7 +375,7 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
 	}
 
   bestmodel = as.integer(bestmodel)
-	prob <- .normalize.initprobs(initprobs, glm.obj)
+	prob <- .normalize.initprobs.glm(initprobs, glm.obj)
 	n.models <- .normalize.n.models(n.models, p, prob, method)
 	modelprior <- .normalize.modelprior(modelprior,p)
 

@@ -41,7 +41,7 @@ void CreateTree_with_pigamma(NODEPTR branch, struct Var *vars,
 		if (bit == 1) {
 			for (int j=0; j<=i; j++)  pigamma[j] *= branch->prob;
 			if (i < n-1 && branch->one == NULL) {
-			  prob_parents = got_parents(bestmodel, Rparents, i+1, vars);
+			  prob_parents = got_parents(bestmodel, Rparents, i+1, vars, n);
 				branch->one = make_node(prob_parents);
 			}
 			if (i == n-1 && branch->one == NULL)
@@ -51,7 +51,7 @@ void CreateTree_with_pigamma(NODEPTR branch, struct Var *vars,
 		else {
 			for (int j=0; j<=i; j++)  pigamma[j] *= (1.0 - branch->prob);
 			if (i < n-1 && branch->zero == NULL) {
-			  prob_parents = got_parents(bestmodel, Rparents, i+1, vars);
+			  prob_parents = got_parents(bestmodel, Rparents, i+1, vars,n);
 				branch->zero = make_node(prob_parents);
 			}
 			if (i == n-1 && branch->zero == NULL)
@@ -111,7 +111,7 @@ void GetNextModel_swop(NODEPTR branch, struct Var *vars,
   			if (i < n-1 && branch->one == NULL) {
   			  //  add new branch
   			  //  check if parents
-  			  prob_parents =  got_parents(model, Rparents, i+1, vars);
+  			  prob_parents =  got_parents(model, Rparents, i+1, vars,n);
   			  branch->one = make_node(prob_parents);
   			}
   			if (i == n-1 && branch->one == NULL) branch->one = make_node(0.0);
@@ -122,7 +122,7 @@ void GetNextModel_swop(NODEPTR branch, struct Var *vars,
 			{
 			  //  add new branch
 			  //  check if parents
-			  prob_parents =  got_parents(model, Rparents, i+1, vars);
+			  prob_parents =  got_parents(model, Rparents, i+1, vars, n);
 			  branch->zero = make_node(prob_parents);
 			}
 			if (i == n-1 && branch->zero == NULL) branch->zero = make_node(0.0);
@@ -131,7 +131,7 @@ void GetNextModel_swop(NODEPTR branch, struct Var *vars,
 	}
 }
 
-double got_parents(int *model, SEXP Rparents, int level, struct Var *var)
+double got_parents(int *model, SEXP Rparents, int level, struct Var *var, int nsure)
 { double prob=1.0, *parents;
   int j=0, p, nsibs=0;
 
@@ -140,7 +140,26 @@ double got_parents(int *model, SEXP Rparents, int level, struct Var *var)
   if (p > 1) {
    parents = REAL(Rparents);
    // Rprintf("level %d\n", level);
-    for (j=0, nsibs=0, prob=1.0; j < level; j++) {
+   //
+   // Check the variables that are always included first
+
+  for (j = nsure, nsibs= 0, prob=1.0; j < p;  j++) {
+    if ((parents[var[level].index + p*var[j].index]) == 1.0) {
+      if (model[var[j].index] == 0) {
+        // missing parent so probability of model is 0
+        prob *= 0.0;}
+      if (model[var[j].index] == 1) {
+        // got parent so probability of variable is 1
+        prob *= 1.0;
+        nsibs += parents[var[j].index + p*var[level].index];
+      }
+    }
+  }
+
+   // now check the rest
+  if (prob > 0.0) {
+    //for (j=0, nsibs=0, prob=1.0; j < level; j++) {
+    for (j=0; j < level; j++) {
       if ((parents[var[level].index + p*var[j].index]) == 1.0) {
         if (model[var[j].index] == 0) {
         // missing parent so probability of model is 0
@@ -149,15 +168,15 @@ double got_parents(int *model, SEXP Rparents, int level, struct Var *var)
         // got parent so probability of variable is 1
             prob *= 1.0;
             nsibs += parents[var[j].index + p*var[level].index];
-          }
+        }
       }
   /*    Rprintf("%d pos %d, index %d, parents %lf, model %d nsibs %d, prob %lf\n",
               j, var[j].index,var[level].index,parents[var[level].index + p*var[j].index],
                                                       model[var[j].index], nsibs, prob);
   */
-  }
+      }
     if ((nsibs == 0) && (prob > 0.0))  prob = var[level].prob;
-
+   }
   }
   else{ prob = var[level].prob;}
 
