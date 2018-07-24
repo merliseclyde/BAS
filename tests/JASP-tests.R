@@ -3,6 +3,7 @@ d = read.csv(paste(loc, "JASP-testdata.csv", sep="/"))
 
 simpleFormula = as.formula("contNormal ~ contGamma + contcor1 + contGamma * contcor1 ")
 
+set.seed(1)
 basObj = BAS::bas.lm(simpleFormula,
                       data = d,
                       alpha = 0.125316,

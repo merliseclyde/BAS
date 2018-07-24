@@ -12,6 +12,8 @@
 
 ## Bugs
 
+* fixed output `include.always` to include the intercept [issu #26](https://github.com/merliseclyde/BAS/issues/26) always  so that `drop.always.included = TRUE` drops the intercept and any other variables that are forced in.   _Note:  `include.always` and `force.heredity=TRUE` cannot be used together yet._ 
+
 * added warning if marginal likelihoods/posterior probabilities are NA with default model fitting method with suggestion that models be rerun with `pivot = TRUE`.  This uses a modified Cholesky decomposition with pivoting so that if the model is rank deficient or nearly singular the dimensionality is reduced.  [Bug #21](https://github.com/merliseclyde/BAS/issues/21).   
 
 * corrected count for first model with `method='MCMC'` which lead to potential model with 0 probabiliy and errors in `image`.

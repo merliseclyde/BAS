@@ -477,7 +477,7 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
   }
    if (length(initprobs) == (p-1))
        initprobs = c(1.0, initprobs)
-  keep = NULL
+  keep = 1
   # set up variables to always include
   if ("include.always" %in% names(mfall)) {
     minc <- match(c("include.always", "data", "subset"),  names(mfall), 0L)
@@ -489,7 +489,7 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
     mtinc <- attr(mfinc, "terms")
     X.always = model.matrix(mtinc, mfinc, contrasts)
 
-    keep = match(colnames(X.always)[-1], colnames(X))
+    keep = c(1L, match(colnames(X.always)[-1], colnames(X)))
     initprobs[keep] = 1.0
 
     if (ncol(X.always) == ncol(X)) {

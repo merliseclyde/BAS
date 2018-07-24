@@ -331,7 +331,7 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
 
 
   # set up variables to always include
-  keep = NULL
+  keep = 1
   if ("include.always" %in% names(mfall)) {
     minc <- match(c("include.always", "data", "subset"),  names(mfall), 0L)
     mfinc <- mfall[c(1L, minc)]
@@ -342,7 +342,7 @@ bas.glm = function(formula, family = binomial(link = 'logit'),
     mtinc <- attr(mfinc, "terms")
     X.always = model.matrix(mtinc, mfinc, contrasts)
 
-    keep = match(colnames(X.always)[-1], colnames(X))
+    keep = c(1L,match(colnames(X.always)[-1], colnames(X)))
     prob[keep] = 1.0
     if (ncol(X.always) == ncol(X)) {
       # just one model with all variables forced in
