@@ -134,6 +134,7 @@
 <h2 class="hasAnchor">
 <a href="#bugs" class="anchor"></a>Bugs</h2>
 <ul>
+<li><p>fixed output <code>include.always</code> to include the intercept <a href="https://github.com/merliseclyde/BAS/issues/26">issu <a href='https://github.com/merliseclyde/BAS/issues/26'>#26</a></a> always so that <code>drop.always.included = TRUE</code> drops the intercept and any other variables that are forced in. <em>Note: <code>include.always</code> and <code>force.heredity=TRUE</code> cannot be used together yet.</em></p></li>
 <li><p>added warning if marginal likelihoods/posterior probabilities are NA with default model fitting method with suggestion that models be rerun with <code>pivot = TRUE</code>. This uses a modified Cholesky decomposition with pivoting so that if the model is rank deficient or nearly singular the dimensionality is reduced. <a href="https://github.com/merliseclyde/BAS/issues/21">Bug <a href='https://github.com/merliseclyde/BAS/issues/21'>#21</a></a>.</p></li>
 <li><p>corrected count for first model with <code>method='MCMC'</code> which lead to potential model with 0 probabiliy and errors in <code>image</code>.</p></li>
 </ul>
