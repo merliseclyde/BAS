@@ -10,7 +10,18 @@ basObj = bas.lm(simpleFormula,
                       alpha = 0.125316,
                       prior = "JZS", include.always=as.formula("contNormal ~ contcor1"),
                       weights = d$facFifty)
-traceback()
+
 image(basObj, rotate=FALSE)
 image(basObj, rotate=FALSE, drop.always.included=TRUE)
 basObj$include.always
+
+## old
+##
+#install.packages("BAS")
+# library(BAS)
+# basObj.old = bas.lm(simpleFormula,
+#                data = d,
+#                alpha = 0.125316,
+#                prior = "JZS", include.always=as.formula("contNormal ~ contcor1"),
+#                weights = d$facFifty)
+# basObj.old = force.heredity.bas(basObj.old)
