@@ -12,7 +12,7 @@
 
 ## Bugs
 
-* fixed output `include.always` to include the intercept [issu #26](https://github.com/merliseclyde/BAS/issues/26) always  so that `drop.always.included = TRUE` drops the intercept and any other variables that are forced in.   _Note:  `include.always` and `force.heredity=TRUE` cannot be used together yet._ 
+* fixed output `include.always` to include the intercept [issu #26](https://github.com/merliseclyde/BAS/issues/26) always  so that `drop.always.included = TRUE` drops the intercept and any other variables that are forced in.    `include.always` and `force.heredity=TRUE` can now be used together with `method="BAS"`
 
 * added warning if marginal likelihoods/posterior probabilities are NA with default model fitting method with suggestion that models be rerun with `pivot = TRUE`.  This uses a modified Cholesky decomposition with pivoting so that if the model is rank deficient or nearly singular the dimensionality is reduced.  [Bug #21](https://github.com/merliseclyde/BAS/issues/21).   
 
@@ -23,7 +23,7 @@
 *  suppress `warning` when sampling probabilities are 1 or 0 and the number of models is decremented  
 [Issue #25](https://github.com/merliseclyde/BAS/issues/25)
 
-* changed `force.heredity.bas` to just renormalize the prior probabilities  rather than to use a new prior probability based on heredity constraints.  For future,  add new priors for models based on heredity.
+* changed `force.heredity.bas` to  renormalize the prior probabilities  rather than to use a new prior probability based on heredity constraints.  For future,  add new priors for models based on heredity.  See comment on  [issue #26](https://github.com/merliseclyde/BAS/issues/26).
 
 # BAS 1.5.1  June 6, 2018
 

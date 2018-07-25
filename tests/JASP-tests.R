@@ -34,4 +34,4 @@ basObj$include.always
  basObj.old = force.heredity.bas(basObj.old)
 
  basObj.old$postprobs  #(check order of models)
- basOBJ$postprobs
+ basObj$postprobs
