@@ -23,6 +23,8 @@
 *  suppress `warning` when sampling probabilities are 1 or 0 and the number of models is decremented  
 [Issue #25](https://github.com/merliseclyde/BAS/issues/25)
 
+* changed `force.heredity.bas` to just renormalize the prior probabilities  rather than to use a new prior probability based on heredity constraints.  For future,  add new priors for models based on heredity.
+
 # BAS 1.5.1  June 6, 2018
 
 ## Features

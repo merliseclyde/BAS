@@ -60,6 +60,16 @@ prob.heredity = function(model, parents, prob=.5) {
   return(model.prob)
 }
 
+check.heredity = function(model, parents, prob=.5) {
+  #  p = length(model)  # model has no intercept, while parents does
+  #  parents = parents[2:p, 2:p]
+  got.parents =  apply(parents, 1,
+                       FUN=function(x){
+                         all(as.logical(model[as.logical(x)]))}
+  )
+  #  browser()
+    all(model == got.parents)
+}
 
 #' Post processing function to force constraints on interaction inclusion bas BMA objects
 #'
@@ -104,23 +114,28 @@ force.heredity.bas = function(object, prior.prob=.5) {
     parents = make.parents.of.interactions(mf=eval(object$call$formula, parent.frame()),
                                            data=eval(object$call$data, parent.frame()))
     which = which.matrix(object$which, object$n.vars)
-    priorprobs = apply(which, 1,
-                  FUN=function(x) {prob.heredity(model=x, parents=parents)}
+    keep = apply(which, 1,
+                  FUN=function(x) {check.heredity(model=x, parents=parents)}
                   )
-    keep = (priorprobs != 0)
+#    priorprobs = apply(which, 1,
+#                 FUN=function(x) {prob.heredity(model=x, parents=parents)}
+#    )
+#    keep = priorprobs > 0.0
     object$n.models= sum(keep)
     object$sampleprobs = object$sampleprobs[keep]   # if method=MCMC ??? reweight
     object$which = object$which[keep]
-    wts = priorprobs[keep]/object$priorprobs[keep]  #importance weights
-    method = object$call$method
+    object$priorprobs = object$priorprobs[keep]/sum(object$priorprobs[keep])
+#    wts = priorprobs[keep]/object$priorprobs[keep]  #importance weights
+     wts = 1
+     method = object$call$method
     if (!is.null(method)) {
       if (method == "MCMC" || method == "MCMC_new" ) {
          object$freq = object$freq[keep]
-         object$postprobs.MCMC = object$freq[keep]*wts
+   #      object$postprobs.MCMC = object$freq[keep]*wts
+         object$postprobs.MCMC = object$freq[keep]
          object$postprobs.MCMC =  object$postprobs.MCMC/sum(object$postprobs.MCMC)
         object$probne0.MCMC = as.vector(object$postprobs.MCMC %*% which[keep,])
       }}
-    object$priorprobs=priorprobs[keep]/sum(priorprobs[keep])
     object$logmarg = object$logmarg[keep]
     object$shrinkage=object$shrinkage[keep]
     postprobs.RN = exp(object$logmarg - min(object$logmarg))*object$priorprobs
