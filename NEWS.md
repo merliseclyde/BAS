@@ -10,6 +10,8 @@
 
 * Added option `drop.always.included` and `subset` to `plot.bas` so that variables that are always included may be excluded from the plot showing the marginal posterior inclusion probabilities (`which=4`). By default all are shown [enhancement #23](https://github.com/merliseclyde/BAS/issues/23)
 
+* Updates to package for [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/2055/badge)](https://bestpractices.coreinfrastructure.org/projects/2055)  certification
+
 ## Bugs
 
 * fixed output `include.always` to include the intercept [issu #26](https://github.com/merliseclyde/BAS/issues/26) always  so that `drop.always.included = TRUE` drops the intercept and any other variables that are forced in.    `include.always` and `force.heredity=TRUE` can now be used together with `method="BAS"`
