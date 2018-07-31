@@ -1,12 +1,15 @@
 #include "bas.h"
 
 // [[register]]
-SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha, SEXP method, SEXP modelprior)
+SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
+                   SEXP Rmodeldim, SEXP incint, SEXP Ralpha,
+                   SEXP method, SEXP modelprior, SEXP Rpivot)
 {
   SEXP   RXwork = PROTECT(duplicate(X)), RYwork = PROTECT(duplicate(Y));
   int nProtected = 2;
 
   int  nModels=LENGTH(Rmodeldim);
+  int  pivot = LOGICAL(Rpivot)[0];
 
   SEXP ANS = PROTECT(allocVector(VECSXP, 12)); ++nProtected;
   SEXP ANS_names = PROTECT(allocVector(STRSXP, 12)); ++nProtected;
@@ -15,6 +18,7 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim
   SEXP shrinkage = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
   SEXP modelspace = PROTECT(allocVector(VECSXP, nModels)); ++nProtected;
   SEXP modeldim =  PROTECT(duplicate(Rmodeldim)); ++nProtected;
+  SEXP rank =  PROTECT(duplicate(Rmodeldim)); ++nProtected;
   SEXP beta = PROTECT(allocVector(VECSXP, nModels)); ++nProtected;
   SEXP se = PROTECT(allocVector(VECSXP, nModels)); ++nProtected;
   SEXP mse = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
@@ -30,9 +34,8 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim
   double *XtX, *XtY, *XtXwork, *XtYwork;
   int nobs, p, k, i, j, m, n, l, pmodel, *xdims, *model_m, *model;
   Bit **models;
+  int rank_m;
   struct Var *vars;	/* Info about the model variables. */
-
-
 
 
   /* get dimsensions of all variables */
@@ -46,36 +49,9 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim
   Xwork = REAL(RXwork);
   wts = REAL(Rweights);
 
-  /*  XtX  = (double *) R_alloc(p * p, sizeof(double));
-  XtXwork  = (double *) R_alloc(p * p, sizeof(double));
-  XtY = vecalloc(p);
-  XtYwork = vecalloc(p); */
-
 
 	PrecomputeData(Xwork, Ywork, wts, &XtXwork, &XtYwork, &XtX, &XtY, &yty, &SSY, p, nobs);
 
-
-  /* create X matrix */
-	/*  for (j=0, l=0; j < p; j++) {
-    for (i = 0; i < p; i++) {
-      XtX[j*p + i] = 0.0;}
-  }
-
- p2 = p*p;
- one = 1.0; zero = 0.0; ybar = 0.0; SSY = 0.0; yty = 0.0;
- inc = 1;
-
- F77_NAME(dsyrk)(uplo, trans, &p, &nobs, &one, &Xwork[0], &nobs, &zero, &XtX[0], &p);
- yty = F77_NAME(ddot)(&nobs, &Ywork[0], &inc, &Ywork[0], &inc);
-  for (i = 0; i< nobs; i++) {
-     ybar += Ywork[i];
-  }
-
-  ybar = ybar/ (double) nobs;
-  SSY = yty - (double) nobs* ybar *ybar;
-
-  F77_NAME(dgemv)(trans, &nobs, &p, &one, &Xwork[0], &nobs, &Ywork[0], &inc, &zero, &XtY[0],&inc);
-	*/
 
 	alpha = REAL(Ralpha)[0];
 
@@ -108,10 +84,10 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim
     memcpy(XtYwork, XtY,  p*sizeof(double));
 
     mse_m = yty;
-    cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, p, nobs);
 
-  /*  olsreg(Ywork, Xwork,  coefficients, se_m, &mse_m, &p, &nobs, pivot,qraux,work,residuals,effects,v, betaols);  */
-    RSquareFull =  1.0 - (mse_m * (double) ( nobs - p))/SSY;
+    rank_m =  cholregpivot(XtYwork, XtXwork, coefficients, se_m, &mse_m, p, nobs);
+
+    RSquareFull =  1.0 - (mse_m * (double) ( nobs - rank_m))/SSY;
     UNPROTECT(2);
   }
 
@@ -157,10 +133,14 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim
 
       mse_m = yty;
       memcpy(coefficients, XtYwork, sizeof(double)*pmodel);
-      cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, pmodel, nobs);
+//      cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, pmodel, nobs);
 
-      /*      olsreg(Ywork, Xwork, coefficients, se_m, &mse_m, &pmodel, &nobs, pivot,qraux,work,residuals,effects,v, betaols); */
-      R2_m = 1.0 - (mse_m * (double) ( nobs - pmodel))/SSY;
+//      R2_m = 1.0 - (mse_m * (double) ( nobs - pmodel))/SSY;
+
+      R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork,
+                      yty, SSY, pmodel, p, nobs, m, &mse_m, &rank_m,
+                      pivot);
+      INTEGER(rank)[m] = rank_m;
 
       SET_ELEMENT(beta, m, Rcoef_m);
       SET_ELEMENT(se, m, Rse_m);

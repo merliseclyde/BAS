@@ -646,7 +646,7 @@ if (method == "AMCMC") {
       prob, modeldim,
       incint=as.integer(int),
       alpha= as.numeric(alpha),
-      method=as.integer(method.num),modelprior=modelprior)
+      method=as.integer(method.num),modelprior=modelprior, Rpivot=pivot)
   )
   result$rank_deficient = FALSE
   if (any(is.na(result$logmarg))) {

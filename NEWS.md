@@ -25,6 +25,8 @@
 
 * changed `force.heredity.bas` to  renormalize the prior probabilities  rather than to use a new prior probability based on heredity constraints.  For future,  add new priors for models based on heredity.  See comment on  [issue #26](https://github.com/merliseclyde/BAS/issues/26).
 
+* Changed License to GPL 3.0
+
 # BAS 1.5.1  June 6, 2018
 
 ## Features

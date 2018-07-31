@@ -280,7 +280,8 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 
   model_m = GetModel_m(Rmodel_m, model, p);
 
-	R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m, &rank_m, pivot);
+	R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY,
+                 pmodel, p, nobs, m, &mse_m, &rank_m, pivot);
 	INTEGER(rank)[m] = rank_m;
 
 	gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
@@ -334,7 +335,8 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 		PROTECT(Rse_m = NEW_NUMERIC(pmodel));
 		model_m = GetModel_m(Rmodel_m, model, p);
 
-		R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m, &rank_m, pivot);
+		R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY,
+                  pmodel, p, nobs, m, &mse_m, &rank_m, pivot);
 		INTEGER(rank)[m] = rank_m;
 		gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
 //    Rprintf("rank %d dim %d\n", rank_m, pmodel);
