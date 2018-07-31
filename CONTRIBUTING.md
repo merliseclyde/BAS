@@ -44,7 +44,7 @@ You can check you have actually made a reproducible example by starting up a fre
 
 To contribute a change to `BAS`, follow these steps:
 
-1. Create a branch in git and make your changes.
+1. Create a branch in git and make your changes, ideally using `commit -s` to sign-off on commits  under the [Developer Certificate of Origin](https://developercertificate.org)
 1. Push branch to github and issue pull request (PR).
 1. Discuss the pull request.
 1. Iterate until either we accept the PR or decide that it's not
