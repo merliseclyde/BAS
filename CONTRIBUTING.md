@@ -26,8 +26,8 @@ so it's easy to see which ones the example needs.
 1.  Spend a little bit of time ensuring that your **code** is easy for others to
     read:
 
-    * make sure you've used spaces and your variable names are concise, but
-      informative
+    * make sure you've used spaces and your variable names are concise,
+    but informative
 
     * use comments to indicate where your problem lies
 
