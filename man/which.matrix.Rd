@@ -30,7 +30,7 @@ zeros to facilitate other computations.
 data(UScrime)
 UScrime[,-2] = log(UScrime[,-2])
 crime.bic =  bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC",
-                    initprobs= "eplogp") 
+                    initprobs= "eplogp")
 models = which.matrix(crime.bic$which, crime.bic$n.vars)     #matrix of model indicators}
 
 }

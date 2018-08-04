@@ -35,7 +35,7 @@ loop.
 data(UScrime)
 UScrime[,-2] = log(UScrime[,-2])
 crime.bic =  bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC",
-                    initprobs= "eplogp") 
+                    initprobs= "eplogp")
 coef = list2matrix.bas(crime.bic, "ols")  # extract all ols coefficients
 se = list2matrix.bas(crime.bic, "ols.se")
 models = list2matrix.which(crime.bic)     #matrix of model indicators
