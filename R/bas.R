@@ -414,7 +414,14 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
 
   num.updates=10
   call = match.call()
+  priormethods =  c("g-prior", "hyper-g", "hyper-g-laplace", "hyper-g-n",
+                    "AIC", "BIC", "ZS-null", "ZS-full",
+                    "EB-local", "EB-global", "JZS")
 
+  if (!(prior %in% priormethods)) {
+    stop(paste("prior ", prior, "is not one of ",
+               paste(priormethods, collapse=", ")))
+  }
   # from lm
   mfall <- match.call(expand.dots = FALSE)
   m <- match(c("formula", "data", "subset", "weights", "na.action",

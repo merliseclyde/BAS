@@ -109,6 +109,7 @@ void gexpectations(int p, int pmodel, int nobs, double R2, double alpha, int met
       break;
   default:
       Rprintf("Error: Method must be one of g-prior, hyper-g, laplace (hyper-g), AIC, BIC, ZS-null, or ZS-full\n");
+      // should not get here
       break;
     }
 }

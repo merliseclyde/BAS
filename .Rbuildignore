@@ -20,3 +20,4 @@ LICENSE
 CODE_OF_CONDUCT.md
 cran-comments.md
 ^CRAN-RELEASE$
+^codecov\.yml$
