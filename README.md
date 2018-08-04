@@ -9,6 +9,8 @@ Practices](https://bestpractices.coreinfrastructure.org/projects/2055/badge)](ht
 [![](http://www.r-pkg.org/badges/version/BAS)](http://cran.r-project.org/package=BAS)
 [![](http://cranlogs.r-pkg.org/badges/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
+[![Coverage
+Status](https://img.shields.io/codecov/c/github/merliseclyde/BAS/master.svg)](https://codecov.io/github/merliseclyde/BAS?branch=master)
 [![Rdoc](http://www.rdocumentation.org/badges/version/BAS)](http://www.rdocumentation.org/packages/BAS)
 [![DOI](https://zenodo.org/badge/DOI/110.5281/zenodo.595639.svg)](https://doi.org/10.5281/zenodo.595639)
 
