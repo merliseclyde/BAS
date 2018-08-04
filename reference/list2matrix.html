@@ -174,18 +174,13 @@ loop.
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-</div><span class='co'># NOT RUN {</span>
-<span class='fu'>library</span>(<span class='no'>MASS</span>)
-<span class='fu'>data</span>(<span class='no'>UScrime</span>)
-<span class='no'>UScrime</span>[,-<span class='fl'>2</span>] <span class='kw'>=</span> <span class='fu'>log</span>(<span class='no'>UScrime</span>[,-<span class='fl'>2</span>])
-<span class='no'>crime.bic</span> <span class='kw'>=</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>UScrime</span>, <span class='kw'>n.models</span><span class='kw'>=</span><span class='fl'>2</span>^<span class='fl'>15</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"BIC"</span>,
+<span class='fu'>data</span>(<span class='no'>Hald</span>)
+<span class='no'>hald.bic</span> <span class='kw'>=</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>Y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"BIC"</span>,
                     <span class='kw'>initprobs</span><span class='kw'>=</span> <span class='st'>"eplogp"</span>)
-<span class='no'>coef</span> <span class='kw'>=</span> <span class='fu'>list2matrix.bas</span>(<span class='no'>crime.bic</span>, <span class='st'>"ols"</span>)  <span class='co'># extract all ols coefficients</span>
-<span class='no'>se</span> <span class='kw'>=</span> <span class='fu'>list2matrix.bas</span>(<span class='no'>crime.bic</span>, <span class='st'>"ols.se"</span>)
-<span class='no'>models</span> <span class='kw'>=</span> <span class='fu'><a href='list2matrix.which.html'>list2matrix.which</a></span>(<span class='no'>crime.bic</span>)     <span class='co'>#matrix of model indicators</span>
-<span class='no'>models</span> <span class='kw'>=</span> <span class='fu'><a href='which.matrix.html'>which.matrix</a></span>(<span class='no'>crime.bic</span>$<span class='no'>which</span>, <span class='no'>crime.bic</span>$<span class='no'>n.vars</span>)     <span class='co'>#matrix of model indicators</span>
-<span class='co'># }</span><div class='input'>
-</div></pre>
+<span class='no'>coef</span> <span class='kw'>=</span> <span class='fu'>list2matrix.bas</span>(<span class='no'>hald.bic</span>, <span class='st'>"mle"</span>)  <span class='co'># extract all coefficients</span>
+<span class='no'>se</span> <span class='kw'>=</span> <span class='fu'>list2matrix.bas</span>(<span class='no'>hald.bic</span>, <span class='st'>"mle.se"</span>)
+<span class='no'>models</span> <span class='kw'>=</span> <span class='fu'><a href='list2matrix.which.html'>list2matrix.which</a></span>(<span class='no'>hald.bic</span>)     <span class='co'>#matrix of model indicators</span>
+<span class='no'>models</span> <span class='kw'>=</span> <span class='fu'><a href='which.matrix.html'>which.matrix</a></span>(<span class='no'>hald.bic</span>$<span class='no'>which</span>, <span class='no'>hald.bic</span>$<span class='no'>n.vars</span>)     <span class='co'>#matrix of model indicators</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -203,7 +198,7 @@ loop.
 
     <h2>Author</h2>
     
-Merlise Clyde <a href='mailto:clyde@stat.duke.edu'>clyde@stat.duke.edu</a>
+Merlise Clyde <a href='mailto:clyde@duke.edu'>clyde@duke.edu</a>
 
   </div>
 </div>
