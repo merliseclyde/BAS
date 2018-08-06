@@ -31,3 +31,23 @@ test_that("no method", {
   expect_error(bas.lm(Y ~ ., prior="garbage",
                       modelprior=uniform(), data=Hald))
 })
+
+test_that("deterministic vs BAS", {
+  data(Hald)
+  hald.bas = bas.lm(Y ~ ., prior="BIC",
+                      modelprior=uniform(), data=Hald)
+  hald.deterministic = bas.lm(Y ~ ., prior="BIC",
+                              method="deterministic",
+                              modelprior=uniform(), data=Hald)
+  expect_equal(hald.bas$probne0, hald.deterministic$probne0)
+})
+
+test_that("pivot", {
+  data(Hald)
+  hald.bas = bas.lm(Y ~ ., prior="BIC",
+                    modelprior=uniform(), data=Hald)
+  hald.deterministic = bas.lm(Y ~ ., prior="BIC",
+                              method="deterministic",
+                              modelprior=uniform(), data=Hald, pivot=TRUE)
+  expect_equal(hald.bas$probne0, hald.deterministic$probne0)
+})
