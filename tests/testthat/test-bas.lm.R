@@ -82,3 +82,17 @@ test_that("prediction versus fitted", {
   expect_equal(as.vector(fitted(hald.ZS, estimator="MPM")),
                as.vector(predict(hald.ZS, estimator="MPM")$fit))
 })
+
+test_that("GLM logit probne0", {
+  data(Pima.tr, package="MASS")
+  pima.BAS = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
+                     method="BAS",
+                     betaprior=bic.prior(), family=binomial(),
+                     modelprior=uniform())
+  pima.det = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
+                     method="deterministic",
+                     betaprior=bic.prior(), family=binomial(),
+                     modelprior=uniform())
+  expect_equal(pima.BAS$probne0, pima.BAS$probne0)
+
+})

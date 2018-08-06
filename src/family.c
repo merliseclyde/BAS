@@ -283,7 +283,7 @@ void chol2se(double *qr, double *se, double *R, double *covwork, int p, int n) {
       if (i < (j+1))   R[j*p+i] = qr[j*n + i];
     }
   }
-  //  F77_NAME(ch2inv)(&R[0], &p, &p, &covwork[0], &info);
+
   Lapack_chol2inv(R, p, covwork);
 
 for (j=0; j < p; j++) {
@@ -305,7 +305,7 @@ void QR2cov(double *qr,  double *R, double *covwork, int p,  int n) {
       if (i < (j+1))   R[j*p+i] = qr[j*n + i];
     }
   }
-  //  F77_NAME(ch2inv)(&R[0], &p, &p, &covwork[0], &info);
+
   Lapack_chol2inv(R, p, covwork);
   return;
 }

@@ -85,7 +85,6 @@ void set_bits(char *bits, int subset, int *pattern, int *position, int n);
 int sortvars(struct Var *vars, double *prob, int p);
 
 void Lapack_chol2inv(double *cov, int p,double *covwork);
-void F77_NAME(ch2inv)(double *cov, int *p, int *nr, double *covwork, int *info);
 void F77_NAME(dpofa)(double *a, int *lda, int *n, int *info);
 void F77_NAME(dposl)(double *a, int *lda, int *n, double  *b);
 void F77_NAME(dpoco)(double *a, int *lda, int *n, double *rcond, double *z, int  *info);
