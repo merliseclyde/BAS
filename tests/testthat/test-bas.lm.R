@@ -72,6 +72,13 @@ test_that("pivoting with non-full rank design", {
 
 test_that("prediction versus fitted", {
   data(Hald)
-  hald.BIC = bas.lm(Y ~ ., prior="BIC", modelprior=uniform(), data=Hald)
-  expect_equal(fitted(hald.BIC), as.vector(predict(hald.BIC)$fit))
+  hald.ZS = bas.lm(Y ~ ., prior="ZS-null", modelprior=uniform(), data=Hald)
+  expect_equal(as.vector(fitted(hald.ZS, estimator="BMA")),
+               predict(hald.ZS, estimator="BMA")$fit)
+  expect_equal(as.vector(fitted(hald.ZS, estimator="HPM")),
+               as.vector(predict(hald.ZS, estimator="HPM")$fit))
+  expect_equal(as.vector(fitted(hald.ZS, estimator="BPM")),
+               as.vector(predict(hald.ZS, estimator="BPM")$fit))
+  expect_equal(as.vector(fitted(hald.ZS, estimator="MPM")),
+               as.vector(predict(hald.ZS, estimator="MPM")$fit))
 })

@@ -20,6 +20,8 @@
 
 * corrected count for first model with `method='MCMC'` which lead to potential model with 0 probabiliy and errors in `image`.
 
+* coerced predicted values to be a vector under BMA (was a matrix)
+
 ## Other
 
 *  suppress `warning` when sampling probabilities are 1 or 0 and the number of models is decremented  

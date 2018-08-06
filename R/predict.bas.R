@@ -362,7 +362,7 @@ predict.bas = function(object,
 
     df = df[best]
     Ybma <- t(Ypred) %*% postprobs
-    fit = Ybma
+    fit = as.vector(Ybma)
     if (estimator == "HPM") {
       models = unlist(object$which[best])
       attributes(fit) = list(model = models,
@@ -380,7 +380,7 @@ predict.bas = function(object,
         }
       )
       bestBPM = which.min(dis)
-      fit = Ypred[bestBPM,]
+      fit = as.vector(Ypred[bestBPM,])
       models = unlist(object$which[best[bestBPM]])
       best = best[bestBPM]
       df = df[best]
