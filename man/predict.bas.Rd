@@ -3,7 +3,7 @@
 \name{predict.bas}
 \alias{predict.bas}
 \alias{predict}
-\title{Prediction Method for an object of class BMA}
+\title{Prediction Method for an object of class BAS}
 \usage{
 \method{predict}{bas}(object, newdata, se.fit = FALSE, type = "link",
   top = NULL, estimator = "BMA", na.action = na.pass, ...)

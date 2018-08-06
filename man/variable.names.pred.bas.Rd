@@ -25,6 +25,14 @@ for the selected models using estimators for 'HPM', 'MPM' or 'BPM".
 for the selected model created by \code{predict} for BAS
 objects.
 }
+\examples{
+data(Hald)
+hald.gprior =  bas.lm(Y~ ., data=Hald, prior="ZS-null", modelprior=uniform())
+hald.bpm = predict(hald.gprior, newdata=Hald[1,],
+                   se.fit=TRUE,
+                   estimator="BPM")
+variable.names(hald.bpm)
+}
 \seealso{
 \code{\link{predict.bas}}
 

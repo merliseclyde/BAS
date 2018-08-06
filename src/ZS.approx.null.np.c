@@ -87,7 +87,7 @@ double ZS_logmarg(double R2, int n, int d, double rscale) {
 
 double ZS_shrinkage(double R2, int n, int d, double rscale) {
 
-  double mode, logmarg, bound=0.0, epsabs, epsrel, result, abserr, *work, *ex;
+  double mode, logmarg, root, bound=0.0, epsabs, epsrel, result, abserr, *work, *ex;
   int inf = 1L, neval, ier, limit=200, lenw, last, *iwork;
   SEXP Rtheta;
   C_int_struct is;
@@ -106,6 +106,7 @@ double ZS_shrinkage(double R2, int n, int d, double rscale) {
   REAL(Rtheta)[2] = (double) d;
   REAL(Rtheta)[3] = (double) rscale;
   REAL(Rtheta)[4] = (double) mode;
+  REAL(Rtheta)[5] = (double) root;
   ex = REAL(Rtheta);
 
   is.f = ZS_density_shrinkage;
