@@ -72,6 +72,8 @@ SEXP glm_deterministic(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 				(1.0 - (double)((int) models[m][j]))*(1.0 -  probs[j]);
 		}
 
+		INTEGER(modeldim)[m] = pmodel;
+
 		SEXP Rmodel_m =	PROTECT(allocVector(INTSXP,pmodel));
 		GetModel_m(Rmodel_m, model, p);
 		//evaluate logmargy and shrinkage

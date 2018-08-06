@@ -1,11 +1,3 @@
-.extractResponse.glm <- function(frm, dat) {
-  # if (length(formula) == 3){
-  resp <- frm[[2]];
-  fdat <- eval(resp, envir=dat);
-  #    }
-  # else {stop("Formula missing Response") }
-  return(fdat)
-}
 
 .normalize.modelprior <- function(modelprior,p) {
 	if (modelprior$family == "Bernoulli") {

@@ -22,6 +22,8 @@
 
 * coerced predicted values to be a vector under BMA (was a matrix)
 
+* fixed `size` with using `method=deterministic` in `bas.glm` (was not updated) 
+
 ## Other
 
 *  suppress `warning` when sampling probabilities are 1 or 0 and the number of models is decremented  
