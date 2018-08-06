@@ -58,3 +58,14 @@ test_that("pivot", {
                               modelprior=uniform(), data=Hald, pivot=TRUE)
   expect_equal(hald.bas$probne0, hald.deterministic$probne0)
 })
+
+
+test_that("pivoting with non-full rank design", {
+  set.seed(42)
+  dat = data.frame(Y = rnorm(5), X1=1:5, X2=1:5, X3 = rnorm(5))
+
+  tmp.bas = bas.lm(Y ~ ., data=dat, prior="BIC", modelprior=uniform(), method="BAS", pivot=T)
+
+  tmp.mcmc = bas.lm(Y ~ ., data=dat, prior="BIC", modelprior=uniform(), method="MCMC", pivot=T, MCMC.iterations=10000)
+  expect_equal(sort(tmp.bas$R2), sort(tmp.mcmc$R2))
+})
