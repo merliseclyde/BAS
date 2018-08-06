@@ -12,6 +12,8 @@
 
 * Updates to package for [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/2055/badge)](https://bestpractices.coreinfrastructure.org/projects/2055)  certification
 
+* Added [Code Coverage](https://covecov.io/gh/merliseclyde/BAS) support and more extensive tests using `test_that`.
+
 ## Bugs
 
 * fixed output `include.always` to include the intercept [issu #26](https://github.com/merliseclyde/BAS/issues/26) always  so that `drop.always.included = TRUE` drops the intercept and any other variables that are forced in.    `include.always` and `force.heredity=TRUE` can now be used together with `method="BAS"`
