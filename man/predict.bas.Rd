@@ -17,8 +17,9 @@ used for fitting for obtaining fitted and predicted values.}
 \item{se.fit}{indicator for whether to compute se of fitted and predictied
 values}
 
-\item{type}{Type of predictions required. "Link" which is on the scale of
-the linear predictor is the only option currently.}
+\item{type}{Type of predictions required. "link" which is on the scale of
+the linear predictor is the only option currently for linear models, which for the normal model
+is equivalent to type='response'.}
 
 \item{top}{a scalar integer M.  If supplied, subset the top M models, based
 on posterior probabilities for model predictions and BMA.}

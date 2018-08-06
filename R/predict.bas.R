@@ -143,8 +143,9 @@ predict.basglm = function(object,
 #' used for fitting for obtaining fitted and predicted values.
 #' @param se.fit indicator for whether to compute se of fitted and predictied
 #' values
-#' @param type Type of predictions required. "Link" which is on the scale of
-#' the linear predictor is the only option currently.
+#' @param type Type of predictions required. "link" which is on the scale of
+#' the linear predictor is the only option currently for linear models, which for the normal model
+#' is equivalent to type='response'.
 #' @param top a scalar integer M.  If supplied, subset the top M models, based
 #' on posterior probabilities for model predictions and BMA.
 #' @param estimator estimator used for predictions.  Currently supported
@@ -457,10 +458,7 @@ predict.bas = function(object,
 #'
 #' @aliases fitted.bas fitted
 #' @param object An object of class 'bas' as created by \code{\link{bas}}
-#' @param type type equals "response" is currently the only option.  Prior to
-#' version 1.2.2 type was used to specify the type of estimator.  In order to
-#' be consistent with the predict.bas function this has been deprecated and
-#' replaced with the estimator option below
+#' @param type type equals "response" or "link" in the case of GLMs (default is 'link')
 #' @param estimator estimator type of fitted value to return. Default is to use
 #' BMA with all models. Options include \cr 'HPM' the highest probability model
 #' \cr 'BMA' Bayesian model averaging, using optionally only the 'top' models
@@ -472,8 +470,8 @@ predict.bas = function(object,
 #' @param na.action function determining what should be done with missing values in newdata. The default is to predict NA.
 #' @param ... optional arguments, not used currently
 #' @return A vector of length n of fitted values.
-#' @author Merlise Clyde \email{clyde@@AT@@stat.duke.edu}
-#' @seealso \code{\link{predict.bas}}
+#' @author Merlise Clyde \email{clyde@@AT@@duke.edu}
+#' @seealso \code{\link{predict.bas}}  \code{\link{predict.basglm}}
 #' @references Barbieri, M.  and Berger, J.O. (2004) Optimal predictive model
 #' selection. Annals of Statistics. 32, 870-897. \cr
 #' \url{https://projecteuclid.org/euclid.aos/1085408489&url=/UI/1.0/Summarize/euclid.aos/1085408489}
@@ -497,36 +495,31 @@ predict.bas = function(object,
 #' @family predict methods
 #' @export
 fitted.bas = function(object,
-                      type = "response",
+                      type = "link",
                       estimator = "BMA",
                       top = NULL,
                       na.action = na.pass,
                       ...) {
-  if (type %in% c("HPM", "MPM", "BPM", "BMA")) {
-    warning(paste("type = ", type,
-                  " is being deprecated, use estimator = ", type))
-    estimator = type
-  }
 
   nmodels = length(object$which)
   X = object$X
   if (is.null(top))
     top = nmodels
   if (estimator == "HPM") {
-    yhat = predict.bas(
+    yhat = predict(
       object,
       newdata = NULL,
       top = 1,
-      estimator = "HPM",
+      estimator = "HPM", type=type,
       na.action = na.action
     )$fit
   }
   if (estimator == "BMA") {
-    yhat = predict.bas(
+    yhat = predict(
       object,
       newdata = NULL,
       top = top,
-      estimator = "BMA",
+      estimator = "BMA",  type=type,
       na.action = na.action
     )$fit
   }
@@ -535,16 +528,16 @@ fitted.bas = function(object,
       object,
       newdata = NULL,
       top = top,
-      estimator = "MPM",
+      estimator = "MPM", type=type,
       na.action = na.action
     )$fit
   }
   if (estimator == "BPM") {
-    yhat = predict.bas(
+    yhat = predict(
       object,
       newdata = NULL,
       top = top,
-      estimator = "BPM",
+      estimator = "BPM", type=type,
       na.action = na.action
     )$fit
   }

@@ -10,6 +10,8 @@
 
 * Added option `drop.always.included` and `subset` to `plot.bas` so that variables that are always included may be excluded from the plot showing the marginal posterior inclusion probabilities (`which=4`). By default all are shown [enhancement #23](https://github.com/merliseclyde/BAS/issues/23)
 
+* update `fitted.bas` to use predict so that code covers both GLM and LM cases with `type='link'` or `type='response'`
+
 * Updates to package for [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/2055/badge)](https://bestpractices.coreinfrastructure.org/projects/2055)  certification
 
 * Added [Code Coverage](https://covecov.io/gh/merliseclyde/BAS) support and more extensive tests using `test_that`.

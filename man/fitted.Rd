@@ -5,16 +5,13 @@
 \alias{fitted}
 \title{Fitted values for a BAS BMA objects}
 \usage{
-\method{fitted}{bas}(object, type = "response", estimator = "BMA",
-  top = NULL, na.action = na.pass, ...)
+\method{fitted}{bas}(object, type = "link", estimator = "BMA", top = NULL,
+  na.action = na.pass, ...)
 }
 \arguments{
 \item{object}{An object of class 'bas' as created by \code{\link{bas}}}
 
-\item{type}{type equals "response" is currently the only option.  Prior to
-version 1.2.2 type was used to specify the type of estimator.  In order to
-be consistent with the predict.bas function this has been deprecated and
-replaced with the estimator option below}
+\item{type}{type equals "response" or "link" in the case of GLMs (default is 'link')}
 
 \item{estimator}{estimator type of fitted value to return. Default is to use
 BMA with all models. Options include \cr 'HPM' the highest probability model
@@ -72,7 +69,7 @@ and Statistics.  20:80-101 \cr
 \url{http://dx.doi.org/10.1198/jcgs.2010.09049}
 }
 \seealso{
-\code{\link{predict.bas}}
+\code{\link{predict.bas}}  \code{\link{predict.basglm}}
 
 Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
   \code{\link{coef.bas}}, \code{\link{confint.coef.bas}},
@@ -89,6 +86,6 @@ Other predict methods: \code{\link{predict.basglm}},
   \code{\link{variable.names.pred.bas}}
 }
 \author{
-Merlise Clyde \email{clyde@AT@stat.duke.edu}
+Merlise Clyde \email{clyde@AT@duke.edu}
 }
 \keyword{regression}
