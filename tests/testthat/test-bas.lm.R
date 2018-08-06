@@ -69,3 +69,9 @@ test_that("pivoting with non-full rank design", {
   tmp.mcmc = bas.lm(Y ~ ., data=dat, prior="BIC", modelprior=uniform(), method="MCMC", pivot=T, MCMC.iterations=10000)
   expect_equal(sort(tmp.bas$R2), sort(tmp.mcmc$R2))
 })
+
+test_that("prediction versus fitted", {
+  data(Hald)
+  hald.BIC = bas.lm(Y ~ ., prior="BIC", modelprior=uniform(), data=Hald)
+  expect_equal(fitted(hald.BIC), as.vector(predict(hald.BIC)$fit))
+})
