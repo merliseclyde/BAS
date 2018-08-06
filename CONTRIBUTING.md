@@ -82,7 +82,7 @@ you'll also need to document them with [roxygen](https://github.com/klutometis/r
 example to the appropriate function and optionally in the package vignettes. Make sure to re-run `devtools::document()` on the code before submitting.
 
 
-1.  __Testing__ If fixing a bug or adding a new feature, please add a [testthat](https://github.com/hadley/testthat) unit test.
+1.  __Testing__ If fixing a bug or adding a new feature, you should add a [testthat](https://github.com/hadley/testthat) unit test.
 
 
 
