@@ -77,11 +77,11 @@ test_that("prediction versus fitted", {
   expect_equal(as.vector(fitted(hald.ZS, estimator="BMA")),
                predict(hald.ZS, estimator="BMA", se.fit=TRUE)$fit)
   expect_equal(as.vector(fitted(hald.ZS, estimator="HPM")),
-               as.vector(predict(hald.ZS, estimator="HPM", se.fit=TRUE))$fit))
+               as.vector(predict(hald.ZS, estimator="HPM", se.fit=TRUE)$fit))
   expect_equal(as.vector(fitted(hald.ZS, estimator="BPM")),
-               as.vector(predict(hald.ZS, estimator="BPM", se.fit=TRUE))$fit))
+               as.vector(predict(hald.ZS, estimator="BPM", se.fit=TRUE)$fit))
   expect_equal(as.vector(fitted(hald.ZS, estimator="MPM")),
-               as.vector(predict(hald.ZS, estimator="MPM,  se.fit=TRUE)")$fit))
+               as.vector(predict(hald.ZS, estimator="MPM", se.fit=TRUE)$fit))
 })
 
 
