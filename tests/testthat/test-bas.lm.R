@@ -36,14 +36,17 @@ test_that("no method", {
                       modelprior=uniform(), data=Hald))
 })
 
-test_that("deterministic vs BAS", {
+test_that("deterministic, BAS and MCMC+BAS", {
   data(Hald)
   hald.bas = bas.lm(Y ~ ., prior="BIC",
                       modelprior=uniform(), data=Hald)
+  hald.MCMCbas = bas.lm(Y ~ ., prior="BIC", method="MCMC+BAS",
+                    modelprior=uniform(), data=Hald, MCMC.iterations=1000)
   hald.deterministic = bas.lm(Y ~ ., prior="BIC",
                               method="deterministic",
                               modelprior=uniform(), data=Hald)
   expect_equal(hald.bas$probne0, hald.deterministic$probne0)
+  expect_equal(hald.bas$probne0, hald.MCMCbas$probne0)
 })
 
 test_that("pivot", {
