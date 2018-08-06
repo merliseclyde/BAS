@@ -23,7 +23,6 @@ extern SEXP deterministic(SEXP,SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, S
 extern SEXP mcmc_new(SEXP,SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP mcmcbas(SEXP,SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP sampleworep_new(SEXP,SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP sampleworep(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 
 
 
@@ -47,7 +46,6 @@ static const R_CallMethodDef CallEntries[] = {
   {"deterministic",     (DL_FUNC) &deterministic,     10},
   {"mcmcbas",           (DL_FUNC) &mcmcbas,           17},
   {"sampleworep_new",   (DL_FUNC) &sampleworep_new,       14},
-  {"sampleworep)",  (DL_FUNC) &sampleworep,   12},
   {NULL, NULL, 0}
 };
 
