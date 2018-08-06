@@ -9,8 +9,10 @@ test_that("GLM logit probne0", {
                      betaprior=bic.prior(), family=binomial(),
                      modelprior=uniform())
   expect_equal(pima.BAS$probne0, pima.det$probne0)
-  expect_equal(predict(pima.BAS, type='link', se.fit=TRUE)$fit,
+  expect_equal(predict(pima.BAS, type='link')$fit,
                as.vector(fitted(pima.det)))
+  expect_equal(predict(pima.BAS, data=Pima.tr, type='link', se.fit=TRUE)$se.bma.fit,
+               predict(pima.BAS, type='link', se.fit=TRUE)$se.bma.fit)
   expect_equal(predict(pima.BAS, type='response')$fit,
                fitted(pima.det, type='response'))
   pima.BAS = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,

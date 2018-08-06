@@ -84,6 +84,13 @@ test_that("prediction versus fitted", {
                as.vector(predict(hald.ZS, estimator="MPM", se.fit=TRUE)$fit))
 })
 
+test_that("methods", {
+  data(Hald)
+  expect_error(bas.lm(Y ~ ., prior="ZS-null", modelprior=uniform(),
+                      data=Hald, method="AMCMC"))
+  expect_error(bas.lm(Y ~ ., prior="hyperg/n", modelprior=uniform(),
+                      data=Hald))
+})
 
 test_that("force.heredity", {
   loc = system.file("testdata", package="BAS")

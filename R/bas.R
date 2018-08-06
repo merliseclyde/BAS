@@ -446,6 +446,11 @@ bas.lm = function(formula,
       paste(priormethods, collapse = ", ")
     ))
   }
+
+  if (!(method %in% c("BAS", "deterministic", "MCMC", "MCMC+BAS"))) {
+    stop(paste("No available sampling method:", method))
+  }
+
   # from lm
   mfall <- match.call(expand.dots = FALSE)
   m <- match(c("formula", "data", "subset", "weights", "na.action",
@@ -644,12 +649,8 @@ bas.lm = function(formula,
 
 
 
-  if (method == "AMCMC") {
-    warning(
-      "argument method='AMCMC' is deprecated as of version 1.1.0; please use method='MCMC' instead.",
-      call. = FALSE
-    )
-  }
+
+
   #  sampleprobs = as.double(rep(0.0, n.models))
   result = switch(
     method,
@@ -712,25 +713,6 @@ bas.lm = function(formula,
       as.integer(thin),
       Rparents = parents,
       Rpivot = pivot
-    ),
-    "AMCMC" = .Call(
-      C_amcmc,
-      Yvec,
-      X,
-      sqrt(weights),
-      prob,
-      modeldim,
-      incint = as.integer(int),
-      alpha = as.numeric(alpha),
-      method = as.integer(method.num),
-      modelprior = modelprior,
-      update = as.integer(update),
-      Rbestmodel = as.integer(bestmodel),
-      plocal = as.numeric(1.0 - prob.rw),
-      as.integer(Burnin.iterations),
-      as.integer(MCMC.iterations),
-      as.numeric(lambda),
-      as.numeric(delta)
     ),
     "deterministic" = .Call(
       C_deterministic,
