@@ -172,3 +172,63 @@ void SetModel1(SEXP Rfit, SEXP Rmodel_m,
 	REAL(Q)[m] = REAL(getListElement(getListElement(Rfit, "lpy"),"Q"))[0];
 	REAL(Rintercept)[m] = REAL(getListElement(getListElement(Rfit, "lpy"),"intercept"))[0];
 }
+
+void update_tree(SEXP modelspace, struct Node *tree, SEXP modeldim, struct Var *vars, int k, int p, int n, int kt, int *model)
+{
+  int i,m, bit;
+  double prone, pigamma, przero;
+  SEXP model_m;
+  struct Node *branch;
+
+  for (m = 0;  m <= kt; m++) {
+    branch = tree;
+    PROTECT(model_m = VECTOR_ELT(modelspace, m));
+    for (i = 0; i < p; i++)  model[i] = 0;
+    for (i = 0; i < INTEGER(modeldim)[m]; i++)
+      model[INTEGER(model_m)[i]] = 1;
+
+    pigamma = 0.0;
+    for (i = 0; i < n; i++) {
+      if (branch->update != kt) {
+        branch->prob = vars[i].prob;
+        branch->update = kt;
+      }
+      bit = model[vars[i].index];
+      if (bit ==  1)  {
+        pigamma += log(branch->prob);
+        branch = branch->one;
+      } else {
+        pigamma += log(1.0 - branch->prob);
+        branch = branch->zero;
+      }
+    }
+
+    branch = tree;
+    for (i = 0; i < n; i++) {
+      bit = model[vars[i].index];
+      if (bit == 1) {
+        prone = (branch->prob - exp(pigamma));
+        przero = 1.0 - branch->prob;
+        pigamma -= log(branch->prob);
+      } else {
+        prone = branch->prob;
+        przero = 1.0 - branch->prob  - exp(pigamma);
+        pigamma -= log(1.0 - branch->prob);
+      }
+      if  (prone <= 0.0 )  prone = 0.;
+      if  (przero <= 0.0 )  przero = 0.;
+      branch->prob  = prone/(prone + przero);
+      if (prone <= 0.0) branch->prob = 0.;
+
+      if (bit == 1) branch = branch->one;
+      else branch = branch->zero;
+    }
+    UNPROTECT(1);
+  }
+}
+
+
+
+
+
+
