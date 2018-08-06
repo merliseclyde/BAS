@@ -172,6 +172,13 @@ be all variables</p>
   <code><a href='update.html'>update.bas</a></code></p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>Hald</span>)
+<span class='no'>hald.gprior</span> <span class='kw'>=</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>Y</span>~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"ZS-null"</span>, <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'><a href='uniform.html'>uniform</a></span>())
+<span class='no'>hald.bpm</span> <span class='kw'>=</span> <span class='fu'><a href='predict.bas.html'>predict</a></span>(<span class='no'>hald.gprior</span>, <span class='kw'>newdata</span><span class='kw'>=</span><span class='no'>Hald</span>[<span class='fl'>1</span>,],
+                   <span class='kw'>se.fit</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
+                   <span class='kw'>estimator</span><span class='kw'>=</span><span class='st'>"BPM"</span>)
+<span class='fu'>variable.names</span>(<span class='no'>hald.bpm</span>)</div><div class='output co'>#&gt; [1] "Intercept" "X2"       </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -181,7 +188,9 @@ be all variables</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
