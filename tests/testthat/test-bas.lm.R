@@ -2,8 +2,8 @@ context("bas.lm")
 
 test_that("shrinkage is less than or equal to 1", {
   data(Hald)
-#  hald.bas = bas.lm(Y ~ ., prior="JZS", modelprior=uniform(), data=Hald)
-#  expect_equal(0, sum(hald.bas$shrinkage > 1))
+  hald.bas = bas.lm(Y ~ ., prior="JZS", modelprior=uniform(), data=Hald)
+  expect_equal(0, sum(hald.bas$shrinkage > 1))
   hald.bas = bas.lm(Y ~ ., prior="ZS-null", modelprior=uniform(), data=Hald)
   expect_equal(0, sum(hald.bas$shrinkage > 1))
   hald.bas = bas.lm(Y ~ ., prior="EB-local", modelprior=uniform(), data=Hald)
