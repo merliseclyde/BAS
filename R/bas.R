@@ -399,33 +399,59 @@
 #' @concept BMA
 #' @concept variable selection
 #' @export
-bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
-    n.models=NULL,  prior="ZS-null", alpha=NULL,
-    modelprior=beta.binomial(1,1),
-    initprobs="Uniform", include.always = ~ 1,
-    method="BAS", update=NULL,
-    bestmodel=NULL, prob.local=0.0,
-    prob.rw=0.5,
-    MCMC.iterations=NULL,
-    lambda=NULL, delta=0.025, thin=1, renormalize=FALSE,
-    force.heredity=TRUE,
-    pivot=FALSE)  {
-
-
-  num.updates=10
+bas.lm = function(formula,
+                  data,
+                  subset,
+                  weights,
+                  na.action = "na.omit",
+                  n.models = NULL,
+                  prior = "ZS-null",
+                  alpha = NULL,
+                  modelprior = beta.binomial(1, 1),
+                  initprobs = "Uniform",
+                  include.always = ~ 1,
+                  method = "BAS",
+                  update = NULL,
+                  bestmodel = NULL,
+                  prob.local = 0.0,
+                  prob.rw = 0.5,
+                  MCMC.iterations = NULL,
+                  lambda = NULL,
+                  delta = 0.025,
+                  thin = 1,
+                  renormalize = FALSE,
+                  force.heredity = TRUE,
+                  pivot = FALSE)  {
+  num.updates = 10
   call = match.call()
-  priormethods =  c("g-prior", "hyper-g", "hyper-g-laplace", "hyper-g-n",
-                    "AIC", "BIC", "ZS-null", "ZS-full",
-                    "EB-local", "EB-global", "JZS")
+  priormethods =  c(
+    "g-prior",
+    "hyper-g",
+    "hyper-g-laplace",
+    "hyper-g-n",
+    "AIC",
+    "BIC",
+    "ZS-null",
+    "ZS-full",
+    "EB-local",
+    "EB-global",
+    "JZS"
+  )
 
   if (!(prior %in% priormethods)) {
-    stop(paste("prior ", prior, "is not one of ",
-               paste(priormethods, collapse=", ")))
+    stop(paste(
+      "prior ",
+      prior,
+      "is not one of ",
+      paste(priormethods, collapse = ", ")
+    ))
   }
   # from lm
   mfall <- match.call(expand.dots = FALSE)
   m <- match(c("formula", "data", "subset", "weights", "na.action",
-               "offset"), names(mfall), 0L)
+               "offset"),
+             names(mfall),
+             0L)
   mf <- mfall[c(1L, m)]
   mf$drop.unused.levels <- TRUE
   mf[[1L]] <- quote(stats::model.frame)
@@ -452,40 +478,49 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
   namesx[1] = "Intercept"
   n <- dim(X)[1]
 
- weights=as.vector(model.weights(mf))
- if (is.null(weights)) weights = rep(1, n)
+  weights = as.vector(model.weights(mf))
+  if (is.null(weights))
+    weights = rep(1, n)
 
- if (length(weights) != n) stop(simpleError(paste("weights are of length ", length(weights), "not of length ", n)))
+  if (length(weights) != n)
+    stop(simpleError(paste(
+      "weights are of length ", length(weights), "not of length ", n
+    )))
 
-  mean.x = apply(X[,-1, drop=F], 2, weighted.mean, w=weights)
-  ones = X[,1]
-  X = cbind(ones, sweep(X[, -1, drop=FALSE], 2, mean.x))
+  mean.x = apply(X[, -1, drop = F], 2, weighted.mean, w = weights)
+  ones = X[, 1]
+  X = cbind(ones, sweep(X[, -1, drop = FALSE], 2, mean.x))
   p <-  dim(X)[2]  # with intercept
 
 
-
-
   if (n <= p) {
-      if (modelprior$family == "Uniform" || modelprior$family == "Bernoulli")
-          warning("Uniform prior (Bernoulli)  distribution on the Model Space are not recommended for p > n; please consider using tr.beta.binomial or power.prior instead")
-  }
-  if (!is.numeric(initprobs)) {
-      if (n <= p && initprobs == "eplogp") {
-          simpleError("error: Full model is not full rank so cannot use the eplogp bound to create starting sampling probabilities, perhpas use 'marg-eplogp' for fiting marginal models\n")
-      }
-    initprobs = switch(initprobs,
-        "eplogp" = eplogprob(lm(Y ~ X)),
-        "marg-eplogp" = eplogprob.marg(Y, X),
-        "uniform"= c(1.0, rep(.5, p-1)),
-        "Uniform"= c(1.0, rep(.5, p-1))
+    if (modelprior$family == "Uniform" ||
+        modelprior$family == "Bernoulli")
+      warning(
+        "Uniform prior (Bernoulli)  distribution on the Model Space are not recommended for p > n; please consider using tr.beta.binomial or power.prior instead"
       )
   }
-   if (length(initprobs) == (p-1))
-       initprobs = c(1.0, initprobs)
+  if (!is.numeric(initprobs)) {
+    if (n <= p && initprobs == "eplogp") {
+      simpleError(
+        "error: Full model is not full rank so cannot use the eplogp bound to create starting sampling probabilities, perhpas use 'marg-eplogp' for fiting marginal models\n"
+      )
+    }
+    initprobs = switch(
+      initprobs,
+      "eplogp" = eplogprob(lm(Y ~ X)),
+      "marg-eplogp" = eplogprob.marg(Y, X),
+      "uniform" = c(1.0, rep(.5, p - 1)),
+      "Uniform" = c(1.0, rep(.5, p - 1))
+    )
+  }
+  if (length(initprobs) == (p - 1))
+    initprobs = c(1.0, initprobs)
   keep = 1
   # set up variables to always include
   if ("include.always" %in% names(mfall)) {
-    minc <- match(c("include.always", "data", "subset"),  names(mfall), 0L)
+    minc <-
+      match(c("include.always", "data", "subset"),  names(mfall), 0L)
     mfinc <- mfall[c(1L, minc)]
     mfinc$drop.unused.levels <- TRUE
     names(mfinc)[2] = "formula"
@@ -496,97 +531,110 @@ bas.lm = function(formula, data,  subset, weights, na.action="na.omit",
 
     keep = c(1L, match(colnames(X.always)[-1], colnames(X)))
     initprobs[keep] = 1.0
-
     if (ncol(X.always) == ncol(X)) {
       # just one model with all variables forced in
       # use method='BAS" as deterministic and MCMC fail in this context
-      method='BAS'
+      method = 'BAS'
     }
   }
 
-  if (is.null(n.models)) n.models = min(2^p, 2^19)
-  if (is.null(MCMC.iterations)) MCMC.iterations = as.integer(n.models*10)
+  if (is.null(n.models))
+    n.models = min(2 ^ p, 2 ^ 19)
+  if (is.null(MCMC.iterations))
+    MCMC.iterations = as.integer(n.models * 10)
   Burnin.iterations = as.integer(MCMC.iterations)
 
-  if (is.null(lambda)) lambda=1.0
+  if (is.null(lambda))
+    lambda = 1.0
 
 
 
 
   int = TRUE  # assume that an intercept is always included
 
-if (prior == "ZS-full") .Deprecated("prior='JZS'",
-  msg="The Zellner-Siow full prior (Liang et al 2008)  will be deprecated in the next version of the
-  package. Recommended alternative is the Jeffreys-Zellner-Siow prior 'JZS'")
-
-# if (prior == "ZS-null") warning("We recommend using the implementation using the Jeffreys-Zellner-Siow prior (prior='JZS') which uses numerical integration rahter than the Laplace approximation")
-
-  method.num = switch(prior,
-      "g-prior"=0,
-      "hyper-g"=1,
-      "EB-local"=2,
-      "BIC"=3,
-      "ZS-null"=4,
-      "ZS-full"=5,
-      "hyper-g-laplace"=6,
-      "AIC"=7,
-      "EB-global"=2,
-      "hyper-g-n"=8,
-      "JZS" = 9
+  if (prior == "ZS-full")
+    .Deprecated(
+      "prior='JZS'",
+      msg = "The Zellner-Siow full prior (Liang et al 2008)  will be deprecated in the next version of the
+      package. Recommended alternative is the Jeffreys-Zellner-Siow prior 'JZS'"
     )
 
+  # if (prior == "ZS-null") warning("We recommend using the implementation using the Jeffreys-Zellner-Siow prior (prior='JZS') which uses numerical integration rahter than the Laplace approximation")
+
+  method.num = switch(
+    prior,
+    "g-prior" = 0,
+    "hyper-g" = 1,
+    "EB-local" = 2,
+    "BIC" = 3,
+    "ZS-null" = 4,
+    "ZS-full" = 5,
+    "hyper-g-laplace" = 6,
+    "AIC" = 7,
+    "EB-global" = 2,
+    "hyper-g-n" = 8,
+    "JZS" = 9
+  )
+
   if (is.null(alpha)) {
-    alpha = switch(prior,
-        "g-prior"=n,
-        "hyper-g"=3,
-        "EB-local"=2,
-        "BIC"=n,
-        "ZS-null"=1,
-        "ZS-full"=n,
-        "hyper-g-laplace"=3,
-        "AIC"=0,
-        "EB-global"=2,
-        "hyper-g-n"=3,
-        "JZS"= 1,
-        NULL
-        )
-}
+    alpha = switch(
+      prior,
+      "g-prior" = n,
+      "hyper-g" = 3,
+      "EB-local" = 2,
+      "BIC" = n,
+      "ZS-null" = 1,
+      "ZS-full" = n,
+      "hyper-g-laplace" = 3,
+      "AIC" = 0,
+      "EB-global" = 2,
+      "hyper-g-n" = 3,
+      "JZS" = 1,
+      NULL
+    )
+  }
 
-  if (is.null(alpha)) alpha=0.0
+  if (is.null(alpha))
+    alpha = 0.0
 
-  parents = matrix(1,1,1)
-  if (method =="MCMC+BAS" | method =="deterministic") force.heredity = FALSE # does not work with updating the tree
+  parents = matrix(1, 1, 1)
+  if (method == "MCMC+BAS" |
+      method == "deterministic")
+    force.heredity = FALSE # does not work with updating the tree
   if (force.heredity) {
-   parents = make.parents.of.interactions(mf, data)
+    parents = make.parents.of.interactions(mf, data)
 
-  # check to see if really necessary
-   if (sum(parents) == nrow(parents)) {
-     parents = matrix(1,1,1)
-     force.heredity = FALSE}
+    # check to see if really necessary
+    if (sum(parents) == nrow(parents)) {
+      parents = matrix(1, 1, 1)
+      force.heredity = FALSE
+    }
   }
 
   if (is.null(bestmodel)) {
-#    bestmodel = as.integer(initprobs)
-    bestmodel = c(1, rep(0, p-1))
+    #    bestmodel = as.integer(initprobs)
+    bestmodel = c(1, rep(0, p - 1))
   }
-    bestmodel[keep] = 1
+  bestmodel[keep] = 1
   if (force.heredity) {
-    update=NULL  # do not update tree  FIXME LATER
+    update = NULL  # do not update tree  FIXME LATER
     if (prob.heredity(bestmodel, parents) == 0) {
       warning("bestmodel violates heredity conditions; resetting to null model")
-      bestmodel = c(1, rep(0, p-1))
-      }
-#    initprobs=c(1, seq(.95, .55, length=(p-1) ))
+      bestmodel = c(1, rep(0, p - 1))
+    }
+    #    initprobs=c(1, seq(.95, .55, length=(p-1) ))
   }
 
   prob <- .normalize.initprobs.lm(initprobs, p)
   n.models <- .normalize.n.models(n.models, p, prob, method)
   #  print(n.models)
-  modelprior <- .normalize.modelprior(modelprior,p)
+  modelprior <- .normalize.modelprior(modelprior, p)
 
   if (is.null(update)) {
-    if (n.models == 2^(p-1))  update = n.models+1
-    else (update = n.models/num.updates)
+    if (n.models == 2 ^ (p - 1))
+      update = n.models + 1
+    else
+      (update = n.models / num.updates)
   }
 
   modelindex = as.list(1:n.models)
@@ -596,98 +644,147 @@ if (prior == "ZS-full") .Deprecated("prior='JZS'",
 
 
 
-if (method == "AMCMC") {
-  warning("argument method='AMCMC' is deprecated as of version 1.1.0; please use method='MCMC' instead.",
-          call. = FALSE)
-}
-#  sampleprobs = as.double(rep(0.0, n.models))
-  result = switch(method,
-    "BAS" = .Call(C_sampleworep_new,
-      Yvec, X, sqrt(weights),
-      prob, modeldim,
-      incint=as.integer(int),
-      alpha= as.numeric(alpha),
-      method=as.integer(method.num), modelprior=modelprior,
-      update=as.integer(update),
-      Rbestmodel=as.integer(bestmodel),
-      plocal=as.numeric(prob.local),
+  if (method == "AMCMC") {
+    warning(
+      "argument method='AMCMC' is deprecated as of version 1.1.0; please use method='MCMC' instead.",
+      call. = FALSE
+    )
+  }
+  #  sampleprobs = as.double(rep(0.0, n.models))
+  result = switch(
+    method,
+    "BAS" = .Call(
+      C_sampleworep_new,
+      Yvec,
+      X,
+      sqrt(weights),
+      prob,
+      modeldim,
+      incint = as.integer(int),
+      alpha = as.numeric(alpha),
+      method = as.integer(method.num),
+      modelprior = modelprior,
+      update = as.integer(update),
+      Rbestmodel = as.integer(bestmodel),
+      plocal = as.numeric(prob.local),
       Rparents = parents,
-      Rpivot=pivot,
-      PACKAGE="BAS"),
-    "MCMC+BAS"= .Call(C_mcmcbas,
-      Yvec, X, sqrt(weights),
-      prob, modeldim,
-      incint=as.integer(int),
-      alpha= as.numeric(alpha),
-      method=as.integer(method.num), modelprior=modelprior,
-      update=as.integer(update),
-      Rbestmodel=as.integer(bestmodel),
-      plocal=as.numeric(1.0 - prob.rw), as.integer(Burnin.iterations),
-      as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta),
-      Rparents=parents),
-    "MCMC"= .Call(C_mcmc_new,
-        Yvec, X, sqrt(weights),
-        prob, modeldim,
-        incint=as.integer(int),
-        alpha= as.numeric(alpha),
-        method=as.integer(method.num), modelprior=modelprior,
-        update=as.integer(update),
-        Rbestmodel=as.integer(bestmodel),
-        plocal=as.numeric(1.0 - prob.rw), as.integer(Burnin.iterations),
-        as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta),
-        as.integer(thin),
-        Rparents=parents,
-        Rpivot=pivot),
-    "AMCMC" = .Call(C_amcmc,
-      Yvec, X, sqrt(weights),
-      prob, modeldim,
-      incint=as.integer(int),
-      alpha= as.numeric(alpha),
-      method=as.integer(method.num), modelprior=modelprior,
-      update=as.integer(update),
-      Rbestmodel=as.integer(bestmodel),
-      plocal=as.numeric(1.0-prob.rw), as.integer(Burnin.iterations),
-      as.integer(MCMC.iterations), as.numeric(lambda),as.numeric(delta)),
-     "deterministic" = .Call(C_deterministic,
-      Yvec, X, sqrt(weights),
-      prob, modeldim,
-      incint=as.integer(int),
-      alpha= as.numeric(alpha),
-      method=as.integer(method.num),modelprior=modelprior, Rpivot=pivot)
+      Rpivot = pivot,
+      PACKAGE = "BAS"
+    ),
+    "MCMC+BAS" = .Call(
+      C_mcmcbas,
+      Yvec,
+      X,
+      sqrt(weights),
+      prob,
+      modeldim,
+      incint = as.integer(int),
+      alpha = as.numeric(alpha),
+      method = as.integer(method.num),
+      modelprior = modelprior,
+      update = as.integer(update),
+      Rbestmodel = as.integer(bestmodel),
+      plocal = as.numeric(1.0 - prob.rw),
+      as.integer(Burnin.iterations),
+      as.integer(MCMC.iterations),
+      as.numeric(lambda),
+      as.numeric(delta),
+      Rparents = parents
+    ),
+    "MCMC" = .Call(
+      C_mcmc_new,
+      Yvec,
+      X,
+      sqrt(weights),
+      prob,
+      modeldim,
+      incint = as.integer(int),
+      alpha = as.numeric(alpha),
+      method = as.integer(method.num),
+      modelprior = modelprior,
+      update = as.integer(update),
+      Rbestmodel = as.integer(bestmodel),
+      plocal = as.numeric(1.0 - prob.rw),
+      as.integer(Burnin.iterations),
+      as.integer(MCMC.iterations),
+      as.numeric(lambda),
+      as.numeric(delta),
+      as.integer(thin),
+      Rparents = parents,
+      Rpivot = pivot
+    ),
+    "AMCMC" = .Call(
+      C_amcmc,
+      Yvec,
+      X,
+      sqrt(weights),
+      prob,
+      modeldim,
+      incint = as.integer(int),
+      alpha = as.numeric(alpha),
+      method = as.integer(method.num),
+      modelprior = modelprior,
+      update = as.integer(update),
+      Rbestmodel = as.integer(bestmodel),
+      plocal = as.numeric(1.0 - prob.rw),
+      as.integer(Burnin.iterations),
+      as.integer(MCMC.iterations),
+      as.numeric(lambda),
+      as.numeric(delta)
+    ),
+    "deterministic" = .Call(
+      C_deterministic,
+      Yvec,
+      X,
+      sqrt(weights),
+      prob,
+      modeldim,
+      incint = as.integer(int),
+      alpha = as.numeric(alpha),
+      method = as.integer(method.num),
+      modelprior = modelprior,
+      Rpivot = pivot
+    )
   )
   result$rank_deficient = FALSE
   if (any(is.na(result$logmarg))) {
-    warning("log marginals and posterior probabilities contain NA's.  Consider re-running with the option `pivot=TRUE` if there are models that are not full rank")
-    result$rank_deficient=TRUE}
-  if (any(result$rank != result$size)) result$rank_deficient=TRUE
+    warning(
+      "log marginals and posterior probabilities contain NA's.  Consider re-running with the option `pivot=TRUE` if there are models that are not full rank"
+    )
+    result$rank_deficient = TRUE
+  }
+  if (any(result$rank != result$size))
+    result$rank_deficient = TRUE
   result$n.models = length(result$postprobs)
-  result$namesx=namesx
-  result$n=length(Yvec)
-  result$prior=prior
-  result$modelprior=modelprior
-  result$alpha=alpha
+  result$namesx = namesx
+  result$n = length(Yvec)
+  result$prior = prior
+  result$modelprior = modelprior
+  result$alpha = alpha
   result$probne0.RN = result$probne0
   result$postprobs.RN = result$postprobs
   result$include.always = keep
 
-  if (method == "MCMC" || method == "MCMC_new" ) {
-	  result$n.models = result$n.Unique
-	  result$postprobs.MCMC = result$freq/sum(result$freq)
+  if (method == "MCMC" || method == "MCMC_new") {
+    result$n.models = result$n.Unique
+    result$postprobs.MCMC = result$freq / sum(result$freq)
 
-	  if (!renormalize)  {
-	    result$probne0 = result$probne0.MCMC
-  	  result$postprobs = result$postprobs.MCMC
-	  }
+    if (!renormalize)  {
+      result$probne0 = result$probne0.MCMC
+      result$postprobs = result$postprobs.MCMC
+    }
   }
 
   df = rep(n - 1, result$n.models)
-  if (prior == "AIC" | prior == "BIC" | prior=="IC") df = df - result$rank + 1
+  if (prior == "AIC" |
+      prior == "BIC" | prior == "IC")
+    df = df - result$rank + 1
   result$df = df
-  result$n.vars=p
-  result$Y=Yvec
-  result$X=Xorg
+  result$n.vars = p
+  result$Y = Yvec
+  result$X = Xorg
   result$mean.x = mean.x
-  result$call=call
+  result$call = call
 
   result$contrasts = attr(X, "contrasts")
   result$xlevels = .getXlevels(mt, mf)
@@ -695,6 +792,7 @@ if (method == "AMCMC") {
   result$model = mf
 
   class(result) = c("bas")
-  if (prior == "EB-global") result = EB.global(result)
+  if (prior == "EB-global")
+    result = EB.global(result)
   return(result)
-  }
+}
