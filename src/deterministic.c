@@ -196,8 +196,8 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
   SET_VECTOR_ELT(ANS, 11, R2);
   SET_STRING_ELT(ANS_names, 11, mkChar("R2"));
 
-  SET_VECTOR_ELT(ANS, 11, rank);
-  SET_STRING_ELT(ANS_names, 11, mkChar("rank"));
+  SET_VECTOR_ELT(ANS, 12, rank);
+  SET_STRING_ELT(ANS_names, 12, mkChar("rank"));
 
   setAttrib(ANS, R_NamesSymbol, ANS_names);
   UNPROTECT(nProtected);

@@ -45,11 +45,12 @@ update.bas = function(object, newprior, alpha=NULL, ...) {
     "ZS-full"=5,
     "hyper-g-laplace"=6,
     "AIC"=7,
-    "EB-global"=9,
-    "hyper-g-n"=8
+    "EB-global"=2,
+    "hyper-g-n"=8,
+    "JZS"=9,
     )
   if (is.null(alpha) &&
-      (method.num == 0 || method.num == 1 || method.num == 6)) {
+      (method.num == 0 || method.num == 1 || method.num == 6 || method.num == 8)) {
     stop(paste("Must specify a value of alpha for", newprior))
   }
 
@@ -64,7 +65,7 @@ update.bas = function(object, newprior, alpha=NULL, ...) {
     logmarg=object$logmarg
     shrinkage=object$shrinkage
     tmp = .C(C_gexpectations_vect,  nmodels=as.integer(length(object$which)),
-      p=as.integer(object$n.vars),  pmodel=as.integer(object$size),
+      p=as.integer(object$n.vars),  pmodel=as.integer(object$rank),
       nobs=as.integer(object$n), R2=object$R2, alpha=as.double(alpha),
       method=as.integer(method.num), RSquareFull=as.double(R2Full), SSY=as.double(SSY),
       logmarg=logmarg, shrinkage=shrinkage)

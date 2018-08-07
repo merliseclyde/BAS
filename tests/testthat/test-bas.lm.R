@@ -158,5 +158,14 @@ test_that("check non-full rank", {
   expect_equal(basObj.eplogp$probne0, basObj.det$probne0)
   expect_equal(basObj.det$probne0, basObj$probne0)
   expect_equal(basObj.eplogp$probne0, basObj$probne0)
+
+  basObj.EBL <- bas.lm(fullModelFormula,
+                          data = d,
+                          alpha = 0.125316, initprobs="marg-eplogp",
+                          prior = "EB-local", method="deterministic", pivot=T,
+                          modelprior = uniform(),
+                          weights = facFifty, force.heredity = FALSE)
+  basObj.up <- update(basObj.eplogp, newprior="EB-local")
+  expect_equal(basObj.EBL$postprobs, basObj.up$postprobs)
 })
 
