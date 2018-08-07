@@ -216,22 +216,22 @@
 <p>To obtain credible intervals for coefficients, <code>BAS</code> includes a <code>confint</code> method to create Highest Posterior Density intervals from the summaries from <code>coef</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/confint.coef.html">confint</a></span>(coef.ZS)</a></code></pre></div>
 <pre><code>##                    2.5%       97.5%        beta
-## Intercept  6.6713827238 6.786155743  6.72493620
-## M          0.0000000000 2.178079162  1.14359433
-## So        -0.0494287842 0.317052432  0.03547522
-## Ed         0.5804938525 3.194638111  1.85848834
-## Po1        0.0000000000 1.439260754  0.60067372
-## Po2       -0.1447751847 1.458864485  0.31841766
-## LF        -0.4935134773 1.079217907  0.05933737
-## M.F       -2.0893435010 2.236912152 -0.02702786
-## Pop       -0.1294081131 0.003335382 -0.02248283
-## NW         0.0000000000 0.166386859  0.06668437
-## U1        -0.5091969152 0.399481225 -0.02456854
-## U2        -0.0027261400 0.672972416  0.20702927
-## GDP       -0.0001749773 1.209341072  0.20625063
-## Ineq       0.6706586128 2.111744921  1.39012647
-## Prob      -0.4119439775 0.000000000 -0.21536203
-## Time      -0.5165963137 0.041665663 -0.08433479
+## Intercept  6.6669871425 6.779993634  6.72493620
+## M          0.0000000000 2.168969586  1.14359433
+## So        -0.0481183557 0.311055899  0.03547522
+## Ed         0.5842948320 3.147665700  1.85848834
+## Po1       -0.0011061280 1.427894781  0.60067372
+## Po2       -0.1795355040 1.386783187  0.31841766
+## LF        -0.4978533311 1.032674842  0.05933737
+## M.F       -2.3521877030 1.737198471 -0.02702786
+## Pop       -0.1214199147 0.008090769 -0.02248283
+## NW        -0.0001298867 0.166258341  0.06668437
+## U1        -0.5343365203 0.338642332 -0.02456854
+## U2        -0.0005784277 0.659866736  0.20702927
+## GDP       -0.0658547684 1.176631649  0.20625063
+## Ineq       0.6703358164 2.105433447  1.39012647
+## Prob      -0.4084127534 0.000000000 -0.21536203
+## Time      -0.5316536278 0.038112590 -0.08433479
 ## attr(,"Probability")
 ## [1] 0.95
 ## attr(,"class")
@@ -341,7 +341,7 @@
 <a class="sourceLine" id="cb43-7" data-line-number="7">  }</a>
 <a class="sourceLine" id="cb43-8" data-line-number="8">)</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   3.288   0.008   3.307</code></pre>
+##   2.606   0.000   2.606</code></pre>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw">system.time</span>(</a>
 <a class="sourceLine" id="cb45-2" data-line-number="2">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)  {</a>
 <a class="sourceLine" id="cb45-3" data-line-number="3">    crime.ZS &lt;-<span class="st">  </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(y <span class="op">~</span><span class="st"> </span>., </a>
@@ -351,7 +351,7 @@
 <a class="sourceLine" id="cb45-7" data-line-number="7">  }</a>
 <a class="sourceLine" id="cb45-8" data-line-number="8">)</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   2.288   0.000   2.296</code></pre>
+##   2.238   0.000   2.237</code></pre>
 <p>which is faster for enumeration than the default method=“BAS”.</p>
 </div>
 <div id="beyond-enumeration" class="section level2">
@@ -422,7 +422,7 @@
 </tr>
 <tr class="even">
 <td>Air.Flow</td>
-<td align="right">0.999705</td>
+<td align="right">0.998915</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -431,7 +431,7 @@
 </tr>
 <tr class="odd">
 <td>Water.Temp</td>
-<td align="right">0.962400</td>
+<td align="right">0.965685</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
@@ -440,7 +440,7 @@
 </tr>
 <tr class="even">
 <td>Acid.Conc.</td>
-<td align="right">0.228805</td>
+<td align="right">0.212640</td>
 <td align="right">0.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
@@ -648,11 +648,11 @@
 <tr class="odd">
 <td>PostProbs</td>
 <td align="right">NA</td>
-<td align="right">0.74420</td>
-<td align="right">0.2179000</td>
-<td align="right">0.0268000</td>
-<td align="right">0.0108000</td>
-<td align="right">0.0002000</td>
+<td align="right">0.76250</td>
+<td align="right">0.2021000</td>
+<td align="right">0.0241000</td>
+<td align="right">0.0102000</td>
+<td align="right">0.0008000</td>
 </tr>
 <tr class="even">
 <td>R2</td>
