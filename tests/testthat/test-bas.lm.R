@@ -178,4 +178,9 @@ test_that("as.matrix tools", {
   colnames(m1) <- Hald.bic$namesx
   m2 = list2matrix.which(Hald.bic)
   expect_equal(m1, m2)
+  m3 = list2matrix.bas(Hald.bic, "which") > 0
+  m3[,1] = 1
+  probne0 = t(m3) %*% Hald.bic$postprobs
+  expect_equal(as.vector(probne0), Hald.bic$probne0)
+
   })
