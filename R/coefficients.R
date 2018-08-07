@@ -24,18 +24,21 @@
 #' @param digits number of significant digits to print
 #' @param ... other optional arguments
 #' @return \code{coefficients} returns an object of class coef.bas with the
-#' following: \item{conditionalmeans}{a matrix with conditional posterior means
-#' for each model} \item{conditionalsd}{ standard deviations for each model }
-#' \item{postmean}{marginal posterior means of each regression coefficient
-#' using BMA} \item{postsd}{marginal posterior standard deviations using BMA}
-#' \item{postne0}{vector of posterior inclusion probabilities, marginal
+#' following:
+#'  \item{conditionalmeans}{a matrix with conditional posterior means
+#' for each model}
+#'  \item{conditionalsd}{ standard deviations for each model }
+#'  \item{postmean}{marginal posterior means of each regression coefficient
+#' using BMA}
+#'  \item{postsd}{marginal posterior standard deviations using BMA}
+#'  \item{postne0}{vector of posterior inclusion probabilities, marginal
 #' probability that a coefficient is non-zero}
 #' @note With highly correlated variables, marginal summaries may not be
 #' representative of the joint distribution. Use \code{\link{plot.coef.bas}} to
 #' view distributions.  The value reported for the intercept is
 #' under the centered parameterization.  Under the  Gaussian error
 #' model it will be centered at the sample mean of Y.
-#' @author Merlise Clyde \email{clyde@@stat.duke.edu}
+#' @author Merlise Clyde \email{clyde@@duke.edu}
 #' @seealso \code{\link{bas}}, \code{\link{confint.coef.bas}}
 #' @references Liang, F., Paulo, R., Molina, G., Clyde, M. and Berger, J.O.
 #' (2005) Mixtures of g-priors for Bayesian Variable Selection.  Journal of the
@@ -70,78 +73,104 @@
 #' @rdname coef
 #' @family bas methods
 #' @export
-coef.bas = function(object, n.models, estimator="BMA", ...) {
-  if (estimator== "MPM") {
-    nvar = object$n.vars -1
-    bestmodel<- (0:nvar)[object$probne0 > .5]
-    best = 1
-    models <- rep(0, nvar+1)
-    models[bestmodel+1] <- 1
+coef.bas <- function(object, n.models, estimator = "BMA", ...) {
+  if (estimator == "MPM") {
+    nvar <- object$n.vars - 1
+    bestmodel <- (0:nvar)[object$probne0 > .5]
+    best <- 1
+    models <- rep(0, nvar + 1)
+    models[bestmodel + 1] <- 1
     if (sum(models) > 1) {
-      object <- bas.lm(eval(object$call$formula),
-                       data=eval(object$call$data),
-                       weights=eval(object$call$weights),
-                       n.models=1, alpha=object$g,
-                       initprobs=object$probne0,
-                       prior=object$prior, modelprior=object$modelprior,
-                       update=NULL,bestmodel=models,
-                       prob.local=.0)
-  }}
-  postprobs= object$postprobs
-  if (estimator == "MPM" | estimator== "HPM" ) n.models = 1
-  if (missing(n.models)) n.models=length(postprobs)
-
-  topm = order(-postprobs)[1:n.models]
-  postprobs = postprobs[topm]/sum(postprobs[topm])
-  shrinkage = object$shrinkage[topm]
-  conditionalmeans = list2matrix.bas(object, "mle")[topm, , drop=F]
-  conditionalmeans[,-1] = sweep(conditionalmeans[,-1, drop=F], 1,
-                                shrinkage,
-                                FUN="*")
-  postmean = as.vector(postprobs %*% conditionalmeans)
-
-  conditionalsd  =  list2matrix.bas(object, "mle.se")[topm, , drop=F]
-  if (!(object$prior == "AIC" || object$prior == "BIC")) {
-    conditionalsd[ , -1] = sweep(conditionalsd[ ,-1, drop=F], 1,
-                                 sqrt(shrinkage), FUN="*") }
-
-  postsd = sqrt(postprobs %*% conditionalsd^2   +
-                postprobs %*% ((sweep(conditionalmeans, 2, postmean, FUN="-"))^2))
-  postsd = as.vector(postsd)
-  if (is.null(object$df[topm])) {
-    df = rep(object$n, length(postprobs))
-    if (object$prior == "BIC" | object$prior == "AIC") {df = df - object$size}
-    else {df = df - 1}
+      object <- bas.lm(
+        eval(object$call$formula),
+        data = eval(object$call$data),
+        weights = eval(object$call$weights),
+        n.models = 1,
+        alpha = object$g,
+        initprobs = object$probne0,
+        prior = object$prior,
+        modelprior = object$modelprior,
+        update = NULL,
+        bestmodel = models,
+        prob.local = 0.0
+      )
+    }
   }
-  else df = object$df[topm]
+  postprobs <- object$postprobs
+  if (estimator == "MPM" | estimator == "HPM") {
+    n.models <- 1
+  }
+  if (missing(n.models)) {
+    n.models <- length(postprobs)
+  }
 
-  out = list(postmean=postmean, postsd=postsd, probne0 = object$probne0,
-             conditionalmeans=conditionalmeans,conditionalsd=conditionalsd,
-             namesx=object$namesx, postprobs=postprobs,
-             n.vars=object$n.vars, n.models=n.models, df=df, estimator=estimator)
-  class(out) = 'coef.bas'
+  topm <- order(-postprobs)[1:n.models]
+  postprobs <- postprobs[topm] / sum(postprobs[topm])
+  shrinkage <- object$shrinkage[topm]
+  conditionalmeans <- list2matrix.bas(object, "mle")[topm, , drop = F]
+  conditionalmeans[, -1] <- sweep(conditionalmeans[, -1, drop = F], 1,
+    shrinkage,
+    FUN = "*"
+  )
+  postmean <- as.vector(postprobs %*% conditionalmeans)
+
+  conditionalsd <- list2matrix.bas(object, "mle.se")[topm, , drop = F]
+  if (!(object$prior == "AIC" || object$prior == "BIC")) {
+    conditionalsd[, -1] <- sweep(conditionalsd[, -1, drop = F], 1,
+      sqrt(shrinkage),
+      FUN = "*"
+    )
+  }
+
+  postsd <- sqrt(postprobs %*% conditionalsd^2 +
+    postprobs %*% ((sweep(conditionalmeans, 2, postmean, FUN = "-")
+    )^2))
+  postsd <- as.vector(postsd)
+  if (is.null(object$df[topm])) {
+    df <- rep(object$n, length(postprobs))
+    if (object$prior == "BIC" | object$prior == "AIC") {
+      df <- df - object$size
+    } else {
+      df <- df - 1
+    }
+  } else {
+    df <- object$df[topm]
+  }
+
+  out <- list(
+    postmean = postmean,
+    postsd = postsd,
+    probne0 = object$probne0,
+    conditionalmeans = conditionalmeans,
+    conditionalsd = conditionalsd,
+    namesx = object$namesx,
+    postprobs = postprobs,
+    n.vars = object$n.vars,
+    n.models = n.models,
+    df = df,
+    estimator = estimator
+  )
+  class(out) <- "coef.bas"
   return(out)
 }
 
 #' Print coefficients generated from coef.bas
 #' @rdname coef
+#' @aliases print.coef.bas
 #' @family bas coefs
 #' @method print coef.bas
 #' @export
-print.coef.bas = function(x,
-                          digits = max(3, getOption("digits") - 3), ...) {
-  out = cbind(x$postmean, x$postsd, x$probne0)
-  dimnames(out) = list(x$namesx, c("post mean", "post SD", "post p(B != 0)"))
+print.coef.bas <- function(x,
+                           digits = max(3, getOption("digits") - 3), ...) {
+  out <- cbind(x$postmean, x$postsd, x$probne0)
+  dimnames(out) <- list(x$namesx, c("post mean", "post SD", "post p(B != 0)"))
 
   cat("\n Marginal Posterior Summaries of Coefficients: \n")
   cat("\n Using ", x$estimator, "\n")
   cat("\n Based on the top ", x$n.models, "models \n")
-  print.default(format(out, digits = digits), print.gap = 2,
-                quote = FALSE, ...)
+  print.default(format(out, digits = digits),
+    print.gap = 2,
+    quote = FALSE, ...
+  )
   invisible()
 }
-
-
-
-
-

@@ -32,11 +32,14 @@ probability model), and 'BMA'}
 }
 \value{
 \code{coefficients} returns an object of class coef.bas with the
-following: \item{conditionalmeans}{a matrix with conditional posterior means
-for each model} \item{conditionalsd}{ standard deviations for each model }
-\item{postmean}{marginal posterior means of each regression coefficient
-using BMA} \item{postsd}{marginal posterior standard deviations using BMA}
-\item{postne0}{vector of posterior inclusion probabilities, marginal
+following:
+ \item{conditionalmeans}{a matrix with conditional posterior means
+for each model}
+ \item{conditionalsd}{ standard deviations for each model }
+ \item{postmean}{marginal posterior means of each regression coefficient
+using BMA}
+ \item{postsd}{marginal posterior standard deviations using BMA}
+ \item{postne0}{vector of posterior inclusion probabilities, marginal
 probability that a coefficient is non-zero}
 }
 \description{
@@ -108,6 +111,6 @@ Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
   \code{\link{variable.names.pred.bas}}
 }
 \author{
-Merlise Clyde \email{clyde@stat.duke.edu}
+Merlise Clyde \email{clyde@duke.edu}
 }
 \keyword{regression}
