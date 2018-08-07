@@ -12,14 +12,12 @@ double *vecalloc(int nr)
 }
 
 
-
 int *ivecalloc(int nr)
 {
   int *x;
   x= (int *) R_alloc( nr, sizeof(int));
   return x;
 }
-
 
 
 
