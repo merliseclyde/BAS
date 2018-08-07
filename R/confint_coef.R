@@ -192,7 +192,7 @@ confint.pred.bas <- function(object, parm, level = 0.95, nsim = 10000, ...) {
 #'
 #' data(Hald)
 #' hald.ZS = bas.lm(Y ~ ., data=Hald, prior="ZS-null", modelprior=uniform())
-#' plot(confint(coef(hald.ZS),parm=2:5))
+#' plot(confint(coef(hald.ZS), parm=2:5))
 #' plot(confint(predict(hald.ZS, se.fit=TRUE), parm="mean"))
 #'
 #' @rdname  plot.confint

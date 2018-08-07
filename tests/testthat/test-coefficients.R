@@ -18,7 +18,9 @@ test_that("coefficients", {
   expect_is(confint(coef_hald, approx=FALSE, nsim=5000), "confint.bas")
   expect_length(confint(coef_hald, parm="X4"), 3)
   expect_null(plot(confint(coef_hald, parm=2:5)))
-  })
+  expect_null(plot(confint(coef(hald_gprior, estimator='HPM'))))
+  expect_error(confint(coef(hald_gprior), nsim=1))
+})
 
 test_that("plot posterior coefficients", {
   data(UScrime, package="MASS")
