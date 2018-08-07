@@ -9,3 +9,6 @@ src/*.dll
 BAS-github.Rproj
 .build.timestamp
 docs/*
+vignettes/BAS-vignette.R
+vignettes/BAS-vignette.html
+vignettes/BAS-vignette_files/*
