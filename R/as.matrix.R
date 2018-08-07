@@ -70,22 +70,20 @@ list2matrix.bas = function(x, what, which.models=NULL) {
 #' @return a matrix representation of \code{x$what}, with number of rows equal
 #' to the length of which.models or total number of models and number of
 #' columns \code{x$n.vars}
-#' @author Merlise Clyde \email{clyde@@stat.duke.edu}
+#' @author Merlise Clyde \email{clyde@@duke.edu}
 #' @seealso \code{\link{bas}}
 #' @keywords regression
 #'
 #'
 #' @examples
 #'
-#' \dontrun{library(MASS)
-#' data(UScrime)
-#' UScrime[,-2] = log(UScrime[,-2])
-#' crime.bic =  bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC",
-#'                     initprobs= "eplogp")
-#' coef = list2matrix.bas(crime.bic, "ols")  # extract all ols coefficients
-#' se = list2matrix.bas(crime.bic, "ols.se")
-#' models = list2matrix.which(crime.bic)     #matrix of model indicators
-#' models = which.matrix(crime.bic$which, crime.bic$n.vars)     #matrix of model indicators}
+#' data(Hald)
+#' Hald.bic =  bas.lm(Y ~ ., data=Hald, prior="BIC",
+#'                    initprobs= "eplogp")
+#' coef = list2matrix.bas(Hald.bic, "mle")  # extract all ols coefficients
+#' se = list2matrix.bas(Hald.bic, "mle.se")
+#' models = list2matrix.which(Hald.bic)     #matrix of model indicators
+#' models = which.matrix(Hald.bic$which, Hald.bic$n.vars)     #matrix of model indicators
 #'
 #' @rdname list2matrix.which
 #' @family as.matrix methods
@@ -118,19 +116,17 @@ list2matrix.which = function(x, which.models=NULL) {
 #' @return a matrix representation of \code{x$which}, with number of rows equal
 #' to the length of which.models or total number of models and number of
 #' columns \code{x$n.vars}
-#' @author Merlise Clyde \email{clyde@@stat.duke.edu}
+#' @author Merlise Clyde \email{clyde@@duke.edu}
 #' @seealso \code{\link{bas}}
 #' @keywords regression
 #'
 #'
 #' @examples
 #'
-#' \dontrun{library(MASS)
-#' data(UScrime)
-#' UScrime[,-2] = log(UScrime[,-2])
-#' crime.bic =  bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC",
-#'                     initprobs= "eplogp")
-#' models = which.matrix(crime.bic$which, crime.bic$n.vars)     #matrix of model indicators}
+#' data(Hald)
+#' Hald.bic =  bas.lm(Y ~ ., data=Hald, prior="BIC",
+#'                    initprobs= "eplogp")
+#' models = which.matrix(Hald.bic$which, Hald.bic$n.vars)     #matrix of model indicators}
 #'
 #' @rdname which.matrix
 #' @family as.matrix methods

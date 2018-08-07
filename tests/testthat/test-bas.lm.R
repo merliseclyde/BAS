@@ -169,3 +169,13 @@ test_that("check non-full rank", {
   expect_equal(basObj.EBL$postprobs, basObj.up$postprobs)
 })
 
+test_that("as.matrix tools", {
+
+  data(Hald)
+  Hald.bic =  bas.lm(Y ~ ., data=Hald, prior="BIC",
+                     initprobs= "eplogp")
+  m1 = which.matrix(Hald.bic$which, Hald.bic$n.vars)
+  colnames(m1) <- Hald.bic$namesx
+  m2 = list2matrix.which(Hald.bic)
+  expect_equal(m1, m2)
+  })

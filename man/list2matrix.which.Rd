@@ -31,15 +31,13 @@ loop.
 }
 \examples{
 
-\dontrun{library(MASS)
-data(UScrime)
-UScrime[,-2] = log(UScrime[,-2])
-crime.bic =  bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC",
-                    initprobs= "eplogp")
-coef = list2matrix.bas(crime.bic, "ols")  # extract all ols coefficients
-se = list2matrix.bas(crime.bic, "ols.se")
-models = list2matrix.which(crime.bic)     #matrix of model indicators
-models = which.matrix(crime.bic$which, crime.bic$n.vars)     #matrix of model indicators}
+data(Hald)
+Hald.bic =  bas.lm(Y ~ ., data=Hald, prior="BIC",
+                   initprobs= "eplogp")
+coef = list2matrix.bas(Hald.bic, "mle")  # extract all ols coefficients
+se = list2matrix.bas(Hald.bic, "mle.se")
+models = list2matrix.which(Hald.bic)     #matrix of model indicators
+models = which.matrix(Hald.bic$which, Hald.bic$n.vars)     #matrix of model indicators
 
 }
 \seealso{
@@ -49,6 +47,6 @@ Other as.matrix methods: \code{\link{list2matrix.bas}},
   \code{\link{which.matrix}}
 }
 \author{
-Merlise Clyde \email{clyde@stat.duke.edu}
+Merlise Clyde \email{clyde@duke.edu}
 }
 \keyword{regression}

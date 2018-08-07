@@ -24,16 +24,6 @@ zeros to facilitate other computations.
 \code{which.matrix}  coerces
 \code{x$which} into a matrix.
 }
-\examples{
-
-\dontrun{library(MASS)
-data(UScrime)
-UScrime[,-2] = log(UScrime[,-2])
-crime.bic =  bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC",
-                    initprobs= "eplogp")
-models = which.matrix(crime.bic$which, crime.bic$n.vars)     #matrix of model indicators}
-
-}
 \seealso{
 \code{\link{bas}}
 
@@ -41,6 +31,6 @@ Other as.matrix methods: \code{\link{list2matrix.bas}},
   \code{\link{list2matrix.which}}
 }
 \author{
-Merlise Clyde \email{clyde@stat.duke.edu}
+Merlise Clyde \email{clyde@duke.edu}
 }
 \keyword{regression}
