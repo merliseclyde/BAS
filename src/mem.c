@@ -11,21 +11,7 @@ double *vecalloc(int nr)
   return x;
 }
 
-long *lvecalloc(int nr)
-{
-  long *x;
-  x=(long *) R_alloc((unsigned) nr,sizeof(long));
-  return x;
-}
 
-
-
-float *fvecalloc(int nr)
-{
-  float *x;
-  x=(float *) R_alloc((unsigned) nr,sizeof(float));
-  return x;
-}
 
 int *ivecalloc(int nr)
 {
@@ -34,30 +20,8 @@ int *ivecalloc(int nr)
   return x;
 }
 
-/*
-double **matallocold(int nr, int nc)
-{
-int k;
-double **x;
-x= Calloc( nr, double *);
-for (k=0;k<nr;k++){
-  x[k]= Calloc(nc, double);
-  }
-return x;
-}
-*/
 
-float **fmatalloc(int nr, int nc)
-{
-int k;
-float **x;
-x=(float **) R_alloc((unsigned) nr, sizeof(float *));
 
-for (k=0;k<nr;k++){
-  x[k]=(float *) R_alloc((unsigned) nc, sizeof(float));
-}
-return x;
-}
 
 double **matalloc(int nr, int nc)
 {
@@ -71,16 +35,7 @@ for (k=0;k<nr;k++){
 return x;
 }
 
-int  **imatalloc(int nr, int nc)
-{
-int k;
-int **x;
-x = (int **) R_alloc(nr, sizeof(int *));
-for (k=0;k<nr;k++){
-  x[k] = (int *) R_alloc(nc, sizeof(int));
-}
-return x;
-}
+
 
 unsigned char  **cmatalloc(int nr, int nc)
 {
@@ -94,27 +49,6 @@ return x;
 }
 
 
-void  freemat(double **mat, int  nr)
-{
-int k;
-
-for (k=0;k<nr;k++){
-  Free(mat[k]);
-  }
-Free(mat);
-
-}
-
-void  freeimat(int **mat, int  nr)
-{
-int k;
-
-for (k=0;k<nr;k++){
-  Free(mat[k]);
-  }
-Free(mat);
-
-}
 
 void  freechmat(unsigned char **mat, int  nr)
 {
@@ -142,4 +76,5 @@ Free(mat);
          }
        return elmt;
      }
+
 
