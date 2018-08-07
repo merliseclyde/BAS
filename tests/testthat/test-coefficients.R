@@ -19,6 +19,8 @@ test_that("coefficients", {
   expect_length(confint(coef_hald, parm="X4"), 3)
   expect_null(plot(confint(coef_hald, parm=2:5)))
   expect_null(plot(confint(coef(hald_gprior, estimator='HPM'))))
+  expect_null(plot(confint(coef(hald_gprior, estimator='HPM')),
+                   horizontal = TRUE))
   expect_error(confint(coef(hald_gprior), nsim=1))
 })
 
