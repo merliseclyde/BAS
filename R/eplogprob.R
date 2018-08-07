@@ -1,25 +1,25 @@
 #' eplogprob - Compute approximate marginal inclusion probabilities from
 #' pvalues
-#' 
+#'
 #' \code{eplogprob} calculates approximate marginal posterior inclusion
 #' probabilities from p-values computed from a linear model using a lower bound
 #' approximation to Bayes factors.  Used to obtain initial inclusion
 #' probabilities for sampling using Bayesian Adaptive Sampling \code{bas.lm}
-#' 
+#'
 #' Sellke, Bayarri and Berger (2001) provide a simple calibration of p-values
-#' 
+#'
 #' BF(p) = -e p log(p)
-#' 
+#'
 #' which provide a lower bound to a Bayes factor for comparing H0: beta = 0
 #' versus H1: beta not equal to 0, when the p-value p is less than 1/e.  Using
 #' equal prior odds on the hypotheses H0 and H1, the approximate marginal
 #' posterior inclusion probability
-#' 
+#'
 #' p(beta != 0 | data ) = 1/(1 + BF(p))
-#' 
+#'
 #' When p > 1/e, we set the marginal inclusion probability to 0.5 or the value
 #' given by \code{thresh}.
-#' 
+#'
 #' @param lm.obj a linear model object
 #' @param thresh the value of the inclusion probability when if the p-value >
 #' 1/exp(1), where the lower bound approximation is not valid.
@@ -40,23 +40,25 @@
 #' American Statistician, 55, 62-71.
 #' @keywords regression
 #' @examples
-#' 
+#'
 #' library(MASS)
 #' data(UScrime)
 #' UScrime[,-2] = log(UScrime[,-2])
 #' eplogprob(lm(y ~ ., data=UScrime))
-#' 
-#' 
+#'
+#'
 #' @export
 eplogprob = function(lm.obj, thresh=.5, max = 0.99, int=TRUE) {
     pval = summary(lm.obj)$coefficients[,4]
-    prob = 1/(1 - exp(1)*pval*log(pval))
-    prob[pval > 1/exp(1)] = thresh
-    prob[prob > max] = max
-    if (int) prob[1] = 1.0
-    if (any(is.na(prob))) {
-        warning("Model is not full rank,  use eplogprob.marg instead\n")
-    }                    
+    if (length(lm.obj$coefficients) != length(pval)) {
+      stop("Full model is not full rank,  use `initprobs='marg-eplogp'` instead\n")
+    }
+    else {
+      prob = 1/(1 - exp(1)*pval*log(pval))
+      prob[pval > 1/exp(1)] = thresh
+      prob[prob > max] = max
+      if (int) prob[1] = 1.0
+      }
 return(prob)
 }
 
@@ -64,31 +66,31 @@ return(prob)
 
 #' eplogprob.marg - Compute approximate marginal inclusion probabilities from
 #' pvalues
-#' 
+#'
 #' \code{eplogprob.marg} calculates approximate marginal posterior inclusion
 #' probabilities from p-values computed from a series of simple linear
 #' regression models using a lower bound approximation to Bayes factors.  Used
 #' to order variables and if appropriate obtain initial inclusion probabilities
 #' for sampling using Bayesian Adaptive Sampling \code{bas.lm}
-#' 
+#'
 #' Sellke, Bayarri and Berger (2001) provide a simple calibration of p-values
-#' 
+#'
 #' BF(p) = -e p log(p)
-#' 
+#'
 #' which provide a lower bound to a Bayes factor for comparing H0: beta = 0
 #' versus H1: beta not equal to 0, when the p-value p is less than 1/e.  Using
 #' equal prior odds on the hypotheses H0 and H1, the approximate marginal
 #' posterior inclusion probability
-#' 
+#'
 #' p(beta != 0 | data ) = 1/(1 + BF(p))
-#' 
+#'
 #' When p > 1/e, we set the marginal inclusion probability to 0.5 or the value
 #' given by \code{thresh}. For the eplogprob.marg the marginal p-values are
 #' obtained using statistics from the p simple linear regressions
-#' 
+#'
 #' P(F > (n-2) R2/(1 - R2)) where F ~ F(1, n-2) where R2 is the square of the
 #' correlation coefficient between y and X_j.
-#' 
+#'
 #' @param Y response variable
 #' @param X design matrix with a column of ones for the intercept
 #' @param thresh the value of the inclusion probability when if the p-value >
@@ -107,7 +109,7 @@ return(prob)
 #' American Statistician, 55, 62-71.
 #' @keywords regression
 #' @examples
-#' 
+#'
 #' library(MASS)
 #' data(UScrime)
 #' UScrime[,-2] = log(UScrime[,-2])
@@ -124,7 +126,7 @@ eplogprob.marg = function(Y,X, thresh=.5, max = 0.99, int=TRUE) {
     prob[pval < 10^-16] = max
     prob[prob > max] = max
     if (int) prob = c(1.0, prob)
-                 
+
 return(prob)
 }
 

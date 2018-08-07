@@ -11,8 +11,8 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
   int  nModels=LENGTH(Rmodeldim);
   int  pivot = LOGICAL(Rpivot)[0];
 
-  SEXP ANS = PROTECT(allocVector(VECSXP, 12)); ++nProtected;
-  SEXP ANS_names = PROTECT(allocVector(STRSXP, 12)); ++nProtected;
+  SEXP ANS = PROTECT(allocVector(VECSXP, 13)); ++nProtected;
+  SEXP ANS_names = PROTECT(allocVector(STRSXP, 13)); ++nProtected;
   SEXP Rprobs = PROTECT(duplicate(Rprobinit)); ++nProtected;
   SEXP R2 = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
   SEXP shrinkage = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
@@ -148,7 +148,7 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
       REAL(R2)[m] = R2_m;
       REAL(mse)[m] = mse_m;
 
-      gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull,
+      gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull,
                     SSY, &logmarg_m, &shrinkage_m);
       REAL(logmarg)[m] = logmarg_m;
       REAL(priorprobs)[m] = compute_prior_probs( model, pmodel,p, modelprior);
@@ -195,6 +195,9 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 
   SET_VECTOR_ELT(ANS, 11, R2);
   SET_STRING_ELT(ANS_names, 11, mkChar("R2"));
+
+  SET_VECTOR_ELT(ANS, 11, rank);
+  SET_STRING_ELT(ANS_names, 11, mkChar("rank"));
 
   setAttrib(ANS, R_NamesSymbol, ANS_names);
   UNPROTECT(nProtected);

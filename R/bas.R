@@ -507,13 +507,13 @@ bas.lm = function(formula,
   }
   if (!is.numeric(initprobs)) {
     if (n <= p && initprobs == "eplogp") {
-      simpleError(
-        "error: Full model is not full rank so cannot use the eplogp bound to create starting sampling probabilities, perhpas use 'marg-eplogp' for fiting marginal models\n"
+    stop(
+         "Full model is not full rank so cannot use the eplogp bound to create starting sampling probabilities, perhpas use 'marg-eplogp' for fiting marginal models\n"
       )
     }
     initprobs = switch(
       initprobs,
-      "eplogp" = eplogprob(lm(Y ~ X)),
+      "eplogp" = eplogprob(lm(Y ~ X -1)),
       "marg-eplogp" = eplogprob.marg(Y, X),
       "uniform" = c(1.0, rep(.5, p - 1)),
       "Uniform" = c(1.0, rep(.5, p - 1))
