@@ -2,19 +2,40 @@ context("bas.lm")
 
 test_that("shrinkage is less than or equal to 1", {
   data(Hald)
-  hald.bas <- bas.lm(Y ~ ., prior = "ZS-null", modelprior = uniform(), data = Hald)
+  hald.bas <- bas.lm(Y ~ .,
+    prior = "ZS-null", modelprior = uniform(),
+    data = Hald
+  )
   expect_equal(0, sum(hald.bas$shrinkage > 1))
-  hald.bas <- bas.lm(Y ~ ., prior = "EB-local", modelprior = uniform(), data = Hald)
+  hald.bas <- bas.lm(Y ~ .,
+    prior = "EB-local", modelprior = uniform(),
+    data = Hald
+  )
   expect_equal(0, sum(hald.bas$shrinkage > 1))
-  hald.bas <- bas.lm(Y ~ ., prior = "EB-global", modelprior = uniform(), data = Hald)
+  hald.bas <- bas.lm(Y ~ .,
+    prior = "EB-global", modelprior = uniform(),
+    data = Hald
+  )
   expect_equal(0, sum(hald.bas$shrinkage > 1))
-  hald.bas <- bas.lm(Y ~ ., prior = "hyper-g", modelprior = uniform(), data = Hald)
+  hald.bas <- bas.lm(Y ~ .,
+    prior = "hyper-g", modelprior = uniform(),
+    data = Hald
+  )
   expect_equal(0, sum(hald.bas$shrinkage > 1))
-  hald.bas <- bas.lm(Y ~ ., prior = "hyper-g-n", modelprior = uniform(), data = Hald)
+  hald.bas <- bas.lm(Y ~ .,
+    prior = "hyper-g-n", modelprior = uniform(),
+    data = Hald
+  )
   expect_equal(0, sum(hald.bas$shrinkage > 1))
-  hald.bas <- bas.lm(Y ~ ., prior = "hyper-g-laplace", modelprior = uniform(), data = Hald)
+  hald.bas <- bas.lm(Y ~ .,
+    prior = "hyper-g-laplace", modelprior = uniform(),
+    data = Hald
+  )
   expect_equal(0, sum(hald.bas$shrinkage > 1))
-  hald.bas <- bas.lm(Y ~ ., prior = "g-prior", modelprior = uniform(), data = Hald)
+  hald.bas <- bas.lm(Y ~ .,
+    prior = "g-prior", modelprior = uniform(),
+    data = Hald
+  )
   expect_equal(0, sum(hald.bas$shrinkage > 1))
 })
 
@@ -26,9 +47,15 @@ test_that("shrinkage is less than or equal to 1", {
 
 test_that("A/BIC: shrinkage is equal to 1", {
   data(Hald)
-  hald.BIC <- bas.lm(Y ~ ., prior = "BIC", modelprior = uniform(), data = Hald)
+  hald.BIC <- bas.lm(Y ~ .,
+    prior = "BIC", modelprior = uniform(),
+    data = Hald
+  )
   expect_equal(hald.BIC$n.model, sum(hald.BIC$shrinkage == 1))
-  hald.AIC <- bas.lm(Y ~ ., prior = "AIC", modelprior = uniform(), data = Hald)
+  hald.AIC <- bas.lm(Y ~ .,
+    prior = "AIC", modelprior = uniform(),
+    data = Hald
+  )
   expect_equal(hald.AIC$n.model, sum(hald.AIC$shrinkage == 1))
 })
 
@@ -78,9 +105,11 @@ test_that("pivoting with non-full rank design", {
   set.seed(42)
   dat <- data.frame(Y = rnorm(5), X1 = 1:5, X2 = 1:5, X3 = rnorm(5))
 
-  tmp.bas <- bas.lm(Y ~ ., data = dat, prior = "BIC", modelprior = uniform(), method = "BAS", pivot = T)
+  tmp.bas <- bas.lm(Y ~ ., data = dat, prior = "BIC", modelprior = uniform(),
+                    method = "BAS", pivot = T)
 
-  tmp.mcmc <- bas.lm(Y ~ ., data = dat, prior = "BIC", modelprior = uniform(), method = "MCMC", pivot = T, MCMC.iterations = 10000)
+  tmp.mcmc <- bas.lm(Y ~ ., data = dat, prior = "BIC", modelprior = uniform(),
+                     method = "MCMC", pivot = T, MCMC.iterations = 10000)
   expect_equal(sort(tmp.bas$R2), sort(tmp.mcmc$R2))
 })
 
@@ -124,7 +153,8 @@ test_that("force.heredity", {
   loc <- system.file("testdata", package = "BAS")
   d <- read.csv(paste(loc, "JASP-testdata.csv", sep = "/"))
 
-  simpleFormula <- as.formula("contNormal ~ contGamma + contcor1 + contGamma * contcor1 ")
+  simpleFormula <- as.formula("contNormal ~ contGamma + contcor1 +
+                               contGamma*contcor1")
 
   set.seed(1)
   basObj <- bas.lm(simpleFormula,
@@ -154,7 +184,8 @@ test_that("check non-full rank", {
   loc <- system.file("testdata", package = "BAS")
   d <- read.csv(paste(loc, "JASP-testdata.csv", sep = "/"))
 
-  fullModelFormula <- as.formula("contNormal ~  contGamma * contExpon + contGamma * contcor1 + contExpon * contcor1")
+  fullModelFormula <- as.formula("contNormal ~ contGamma*contExpon +
+                                  contGamma*contcor1 + contExpon * contcor1")
 
   expect_warning(bas.lm(fullModelFormula,
     data = d,
@@ -196,7 +227,7 @@ test_that("check non-full rank", {
     weights = facFifty, force.heredity = FALSE
   )
   basObj.up <- update(basObj.eplogp, newprior = "EB-local")
-  expect_equal(basObj.EBL$postprobs, basObj.up$postprobs)
+  expect_equal(basObj.EBL$postprobs, basObj.up$postprobs, tolerance=1e-05)
 })
 
 test_that("as.matrix tools", {

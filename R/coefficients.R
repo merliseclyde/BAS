@@ -74,6 +74,9 @@
 #' @family bas methods
 #' @export
 coef.bas <- function(object, n.models, estimator = "BMA", ...) {
+  if (estimator == "BPM") {
+    stop("Extracting coefficients for the BPM is not implemented yet")
+  }
   if (estimator == "MPM") {
     nvar <- object$n.vars - 1
     bestmodel <- (0:nvar)[object$probne0 > .5]
@@ -129,7 +132,7 @@ coef.bas <- function(object, n.models, estimator = "BMA", ...) {
   if (is.null(object$df[topm])) {
     df <- rep(object$n, length(postprobs))
     if (object$prior == "BIC" | object$prior == "AIC") {
-      df <- df - object$size
+      df <- df - object$rank
     } else {
       df <- df - 1
     }
