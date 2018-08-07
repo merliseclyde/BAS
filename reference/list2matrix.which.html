@@ -119,7 +119,7 @@ zeros to facilitate other computations." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Coerce a BAS list object into a matrix.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/merliseclyde/BAS/blob/master/R/as.matrix.R'><code>R/as.matrix.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/merliseclyde/BAS/blob/master/R/as_matrix.R'><code>R/as_matrix.R</code></a></small>
     <div class="hidden name"><code>list2matrix.which.Rd</code></div>
     </div>
 
@@ -171,8 +171,7 @@ loop.
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='fu'>data</span>(<span class='no'>Hald</span>)
-<span class='no'>Hald.bic</span> <span class='kw'>=</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>Y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"BIC"</span>,
-                   <span class='kw'>initprobs</span><span class='kw'>=</span> <span class='st'>"eplogp"</span>)
+<span class='no'>Hald.bic</span> <span class='kw'>=</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>Y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"BIC"</span>, <span class='kw'>initprobs</span><span class='kw'>=</span><span class='st'>"eplogp"</span>)
 <span class='no'>coef</span> <span class='kw'>=</span> <span class='fu'><a href='list2matrix.html'>list2matrix.bas</a></span>(<span class='no'>Hald.bic</span>, <span class='st'>"mle"</span>)  <span class='co'># extract all ols coefficients</span>
 <span class='no'>se</span> <span class='kw'>=</span> <span class='fu'><a href='list2matrix.html'>list2matrix.bas</a></span>(<span class='no'>Hald.bic</span>, <span class='st'>"mle.se"</span>)
 <span class='no'>models</span> <span class='kw'>=</span> <span class='fu'>list2matrix.which</span>(<span class='no'>Hald.bic</span>)     <span class='co'>#matrix of model indicators</span>

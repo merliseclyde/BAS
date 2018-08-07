@@ -116,7 +116,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Update BAS object using a new prior</h1>
-    <small class="dont-index">Source: <a href='https://github.com/merliseclyde/BAS/blob/master/R/update.bas.R'><code>R/update.bas.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/merliseclyde/BAS/blob/master/R/update.R'><code>R/update.R</code></a></small>
     <div class="hidden name"><code>update.Rd</code></div>
     </div>
 
@@ -186,10 +186,10 @@ Computational Graphics and Statistics.  20:80-101 <br />
 </div><span class='co'># NOT RUN {</span>
 <span class='fu'>library</span>(<span class='no'>MASS</span>)
 <span class='fu'>data</span>(<span class='no'>UScrime</span>)
-<span class='no'>UScrime</span>[,-<span class='fl'>2</span>] <span class='kw'>=</span> <span class='fu'>log</span>(<span class='no'>UScrime</span>[,-<span class='fl'>2</span>])
-<span class='no'>crime.bic</span> <span class='kw'>=</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>UScrime</span>, <span class='kw'>n.models</span><span class='kw'>=</span><span class='fl'>2</span>^<span class='fl'>15</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"BIC"</span>,<span class='kw'>initprobs</span><span class='kw'>=</span> <span class='st'>"eplogp"</span>)
-<span class='no'>crime.ebg</span> <span class='kw'>=</span> <span class='fu'>update</span>(<span class='no'>crime.bic</span>, <span class='kw'>newprior</span><span class='kw'>=</span><span class='st'>"EB-global"</span>)
-<span class='no'>crime.zs</span> <span class='kw'>=</span> <span class='fu'>update</span>(<span class='no'>crime.bic</span>, <span class='kw'>newprior</span><span class='kw'>=</span><span class='st'>"ZS-null"</span>)
+<span class='no'>UScrime</span>[,-<span class='fl'>2</span>] <span class='kw'>&lt;-</span> <span class='fu'>log</span>(<span class='no'>UScrime</span>[,-<span class='fl'>2</span>])
+<span class='no'>crime.bic</span> <span class='kw'>&lt;-</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>UScrime</span>, <span class='kw'>n.models</span><span class='kw'>=</span><span class='fl'>2</span>^<span class='fl'>15</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"BIC"</span>,<span class='kw'>initprobs</span><span class='kw'>=</span> <span class='st'>"eplogp"</span>)
+<span class='no'>crime.ebg</span> <span class='kw'>&lt;-</span> <span class='fu'>update</span>(<span class='no'>crime.bic</span>, <span class='kw'>newprior</span><span class='kw'>=</span><span class='st'>"EB-global"</span>)
+<span class='no'>crime.zs</span> <span class='kw'>&lt;-</span> <span class='fu'>update</span>(<span class='no'>crime.bic</span>, <span class='kw'>newprior</span><span class='kw'>=</span><span class='st'>"ZS-null"</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
