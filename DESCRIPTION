@@ -59,4 +59,4 @@ Repository: CRAN
 NeedsCompilation: yes
 ByteCompile: yes
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0

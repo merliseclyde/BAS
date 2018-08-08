@@ -55,4 +55,5 @@ Other special functions: \code{\link{hypergeometric1F1}},
 \author{
 Merlise Clyde (\email{clyde@stat.duke.edu})
 }
+\concept{special functions}
 \keyword{math}

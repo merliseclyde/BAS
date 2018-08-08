@@ -43,3 +43,4 @@ Other priors modelpriors: \code{\link{Bernoulli.heredity}},
 \author{
 Merlise Clyde
 }
+\concept{priors modelpriors}

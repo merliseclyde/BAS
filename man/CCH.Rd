@@ -47,3 +47,4 @@ Other beta priors: \code{\link{EB.local}},
 \author{
 Merlise A Clyde
 }
+\concept{beta priors}

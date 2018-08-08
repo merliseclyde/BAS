@@ -5,10 +5,10 @@
 \alias{image}
 \title{Images of models used in Bayesian model averaging}
 \usage{
-\method{image}{bas}(x, top.models = 20, intensity = TRUE, prob = TRUE,
-  log = TRUE, rotate = TRUE, color = "rainbow", subset = NULL,
-  drop.always.included = FALSE, offset = 0.75, digits = 3, vlas = 2,
-  plas = 0, rlas = 0, ...)
+\method{image}{bas}(x, top.models = 20, intensity = TRUE,
+  prob = TRUE, log = TRUE, rotate = TRUE, color = "rainbow",
+  subset = NULL, drop.always.included = FALSE, offset = 0.75,
+  digits = 3, vlas = 2, plas = 0, rlas = 0, ...)
 }
 \arguments{
 \item{x}{A BMA object of type 'bas' created by BAS}
@@ -97,4 +97,6 @@ Other bas plots: \code{\link{plot.bas}},
 \author{
 Merlise Clyde \email{clyde@stat.duke.edu}
 }
+\concept{bas methods}
+\concept{bas plots}
 \keyword{regression}

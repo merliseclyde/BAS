@@ -63,3 +63,13 @@ test_that("poisson regression", {
   )
   expect_null(plot(crabs.bas))
 })
+
+test_that("glm_fit", {
+  data(Pima.tr, package="MASS")
+  Y <- as.numeric(Pima.tr$type) - 1
+  X <- cbind(1, as.matrix(Pima.tr[,1:7]))
+  pima_new <- bayesglm.fit(X, Y, family=binomial(),coefprior=bic.prior(n=length(Y)))
+  pima_orig <- glm(type ~ ., family=binomial(), data=Pima.tr)
+  expect_equivalent(pima_new$coefficients, coef(pima_orig))
+  expect_equivalent(pima_new$se, summary(pima_orig)$coef[,2])
+})

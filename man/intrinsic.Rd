@@ -50,3 +50,4 @@ Other beta priors: \code{\link{CCH}},
 \author{
 Merlise A Clyde
 }
+\concept{beta priors}

@@ -9,10 +9,10 @@ Linear Models}
 bas.lm(formula, data, subset, weights, na.action = "na.omit",
   n.models = NULL, prior = "ZS-null", alpha = NULL,
   modelprior = beta.binomial(1, 1), initprobs = "Uniform",
-  include.always = ~1, method = "BAS", update = NULL, bestmodel = NULL,
-  prob.local = 0, prob.rw = 0.5, MCMC.iterations = NULL, lambda = NULL,
-  delta = 0.025, thin = 1, renormalize = FALSE, force.heredity = TRUE,
-  pivot = FALSE)
+  include.always = ~1, method = "BAS", update = NULL,
+  bestmodel = NULL, prob.local = 0, prob.rw = 0.5,
+  MCMC.iterations = NULL, lambda = NULL, delta = 0.025, thin = 1,
+  renormalize = FALSE, force.heredity = TRUE, pivot = FALSE)
 }
 \arguments{
 \item{formula}{linear model formula for the full model with all predictors,
@@ -385,9 +385,8 @@ Other bas methods: \code{\link{BAS}},
 \author{
 Merlise Clyde (\email{clyde@duke.edu}) and Michael Littman
 }
-\concept{
-BMA
-
-variable selection
-}
+\concept{BAS methods}
+\concept{BMA}
+\concept{bas methods}
+\concept{variable selection}
 \keyword{regression}

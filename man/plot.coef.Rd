@@ -5,8 +5,8 @@
 \title{Plots the posterior distributions of coefficients derived from Bayesian
 model averaging}
 \usage{
-\method{plot}{coef.bas}(x, e = 1e-04, subset = 1:x$n.vars, ask = TRUE,
-  ...)
+\method{plot}{coef.bas}(x, e = 1e-04, subset = 1:x$n.vars,
+  ask = TRUE, ...)
 }
 \arguments{
 \item{x}{object of class coef.bas}
@@ -44,9 +44,9 @@ time, thus results are approximate
 
 \dontrun{library(MASS)
 data(UScrime)
-UScrime[,-2] = log(UScrime[,-2])
-crime.bic = bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC")
-plot(coefficients(crime.bic), ask=TRUE)
+UScrime[,-2] <- log(UScrime[,-2])
+crime_bic <- bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC")
+plot(coefficients(crime_bic), ask=TRUE)
 }
 
 }
@@ -65,4 +65,5 @@ Other bas plots: \code{\link{image.bas}},
 based on function \code{plot.bic} by Ian Painter in package BMA;
 adapted for 'bas' class by Merlise Clyde \email{clyde@stat.duke.edu}
 }
+\concept{bas plots}
 \keyword{regression}

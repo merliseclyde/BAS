@@ -4,7 +4,6 @@
 \name{BAS}
 \alias{BAS}
 \alias{BAS-package}
-\alias{BAS-package}
 \title{BAS: Bayesian Model Averaging using Bayesian Adaptive Sampling}
 \description{
 Package for Bayesian Model Averaging in linear models using stochastic or
@@ -69,5 +68,6 @@ Other bas methods: \code{\link{bas.lm}},
 \author{
 Merlise Clyde, \cr Maintainer: Merlise Clyde <clyde@stat.duke.edu>
 }
+\concept{bas methods}
 \keyword{package}
 \keyword{regression}

@@ -36,3 +36,4 @@ Other beta priors: \code{\link{CCH}},
 \author{
 Merlise Clyde
 }
+\concept{beta priors}

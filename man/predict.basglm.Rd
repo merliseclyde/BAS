@@ -97,4 +97,6 @@ Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
 \author{
 Merlise Clyde
 }
+\concept{bas methods}
+\concept{predict methods}
 \keyword{regression}

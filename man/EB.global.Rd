@@ -53,4 +53,5 @@ American Statistical Association. 103:410-423.  \cr
 \author{
 Merlise Clyde \email{clyde@stat.duke.edu}
 }
+\concept{coef priors}
 \keyword{regression}

@@ -4,13 +4,15 @@
 \alias{plot.bas}
 \title{Plot Diagnostics for an BAS Object}
 \usage{
-\method{plot}{bas}(x, which = c(1:4), caption = c("Residuals vs Fitted",
-  "Model Probabilities", "Model Complexity", "Inclusion Probabilities"),
-  panel = if (add.smooth) panel.smooth else points, sub.caption = NULL,
-  main = "", ask = prod(par("mfcol")) < length(which) && dev.interactive(),
-  col.in = 2, col.ex = 1, col.pch = 1, cex.lab = 1, ..., id.n = 3,
-  labels.id = NULL, cex.id = 0.75, add.smooth = getOption("add.smooth"),
-  label.pos = c(4, 2), subset = NULL, drop.always.included = FALSE)
+\method{plot}{bas}(x, which = c(1:4),
+  caption = c("Residuals vs Fitted", "Model Probabilities",
+  "Model Complexity", "Inclusion Probabilities"), panel = if (add.smooth)
+  panel.smooth else points, sub.caption = NULL, main = "",
+  ask = prod(par("mfcol")) < length(which) && dev.interactive(),
+  col.in = 2, col.ex = 1, col.pch = 1, cex.lab = 1, ...,
+  id.n = 3, labels.id = NULL, cex.id = 0.75,
+  add.smooth = getOption("add.smooth"), label.pos = c(4, 2),
+  subset = NULL, drop.always.included = FALSE)
 }
 \arguments{
 \item{x}{\code{bas} BMA object result of 'bas'}
@@ -97,4 +99,5 @@ Other bas plots: \code{\link{image.bas}},
 Merlise Clyde, based on plot.lm by John Maindonald and Martin
 Maechler
 }
+\concept{bas plots}
 \keyword{regression}

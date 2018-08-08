@@ -34,44 +34,48 @@
 #'
 #' \dontrun{library(MASS)
 #' data(UScrime)
-#' UScrime[,-2] = log(UScrime[,-2])
-#' crime.bic = bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC")
-#' plot(coefficients(crime.bic), ask=TRUE)
+#' UScrime[,-2] <- log(UScrime[,-2])
+#' crime_bic <- bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC")
+#' plot(coefficients(crime_bic), ask=TRUE)
 #' }
 #'
 #' @rdname plot.coef
 #' @family bas plots
 #' @export
-plot.coef.bas  = function(x, e = 1e-04, subset = 1:x$n.vars, ask=TRUE, ...) {
-  plotvar = function(prob0, mixprobs, df, means, sds, name,
-                     e = 1e-04, nsteps = 500, ...) {
-
+plot.coef.bas <- function(x, e = 1e-04, subset = 1:x$n.vars, ask = TRUE, ...) {
+  plotvar <- function(prob0, mixprobs, df, means, sds, name,
+                        e = 1e-04, nsteps = 500, ...) {
     if (prob0 == 1 | length(means) == 0) {
-      xlower = -0
-      xupper = 0
-      xmax = 1
+      xlower <- -0
+      xupper <- 0
+      xmax <- 1
     }
     else {
-      qmin = min(qnorm(e/2, means, sds))
-      qmax = max(qnorm(1 - e/2, means, sds))
-      xlower = min(qmin, 0)
-      xupper = max(0, qmax)
+      qmin <- min(qnorm(e / 2, means, sds))
+      qmax <- max(qnorm(1 - e / 2, means, sds))
+      xlower <- min(qmin, 0)
+      xupper <- max(0, qmax)
     }
-    xx = seq(xlower, xupper, length.out = nsteps)
-    yy = rep(0, times = length(xx))
-    maxyy = 1
+    xx <- seq(xlower, xupper, length.out = nsteps)
+    yy <- rep(0, times = length(xx))
+    maxyy <- 1
     if (prob0 < 1 & length(sds) > 0) {
-      yy = mixprobs %*% apply(matrix(xx, ncol=1), 1,
-                              FUN=function(x, d, m, s){dt(x=(x-m)/s, df=d)/s},
-                              d=df, m=means, s=sds)
-      maxyy = max(yy)
+      yy <- mixprobs %*% apply(matrix(xx, ncol = 1), 1,
+        FUN = function(x, d, m, s) {
+          dt(x = (x - m) / s, df = d) / s
+        },
+        d = df, m = means, s = sds
+      )
+      maxyy <- max(yy)
     }
 
-    ymax = max(prob0, 1 - prob0)
-    plot(c(xlower, xupper), c(0, ymax), type = "n",
-         xlab = "", ylab = "", main = name, ...)
+    ymax <- max(prob0, 1 - prob0)
+    plot(c(xlower, xupper), c(0, ymax),
+      type = "n",
+      xlab = "", ylab = "", main = name, ...
+    )
     lines(c(0, 0), c(0, prob0), lty = 1, lwd = 3, ...)
-    lines(xx, (1 - prob0) * yy/maxyy, lty = 1, lwd = 1, ...)
+    lines(xx, (1 - prob0) * yy / maxyy, lty = 1, lwd = 1, ...)
     invisible()
   }
 
@@ -79,16 +83,16 @@ plot.coef.bas  = function(x, e = 1e-04, subset = 1:x$n.vars, ask=TRUE, ...) {
     op <- par(ask = TRUE)
     on.exit(par(op))
   }
-  df = x$df
+  df <- x$df
 
   for (i in subset) {
-    sel = x$conditionalmeans[,i] != 0
-    prob0 = 1 - x$probne0[i]
-    mixprobs = x$postprobs[sel]/(1.0 - prob0)
-    means =   x$conditionalmeans[sel, i, drop=TRUE]
-    sds   =   x$conditionalsd[sel, i, drop=TRUE]
-    name  = x$namesx[i]
-    df.sel = df[sel]
+    sel <- x$conditionalmeans[, i] != 0
+    prob0 <- 1 - x$probne0[i]
+    mixprobs <- x$postprobs[sel] / (1.0 - prob0)
+    means <- x$conditionalmeans[sel, i, drop = TRUE]
+    sds <- x$conditionalsd[sel, i, drop = TRUE]
+    name <- x$namesx[i]
+    df.sel <- df[sel]
     plotvar(prob0, mixprobs, df.sel, means, sds, name, e = e, ...)
   }
   invisible()

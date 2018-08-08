@@ -52,5 +52,6 @@ Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
 \author{
 Merlise Clyde \email{clyde@duke.edu}
 }
+\concept{bas methods}
 \keyword{print}
 \keyword{regression}

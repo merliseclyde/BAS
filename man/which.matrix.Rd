@@ -27,9 +27,9 @@ zeros to facilitate other computations.
 \examples{
 
 data(Hald)
-Hald.bic =  bas.lm(Y ~ ., data=Hald, prior="BIC", initprobs="eplogp")
+Hald.bic <-  bas.lm(Y ~ ., data=Hald, prior="BIC", initprobs="eplogp")
 # matrix of model indicators
-models = which.matrix(Hald.bic$which, Hald.bic$n.vars)
+models <- which.matrix(Hald.bic$which, Hald.bic$n.vars)
 
 }
 \seealso{
@@ -41,4 +41,5 @@ Other as.matrix methods: \code{\link{list2matrix.bas}},
 \author{
 Merlise Clyde \email{clyde@duke.edu}
 }
+\concept{as.matrix methods}
 \keyword{regression}

@@ -6,7 +6,7 @@
 #'
 #' C version of glm-fit.  For different prior choices returns, marginal
 #' likelihood of model using a Laplace approximation.
-#'
+#' @rdname bayesglm.fit
 #' @param x design matrix
 #' @param y response
 #' @param weights optional vector of weights to be used in the fitting process.
@@ -40,45 +40,44 @@
 #' @references \code{\link{glm}}
 #' @keywords regression GLM
 #' @examples
-#'\dontrun{
-#' require(MASS)
-#' library(MASS)
-#' data(Pima.tr)
-#' Y = as.numeric(Pima.tr$type) - 1
-#' X = cbind(1, as.matrix(Pima.tr[,1:7]))
-#' out = bayesglm.fit(X, Y, family=binomial(),coefprior=bic.prior(n=length(Y)))
+#' data(Pima.tr, package="MASS")
+#' Y <- as.numeric(Pima.tr$type) - 1
+#' X <- cbind(1, as.matrix(Pima.tr[,1:7]))
+#' out <- bayesglm.fit(X, Y, family=binomial(),coefprior=bic.prior(n=length(Y)))
 #' out$coef
 #' out$se
 #' # using built in function
 #' glm(type ~ ., family=binomial(), data=Pima.tr)
-#'}
 #'
+#' @export
 #'
 bayesglm.fit <-
-function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
-            mustart = NULL, offset = rep(0, nobs), family = binomial(),
-            coefprior = bic.prior(nobs),
-            control = glm.control(),intercept=TRUE)
-{
+  function(x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
+             mustart = NULL, offset = rep(0, nobs), family = binomial(),
+             coefprior = bic.prior(nobs),
+             control = glm.control(), intercept = TRUE) {
+    x <- as.matrix(x)
+    y <- as.numeric(y)
+    ynames <- if (is.matrix(y)) {
+      rownames(y)
+    } else {
+      names(y)
+    }
+    conv <- FALSE
+    nobs <- NROW(y)
+    nvars <- ncol(x)
+    EMPTY <- nvars == 0
+    if (is.null(weights)) weights <- rep.int(1, nobs)
+    if (is.null(offset)) offset <- rep.int(0, nobs)
+    eval(family$initialize)
+    # if (coefprior$family == "BIC") coefprior$hyper = as.numeric(nobs)
 
-  x <- as.matrix(x)
-  y <- as.numeric(y)
-  ynames <- if (is.matrix(y))     rownames(y)
-            else names(y)
-  conv <- FALSE
-  nobs <- NROW(y)
-  nvars <- ncol(x)
-  EMPTY <- nvars == 0
-  if (is.null(weights))   weights <- rep.int(1, nobs)
-  if (is.null(offset))    offset <- rep.int(0, nobs)
-  eval(family$initialize)
- # if (coefprior$family == "BIC") coefprior$hyper = as.numeric(nobs)
+    newfit <- .Call(C_glm_fit,
+      RX = x, RY = y,
+      family = family, Roffset = offset,
+      Rweights = weights,
+      Rpriorcoef = coefprior, Rcontrol = control
+    )
 
-  newfit = .Call(C_glm_fit,
-    RX=x, RY = y,
-    family=family, Roffset = offset,
-    Rweights = weights,
-    Rpriorcoef = coefprior, Rcontrol=control)
-
-  return(newfit)
-}
+    return(newfit)
+  }

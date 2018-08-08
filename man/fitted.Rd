@@ -5,8 +5,8 @@
 \alias{fitted}
 \title{Fitted values for a BAS BMA objects}
 \usage{
-\method{fitted}{bas}(object, type = "link", estimator = "BMA", top = NULL,
-  na.action = na.pass, ...)
+\method{fitted}{bas}(object, type = "link", estimator = "BMA",
+  top = NULL, na.action = na.pass, ...)
 }
 \arguments{
 \item{object}{An object of class 'bas' as created by \code{\link{bas}}}
@@ -88,4 +88,6 @@ Other predict methods: \code{\link{predict.basglm}},
 \author{
 Merlise Clyde \email{clyde@AT@duke.edu}
 }
+\concept{bas methods}
+\concept{predict methods}
 \keyword{regression}

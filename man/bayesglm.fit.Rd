@@ -5,9 +5,10 @@
 \title{Fitting Generalized Linear Models and Bayesian marginal likelihood
 evaluation}
 \usage{
-bayesglm.fit(x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
-  mustart = NULL, offset = rep(0, nobs), family = binomial(),
-  coefprior = bic.prior(nobs), control = glm.control(), intercept = TRUE)
+bayesglm.fit(x, y, weights = rep(1, nobs), start = NULL,
+  etastart = NULL, mustart = NULL, offset = rep(0, nobs),
+  family = binomial(), coefprior = bic.prior(nobs),
+  control = glm.control(), intercept = TRUE)
 }
 \arguments{
 \item{x}{design matrix}
@@ -59,19 +60,14 @@ C version of glm-fit.  For different prior choices returns, marginal
 likelihood of model using a Laplace approximation.
 }
 \examples{
-\dontrun{
-require(MASS)
-library(MASS)
-data(Pima.tr)
-Y = as.numeric(Pima.tr$type) - 1
-X = cbind(1, as.matrix(Pima.tr[,1:7]))
-out = bayesglm.fit(X, Y, family=binomial(),coefprior=bic.prior(n=length(Y)))
+data(Pima.tr, package="MASS")
+Y <- as.numeric(Pima.tr$type) - 1
+X <- cbind(1, as.matrix(Pima.tr[,1:7]))
+out <- bayesglm.fit(X, Y, family=binomial(),coefprior=bic.prior(n=length(Y)))
 out$coef
 out$se
 # using built in function
 glm(type ~ ., family=binomial(), data=Pima.tr)
-}
-
 
 }
 \references{

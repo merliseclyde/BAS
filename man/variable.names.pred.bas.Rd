@@ -48,3 +48,5 @@ Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
   \code{\link{predict.bas}}, \code{\link{summary.bas}},
   \code{\link{update.bas}}
 }
+\concept{bas methods}
+\concept{predict methods}

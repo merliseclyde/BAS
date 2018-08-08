@@ -35,12 +35,12 @@ loop.
 \examples{
 
 data(Hald)
-hald.bic =  bas.lm(Y ~ ., data=Hald, prior="BIC",
+hald.bic <-  bas.lm(Y ~ ., data=Hald, prior="BIC",
                     initprobs= "eplogp")
-coef = list2matrix.bas(hald.bic, "mle")  # extract all coefficients
-se = list2matrix.bas(hald.bic, "mle.se")
-models = list2matrix.which(hald.bic)     #matrix of model indicators
-models = which.matrix(hald.bic$which, hald.bic$n.vars)     #matrix of model indicators
+coef <- list2matrix.bas(hald.bic, "mle")  # extract all coefficients
+se <- list2matrix.bas(hald.bic, "mle.se")
+models <- list2matrix.which(hald.bic)     #matrix of model indicators
+models <- which.matrix(hald.bic$which, hald.bic$n.vars)     #matrix of model indicators
 
 }
 \seealso{
@@ -52,4 +52,5 @@ Other as.matrix methods: \code{\link{list2matrix.which}},
 \author{
 Merlise Clyde \email{clyde@duke.edu}
 }
+\concept{as.matrix methods}
 \keyword{regression}

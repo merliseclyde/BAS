@@ -38,4 +38,5 @@ Other special functions: \code{\link{hypergeometric2F1}},
 \author{
 Merlise Clyde (\email{clyde@stat.duke.edu})
 }
+\concept{special functions}
 \keyword{math}
