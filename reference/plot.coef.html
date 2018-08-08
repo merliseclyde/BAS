@@ -132,8 +132,8 @@ by Bayesian model averaging over linear regression.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for coef.bas</span>
-<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>e</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>, <span class='kw'>subset</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='no'>x</span>$<span class='no'>n.vars</span>, <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>...</span>)</pre>
+<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>e</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>, <span class='kw'>subset</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='no'>x</span>$<span class='no'>n.vars</span>,
+  <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -196,9 +196,9 @@ regression. Computational Statistics and Data Analysis, 22, 251-270.</p>
 </div><span class='co'># NOT RUN {</span>
 <span class='fu'>library</span>(<span class='no'>MASS</span>)
 <span class='fu'>data</span>(<span class='no'>UScrime</span>)
-<span class='no'>UScrime</span>[,-<span class='fl'>2</span>] <span class='kw'>=</span> <span class='fu'>log</span>(<span class='no'>UScrime</span>[,-<span class='fl'>2</span>])
-<span class='no'>crime.bic</span> <span class='kw'>=</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>UScrime</span>, <span class='kw'>n.models</span><span class='kw'>=</span><span class='fl'>2</span>^<span class='fl'>15</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"BIC"</span>)
-<span class='fu'>plot</span>(<span class='fu'><a href='coef.html'>coefficients</a></span>(<span class='no'>crime.bic</span>), <span class='kw'>ask</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='no'>UScrime</span>[,-<span class='fl'>2</span>] <span class='kw'>&lt;-</span> <span class='fu'>log</span>(<span class='no'>UScrime</span>[,-<span class='fl'>2</span>])
+<span class='no'>crime_bic</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>UScrime</span>, <span class='kw'>n.models</span><span class='kw'>=</span><span class='fl'>2</span>^<span class='fl'>15</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"BIC"</span>)
+<span class='fu'>plot</span>(<span class='fu'><a href='coef.html'>coefficients</a></span>(<span class='no'>crime_bic</span>), <span class='kw'>ask</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>

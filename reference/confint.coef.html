@@ -121,7 +121,7 @@ than the description above ~~" />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Compute Credible Intervals for BAS regression coefficients from BAS objects</h1>
-    <small class="dont-index">Source: <a href='https://github.com/merliseclyde/BAS/blob/master/R/confint_coef.R'><code>R/confint_coef.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/merliseclyde/BAS/blob/master/R/confint.R'><code>R/confint.R</code></a></small>
     <div class="hidden name"><code>confint.coef.Rd</code></div>
     </div>
 
@@ -137,7 +137,8 @@ than the description above ~~</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for coef.bas</span>
-<span class='fu'>confint</span>(<span class='no'>object</span>, <span class='no'>parm</span>, <span class='kw'>level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>nsim</span> <span class='kw'>=</span> <span class='fl'>10000</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>confint</span>(<span class='no'>object</span>, <span class='no'>parm</span>, <span class='kw'>level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>nsim</span> <span class='kw'>=</span> <span class='fl'>10000</span>,
+  <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -197,10 +198,10 @@ of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
     <pre class="examples"><div class='input'>
 
 <span class='fu'>data</span>(<span class='st'>"Hald"</span>)
-<span class='no'>hald.gprior</span> <span class='kw'>=</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>Y</span>~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>13</span>,
+<span class='no'>hald_gprior</span> <span class='kw'>&lt;-</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>Y</span>~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>13</span>,
                             <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"g-prior"</span>)
-<span class='no'>coef.hald</span> <span class='kw'>=</span> <span class='fu'><a href='coef.html'>coef</a></span>(<span class='no'>hald.gprior</span>)
-<span class='fu'>confint</span>(<span class='no'>coef.hald</span>)</div><div class='output co'>#&gt;                2.5%      97.5%       beta
+<span class='no'>coef_hald</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='coef.html'>coef</a></span>(<span class='no'>hald_gprior</span>)
+<span class='fu'>confint</span>(<span class='no'>coef_hald</span>)</div><div class='output co'>#&gt;                2.5%      97.5%       beta
 #&gt; Intercept 93.892843 96.9472150 95.4230769
 #&gt; X1         0.000000  1.8731667  1.2150202
 #&gt; X2        -1.087084  0.9276511  0.2756235
@@ -209,7 +210,7 @@ of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
-#&gt; [1] "confint.bas"</div><div class='input'><span class='fu'>confint</span>(<span class='no'>coef.hald</span>, <span class='kw'>approx</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>nsim</span><span class='kw'>=</span><span class='fl'>5000</span>)</div><div class='output co'>#&gt;                2.5%      97.5%       beta
+#&gt; [1] "confint.bas"</div><div class='input'><span class='fu'>confint</span>(<span class='no'>coef_hald</span>, <span class='kw'>approx</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>nsim</span><span class='kw'>=</span><span class='fl'>5000</span>)</div><div class='output co'>#&gt;                2.5%      97.5%       beta
 #&gt; Intercept 93.875538 97.0074393 95.4230769
 #&gt; X1         0.000000  1.8724659  1.2150202
 #&gt; X2        -1.087754  0.8904137  0.2756235
@@ -219,7 +220,7 @@ of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
 #&gt; [1] 0.95
 #&gt; attr(,"class")
 #&gt; [1] "confint.bas"</div><div class='input'><span class='co'># extract just the coefficient of X4</span>
-<span class='fu'>confint</span>(<span class='no'>coef.hald</span>, <span class='kw'>parm</span><span class='kw'>=</span><span class='st'>"X4"</span>)</div><div class='output co'>#&gt;         2.5%     97.5%      beta
+<span class='fu'>confint</span>(<span class='no'>coef_hald</span>, <span class='kw'>parm</span><span class='kw'>=</span><span class='st'>"X4"</span>)</div><div class='output co'>#&gt;         2.5%     97.5%      beta
 #&gt; X4 -1.666345 0.2928842 -0.326871
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
