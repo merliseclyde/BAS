@@ -215,23 +215,23 @@
 <p><img src="BAS-vignette_files/figure-html/coefall-1.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-2.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-3.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-4.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-5.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-6.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-7.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-8.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-9.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-10.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-11.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-12.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-13.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-14.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-15.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-16.png" width="700"></p>
 <p>To obtain credible intervals for coefficients, <code>BAS</code> includes a <code>confint</code> method to create Highest Posterior Density intervals from the summaries from <code>coef</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/confint.coef.html">confint</a></span>(coef.ZS)</a></code></pre></div>
-<pre><code>##                   2.5%      97.5%        beta
-## Intercept  6.667362843 6.78137921  6.72493620
-## M          0.000000000 2.20422018  1.14359433
-## So        -0.065314452 0.29448816  0.03547522
-## Ed         0.644829764 3.17093538  1.85848834
-## Po1        0.000000000 1.43247451  0.60067372
-## Po2       -0.253851562 1.45089337  0.31841766
-## LF        -0.554493747 1.00441273  0.05933737
-## M.F       -2.342534322 1.93795244 -0.02702786
-## Pop       -0.121265052 0.01039539 -0.02248283
-## NW         0.000000000 0.16329131  0.06668437
-## U1        -0.557412184 0.33506481 -0.02456854
-## U2        -0.007186692 0.66326933  0.20702927
-## GDP       -0.060781975 1.18323069  0.20625063
-## Ineq       0.670376772 2.10866371  1.39012647
-## Prob      -0.414238659 0.00000000 -0.21536203
-## Time      -0.521490047 0.05998436 -0.08433479
+<pre><code>##                    2.5%       97.5%        beta
+## Intercept  6.6647949269 6.779954160  6.72493620
+## M          0.0000000000 2.178276379  1.14359433
+## So        -0.0620840448 0.318303806  0.03547522
+## Ed         0.5886424414 3.165441502  1.85848834
+## Po1       -0.0006753543 1.426471394  0.60067372
+## Po2       -0.0932288363 1.465837377  0.31841766
+## LF        -0.5449765029 1.016316527  0.05933737
+## M.F       -2.3228365346 2.015298823 -0.02702786
+## Pop       -0.1229872446 0.008681303 -0.02248283
+## NW         0.0000000000 0.167536664  0.06668437
+## U1        -0.5265833532 0.371820751 -0.02456854
+## U2        -0.0038027072 0.666321796  0.20702927
+## GDP       -0.0088439342 1.219971622  0.20625063
+## Ineq       0.6526463101 2.122734143  1.39012647
+## Prob      -0.4161586312 0.000000000 -0.21536203
+## Time      -0.5423122200 0.051327684 -0.08433479
 ## attr(,"Probability")
 ## [1] 0.95
 ## attr(,"class")
@@ -333,7 +333,7 @@
 <a class="sourceLine" id="cb41-7" data-line-number="7">  }</a>
 <a class="sourceLine" id="cb41-8" data-line-number="8">)</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   2.324   0.008   2.340</code></pre>
+##   2.312   0.000   2.323</code></pre>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">system.time</span>(</a>
 <a class="sourceLine" id="cb43-2" data-line-number="2">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)  {</a>
 <a class="sourceLine" id="cb43-3" data-line-number="3">    crime.ZS &lt;-<span class="st">  </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(y <span class="op">~</span><span class="st"> </span>., </a>
@@ -343,7 +343,7 @@
 <a class="sourceLine" id="cb43-7" data-line-number="7">  }</a>
 <a class="sourceLine" id="cb43-8" data-line-number="8">)</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.864   0.000   1.871</code></pre>
+##   1.832   0.000   1.840</code></pre>
 <p>which is faster for enumeration than the default method=“BAS”.</p>
 </div>
 <div id="beyond-enumeration" class="section level2">
@@ -414,7 +414,7 @@
 </tr>
 <tr class="even">
 <td>Air.Flow</td>
-<td align="right">0.999625</td>
+<td align="right">0.998615</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -423,7 +423,7 @@
 </tr>
 <tr class="odd">
 <td>Water.Temp</td>
-<td align="right">0.956420</td>
+<td align="right">0.962250</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
@@ -432,7 +432,7 @@
 </tr>
 <tr class="even">
 <td>Acid.Conc.</td>
-<td align="right">0.225670</td>
+<td align="right">0.224715</td>
 <td align="right">0.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
@@ -640,11 +640,11 @@
 <tr class="odd">
 <td>PostProbs</td>
 <td align="right">NA</td>
-<td align="right">0.74360</td>
-<td align="right">0.2125000</td>
-<td align="right">0.0304000</td>
-<td align="right">0.0132000</td>
-<td align="right">0.0004000</td>
+<td align="right">0.74700</td>
+<td align="right">0.2140000</td>
+<td align="right">0.0275000</td>
+<td align="right">0.0102000</td>
+<td align="right">0.0008000</td>
 </tr>
 <tr class="even">
 <td>R2</td>
