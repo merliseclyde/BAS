@@ -98,6 +98,8 @@ test_that("pivot", {
     modelprior = uniform(), data = Hald, pivot = TRUE
   )
   expect_equal(hald.bas$probne0, hald.deterministic$probne0)
+  expect_length(summary(hald.bas), 60)
+  expect_null(print(hald.bas))
 })
 
 
@@ -105,11 +107,15 @@ test_that("pivoting with non-full rank design", {
   set.seed(42)
   dat <- data.frame(Y = rnorm(5), X1 = 1:5, X2 = 1:5, X3 = rnorm(5))
 
-  tmp.bas <- bas.lm(Y ~ ., data = dat, prior = "BIC", modelprior = uniform(),
-                    method = "BAS", pivot = T)
+  tmp.bas <- bas.lm(Y ~ .,
+    data = dat, prior = "BIC", modelprior = uniform(),
+    method = "BAS", pivot = T
+  )
 
-  tmp.mcmc <- bas.lm(Y ~ ., data = dat, prior = "BIC", modelprior = uniform(),
-                     method = "MCMC", pivot = T, MCMC.iterations = 10000)
+  tmp.mcmc <- bas.lm(Y ~ .,
+    data = dat, prior = "BIC", modelprior = uniform(),
+    method = "MCMC", pivot = T, MCMC.iterations = 10000
+  )
   expect_equal(sort(tmp.bas$R2), sort(tmp.mcmc$R2))
 })
 
@@ -227,10 +233,10 @@ test_that("check non-full rank", {
     weights = facFifty, force.heredity = FALSE
   )
   basObj.up <- update(basObj.eplogp, newprior = "EB-local")
-  expect_equal(basObj.EBL$postprobs, basObj.up$postprobs, tolerance=1e-05)
+  expect_equal(basObj.EBL$postprobs, basObj.up$postprobs, tolerance = 1e-05)
 })
 
-test_that("as.matrix tools", {
+test_that("as_matrix tools", {
   data(Hald)
   Hald.bic <- bas.lm(Y ~ .,
     data = Hald, prior = "BIC",
@@ -245,3 +251,4 @@ test_that("as.matrix tools", {
   probne0 <- t(m3) %*% Hald.bic$postprobs
   expect_equal(as.vector(probne0), Hald.bic$probne0)
 })
+
