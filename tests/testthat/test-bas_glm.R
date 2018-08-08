@@ -107,3 +107,16 @@ test_that("beta.prime prior for GLM", {
                       modelprior = uniform()))
 #  expect_equal(nrow(Pima.tr), pima.BAS$betaprior$hyper.parameters$n)
 })
+
+test_that("cch prior for GLM", {
+  data(Pima.tr, package = "MASS")
+  pima.cch <- bas.glm(type ~ .,
+                      data = Pima.tr, n.models = 2^7, method = "BAS",
+                      betaprior = CCH(2,2), family = binomial(),
+                      modelprior = uniform())
+  pima.TG <- bas.glm(type ~ .,
+                      data = Pima.tr, n.models = 2^7, method = "BAS",
+                      betaprior = TG(), family = binomial(),
+                      modelprior = uniform())
+  expect_equal(pima.cch$probne0, pima.TG$probne0)
+})
