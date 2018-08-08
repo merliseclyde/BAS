@@ -6,8 +6,7 @@ test_that("predict.bas", {
   hald_pred <- predict(hald_gprior, newdata = Hald, estimator = "BPM",
                        se.fit = TRUE)
   expect_null(plot(confint(hald_pred, parm = "mean")))
-  expect_null(plot(confint(hald_pred)))
-  hald_pred <- predict(hald_gprior, estimator = "BMA", predict = TRUE,
+  hald_pred <- predict(hald_gprior, estimator = "BMA",
                        se.fit = TRUE)
   expect_null(plot(confint(hald_pred)))
 })
