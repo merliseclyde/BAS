@@ -233,7 +233,7 @@ test_that("check non-full rank", {
     weights = facFifty, force.heredity = FALSE
   )
   basObj.up <- update(basObj.eplogp, newprior = "EB-local")
-  expect_equal(basObj.EBL$postprobs, basObj.up$postprobs, tolerance = 1e-05)
+  expect_equal(basObj.EBL$postprobs, basObj.up$postprobs, tolerance = 1e-03)
 })
 
 test_that("as_matrix tools", {
