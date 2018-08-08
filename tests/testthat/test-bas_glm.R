@@ -82,3 +82,28 @@ test_that("glm_fit", {
                     pima_nowts$coefficients)
 
 })
+
+test_that("robust prior for GLM", {
+  data(Pima.tr, package = "MASS")
+  pima.BAS <- bas.glm(type ~ .,
+                      data = Pima.tr, n.models = 2^7, method = "BAS",
+                      betaprior = robust(), family = binomial(),
+                      modelprior = uniform()
+  )
+  expect_equal(nrow(Pima.tr), pima.BAS$betaprior$hyper.parameters$n)
+})
+
+test_that("beta.prime prior for GLM", {
+  data(Pima.tr, package = "MASS")
+  pima.BAS <- bas.glm(type ~ .,
+                      data = Pima.tr, n.models = 2^7, method = "BAS",
+                      betaprior = beta.prime(n=200), family = binomial(),
+                      modelprior = uniform()
+  )
+  expect_equal(nrow(Pima.tr), pima.BAS$betaprior$hyper.parameters$n)
+  expect_error(pima.BAS <- bas.glm(type ~ .,
+                      data = Pima.tr, n.models = 2^7, method = "BAS",
+                      betaprior = beta.prime(), family = binomial(),
+                      modelprior = uniform()))
+#  expect_equal(nrow(Pima.tr), pima.BAS$betaprior$hyper.parameters$n)
+})
