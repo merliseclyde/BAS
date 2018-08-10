@@ -23,7 +23,6 @@ Creates a structure used for BAS.
 }
 \examples{
 g.prior(100)
-
 }
 \seealso{
 \code{\link{IC.prior}}

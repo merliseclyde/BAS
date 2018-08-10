@@ -19,8 +19,6 @@ Creates a structure used for \code{\link{bas.glm}}.
 }
 \examples{
 EB.local()
-
-
 }
 \seealso{
 \code{\link{CCH}} and \code{\link{bas.glm}}

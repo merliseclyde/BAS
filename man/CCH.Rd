@@ -29,8 +29,7 @@ for BAS .
 Creates a structure used for \code{\link{bas.glm}}.
 }
 \examples{
-CCH(alpha=.5, beta=100, s=0)
-
+CCH(alpha = .5, beta = 100, s = 0)
 }
 \seealso{
 \code{\link{IC.prior}}, \code{\link{bic.prior}},

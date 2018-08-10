@@ -32,8 +32,8 @@ for BAS.
 Creates a structure used for \code{\link{bas.glm}}.
 }
 \examples{
-n = 500;
- tCCH(alpha=1, beta=2, s=0, r=1.5, v = 1, theta=1/n)
+n <- 500
+tCCH(alpha = 1, beta = 2, s = 0, r = 1.5, v = 1, theta = 1 / n)
 }
 \seealso{
 \code{\link{CCH}}, \code{\link{robust}}, \code{\link{hyper.g}},

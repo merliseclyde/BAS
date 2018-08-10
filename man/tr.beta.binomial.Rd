@@ -34,15 +34,15 @@ assigns zero probability to all models of size > trunc.
 }
 \examples{
 
-tr.beta.binomial(1,10, 5)
+tr.beta.binomial(1, 10, 5)
 library(MASS)
 data(UScrime)
-UScrime[,-2] = log(UScrime[,-2])
-crime.bic =  bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC",
-                    modelprior=tr.beta.binomial(1,1,8),
-                    initprobs= "eplogp")
-
-
+UScrime[, -2] <- log(UScrime[, -2])
+crime.bic <- bas.lm(y ~ .,
+  data = UScrime, n.models = 2^15, prior = "BIC",
+  modelprior = tr.beta.binomial(1, 1, 8),
+  initprobs = "eplogp"
+)
 }
 \seealso{
 \code{\link{bas.lm}}, \code{\link{Bernoulli}},\code{\link{uniform}}

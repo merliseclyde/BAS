@@ -28,9 +28,11 @@ library(MASS)
 data(Pima.tr)
 
 # use g = n
-bas.glm(type ~ ., data=Pima.tr, family=binomial(),
-        betaprior=testBF.prior(nrow(Pima.tr)),
-        modelprior=uniform(), method="BAS")
+bas.glm(type ~ .,
+  data = Pima.tr, family = binomial(),
+  betaprior = testBF.prior(nrow(Pima.tr)),
+  modelprior = uniform(), method = "BAS"
+)
 }
 \seealso{
 \code{\link{g.prior}}, \code{\link{bas.glm}}

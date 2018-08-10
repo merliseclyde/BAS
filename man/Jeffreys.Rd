@@ -25,8 +25,6 @@ Creates a structure used for \code{\link{bas.glm}}.
 }
 \examples{
 Jeffreys()
-
-
 }
 \seealso{
 \code{\link{CCH}} \code{\link{bas.glm}}

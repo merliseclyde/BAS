@@ -244,7 +244,7 @@ Jeffreys <- function() {
 #' @author Merlise Clyde
 #' @seealso \code{\link{CCH}} \code{\link{bas.glm}}
 #' @examples
-#' hyper.g(alpha = .5)
+#' hyper.g(alpha = 3)
 #' @rdname hyper.g
 #' @family beta priors
 #' @export

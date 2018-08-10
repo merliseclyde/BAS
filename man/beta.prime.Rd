@@ -22,8 +22,7 @@ g-priors on coefficients for BAS.
 Creates a structure used for \code{\link{bas.glm}}.
 }
 \examples{
-beta.prime(n=100)
-
+beta.prime(n = 100)
 }
 \seealso{
 \code{\link{CCH}}

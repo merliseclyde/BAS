@@ -20,7 +20,6 @@ prior distribution on model size is binomial(p, .5).
 }
 \examples{
 uniform()
-
 }
 \seealso{
 \code{\link{bas.lm}},

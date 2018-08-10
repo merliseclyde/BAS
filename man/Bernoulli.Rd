@@ -29,7 +29,6 @@ distribution.
 }
 \examples{
 Bernoulli(.9)
-
 }
 \seealso{
 \code{\link{bas.lm}},

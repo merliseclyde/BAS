@@ -69,9 +69,8 @@ probability due to Thomas Lumley
 
 require(graphics)
 data("Hald")
-hald.ZSprior =  bas.lm(Y~ ., data=Hald,  prior="ZS-null")
-image(hald.ZSprior, drop.always.included=TRUE) #drop the intercept
-
+hald.ZSprior <- bas.lm(Y ~ ., data = Hald, prior = "ZS-null")
+image(hald.ZSprior, drop.always.included = TRUE) # drop the intercept
 }
 \references{
 Clyde, M. (1999) Bayesian Model Averaging and Model Search

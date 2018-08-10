@@ -28,8 +28,7 @@ beta-binomial distribution. The default hyperparaeters lead to a uniform
 distribution over model size.
 }
 \examples{
-beta.binomial(1,10) #' @family priors modelpriors
-
+beta.binomial(1, 10) #' @family priors modelpriors
 }
 \seealso{
 \code{\link{bas.lm}}, \code{\link{Bernoulli}},\code{\link{uniform}}

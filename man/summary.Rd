@@ -29,11 +29,9 @@ models, R2, dim (which includes the intercept) and the log of the marginal
 likelihood.
 }
 \examples{
-
-library(MASS)
-data(UScrime)
-UScrime[,-2] = log(UScrime[,-2])
-crime.bic =  bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC",initprobs= "eplogp")
+data(UScrime, package = "MASS")
+UScrime[, -2] <- log(UScrime[, -2])
+crime.bic <- bas.lm(y ~ ., data = UScrime, n.models = 2^15, prior = "BIC", initprobs = "eplogp")
 print(crime.bic)
 summary(crime.bic)
 }

@@ -27,9 +27,8 @@ of the \code{\link{tCCH}}, where \code{hyper.g.n(alpha=3, n)} is equivalent
 to \code{ tCCH(alpha=1, beta=2, s=0, r=1.5, v = 1, theta=1/n) }
 }
 \examples{
-n = 500
-hyper.g.n(alpha = 3, n=n)
-
+n <- 500
+hyper.g.n(alpha = 3, n = n)
 }
 \seealso{
 \code{\link{tCCH}}, \code{\link{robust}}, \code{\link{hyper.g}},

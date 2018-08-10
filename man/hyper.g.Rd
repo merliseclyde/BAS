@@ -22,9 +22,7 @@ coefficients for BAS.
 Creates a structure used for \code{\link{bas.glm}}.
 }
 \examples{
-hyper.g(alpha=.5)
-
-
+hyper.g(alpha = 3)
 }
 \seealso{
 \code{\link{CCH}} \code{\link{bas.glm}}

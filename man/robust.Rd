@@ -22,8 +22,6 @@ Creates a prior structure used for \code{\link{bas.glm}}.
 }
 \examples{
 robust(100)
-
-
 }
 \seealso{
 \code{\link{CCH}} and\code{\link{bas.glm}}

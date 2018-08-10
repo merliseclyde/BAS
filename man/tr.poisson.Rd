@@ -31,7 +31,6 @@ probability to all models of size M > trunc.
 }
 \examples{
 tr.poisson(10, 50)
-
 }
 \seealso{
 \code{\link{bas.lm}}, \code{\link{Bernoulli}},\code{\link{uniform}}

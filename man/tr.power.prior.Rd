@@ -36,12 +36,12 @@ assigns zero probability to all models of size > trunc.
 tr.power.prior(2, 8)
 library(MASS)
 data(UScrime)
-UScrime[,-2] = log(UScrime[,-2])
-crime.bic =  bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC",
-                    modelprior=tr.power.prior(2,8),
-                    initprobs= "eplogp")
-
-
+UScrime[, -2] <- log(UScrime[, -2])
+crime.bic <- bas.lm(y ~ .,
+  data = UScrime, n.models = 2^15, prior = "BIC",
+  modelprior = tr.power.prior(2, 8),
+  initprobs = "eplogp"
+)
 }
 \seealso{
 \code{\link{bas.lm}}, \code{\link{Bernoulli}},\code{\link{uniform}}
