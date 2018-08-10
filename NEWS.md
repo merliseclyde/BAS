@@ -18,7 +18,9 @@
 
 ## Bugs
 
-* fixed output `include.always` to include the intercept [issu #26](https://github.com/merliseclyde/BAS/issues/26) always  so that `drop.always.included = TRUE` drops the intercept and any other variables that are forced in.    `include.always` and `force.heredity=TRUE` can now be used together with `method="BAS"`
+*  [issue #32](https://github.com/merliseclyde/BAS/issues/32) fixed vectorization for `phi1` function in R/cch.R and added unit test to "tests/testthat/test-special-functions.R"
+
+* fixed output `include.always` to include the intercept [issue #26](https://github.com/merliseclyde/BAS/issues/26) always  so that `drop.always.included = TRUE` drops the intercept and any other variables that are forced in.    `include.always` and `force.heredity=TRUE` can now be used together with `method="BAS"`
 
 * added warning if marginal likelihoods/posterior probabilities are NA with default model fitting method with suggestion that models be rerun with `pivot = TRUE`.  This uses a modified Cholesky decomposition with pivoting so that if the model is rank deficient or nearly singular the dimensionality is reduced.  [Bug #21](https://github.com/merliseclyde/BAS/issues/21).   
 

@@ -1,9 +1,17 @@
 context("special functions")
 
 test_that("phi1", {
-expect_equal(phi1(1, 2, 1.5, 0, 1 / 100),
-             hypergeometric2F1(2, 1, 1.5, 1 / 100, log = FALSE))
-expect_equal(phi1(1, 0, 1.5, 3, 1 / 100),
-             hypergeometric1F1(1, 1.5, 3, log = FALSE))
-
+  expect_equal(
+    phi1(1, 2, 1.5, 0, 1 / 100),
+    hypergeometric2F1(2, 1, 1.5, 1 / 100, log = FALSE)
+  )
+  expect_equal(
+    phi1(1, 0, 1.5, 3, 1 / 100),
+    hypergeometric1F1(1, 1.5, 3, log = FALSE)
+  )
+  expect_error(phi1(c(1, 1), c(2, 2), c(1.5, 1.5), c(3, 3), c(.1)))
+  expect_length(
+    phi1(c(1, 1), c(2, 2), c(1.5, 1.5), c(3, 3), c(.1, .1)),
+    2
+  )
 })

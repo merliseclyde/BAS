@@ -27,6 +27,7 @@
 #' phi1(1, 2, 1.5, 0, 1 / 100)
 #' hypergeometric2F1(2, 1, 1.5, 1 / 100, log = FALSE)
 #'
+#' # phi1(a,0,c,x,y) is the same as 1F1(a,c,x)
 #' phi1(1, 0, 1.5, 3, 1 / 100)
 #' hypergeometric1F1(1, 1.5, 3, log = FALSE)
 #' @rdname phi1
@@ -36,8 +37,25 @@
 #'
 phi1 <- function(a, b, c, x, y) {
   # phi1 = int u^{t-1} (1 - v u)^{q - 1} e^-{s u} /B(t, q) (theta
-  n <- length(t)
+  na <- length(a)
+  nb <- length(b)
+  nc <- length(c)
+  nx <- length(x)
+  ny <- length(y)
+
+  ns = c(na,nb, nc, nx, ny)
+  n = max(ns)
+
+  if ((n > 1) && (mean(ns) != n)) {
+    stop("length of inputs are not the same")
+  }
   out <- rep(0, n)
-  ans <- .C(C_phi1, as.numeric(a), as.numeric(b), as.numeric(c), as.numeric(x), as.numeric(y), out = as.numeric(out), as.integer(n))$out
+  ans <- .C(C_phi1,
+            as.numeric(a),
+            as.numeric(b),
+            as.numeric(c),
+            as.numeric(x),
+            as.numeric(y),
+            out = as.numeric(out), as.integer(n))$out
   return(ans)
 }
