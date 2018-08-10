@@ -162,14 +162,14 @@ test_that("Tcch prior for GLM", {
     betaprior = CCH(2, 2), family = binomial(),
     modelprior = uniform()
   )
-  expect_equal(pima_cch$probne0, pima_Tcch$probne0) <
-    pima_tcch <- bas.glm(type ~ ., data = Pima.tr,
-                         method = "BAS",
-                         betaprior = tCCH(alpha = 1,
-                                          beta = 1,
-                                          s = .5),
-                         family = binomial(),
-                         modelprior = uniform()
+  expect_equal(pima_cch$probne0, pima_Tcch$probne0)
+  pima_tcch <- bas.glm(type ~ ., data = Pima.tr,
+                       method = "BAS",
+                       betaprior = tCCH(alpha = 1,
+                                        beta = 1,
+                                        s = .5),
+                       family = binomial(),
+                       modelprior = uniform()
   )
   expect_equal(0, sum(pima_tcch$shrinkage > 1))
 })
