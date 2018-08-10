@@ -1,59 +1,63 @@
-.normalize.initprobs.lm <- function (initprobs, p) {
-
-
-    if (!is.numeric(initprobs))
+.normalize.initprobs.lm <- function(initprobs, p) {
+  if (!is.numeric(initprobs)) {
     simpleError("oops no valid method given to calculate initial probabilities")
-#        {
-#        initprobs = switch(initprobs,
-#            "eplogp" = eplogprob(lm.obj),
-#            "marg-eplogp" = eplogprob.marg(Y, X),
-#            "uniform" = c(1.0, rep(.5, p-1)),
-#            "Uniform" = c(1.0, rep(.5, p-1)),
-#            )
-#    }
+  }
+  #        {
+  #        initprobs = switch(initprobs,
+  #            "eplogp" = eplogprob(lm.obj),
+  #            "marg-eplogp" = eplogprob.marg(Y, X),
+  #            "uniform" = c(1.0, rep(.5, p-1)),
+  #            "Uniform" = c(1.0, rep(.5, p-1)),
+  #            )
+  #    }
 
-    if (length(initprobs) != p)
-        stop(simpleError(paste("length of initprobs is", length(initprobs), "is not same as dimensions of X", p)))
+  if (length(initprobs) != p) {
+    stop(simpleError(paste("length of initprobs is", length(initprobs), "is not same as dimensions of X", p)))
+  }
 
-    if (initprobs[1] < 1.0 | initprobs[1] > 1.0) initprobs[1] = 1.0
-	# intercept is always included otherwise we get a segmentation
-	# fault (relax later)
-    prob = as.numeric(initprobs)
-#    if (!is.null(lm.obj)) {
-#        pval = summary(lm.obj)$coefficients[,4]
-#        if (any(is.na(pval))) {
-#            print(paste("warning full model is rank deficient."))
-#        }}
-#
-    return(prob);
+  if (initprobs[1] < 1.0 | initprobs[1] > 1.0) initprobs[1] <- 1.0
+  # intercept is always included otherwise we get a segmentation
+  # fault (relax later)
+  prob <- as.numeric(initprobs)
+  #    if (!is.null(lm.obj)) {
+  #        pval = summary(lm.obj)$coefficients[,4]
+  #        if (any(is.na(pval))) {
+  #            print(paste("warning full model is rank deficient."))
+  #        }}
+  #
+  return(prob)
 }
 
-.normalize.modelprior <- function(modelprior,p) {
-	if (modelprior$family == "Bernoulli") {
-   		if (length(modelprior$hyper.parameters) == 1)
-      		modelprior$hyper.parameters = c(1, rep(modelprior$hyper.parameters, p-1))
-    		if  (length(modelprior$hyper.parameters) == (p-1))
-     			modelprior$hyper.parameters = c(1, modelprior$hyper.parameters)
-    		if  (length(modelprior$hyper.parameters) != p)
-      		stop(" Number of probabilities in Bernoulli family is not equal to the number of variables or 1")
-  	}
-	return(modelprior)
+.normalize.modelprior <- function(modelprior, p) {
+  if (modelprior$family == "Bernoulli") {
+    if (length(modelprior$hyper.parameters) == 1) {
+      modelprior$hyper.parameters <- c(1, rep(modelprior$hyper.parameters, p - 1))
+    }
+    if (length(modelprior$hyper.parameters) == (p - 1)) {
+      modelprior$hyper.parameters <- c(1, modelprior$hyper.parameters)
+    }
+    if (length(modelprior$hyper.parameters) != p) {
+      stop(" Number of probabilities in Bernoulli family is not equal to the number of variables or 1")
+    }
+  }
+  return(modelprior)
 }
 
 .normalize.n.models <- function(n.models, p, initprobs, method) {
-    if (is.null(n.models)){
-        n.models = 2^(p-1)
-    }
-    if (n.models > 2^(p-1)) n.models = 2^(p-1)
-  	deg = sum(initprobs >= 1) + sum(initprobs <= 0)
-  	if (deg > 1 & n.models == 2^(p - 1)) {
-    		n.models = 2^(p - deg)
-  	}
+  if (is.null(n.models)) {
+    n.models <- 2^(p - 1)
+  }
+  if (n.models > 2^(p - 1)) n.models <- 2^(p - 1)
+  deg <- sum(initprobs >= 1) + sum(initprobs <= 0)
+  if (deg > 1 & n.models == 2^(p - 1)) {
+    n.models <- 2^(p - deg)
+  }
 
-  	if (n.models > 2^30) stop("Dimension of model space is too big to enumerate\n  Rerun with a smaller value for n.models or use MCMC")
-  	if (n.models > 2^25)
-            warning("Number of models is BIG - this may take a while and you may run out of physical memory; you may want to consider using MCMC if your machine has limited memory.")
-    return(n.models)
+  if (n.models > 2^30) stop("Dimension of model space is too big to enumerate\n  Rerun with a smaller value for n.models or use MCMC")
+  if (n.models > 2^25) {
+    warning("Number of models is BIG - this may take a while and you may run out of physical memory; you may want to consider using MCMC if your machine has limited memory.")
+  }
+  return(n.models)
 }
 
 
@@ -193,11 +197,11 @@
 #' intercept is always included.  This will also overide any of the values in `initprobs`
 #' above by setting them to 1.
 #' @param method A character variable indicating which sampling method to use:
-#'\itemize{
-#'\item  "deterministic" uses the "top k" algorithm described in Ghosh and Clyde (2011)
+#' \itemize{
+#' \item  "deterministic" uses the "top k" algorithm described in Ghosh and Clyde (2011)
 #' to sample models in order of approximate probability under conditional independence
 #' using the "initprobs".  This is the most efficient algorithm for enumeration.
-#'\item  "BAS" uses Bayesian Adaptive Sampling (without replacement) using the
+#' \item  "BAS" uses Bayesian Adaptive Sampling (without replacement) using the
 #' sampling probabilities given in initprobs under a model of conditional independence.
 #' These can be updated based on estimates of the marginal inclusion probabilities.
 #' \item  "MCMC" samples with
@@ -353,45 +357,51 @@
 #'
 #' library(MASS)
 #' data(UScrime)
-#' crime.bic =  bas.lm(log(y) ~ log(M) + So + log(Ed) +
-#'                     log(Po1) + log(Po2) +
-#'                     log(LF) + log(M.F) + log(Pop) + log(NW) +
-#'                     log(U1) + log(U2) + log(GDP) + log(Ineq) +
-#'                     log(Prob) + log(Time),
-#'                     data=UScrime, n.models=2^15, prior="BIC",
-#'                     modelprior=beta.binomial(1,1),
-#'                     initprobs= "eplogp", pivot=FALSE)
+#' crime.bic <- bas.lm(log(y) ~ log(M) + So + log(Ed) +
+#'   log(Po1) + log(Po2) +
+#'   log(LF) + log(M.F) + log(Pop) + log(NW) +
+#'   log(U1) + log(U2) + log(GDP) + log(Ineq) +
+#'   log(Prob) + log(Time),
+#'   data = UScrime, n.models = 2^15, prior = "BIC",
+#'   modelprior = beta.binomial(1, 1),
+#'   initprobs = "eplogp", pivot = FALSE
+#' )
 #'
 #'
 #' # use MCMC rather than enumeration
-#' crime.mcmc =  bas.lm(log(y) ~ log(M) + So + log(Ed) +
-#'                     log(Po1) + log(Po2) +
-#'                     log(LF) + log(M.F) + log(Pop) + log(NW) +
-#'                     log(U1) + log(U2) + log(GDP) + log(Ineq) +
-#'                     log(Prob) + log(Time),
-#'                     data=UScrime,
-#'                     method="MCMC",
-#'                     MCMC.iterations=20000, prior="BIC",
-#'                     modelprior=beta.binomial(1,1),
-#'                     initprobs= "eplogp", pivot=FALSE)
+#' crime.mcmc <- bas.lm(log(y) ~ log(M) + So + log(Ed) +
+#'   log(Po1) + log(Po2) +
+#'   log(LF) + log(M.F) + log(Pop) + log(NW) +
+#'   log(U1) + log(U2) + log(GDP) + log(Ineq) +
+#'   log(Prob) + log(Time),
+#'   data = UScrime,
+#'   method = "MCMC",
+#'   MCMC.iterations = 20000, prior = "BIC",
+#'   modelprior = beta.binomial(1, 1),
+#'   initprobs = "eplogp", pivot = FALSE
+#' )
 #'
 #' summary(crime.bic)
 #' plot(crime.bic)
-#' image(crime.bic, subset=-1)
+#' image(crime.bic, subset = -1)
 #'
 #' # example with two-way interactions and hierarchical constraints
 #' data(ToothGrowth)
-#' ToothGrowth$dose = factor(ToothGrowth$dose)
-#' levels(ToothGrowth$dose) = c("Low", "Medium", "High")
-#' TG.bas = bas.lm(len ~ supp*dose, data=ToothGrowth,
-#'                  modelprior=uniform(), method='BAS',
-#'                  force.heredity=TRUE)
+#' ToothGrowth$dose <- factor(ToothGrowth$dose)
+#' levels(ToothGrowth$dose) <- c("Low", "Medium", "High")
+#' TG.bas <- bas.lm(len ~ supp * dose,
+#'   data = ToothGrowth,
+#'   modelprior = uniform(), method = "BAS",
+#'   force.heredity = TRUE
+#' )
 #' summary(TG.bas)
 #' image(TG.bas)
-
+#'
 #' # more complete demo's
 #' demo(BAS.hald)
-#' \dontrun{demo(BAS.USCrime) }
+#' \dontrun{
+#' demo(BAS.USCrime)
+#' }
 #'
 #' @rdname bas.lm
 #' @keywords regression
@@ -399,32 +409,32 @@
 #' @concept BMA
 #' @concept variable selection
 #' @export
-bas.lm = function(formula,
-                  data,
-                  subset,
-                  weights,
-                  na.action = "na.omit",
-                  n.models = NULL,
-                  prior = "ZS-null",
-                  alpha = NULL,
-                  modelprior = beta.binomial(1, 1),
-                  initprobs = "Uniform",
-                  include.always = ~ 1,
-                  method = "BAS",
-                  update = NULL,
-                  bestmodel = NULL,
-                  prob.local = 0.0,
-                  prob.rw = 0.5,
-                  MCMC.iterations = NULL,
-                  lambda = NULL,
-                  delta = 0.025,
-                  thin = 1,
-                  renormalize = FALSE,
-                  force.heredity = TRUE,
-                  pivot = FALSE)  {
-  num.updates = 10
-  call = match.call()
-  priormethods =  c(
+bas.lm <- function(formula,
+                   data,
+                   subset,
+                   weights,
+                   na.action = "na.omit",
+                   n.models = NULL,
+                   prior = "ZS-null",
+                   alpha = NULL,
+                   modelprior = beta.binomial(1, 1),
+                   initprobs = "Uniform",
+                   include.always = ~1,
+                   method = "BAS",
+                   update = NULL,
+                   bestmodel = NULL,
+                   prob.local = 0.0,
+                   prob.rw = 0.5,
+                   MCMC.iterations = NULL,
+                   lambda = NULL,
+                   delta = 0.025,
+                   thin = 1,
+                   renormalize = FALSE,
+                   force.heredity = TRUE,
+                   pivot = FALSE) {
+  num.updates <- 10
+  call <- match.call()
+  priormethods <- c(
     "g-prior",
     "hyper-g",
     "hyper-g-laplace",
@@ -453,120 +463,124 @@ bas.lm = function(formula,
 
   # from lm
   mfall <- match.call(expand.dots = FALSE)
-  m <- match(c("formula", "data", "subset", "weights", "na.action",
-               "offset"),
-             names(mfall),
-             0L)
+  m <- match(
+    c(
+      "formula", "data", "subset", "weights", "na.action",
+      "offset"
+    ),
+    names(mfall),
+    0L
+  )
   mf <- mfall[c(1L, m)]
   mf$drop.unused.levels <- TRUE
   mf[[1L]] <- quote(stats::model.frame)
   mf <- eval(mf, parent.frame())
 
 
-  #data = model.frame(formula, data, na.action=na.action, weights=weights)
-  n.NA = length(attr(mf, 'na.action'))
+  # data = model.frame(formula, data, na.action=na.action, weights=weights)
+  n.NA <- length(attr(mf, "na.action"))
 
   if (n.NA > 0) {
-    warning(paste("dropping ", as.character(n.NA),
-                  "rows due to missing data"))
+    warning(paste(
+      "dropping ", as.character(n.NA),
+      "rows due to missing data"
+    ))
   }
 
-  Y = model.response(mf, "numeric")
+  Y <- model.response(mf, "numeric")
   mt <- attr(mf, "terms")
-  X = model.matrix(mt, mf, contrasts)
+  X <- model.matrix(mt, mf, contrasts)
 
-  #X = model.matrix(formula, mf)
+  # X = model.matrix(formula, mf)
 
 
-  Xorg = X
-  namesx = dimnames(X)[[2]]
-  namesx[1] = "Intercept"
+  Xorg <- X
+  namesx <- dimnames(X)[[2]]
+  namesx[1] <- "Intercept"
   n <- dim(X)[1]
 
-  weights = as.vector(model.weights(mf))
-  if (is.null(weights))
-    weights = rep(1, n)
+  weights <- as.vector(model.weights(mf))
+  if (is.null(weights)) {
+    weights <- rep(1, n)
+  }
 
-  if (length(weights) != n)
+  if (length(weights) != n) {
     stop(simpleError(paste(
       "weights are of length ", length(weights), "not of length ", n
     )))
+  }
 
-  mean.x = apply(X[, -1, drop = F], 2, weighted.mean, w = weights)
-  ones = X[, 1]
-  X = cbind(ones, sweep(X[, -1, drop = FALSE], 2, mean.x))
-  p <-  dim(X)[2]  # with intercept
+  mean.x <- apply(X[, -1, drop = F], 2, weighted.mean, w = weights)
+  ones <- X[, 1]
+  X <- cbind(ones, sweep(X[, -1, drop = FALSE], 2, mean.x))
+  p <- dim(X)[2] # with intercept
 
 
   if (n <= p) {
     if (modelprior$family == "Uniform" ||
-        modelprior$family == "Bernoulli")
+      modelprior$family == "Bernoulli") {
       warning(
         "Uniform prior (Bernoulli)  distribution on the Model Space are not recommended for p > n; please consider using tr.beta.binomial or power.prior instead"
       )
+    }
   }
   if (!is.numeric(initprobs)) {
     if (n <= p && initprobs == "eplogp") {
-    stop(
-         "Full model is not full rank so cannot use the eplogp bound to create starting sampling probabilities, perhpas use 'marg-eplogp' for fiting marginal models\n"
+      stop(
+        "Full model is not full rank so cannot use the eplogp bound to create starting sampling probabilities, perhpas use 'marg-eplogp' for fiting marginal models\n"
       )
     }
-    initprobs = switch(
+    initprobs <- switch(
       initprobs,
-      "eplogp" = eplogprob(lm(Y ~ X -1)),
+      "eplogp" = eplogprob(lm(Y ~ X - 1)),
       "marg-eplogp" = eplogprob.marg(Y, X),
       "uniform" = c(1.0, rep(.5, p - 1)),
       "Uniform" = c(1.0, rep(.5, p - 1))
     )
   }
-  if (length(initprobs) == (p - 1))
-    initprobs = c(1.0, initprobs)
-  keep = 1
+  if (length(initprobs) == (p - 1)) {
+    initprobs <- c(1.0, initprobs)
+  }
+  keep <- 1
   # set up variables to always include
   if ("include.always" %in% names(mfall)) {
     minc <-
-      match(c("include.always", "data", "subset"),  names(mfall), 0L)
+      match(c("include.always", "data", "subset"), names(mfall), 0L)
     mfinc <- mfall[c(1L, minc)]
     mfinc$drop.unused.levels <- TRUE
-    names(mfinc)[2] = "formula"
+    names(mfinc)[2] <- "formula"
     mfinc[[1L]] <- quote(stats::model.frame)
     mfinc <- eval(mfinc, parent.frame())
     mtinc <- attr(mfinc, "terms")
-    X.always = model.matrix(mtinc, mfinc, contrasts)
+    X.always <- model.matrix(mtinc, mfinc, contrasts)
 
-    keep = c(1L, match(colnames(X.always)[-1], colnames(X)))
-    initprobs[keep] = 1.0
+    keep <- c(1L, match(colnames(X.always)[-1], colnames(X)))
+    initprobs[keep] <- 1.0
     if (ncol(X.always) == ncol(X)) {
       # just one model with all variables forced in
       # use method='BAS" as deterministic and MCMC fail in this context
-      method = 'BAS'
+      method <- "BAS"
     }
   }
 
-  if (is.null(n.models))
-    n.models = min(2 ^ p, 2 ^ 19)
-  if (is.null(MCMC.iterations))
-    MCMC.iterations = as.integer(n.models * 10)
-  Burnin.iterations = as.integer(MCMC.iterations)
+  if (is.null(n.models)) {
+    n.models <- min(2^p, 2^19)
+  }
+  if (is.null(MCMC.iterations)) {
+    MCMC.iterations <- as.integer(n.models * 10)
+  }
+  Burnin.iterations <- as.integer(MCMC.iterations)
 
-  if (is.null(lambda))
-    lambda = 1.0
+  if (is.null(lambda)) {
+    lambda <- 1.0
+  }
 
 
 
 
-  int = TRUE  # assume that an intercept is always included
+  int <- TRUE # assume that an intercept is always included
 
-  if (prior == "ZS-full")
-    .Deprecated(
-      "prior='JZS'",
-      msg = "The Zellner-Siow full prior (Liang et al 2008)  will be deprecated in the next version of the
-      package. Recommended alternative is the Jeffreys-Zellner-Siow prior 'JZS'"
-    )
-
-  # if (prior == "ZS-null") warning("We recommend using the implementation using the Jeffreys-Zellner-Siow prior (prior='JZS') which uses numerical integration rahter than the Laplace approximation")
-
-  method.num = switch(
+  method.num <- switch(
     prior,
     "g-prior" = 0,
     "hyper-g" = 1,
@@ -582,7 +596,7 @@ bas.lm = function(formula,
   )
 
   if (is.null(alpha)) {
-    alpha = switch(
+    alpha <- switch(
       prior,
       "g-prior" = n,
       "hyper-g" = 3,
@@ -599,33 +613,35 @@ bas.lm = function(formula,
     )
   }
 
-  if (is.null(alpha))
-    alpha = 0.0
+  if (is.null(alpha)) {
+    alpha <- 0.0
+  }
 
-  parents = matrix(1, 1, 1)
+  parents <- matrix(1, 1, 1)
   if (method == "MCMC+BAS" |
-      method == "deterministic")
-    force.heredity = FALSE # does not work with updating the tree
+    method == "deterministic") {
+    force.heredity <- FALSE
+  } # does not work with updating the tree
   if (force.heredity) {
-    parents = make.parents.of.interactions(mf, data)
+    parents <- make.parents.of.interactions(mf, data)
 
     # check to see if really necessary
     if (sum(parents) == nrow(parents)) {
-      parents = matrix(1, 1, 1)
-      force.heredity = FALSE
+      parents <- matrix(1, 1, 1)
+      force.heredity <- FALSE
     }
   }
 
   if (is.null(bestmodel)) {
     #    bestmodel = as.integer(initprobs)
-    bestmodel = c(1, rep(0, p - 1))
+    bestmodel <- c(1, rep(0, p - 1))
   }
-  bestmodel[keep] = 1
+  bestmodel[keep] <- 1
   if (force.heredity) {
-    update = NULL  # do not update tree  FIXME LATER
+    update <- NULL # do not update tree  FIXME LATER
     if (prob.heredity(bestmodel, parents) == 0) {
       warning("bestmodel violates heredity conditions; resetting to null model")
-      bestmodel = c(1, rep(0, p - 1))
+      bestmodel <- c(1, rep(0, p - 1))
     }
     #    initprobs=c(1, seq(.95, .55, length=(p-1) ))
   }
@@ -636,23 +652,24 @@ bas.lm = function(formula,
   modelprior <- .normalize.modelprior(modelprior, p)
 
   if (is.null(update)) {
-    if (n.models == 2 ^ (p - 1))
-      update = n.models + 1
-    else
-      (update = n.models / num.updates)
+    if (n.models == 2^(p - 1)) {
+      update <- n.models + 1
+    } else {
+      (update <- n.models / num.updates)
+    }
   }
 
-  modelindex = as.list(1:n.models)
-  Yvec = as.numeric(Y)
-  modeldim = as.integer(rep(0, n.models))
-  n.models = as.integer(n.models)
+  modelindex <- as.list(1:n.models)
+  Yvec <- as.numeric(Y)
+  modeldim <- as.integer(rep(0, n.models))
+  n.models <- as.integer(n.models)
 
 
 
 
 
   #  sampleprobs = as.double(rep(0.0, n.models))
-  result = switch(
+  result <- switch(
     method,
     "BAS" = .Call(
       C_sampleworep_new,
@@ -728,53 +745,56 @@ bas.lm = function(formula,
       Rpivot = pivot
     )
   )
-  result$rank_deficient = FALSE
+  result$rank_deficient <- FALSE
   if (any(is.na(result$logmarg))) {
     warning(
       "log marginals and posterior probabilities contain NA's.  Consider re-running with the option `pivot=TRUE` if there are models that are not full rank"
     )
-    result$rank_deficient = TRUE
+    result$rank_deficient <- TRUE
   }
-  if (any(result$rank != result$size))
-    result$rank_deficient = TRUE
-  result$n.models = length(result$postprobs)
-  result$namesx = namesx
-  result$n = length(Yvec)
-  result$prior = prior
-  result$modelprior = modelprior
-  result$alpha = alpha
-  result$probne0.RN = result$probne0
-  result$postprobs.RN = result$postprobs
-  result$include.always = keep
+  if (any(result$rank != result$size)) {
+    result$rank_deficient <- TRUE
+  }
+  result$n.models <- length(result$postprobs)
+  result$namesx <- namesx
+  result$n <- length(Yvec)
+  result$prior <- prior
+  result$modelprior <- modelprior
+  result$alpha <- alpha
+  result$probne0.RN <- result$probne0
+  result$postprobs.RN <- result$postprobs
+  result$include.always <- keep
 
   if (method == "MCMC" || method == "MCMC_new") {
-    result$n.models = result$n.Unique
-    result$postprobs.MCMC = result$freq / sum(result$freq)
+    result$n.models <- result$n.Unique
+    result$postprobs.MCMC <- result$freq / sum(result$freq)
 
-    if (!renormalize)  {
-      result$probne0 = result$probne0.MCMC
-      result$postprobs = result$postprobs.MCMC
+    if (!renormalize) {
+      result$probne0 <- result$probne0.MCMC
+      result$postprobs <- result$postprobs.MCMC
     }
   }
 
-  df = rep(n - 1, result$n.models)
+  df <- rep(n - 1, result$n.models)
   if (prior == "AIC" |
-      prior == "BIC" | prior == "IC")
-    df = df - result$rank + 1
-  result$df = df
-  result$n.vars = p
-  result$Y = Yvec
-  result$X = Xorg
-  result$mean.x = mean.x
-  result$call = call
+    prior == "BIC" | prior == "IC") {
+    df <- df - result$rank + 1
+  }
+  result$df <- df
+  result$n.vars <- p
+  result$Y <- Yvec
+  result$X <- Xorg
+  result$mean.x <- mean.x
+  result$call <- call
 
-  result$contrasts = attr(X, "contrasts")
-  result$xlevels = .getXlevels(mt, mf)
-  result$terms = mt
-  result$model = mf
+  result$contrasts <- attr(X, "contrasts")
+  result$xlevels <- .getXlevels(mt, mf)
+  result$terms <- mt
+  result$model <- mf
 
-  class(result) = c("bas")
-  if (prior == "EB-global")
-    result = EB.global(result)
+  class(result) <- c("bas")
+  if (prior == "EB-global") {
+    result <- EB.global(result)
+  }
   return(result)
 }
