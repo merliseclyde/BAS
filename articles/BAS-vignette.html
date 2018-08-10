@@ -81,7 +81,7 @@
       <h1>Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging and Variable Selection</h1>
                         <h4 class="author">Merlise A Clyde</h4>
             
-            <h4 class="date">2018-08-08</h4>
+            <h4 class="date">2018-08-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/merliseclyde/BAS/blob/master/vignettes/BAS-vignette.Rmd"><code>vignettes/BAS-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>BAS-vignette.Rmd</code></div>
@@ -216,22 +216,22 @@
 <p>To obtain credible intervals for coefficients, <code>BAS</code> includes a <code>confint</code> method to create Highest Posterior Density intervals from the summaries from <code>coef</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/confint.coef.html">confint</a></span>(coef.ZS)</a></code></pre></div>
 <pre><code>##                    2.5%       97.5%        beta
-## Intercept  6.667562e+00 6.780829253  6.72493620
-## M          0.000000e+00 2.190733559  1.14359433
-## So        -3.870389e-02 0.324128500  0.03547522
-## Ed         5.517356e-01 3.141197893  1.85848834
-## Po1        0.000000e+00 1.444308687  0.60067372
-## Po2       -1.880298e-01 1.449632602  0.31841766
-## LF        -5.248474e-01 0.984111744  0.05933737
-## M.F       -2.083213e+00 1.981469796 -0.02702786
-## Pop       -1.330801e-01 0.002488272 -0.02248283
-## NW        -3.488082e-05 0.165593718  0.06668437
-## U1        -4.753755e-01 0.391124490 -0.02456854
-## U2        -2.193373e-04 0.667375303  0.20702927
-## GDP       -3.185471e-02 1.196887872  0.20625063
-## Ineq       6.723604e-01 2.111234645  1.39012647
-## Prob      -4.107792e-01 0.000000000 -0.21536203
-## Time      -5.212321e-01 0.042722737 -0.08433479
+## Intercept  6.668462e+00 6.781943237  6.72493620
+## M          0.000000e+00 2.192089489  1.14359433
+## So        -5.429501e-02 0.309852144  0.03547522
+## Ed         6.630667e-01 3.186585169  1.85848834
+## Po1       -8.778657e-05 1.452379446  0.60067372
+## Po2       -2.893716e-01 1.428330062  0.31841766
+## LF        -5.262117e-01 1.048761126  0.05933737
+## M.F       -2.216359e+00 1.933480494 -0.02702786
+## Pop       -1.286397e-01 0.008662307 -0.02248283
+## NW        -4.756181e-06 0.165941243  0.06668437
+## U1        -4.922073e-01 0.386494295 -0.02456854
+## U2         0.000000e+00 0.670829437  0.20702927
+## GDP       -4.391798e-02 1.166777648  0.20625063
+## Ineq       7.137527e-01 2.156626882  1.39012647
+## Prob      -4.075740e-01 0.000000000 -0.21536203
+## Time      -5.205665e-01 0.051891780 -0.08433479
 ## attr(,"Probability")
 ## [1] 0.95
 ## attr(,"class")
@@ -333,7 +333,7 @@
 <a class="sourceLine" id="cb41-7" data-line-number="7">  }</a>
 <a class="sourceLine" id="cb41-8" data-line-number="8">)</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   2.188   0.000   2.199</code></pre>
+##   2.316   0.004   2.333</code></pre>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">system.time</span>(</a>
 <a class="sourceLine" id="cb43-2" data-line-number="2">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)  {</a>
 <a class="sourceLine" id="cb43-3" data-line-number="3">    crime.ZS &lt;-<span class="st">  </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(y <span class="op">~</span><span class="st"> </span>., </a>
@@ -343,7 +343,7 @@
 <a class="sourceLine" id="cb43-7" data-line-number="7">  }</a>
 <a class="sourceLine" id="cb43-8" data-line-number="8">)</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.760   0.000   1.777</code></pre>
+##   1.972   0.016   1.999</code></pre>
 <p>which is faster for enumeration than the default method=“BAS”.</p>
 </div>
 <div id="beyond-enumeration" class="section level2">
@@ -414,7 +414,7 @@
 </tr>
 <tr class="even">
 <td>Air.Flow</td>
-<td align="right">0.999235</td>
+<td align="right">0.998175</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -423,7 +423,7 @@
 </tr>
 <tr class="odd">
 <td>Water.Temp</td>
-<td align="right">0.957145</td>
+<td align="right">0.957500</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
@@ -432,7 +432,7 @@
 </tr>
 <tr class="even">
 <td>Acid.Conc.</td>
-<td align="right">0.202465</td>
+<td align="right">0.207830</td>
 <td align="right">0.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
@@ -640,11 +640,11 @@
 <tr class="odd">
 <td>PostProbs</td>
 <td align="right">NA</td>
-<td align="right">0.76440</td>
-<td align="right">0.1920000</td>
-<td align="right">0.0324000</td>
-<td align="right">0.0104000</td>
-<td align="right">0.0007000</td>
+<td align="right">0.75920</td>
+<td align="right">0.1966000</td>
+<td align="right">0.0318000</td>
+<td align="right">0.0107000</td>
+<td align="right">0.0011000</td>
 </tr>
 <tr class="even">
 <td>R2</td>
