@@ -115,6 +115,25 @@ test_that("TestBF prior for GLM", {
   expect_equal(0, sum(pima_BAS$shrinkage > 1))
 })
 
+test_that("hyper.g.n prior for GLM", {
+  data(Pima.tr, package = "MASS")
+  pima_BAS <- bas.glm(type ~ ., data = Pima.tr, method = "BAS",
+                      betaprior = hyper.g.n(),
+                      family = binomial(),
+                      modelprior = uniform()
+  )
+  expect_equal(0, sum(pima_BAS$shrinkage > 1))
+})
+
+test_that("hyper.g prior for GLM", {
+  data(Pima.tr, package = "MASS")
+  pima_BAS <- bas.glm(type ~ ., data = Pima.tr, method = "BAS",
+                      betaprior = hyper.g(),
+                      family = binomial(),
+                      modelprior = uniform()
+  )
+  expect_equal(0, sum(pima_BAS$shrinkage > 1))
+})
 test_that("g prior for GLM", {
   data(Pima.tr, package = "MASS")
   pima_BAS <- bas.glm(type ~ ., data = Pima.tr, method = "BAS",
