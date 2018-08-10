@@ -62,6 +62,7 @@ test_that("poisson regression", {
     prob.rw = .95
   )
   expect_null(plot(crabs.bas))
+  expect_equal(0, sum(crabs.bas$shrinkage > 1))
 })
 
 test_that("glm_fit", {
@@ -119,4 +120,17 @@ test_that("cch prior for GLM", {
                       betaprior = TG(), family = binomial(),
                       modelprior = uniform())
   expect_equal(pima.cch$probne0, pima.TG$probne0)
+})
+
+test_that("Tcch prior for GLM", {
+  data(Pima.tr, package = "MASS")
+  pima.Tcch <- bas.glm(type ~ .,
+                      data = Pima.tr, n.models = 2^7, method = "BAS",
+                      betaprior =tCCH(alpha=2), family = binomial(),
+                      modelprior = uniform())
+  pima.cch <- bas.glm(type ~ .,
+                     data = Pima.tr, n.models = 2^7, method = "BAS",
+                     betaprior = CCH(2,2), family = binomial(),
+                     modelprior = uniform())
+  expect_equal(pima.cch$probne0, pima.Tcch$probne0)
 })
