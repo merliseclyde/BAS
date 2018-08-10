@@ -19,11 +19,11 @@
 #' @seealso \code{\link{coef.bas}}
 #' @keywords print regression
 #' @examples
-#'
+#' 
 #' library(MASS)
 #' data(UScrime)
-#' UScrime[,-2] = log(UScrime[,-2])
-#' crime.bic =  bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC",initprobs= "eplogp")
+#' UScrime[, -2] <- log(UScrime[, -2])
+#' crime.bic <- bas.lm(y ~ ., data = UScrime, n.models = 2^15, prior = "BIC", initprobs = "eplogp")
 #' print(crime.bic)
 #' summary(crime.bic)
 #' @rdname print.bas
@@ -71,11 +71,9 @@ print.bas <- function(x, digits = max(3L, getOption("digits") - 3L), ...) {
 #' @seealso \code{\link{coef.bas}}
 #' @keywords print regression
 #' @examples
-#'
-#' library(MASS)
-#' data(UScrime)
-#' UScrime[,-2] = log(UScrime[,-2])
-#' crime.bic =  bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC",initprobs= "eplogp")
+#' data(UScrime, package = "MASS")
+#' UScrime[, -2] <- log(UScrime[, -2])
+#' crime.bic <- bas.lm(y ~ ., data = UScrime, n.models = 2^15, prior = "BIC", initprobs = "eplogp")
 #' print(crime.bic)
 #' summary(crime.bic)
 #' @rdname summary
