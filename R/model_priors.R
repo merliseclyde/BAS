@@ -13,12 +13,11 @@
 #' \code{\link{beta.binomial}},\code{\link{Bernoulli}},
 #' @examples
 #' uniform()
-#'
 #' @rdname uniform
 #' @family priors modelpriors
 #' @export
-uniform = function() {
-  structure(list(family="Uniform",hyper.parameters=.5), class="prior")
+uniform <- function() {
+  structure(list(family = "Uniform", hyper.parameters = .5), class = "prior")
 }
 
 
@@ -45,15 +44,20 @@ uniform = function() {
 #' \code{\link{beta.binomial}},\code{\link{uniform} }
 #' @examples
 #' Bernoulli(.9)
-#'
 #' @family priors modelpriors
 #' @export
 #' @rdname Bernoulli
-Bernoulli=function(probs=0.5) {
+Bernoulli <- function(probs = 0.5) {
   if (length(probs) == 1) {
-    if (probs == .5) structure(list(family="Uniform",hyper.parameters=.5), class="prior")
-    else structure(list(family="Bernoulli", hyper.parameters=probs), class="prior")}
-  else   structure(list(family="Bernoulli", hyper.parameters=probs), class="prior")
+    if (probs == .5) {
+      structure(list(family = "Uniform", hyper.parameters = .5), class = "prior")
+    } else {
+      structure(list(family = "Bernoulli", hyper.parameters = probs), class = "prior")
+    }
+  }
+  else {
+    structure(list(family = "Bernoulli", hyper.parameters = probs), class = "prior")
+  }
 }
 
 
@@ -77,15 +81,15 @@ Bernoulli=function(probs=0.5) {
 #' @author Merlise Clyde
 #' @seealso \code{\link{bas.lm}}, \code{\link{Bernoulli}},\code{\link{uniform}}
 #' @examples
-#' beta.binomial(1,10) #' @family priors modelpriors
-#'
+#' beta.binomial(1, 10) #' @family priors modelpriors
 #' @family priors modelpriors
 #' @rdname beta.binomial
 #' @export
-beta.binomial=function(alpha=1.0, beta=1.0) {
-    structure(list(family="Beta-Binomial", hyper.parameters=c(alpha, beta)),
-              class="prior")
- }
+beta.binomial <- function(alpha = 1.0, beta = 1.0) {
+  structure(list(family = "Beta-Binomial", hyper.parameters = c(alpha, beta)),
+    class = "prior"
+  )
+}
 
 
 
@@ -114,22 +118,23 @@ beta.binomial=function(alpha=1.0, beta=1.0) {
 #' @seealso \code{\link{bas.lm}}, \code{\link{Bernoulli}},\code{\link{uniform}}
 #' @examples
 #'
-#' tr.beta.binomial(1,10, 5)
+#' tr.beta.binomial(1, 10, 5)
 #' library(MASS)
 #' data(UScrime)
-#' UScrime[,-2] = log(UScrime[,-2])
-#' crime.bic =  bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC",
-#'                     modelprior=tr.beta.binomial(1,1,8),
-#'                     initprobs= "eplogp")
-#'
-#'
+#' UScrime[, -2] <- log(UScrime[, -2])
+#' crime.bic <- bas.lm(y ~ .,
+#'   data = UScrime, n.models = 2^15, prior = "BIC",
+#'   modelprior = tr.beta.binomial(1, 1, 8),
+#'   initprobs = "eplogp"
+#' )
 #' @family priors modelpriors
 #' @rdname tr.beta.binomial
 #' @export
-tr.beta.binomial=function(alpha=1.0, beta=1.0, trunc) {
-    structure(list(family="Trunc-Beta-Binomial", hyper.parameters=c(alpha, beta, trunc)),
-              class="prior")
- }
+tr.beta.binomial <- function(alpha = 1.0, beta = 1.0, trunc) {
+  structure(list(family = "Trunc-Beta-Binomial", hyper.parameters = c(alpha, beta, trunc)),
+    class = "prior"
+  )
+}
 
 
 
@@ -160,19 +165,20 @@ tr.beta.binomial=function(alpha=1.0, beta=1.0, trunc) {
 #' tr.power.prior(2, 8)
 #' library(MASS)
 #' data(UScrime)
-#' UScrime[,-2] = log(UScrime[,-2])
-#' crime.bic =  bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC",
-#'                     modelprior=tr.power.prior(2,8),
-#'                     initprobs= "eplogp")
-#'
-#'
+#' UScrime[, -2] <- log(UScrime[, -2])
+#' crime.bic <- bas.lm(y ~ .,
+#'   data = UScrime, n.models = 2^15, prior = "BIC",
+#'   modelprior = tr.power.prior(2, 8),
+#'   initprobs = "eplogp"
+#' )
 #' @family priors modelpriors
 #' @rdname tr.power.prior
 #' @export
-tr.power.prior=function(kappa=2, trunc) {
-    structure(list(family="Trunc-Power-Prior", hyper.parameters=c(kappa, trunc)),
-              class="prior")
- }
+tr.power.prior <- function(kappa = 2, trunc) {
+  structure(list(family = "Trunc-Power-Prior", hyper.parameters = c(kappa, trunc)),
+    class = "prior"
+  )
+}
 
 
 
@@ -198,14 +204,14 @@ tr.power.prior=function(kappa=2, trunc) {
 #' @seealso \code{\link{bas.lm}}, \code{\link{Bernoulli}},\code{\link{uniform}}
 #' @examples
 #' tr.poisson(10, 50)
-#'
 #' @family priors modelpriors
 #' @rdname tr.poisson
 #' @export
-tr.poisson=function(lambda, trunc) {
-    structure(list(family="Trunc-Poisson", hyper.parameters=c(lambda, trunc)),
-              class="prior")
- }
+tr.poisson <- function(lambda, trunc) {
+  structure(list(family = "Trunc-Poisson", hyper.parameters = c(lambda, trunc)),
+    class = "prior"
+  )
+}
 
 #' Independent Bernoulli prior on models that with constraints for
 #' model hierarchy induced by interactions
@@ -215,9 +221,11 @@ tr.poisson=function(lambda, trunc) {
 #' @family priors modelpriors
 #' @rdname Bernoulli.heredity
 #' @export
-Bernoulli.heredity=function(pi = 0.5, parents) {
-  structure(list(family="Bernoulli.Constrained",
-                 hyper.parameters=c(hyper.parameters=pi, parents=parents)),
-            class="prior")
+Bernoulli.heredity <- function(pi = 0.5, parents) {
+  structure(list(
+    family = "Bernoulli.Constrained",
+    hyper.parameters = c(hyper.parameters = pi, parents = parents)
+  ),
+  class = "prior"
+  )
 }
-
