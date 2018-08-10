@@ -133,6 +133,11 @@ test_that("hyper.g prior for GLM", {
                       modelprior = uniform()
   )
   expect_equal(0, sum(pima_BAS$shrinkage > 1))
+  expect_error(bas.glm(type ~ ., data = Pima.tr, method = "BAS",
+                       betaprior = hyper.g(alpha=2.0),
+                       family = binomial(),
+                       modelprior = uniform())
+  )
 })
 test_that("g prior for GLM", {
   data(Pima.tr, package = "MASS")
