@@ -92,6 +92,18 @@ test_that("robust prior for GLM", {
                       modelprior = uniform()
   )
   expect_equal(nrow(Pima.tr), pima.BAS$betaprior$hyper.parameters$n)
+  expect_equal(0, sum(pima.BAS$shrinkage > 1))
+
+  })
+
+test_that("intrinsic prior for GLM", {
+  data(Pima.tr, package = "MASS")
+  expect_error( pima.BAS <- bas.glm(type ~ .,
+                      data = Pima.tr, n.models = 2^7, method = "BAS",
+                      betaprior = intrinsic(n = nrow(Pima.tr)), family = binomial(),
+                      modelprior = uniform()
+  ))
+#  expect_equal(0, sum(pima.BAS$shrinkage > 1))
 })
 
 test_that("beta.prime prior for GLM", {
