@@ -188,9 +188,11 @@ hyerparameters.</p>
 <span class='fu'>data</span>(<span class='no'>Pima.tr</span>)
 
 <span class='co'># use g = n</span>
-<span class='fu'><a href='bas.glm.html'>bas.glm</a></span>(<span class='no'>type</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Pima.tr</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='fu'>binomial</span>(),
-        <span class='kw'>betaprior</span><span class='kw'>=</span><span class='fu'>testBF.prior</span>(<span class='fu'>nrow</span>(<span class='no'>Pima.tr</span>)),
-        <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'><a href='uniform.html'>uniform</a></span>(), <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"BAS"</span>)</div><div class='output co'>#&gt; 
+<span class='fu'><a href='bas.glm.html'>bas.glm</a></span>(<span class='no'>type</span> ~ <span class='no'>.</span>,
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>Pima.tr</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'>binomial</span>(),
+  <span class='kw'>betaprior</span> <span class='kw'>=</span> <span class='fu'>testBF.prior</span>(<span class='fu'>nrow</span>(<span class='no'>Pima.tr</span>)),
+  <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'><a href='uniform.html'>uniform</a></span>(), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"BAS"</span>
+)</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; bas.glm(formula = type ~ ., family = binomial(), data = Pima.tr, 
 #&gt;     betaprior = testBF.prior(nrow(Pima.tr)), modelprior = uniform(), 

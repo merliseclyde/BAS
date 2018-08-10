@@ -246,9 +246,8 @@ Dawid, J.O. Berger, and A.F.M. Smith eds. Oxford University Press, pages
     <pre class="examples"><div class='input'>
 <span class='fu'>require</span>(<span class='no'>graphics</span>)
 <span class='fu'>data</span>(<span class='st'>"Hald"</span>)
-<span class='no'>hald.ZSprior</span> <span class='kw'>=</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>Y</span>~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>,  <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"ZS-null"</span>)
-<span class='fu'>image</span>(<span class='no'>hald.ZSprior</span>, <span class='kw'>drop.always.included</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='co'>#drop the intercept</span></div><div class='img'><img src='image.bas-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+<span class='no'>hald.ZSprior</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>Y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>Hald</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"ZS-null"</span>)
+<span class='fu'>image</span>(<span class='no'>hald.ZSprior</span>, <span class='kw'>drop.always.included</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># drop the intercept</span></div><div class='img'><img src='image.bas-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

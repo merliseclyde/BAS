@@ -504,27 +504,29 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
     <pre class="examples"><div class='input'>
 <span class='fu'>library</span>(<span class='no'>MASS</span>)
 <span class='fu'>data</span>(<span class='no'>UScrime</span>)
-<span class='no'>crime.bic</span> <span class='kw'>=</span>  <span class='fu'>bas.lm</span>(<span class='fu'>log</span>(<span class='no'>y</span>) ~ <span class='fu'>log</span>(<span class='no'>M</span>) + <span class='no'>So</span> + <span class='fu'>log</span>(<span class='no'>Ed</span>) +
-                    <span class='fu'>log</span>(<span class='no'>Po1</span>) + <span class='fu'>log</span>(<span class='no'>Po2</span>) +
-                    <span class='fu'>log</span>(<span class='no'>LF</span>) + <span class='fu'>log</span>(<span class='no'>M.F</span>) + <span class='fu'>log</span>(<span class='no'>Pop</span>) + <span class='fu'>log</span>(<span class='no'>NW</span>) +
-                    <span class='fu'>log</span>(<span class='no'>U1</span>) + <span class='fu'>log</span>(<span class='no'>U2</span>) + <span class='fu'>log</span>(<span class='no'>GDP</span>) + <span class='fu'>log</span>(<span class='no'>Ineq</span>) +
-                    <span class='fu'>log</span>(<span class='no'>Prob</span>) + <span class='fu'>log</span>(<span class='no'>Time</span>),
-                    <span class='kw'>data</span><span class='kw'>=</span><span class='no'>UScrime</span>, <span class='kw'>n.models</span><span class='kw'>=</span><span class='fl'>2</span>^<span class='fl'>15</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"BIC"</span>,
-                    <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>),
-                    <span class='kw'>initprobs</span><span class='kw'>=</span> <span class='st'>"eplogp"</span>, <span class='kw'>pivot</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+<span class='no'>crime.bic</span> <span class='kw'>&lt;-</span> <span class='fu'>bas.lm</span>(<span class='fu'>log</span>(<span class='no'>y</span>) ~ <span class='fu'>log</span>(<span class='no'>M</span>) + <span class='no'>So</span> + <span class='fu'>log</span>(<span class='no'>Ed</span>) +
+  <span class='fu'>log</span>(<span class='no'>Po1</span>) + <span class='fu'>log</span>(<span class='no'>Po2</span>) +
+  <span class='fu'>log</span>(<span class='no'>LF</span>) + <span class='fu'>log</span>(<span class='no'>M.F</span>) + <span class='fu'>log</span>(<span class='no'>Pop</span>) + <span class='fu'>log</span>(<span class='no'>NW</span>) +
+  <span class='fu'>log</span>(<span class='no'>U1</span>) + <span class='fu'>log</span>(<span class='no'>U2</span>) + <span class='fu'>log</span>(<span class='no'>GDP</span>) + <span class='fu'>log</span>(<span class='no'>Ineq</span>) +
+  <span class='fu'>log</span>(<span class='no'>Prob</span>) + <span class='fu'>log</span>(<span class='no'>Time</span>),
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>UScrime</span>, <span class='kw'>n.models</span> <span class='kw'>=</span> <span class='fl'>2</span>^<span class='fl'>15</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"BIC"</span>,
+  <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
+  <span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"eplogp"</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)
 
 
 <span class='co'># use MCMC rather than enumeration</span>
-<span class='no'>crime.mcmc</span> <span class='kw'>=</span>  <span class='fu'>bas.lm</span>(<span class='fu'>log</span>(<span class='no'>y</span>) ~ <span class='fu'>log</span>(<span class='no'>M</span>) + <span class='no'>So</span> + <span class='fu'>log</span>(<span class='no'>Ed</span>) +
-                    <span class='fu'>log</span>(<span class='no'>Po1</span>) + <span class='fu'>log</span>(<span class='no'>Po2</span>) +
-                    <span class='fu'>log</span>(<span class='no'>LF</span>) + <span class='fu'>log</span>(<span class='no'>M.F</span>) + <span class='fu'>log</span>(<span class='no'>Pop</span>) + <span class='fu'>log</span>(<span class='no'>NW</span>) +
-                    <span class='fu'>log</span>(<span class='no'>U1</span>) + <span class='fu'>log</span>(<span class='no'>U2</span>) + <span class='fu'>log</span>(<span class='no'>GDP</span>) + <span class='fu'>log</span>(<span class='no'>Ineq</span>) +
-                    <span class='fu'>log</span>(<span class='no'>Prob</span>) + <span class='fu'>log</span>(<span class='no'>Time</span>),
-                    <span class='kw'>data</span><span class='kw'>=</span><span class='no'>UScrime</span>,
-                    <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"MCMC"</span>,
-                    <span class='kw'>MCMC.iterations</span><span class='kw'>=</span><span class='fl'>20000</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"BIC"</span>,
-                    <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>),
-                    <span class='kw'>initprobs</span><span class='kw'>=</span> <span class='st'>"eplogp"</span>, <span class='kw'>pivot</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+<span class='no'>crime.mcmc</span> <span class='kw'>&lt;-</span> <span class='fu'>bas.lm</span>(<span class='fu'>log</span>(<span class='no'>y</span>) ~ <span class='fu'>log</span>(<span class='no'>M</span>) + <span class='no'>So</span> + <span class='fu'>log</span>(<span class='no'>Ed</span>) +
+  <span class='fu'>log</span>(<span class='no'>Po1</span>) + <span class='fu'>log</span>(<span class='no'>Po2</span>) +
+  <span class='fu'>log</span>(<span class='no'>LF</span>) + <span class='fu'>log</span>(<span class='no'>M.F</span>) + <span class='fu'>log</span>(<span class='no'>Pop</span>) + <span class='fu'>log</span>(<span class='no'>NW</span>) +
+  <span class='fu'>log</span>(<span class='no'>U1</span>) + <span class='fu'>log</span>(<span class='no'>U2</span>) + <span class='fu'>log</span>(<span class='no'>GDP</span>) + <span class='fu'>log</span>(<span class='no'>Ineq</span>) +
+  <span class='fu'>log</span>(<span class='no'>Prob</span>) + <span class='fu'>log</span>(<span class='no'>Time</span>),
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>UScrime</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"MCMC"</span>,
+  <span class='kw'>MCMC.iterations</span> <span class='kw'>=</span> <span class='fl'>20000</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"BIC"</span>,
+  <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
+  <span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"eplogp"</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)
 
 <span class='fu'><a href='summary.html'>summary</a></span>(<span class='no'>crime.bic</span>)</div><div class='output co'>#&gt;           P(B != 0 | Y)   model 1       model 2     model 3     model 4
 #&gt; Intercept     1.0000000   1.00000  1.000000e+00   1.0000000   1.0000000
@@ -569,14 +571,16 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; PostProbs   0.0099000
 #&gt; R2          0.8375000
 #&gt; dim         9.0000000
-#&gt; logmarg   -22.8118635</div><div class='input'><span class='fu'>plot</span>(<span class='no'>crime.bic</span>)</div><div class='img'><img src='bas.lm-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='image.bas.html'>image</a></span>(<span class='no'>crime.bic</span>, <span class='kw'>subset</span><span class='kw'>=</span>-<span class='fl'>1</span>)</div><div class='img'><img src='bas.lm-5.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; logmarg   -22.8118635</div><div class='input'><span class='fu'>plot</span>(<span class='no'>crime.bic</span>)</div><div class='img'><img src='bas.lm-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='image.bas.html'>image</a></span>(<span class='no'>crime.bic</span>, <span class='kw'>subset</span> <span class='kw'>=</span> -<span class='fl'>1</span>)</div><div class='img'><img src='bas.lm-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># example with two-way interactions and hierarchical constraints</span>
 <span class='fu'>data</span>(<span class='no'>ToothGrowth</span>)
-<span class='no'>ToothGrowth</span>$<span class='no'>dose</span> <span class='kw'>=</span> <span class='fu'>factor</span>(<span class='no'>ToothGrowth</span>$<span class='no'>dose</span>)
-<span class='fu'>levels</span>(<span class='no'>ToothGrowth</span>$<span class='no'>dose</span>) <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Low"</span>, <span class='st'>"Medium"</span>, <span class='st'>"High"</span>)
-<span class='no'>TG.bas</span> <span class='kw'>=</span> <span class='fu'>bas.lm</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>*<span class='no'>dose</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>ToothGrowth</span>,
-                 <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'><a href='uniform.html'>uniform</a></span>(), <span class='kw'>method</span><span class='kw'>=</span><span class='st'>'BAS'</span>,
-                 <span class='kw'>force.heredity</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='no'>ToothGrowth</span>$<span class='no'>dose</span> <span class='kw'>&lt;-</span> <span class='fu'>factor</span>(<span class='no'>ToothGrowth</span>$<span class='no'>dose</span>)
+<span class='fu'>levels</span>(<span class='no'>ToothGrowth</span>$<span class='no'>dose</span>) <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"Low"</span>, <span class='st'>"Medium"</span>, <span class='st'>"High"</span>)
+<span class='no'>TG.bas</span> <span class='kw'>&lt;-</span> <span class='fu'>bas.lm</span>(<span class='no'>len</span> ~ <span class='no'>supp</span> * <span class='no'>dose</span>,
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ToothGrowth</span>,
+  <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'><a href='uniform.html'>uniform</a></span>(), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"BAS"</span>,
+  <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)
 <span class='fu'><a href='summary.html'>summary</a></span>(<span class='no'>TG.bas</span>)</div><div class='output co'>#&gt;                   P(B != 0 | Y)  model 1    model 2     model 3      model 4
 #&gt; Intercept             1.0000000  1.00000  1.0000000  1.00000000 1.000000e+00
 #&gt; suppVC                0.9910702  1.00000  1.0000000  0.00000000 0.000000e+00
@@ -600,7 +604,8 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; PostProbs          0.000000e+00
 #&gt; R2                 5.950000e-02
 #&gt; dim                2.000000e+00
-#&gt; logmarg           -1.270492e+00</div><div class='input'><span class='fu'><a href='image.bas.html'>image</a></span>(<span class='no'>TG.bas</span>)</div><div class='img'><img src='bas.lm-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># more complete demo's</span>
+#&gt; logmarg           -1.270492e+00</div><div class='input'><span class='fu'><a href='image.bas.html'>image</a></span>(<span class='no'>TG.bas</span>)</div><div class='img'><img src='bas.lm-6.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># more complete demo's</span>
 <span class='fu'>demo</span>(<span class='no'>BAS.hald</span>)</div><div class='output co'>#&gt; 
 #&gt; 
 #&gt; 	demo(BAS.hald)

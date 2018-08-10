@@ -178,11 +178,10 @@ arguments for x and y are reversed in the reference above.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># special cases</span>
-<span class='co'># Phi1(a, b, c, x=0, y) = 2F1(b, a; c, y)</span>
-<span class='fu'>phi1</span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>1.5</span>, <span class='fl'>0</span>, <span class='fl'>1</span>/<span class='fl'>100</span>);</div><div class='output co'>#&gt; [1] 1.013495</div><div class='input'><span class='fu'><a href='hypergeometric2F1.html'>hypergeometric2F1</a></span>(<span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>1.5</span>, <span class='fl'>1</span>/<span class='fl'>100</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] 1.013495</div><div class='input'>
-<span class='co'># Phi1(a, b=0, c, x, y) = Phi(a, b, c, x, y=0) = 1F1(a, c, x) ## ??</span>
-<span class='fu'>phi1</span>(<span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>1.5</span>, <span class='fl'>3</span>, <span class='fl'>1</span>/<span class='fl'>100</span>);</div><div class='output co'>#&gt; [1] 10.13001</div><div class='input'><span class='fu'><a href='hypergeometric1F1.html'>hypergeometric1F1</a></span>(<span class='fl'>1</span>, <span class='fl'>1.5</span>, <span class='fl'>3</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>);</div><div class='output co'>#&gt; [1] 10.13001</div><div class='input'>
-</div></pre>
+<span class='co'># phi1(a, b, c, x=0, y) is the same as 2F1(b, a; c, y)</span>
+<span class='fu'>phi1</span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>1.5</span>, <span class='fl'>0</span>, <span class='fl'>1</span> / <span class='fl'>100</span>)</div><div class='output co'>#&gt; [1] 1.013495</div><div class='input'><span class='fu'><a href='hypergeometric2F1.html'>hypergeometric2F1</a></span>(<span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>1.5</span>, <span class='fl'>1</span> / <span class='fl'>100</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] 1.013495</div><div class='input'>
+<span class='co'># phi1(a,0,c,x,y) is the same as 1F1(a,c,x)</span>
+<span class='fu'>phi1</span>(<span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>1.5</span>, <span class='fl'>3</span>, <span class='fl'>1</span> / <span class='fl'>100</span>)</div><div class='output co'>#&gt; [1] 10.13001</div><div class='input'><span class='fu'><a href='hypergeometric1F1.html'>hypergeometric1F1</a></span>(<span class='fl'>1</span>, <span class='fl'>1.5</span>, <span class='fl'>3</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] 10.13001</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

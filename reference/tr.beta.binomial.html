@@ -174,7 +174,7 @@ assigns zero probability to all models of size &gt; trunc.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>tr.beta.binomial</span>(<span class='fl'>1</span>,<span class='fl'>10</span>, <span class='fl'>5</span>)</div><div class='output co'>#&gt; $family
+<span class='fu'>tr.beta.binomial</span>(<span class='fl'>1</span>, <span class='fl'>10</span>, <span class='fl'>5</span>)</div><div class='output co'>#&gt; $family
 #&gt; [1] "Trunc-Beta-Binomial"
 #&gt; 
 #&gt; $hyper.parameters
@@ -183,10 +183,12 @@ assigns zero probability to all models of size &gt; trunc.</p>
 #&gt; attr(,"class")
 #&gt; [1] "prior"</div><div class='input'><span class='fu'>library</span>(<span class='no'>MASS</span>)
 <span class='fu'>data</span>(<span class='no'>UScrime</span>)
-<span class='no'>UScrime</span>[,-<span class='fl'>2</span>] <span class='kw'>=</span> <span class='fu'>log</span>(<span class='no'>UScrime</span>[,-<span class='fl'>2</span>])
-<span class='no'>crime.bic</span> <span class='kw'>=</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>UScrime</span>, <span class='kw'>n.models</span><span class='kw'>=</span><span class='fl'>2</span>^<span class='fl'>15</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"BIC"</span>,
-                    <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'>tr.beta.binomial</span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>8</span>),
-                    <span class='kw'>initprobs</span><span class='kw'>=</span> <span class='st'>"eplogp"</span>)</div></pre>
+<span class='no'>UScrime</span>[, -<span class='fl'>2</span>] <span class='kw'>&lt;-</span> <span class='fu'>log</span>(<span class='no'>UScrime</span>[, -<span class='fl'>2</span>])
+<span class='no'>crime.bic</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>y</span> ~ <span class='no'>.</span>,
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>UScrime</span>, <span class='kw'>n.models</span> <span class='kw'>=</span> <span class='fl'>2</span>^<span class='fl'>15</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"BIC"</span>,
+  <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'>tr.beta.binomial</span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>8</span>),
+  <span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"eplogp"</span>
+)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
