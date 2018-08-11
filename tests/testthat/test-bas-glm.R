@@ -210,3 +210,24 @@ test_that("IC.prior", {
                       modelprior = uniform())
   expect_equal(pima_bic$probne0, pima_ic$probne0)
   })
+
+test_that("cv.summary", {
+  data(Pima.tr, package = "MASS")
+  data(Pima.te, package = "MASS")
+  pima_bic <- bas.glm(type ~ .,
+                      data = Pima.tr, method = "MCMC",
+                      MCMC.iterations = 10000,
+                      betaprior = bic.prior(), family = binomial(),
+                      modelprior = uniform())
+  pima_pred <- predict(pima_bic, newdata=Pima.te, type="response")
+  expect_equal(TRUE, cv.summary.bas(pima_pred$fit,
+                               as.numeric(Pima.te$type)) > 0)
+  expect_equal(TRUE, cv.summary.bas(pima_pred$fit,
+                                 as.numeric(Pima.te$type),
+                                 score="miss-class")
+               <1)
+  expect_error(cv.summary.bas(pima_pred$fit,
+                                    as.numeric(Pima.te$type),
+                                    score="percent-explained"))
+
+})
