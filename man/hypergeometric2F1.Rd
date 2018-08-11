@@ -37,8 +37,7 @@ based on the Laplace approximation as described in Liang et al JASA 2008.
 This is used in the hyper-g prior to calculate marginal likelihoods.
 }
 \examples{
-hypergeometric2F1(12,1,2,.65)
-
+hypergeometric2F1(12, 1, 2, .65)
 }
 \references{
 Cephes library hyp2f1.c
@@ -53,7 +52,7 @@ Other special functions: \code{\link{hypergeometric1F1}},
   \code{\link{phi1}}
 }
 \author{
-Merlise Clyde (\email{clyde@stat.duke.edu})
+Merlise Clyde (\email{clyde@duke.edu})
 }
 \concept{special functions}
 \keyword{math}

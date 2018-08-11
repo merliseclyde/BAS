@@ -36,14 +36,13 @@ This only uses the reference prior p(B, sigma) = 1;
 other priors and model averaging to come.
 }
 \examples{
-library(MASS)
-data(stackloss)
-stack.lm =lm(stack.loss ~ ., data=stackloss)
-stack.outliers = Bayes.outlier(stack.lm, k=3)
-plot(stack.outliers$prob.outlier, type="h", ylab="Posterior Probability")
+data("stackloss")
+stack.lm <- lm(stack.loss ~ ., data = stackloss)
+stack.outliers <- Bayes.outlier(stack.lm, k = 3)
+plot(stack.outliers$prob.outlier, type = "h", ylab = "Posterior Probability")
 # adjust for sample size for calculating prior prob that a
 # a case is an outlier
-stack.outliers = Bayes.outlier(stack.lm, prior.prob=0.95)
+stack.outliers <- Bayes.outlier(stack.lm, prior.prob = 0.95)
 # cases where posterior probability exceeds prior probability
 which(stack.outliers$prob.outlier > stack.outliers$prior.prob)
 }

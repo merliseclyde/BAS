@@ -161,6 +161,12 @@ test_that("interactions", {
                      force.heredity = TRUE)
   expect_equal(sum(bas_hald$postprobs >0),
                bas_hald$n.models)
+  bas_hald <- bas.lm(Y ~ .^2, data=Hald, method="MCMC",
+                     MCMC.iterations = 10000,
+                     force.heredity = FALSE)
+  bas_hald <- force.heredity.bas(bas_hald)
+  expect_equal(sum(bas_hald$postprobs >0),
+               bas_hald$n.models)
  })
 
 test_that("check non-full rank", {
