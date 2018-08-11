@@ -38,9 +38,12 @@
 
 <meta property="og:title" content="Post processing function to force constraints on interaction inclusion bas BMA objects — force.heredity.bas" />
 
-<meta property="og:description" content="This function takes the output of a bas object and allows higher order interactions to be included only if their parent lower order interactions terms are in the model, by assigning zero prior probability, and hence posterior probability, to models that do include their respective parents.
-Currently only supports a common Bernoulli prior for inclusion.  Model probabilities are given using the
-function `BAS:::prob.heredity`." />
+<meta property="og:description" content="This function takes the output of a bas object and allows higher
+order interactions to be included only if their parent
+lower order interactions terms are in the model, by
+assigning zero prior probability, and hence posterior
+probability, to models that do include their respective
+parents." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -124,9 +127,12 @@ function `BAS:::prob.heredity`." />
 
     <div class="ref-description">
     
-    <p>This function takes the output of a bas object and allows higher order interactions to be included only if their parent lower order interactions terms are in the model, by assigning zero prior probability, and hence posterior probability, to models that do include their respective parents.
-Currently only supports a common Bernoulli prior for inclusion.  Model probabilities are given using the
-function `BAS:::prob.heredity`.</p>
+    <p>This function takes the output of a bas object and allows higher
+order interactions to be included only if their parent
+lower order interactions terms are in the model, by
+assigning zero prior probability, and hence posterior
+probability, to models that do include their respective
+parents.</p>
     
     </div>
 
@@ -166,24 +172,26 @@ function `BAS:::prob.heredity`.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='st'>"chickwts"</span>)
-<span class='no'>bas.chk</span> <span class='kw'>=</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>weight</span> ~ <span class='no'>feed</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>chickwts</span>)
-<span class='no'>bas.chk.int</span> <span class='kw'>=</span> <span class='fu'>force.heredity.bas</span>(<span class='no'>bas.chk</span>)
+    <pre class="examples"><div class='input'>
+<span class='fu'>data</span>(<span class='st'>"chickwts"</span>)
+<span class='no'>bas.chk</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>weight</span> ~ <span class='no'>feed</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>chickwts</span>)
+<span class='co'>#  summary(bas.chk)  # 2^5 = 32 models</span>
+<span class='no'>bas.chk.int</span> <span class='kw'>&lt;-</span> <span class='fu'>force.heredity.bas</span>(<span class='no'>bas.chk</span>)
+<span class='co'>#  summary(bas.chk.int)  # two models now</span>
 
 
 <span class='fu'>data</span>(<span class='no'>Hald</span>)
-<span class='no'>bas.hald</span> <span class='kw'>=</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>Y</span> ~ <span class='no'>.</span>^<span class='fl'>2</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>)
-<span class='no'>bas.hald.int</span> <span class='kw'>=</span> <span class='fu'>force.heredity.bas</span>(<span class='no'>bas.hald</span>)
+<span class='no'>bas.hald</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>Y</span> ~ <span class='no'>.</span>^<span class='fl'>2</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>Hald</span>)
+<span class='no'>bas.hald.int</span> <span class='kw'>&lt;-</span> <span class='fu'>force.heredity.bas</span>(<span class='no'>bas.hald</span>)
 <span class='fu'><a href='image.bas.html'>image</a></span>(<span class='no'>bas.hald.int</span>)</div><div class='input'>
 <span class='fu'><a href='image.bas.html'>image</a></span>(<span class='no'>bas.hald.int</span>)</div><div class='img'><img src='force.heredity.bas-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># two-way interactions</span>
 <span class='fu'>data</span>(<span class='no'>ToothGrowth</span>)
-<span class='no'>ToothGrowth</span>$<span class='no'>dose</span> <span class='kw'>=</span> <span class='fu'>factor</span>(<span class='no'>ToothGrowth</span>$<span class='no'>dose</span>)
-<span class='fu'>levels</span>(<span class='no'>ToothGrowth</span>$<span class='no'>dose</span>) <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Low"</span>, <span class='st'>"Medium"</span>, <span class='st'>"High"</span>)
-<span class='no'>TG.bas</span> <span class='kw'>=</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>len</span> ~ <span class='no'>supp</span>*<span class='no'>dose</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>ToothGrowth</span>, <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'><a href='uniform.html'>uniform</a></span>())
-<span class='no'>TG.bas.int</span> <span class='kw'>=</span> <span class='fu'>force.heredity.bas</span>(<span class='no'>TG.bas</span>)
-<span class='fu'><a href='image.bas.html'>image</a></span>(<span class='no'>TG.bas.int</span>)</div><div class='img'><img src='force.heredity.bas-2.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+<span class='no'>ToothGrowth</span>$<span class='no'>dose</span> <span class='kw'>&lt;-</span> <span class='fu'>factor</span>(<span class='no'>ToothGrowth</span>$<span class='no'>dose</span>)
+<span class='fu'>levels</span>(<span class='no'>ToothGrowth</span>$<span class='no'>dose</span>) <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"Low"</span>, <span class='st'>"Medium"</span>, <span class='st'>"High"</span>)
+<span class='no'>TG.bas</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>len</span> ~ <span class='no'>supp</span> * <span class='no'>dose</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ToothGrowth</span>, <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'><a href='uniform.html'>uniform</a></span>())
+<span class='no'>TG.bas.int</span> <span class='kw'>&lt;-</span> <span class='fu'>force.heredity.bas</span>(<span class='no'>TG.bas</span>)
+<span class='fu'><a href='image.bas.html'>image</a></span>(<span class='no'>TG.bas.int</span>)</div><div class='img'><img src='force.heredity.bas-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

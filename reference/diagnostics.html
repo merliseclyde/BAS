@@ -179,15 +179,15 @@ variability on repeated runs.</p>
     <pre class="examples"><div class='input'>
 <span class='fu'>library</span>(<span class='no'>MASS</span>)
 <span class='fu'>data</span>(<span class='no'>UScrime</span>)
-<span class='no'>UScrime</span>[,-<span class='fl'>2</span>] <span class='kw'>=</span> <span class='fu'>log</span>(<span class='no'>UScrime</span>[,-<span class='fl'>2</span>])
-<span class='no'>crime.ZS</span> <span class='kw'>=</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>y</span> ~ <span class='no'>.</span>,
-                   <span class='kw'>data</span><span class='kw'>=</span><span class='no'>UScrime</span>,
-                   <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"ZS-null"</span>,
-                   <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'><a href='uniform.html'>uniform</a></span>(),
-                   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"MCMC"</span>,
-                   <span class='kw'>MCMC.iter</span> <span class='kw'>=</span> <span class='fl'>1000</span>)   <span class='co'># short run for the example</span>
-<span class='fu'>diagnostics</span>(<span class='no'>crime.ZS</span>)</div><div class='img'><img src='diagnostics-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='diagnostics-2.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+<span class='no'>UScrime</span>[, -<span class='fl'>2</span>] <span class='kw'>&lt;-</span> <span class='fu'>log</span>(<span class='no'>UScrime</span>[, -<span class='fl'>2</span>])
+<span class='no'>crime.ZS</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='no'>y</span> ~ <span class='no'>.</span>,
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>UScrime</span>,
+  <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"ZS-null"</span>,
+  <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'><a href='uniform.html'>uniform</a></span>(),
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"MCMC"</span>,
+  <span class='kw'>MCMC.iter</span> <span class='kw'>=</span> <span class='fl'>1000</span>
+) <span class='co'># short run for the example</span>
+<span class='fu'>diagnostics</span>(<span class='no'>crime.ZS</span>)</div><div class='img'><img src='diagnostics-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='diagnostics-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
