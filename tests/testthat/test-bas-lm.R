@@ -155,6 +155,13 @@ test_that("force.heredity", {
   expect_equal(basObj$probne0, basObj.old$probne0)
 })
 
+test_that("interactions", {
+  data(Hald)
+  bas_hald <- bas.lm(Y ~ .^2, data=Hald, method="MCMC",
+                     force.heredity = TRUE)
+  expect_equal(sum(bas_hald$postprobs >0),
+               bas_hald$n.models)
+ })
 
 test_that("check non-full rank", {
   loc <- system.file("testdata", package = "BAS")
