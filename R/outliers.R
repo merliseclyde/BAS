@@ -28,14 +28,13 @@
 #' A Bayesian Approach to Outlier Detection and Residual Analysis
 #' Biometrika (1988) 75, 651-659
 #' @examples
-#' library(MASS)
-#' data(stackloss)
-#' stack.lm =lm(stack.loss ~ ., data=stackloss)
-#' stack.outliers = Bayes.outlier(stack.lm, k=3)
-#' plot(stack.outliers$prob.outlier, type="h", ylab="Posterior Probability")
+#' data("stackloss")
+#' stack.lm <- lm(stack.loss ~ ., data = stackloss)
+#' stack.outliers <- Bayes.outlier(stack.lm, k = 3)
+#' plot(stack.outliers$prob.outlier, type = "h", ylab = "Posterior Probability")
 #' # adjust for sample size for calculating prior prob that a
 #' # a case is an outlier
-#' stack.outliers = Bayes.outlier(stack.lm, prior.prob=0.95)
+#' stack.outliers <- Bayes.outlier(stack.lm, prior.prob = 0.95)
 #' # cases where posterior probability exceeds prior probability
 #' which(stack.outliers$prob.outlier > stack.outliers$prior.prob)
 #' @export
@@ -43,18 +42,18 @@ Bayes.outlier <- function(lmobj, k, prior.prob) {
   e <- residuals(lmobj)
   h <- hatvalues(lmobj)
   alpha <- (lmobj$df.residual) / 2
-  rate <- (lmobj$df.residual * (summary(lmobj)$sigma) ^ 2) / 2
+  rate <- (lmobj$df.residual * (summary(lmobj)$sigma)^2) / 2
   n <- length(e)
 
   if (missing(k) & missing(prior.prob)) {
     stop("please provide either k or the prior probability of no outliers")
   }
   else {
-    if (missing(k)) k = qnorm(.5 + .5*(prior.prob^(1/n)))
+    if (missing(k)) k <- qnorm(.5 + .5 * (prior.prob^(1 / n)))
   }
   pr <- rep(0, n)
   for (i in 1:n) {
-    pr[i] = integrate(
+    pr[i] <- integrate(
       outlier.prob,
       lower = 0,
       upper = Inf,
@@ -69,15 +68,13 @@ Bayes.outlier <- function(lmobj, k, prior.prob) {
     e = e,
     hat = h,
     prob.outlier = pr,
-    prior.prob = pnorm(-k)*2
+    prior.prob = pnorm(-k) * 2
   ))
 }
 
-outlier.prob <- function(phi, ehat,hii,alpha,rate, nsd) {
-	z1 <- (nsd - ehat*sqrt(phi))/sqrt(hii)
-	z2 <- (- nsd - ehat*sqrt(phi))/sqrt(hii)
-	pr.phi <- (1 - pnorm(z1) + pnorm(z2))*dgamma(phi,shape=alpha, rate=rate)
-	return(pr.phi)}
-
-
-
+outlier.prob <- function(phi, ehat, hii, alpha, rate, nsd) {
+  z1 <- (nsd - ehat * sqrt(phi)) / sqrt(hii)
+  z2 <- (-nsd - ehat * sqrt(phi)) / sqrt(hii)
+  pr.phi <- (1 - pnorm(z1) + pnorm(z2)) * dgamma(phi, shape = alpha, rate = rate)
+  return(pr.phi)
+}
