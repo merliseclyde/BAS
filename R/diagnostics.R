@@ -23,40 +23,43 @@
 #'
 #' library(MASS)
 #' data(UScrime)
-#' UScrime[,-2] = log(UScrime[,-2])
-#' crime.ZS =  bas.lm(y ~ .,
-#'                    data=UScrime,
-#'                    prior="ZS-null",
-#'                    modelprior=uniform(),
-#'                    method = "MCMC",
-#'                    MCMC.iter = 1000)   # short run for the example
+#' UScrime[, -2] <- log(UScrime[, -2])
+#' crime.ZS <- bas.lm(y ~ .,
+#'   data = UScrime,
+#'   prior = "ZS-null",
+#'   modelprior = uniform(),
+#'   method = "MCMC",
+#'   MCMC.iter = 1000
+#' ) # short run for the example
 #' diagnostics(crime.ZS)
-#'
 #' @family bas methods
 #' @export
-diagnostics = function(obj, type=c("pip","model"),...) {
-    if (obj$call$method == "MCMC") {
+diagnostics <- function(obj, type = c("pip", "model"), ...) {
+  if (obj$call$method == "MCMC") {
     for (i in 1:length(type)) {
-    if (type[i] == "pip")  {
-      plot(obj$probne0.RN, obj$probne0.MCMC,
-          xlab="pip (renormalized)",
-          ylab="pip (MCMC)", xlim=c(0,1), ylim=c(0,1),
-          main="Convergence Plot: Posterior Inclusion Probabilities",
-          ...)
-      abline(0,1) }
-    else {
-        ax.lim = range(pretty(c(obj$postprobs.RN, obj$postprobs.MCMC)))
+      if (type[i] == "pip") {
+        plot(obj$probne0.RN, obj$probne0.MCMC,
+          xlab = "pip (renormalized)",
+          ylab = "pip (MCMC)", xlim = c(0, 1), ylim = c(0, 1),
+          main = "Convergence Plot: Posterior Inclusion Probabilities",
+          ...
+        )
+        abline(0, 1)
+      }
+      else {
+        ax.lim <- range(pretty(c(obj$postprobs.RN, obj$postprobs.MCMC)))
         plot(obj$postprobs.RN, obj$postprobs.MCMC,
-         xlab="p(M | Y) (renormalized)",
-         ylab="p(M | Y) (MCMC)", xlim=ax.lim, ylim=ax.lim,
-         main="Convergence Plot: Posterior Model Probabilities",
-             ...)
-        abline(0,1)
+          xlab = "p(M | Y) (renormalized)",
+          ylab = "p(M | Y) (MCMC)", xlim = ax.lim, ylim = ax.lim,
+          main = "Convergence Plot: Posterior Model Probabilities",
+          ...
+        )
+        abline(0, 1)
+      }
     }
-    }
-}
-    else {
-        simpleError("Diagnostic plots are only availble using method='MCMC'
+  }
+  else {
+    stop("Diagnostic plots are only availble using method='MCMC'
                     for sampling with bas. Please rerun.")
-    }
+  }
 }
