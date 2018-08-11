@@ -197,3 +197,16 @@ test_that("Tcch prior for GLM", {
   )
   expect_equal(0, sum(pima_tcch$shrinkage > 1))
 })
+
+test_that("IC.prior", {
+  data(Pima.tr, package = "MASS")
+  pima_bic <- bas.glm(type ~ .,
+                      data = Pima.tr, method = "BAS",
+                      betaprior = bic.prior(), family = binomial(),
+                      modelprior = uniform())
+  pima_ic <- bas.glm(type ~ .,
+                      data = Pima.tr, method = "BAS",
+                      betaprior = IC.prior(log(nrow(Pima.tr))), family = binomial(),
+                      modelprior = uniform())
+  expect_equal(pima_bic$probne0, pima_ic$probne0)
+  })
