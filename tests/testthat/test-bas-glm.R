@@ -233,3 +233,15 @@ test_that("cv.summary", {
                               as.numeric(Pima.te$type[-1]),
                               score="percent-explained"))
 })
+
+
+test_that("Jeffreys & MCMC", {
+  data("Pima.te", package="MASS")
+  expect_error( bas.glm(type ~ .,
+                      data = Pima.tr, method = "MCMC",
+                      include.always = ~ bp,
+                      betaprior = Jeffreys(), family = binomial(),
+                      modelprior = tr.beta.binomial(1, 1, 4))
+  )
+# above should not error Fix!
+})
