@@ -144,7 +144,7 @@ intrinsic <- function(n = NULL) {
   #    else {
   structure(list(
     family = "intrinsic", class = "TCCH",
-    hyper.parameters = list(alpha = 1.0, beta = 1.0, s = 0.0, r = 1.0, n = n)
+    hyper.parameters = list(alpha = 1.0, beta = 1.0, s = 0.0, r = 1.0, n = as.numeric(n))
   ),
   class = "prior"
   )

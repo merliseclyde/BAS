@@ -31,7 +31,7 @@ struct betapriorfamilystruc * make_betaprior_structure(SEXP betaprior, SEXP glmf
     betapriorfamily->logmarglik_fun = tCCH_glm_logmarg;
     betapriorfamily->shrinkage_fun = tCCH_glm_shrinkage;
   }
-    else if (strcmp(betapriorfamily->priorfamily, "intrinsic") == 0) {
+  else if (strcmp(betapriorfamily->priorfamily, "intrinsic") == 0) {
     betapriorfamily->logmarglik_fun = intrinsic_glm_logmarg;
     betapriorfamily->shrinkage_fun = intrinsic_glm_shrinkage;
   }

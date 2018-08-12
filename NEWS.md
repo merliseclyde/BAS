@@ -18,7 +18,10 @@
 
 ## Bugs
 
+
 *  [issue #32](https://github.com/merliseclyde/BAS/issues/32) fixed vectorization for `phi1` function in R/cch.R and added unit test to "tests/testthat/test-special-functions.R"
+
+* fixed  [issue #30](https://github.com/merliseclyde/BAS/issues/30) added n as hyperparameter if NULL and coerced to be a REAL for `intrinsic` prior 
 
 * fixed output `include.always` to include the intercept [issue #26](https://github.com/merliseclyde/BAS/issues/26) always  so that `drop.always.included = TRUE` drops the intercept and any other variables that are forced in.    `include.always` and `force.heredity=TRUE` can now be used together with `method="BAS"`
 

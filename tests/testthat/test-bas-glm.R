@@ -132,13 +132,21 @@ test_that("robust prior for GLM", {
 
 test_that("intrinsic prior for GLM", {
   data(Pima.tr, package = "MASS")
-  expect_error(pima_BAS <- bas.glm(type ~ .,
+  pima_BAS <- bas.glm(type ~ .,
     data = Pima.tr, method = "BAS",
     betaprior = intrinsic(n = nrow(Pima.tr)),
     family = binomial(),
     modelprior = uniform()
-  ))
-  #  expect_equal(0, sum(pima_BAS$shrinkage > 1))
+  )
+  pima_BAS_no_n <- bas.glm(type ~ .,
+                      data = Pima.tr, method = "BAS",
+                      betaprior = intrinsic(),
+                      family = binomial(),
+                      modelprior = uniform()
+  )
+  expect_equal(0, sum(pima_BAS$shrinkage > 1))
+  expect_equal(0, sum(pima_BAS_no_n$shrinkage > 1))
+  expect_equal(pima_BAS$probne0, pima_BAS_no_n$probne0)
 })
 
 test_that("TestBF prior for GLM", {

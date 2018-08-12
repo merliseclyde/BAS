@@ -38,11 +38,28 @@ test_that("A/BIC: shrinkage is equal to 1", {
   expect_equal(hald_AIC$n.model, sum(hald_AIC$shrinkage == 1))
 })
 
-test_that("no method", {
+test_that("prior not implemented", {
   data(Hald)
   expect_error(bas.lm(Y ~ .,
     prior = "garbage",
     modelprior = uniform(), data = Hald
+  ))
+})
+
+test_that("inits wrong length", {
+  data(Hald)
+  expect_error(bas.lm(Y ~ .,
+                      prior = "BIC",
+                      initprobs = c(1, rep(.4, 8)),
+                      modelprior = uniform(), data = Hald
+  ))
+})
+
+test_that("bernoulli prob wrong length", {
+  data(Hald)
+  expect_error(bas.lm(Y ~ .,
+                      prior = "BIC",
+                      modelprior = Bernoulli(probs=rep(.5, 8)), data = Hald
   ))
 })
 

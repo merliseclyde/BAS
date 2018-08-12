@@ -386,7 +386,9 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   }
   if (betaprior$family == "robust" & is.null(betaprior$n)) betaprior <- robust(as.numeric(nobs))
 
-
+  if (betaprior$family == "intrinsic" & is.null(betaprior$n)) {
+      betaprior$hyper.parameters$n <- as.numeric(nobs)
+  }
   # save(list = ls(), file = "temp.RData")
   result <- switch(method,
     "MCMC" = .Call(C_glm_mcmc,
