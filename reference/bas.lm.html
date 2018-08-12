@@ -509,9 +509,9 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
   <span class='fu'>log</span>(<span class='no'>LF</span>) + <span class='fu'>log</span>(<span class='no'>M.F</span>) + <span class='fu'>log</span>(<span class='no'>Pop</span>) + <span class='fu'>log</span>(<span class='no'>NW</span>) +
   <span class='fu'>log</span>(<span class='no'>U1</span>) + <span class='fu'>log</span>(<span class='no'>U2</span>) + <span class='fu'>log</span>(<span class='no'>GDP</span>) + <span class='fu'>log</span>(<span class='no'>Ineq</span>) +
   <span class='fu'>log</span>(<span class='no'>Prob</span>) + <span class='fu'>log</span>(<span class='no'>Time</span>),
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>UScrime</span>, <span class='kw'>n.models</span> <span class='kw'>=</span> <span class='fl'>2</span>^<span class='fl'>15</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"BIC"</span>,
-  <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
-  <span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"eplogp"</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>UScrime</span>, <span class='kw'>n.models</span> <span class='kw'>=</span> <span class='fl'>2</span>^<span class='fl'>15</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"BIC"</span>,
+<span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
+<span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"eplogp"</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )
 
 
@@ -521,11 +521,11 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
   <span class='fu'>log</span>(<span class='no'>LF</span>) + <span class='fu'>log</span>(<span class='no'>M.F</span>) + <span class='fu'>log</span>(<span class='no'>Pop</span>) + <span class='fu'>log</span>(<span class='no'>NW</span>) +
   <span class='fu'>log</span>(<span class='no'>U1</span>) + <span class='fu'>log</span>(<span class='no'>U2</span>) + <span class='fu'>log</span>(<span class='no'>GDP</span>) + <span class='fu'>log</span>(<span class='no'>Ineq</span>) +
   <span class='fu'>log</span>(<span class='no'>Prob</span>) + <span class='fu'>log</span>(<span class='no'>Time</span>),
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>UScrime</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"MCMC"</span>,
-  <span class='kw'>MCMC.iterations</span> <span class='kw'>=</span> <span class='fl'>20000</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"BIC"</span>,
-  <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
-  <span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"eplogp"</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>UScrime</span>,
+<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"MCMC"</span>,
+<span class='kw'>MCMC.iterations</span> <span class='kw'>=</span> <span class='fl'>20000</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"BIC"</span>,
+<span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
+<span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"eplogp"</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )
 
 <span class='fu'><a href='summary.html'>summary</a></span>(<span class='no'>crime.bic</span>)</div><div class='output co'>#&gt;           P(B != 0 | Y)   model 1       model 2     model 3     model 4
