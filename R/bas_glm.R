@@ -370,13 +370,14 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   modeldim <- as.integer(rep(0, n.models))
 
   if (is.null(n.models)) {
-    n.models <- as.integer(min(2^p, 2^19))
+    n.models <- min(2^p, 2^19)
   }
+  n.models <- as.integer(n.models)
   if (is.null(MCMC.iterations)) {
     MCMC.iterations <- as.integer(n.models * 10)
   }
   Burnin.iterations <- as.integer(MCMC.iterations)
-  n.models <- as.integer(n.models)
+
 
 
   #  check on priors
