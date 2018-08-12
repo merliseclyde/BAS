@@ -135,7 +135,8 @@ Linear Models</h1>
   <span class='kw'>include.always</span> <span class='kw'>=</span> ~<span class='fl'>1</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"BAS"</span>, <span class='kw'>update</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>bestmodel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prob.local</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>prob.rw</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>MCMC.iterations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>delta</span> <span class='kw'>=</span> <span class='fl'>0.025</span>, <span class='kw'>thin</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>renormalize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>renormalize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>bigmem</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -351,6 +352,12 @@ Default is TRUE.</p></td>
 OLS estimates of a model so that models that are not full rank can be fit.
 Currently coefficients that are not estimable are set to zero.  Use caution with
 interpreting BMA estimates of parameters.  (Experimental).</p></td>
+    </tr>
+    <tr>
+      <th>bigmem</th>
+      <td><p>Logical variable to indicate that there is access to
+large amounts of memory (physical or virtual) for enumeration
+with large model spaces, e.g. &gt; 2^25.</p></td>
     </tr>
     </table>
     
