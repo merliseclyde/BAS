@@ -70,7 +70,6 @@ double random_walk_heredity(int *model, struct Var *vars, int n, SEXP Rparents);
 double random_switch(int *model, struct Var *vars, int n, int pmodel, int *varin, int *varout);
 double random_walk(int *model, struct Var *vars, int n);
 int update_probs(double *probs, struct Var *var, int m, int k, int p);
-void update_MCMC_probs(double *probs, struct Var *vars, int n, int p);
 void print_subset(int subset, int rank, Bit **models, Bit *model,
 		  double *subsetsum, int *pattern, int *position,
 		  int n, struct Var *vars, int p);

@@ -147,18 +147,6 @@ int update_probs(double *probs, struct Var *vars, int m, int k, int p) {
 }
 
 
-void update_MCMC_probs(double *probs, struct Var *vars, int n, int p) {
-  int i;
-  double  newprob;
-
-    for (i = 0;   i < n; i++) {
-      newprob = probs[vars[i].index];
-      if (newprob > .975) newprob = .975;
-      if (newprob < .025) newprob = .025;
-      vars[i].prob = newprob;
-    }
-}
-
 // used with glm_*.c
 void SetModel1(SEXP Rfit, SEXP Rmodel_m,
 	       SEXP beta, SEXP se, SEXP modelspace,
