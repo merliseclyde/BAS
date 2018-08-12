@@ -281,6 +281,9 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
     print(family)
     stop("'family' not recognized")
   }
+  if (!(family$family %in% c("binomial", "poisson"))) {
+    stop(paste("family ", family$family, "not implemented"))
+  }
   if (missing(data)) {
     data <- environment(formula)
   }

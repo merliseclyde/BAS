@@ -2,10 +2,31 @@ context("bas.glm")
 
 test_that("GLM logit", {
   data(Pima.tr, package = "MASS")
+  set.seed(1)
   pima_BAS <- bas.glm(type ~ .,
     data = Pima.tr, method = "BAS",
     betaprior = bic.prior(), family = binomial(),
     modelprior = uniform()
+  )
+
+  set.seed(1)
+  pima_BAS2 <- bas.glm(type ~ .,
+                      data = Pima.tr, method = "BAS",
+                      betaprior = bic.prior(), family = "binomial",
+                      modelprior = uniform()
+  )
+  expect_equal(pima_BAS$postprobs, pima_BAS2$postprobs)
+  expect_error(bas.glm(type ~ .,
+                       data = Pima.tr, method = "BAS",
+                       betaprior = bic.prior(),
+                       family = "gaussian",
+                       modelprior = uniform())
+  )
+  expect_error(bas.glm(type ~ .,
+                       data = Pima.tr, method = "BAS",
+                       betaprior = bic.prior(),
+                       family = "homeless",
+                       modelprior = uniform())
   )
   pima_det <- bas.glm(type ~ ., data = Pima.tr,
     method = "deterministic", betaprior = bic.prior(),
