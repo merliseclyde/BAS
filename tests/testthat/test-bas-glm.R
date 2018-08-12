@@ -229,5 +229,7 @@ test_that("cv.summary", {
   expect_error(cv.summary.bas(pima_pred$fit,
                                     as.numeric(Pima.te$type),
                                     score="percent-explained"))
-
+  expect_error(cv.summary.bas(pima_pred$fit,
+                              as.numeric(Pima.te$type[-1]),
+                              score="percent-explained"))
 })
