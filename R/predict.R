@@ -78,7 +78,7 @@ predict.basglm <- function(object,
   # get predictions on linear predictor scale
   pred <- predict.bas(
     object,
-    newdata,
+    newdata = newdata,
     se.fit = se.fit,
     top = top,
     estimator = estimator,
@@ -119,15 +119,12 @@ predict.basglm <- function(object,
     pred$fit <- fit
 
     if (se.fit) {
-      se.fit <- pred$se.fit
-      se.pred <- pred$se.pred
-      se.fit <- se.fit * abs(eval(object$family)$mu.eta(fit))
-      se.pred <- se.pred * abs(eval(object$family)$mu.eta(fit))
+      se.fit <- pred$se.fit * abs(eval(object$family)$mu.eta(pred$fit))
+      se.pred <- pred$se.pred * abs(eval(object$family)$mu.eta(pred$fit))
       pred$se.fit <- se.fit
       pred$se.pred <- se.pred
     }
   }
-
   return(pred)
 }
 

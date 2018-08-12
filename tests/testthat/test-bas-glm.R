@@ -8,7 +8,7 @@ test_that("GLM logit", {
     betaprior = bic.prior(), family = binomial(),
     modelprior = uniform()
   )
-  expect_equal(0, sum(pima_BAS$probne0 > 1))
+  expect_equal(0, sum(pima_BAS$probne0[-1] > 1))
   set.seed(1)
   pima_BAS2 <- bas.glm(type ~ .,
                       data = Pima.tr, method = "BAS",
@@ -53,6 +53,10 @@ test_that("GLM logit", {
   expect_equal(
     predict(pima_BAS, data = Pima.tr, type = "link", se.fit = TRUE)$se.bma.fit,
     predict(pima_BAS, type = "link", se.fit = TRUE)$se.bma.fit
+  )
+  expect_equal(
+    predict(pima_BAS, data = Pima.tr, type = "response", se.fit = TRUE)$se.bma.fit,
+    predict(pima_BAS, type = "response", se.fit = TRUE)$se.bma.fit
   )
   expect_equal(
     predict(pima_BAS, type = "response")$fit,
