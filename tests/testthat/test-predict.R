@@ -29,7 +29,7 @@ test_that("predict.bas.glm", {
 #  should not error
   expect_error( predict(hald_gprior, newdata=Pima.te, estimator = "HPM",
                        se.fit = TRUE))
-  expect_error( predict(hald_gprior, data=Pima.te, estimator = "HPM",
-                        se.fit = TRUE))
+  pima_pred <- predict(hald_gprior, data=Pima.te, estimator = "HPM",
+                        se.fit = TRUE)
   expect_null(plot(confint(pima_pred)))
 })
