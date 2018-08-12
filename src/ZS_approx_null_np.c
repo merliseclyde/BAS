@@ -12,7 +12,6 @@ void LogBF_ZS_null_vect(double *r2curr, int *n, int *dim, int *nmodels, double *
 
   int i;
      for (i=0; i < *nmodels; i++) {
-//        logmarg[i] = LogBF_ZS_null(r2curr[i], *n, dim[i]);
           logmarg[i] = ZS_logmarg(r2curr[i], *n, dim[i], rscale);
      }
 }
@@ -187,6 +186,7 @@ void ZS_density(double *x, int n, SEXP Rtheta) {
  UNPROTECT(2);
 }
 
+/*
 void ZS_density_g(double *x, int n, SEXP Rtheta) {
   // d is p + 1  and includes the intercept
   // prior for  1/g ~ gamma(1/2, rscale*n/2)
@@ -215,6 +215,7 @@ void ZS_density_g(double *x, int n, SEXP Rtheta) {
   }
   UNPROTECT(2);
 }
+*/
 
 void ZS_density_shrinkage(double *x, int n, SEXP Rex) {
   // d is p + 1  and includes the intercept

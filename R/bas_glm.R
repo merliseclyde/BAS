@@ -370,7 +370,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   modeldim <- as.integer(rep(0, n.models))
 
   if (is.null(n.models)) {
-    n.models <- min(2^p, 2^19)
+    n.models <- as.integer(min(2^p, 2^19))
   }
   if (is.null(MCMC.iterations)) {
     MCMC.iterations <- as.integer(n.models * 10)
