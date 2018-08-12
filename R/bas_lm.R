@@ -1,18 +1,9 @@
-.normalize.initprobs.lm <- function(initprobs, p) {
-  if (!is.numeric(initprobs)) {
-    simpleError("oops no valid method given to calculate initial probabilities")
-  }
-  #        {
-  #        initprobs = switch(initprobs,
-  #            "eplogp" = eplogprob(lm.obj),
-  #            "marg-eplogp" = eplogprob.marg(Y, X),
-  #            "uniform" = c(1.0, rep(.5, p-1)),
-  #            "Uniform" = c(1.0, rep(.5, p-1)),
-  #            )
-  #    }
-
+normalize.initprobs.lm <- function(initprobs, p) {
   if (length(initprobs) != p) {
-    stop(simpleError(paste("length of initprobs is", length(initprobs), "is not same as dimensions of X", p)))
+    stop(paste(
+      "length of initprobs is", length(initprobs),
+      "is not same as dimensions of X", p
+    ))
   }
 
   if (initprobs[1] < 1.0 | initprobs[1] > 1.0) initprobs[1] <- 1.0
@@ -28,16 +19,14 @@
   return(prob)
 }
 
-.normalize.modelprior <- function(modelprior, p) {
-  if (modelprior$family == "Bernoulli.Constrained") {
-    stop("Bernoulli.hereditary not fully implemented yet")
-  }
+normalize.modelprior <- function(modelprior, p) {
   if (modelprior$family == "Bernoulli") {
     if (length(modelprior$hyper.parameters) == 1) {
       modelprior$hyper.parameters <- c(1, rep(modelprior$hyper.parameters, p - 1))
     }
     if (length(modelprior$hyper.parameters) == (p - 1)) {
-      modelprior$hyper.parameters <- c(1, modelprior$hyper.parameters)
+      modelprior$hyper.parameters <- c(1,
+                                       modelprior$hyper.parameters)
     }
     if (length(modelprior$hyper.parameters) != p) {
       stop(" Number of probabilities in Bernoulli family is not equal to the number of variables or 1")
@@ -46,7 +35,7 @@
   return(modelprior)
 }
 
-.normalize.n.models <- function(n.models, p, initprobs, method) {
+normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
   if (is.null(n.models)) {
     n.models <- 2^(p - 1)
   }
@@ -56,9 +45,11 @@
     n.models <- 2^(p - deg)
   }
 
-  if (n.models > 2^30) stop("Dimension of model space is too big to enumerate\n  Rerun with a smaller value for n.models or use MCMC")
-  if (n.models > 2^25) {
-    warning("Number of models is BIG - this may take a while and you may run out of physical memory; you may want to consider using MCMC if your machine has limited memory.")
+  if (n.models > 2^25 && !bigmem && !(method == "MCMC")) {
+    stop(paste0("Number of requested models to sample is ",
+               n.models,
+               "; rerun with bigmem=TRUE or using method='MCMC'"
+               ))
   }
   return(n.models)
 }
@@ -252,6 +243,9 @@
 #' OLS estimates of a model so that models that are not full rank can be fit.
 #' Currently coefficients that are not estimable are set to zero.  Use caution with
 #' interpreting BMA estimates of parameters.  (Experimental).
+#' @param bigmem Logical variable to indicate that there is access to
+#' large amounts of memory (physical or virtual) for enumeration
+#' with large model spaces, e.g. > 2^25.
 #'
 #' @return \code{bas} returns an object of class \code{bas}
 #'
@@ -434,7 +428,8 @@ bas.lm <- function(formula,
                    thin = 1,
                    renormalize = FALSE,
                    force.heredity = TRUE,
-                   pivot = FALSE) {
+                   pivot = FALSE,
+                   bigmem = FALSE) {
   num.updates <- 10
   call <- match.call()
   priormethods <- c(
@@ -649,10 +644,11 @@ bas.lm <- function(formula,
     #    initprobs=c(1, seq(.95, .55, length=(p-1) ))
   }
 
-  prob <- .normalize.initprobs.lm(initprobs, p)
-  n.models <- .normalize.n.models(n.models, p, prob, method)
+  prob <- normalize.initprobs.lm(initprobs, p)
+  n.models <- normalize.n.models(n.models, p, prob,
+                                  method, bigmem)
   #  print(n.models)
-  modelprior <- .normalize.modelprior(modelprior, p)
+  modelprior <- normalize.modelprior(modelprior, p)
 
   if (is.null(update)) {
     if (n.models == 2^(p - 1)) {

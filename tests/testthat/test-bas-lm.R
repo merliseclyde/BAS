@@ -126,6 +126,14 @@ test_that("methods", {
   ))
 })
 
+test_that("big model space", {
+  data("protein")
+  expect_error(bas.lm(prot.act1 ~ (buf + pH + NaCl + con + ra +
+                                     det + MgCl2 + temp)^2,
+                      data = protein, n.models = 2^26,
+                      method = "BAS", force.heredity = FALSE))
+})
+
 test_that("force.heredity", {
   loc <- system.file("testdata", package = "BAS")
   d <- read.csv(paste(loc, "JASP-testdata.csv", sep = "/"))

@@ -1,37 +1,5 @@
 
-.normalize.modelprior <- function(modelprior, p) {
-  if (modelprior$family == "Bernoulli") {
-    if (length(modelprior$hyper.parameters) == 1) {
-      modelprior$hyper.parameters <- c(1, rep(modelprior$hyper.parameters, p - 1))
-    }
-    if (length(modelprior$hyper.parameters) == (p - 1)) {
-      modelprior$hyper.parameters <- c(1, modelprior$hyper.parameters)
-    }
-    if (length(modelprior$hyper.parameters) != p) {
-      stop(" Number of probabilities in Bernoulli family is not equal to the number of variables or 1")
-    }
-  }
-  return(modelprior)
-}
-
-.normalize.n.models <- function(n.models, p, initprobs, method) {
-  if (is.null(n.models)) {
-    n.models <- 2^(p - 1)
-  }
-  if (n.models > 2^(p - 1)) n.models <- 2^(p - 1)
-  deg <- sum(initprobs >= 1) + sum(initprobs <= 0)
-  if (deg > 1 & n.models == 2^(p - 1)) {
-    n.models <- 2^(p - deg)
-  }
-
-  if (n.models > 2^30) stop("Dimension of model space is too big to enumerate\n  Rerun with a smaller value for n.models")
-  if (n.models > 2^20) {
-    print("Number of models is BIG -this may take a while")
-  }
-  return(n.models)
-}
-
-.normalize.initprobs.glm <- function(initprobs, glm.obj) {
+normalize.initprobs.glm <- function(initprobs, glm.obj) {
   p <- dim(glm.obj$x)[2]
   if (!is.numeric(initprobs)) {
     initprobs <- switch(initprobs,
@@ -177,6 +145,9 @@
 #' included together and to include higher order interactions only if lower
 #' order terms are included.  Currently only supported with `method='MCMC'`.
 #' Default is TRUE.
+#' @param bigmem Logical variable to indicate that there is access to
+#' large amounts of memory (physical or virtual) for enumeration
+#' with large model spaces, e.g. > 2^25.
 #' @return \code{bas.glm} returns an object of class \code{basglm}
 #'
 #' An object of class \code{basglm} is a list containing at least the following
@@ -267,7 +238,8 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
                     prob.rw = 0.5,
                     MCMC.iterations = NULL,
                     control = glm.control(), laplace = FALSE, renormalize = FALSE,
-                    force.heredity = TRUE) {
+                    force.heredity = TRUE,
+                    bigmem = FALSE) {
   num.updates <- 10
   call <- match.call()
 
@@ -384,9 +356,9 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   }
 
   bestmodel <- as.integer(bestmodel)
-  prob <- .normalize.initprobs.glm(initprobs, glm.obj)
-  n.models <- .normalize.n.models(n.models, p, prob, method)
-  modelprior <- .normalize.modelprior(modelprior, p)
+  prob <- normalize.initprobs.glm(initprobs, glm.obj)
+  n.models <- normalize.n.models(n.models, p, prob, method, bigmem)
+  modelprior <- normalize.modelprior(modelprior, p)
 
   if (is.null(update)) {
     if (n.models == 2^(p - 1)) {

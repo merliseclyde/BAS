@@ -12,7 +12,8 @@ bas.lm(formula, data, subset, weights, na.action = "na.omit",
   include.always = ~1, method = "BAS", update = NULL,
   bestmodel = NULL, prob.local = 0, prob.rw = 0.5,
   MCMC.iterations = NULL, lambda = NULL, delta = 0.025, thin = 1,
-  renormalize = FALSE, force.heredity = TRUE, pivot = FALSE)
+  renormalize = FALSE, force.heredity = TRUE, pivot = FALSE,
+  bigmem = FALSE)
 }
 \arguments{
 \item{formula}{linear model formula for the full model with all predictors,
@@ -182,6 +183,10 @@ Default is TRUE.}
 OLS estimates of a model so that models that are not full rank can be fit.
 Currently coefficients that are not estimable are set to zero.  Use caution with
 interpreting BMA estimates of parameters.  (Experimental).}
+
+\item{bigmem}{Logical variable to indicate that there is access to
+large amounts of memory (physical or virtual) for enumeration
+with large model spaces, e.g. > 2^25.}
 }
 \value{
 \code{bas} returns an object of class \code{bas}

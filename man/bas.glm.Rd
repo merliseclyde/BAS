@@ -12,7 +12,7 @@ bas.glm(formula, family = binomial(link = "logit"), data, weights,
   include.always = ~1, method = "MCMC", update = NULL,
   bestmodel = NULL, prob.rw = 0.5, MCMC.iterations = NULL,
   control = glm.control(), laplace = FALSE, renormalize = FALSE,
-  force.heredity = TRUE)
+  force.heredity = TRUE, bigmem = FALSE)
 }
 \arguments{
 \item{formula}{generalized linear model formula for the full model with all
@@ -129,6 +129,10 @@ probabilities or use Monte Carlo frequencies. Applies only to MCMC sampling.}
 included together and to include higher order interactions only if lower
 order terms are included.  Currently only supported with `method='MCMC'`.
 Default is TRUE.}
+
+\item{bigmem}{Logical variable to indicate that there is access to
+large amounts of memory (physical or virtual) for enumeration
+with large model spaces, e.g. > 2^25.}
 }
 \value{
 \code{bas.glm} returns an object of class \code{basglm}
