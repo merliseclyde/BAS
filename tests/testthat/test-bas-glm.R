@@ -8,7 +8,7 @@ test_that("GLM logit", {
     betaprior = bic.prior(), family = binomial(),
     modelprior = uniform()
   )
-
+  expect_equal(0, sum(pima_BAS$probne0 > 1))
   set.seed(1)
   pima_BAS2 <- bas.glm(type ~ .,
                       data = Pima.tr, method = "BAS",
@@ -61,15 +61,26 @@ test_that("GLM logit", {
   pima_BAS <- bas.glm(type ~ .,
     data = Pima.tr, method = "BAS",
     betaprior = Jeffreys(), family = binomial(),
-    modelprior = tr.beta.binomial(1, 1, 4)
-  )
+    modelprior = tr.beta.binomial(1, 1, 4))
   pima_det <- bas.glm(type ~ ., data = Pima.tr,
     method = "deterministic", betaprior = Jeffreys(),
-    family = binomial(), modelprior = tr.beta.binomial(1, 1, 4)
-  )
+    family = binomial(), modelprior = tr.beta.binomial(1, 1, 4))
   expect_equal(pima_BAS$probne0, pima_det$probne0)
 })
 
+test_that("missing data arg", {
+  data(Pima.tr, package = "MASS")
+  pima_BAS <- bas.glm(type ~ .,
+                      data = Pima.tr, method = "BAS",
+                      betaprior = bic.prior(), family = binomial(),
+                      modelprior = uniform())
+  attach(Pima.tr)
+  pima_no_data <- bas.glm(type ~ npreg + glu + bp + skin + bmi + ped + age,
+                          method = "BAS",
+                          betaprior = bic.prior(), family = binomial(),
+                          modelprior = uniform())
+  expect_equal(pima_BAS$probne0, pima_no_data$probne0)
+  })
 test_that("poisson regression", {
   data(crabs, package = "glmbb")
   crabs.bas <- bas.glm(satell ~ color * spine * width + weight,
@@ -255,14 +266,26 @@ test_that("cv.summary", {
                               score="percent-explained"))
 })
 
+test_that("include always", {
+  data("Pima.tr", package="MASS")
+  expect_error(bas.glm(type ~ .,
+                        data = Pima.tr, method = "MCMC",
+                        include.always = ~ bp,
+                        betaprior = g.prior(g=100), family = binomial(),
+                        modelprior = beta.binomial(1, 1))
+  )
+  # issue #34
+  # error Error in bas.glm(type ~ ., data = Pima.tr, method = "MCMC", include.always = ~bp,  :
+  # object 'prob' not found
+})
 
 test_that("Jeffreys & MCMC", {
-  data("Pima.te", package="MASS")
-  expect_error( bas.glm(type ~ .,
+ data(Pima.tr, package="MASS")
+ pima_BAS <-  bas.glm(type ~ .,
                       data = Pima.tr, method = "MCMC",
-                      include.always = ~ bp,
-                      betaprior = Jeffreys(), family = binomial(),
+                      betaprior = Jeffreys(),
+                      family = binomial(),
                       modelprior = tr.beta.binomial(1, 1, 4))
-  )
-# above should not error Fix!
+#  expect_equal(0, sum(pima_BAS$probne0 > 1))
+#  issue #33
 })
