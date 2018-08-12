@@ -85,6 +85,7 @@ test_that("missing data arg", {
                           modelprior = uniform())
   expect_equal(pima_BAS$probne0, pima_no_data$probne0)
   })
+
 test_that("poisson regression", {
   data(crabs, package = "glmbb")
   crabs.bas <- bas.glm(satell ~ color * spine * width + weight,

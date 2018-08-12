@@ -26,8 +26,9 @@ test_that("shrinkage is less than or equal to 1", {
 
 test_that("shrinkage is less than or equal to 1", {
   data(Hald)
-  #  hald_bas = bas.lm(Y ~ ., prior="JZS", modelprior=uniform(), data=Hald)
-  #  expect_equal(0, sum(hald_bas$shrinkage > 1))
+  hald_bas = bas.lm(Y ~ ., prior="JZS", modelprior=uniform(), data=Hald)
+  expect_equal(0, sum(hald_bas$shrinkage > 1))
+  # GitHub  issue # 27
 })
 
 test_that("A/BIC: shrinkage is equal to 1", {

@@ -233,7 +233,7 @@ void ZS_density_shrinkage(double *x, int n, SEXP Rex) {
   for (i=0; i < n; i++) {
     g = x[i];  // on input
     x[i]  = -mode;
-    x[i]  = .5*(log(1.0 + g)* (nobs - d) - (nobs-1.0)*log(1.0 + (1.0 - R2)*g));
+    x[i] += .5*(log(1.0 + g)* (nobs - d) - (nobs-1.0)*log(1.0 + (1.0 - R2)*g));
     x[i] += .5*(log(.5*nobs*rscale) -3.0*log(g) - rscale* nobs/g) - lgamma(.5);
     x[i] = exp(x[i])*g/(1.0+g);
   }
