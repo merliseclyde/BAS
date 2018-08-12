@@ -12,7 +12,7 @@ normalize.initprobs.glm <- function(initprobs, glm.obj) {
     initprobs <- c(1.0, initprobs)
   }
   if (length(initprobs) != p) {
-    stop(simpleError(paste("length of initprobs is not", p)))
+    stop(paste("length of initprobs is not", p))
   }
   if (initprobs[1] < 1.0 | initprobs[1] > 1.0) initprobs[1] <- 1.0
   # intercept is always included otherwise we get a segmentation
@@ -21,8 +21,8 @@ normalize.initprobs.glm <- function(initprobs, glm.obj) {
 
   pval <- summary(glm.obj)$coefficients[, 4]
   if (any(is.na(pval))) {
-    print(paste("warning full model is rank deficient excluding varialble with p-values that are 0."))
-    prob[is.na(pval)] <- 0.0
+    warning(paste("warning full model is rank deficient; use caution when interpreting restults."))
+#   prob[is.na(pval)] <- 0.0
   }
 
   return(prob)
@@ -131,7 +131,7 @@ normalize.initprobs.glm <- function(initprobs, glm.obj) {
 #' random-walk proposal; otherwise use a random "flip" move to propose a new
 #' model.
 #' @param MCMC.iterations Number of models to sample when using any of the MCMC
-#' options; should be greater than 'n.models'.
+#' options; should be greater than 'n.models'. By default 10*n.models.
 #' @param control a list of parameters that control convergence in the fitting
 #' process.  See the documentation for \code{glm.control()}
 #' @param laplace logical variable for whether to use a Laplace approximate for
@@ -368,18 +368,30 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
 
   Yvec <- as.numeric(Y)
   modeldim <- as.integer(rep(0, n.models))
+
+  if (is.null(n.models)) {
+    n.models <- min(2^p, 2^19)
+  }
+  if (is.null(MCMC.iterations)) {
+    MCMC.iterations <- as.integer(n.models * 10)
+  }
+  Burnin.iterations <- as.integer(MCMC.iterations)
   n.models <- as.integer(n.models)
-  if (is.null(MCMC.iterations)) MCMC.iterations <- as.integer(2 * n.models)
+
 
   #  check on priors
   loglik_null <- as.numeric(-0.5 * glm(Y ~ 1,
-    weights = weights, offset = offset,
-    family = eval(call$family)
-  )$null.deviance)
+                                       weights = weights,
+                                       offset = offset,
+                                       family = eval(call$family)
+                                       )$null.deviance)
+
   betaprior$hyper.parameters$loglik_null <- loglik_null
   #  	browser()
 
-  if (betaprior$family == "BIC" & is.null(betaprior$n)) betaprior <- bic.prior(nobs)
+  if (betaprior$family == "BIC" & is.null(betaprior$n)) {
+    betaprior <- bic.prior(nobs)
+  }
   if (betaprior$family == "hyper-g/n" & is.null(betaprior$n)) {
     betaprior$hyper.parameters$theta <- 1 / nobs
     betaprior$n <- nobs
@@ -417,9 +429,12 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
     ),
     "MCMC+BAS" = .Call(C_glm_mcmcbas,
       Y = Yvec, X = X,
-      Roffset = as.numeric(offset), Rweights = as.numeric(weights),
-      Rprobinit = prob, Rmodeldim = modeldim,
-      modelprior = modelprior, betaprior = betaprior,
+      Roffset = as.numeric(offset),
+      Rweights = as.numeric(weights),
+      Rprobinit = prob,
+      Rmodeldim = modeldim,
+      modelprior = modelprior,
+      betaprior = betaprior,
       Rbestmodel = bestmodel,
       plocal = as.numeric(1.0 - prob.rw),
       BURNIN_Iterations = as.integer(MCMC.iterations),

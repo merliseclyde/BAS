@@ -1,5 +1,35 @@
 context("bas.glm")
 
+test_that("bas.glm initprobs" , {
+ data(Pima.tr, package="MASS")
+ expect_error(bas.glm(type ~ .,
+                      data = Pima.tr, method = "BAS",
+                      initprobs=rep(.4, nrow(Pima.tr)-1),
+                      betaprior = bic.prior(), family = binomial(),
+                      modelprior = uniform())
+  )
+  set.seed(1)
+  pima_bas1 <- bas.glm(type ~ .,
+                     data = Pima.tr, method = "BAS",
+                     initprobs=rep(.4, ncol(Pima.tr)-1),
+                     betaprior = bic.prior(), family = binomial(),
+                     modelprior = uniform())
+  set.seed(1)
+  pima_bas2 <- bas.glm(type ~ .,
+                     data = Pima.tr, method = "BAS",
+                     initprobs=c(1,rep(.4, ncol(Pima.tr)-1)),
+                     betaprior = bic.prior(), family = binomial(),
+                     modelprior = uniform())
+  expect_equal(pima_bas1$postprobs, pima_bas2$postprobs)
+  set.seed(1)
+  pima_bas2 <- bas.glm(type ~ .,
+                       data = Pima.tr, method = "BAS",
+                       initprobs=c(1.5,rep(.4, ncol(Pima.tr)-1)),
+                       betaprior = bic.prior(), family = binomial(),
+                       modelprior = uniform())
+  expect_equal(pima_bas1$postprobs, pima_bas2$postprobs)
+})
+
 test_that("GLM logit", {
   data(Pima.tr, package = "MASS")
   set.seed(1)
@@ -32,8 +62,10 @@ test_that("GLM logit", {
     method = "deterministic", betaprior = bic.prior(),
     family = binomial(), modelprior = uniform()
   )
+
   pima_MCBAS <- bas.glm(type ~ ., data = Pima.tr,
-    method = "MCMC+BAS", betaprior = bic.prior(),
+    method = "MCMC+BAS", MCMC.iterations = 1000,
+    betaprior = bic.prior(),
     family = binomial(), modelprior = uniform()
   )
   pima_MCMC <- bas.glm(type ~ .,
@@ -70,6 +102,17 @@ test_that("GLM logit", {
     method = "deterministic", betaprior = Jeffreys(),
     family = binomial(), modelprior = tr.beta.binomial(1, 1, 4))
   expect_equal(pima_BAS$probne0, pima_det$probne0)
+})
+
+test_that("missing MCMC.iterations and n.models arg", {
+  data(Pima.tr, package = "MASS")
+  pima_MCBAS <- bas.glm(type ~ ., data = Pima.tr,
+                        method = "MCMC+BAS",
+                        #MCMC.iterations = 1000,
+                        betaprior = bic.prior(),
+                        family = binomial(),
+                        modelprior = uniform()
+  )
 })
 
 test_that("missing data arg", {

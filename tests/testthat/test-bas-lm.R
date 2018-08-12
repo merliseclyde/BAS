@@ -70,10 +70,11 @@ test_that("deterministic, BAS and MCMC+BAS", {
     prior = "BIC",
     modelprior = uniform(), data = Hald
   )
+
   hald_MCMCbas <- bas.lm(Y ~ .,
-    prior = "BIC", method = "MCMC+BAS",
-    modelprior = uniform(), data = Hald, MCMC.iterations = 1000
-  )
+                         prior = "BIC", method = "MCMC+BAS",
+                         modelprior = uniform(), data = Hald)
+                        #MCMC.iterations = 1000)
   hald_deterministic <- bas.lm(Y ~ .,
     prior = "BIC",
     method = "deterministic",
@@ -241,9 +242,13 @@ test_that("check non-full rank", {
     weights = facFifty, force.heredity = FALSE
   )
   basObj.up <- update(basObj.eplogp, newprior = "EB-local")
-  expect_equal(basObj.EBL$postprobs, basObj.up$postprobs)
+  expect_equal(basObj.EBL$postprobs, basObj.up$postprobs,
+               tolerance=.001)
+  # follow up
 })
 
+# add more testing for update.bas
+#
 test_that("as.matrix tools", {
   data(Hald)
   hald_bic <- bas.lm(Y ~ .,
