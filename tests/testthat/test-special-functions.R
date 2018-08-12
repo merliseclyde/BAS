@@ -19,7 +19,12 @@ test_that("phi1", {
 test_that("2F1", {
 expect_warning(hypergeometric2F1(1,0,-1, .5))
 expect_warning(hypergeometric2F1(1,1,.5, .5))
-expect_warning(hypergeometric2F1(1,1,.5, 1.5))
+expect_warning(hypergeometric2F1(1,1,1.5, 1.5))
+expect_warning(hypergeometric2F1(1,1,1.5, -1.5))
 expect_warning(hypergeometric2F1(10000,1,.5, .99995))
-
+expect_equal(Inf, hypergeometric2F1(1,1,2, 1.0))
+expect_equal(TRUE, hypergeometric2F1(1,1,5, 1.0,
+                                    method="Laplace",
+                                    log=FALSE)>0)
 })
+
