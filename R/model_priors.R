@@ -223,11 +223,11 @@ tr.poisson <- function(lambda, trunc) {
 #' @note Not implemented yet for use with bas.lm or bas.glm
 #' @export
 Bernoulli.heredity <- function(pi = 0.5, parents) {
-  stop("not implemented full yet")
   structure(list(
     family = "Bernoulli.Constrained",
     hyper.parameters = c(hyper.parameters = pi, parents = parents)
   ),
   class = "prior"
   )
+  stop("not implemented fully yet")
 }
