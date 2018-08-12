@@ -46,13 +46,15 @@ hypergeometric2F1 <- function(a, b, c, z, method = "Cephes", log = TRUE) {
     ans <- Inf
   } else {
     if (method == "Laplace") {
-      ans <- .C(C_logHyperGauss2F1, as.numeric(a), as.numeric(b), as.numeric(c), as.numeric(z), out = as.numeric(out))$out
+      ans <- .C(C_logHyperGauss2F1, as.numeric(a), as.numeric(b), as.numeric(c), as.numeric(z),
+                out = as.numeric(out))$out
       if (!log) ans <- exp(ans)
     }
     else {
-      ans <- .C(C_hypergeometric2F1, as.numeric(a), as.numeric(b), as.numeric(c), as.numeric(z), out = as.numeric(out))$out
+      ans <- .C(C_hypergeometric2F1, as.numeric(a), as.numeric(b), as.numeric(c), as.numeric(z),
+                out = as.numeric(out))$out
       if (is.na(ans)) {
-        warning("Cephes routine returned NaN; try Laplace approximation")
+        warning("2F1 from Cephes routine returned NaN; try Laplace approximation")
         return(NA)
       }
       else {

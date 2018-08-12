@@ -26,5 +26,6 @@ expect_equal(Inf, hypergeometric2F1(1,1,2, 1.0))
 expect_equal(TRUE, hypergeometric2F1(1,1,5, 1.0,
                                     method="Laplace",
                                     log=FALSE)>0)
+expect_warning(hypergeometric2F1(3,1,1000, .999))
 })
 
