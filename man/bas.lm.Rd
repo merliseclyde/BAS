@@ -288,9 +288,9 @@ crime.bic <- bas.lm(log(y) ~ log(M) + So + log(Ed) +
   log(LF) + log(M.F) + log(Pop) + log(NW) +
   log(U1) + log(U2) + log(GDP) + log(Ineq) +
   log(Prob) + log(Time),
-  data = UScrime, n.models = 2^15, prior = "BIC",
-  modelprior = beta.binomial(1, 1),
-  initprobs = "eplogp", pivot = FALSE
+data = UScrime, n.models = 2^15, prior = "BIC",
+modelprior = beta.binomial(1, 1),
+initprobs = "eplogp", pivot = FALSE
 )
 
 
@@ -300,11 +300,11 @@ crime.mcmc <- bas.lm(log(y) ~ log(M) + So + log(Ed) +
   log(LF) + log(M.F) + log(Pop) + log(NW) +
   log(U1) + log(U2) + log(GDP) + log(Ineq) +
   log(Prob) + log(Time),
-  data = UScrime,
-  method = "MCMC",
-  MCMC.iterations = 20000, prior = "BIC",
-  modelprior = beta.binomial(1, 1),
-  initprobs = "eplogp", pivot = FALSE
+data = UScrime,
+method = "MCMC",
+MCMC.iterations = 20000, prior = "BIC",
+modelprior = beta.binomial(1, 1),
+initprobs = "eplogp", pivot = FALSE
 )
 
 summary(crime.bic)

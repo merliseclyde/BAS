@@ -30,3 +30,10 @@ expect_equal(1, sum(hald_tr_power$postprobs))
 expect_error(expect_equal(0, sum(hald_tr_power$postprobs <= 0.0)))
 
 })
+
+test_that("Bernoulli hereditary prior", {
+  expect_error(bas.lm(Y ~ .,
+                      data = Hald, prior = "g-prior",
+                      modelprior = Bernoulli.heredity(.5, NULL))
+  )
+})

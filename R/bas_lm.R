@@ -29,6 +29,9 @@
 }
 
 .normalize.modelprior <- function(modelprior, p) {
+  if (modelprior$family == "Bernoulli.Constrained") {
+    stop("Bernoulli.hereditary not fully implemented yet")
+  }
   if (modelprior$family == "Bernoulli") {
     if (length(modelprior$hyper.parameters) == 1) {
       modelprior$hyper.parameters <- c(1, rep(modelprior$hyper.parameters, p - 1))
@@ -362,9 +365,9 @@
 #'   log(LF) + log(M.F) + log(Pop) + log(NW) +
 #'   log(U1) + log(U2) + log(GDP) + log(Ineq) +
 #'   log(Prob) + log(Time),
-#'   data = UScrime, n.models = 2^15, prior = "BIC",
-#'   modelprior = beta.binomial(1, 1),
-#'   initprobs = "eplogp", pivot = FALSE
+#' data = UScrime, n.models = 2^15, prior = "BIC",
+#' modelprior = beta.binomial(1, 1),
+#' initprobs = "eplogp", pivot = FALSE
 #' )
 #'
 #'
@@ -374,11 +377,11 @@
 #'   log(LF) + log(M.F) + log(Pop) + log(NW) +
 #'   log(U1) + log(U2) + log(GDP) + log(Ineq) +
 #'   log(Prob) + log(Time),
-#'   data = UScrime,
-#'   method = "MCMC",
-#'   MCMC.iterations = 20000, prior = "BIC",
-#'   modelprior = beta.binomial(1, 1),
-#'   initprobs = "eplogp", pivot = FALSE
+#' data = UScrime,
+#' method = "MCMC",
+#' MCMC.iterations = 20000, prior = "BIC",
+#' modelprior = beta.binomial(1, 1),
+#' initprobs = "eplogp", pivot = FALSE
 #' )
 #'
 #' summary(crime.bic)

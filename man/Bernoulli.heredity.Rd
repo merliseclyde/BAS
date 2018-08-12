@@ -17,6 +17,9 @@ are parents for each term}
 Independent Bernoulli prior on models that with constraints for
 model hierarchy induced by interactions
 }
+\note{
+Not implemented yet for use with bas.lm or bas.glm
+}
 \seealso{
 Other priors modelpriors: \code{\link{Bernoulli}},
   \code{\link{beta.binomial}},
