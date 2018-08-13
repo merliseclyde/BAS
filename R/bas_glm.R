@@ -377,11 +377,12 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   print(n.models)
 
   if (is.null(MCMC.iterations)) {
-    MCMC.iterations <- (n.models * 10)
+    MCMC.iterations <- max(10000, (n.models * 10))
   }
-  MCMC.iterations = as.integer(MCMC.iterations)
-  Burnin.iterations <- as.integer(MCMC.iterations)
 
+  MCMC.iterations = as.integer(MCMC.iterations)
+
+  print(MCMC.iterations)
 
 
   #  check on priors
