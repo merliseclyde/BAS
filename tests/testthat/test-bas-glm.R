@@ -116,6 +116,7 @@ test_that("missing MCMC.iterations and n.models arg", {
   pima_2 <- bas.glm(type ~ ., data = Pima.tr,
                         method = "MCMC+BAS",
                         betaprior = bic.prior(),
+                        n.models=2^8,
                         MCMC.iterations=10000,
                         family = binomial(),
                         modelprior = uniform())
