@@ -107,11 +107,11 @@ test_that("GLM logit", {
 test_that("missing MCMC.iterations and n.models arg", {
   data(Pima.tr, package = "MASS")
   set.seed(1)
-  pima_1 <- bas.glm(type ~ ., data = Pima.tr,
+  expect_error(pima_1 <- bas.glm(type ~ ., data = Pima.tr,
                         method = "MCMC+BAS",
                         betaprior = bic.prior(),
                         family = binomial(),
-                        modelprior = uniform())
+                        modelprior = uniform()))
   set.seed(1)
   pima_2 <- bas.glm(type ~ ., data = Pima.tr,
                         method = "MCMC+BAS",
@@ -119,7 +119,7 @@ test_that("missing MCMC.iterations and n.models arg", {
                         MCMC.iterations=10000,
                         family = binomial(),
                         modelprior = uniform())
- expect_equal(pima_1$postprobs, pima_2$postprobs)
+# expect_equal(pima_1$postprobs, pima_2$postprobs)
 
 })
 

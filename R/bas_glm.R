@@ -370,11 +370,11 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   modeldim <- as.integer(rep(0, n.models))
 
   if (is.null(n.models)) {
-    print("should never get here")
+    warning("should never get here: n.models is null")
     n.models <- min(2^p, 2^19)
   }
   n.models <- as.integer(n.models)
-  print(n.models)
+  #print(n.models)
 
   if (is.null(MCMC.iterations)) {
     MCMC.iterations <- max(10000, (n.models * 10))
@@ -382,7 +382,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
 
   MCMC.iterations = as.integer(MCMC.iterations)
 
-  print(MCMC.iterations)
+  #print(MCMC.iterations)
 
 
   #  check on priors
