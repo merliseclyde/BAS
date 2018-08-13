@@ -391,8 +391,10 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   #  	browser()
 
   if (betaprior$family == "BIC" & is.null(betaprior$n)) {
-    betaprior <- bic.prior(nobs)
+    betaprior <- bic.prior(as.numeric(nobs))
   }
+
+
   if (betaprior$family == "hyper-g/n" & is.null(betaprior$n)) {
     betaprior$hyper.parameters$theta <- 1 / nobs
     betaprior$n <- nobs
@@ -403,12 +405,16 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
       betaprior$hyper.parameters$n <- as.numeric(nobs)
   }
   # save(list = ls(), file = "temp.RData")
+  # print(MCMC.iterations)
   result <- switch(method,
     "MCMC" = .Call(C_glm_mcmc,
       Y = Yvec, X = X,
-      Roffset = as.numeric(offset), Rweights = as.numeric(weights),
-      Rprobinit = prob, Rmodeldim = modeldim,
-      modelprior = modelprior, betaprior = betaprior,
+      Roffset = as.numeric(offset),
+      Rweights = as.numeric(weights),
+      Rprobinit = prob,
+      Rmodeldim = modeldim,
+      modelprior = modelprior,
+      betaprior = betaprior,
       Rbestmodel = bestmodel,
       plocal = as.numeric(1.0 - prob.rw),
       BURNIN_Iterations = as.integer(MCMC.iterations),
