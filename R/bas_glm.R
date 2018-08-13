@@ -370,12 +370,16 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   modeldim <- as.integer(rep(0, n.models))
 
   if (is.null(n.models)) {
+    print("should never get here")
     n.models <- min(2^p, 2^19)
   }
   n.models <- as.integer(n.models)
+  print(n.models)
+
   if (is.null(MCMC.iterations)) {
-    MCMC.iterations <- as.integer(n.models * 10)
+    MCMC.iterations <- (n.models * 10)
   }
+  MCMC.iterations = as.integer(MCMC.iterations)
   Burnin.iterations <- as.integer(MCMC.iterations)
 
 
@@ -424,9 +428,12 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
     ),
     "BAS" = .Call(C_glm_sampleworep,
       Y = Yvec, X = X,
-      Roffset = as.numeric(offset), Rweights = as.numeric(weights),
-      Rprobinit = prob, Rmodeldim = modeldim,
-      modelprior = modelprior, betaprior = betaprior,
+      Roffset = as.numeric(offset),
+      Rweights = as.numeric(weights),
+      Rprobinit = prob,
+      Rmodeldim = modeldim,
+      modelprior = modelprior,
+      betaprior = betaprior,
       Rbestmodel = bestmodel,
       plocal = as.numeric(1.0 - prob.rw),
       family = family, Rcontrol = control,
@@ -451,10 +458,15 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
     ),
     "deterministic" = .Call(C_glm_deterministic,
       Y = Yvec, X = X,
-      Roffset = as.numeric(offset), Rweights = as.numeric(weights),
-      Rprobinit = prob, Rmodeldim = modeldim,
-      modelprior = modelprior, betaprior = betaprior,
-      family = family, Rcontrol = control, Rlaplace = as.integer(laplace)
+      Roffset = as.numeric(offset),
+      Rweights = as.numeric(weights),
+      Rprobinit = prob,
+      Rmodeldim = modeldim,
+      modelprior = modelprior,
+      betaprior = betaprior,
+      family = family,
+      Rcontrol = control,
+      Rlaplace = as.integer(laplace)
     )
   )
 
