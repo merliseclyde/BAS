@@ -534,13 +534,13 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   postprobs <- .renormalize.postprobs(logmarg, log(prior))
   which <- which.matrix(object$which[-drop], object$n.var)
 
-  object$probne0 <- postprobs %*% which
+  object$probne0 <- as.vector(postprobs %*% which)
   object$postprobs <- postprobs
 
   method <- eval(object$call$method)
   if (method == "MCMC+BAS" | method == "MCMC") {
     object$freq <- object$freq[-drop]
-    object$probne0.MCMC <- object$freq %*% which
+    object$probne0.MCMC <- as.vector(object$freq %*% which)/sum(object$freq)
   }
 
   object$priorprobs <- prior
