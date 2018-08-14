@@ -66,13 +66,13 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	NODEPTR tree, branch;
 	tree = make_node(-1.0);
-	//  Rprintf("For m=0, Initialize Tree with initial Model\n");
+	//  ("For m=0, Initialize Tree with initial Model\n");
 
 	m = 0;
 	bestmodel = INTEGER(Rbestmodel);
 	INTEGER(modeldim)[m] = n_sure;
 
-	// Rprintf("Create Tree\n");
+	// ("Create Tree\n");
 	branch = tree;
 	CreateTree(branch, vars, bestmodel, model, n, m, modeldim, Rparents);
 	int pmodel = INTEGER(modeldim)[m];
@@ -107,9 +107,8 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	int *varout= ivecalloc(p);
 	double problocal = REAL(plocal)[0];
 	int n_iterations =  INTEGER(BURNIN_Iterations)[0];
-	// Rprintf("iterations = %d  nmodels %d\n", n_iterations, nModels);
 
-	while (nUnique < k && m < n_iterations) {
+ 	while (nUnique < k && m < n_iterations) {
 		memcpy(model, modelold, sizeof(int)*p);
 		pmodel =  n_sure;
 
@@ -154,13 +153,11 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		}
 
 		MH *= exp(postnew - postold);
-		//    Rprintf("MH new %lf old %lf\n", postnew, postold);
 		if (unif_rand() < MH) {
 		  if (newmodel == 1)  {
 		    new_loc = nUnique;
 		    insert_model_tree(tree, vars, n, model, nUnique);
 		    INTEGER(modeldim)[nUnique] = pmodel;
-		    //Rprintf("model %d: %d variables\n", m, pmodel);
 
 		    SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
 		    SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept, nUnique);
@@ -189,7 +186,8 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	// Compute marginal probabilities
 	mcurrent = nUnique;
-	//	Rprintf("NumUnique Models Accepted %d \n", nUnique);
+	// ("NumUnique Models Accepted %d \n", nUnique);
+
 	compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
 
@@ -244,7 +242,7 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	    compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 	    compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
 	    if (update_probs(probs, vars, mcurrent, k, p) == 1) {
-	      //	      Rprintf("Updating Model Tree %d \n", m);
+	      // ("Updating Model Tree %d \n", m);
 	      update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);
 	    }
 	  }
@@ -252,8 +250,7 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		}
 	}
 
-
-	if (mcurrent < k) {
+/*	if (mcurrent < k) {
 	  SETLENGTH(modelspace, mcurrent);
 	  SETLENGTH(logmarg, mcurrent);
 	  SETLENGTH(modelprobs, mcurrent);
@@ -270,10 +267,12 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	  SETLENGTH(R2, mcurrent);
 	  SETLENGTH(Rintercept, mcurrent);
 	}
-	compute_modelprobs(modelprobs, logmarg, priorprobs,k);
+ */
+
+	compute_modelprobs(modelprobs, logmarg, priorprobs, k);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, k, p);
 
-	INTEGER(NumUnique)[0] = nUnique;
+	INTEGER(NumUnique)[0] = k;
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
 	SET_STRING_ELT(ANS_names, 0, mkChar("probne0"));
 

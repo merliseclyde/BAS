@@ -64,16 +64,14 @@ test_that("GLM logit", {
   )
 
   pima_MCBAS <- bas.glm(type ~ ., data = Pima.tr,
-    method = "MCMC+BAS", MCMC.iterations = 1000,
+    method = "MCMC+BAS",
     betaprior = bic.prior(),
-    family = binomial(), modelprior = uniform()
-  )
+    family = binomial(), modelprior = uniform())
   pima_MCMC <- bas.glm(type ~ .,
     data = Pima.tr, MCMC.iterations = 1024,
     method = "MCMC", betaprior = aic.prior(),
     family = binomial(),
-    modelprior = tr.poisson(ncol(Pima.tr) - 1, 7)
-  )
+    modelprior = uniform())
   expect_null(diagnostics(pima_MCMC, type = "model"))
   expect_error(diagnostics(pima_MCMC, type = "pip"))
   expect_equal(pima_BAS$probne0, pima_det$probne0)
@@ -102,12 +100,22 @@ test_that("GLM logit", {
     method = "deterministic", betaprior = Jeffreys(),
     family = binomial(), modelprior = tr.beta.binomial(1, 1, 4))
   expect_equal(pima_BAS$probne0, pima_det$probne0)
+
+  pima_BAS <- bas.glm(type ~ .,
+                      data = Pima.tr, method = "BAS",
+                      betaprior = Jeffreys(), family = binomial(),
+                      modelprior = tr.poisson(2, 4))
+  pima_det <- bas.glm(type ~ ., data = Pima.tr,
+                      method = "deterministic", betaprior = Jeffreys(),
+                      family = binomial(),
+                      modelprior = tr.poisson(2, 4))
+  expect_equal(pima_BAS$probne0, pima_det$probne0)
 })
 
 test_that("missing MCMC.iterations and n.models arg", {
   data(Pima.tr, package = "MASS")
   set.seed(1)
-  pima_1 <- bas.glm(type ~ ., data = Pima.tr,
+  pima_1 <- bas.glm(type ~ ., data=Pima.tr,
                         method = "MCMC+BAS",
                         betaprior = bic.prior(),
                         family = binomial(),
@@ -116,11 +124,11 @@ test_that("missing MCMC.iterations and n.models arg", {
   pima_2 <- bas.glm(type ~ ., data = Pima.tr,
                         method = "MCMC+BAS",
                         betaprior = bic.prior(),
-                        n.models=2^8,
+                        n.models=128,
                         MCMC.iterations=10000,
                         family = binomial(),
                         modelprior = uniform())
-expect_equal(pima_1$postprobs, pima_2$postprobs)
+expect_equal(pima_1$probne0, pima_2$probne0)
 })
 
 test_that("missing data arg", {
@@ -132,7 +140,8 @@ test_that("missing data arg", {
   attach(Pima.tr)
   pima_no_data <- bas.glm(type ~ npreg + glu + bp + skin + bmi + ped + age,
                           method = "BAS",
-                          betaprior = bic.prior(), family = binomial(),
+                          betaprior = bic.prior(),
+                          family = binomial(),
                           modelprior = uniform())
   expect_equal(pima_BAS$probne0, pima_no_data$probne0)
   })

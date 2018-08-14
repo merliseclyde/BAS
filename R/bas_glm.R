@@ -399,6 +399,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
     betaprior <- bic.prior(as.numeric(nobs))
   }
 
+
   if (betaprior$family == "hyper-g/n" & is.null(betaprior$n)) {
     betaprior$hyper.parameters$theta <- 1 / nobs
     betaprior$n <- nobs

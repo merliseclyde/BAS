@@ -22,13 +22,13 @@
 * fixed [issue #32](https://github.com/merliseclyde/BAS/issues/32) 
 to allow vectorization for `phi1` function in R/cch.R
 and added unit test to "tests/testthat/test-special-functions.R"
-* fixed  [issue #33](https://github.com/merliseclyde/BAS/issues/33) for `method="MCMC+BAS"` in `bas.glm` when no values are provided for `MCMC.iterations` or `n.models` and defaults are used.  Added unit test in `test-bas-glm.R`
+* fixed  [issue #35](https://github.com/merliseclyde/BAS/issues/35) for `method="MCMC+BAS"` in `bas.glm`  in `glm_mcmcbas.c` when no values are provided for `MCMC.iterations` or `n.models` and defaults are used.  Added unit test in `test-bas-glm.R`
 
 * fixed  [issue #30](https://github.com/merliseclyde/BAS/issues/30) added n as hyperparameter if NULL and coerced to be a REAL for `intrinsic` prior 
 
 * fixed  [issue #27](https://github.com/merliseclyde/BAS/issues/27) where expected shrinkage with the JZS prior was greater than 1.  Added unit test.
 
-* fixed output `include.always` to include the intercept [issue #26](https://github.com/merliseclyde/BAS/issues/26) always  so that `drop.always.included = TRUE` drops the intercept and any other variables that are forced in.    `include.always` and `force.heredity=TRUE` can now be used together with `method="BAS"`
+* fixed output `include.always` to include the intercept [issue #26](https://github.com/merliseclyde/BAS/issues/26) always so that `drop.always.included = TRUE` drops the intercept and any other variables that are forced in.    `include.always` and `force.heredity=TRUE` can now be used together with `method="BAS"`.
 
 * added warning if marginal likelihoods/posterior probabilities are NA with default model fitting method with suggestion that models be rerun with `pivot = TRUE`.  This uses a modified Cholesky decomposition with pivoting so that if the model is rank deficient or nearly singular the dimensionality is reduced.  [Bug #21](https://github.com/merliseclyde/BAS/issues/21).   
 

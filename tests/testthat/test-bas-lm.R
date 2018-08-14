@@ -154,6 +154,7 @@ test_that("big model space", {
 })
 
 test_that("force.heredity", {
+  # based on bug #26
   loc <- system.file("testdata", package = "BAS")
   d <- read.csv(paste(loc, "JASP-testdata.csv", sep = "/"))
 
