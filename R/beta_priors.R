@@ -317,6 +317,7 @@ TG <- function(alpha = 2) {
 #' @export
 
 beta.prime <- function(n = NULL) {
+  if (is.integer(n)) n = as.numeric(n)
   structure(list(
     family = "betaprime", class = "TCCH",
     hyper.parameters = list(n = n, alpha = .5)

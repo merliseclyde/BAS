@@ -410,6 +410,10 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
       betaprior$hyper.parameters$n <- as.numeric(nobs)
   }
 
+  if (betaprior$family == "betaprime" & is.null(betaprior$hyper.parameters$n)) {
+    betaprior$hyper.parameters$n <- as.numeric(nobs)
+  }
+
   #print(MCMC.iterations)
   result <- switch(method,
     "MCMC" = .Call(C_glm_mcmc,

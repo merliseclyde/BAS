@@ -219,6 +219,7 @@ test_that("hyper.g prior for GLM", {
                       modelprior = uniform()
   )
   expect_equal(0, sum(pima_BAS$shrinkage > 1))
+  # value of alpha should be greater than 2
   expect_error(bas.glm(type ~ ., data = Pima.tr, method = "BAS",
                        betaprior = hyper.g(alpha=2.0),
                        family = binomial(),
@@ -235,18 +236,22 @@ test_that("g prior for GLM", {
   expect_equal(0, sum(pima_BAS$shrinkage > 1))
 })
 
+# FIXED issue #29
 test_that("beta.prime prior for GLM", {
   data(Pima.tr, package = "MASS")
   pima_BAS <- bas.glm(type ~ ., data = Pima.tr, method = "BAS",
-    betaprior = beta.prime(n = 200), family = binomial(),
+    betaprior = beta.prime(n =nrow(Pima.tr)), family = binomial(),
     modelprior = uniform()
   )
-  expect_equal(nrow(Pima.tr), pima_BAS$betaprior$hyper.parameters$n)
-  expect_error(pima_BAS <- bas.glm(type ~ ., data = Pima.tr, method = "BAS",
-    betaprior = beta.prime(), family = binomial(),
-    modelprior = uniform()
-  ))
-  #  expect_equal(nrow(Pima.tr), pima_BAS$betaprior$hyper.parameters$n)
+  expect_equal(as.numeric(nrow(Pima.tr)), pima_BAS$betaprior$hyper.parameters$n)
+  pima_BAS_def <- bas.glm(type ~ ., data = Pima.tr,
+                          method = "BAS",
+                          betaprior = beta.prime(),
+                          family = binomial(),
+                          modelprior = uniform())
+  expect_equal(pima_BAS_def$probne0, pima_BAS$probne0)
+  expect_equal(as.numeric(nrow(Pima.tr)),
+               pima_BAS_def$betaprior$hyper.parameters$n)
 })
 
 test_that("cch prior for GLM", {
@@ -342,9 +347,10 @@ test_that("Jeffreys & MCMC", {
                       family = binomial(),
                       modelprior = tr.beta.binomial(1, 1, 4))
 # expect_equal(0, sum(pima_BAS$probne0 > 1))
+expect_length(pima_BAS$probne0, ncol(Pima.tr))
 })
 
-# FIXME issue #35
+# FIXED issue #35
 test_that("MCMC+BAS: missing MCMC.iterations and n.models arg", {
   data(Pima.tr, package = "MASS")
   set.seed(1)
