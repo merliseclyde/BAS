@@ -106,7 +106,10 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	int *varin= ivecalloc(p);
 	int *varout= ivecalloc(p);
 	double problocal = REAL(plocal)[0];
-	while (nUnique < k && m < INTEGER(BURNIN_Iterations)[0]) {
+	int n_iterations =  INTEGER(BURNIN_Iterations)[0];
+	// Rprintf("iterations = %d  nmodels %d\n", n_iterations, nModels);
+
+	while (nUnique < k && m < n_iterations) {
 		memcpy(model, modelold, sizeof(int)*p);
 		pmodel =  n_sure;
 

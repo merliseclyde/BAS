@@ -380,7 +380,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
     MCMC.iterations <- max(10000, (n.models * 10))
   }
 
-  MCMC.iterations = as.integer(MCMC.iterations)
+ # MCMC.iterations = as.integer(MCMC.iterations)
 
   #print(MCMC.iterations)
 
@@ -399,7 +399,6 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
     betaprior <- bic.prior(as.numeric(nobs))
   }
 
-
   if (betaprior$family == "hyper-g/n" & is.null(betaprior$n)) {
     betaprior$hyper.parameters$theta <- 1 / nobs
     betaprior$n <- nobs
@@ -409,8 +408,8 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   if (betaprior$family == "intrinsic" & is.null(betaprior$n)) {
       betaprior$hyper.parameters$n <- as.numeric(nobs)
   }
-  # save(list = ls(), file = "temp.RData")
-  # print(MCMC.iterations)
+
+  #print(MCMC.iterations)
   result <- switch(method,
     "MCMC" = .Call(C_glm_mcmc,
       Y = Yvec, X = X,
@@ -443,7 +442,8 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
       Rparents = parents
     ),
     "MCMC+BAS" = .Call(C_glm_mcmcbas,
-      Y = Yvec, X = X,
+      Y = Yvec,
+      X = X,
       Roffset = as.numeric(offset),
       Rweights = as.numeric(weights),
       Rprobinit = prob,
