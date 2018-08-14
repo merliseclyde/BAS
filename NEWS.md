@@ -22,6 +22,7 @@
 * fixed [issue #32](https://github.com/merliseclyde/BAS/issues/32) 
 to allow vectorization for `phi1` function in R/cch.R
 and added unit test to "tests/testthat/test-special-functions.R"
+* fixed  [issue #33](https://github.com/merliseclyde/BAS/issues/33) for `method="MCMC+BAS"` in `bas.glm` when no values are provided for `MCMC.iterations` or `n.models` and defaults are used.  Added unit test in `test-bas-glm.R`
 
 * fixed  [issue #30](https://github.com/merliseclyde/BAS/issues/30) added n as hyperparameter if NULL and coerced to be a REAL for `intrinsic` prior 
 
