@@ -111,33 +111,6 @@ test_that("diagnostic plot for glm MCMC", {
   expect_error(diagnostics(pima_MCMC, type = "pip"))
 })
 
-# FIXME issue #35
-test_that("MCMC+BAS: missing MCMC.iterations and n.models arg", {
-  data(Pima.tr, package = "MASS")
-  set.seed(1)
-  pima_BAS <- bas.glm(type ~ .,
-                      data = Pima.tr, method = "BAS",
-                      betaprior = bic.prior(),
-                      family = binomial(),
-                      modelprior = uniform())
-  set.seed(1)
-  pima_1 <- bas.glm(type ~ ., data=Pima.tr,
-                        method = "MCMC+BAS",
-                        betaprior = bic.prior(),
-                        family = binomial(),
-                        modelprior = uniform())
-  set.seed(1)
-  pima_2 <- bas.glm(type ~ ., data = Pima.tr,
-                        method = "MCMC+BAS",
-                        betaprior = bic.prior(),
-                        n.models=2^7,
-                        MCMC.iterations=10000, #default
-                        family = binomial(),
-                        modelprior = uniform())
-expect_equal(pima_1$probne0, pima_2$probne0)
-expect_equal(pima_BAS$probne0, pima_2$probne0)
-expect_equal(pima_BAS$n.models, pima_1$n.models)
-})
 
 test_that("missing data arg", {
   data(Pima.tr, package = "MASS")
@@ -360,6 +333,7 @@ test_that("include always", {
   # object 'prob' not found
 })
 
+#  issue #33
 test_that("Jeffreys & MCMC", {
  data(Pima.tr, package="MASS")
  pima_BAS <-  bas.glm(type ~ .,
@@ -368,5 +342,33 @@ test_that("Jeffreys & MCMC", {
                       family = binomial(),
                       modelprior = tr.beta.binomial(1, 1, 4))
 # expect_equal(0, sum(pima_BAS$probne0 > 1))
-#  issue #33
+})
+
+# FIXME issue #35
+test_that("MCMC+BAS: missing MCMC.iterations and n.models arg", {
+  data(Pima.tr, package = "MASS")
+  set.seed(1)
+  pima_BAS <- bas.glm(type ~ .,
+                      data = Pima.tr, method = "BAS",
+                      betaprior = bic.prior(),
+                      family = binomial(),
+                      modelprior = uniform())
+  set.seed(1)
+  pima_1 <- bas.glm(type ~ ., data=Pima.tr,
+                    method = "MCMC+BAS",
+                    betaprior = bic.prior(),
+                    family = binomial(),
+                    modelprior = uniform())
+  set.seed(1)
+  pima_2 <- bas.glm(type ~ ., data = Pima.tr,
+                    method = "MCMC+BAS",
+                    betaprior = bic.prior(),
+                    n.models=2^7,
+                    MCMC.iterations=10000, #default
+                    family = binomial(),
+                    modelprior = uniform())
+  expect_equal(pima_1$probne0, pima_2$probne0)
+  expect_equal(pima_BAS$probne0, pima_2$probne0)
+  expect_equal(pima_BAS$n.models, pima_1$n.models)
+  expect_equal(pima_BAS$n.models, pima_2$n.models)
 })

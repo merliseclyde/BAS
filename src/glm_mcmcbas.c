@@ -197,11 +197,14 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	if (nUnique < k) {
 		int *modelwork= ivecalloc(p);
 		double *pigamma = vecalloc(p);
+		memset(pigamma, 0.0, p*sizeof(double));
+
 		update_probs(probs, vars, mcurrent, k, p);
 		update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);
 
  // now sample
-		for (m = nUnique;  m < k && pigamma[0] < 1.0; m++) {
+
+		for (m = nUnique;  (m < k) && (pigamma[0] < 1.0); m++) {
 			for (i = n; i < p; i++)  {
 				INTEGER(modeldim)[m]  +=  model[vars[i].index];
 			}
@@ -211,46 +214,52 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
                      bestmodel, Rparents);
 
 			/* Now subtract off the visited probability mass. */
-	branch=tree;
-	Substract_visited_probability_mass(branch, vars, model, n, m, pigamma,eps);
+    	branch=tree;
+	    Substract_visited_probability_mass(branch, vars, model, n, m, pigamma,eps);
 
 			/* Now get model specific calculations */
-	pmodel = INTEGER(modeldim)[m];
-	PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
-	GetModel_m(Rmodel_m, model, p);
+    	pmodel = INTEGER(modeldim)[m];
+	    PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
+	    GetModel_m(Rmodel_m, model, p);
 
-	glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
+	    glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
 				       glmfamily, Rcontrol, Rlaplace,
 				       betapriorfamily));
-	prior_m = compute_prior_probs(model,pmodel,p, modelprior);
-	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
-	shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
-						  "shrinkage"))[0];
-	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
-	SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept, m);
-	UNPROTECT(2);
+	    prior_m = compute_prior_probs(model,pmodel,p, modelprior);
+	    logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
+	    shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
+			    			  "shrinkage"))[0];
+	    SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
+	    SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept, m);
+	    UNPROTECT(2);
 
-	REAL(sampleprobs)[m] = pigamma[0];
+    	REAL(sampleprobs)[m] = pigamma[0];
 
 
 			//update marginal inclusion probs
-	if (m > 1) {
-	  double mod;
-	  double rem = modf((double) m/(double) update, &mod);
-	  if (rem  == 0.0) {
-	    int mcurrent = m;
-	    compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
-	    compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
-	    if (update_probs(probs, vars, mcurrent, k, p) == 1) {
+	    if (m > 1) {
+	      double mod;
+	      double rem = modf((double) m/(double) update, &mod);
+	      if (rem  == 0.0) {
+	        mcurrent = m;
+	        compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
+	        compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
+	        if (update_probs(probs, vars, mcurrent, k, p) == 1) {
 	      // ("Updating Model Tree %d \n", m);
-	      update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);
+	            update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);
+	        }
+	      }
 	    }
-	  }
-	}
 		}
+		//Rprintf("Nunique = %d, m = %d, k = %d, mcurrent = %d %lf\n",
+    //      nUnique, m, k, mcurrent, pigamma[0]);
+		if (m < k) {
+		  mcurrent = m;
+		  }
+		else {mcurrent = k;}
 	}
 
-/*	if (mcurrent < k) {
+ 	if (mcurrent < k) {  // truncate vectors
 	  SETLENGTH(modelspace, mcurrent);
 	  SETLENGTH(logmarg, mcurrent);
 	  SETLENGTH(modelprobs, mcurrent);
@@ -267,12 +276,12 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	  SETLENGTH(R2, mcurrent);
 	  SETLENGTH(Rintercept, mcurrent);
 	}
- */
 
-	compute_modelprobs(modelprobs, logmarg, priorprobs, k);
-	compute_margprobs(modelspace, modeldim, modelprobs, probs, k, p);
 
-	INTEGER(NumUnique)[0] = k;
+	compute_modelprobs(modelprobs, logmarg, priorprobs, mcurrent);
+	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
+
+	INTEGER(NumUnique)[0] = mcurrent;
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
 	SET_STRING_ELT(ANS_names, 0, mkChar("probne0"));
 
