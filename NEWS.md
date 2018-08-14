@@ -26,9 +26,11 @@
 to allow vectorization for `phi1` function in R/cch.R
 and added unit test to "tests/testthat/test-special-functions.R"
 
+* fixed  [issue #31](https://github.com/merliseclyde/BAS/issues/30) to coerce `g` to be a REAL for `g.prior` prior and `IC.prior` in `bas.glm`; added unit-test "tests/testthat/test-bas-glm.R"
+
 * fixed  [issue #30](https://github.com/merliseclyde/BAS/issues/30) added n as hyperparameter if NULL and coerced to be a REAL for `intrinsic` prior in `bas.glm`; added unit-test
 
-* fixed  [issue #39](https://github.com/merliseclyde/BAS/issues/39) added n as hyperparameter if NULL and coerced to be a REAL for `beta.prime` prior in `bas.glm`; added unit-test
+* fixed  [issue #29](https://github.com/merliseclyde/BAS/issues/29) added n as hyperparameter if NULL and coerced to be a REAL for `beta.prime` prior in `bas.glm`; added unit-test
 
 * fixed  [issue #27](https://github.com/merliseclyde/BAS/issues/27) where expected shrinkage with the JZS prior was greater than 1.  Added unit test.
 

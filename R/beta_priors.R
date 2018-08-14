@@ -416,8 +416,9 @@ aic.prior <- function() {
 #' @export
 
 IC.prior <- function(penalty) {
+  if (as.integer(penalty)) penalty = as.numeric(penalty)
   structure(list(
-    family = "IC", class = "IC", hyper = as.numeric(penalty),
+    family = "IC", class = "IC", hyper = penalty,
     hyper.parameters = list(penalty = penalty)
   ),
   class = "prior"
@@ -445,8 +446,9 @@ IC.prior <- function(penalty) {
 #' @export
 
 g.prior <- function(g) {
+  if (is.integer(g)) g = as.numeric(g)
   structure(list(
-    family = "g.prior", g = as.numeric(g), class = "g-prior",
+    family = "g.prior", g = g, class = "g-prior",
     hyper = as.numeric(g),
     hyper.parameters = list(g = g)
   ),

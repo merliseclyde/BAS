@@ -99,19 +99,6 @@ test_that("GLM logit", {
   expect_equal(pima_BAS$probne0, pima_det$probne0)
 })
 
-# FIXME issue #28
-test_that("diagnostic plot for glm MCMC", {
-  data(Pima.tr, package="MASS")
-  pima_MCMC <- bas.glm(type ~ .,
-                       data = Pima.tr, MCMC.iterations = 1024,
-                       method = "MCMC", betaprior = aic.prior(),
-                       family = binomial(),
-                       modelprior = tr.poisson(2,5))
-  expect_null(diagnostics(pima_MCMC, type = "model"))
-  expect_error(diagnostics(pima_MCMC, type = "pip"))
-})
-
-
 test_that("missing data arg", {
   data(Pima.tr, package = "MASS")
   pima_BAS <- bas.glm(type ~ .,
@@ -226,33 +213,25 @@ test_that("hyper.g prior for GLM", {
                        modelprior = uniform())
   )
 })
-test_that("g prior for GLM", {
+
+# FIXED Issue #31
+test_that("g/IC prior for GLM", {
   data(Pima.tr, package = "MASS")
   pima_BAS <- bas.glm(type ~ ., data = Pima.tr, method = "BAS",
-    betaprior = g.prior(g = as.numeric(nrow(Pima.tr))),
+    betaprior = g.prior(g = nrow(Pima.tr)),
     family = binomial(),
     modelprior = uniform()
   )
   expect_equal(0, sum(pima_BAS$shrinkage > 1))
+  pima_BAS <- bas.glm(type ~ ., data = Pima.tr, method = "BAS",
+                      betaprior = IC.prior(nrow(Pima.tr)),
+                      family = binomial(),
+                      modelprior = uniform()
+  )
+  expect_equal(0, sum(pima_BAS$shrinkage > 1))
 })
 
-# FIXED issue #29
-test_that("beta.prime prior for GLM", {
-  data(Pima.tr, package = "MASS")
-  pima_BAS <- bas.glm(type ~ ., data = Pima.tr, method = "BAS",
-    betaprior = beta.prime(n =nrow(Pima.tr)), family = binomial(),
-    modelprior = uniform()
-  )
-  expect_equal(as.numeric(nrow(Pima.tr)), pima_BAS$betaprior$hyper.parameters$n)
-  pima_BAS_def <- bas.glm(type ~ ., data = Pima.tr,
-                          method = "BAS",
-                          betaprior = beta.prime(),
-                          family = binomial(),
-                          modelprior = uniform())
-  expect_equal(pima_BAS_def$probne0, pima_BAS$probne0)
-  expect_equal(as.numeric(nrow(Pima.tr)),
-               pima_BAS_def$betaprior$hyper.parameters$n)
-})
+
 
 test_that("cch prior for GLM", {
   data(Pima.tr, package = "MASS")
@@ -325,18 +304,34 @@ test_that("cv.summary", {
                               score="percent-explained"))
 })
 
-# FIXME issue #34
-test_that("include always", {
-  data("Pima.tr", package="MASS")
-  expect_error(bas.glm(type ~ .,
-                        data = Pima.tr, method = "MCMC",
-                        include.always = ~ bp,
-                        betaprior = g.prior(g=100), family = binomial(),
-                        modelprior = beta.binomial(1, 1))
-  )
+# FIXME issue #28
+test_that("diagnostic plot for glm MCMC", {
+  data(Pima.tr, package="MASS")
+  pima_MCMC <- bas.glm(type ~ .,
+                       data = Pima.tr, MCMC.iterations = 1024,
+                       method = "MCMC", betaprior = aic.prior(),
+                       family = binomial(),
+                       modelprior = tr.poisson(2,5))
+  expect_null(diagnostics(pima_MCMC, type = "model"))
+  expect_error(diagnostics(pima_MCMC, type = "pip"))
+})
 
-  # error Error in bas.glm(type ~ ., data = Pima.tr, method = "MCMC", include.always = ~bp,  :
-  # object 'prob' not found
+# FIXED issue #29
+test_that("beta.prime prior for GLM", {
+  data(Pima.tr, package = "MASS")
+  pima_BAS <- bas.glm(type ~ ., data = Pima.tr, method = "BAS",
+                      betaprior = beta.prime(n =nrow(Pima.tr)), family = binomial(),
+                      modelprior = uniform()
+  )
+  expect_equal(as.numeric(nrow(Pima.tr)), pima_BAS$betaprior$hyper.parameters$n)
+  pima_BAS_def <- bas.glm(type ~ ., data = Pima.tr,
+                          method = "BAS",
+                          betaprior = beta.prime(),
+                          family = binomial(),
+                          modelprior = uniform())
+  expect_equal(pima_BAS_def$probne0, pima_BAS$probne0)
+  expect_equal(as.numeric(nrow(Pima.tr)),
+               pima_BAS_def$betaprior$hyper.parameters$n)
 })
 
 # FIXED issue #33
@@ -349,6 +344,19 @@ test_that("Jeffreys & MCMC", {
                       modelprior = tr.beta.binomial(1, 1, 4))
 expect_equal(0, sum(pima_BAS$probne0 > 1))
 expect_length(pima_BAS$probne0, ncol(Pima.tr))
+})
+# FIXME issue #34
+test_that("include always", {
+  data("Pima.tr", package="MASS")
+  expect_error(bas.glm(type ~ .,
+                       data = Pima.tr, method = "MCMC",
+                       include.always = ~ bp,
+                       betaprior = g.prior(g=100), family = binomial(),
+                       modelprior = beta.binomial(1, 1))
+  )
+
+  # error Error in bas.glm(type ~ ., data = Pima.tr, method = "MCMC", include.always = ~bp,  :
+  # object 'prob' not found
 })
 
 # FIXED issue #35
