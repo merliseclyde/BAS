@@ -539,7 +539,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
 	compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
 	if (update_probs(probs, vars, mcurrent, k, p) == 1) {
-	  Rprintf("Updating Model Tree %d \n", m);
+//	  Rprintf("Updating Model Tree %d \n", m);
 	  update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);
 	}
 
