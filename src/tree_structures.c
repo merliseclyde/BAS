@@ -73,8 +73,8 @@ int sortvars(struct Var *vars, double *prob, int p)
 	n = 0;
 	for (i = 0; i < p; i++) {
 		if (vars[i].prob < 0.0) {
-			REprintf("Warning: Probability %d (%lf) less than zero, setting to zero.\n",
-				i, vars[i].prob);
+//			REprintf("Warning: Probability %d (%lf) less than zero, setting to zero.\n",
+//				i, vars[i].prob);
 			vars[i].leaveout = TRUE;
 			vars[i].prob = 0.0;
 		}
@@ -107,6 +107,7 @@ int sortvars(struct Var *vars, double *prob, int p)
 	}
 	/* Ok, vars is set up.  Need to sort to get "list". */
 	qsort((char *) vars, p, sizeof(struct Var),(compfn) compare);
+
 
 	return(n);
 }

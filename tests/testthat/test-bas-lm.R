@@ -1,8 +1,24 @@
 context("bas.lm")
 
+test_that("initprobs out of range", {
+  data(Hald)
+  bas_hald1 <- bas.lm(Y ~ ., data=Hald, prior="BIC",
+                      method="BAS",
+                     initprobs = c(-.4, .3, 1.5, .8))
+  bas_hald2 <- bas.lm(Y ~ ., data=Hald, prior="BIC",
+                      initprobs = c(1, .4, .3, 1.0, .8))
+  bas_hald3 <- bas.lm(Y ~ X1 + X2 + X3 + X4,
+                      include.always=~1 + X3,
+                      initprobs =  c(1, .4, .3, 1.0, .8),
+                      data=Hald, prior="BIC")
+  expect_equal(bas_hald2$probne0, bas_hald2$probne0)
+  expect_equal(bas_hald2$probne0, bas_hald3$probne0)
+})
+
 test_that("shrinkage is less than or equal to 1", {
   data(Hald)
-  hald_bas <- bas.lm(Y ~ ., prior = "ZS-null", modelprior = uniform(), data = Hald)
+  hald_bas <- bas.lm(Y ~ ., prior = "ZS-null",
+                     modelprior = uniform(), data = Hald)
   expect_equal(0, sum(hald_bas$shrinkage > 1))
   hald_bas <- bas.lm(Y ~ ., prior = "EB-local", modelprior = uniform(), data = Hald)
   expect_equal(0, sum(hald_bas$shrinkage > 1))

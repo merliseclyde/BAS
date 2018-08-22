@@ -41,12 +41,13 @@ void CreateTree_with_pigamma(NODEPTR branch, struct Var *vars,
 		if (bit == 1) {
 			for (int j=0; j<=i; j++)  pigamma[j] *= branch->prob;
 			if (i < n-1 && branch->one == NULL) {
-			  prob_parents = got_parents(bestmodel, Rparents, i+1, vars, n);
-				branch->one = make_node(prob_parents);
+			    prob_parents = got_parents(bestmodel, Rparents, i+1, vars, n);
+				  branch->one = make_node(prob_parents);
 			}
-			if (i == n-1 && branch->one == NULL)
+			if (i == n-1 && branch->one == NULL) {
 				branch->one = make_node(0.0);
-			branch = branch->one;
+			}
+		 	branch = branch->one;
 		}
 		else {
 			for (int j=0; j<=i; j++)  pigamma[j] *= (1.0 - branch->prob);
@@ -137,8 +138,11 @@ double got_parents(int *model, SEXP Rparents, int level, struct Var *var, int ns
 
   int *dims = INTEGER(getAttrib(Rparents,R_DimSymbol));
   p = dims[0];
-  if (p > 1) {
-   parents = REAL(Rparents);
+  if (p  == 1) {
+   prob = var[level].prob;
+  }
+  else {
+    parents = REAL(Rparents);
    // Rprintf("level %d\n", level);
    //
    // Check the variables that are always included first
@@ -178,7 +182,7 @@ double got_parents(int *model, SEXP Rparents, int level, struct Var *var, int ns
     if ((nsibs == 0) && (prob > 0.0))  prob = var[level].prob;
    }
   }
-  else{ prob = var[level].prob;}
+
 
 //  Rprintf("Prob 1 = %lf\n", prob);
 return(prob);
@@ -261,7 +265,6 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 		model[vars[i].index] = bestmodel[vars[i].index];
 		INTEGER(modeldim)[m]  +=  bestmodel[vars[i].index];
 	}
-
 	double *pigamma = vecalloc(p);
 	branch = tree;
 	CreateTree_with_pigamma(branch, vars, bestmodel, model, n, m,

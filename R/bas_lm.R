@@ -10,6 +10,9 @@ normalize.initprobs.lm <- function(initprobs, p) {
   # intercept is always included otherwise we get a segmentation
   # fault (relax later)
   prob <- as.numeric(initprobs)
+  prob[initprobs < 0.0] = 0.0
+  prob[initprobs > 1.0] = 1.0
+
   #    if (!is.null(lm.obj)) {
   #        pval = summary(lm.obj)$coefficients[,4]
   #        if (any(is.na(pval))) {
@@ -630,11 +633,16 @@ bas.lm <- function(formula,
     }
   }
 
+  prob <- normalize.initprobs.lm(initprobs, p)
+
   if (is.null(bestmodel)) {
-    #    bestmodel = as.integer(initprobs)
-    bestmodel <- c(1, rep(0, p - 1))
+    #bestmodel = as.integer(initprobs)
+    bestmodel = as.integer(prob)
+    #bestmodel <- c(1, rep(0, p - 1))
   }
+
   bestmodel[keep] <- 1
+
   if (force.heredity) {
     update <- NULL # do not update tree  FIXME LATER
     if (prob.heredity(bestmodel, parents) == 0) {
@@ -644,11 +652,13 @@ bas.lm <- function(formula,
     #    initprobs=c(1, seq(.95, .55, length=(p-1) ))
   }
 
-  prob <- normalize.initprobs.lm(initprobs, p)
+
+
   n.models <- normalize.n.models(n.models, p, prob,
                                   method, bigmem)
   #  print(n.models)
   modelprior <- normalize.modelprior(modelprior, p)
+
 
   if (is.null(update)) {
     if (n.models == 2^(p - 1)) {
