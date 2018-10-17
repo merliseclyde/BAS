@@ -18,6 +18,8 @@
 
 ## Bugs
 
+* fixed [issue #36](https://github.com/merliseclyde/BAS/issues/36) Errors in prior = "ZS-null" when R2 is not finite or out of range due to model being not full rank. Change  in `gexpectations` function in file `bayesreg.c`
+
 * fixed  [issue #35](https://github.com/merliseclyde/BAS/issues/35) for `method="MCMC+BAS"` in `bas.glm`  in `glm_mcmcbas.c` when no values are provided for `MCMC.iterations` or `n.models` and defaults are used.  Added unit test in `test-bas-glm.R`
 
 * fixed [issue #33](https://github.com/merliseclyde/BAS/issues/33)  for Jeffreys prior where marginal inclusion probabilities were not renomalized after dropping intercept model 

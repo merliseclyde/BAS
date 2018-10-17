@@ -62,6 +62,10 @@ void gexpectations(int p, int pmodel, int nobs, double R2, double alpha, int met
 
   *shrinkage = 1.0;
 
+   if (!R_FINITE(R2) || R2 > 1.0 || R2 < 0.0) {
+     *logmarg = NA_REAL;
+     return;
+     }
     switch (method) {
      case 0:
       *logmarg = logBF_gprior(R2, nobs, pmodel,alpha);
@@ -108,7 +112,7 @@ void gexpectations(int p, int pmodel, int nobs, double R2, double alpha, int met
       *shrinkage = ZS_shrinkage(R2,nobs,pmodel,alpha);
       break;
   default:
-      Rprintf("Error: Method must be one of g-prior, hyper-g, laplace (hyper-g), AIC, BIC, ZS-null, or ZS-full\n");
+      error("Method must be one of g-prior, hyper-g, laplace (hyper-g), AIC, BIC, ZS-null, or ZS-full\n");
       // should not get here
       break;
     }

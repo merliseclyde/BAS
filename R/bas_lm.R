@@ -39,7 +39,9 @@ normalize.modelprior <- function(modelprior, p) {
 }
 
 normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
+
   if (is.null(n.models)) {
+    p = max(30, p)
     n.models <- 2^(p - 1)
   }
   if (n.models > 2^(p - 1)) n.models <- 2^(p - 1)

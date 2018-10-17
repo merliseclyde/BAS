@@ -354,8 +354,31 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
 
   bestmodel <- as.integer(bestmodel)
   prob <- normalize.initprobs.glm(initprobs, glm.obj)
-  n.models <- normalize.n.models(n.models, p, prob, method, bigmem)
   modelprior <- normalize.modelprior(modelprior, p)
+
+
+  if (is.null(n.models)) {
+    n.models <- as.integer(min(2^p, 2^19))
+  }
+
+  if (is.null(MCMC.iterations)) {
+    MCMC.iterations <- max(10000, (n.models * 10))
+  }
+
+  MCMC.iterations = as.integer(MCMC.iterations)
+  Burnin.iterations <- as.integer(MCMC.iterations)
+
+  n.models <- normalize.n.models(n.models, p, prob, method, bigmem)
+  n.models <- as.integer(n.models)
+
+  modeldim <- as.integer(rep(0, n.models))
+
+
+
+
+
+  #print(MCMC.iterations)
+
 
   if (is.null(update)) {
     if (n.models == 2^(p - 1)) {
@@ -367,22 +390,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
 
 
   Yvec <- as.numeric(Y)
-  modeldim <- as.integer(rep(0, n.models))
 
-  if (is.null(n.models)) {
-    warning("should never get here: n.models is null")
-    n.models <- min(2^p, 2^19)
-  }
-  n.models <- as.integer(n.models)
-  #print(n.models)
-
-  if (is.null(MCMC.iterations)) {
-    MCMC.iterations <- max(10000, (n.models * 10))
-  }
-
- # MCMC.iterations = as.integer(MCMC.iterations)
-
-  #print(MCMC.iterations)
 
 
   #  check on priors
