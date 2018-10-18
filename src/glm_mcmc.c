@@ -50,8 +50,8 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	struct Var *vars = (struct Var *) R_alloc(p, sizeof(struct Var)); // Info about the model variables.
 	probs =  REAL(Rprobs);
 	n = sortvars(vars, probs, p);
-	for (i =n; i <p; i++) REAL(MCMCprobs)[vars[i].index] = probs[vars[i].index];
-	for (i =0; i <n; i++) REAL(MCMCprobs)[vars[i].index] = 0.0;
+//	for (i =n; i <p; i++) REAL(MCMCprobs)[vars[i].index] = probs[vars[i].index];
+	for (i =0; i <p; i++) REAL(MCMCprobs)[vars[i].index] = 0.0;
 
 	// fill in the sure things
 	int *model = ivecalloc(p);
@@ -181,6 +181,8 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		REAL(MCMCprobs)[vars[i].index] /= (double) m;
 	}
 
+
+
 	// Compute marginal probabilities
 	mcurrent = nUnique;
 	//	Rprintf("NumUnique Models Accepted %d \n", nUnique);
@@ -198,7 +200,6 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	  SETLENGTH(priorprobs, nUnique);
 	  SETLENGTH(sampleprobs, nUnique);
 	  SETLENGTH(counts, nUnique);
-	  SETLENGTH(MCMCprobs, nUnique);
 	  SETLENGTH(beta, nUnique);
 	  SETLENGTH(se, nUnique);
 	  SETLENGTH(deviance, nUnique);

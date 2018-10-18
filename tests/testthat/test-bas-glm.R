@@ -313,7 +313,7 @@ test_that("diagnostic plot for glm MCMC", {
                        family = binomial(),
                        modelprior = tr.poisson(2,5))
   expect_null(diagnostics(pima_MCMC, type = "model"))
-  expect_error(diagnostics(pima_MCMC, type = "pip"))
+  expect_null(diagnostics(pima_MCMC, type = "pip"))
 })
 
 # FIXED issue #29

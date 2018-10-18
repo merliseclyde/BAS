@@ -34,6 +34,9 @@ and added unit test to "tests/testthat/test-special-functions.R"
 
 * fixed  [issue #29](https://github.com/merliseclyde/BAS/issues/29) added n as hyperparameter if NULL and coerced to be a REAL for `beta.prime` prior in `bas.glm`; added unit-test
 
+* fixed  [issue #28](https://github.com/merliseclyde/BAS/issues/28)  fixed length of MCMC estimates of marginal inclusion probabilities; added unit-test
+
+
 * fixed  [issue #27](https://github.com/merliseclyde/BAS/issues/27) where expected shrinkage with the JZS prior was greater than 1.  Added unit test.
 
 * fixed output `include.always` to include the intercept [issue #26](https://github.com/merliseclyde/BAS/issues/26) always so that `drop.always.included = TRUE` drops the intercept and any other variables that are forced in.    `include.always` and `force.heredity=TRUE` can now be used together with `method="BAS"`.
