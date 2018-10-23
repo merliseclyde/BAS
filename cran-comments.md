@@ -1,11 +1,11 @@
 ## Test environments
 
-* local OS X install, R 3.5.0 
-* ubuntu 14.04 (on travis-ci), R 3.5.0 and R-devel
-* win-builder (devel and release)
+* local OS X install, R 3.5.0 R 3.5.1
+* ubuntu 14.04.5 (on travis-ci), R 3.5.1 and R-devel
+* build-win (devel and release)
 
 ## R CMD check results
-There were no ERRORs, WARNINGs or NOTES.
+There were no ERRORs or NOTES.
 
 ## Reverse Dependencies
 
@@ -14,7 +14,7 @@ None
 
 ## Comments
 
-added extensive suite of unit tests using testthat in tests directory in order to get code coverage up to 90+ percent.
+added extensive suite of unit tests using testthat in tests directory in order to get code coverage up to 90+ percent.  (part of Linux
 
 ## Features
 
