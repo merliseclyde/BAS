@@ -345,18 +345,24 @@ test_that("Jeffreys & MCMC", {
 expect_equal(0, sum(pima_BAS$probne0 > 1))
 expect_length(pima_BAS$probne0, ncol(Pima.tr))
 })
-# FIXME issue #34
+
+#  issue #34
 test_that("include always", {
   data("Pima.tr", package="MASS")
-  expect_error(bas.glm(type ~ .,
+  pima_BAS = bas.glm(type ~ .,
                        data = Pima.tr, method = "MCMC",
                        include.always = ~ bp,
                        betaprior = g.prior(g=100), family = binomial(),
                        modelprior = beta.binomial(1, 1))
-  )
+  expect_equal(2L, sum(pima_BAS$probne0 >= 1.0))
 
-  # error Error in bas.glm(type ~ ., data = Pima.tr, method = "MCMC", include.always = ~bp,  :
-  # object 'prob' not found
+  pima_BAS = bas.glm(type ~ .,
+                     data = Pima.tr, method = "BAS",
+                     include.always = ~ bp,
+                     betaprior = g.prior(g=100), family = binomial(),
+                     modelprior = beta.binomial(1, 1))
+  expect_equal(2L, sum(pima_BAS$probne0 >= (1.0 - 10*.Machine$double.eps)))
+##  check why method='BAS' does not have 1.0 for keep.
 })
 
 # FIXED issue #35

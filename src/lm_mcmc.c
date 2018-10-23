@@ -317,8 +317,6 @@ extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeld
 	for (i =n; i <p; i++) REAL(MCMCprobs)[vars[i].index] = probs[vars[i].index];
 	for (i =0; i <n; i++) REAL(MCMCprobs)[vars[i].index] = 0.0;
 
-	SEXP Rse_m = NULL, Rcoef_m = NULL, Rmodel_m=NULL;
-	RSquareFull = CalculateRSquareFull(XtY, XtX, XtXwork, XtYwork, Rcoef_m, Rse_m, p, nobs, yty, SSY);
 
 	// fill in the sure things
 	int *model = ivecalloc(p);
@@ -326,6 +324,9 @@ extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeld
 		model[vars[i].index] = (int) vars[i].prob;
 		if (model[vars[i].index] == 1) ++n_sure;
 	}
+
+	SEXP Rse_m = NULL, Rcoef_m = NULL, Rmodel_m=NULL;
+	RSquareFull = CalculateRSquareFull(XtY, XtX, XtXwork, XtYwork, Rcoef_m, Rse_m, p, nobs, yty, SSY);
 
 	GetRNGstate();
 

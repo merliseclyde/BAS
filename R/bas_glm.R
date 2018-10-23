@@ -297,13 +297,30 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   offset <- model.offset(mf)
   if (is.null(offset)) offset <- rep(0, nobs)
 
-  #  browser()
-  glm.obj <- glm(Y ~ X[, -1], family = family, weights = weights, offset = offset, y = T, x = T)
 
-  Y <- glm.obj$y
-
+  Y <-  glm(Y ~ 1, family = family, weights = weights,
+            offset = offset, y = T)$y
 
 
+  if (!is.numeric(initprobs)) {
+    if (nobs <= p && initprobs == "eplogp") {
+      stop(
+        "Full model is not full rank so cannot use the eplogp bound to create starting sampling probabilities, perhpas use 'marg-eplogp' for fiting marginal models\n"
+      )
+    }
+    initprobs <- switch(
+      initprobs,
+      "eplogp" = eplogprob(glm(Y ~ X - 1,
+                               family = family, weights = weights,
+                               offset = offset)),
+      "marg-eplogp" = eplogprob.marg(Y, X),
+      "uniform" = c(1.0, rep(.5, p - 1)),
+      "Uniform" = c(1.0, rep(.5, p - 1))
+    )
+  }
+  if (length(initprobs) == (p - 1)) {
+    initprobs <- c(1.0, initprobs)
+  }
 
   # set up variables to always include
   keep <- 1
@@ -318,7 +335,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
     X.always <- model.matrix(mtinc, mfinc, contrasts)
 
     keep <- c(1L, match(colnames(X.always)[-1], colnames(X)))
-    prob[keep] <- 1.0
+    initprobs[keep] <- 1.0
     if (ncol(X.always) == ncol(X)) {
       # just one model with all variables forced in
       # use method='BAS" as deterministic and MCMC fail in this context
@@ -338,6 +355,8 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
     }
   }
 
+  prob <- normalize.initprobs.lm(initprobs, p)
+
   if (is.null(bestmodel)) {
     #    bestmodel = as.integer(initprobs)
     bestmodel <- c(1, rep(0, p - 1))
@@ -349,17 +368,20 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
       warning("bestmodel violates heredity conditions; resetting to null model.  Please check  include.always and bestmodel")
       bestmodel <- c(1, rep(0, p - 1))
     }
-    initprobs <- c(1, seq(.95, .55, length = (p - 1))) # keep same order
+#    initprobs <- c(1, seq(.95, .55, length = (p - 1))) # keep same order
   }
 
   bestmodel <- as.integer(bestmodel)
-  prob <- normalize.initprobs.glm(initprobs, glm.obj)
-  modelprior <- normalize.modelprior(modelprior, p)
 
 
   if (is.null(n.models)) {
     n.models <- as.integer(min(2^p, 2^19))
   }
+
+  n.models <- as.integer(normalize.n.models(n.models, p, prob, method, bigmem))
+
+  modelprior <- normalize.modelprior(modelprior, p)
+
 
   if (is.null(MCMC.iterations)) {
     MCMC.iterations <- max(10000, (n.models * 10))
@@ -368,8 +390,6 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   MCMC.iterations = as.integer(MCMC.iterations)
   Burnin.iterations <- as.integer(MCMC.iterations)
 
-  n.models <- normalize.n.models(n.models, p, prob, method, bigmem)
-  n.models <- as.integer(n.models)
 
   modeldim <- as.integer(rep(0, n.models))
 
@@ -483,6 +503,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
       Rlaplace = as.integer(laplace)
     )
   )
+
 
   result$namesx <- namesx
   result$n <- length(Yvec)

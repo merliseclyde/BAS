@@ -22,6 +22,8 @@
 
 * fixed  [issue #35](https://github.com/merliseclyde/BAS/issues/35) for `method="MCMC+BAS"` in `bas.glm`  in `glm_mcmcbas.c` when no values are provided for `MCMC.iterations` or `n.models` and defaults are used.  Added unit test in `test-bas-glm.R`
 
+* fixed  [issue #34](https://github.com/merliseclyde/BAS/issues/34) for `bas.glm` where variables in `include.always` had marginal inclusion probabilities that were incorrect.  Added unit test in `test-bas-glm.R`
+
 * fixed [issue #33](https://github.com/merliseclyde/BAS/issues/33)  for Jeffreys prior where marginal inclusion probabilities were not renomalized after dropping intercept model 
 
 * fixed [issue #32](https://github.com/merliseclyde/BAS/issues/32) 
