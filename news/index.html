@@ -130,7 +130,7 @@
 <li><p>Added option <code>drop.always.included</code> and <code>subset</code> to <code>plot.bas</code> so that variables that are always included may be excluded from the plot showing the marginal posterior inclusion probabilities (<code>which=4</code>). By default all are shown <a href="https://github.com/merliseclyde/BAS/issues/23">enhancement <a href='https://github.com/merliseclyde/BAS/issues/23'>#23</a></a></p></li>
 <li><p>update <code>fitted.bas</code> to use predict so that code covers both GLM and LM cases with <code>type='link'</code> or <code>type='response'</code></p></li>
 <li><p>Updates to package for <a href="https://bestpractices.coreinfrastructure.org/projects/2055"><img src="https://bestpractices.coreinfrastructure.org/projects/2055/badge" alt="CII Best Practices"></a> certification</p></li>
-<li><p>Added <a href="https://covecov.io/gh/merliseclyde/BAS">Code Coverage</a> support and more extensive tests using <code>test_that</code>.</p></li>
+<li><p>Added <a href="https://codecov.io/gh/merliseclyde/BAS">Code Coverage</a> support and more extensive tests using <code>test_that</code>.</p></li>
 </ul>
 </div>
 <div id="bugs" class="section level2">
@@ -139,6 +139,7 @@
 <ul>
 <li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/36">issue <a href='https://github.com/merliseclyde/BAS/issues/36'>#36</a></a> Errors in prior = “ZS-null” when R2 is not finite or out of range due to model being not full rank. Change in <code>gexpectations</code> function in file <code>bayesreg.c</code></p></li>
 <li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/35">issue <a href='https://github.com/merliseclyde/BAS/issues/35'>#35</a></a> for <code>method="MCMC+BAS"</code> in <code>bas.glm</code> in <code>glm_mcmcbas.c</code> when no values are provided for <code>MCMC.iterations</code> or <code>n.models</code> and defaults are used. Added unit test in <code>test-bas-glm.R</code></p></li>
+<li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/34">issue <a href='https://github.com/merliseclyde/BAS/issues/34'>#34</a></a> for <code>bas.glm</code> where variables in <code>include.always</code> had marginal inclusion probabilities that were incorrect. Added unit test in <code>test-bas-glm.R</code></p></li>
 <li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/33">issue <a href='https://github.com/merliseclyde/BAS/issues/33'>#33</a></a> for Jeffreys prior where marginal inclusion probabilities were not renomalized after dropping intercept model</p></li>
 <li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/32">issue <a href='https://github.com/merliseclyde/BAS/issues/32'>#32</a></a> to allow vectorization for <code>phi1</code> function in R/cch.R and added unit test to “tests/testthat/test-special-functions.R”</p></li>
 <li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/30">issue <a href='https://github.com/merliseclyde/BAS/issues/31'>#31</a></a> to coerce <code>g</code> to be a REAL for <code>g.prior</code> prior and <code>IC.prior</code> in <code>bas.glm</code>; added unit-test “tests/testthat/test-bas-glm.R”</p></li>
