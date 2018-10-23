@@ -347,14 +347,15 @@ expect_length(pima_BAS$probne0, ncol(Pima.tr))
 })
 
 #  issue #34
-test_that("include always", {
+test_that("include always MCMC", {
   data("Pima.tr", package="MASS")
   pima_BAS = bas.glm(type ~ .,
                        data = Pima.tr, method = "MCMC",
                        include.always = ~ bp,
                        betaprior = g.prior(g=100), family = binomial(),
                        modelprior = beta.binomial(1, 1))
-  expect_equal(2L, sum(pima_BAS$probne0 >= 1.0))
+  x = pima_BAS$probne0[match(c("Intercept", "bp") ,pima_BAS$namesx)]
+  expect_equal(2, sum(x), tolerance=.002)
 
 #  pima_BAS = bas.glm(type ~ .,
 #                     data = Pima.tr, method = "BAS",
