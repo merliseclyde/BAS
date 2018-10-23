@@ -30,7 +30,7 @@ added extensive suite of unit tests using testthat in tests directory in order t
 
 * Updates to package for [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/2055/badge)](https://bestpractices.coreinfrastructure.org/projects/2055)  certification
 
-* Added [Code Coverage](https://covecov.io/gh/merliseclyde/BAS) support and more extensive tests using `test_that`.
+* Added [Code Coverage](https://codecov.io/gh/merliseclyde/BAS) support and more extensive tests using `test_that`.
 
 ## Bugs
 
