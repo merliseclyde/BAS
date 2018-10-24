@@ -508,6 +508,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   result$namesx <- namesx
   result$n <- length(Yvec)
   result$modelprior <- modelprior
+  result$probne0[keep]  <- 1.0
   result$probne0.RN <- result$probne0
   result$postprobs.RN <- result$postprobs
   result$family <- family

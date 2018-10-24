@@ -239,6 +239,12 @@ test_that("check non-full rank", {
 
   fullModelFormula <- as.formula("contNormal ~  contGamma * contExpon + contGamma * contcor1 + contExpon * contcor1")
 
+  bas.lm(fullModelFormula,
+         data = d,
+         alpha = 0.125316,
+         prior = "JZS",
+         weights = facFifty, force.heredity = FALSE, pivot = F
+  )
   expect_warning(bas.lm(fullModelFormula,
     data = d,
     alpha = 0.125316,

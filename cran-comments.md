@@ -5,7 +5,7 @@
 * build-win (devel and release)
 
 ## R CMD check results
-There were no ERRORs or NOTES.
+There were no ERRORs or NOTES.  Warning on win-builder about vignette requiring UTF-8 although locale is ASCII.
 
 ## Reverse Dependencies
 
@@ -14,7 +14,7 @@ None
 
 ## Comments
 
-added extensive suite of unit tests using testthat in tests directory in order to get code coverage up to 90+ percent.  (part of Linux
+added extensive suite of unit tests using testthat in tests directory in order to get code coverage up to 90+ percent.  (part of CII Best Practices)
 
 ## Features
 

@@ -397,6 +397,7 @@ test_that("MCMC+BAS: missing MCMC.iterations and n.models arg", {
 
 # FIXME  add issue?  check that it works with other prior
 # with prior probabilities; i.e. failed with Jeffreys
+
 test_that("herdity and BAS", {
   data(Pima.tr, package="MASS")
   pima_BAS <-  bas.glm(type ~ (bp + glu + npreg)^2,
@@ -414,6 +415,7 @@ test_that("herdity and BAS", {
                        update = 5,
                        force.heredity=FALSE)
   pima_BAS_no <- force.heredity.bas(pima_BAS_no)
-  expect_equal(0, sum(pima_BAS$probne0 > 1))
+  expect_equal(0L, sum(pima_BAS$probne0 > 1))
+  expect_equal(0L, sum(pima_BAS_no$probne0 > 1))
   expect_equal(pima_BAS$probne0, pima_BAS_no$probne0)
 })
