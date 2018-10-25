@@ -81,7 +81,7 @@
       <h1>Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging and Variable Selection</h1>
                         <h4 class="author">Merlise A Clyde</h4>
             
-            <h4 class="date">2018-10-24</h4>
+            <h4 class="date">2018-10-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/merliseclyde/BAS/blob/master/vignettes/BAS-vignette.Rmd"><code>vignettes/BAS-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>BAS-vignette.Rmd</code></div>
@@ -116,7 +116,7 @@
 <a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>(), <span class="dt">initprobs =</span> <span class="st">"eplogp"</span>,</a>
 <a class="sourceLine" id="cb5-6" data-line-number="6">  <span class="dt">force.heredity =</span> <span class="ot">FALSE</span>, <span class="dt">pivot =</span> <span class="ot">TRUE</span></a>
 <a class="sourceLine" id="cb5-7" data-line-number="7">)</a></code></pre></div>
-<p><code>BAS</code> uses a model formula similar to <code>lm</code> to specify the full model with all of the potential predictors. Here we are using the shorthand <code>.</code> to indicate that all remaining variables in the data frame will be included. <code>BAS</code> require a data frame as the input for the <code>data</code> argument. Different prior distributions on the regression coefficients may be specified using the <code>prior</code> argument, and include</p>
+<p><code>BAS</code> uses a model formula similar to <code>lm</code> to specify the full model with all of the potential predictors. Here we are using the shorthand <code>.</code> to indicate that all remaining variables in the data frame provided by the <code>data</code> argument. Different prior distributions on the regression coefficients may be specified using the <code>prior</code> argument, and include</p>
 <ul>
 <li>“BIC”</li>
 <li>"AIC</li>
@@ -124,19 +124,20 @@
 <li>“hyper-g”</li>
 <li>“hyper-g-laplace”</li>
 <li>“hyper-g-n”</li>
+<li>“JZS”</li>
 <li>“ZS-null”</li>
 <li>“ZS-full”</li>
 <li>“EB-local”</li>
 <li>“EB-global”</li>
 </ul>
-<p>where the default is the Zellner-Siow prior, ZS-null, where all Bayes factors are compared to the null model.</p>
-<p>By default, <code>BAS</code> will try to enumerate all models, in this case <span class="math inline">\(2^{15}\)</span> using the default <code>method="BAS"</code>. The prior distribution over the models is a <code><a href="../reference/uniform.html">uniform()</a></code> distribution which assigns equal probabilities to all models. The last optional argument <code>initprobs = eplogp</code> provides a way to initialize the sampling algorithm and order the variables in the tree structure that represents the model space in BAS. The <code>eplogp</code> option uses the Bayes factor calibration of p-values <span class="math inline">\(-e p \log(p)\)</span> to provide an approximation to the marginal inclusion probability that the coefficient of each predictor is zero, using the p-values from the full model. Other options for <code>initprobs</code> include</p>
+<p>where the default is the Zellner-Siow prior, ZS-null, where all Bayes factors are compared to the null model. The newest prior option, “JZS”, also corresponds to the Zellner-Siow prior on the coefficients, but uses numerical integration rather than a Laplace approximation to obtain the marginal likelihood of models.</p>
+<p>By default, <code>BAS</code> will try to enumerate all models if <span class="math inline">\(p &lt; 19\)</span> using the default <code>method="BAS"</code>. The prior distribution over the models is a <code><a href="../reference/uniform.html">uniform()</a></code> distribution which assigns equal probabilities to all models. The last optional argument <code>initprobs = eplogp</code> provides a way to initialize the sampling algorithm and order the variables in the tree structure that represents the model space in BAS. The <code>eplogp</code> option uses the Bayes factor calibration of p-values <span class="math inline">\(-e p \log(p)\)</span> to provide an approximation to the marginal inclusion probability that the coefficient of each predictor is zero, using the p-values from the full model. Other options for <code>initprobs</code> include</p>
 <ul>
 <li>“marg-eplogp”"</li>
 <li>“uniform”</li>
 <li>numeric vector of length p</li>
 </ul>
-<p>The option “marg-eplogp” uses p-values from the p simple linear regressions (useful for large p or highly correlated variables). The numeric provides a way to force variables to always be included if the initialprob is 1.</p>
+<p>The option “marg-eplogp” uses p-values from the <span class="math inline">\(p\)</span> simple linear regressions (useful for large p or highly correlated variables).</p>
 <p>Since we are enumerating under all possible models these options are not important and the <code>method="deterministic"</code> may be faster if there are no factors or interactions in the model.</p>
 </div>
 <div id="plots" class="section level2">
@@ -145,7 +146,7 @@
 <p>Some graphical summaries of the output may be obtained by the <code>plot</code> function</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">plot</span>(crime.ZS, <span class="dt">ask =</span> F)</a></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-1.png" width="700"><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-2.png" width="700"><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-3.png" width="700"><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-4.png" width="700"></p>
-<p>which produces a panel of four plots. The first is a plot of residuals and fitted values under Bayesian Model Averaging. Ideally, of our model assumptions hold, we will not see outliers or non-constant variance. The second plot shows the cumulative probability of the models in the order that they are sampled. This plot indicates that the cumulative probability is leveling off as each additional model adds only a small increment to the cumulative probability, which earlier, there are larger jumps corresponding to sampling high probability models. The third plot shows the dimension of each model (the number of regression coefficients including the intercept) versus the log of the marginal likelihood of the model. The last plot shows the marginal posterior inclusion probabilities (pip) for each of the covariates, with marginal pips greater than 0.5 shown in red. The variables with pip &gt; 0.5 correspond to what is known as the median probability model. Variables with high inclusion probabilities are generally important for explaining the data or prediction, but marginal inclusion probabilities may be small if there predictors are correlated, similar to how p-values may be large in the presence of mullticollinearity.</p>
+<p>which produces a panel of four plots. The first is a plot of residuals and fitted values under Bayesian Model Averaging. Ideally, if our model assumptions hold, we will not see outliers or non-constant variance. The second plot shows the cumulative probability of the models in the order that they are sampled. This plot indicates that the cumulative probability is leveling off as each additional model adds only a small increment to the cumulative probability, while earlier, there are larger jumps corresponding to discovering a new high probability model. The third plot shows the dimension of each model (the number of regression coefficients including the intercept) versus the log of the marginal likelihood of the model. The last plot shows the marginal posterior inclusion probabilities (pip) for each of the covariates, with marginal pips greater than 0.5 shown in red. The variables with pip &gt; 0.5 correspond to what is known as the median probability model. Variables with high inclusion probabilities are generally important for explaining the data or prediction, but marginal inclusion probabilities may be small if there are predictors that are highly correlated, similar to how p-values may be large in the presence of mullticollinearity.</p>
 <p>Individual plots may be obtained using the <code>which</code> option.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">plot</span>(crime.ZS, <span class="dt">which =</span> <span class="dv">4</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>, <span class="dt">caption =</span> <span class="st">""</span>, <span class="dt">sub.caption =</span> <span class="st">""</span>)</a></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/pip-1.png" width="480"></p>
@@ -189,7 +190,7 @@
 ## R2                   NA  0.84200  0.8265000  0.8229000  0.837500  0.8046000
 ## dim                  NA  9.00000  8.0000000  8.0000000  9.000000  7.0000000
 ## logmarg              NA 23.65111 23.5909572 23.2000822 23.130999 23.0164741</code></pre>
-<p>This lists the top 5 models (in terms of posterior probability) with the zero-one indicators for variable inclusion. The other columns in the summary are the Bayes factor of each model to the highest probability model (hence its Bayes factor is 1), the posterior probabilities of the models, the ordinary <span class="math inline">\(R^2\)</span> of the models, the dimension of the models (number of coefficients including the intercept) and the log marginal likelihood under the selected prior distribution.</p>
+<p>a list of the top 5 models (in terms of posterior probability) with the zero-one indicators for variable inclusion. The other columns in the summary are the Bayes factor of each model to the highest probability model (hence its Bayes factor is 1), the posterior probabilities of the models, the ordinary <span class="math inline">\(R^2\)</span> of the models, the dimension of the models (number of coefficients including the intercept) and the log marginal likelihood under the selected prior distribution.</p>
 </div>
 <div id="visualization-of-the-model-space" class="section level2">
 <h2 class="hasAnchor">
@@ -198,7 +199,7 @@
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(crime.ZS, <span class="dt">rotate =</span> F)</a></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/image-1.png" width="480"></p>
 <p>This image has rows that correspond to each of the variables and intercept, with labels for the variables on the y-axis. The x-axis corresponds to the possible models. These are sorted by their posterior probability from best at the left to worst at the right with the rank on the top x-axis.</p>
-<p>Each column represents one of the 16 models. The variables that are excluded in a model are shown in black for each column, while the variables that are included are colored, with the color related to the log posterior probability. The color of each column is proportional to the log of the posterior probabilities (the lower x-axis) of that model. Models that are the same color have similar log posterior probabilities which allows us to view models that are clustered together that have marginal likelihoods where the differences are not “worth a bare mention”.</p>
+<p>Each column represents one of the 16 models. The variables that are excluded in a model are shown in black for each column, while the variables that are included are colored, with the color related to the log posterior probability. The color of each column is proportional to the log of the posterior probabilities (the lower x-axis) of that model. The log posterior probabilities are actually scaled so that the 0 corresponds to the lowest probability model in the top 20, so that the values on the axis correspond to log Bayes factors for comparing each model the lowest probability model in the top 20 models. Models that are the same color have similar log Bayes factors which allows us to view models that are clustered together that have Bayes Factors where the differences are not “worth a bare mention”.</p>
 <p>This plot indicates that the police expenditure in the two years do not enter the model together, and is an indication of the high correlation between the two variables.</p>
 </div>
 <div id="posterior-distributions-of-coefficients" class="section level2">
@@ -207,7 +208,7 @@
 <p>To examine the marginal distributions of the two coefficients for the police expenditures, we can extract the coefficients estimates and standard deviations under BMA.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">coef.ZS &lt;-<span class="st"> </span><span class="kw"><a href="../reference/coef.html">coef</a></span>(crime.ZS)</a></code></pre></div>
 <p>an optional argument, <code>n.models</code> to <code>coef</code> will use only the top <code>n.models</code> for BMA and may be more computationally efficient for large problems.</p>
-<p>Plots the posterior distributions averaging over all of the models are obtained using the <code>plot</code> method.</p>
+<p>Plots of the posterior distributions averaging over all of the models are obtained using the <code>plot</code> method for the <code>bas</code> coefficient object.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">plot</span>(coef.ZS, <span class="dt">subset =</span> <span class="kw">c</span>(<span class="dv">5</span><span class="op">:</span><span class="dv">6</span>), <span class="dt">ask =</span> F)</a></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/plot-1.png" width="700"><img src="BAS-vignette_files/figure-html/plot-2.png" width="700"></p>
 <p>The vertical bar represents the posterior probability that the coefficient is 0 while the bell shaped curve represents the density of plausible values from all the models where the coefficient is non-zero. This is scaled so that the height of the density for non-zero values is the probability that the coefficient is non-zero.</p>
@@ -217,22 +218,22 @@
 <p>To obtain credible intervals for coefficients, <code>BAS</code> includes a <code>confint</code> method to create Highest Posterior Density intervals from the summaries from <code>coef</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/confint.coef.html">confint</a></span>(coef.ZS)</a></code></pre></div>
 <pre><code>##                  2.5%       97.5%        beta
-## Intercept  6.66735798 6.780865326  6.72493620
-## M          0.00000000 2.168626399  1.14359433
-## So        -0.06833752 0.304900572  0.03547522
-## Ed         0.60393700 3.173575347  1.85848834
-## Po1        0.00000000 1.437340023  0.60067372
-## Po2       -0.21632845 1.429892687  0.31841766
-## LF        -0.53805934 0.963648582  0.05933737
-## M.F       -2.27659426 1.716862337 -0.02702786
-## Pop       -0.12401416 0.008590909 -0.02248283
-## NW         0.00000000 0.165538875  0.06668437
-## U1        -0.56629612 0.315292926 -0.02456854
-## U2         0.00000000 0.660438496  0.20702927
-## GDP       -0.04243372 1.181598118  0.20625063
-## Ineq       0.69994751 2.144623431  1.39012647
-## Prob      -0.41157599 0.000000000 -0.21536203
-## Time      -0.51039852 0.055578702 -0.08433479
+## Intercept  6.66763204 6.780711325  6.72493620
+## M          0.00000000 2.156309691  1.14359433
+## So        -0.06140069 0.309666982  0.03547522
+## Ed         0.58534347 3.136614646  1.85848834
+## Po1        0.00000000 1.435984481  0.60067372
+## Po2       -0.13732420 1.449509336  0.31841766
+## LF        -0.51702593 1.003174307  0.05933737
+## M.F       -2.28515060 1.880965667 -0.02702786
+## Pop       -0.12546648 0.008001946 -0.02248283
+## NW         0.00000000 0.165837452  0.06668437
+## U1        -0.51720271 0.340095996 -0.02456854
+## U2        -0.01519699 0.665537577  0.20702927
+## GDP       -0.07665737 1.147381174  0.20625063
+## Ineq       0.65877322 2.093902259  1.39012647
+## Prob      -0.41544568 0.000000000 -0.21536203
+## Time      -0.52418739 0.041794813 -0.08433479
 ## attr(,"Probability")
 ## [1] 0.95
 ## attr(,"class")
@@ -346,7 +347,7 @@
 <a class="sourceLine" id="cb43-8" data-line-number="8">  }</a>
 <a class="sourceLine" id="cb43-9" data-line-number="9">)</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   2.300   0.000   2.302</code></pre>
+##   2.356   0.000   2.360</code></pre>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw">system.time</span>(</a>
 <a class="sourceLine" id="cb45-2" data-line-number="2">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) {</a>
 <a class="sourceLine" id="cb45-3" data-line-number="3">    crime.ZS &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(y <span class="op">~</span><span class="st"> </span>.,</a>
@@ -357,7 +358,7 @@
 <a class="sourceLine" id="cb45-8" data-line-number="8">  }</a>
 <a class="sourceLine" id="cb45-9" data-line-number="9">)</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.696   0.000   1.694</code></pre>
+##   1.708   0.000   1.711</code></pre>
 <p>which is faster for enumeration than the default method=“BAS”.</p>
 </div>
 <div id="beyond-enumeration" class="section level2">
@@ -430,7 +431,7 @@
 </tr>
 <tr class="even">
 <td>Air.Flow</td>
-<td align="right">0.999425</td>
+<td align="right">0.999315</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -439,16 +440,16 @@
 </tr>
 <tr class="odd">
 <td>Water.Temp</td>
-<td align="right">0.456535</td>
+<td align="right">0.462405</td>
 <td align="right">1.00000</td>
 <td align="right">0.0000000</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
-<td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
 </tr>
 <tr class="even">
 <td>Acid.Conc.</td>
-<td align="right">0.093940</td>
+<td align="right">0.096040</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -457,7 +458,7 @@
 </tr>
 <tr class="odd">
 <td><code>1</code></td>
-<td align="right">0.580545</td>
+<td align="right">0.597800</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -466,16 +467,16 @@
 </tr>
 <tr class="even">
 <td><code>2</code></td>
-<td align="right">0.167630</td>
+<td align="right">0.154815</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
-<td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
+<td align="right">0.0000000</td>
 </tr>
 <tr class="odd">
 <td><code>3</code></td>
-<td align="right">0.606145</td>
+<td align="right">0.623240</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -484,7 +485,7 @@
 </tr>
 <tr class="even">
 <td><code>4</code></td>
-<td align="right">0.949125</td>
+<td align="right">0.953420</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -493,7 +494,7 @@
 </tr>
 <tr class="odd">
 <td><code>5</code></td>
-<td align="right">0.071110</td>
+<td align="right">0.073370</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -502,7 +503,7 @@
 </tr>
 <tr class="even">
 <td><code>6</code></td>
-<td align="right">0.080160</td>
+<td align="right">0.071895</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -511,7 +512,7 @@
 </tr>
 <tr class="odd">
 <td><code>7</code></td>
-<td align="right">0.067645</td>
+<td align="right">0.058690</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -520,7 +521,7 @@
 </tr>
 <tr class="even">
 <td><code>8</code></td>
-<td align="right">0.067810</td>
+<td align="right">0.064810</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -529,7 +530,7 @@
 </tr>
 <tr class="odd">
 <td><code>9</code></td>
-<td align="right">0.067815</td>
+<td align="right">0.065670</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -538,7 +539,7 @@
 </tr>
 <tr class="even">
 <td><code>10</code></td>
-<td align="right">0.068370</td>
+<td align="right">0.063440</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -547,7 +548,7 @@
 </tr>
 <tr class="odd">
 <td><code>11</code></td>
-<td align="right">0.061785</td>
+<td align="right">0.064835</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -556,7 +557,7 @@
 </tr>
 <tr class="even">
 <td><code>12</code></td>
-<td align="right">0.090460</td>
+<td align="right">0.084340</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -565,16 +566,16 @@
 </tr>
 <tr class="odd">
 <td><code>13</code></td>
-<td align="right">0.350935</td>
+<td align="right">0.348360</td>
 <td align="right">0.00000</td>
 <td align="right">1.0000000</td>
-<td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
+<td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td><code>14</code></td>
-<td align="right">0.185595</td>
+<td align="right">0.183500</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -583,7 +584,7 @@
 </tr>
 <tr class="odd">
 <td><code>15</code></td>
-<td align="right">0.071230</td>
+<td align="right">0.070050</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -592,7 +593,7 @@
 </tr>
 <tr class="even">
 <td><code>16</code></td>
-<td align="right">0.058910</td>
+<td align="right">0.057850</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -601,7 +602,7 @@
 </tr>
 <tr class="odd">
 <td><code>17</code></td>
-<td align="right">0.064135</td>
+<td align="right">0.069340</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -610,7 +611,7 @@
 </tr>
 <tr class="even">
 <td><code>18</code></td>
-<td align="right">0.066710</td>
+<td align="right">0.064975</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -619,7 +620,7 @@
 </tr>
 <tr class="odd">
 <td><code>19</code></td>
-<td align="right">0.094260</td>
+<td align="right">0.086920</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -628,7 +629,7 @@
 </tr>
 <tr class="even">
 <td><code>20</code></td>
-<td align="right">0.128130</td>
+<td align="right">0.134615</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -637,7 +638,7 @@
 </tr>
 <tr class="odd">
 <td><code>21</code></td>
-<td align="right">0.985645</td>
+<td align="right">0.986645</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -649,45 +650,45 @@
 <td align="right">NA</td>
 <td align="right">1.00000</td>
 <td align="right">0.3397571</td>
-<td align="right">0.2016282</td>
 <td align="right">0.5779604</td>
 <td align="right">0.5555328</td>
+<td align="right">0.2016282</td>
 </tr>
 <tr class="odd">
 <td>PostProbs</td>
 <td align="right">NA</td>
-<td align="right">0.05450</td>
-<td align="right">0.0229000</td>
-<td align="right">0.0205000</td>
-<td align="right">0.0205000</td>
-<td align="right">0.0198000</td>
+<td align="right">0.06460</td>
+<td align="right">0.0221000</td>
+<td align="right">0.0212000</td>
+<td align="right">0.0209000</td>
+<td align="right">0.0176000</td>
 </tr>
 <tr class="even">
 <td>R2</td>
 <td align="right">NA</td>
 <td align="right">0.98920</td>
 <td align="right">0.9873000</td>
-<td align="right">0.9803000</td>
 <td align="right">0.9923000</td>
 <td align="right">0.9922000</td>
+<td align="right">0.9803000</td>
 </tr>
 <tr class="odd">
 <td>dim</td>
 <td align="right">NA</td>
 <td align="right">7.00000</td>
 <td align="right">7.0000000</td>
+<td align="right">8.0000000</td>
+<td align="right">8.0000000</td>
 <td align="right">6.0000000</td>
-<td align="right">8.0000000</td>
-<td align="right">8.0000000</td>
 </tr>
 <tr class="even">
 <td>logmarg</td>
 <td align="right">NA</td>
 <td align="right">23.82319</td>
 <td align="right">22.7436630</td>
-<td align="right">22.2218573</td>
 <td align="right">23.2749373</td>
 <td align="right">23.2353597</td>
+<td align="right">22.2218573</td>
 </tr>
 </tbody>
 </table>
@@ -695,7 +696,7 @@
 <div id="factors-and-hierarchical-heredity" class="section level2">
 <h2 class="hasAnchor">
 <a href="#factors-and-hierarchical-heredity" class="anchor"></a>Factors and Hierarchical Heredity</h2>
-<p>BAS now includes constraints for factors so that all terms that represent a factor are either included or excluded togehter. To illustrate, we will use the data set <code>ToothGrowth</code> and convert <code>dose</code> to a factor:</p>
+<p>BAS now includes constraints for factors so that all terms that represent a factor are either included or excluded together. To illustrate, we will use the data set <code>ToothGrowth</code> and convert <code>dose</code> to a factor:</p>
 <div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw">data</span>(ToothGrowth)</a>
 <a class="sourceLine" id="cb53-2" data-line-number="2">ToothGrowth<span class="op">$</span>dose &lt;-<span class="st"> </span><span class="kw">factor</span>(ToothGrowth<span class="op">$</span>dose)</a>
 <a class="sourceLine" id="cb53-3" data-line-number="3"><span class="kw">levels</span>(ToothGrowth<span class="op">$</span>dose) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"Low"</span>, <span class="st">"Medium"</span>, <span class="st">"High"</span>)</a></code></pre></div>
@@ -724,7 +725,7 @@
 <a class="sourceLine" id="cb56-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb56-6" data-line-number="6"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(TG.bas)</a></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
-<p>The <code>force.heredity</code> is set to FALSE for the sampling methods <code>MCMC+BAS</code> and <code>deterministic</code>. If there are more than 20 predictors and factors, then we recommend using <code>MCMC</code> to enforce the constraints. Alternatively, there is a function, <code>force.heredity.bas</code>, to post-process the output to drop models that violate the hierachical heredity constraint:</p>
+<p>The <code>force.heredity</code> is set to FALSE for the sampling methods <code>MCMC+BAS</code> and <code>deterministic</code>. If there are more than 20 predictors and factors, then we recommend using <code>MCMC</code> to enforce the constraints. Alternatively, there is a function, <code>force.heredity.bas</code>, to post-process the output to drop models that violate the hierarchical heredity constraint:</p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">TG.bas &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(len <span class="op">~</span><span class="st"> </span>supp <span class="op">*</span><span class="st"> </span>dose,</a>
 <a class="sourceLine" id="cb57-2" data-line-number="2">  <span class="dt">data =</span> ToothGrowth,</a>
 <a class="sourceLine" id="cb57-3" data-line-number="3">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>(), <span class="dt">method =</span> <span class="st">"BAS"</span>, <span class="dt">force.heredity =</span> <span class="ot">FALSE</span></a>
@@ -738,7 +739,7 @@
 <p><code>BAS</code> can perform weighted regression by supplying an optional weight vector that is of the same length as the response where the assumption is that the variance of the response is proportional to 1/weights. The g-prior incorporates the weights in the prior covariance, <span class="math display">\[
  \sigma^2 g (X_\gamma^T W X_\gamma)^{-1}
 \]</span> where <span class="math inline">\(X_\gamma\)</span> is the design matrix under model <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(W\)</span> is the <span class="math inline">\(n \times n\)</span> diagonal matrix with the weights on the diagonal.</p>
-<p>To illustrate, we will use the climate data, avaialable at the url below</p>
+<p>To illustrate, we will use the climate data, available at the url below</p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1">climate &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">"https://stat.duke.edu/sites/stat.duke.edu/files/climate.dat"</span>, <span class="dt">header =</span> T)</a>
 <a class="sourceLine" id="cb58-2" data-line-number="2"><span class="kw">str</span>(climate)</a></code></pre></div>
 <pre><code>## 'data.frame':    63 obs. of  5 variables:
@@ -762,7 +763,7 @@
 ##  Mean   :  2.187  
 ##  3rd Qu.:  9.700  
 ##  Max.   : 29.000</code></pre>
-<p>which includes measurements of changes in temperature (<code>deltaT</code>) at various <code>latitude</code>s as well as a meaure of the accuracy of the measured values <code>sdev</code> for 8 differenty types <code>proxy</code> of obtaining measurements. We will use this to explore weighted regression and the option to group terms in factors or from <code>poly</code>. For illustration purposes, we will eliminate <code>proxy == 6</code> which has only one level as the interactions are not estimable, and then convert <code>proxy</code> to a factor.</p>
+<p>which includes measurements of changes in temperature (<code>deltaT</code>) at various <code>latitude</code>s as well as a measure of the accuracy of the measured values <code>sdev</code> for 8 different types <code>proxy</code> of obtaining measurements. We will use this to explore weighted regression and the option to group terms in factors or from <code>poly</code>. For illustration purposes, we will eliminate <code>proxy == 6</code> which has only one level as the interactions are not estimable, and then convert <code>proxy</code> to a factor.</p>
 <div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
 <a class="sourceLine" id="cb62-2" data-line-number="2">climate &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(climate, proxy <span class="op">!=</span><span class="st"> </span><span class="dv">6</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb62-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">proxy =</span> <span class="kw">factor</span>(proxy))</a></code></pre></div>
@@ -795,7 +796,7 @@ Rerunning without the constraint,</p>
 <div id="summary" class="section level2">
 <h2 class="hasAnchor">
 <a href="#summary" class="anchor"></a>Summary</h2>
-<p><code>BAS</code> includes other prior distributions on coefficients and models, as well as <code>bas.glm</code> for fitting Generalized Linear Models. The syntax for bas.glm and bas.lm are not yet the same, particularly for how some of the priors on coefficients are represented, so please see the documentation for more features and details until this is updated or another vignette is added!</p>
+<p><code>BAS</code> includes other prior distributions on coefficients and models, as well as <code>bas.glm</code> for fitting Generalized Linear Models. The syntax for <code>bas.glm</code> and <code>bas.lm</code> are not yet the same, particularly for how some of the priors on coefficients are represented, so please see the documentation for more features and details until this is updated or another vignette is added!</p>
 <p>For issues or feature requests please submit via the package’s github page <a href="http://github.com/merliseclyde/BAS">merliseclyde/BAS</a></p>
 </div>
   </div>

@@ -152,6 +152,7 @@
 <li><p>corrected count for first model with <code>method='MCMC'</code> which lead to potential model with 0 probabiliy and errors in <code>image</code>.</p></li>
 <li><p>coerced predicted values to be a vector under BMA (was a matrix)</p></li>
 <li><p>fixed <code>size</code> with using <code>method=deterministic</code> in <code>bas.glm</code> (was not updated)</p></li>
+<li><p>fixed problem in <code>confint</code> with <code>horizontal=TRUE</code> when intervals are point mass at zero.</p></li>
 </ul>
 </div>
 <div id="other" class="section level2">

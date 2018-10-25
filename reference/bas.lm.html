@@ -612,6 +612,27 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; R2                 5.950000e-02
 #&gt; dim                2.000000e+00
 #&gt; logmarg           -1.270492e+00</div><div class='input'><span class='fu'><a href='image.bas.html'>image</a></span>(<span class='no'>TG.bas</span>)</div><div class='img'><img src='bas.lm-6.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># exmple with non-full rank case</span>
+
+ <span class='no'>loc</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"testdata"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"BAS"</span>)
+ <span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>read.csv</span>(<span class='fu'>paste</span>(<span class='no'>loc</span>, <span class='st'>"JASP-testdata.csv"</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"/"</span>))
+<span class='no'>fullModelFormula</span> <span class='kw'>&lt;-</span> <span class='fu'>as.formula</span>(<span class='st'>"contNormal ~  contGamma * contExpon +
+                                contGamma * contcor1 + contExpon * contcor1"</span>)
+
+<span class='co'># should give warning; use pivot = T to fit non-full rank case (fails on i386)</span>
+ <span class='no'>out</span> <span class='kw'>=</span> <span class='fu'>bas.lm</span>(<span class='no'>fullModelFormula</span>,
+              <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>d</span>,
+              <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.125316</span>,
+              <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"JZS"</span>,
+              <span class='kw'>weights</span> <span class='kw'>=</span> <span class='no'>facFifty</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: log marginals and posterior probabilities contain NA's.  Consider re-running with the option `pivot=TRUE` if there are models that are not full rank</span></div><div class='input'>
+
+<span class='co'># use pivot = TRUE to fit non-full rank case</span>
+<span class='no'>out</span> <span class='kw'>=</span>  <span class='fu'>bas.lm</span>(<span class='no'>fullModelFormula</span>,
+              <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>d</span>,
+              <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.125316</span>,
+              <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"JZS"</span>,
+              <span class='kw'>weights</span> <span class='kw'>=</span> <span class='no'>facFifty</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
 <span class='co'># more complete demo's</span>
 <span class='fu'>demo</span>(<span class='no'>BAS.hald</span>)</div><div class='output co'>#&gt; 
 #&gt; 
@@ -745,7 +766,7 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; [1] 12 12 12 12 12
 #&gt; 
 #&gt; $best
-#&gt; [1] 10  8  5 15  4
+#&gt; [1] 10  7  8  9 12
 #&gt; 
 #&gt; $bestmodel
 #&gt; $bestmodel[[1]]
@@ -775,19 +796,19 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; 
 #&gt; &gt; confint(predict(hald.gprior, Hald, estimator="BMA", se.fit=TRUE, top=5), parm="mean")
 #&gt;            2.5%     97.5%      mean
-#&gt;  [1,]  73.08654  86.10599  79.74246
-#&gt;  [2,]  69.46071  79.56754  74.50010
-#&gt;  [3,] 101.17373 109.90684 105.29268
-#&gt;  [4,]  84.85202  94.53317  89.88693
-#&gt;  [5,]  90.61435 100.46987  95.57177
-#&gt;  [6,] 101.33654 108.02934 104.56409
-#&gt;  [7,]  97.55110 109.36940 103.40145
-#&gt;  [8,]  71.63875  82.59007  77.13668
-#&gt;  [9,]  87.47168  96.37703  91.99731
-#&gt; [10,] 106.85915 121.92755 114.21325
-#&gt; [11,]  77.48973  88.07139  82.78446
-#&gt; [12,] 106.43094 115.10762 111.00723
-#&gt; [13,] 105.60587 115.04043 110.40160
+#&gt;  [1,]  73.04991  86.04464  79.74246
+#&gt;  [2,]  69.46540  79.54447  74.50010
+#&gt;  [3,] 101.03496 109.77527 105.29268
+#&gt;  [4,]  84.93309  94.64512  89.88693
+#&gt;  [5,]  90.54579 100.42375  95.57177
+#&gt;  [6,] 101.32555 108.02356 104.56409
+#&gt;  [7,]  97.84462 109.61154 103.40145
+#&gt;  [8,]  71.71355  82.65300  77.13668
+#&gt;  [9,]  87.48389  96.45955  91.99731
+#&gt; [10,] 106.90349 122.18386 114.21325
+#&gt; [11,]  77.36976  88.01220  82.78446
+#&gt; [12,] 106.75039 115.44064 111.00723
+#&gt; [13,] 105.77578 115.14246 110.40160
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
