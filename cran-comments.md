@@ -2,10 +2,10 @@
 
 * local OS X install, R 3.5.0 R 3.5.1
 * ubuntu 14.04.5 (on travis-ci), R 3.5.1 and R-devel
-* build-win (devel and release)
+* win-builder (devel and release)
 
 ## R CMD check results
-There were no ERRORs or NOTES.  Warning on win-builder about vignette requiring UTF-8 although locale is ASCII.
+There were no ERRORs, WARNINGS or NOTES.  
 
 ## Reverse Dependencies
 
