@@ -328,6 +328,28 @@ TG.bas <- bas.lm(len ~ supp * dose,
 summary(TG.bas)
 image(TG.bas)
 
+# exmple with non-full rank case
+
+ loc <- system.file("testdata", package = "BAS")
+ d <- read.csv(paste(loc, "JASP-testdata.csv", sep = "/"))
+fullModelFormula <- as.formula("contNormal ~  contGamma * contExpon +
+                                contGamma * contcor1 + contExpon * contcor1")
+
+# should give warning; use pivot = T to fit non-full rank case (fails on i386)
+ out = bas.lm(fullModelFormula,
+              data = d,
+              alpha = 0.125316,
+              prior = "JZS",
+              weights = facFifty, force.heredity = FALSE, pivot = FALSE)
+
+
+# use pivot = TRUE to fit non-full rank case
+out =  bas.lm(fullModelFormula,
+              data = d,
+              alpha = 0.125316,
+              prior = "JZS",
+              weights = facFifty, force.heredity = FALSE, pivot = TRUE)
+
 # more complete demo's
 demo(BAS.hald)
 \dontrun{

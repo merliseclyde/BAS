@@ -192,7 +192,9 @@ confint.pred.bas <- function(object, parm, level = 0.95, nsim = 10000, ...) {
 #'
 #' data(Hald)
 #' hald.ZS = bas.lm(Y ~ ., data=Hald, prior="ZS-null", modelprior=uniform())
-#' plot(confint(coef(hald.ZS), parm=2:5))
+#' hald.coef = confint(coef(hald.ZS), parm=2:5)
+#' plot(hald.coef)
+#' plot(hald.coef, horizontal=TRUE)
 #' plot(confint(predict(hald.ZS, se.fit=TRUE), parm="mean"))
 #'
 #' @rdname  plot.confint
@@ -239,7 +241,7 @@ plot.confint.bas <- function(x, horizontal = FALSE, ...) {
     )
     axis(2, at = x, labels = namesx, tick = FALSE, ...)
     abline(v = 0, lty = 3, ...)
-    arrows(ci[, 1], x, ci[, 2], x, ci[, 1], x, ci[, 2], code = 3, angle = 90, length = 0.05, ...)
+    arrows(ci[not.deg, 1], x[not.deg], ci[not.deg, 2], x[not.deg],  code = 3, angle = 90, length = 0.05, ...)
   }
   return()
 }

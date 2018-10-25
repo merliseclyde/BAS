@@ -76,7 +76,7 @@ crime.ZS <- bas.lm(y ~ .,
 )
 ```
 
-`BAS` uses a model formula similar to `lm` to specify the full model with all of the potential predictors.  Here we are using the shorthand `.` to indicate that all remaining variables in the data frame will be included.  `BAS` require a data frame as the input for the `data` argument.   Different prior distributions on the regression coefficients may be specified using the `prior` argument, and include
+`BAS` uses a model formula similar to `lm` to specify the full model with all of the potential predictors.  Here we are using the shorthand `.` to indicate that all remaining variables in the data frame provided by the  `data` argument.   Different prior distributions on the regression coefficients may be specified using the `prior` argument, and include
 
   * "BIC"
   * "AIC
@@ -84,21 +84,21 @@ crime.ZS <- bas.lm(y ~ .,
   * "hyper-g"
   * "hyper-g-laplace"
   * "hyper-g-n"
+  * "JZS"
   * "ZS-null"
   * "ZS-full"
   * "EB-local"
   * "EB-global"
 
-where the default is the Zellner-Siow prior, ZS-null, where all Bayes factors are compared to the null model.
+where the default is the Zellner-Siow prior, ZS-null, where all Bayes factors are compared to the null model.  The newest prior option, "JZS", also corresponds to the Zellner-Siow prior on the coefficients, but uses numerical integration rather than a Laplace approximation to obtain the marginal likelihood of models.  
 
-By default, `BAS` will try to enumerate all models, in this case $2^{15}$ using the default `method="BAS"`.  The prior distribution over the models is a `uniform()` distribution which assigns equal probabilities to all models.  The last optional argument `initprobs = eplogp` provides a way to initialize the sampling algorithm and order the variables in the tree structure that represents the model space in BAS.  The `eplogp` option uses the Bayes factor calibration of p-values  $-e p \log(p)$ to provide an approximation to the marginal inclusion probability that the coefficient of each predictor is zero, using the p-values from the full model.  Other options for `initprobs` include
+By default, `BAS` will try to enumerate all models if $p < 19$ using the default `method="BAS"`.  The prior distribution over the models is a `uniform()` distribution which assigns equal probabilities to all models.  The last optional argument `initprobs = eplogp` provides a way to initialize the sampling algorithm and order the variables in the tree structure that represents the model space in BAS.  The `eplogp` option uses the Bayes factor calibration of p-values  $-e p \log(p)$ to provide an approximation to the marginal inclusion probability that the coefficient of each predictor is zero, using the p-values from the full model.  Other options for `initprobs` include
 
   * "marg-eplogp""
   * "uniform"
   *  numeric vector of length p
   
-The option "marg-eplogp" uses  p-values from the p simple linear regressions (useful for large p or highly correlated variables).
-The numeric provides a way to force variables to always be included  if the initialprob is 1.  
+The option "marg-eplogp" uses  p-values from the $p$ simple linear regressions (useful for large p or highly correlated variables).
 
 Since we are enumerating under all possible models these options are not important and the `method="deterministic"` may be faster if there are no factors or interactions in the model. 
 
@@ -110,7 +110,7 @@ Some graphical summaries of the output may be obtained by the `plot` function
 plot(crime.ZS, ask = F)
 ```
 
-which produces a panel of four plots.  The first is a plot of residuals and fitted values under Bayesian Model Averaging.  Ideally,  of our model assumptions hold, we will not see outliers or non-constant variance. The second plot shows the cumulative probability of the models in the order that they are sampled.  This plot indicates that the cumulative probability is leveling off as each additional model adds only a small increment to the cumulative probability, which earlier, there are larger jumps corresponding to sampling high probability models.  The third plot shows the dimension of each model (the number of regression coefficients including the intercept) versus the log of the marginal likelihood of the model.    The last plot shows the marginal posterior inclusion probabilities (pip) for each of the covariates, with marginal pips greater than 0.5 shown in red.  The variables with pip > 0.5 correspond to what is known as the median probability model.  Variables with high inclusion probabilities are generally important for explaining the data or prediction, but marginal inclusion probabilities may be small if there  predictors are correlated, similar to how p-values may be large in the presence of mullticollinearity.
+which produces a panel of four plots.  The first is a plot of residuals and fitted values under Bayesian Model Averaging.  Ideally,  if our model assumptions hold, we will not see outliers or non-constant variance. The second plot shows the cumulative probability of the models in the order that they are sampled.  This plot indicates that the cumulative probability is leveling off as each additional model adds only a small increment to the cumulative probability, while earlier, there are larger jumps corresponding to discovering a new high probability model.  The third plot shows the dimension of each model (the number of regression coefficients including the intercept) versus the log of the marginal likelihood of the model.    The last plot shows the marginal posterior inclusion probabilities (pip) for each of the covariates, with marginal pips greater than 0.5 shown in red.  The variables with pip > 0.5 correspond to what is known as the median probability model.  Variables with high inclusion probabilities are generally important for explaining the data or prediction, but marginal inclusion probabilities may be small if there are predictors that are highly correlated, similar to how p-values may be large in the presence of mullticollinearity.
 
 Individual plots may be obtained using the `which` option.
 ```{r pip, fig.width=5, fig.height=5}
@@ -128,7 +128,8 @@ provides
 options(width = 80)
 summary(crime.ZS)
 ```
-This lists the top 5 models (in terms of posterior probability)  with the zero-one indicators for variable inclusion.  The other columns in the summary are the Bayes factor of each model to the highest probability model (hence its Bayes factor is 1), the posterior probabilities of the models, the ordinary $R^2$ of the models, the dimension of the models (number of coefficients including the intercept)  and the log marginal likelihood under the selected prior distribution. 
+
+a list of the top 5 models (in terms of posterior probability)  with the zero-one indicators for variable inclusion.  The other columns in the summary are the Bayes factor of each model to the highest probability model (hence its Bayes factor is 1), the posterior probabilities of the models, the ordinary $R^2$ of the models, the dimension of the models (number of coefficients including the intercept)  and the log marginal likelihood under the selected prior distribution. 
 
 ## Visualization of the Model Space  
 
@@ -145,7 +146,7 @@ Each column represents one of the 16 models.  The variables
 that are excluded in a model are shown in black for each column, while
 the variables that are included are colored, with the color related to
 the log posterior probability. 
-The color of each column is proportional to the log of the posterior probabilities (the lower x-axis) of that model. Models that are the same color have similar log posterior probabilities  which allows us to view models that are clustered together that have marginal likelihoods where the  differences are not "worth a bare mention".
+The color of each column is proportional to the log of the posterior probabilities (the lower x-axis) of that model. The log posterior probabilities are actually scaled so that the 0 corresponds to the lowest probability model in the top 20, so that the values on the axis correspond to log Bayes factors for comparing each model the lowest probability model in the top 20 models.  Models that are the same color have similar log Bayes factors which allows us to view models that are clustered together that have Bayes Factors where the  differences are not "worth a bare mention".  
 
 This plot indicates that the police expenditure in the two years do not enter the model together, and is an indication of the high correlation between the two variables.
 
@@ -158,7 +159,7 @@ coef.ZS <- coef(crime.ZS)
 ```
 an optional argument, `n.models` to `coef` will use only the top `n.models` for BMA and may be more computationally efficient for large problems.
 
-Plots the posterior distributions averaging over all of the models are obtained using the `plot` method.
+Plots of the posterior distributions averaging over all of the models are obtained using the `plot` method for the `bas` coefficient object.
 
 ```{r plot}
 plot(coef.ZS, subset = c(5:6), ask = F)
@@ -390,7 +391,7 @@ knitr::kable(as.data.frame(summary(stack.bas)))
 
 ## Factors and Hierarchical Heredity 
 
-BAS now includes constraints for factors so that all terms that represent a factor are either included or excluded togehter. 
+BAS now includes constraints for factors so that all terms that represent a factor are either included or excluded together. 
 To illustrate, we will use the data set `ToothGrowth` and convert `dose` to a factor:
 ```{r}
 data(ToothGrowth)
@@ -434,7 +435,7 @@ image(TG.bas)
 
 The `force.heredity` is set to FALSE for the sampling methods `MCMC+BAS` and `deterministic`.   If there are more than 20 predictors and factors, then we recommend using `MCMC` to enforce the constraints.  Alternatively,
 there is a function,  `force.heredity.bas`, to
-post-process the output to drop models that violate the hierachical heredity constraint:
+post-process the output to drop models that violate the hierarchical heredity constraint:
 
 ```{r force-herid}
 TG.bas <- bas.lm(len ~ supp * dose,
@@ -456,13 +457,13 @@ $$
 $$
 where $X_\gamma$ is the design matrix under model $\gamma$ and $W$ is the $n \times n$ diagonal matrix with the weights on the diagonal.
 
-To illustrate, we will use the climate data, avaialable at the url below
+To illustrate, we will use the climate data, available at the url below
 ```{r climate}
 climate <- read.table("https://stat.duke.edu/sites/stat.duke.edu/files/climate.dat", header = T)
 str(climate)
 summary(climate)
 ```
-which includes measurements of changes in temperature (`deltaT`) at various `latitude`s as well as a meaure of the accuracy of the measured values `sdev` for 8 differenty types  `proxy` of obtaining  measurements.  We will use this to explore weighted regression and the option to group terms in factors or from `poly`.  For illustration purposes, we will eliminate `proxy == 6` which has only one level as the interactions are not estimable, and then convert `proxy` to a factor.
+which includes measurements of changes in temperature (`deltaT`) at various `latitude`s as well as a measure of the accuracy of the measured values `sdev` for 8 different types  `proxy` of obtaining  measurements.  We will use this to explore weighted regression and the option to group terms in factors or from `poly`.  For illustration purposes, we will eliminate `proxy == 6` which has only one level as the interactions are not estimable, and then convert `proxy` to a factor.
 
 ```{r read-climate}
 library(dplyr)
@@ -510,7 +511,7 @@ allows one to see which factors levels are different from the reference group.
 
 ## Summary
 
-`BAS` includes other prior distributions on coefficients and models, as well as `bas.glm` for fitting Generalized Linear Models.  The syntax for bas.glm and bas.lm are not yet the same, particularly for how some of the priors on coefficients are represented, so please see the documentation for more features and details until this is updated or another vignette is added!
+`BAS` includes other prior distributions on coefficients and models, as well as `bas.glm` for fitting Generalized Linear Models.  The syntax for `bas.glm` and `bas.lm` are not yet the same, particularly for how some of the priors on coefficients are represented, so please see the documentation for more features and details until this is updated or another vignette is added!
 
 For issues or feature requests please submit via the package's github page 
 [merliseclyde/BAS](http://github.com/merliseclyde/BAS)

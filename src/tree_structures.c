@@ -95,16 +95,17 @@ int sortvars(struct Var *vars, double *prob, int p)
 		else if (vars[i].prob == 1.0)
 			vars[i].leaveout = TRUE;	/* Must be in. */
 		else {
-			REprintf("Warning: Probability %d (%lf) more than one, setting to one.\n",
-				i, vars[i].prob);
+/*			REprintf("Warning: Probability %d (%lf) more than one, setting to one.\n",
+				i, vars[i].prob); */
 			vars[i].leaveout = TRUE;
 			vars[i].prob = 1.0;
 		}
 	}
 
-	if (n == 0) {
+/*	if (n == 0) {
 		REprintf("Warning: prior inclusion probabilities are all 0 or 1 - Only 1 model!\n");
 	}
+ */
 	/* Ok, vars is set up.  Need to sort to get "list". */
 	qsort((char *) vars, p, sizeof(struct Var),(compfn) compare);
 

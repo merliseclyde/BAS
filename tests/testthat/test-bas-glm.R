@@ -415,7 +415,7 @@ test_that("herdity and BAS", {
                        update = 5,
                        force.heredity=FALSE)
   pima_BAS_no <- force.heredity.bas(pima_BAS_no)
-  expect_equal(0L, sum(pima_BAS$probne0 > 1))
-  expect_equal(0L, sum(pima_BAS_no$probne0 > 1))
+  expect_equal(0L, sum(pima_BAS$probne0 > 1.0))
+  expect_equal(0L, sum(pima_BAS_no$probne0[-1] > 1.0))
   expect_equal(pima_BAS$probne0, pima_BAS_no$probne0)
 })

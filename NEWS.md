@@ -51,6 +51,8 @@ and added unit test to "tests/testthat/test-special-functions.R"
 
 * fixed `size` with using `method=deterministic` in `bas.glm` (was not updated) 
 
+* fixed problem in `confint` with `horizontal=TRUE` when intervals are point mass at zero.
+
 ## Other
 
 *  suppress `warning` when sampling probabilities are 1 or 0 and the number of models is decremented  

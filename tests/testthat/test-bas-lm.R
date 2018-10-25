@@ -259,23 +259,13 @@ test_that("check non-full rank", {
 
   fullModelFormula <- as.formula("contNormal ~  contGamma * contExpon + contGamma * contcor1 + contExpon * contcor1")
 
-  bas.lm(fullModelFormula,
-         data = d,
-         alpha = 0.125316,
-         prior = "JZS",
-         weights = facFifty, force.heredity = FALSE, pivot = F
-  )
-  expect_warning(bas.lm(fullModelFormula,
-                        data = d,
-                        alpha = 0.125316,
-                        prior = "JZS",
-                        weights = facFifty, force.heredity = FALSE, pivot = F
-  ))
+
   expect_error(eplogprob(lm(fullModelFormula, data = d)))
+
   basObj.eplogp <- bas.lm(fullModelFormula,
                           data = d,
                           alpha = 0.125316, initprobs = "marg-eplogp",
-                          prior = "JZS", method = "deterministic", pivot = T,
+                          prior = "JZS", method = "deterministic", pivot = TRUE,
                           modelprior = uniform(),
                           weights = facFifty, force.heredity = FALSE
   )
@@ -283,13 +273,13 @@ test_that("check non-full rank", {
                        data = d,
                        alpha = 0.125316,
                        modelprior = uniform(),
-                       prior = "JZS", method = "deterministic", pivot = T,
+                       prior = "JZS", method = "deterministic", pivot = TRUE,
                        weights = facFifty, force.heredity = FALSE
   )
   basObj <- bas.lm(fullModelFormula,
                    data = d,
                    alpha = 0.125316, modelprior = uniform(),
-                   prior = "JZS", method = "BAS", pivot = T,
+                   prior = "JZS", method = "BAS", pivot = TRUE,
                    weights = facFifty, force.heredity = FALSE
   )
   expect_equal(0, sum(is.na(basObj.det$postprobs)))
@@ -300,7 +290,7 @@ test_that("check non-full rank", {
   basObj.EBL <- bas.lm(fullModelFormula,
                        data = d,
                        alpha = 0.125316, initprobs = "marg-eplogp",
-                       prior = "EB-local", method = "deterministic", pivot = T,
+                       prior = "EB-local", method = "deterministic", pivot = TRUE,
                        modelprior = uniform(),
                        weights = facFifty, force.heredity = FALSE
   )

@@ -35,7 +35,9 @@ the description above ~~
 
 data(Hald)
 hald.ZS = bas.lm(Y ~ ., data=Hald, prior="ZS-null", modelprior=uniform())
-plot(confint(coef(hald.ZS), parm=2:5))
+hald.coef = confint(coef(hald.ZS), parm=2:5)
+plot(hald.coef)
+plot(hald.coef, horizontal=TRUE)
 plot(confint(predict(hald.ZS, se.fit=TRUE), parm="mean"))
 
 }
