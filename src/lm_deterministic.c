@@ -3,14 +3,14 @@
 // [[register]]
 SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
                    SEXP Rmodeldim, SEXP incint, SEXP Ralpha,
-                   SEXP method, SEXP modelprior, SEXP Rpivot)
+                   SEXP method, SEXP modelprior, SEXP Rpivot, SEXP Rtol)
 {
   SEXP   RXwork = PROTECT(duplicate(X)), RYwork = PROTECT(duplicate(Y));
   int nProtected = 2;
 
   int  nModels=LENGTH(Rmodeldim);
   int  pivot = LOGICAL(Rpivot)[0];
-
+  double  tol = REAL(Rtol)[0];
   SEXP ANS = PROTECT(allocVector(VECSXP, 13)); ++nProtected;
   SEXP ANS_names = PROTECT(allocVector(STRSXP, 13)); ++nProtected;
   SEXP Rprobs = PROTECT(duplicate(Rprobinit)); ++nProtected;
@@ -85,7 +85,7 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 
     mse_m = yty;
 
-    rank_m =  cholregpivot(XtYwork, XtXwork, coefficients, se_m, &mse_m, p, nobs);
+    rank_m =  cholregpivot(XtYwork, XtXwork, coefficients, se_m, &mse_m, p, nobs, pivot, tol);
 
     RSquareFull =  1.0 - (mse_m * (double) ( nobs - rank_m))/SSY;
     UNPROTECT(2);
@@ -139,7 +139,7 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 
       R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork,
                       yty, SSY, pmodel, p, nobs, m, &mse_m, &rank_m,
-                      pivot);
+                      pivot, tol);
       INTEGER(rank)[m] = rank_m;
 
       SET_ELEMENT(beta, m, Rcoef_m);

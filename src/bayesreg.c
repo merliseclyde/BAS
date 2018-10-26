@@ -121,12 +121,13 @@ void gexpectations(int p, int pmodel, int nobs, double R2, double alpha, int met
 
 
 
-int cholregpivot(double *XtY, double *XtX, double *coefficients, double *se, double *mse, int p, int n)
+int cholregpivot(double *XtY, double *XtX, double *coefficients, double *se, double *mse, int p, int n,
+                 int pivot, double tol)
 {
 	/* On entry *coefficients equals X'Y, which is over written with the OLS estimates */
 	/* On entry MSE = Y'Y */
 
-  double  one, ete=0.0, zero, tol=100*DBL_EPSILON, *work, *tmpcoef;
+  double  one, ete=0.0, zero, *work, *tmpcoef;
 	int  job, l, i, j, info, inc, rank, *piv, p2;
 	zero = 0.0;
 	one = 1.0;

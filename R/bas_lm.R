@@ -245,12 +245,14 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' order terms are included.  Currently only supported with `method='MCMC'`.
 #' Default is TRUE.
 #' @param pivot Logical variable to allow pivoting of columns when obtaining the
-#' OLS estimates of a model so that models that are not full rank can be fit.
+#' OLS estimates of a model so that models that are not full rank can be fit. Defaults to TRUE.
 #' Currently coefficients that are not estimable are set to zero.  Use caution with
-#' interpreting BMA estimates of parameters.  (Experimental).
+#' interpreting BMA estimates of parameters.
+#' @param tol 1e-7 as
 #' @param bigmem Logical variable to indicate that there is access to
 #' large amounts of memory (physical or virtual) for enumeration
-#' with large model spaces, e.g. > 2^25.
+#' with large model spaces, e.g. > 2^25. default; used in determining rank of X^TX in cholesky decompostion
+#' with pivoting.
 #'
 #' @return \code{bas} returns an object of class \code{bas}
 #'
@@ -419,7 +421,7 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #'               data = d,
 #'               alpha = 0.125316,
 #'               prior = "JZS",
-#'               weights = facFifty, force.heredity = FALSE, pivot = TRUE)
+#'               weights = facFifty, force.heredity = FALSE)
 #'
 #' # more complete demo's
 #' demo(BAS.hald)
@@ -456,6 +458,7 @@ bas.lm <- function(formula,
                    renormalize = FALSE,
                    force.heredity = TRUE,
                    pivot = FALSE,
+                   tol = 1e-7,
                    bigmem = FALSE) {
   num.updates <- 10
   call <- match.call()
@@ -720,6 +723,7 @@ bas.lm <- function(formula,
       plocal = as.numeric(prob.local),
       Rparents = parents,
       Rpivot = pivot,
+      Rtol = tol,
       PACKAGE = "BAS"
     ),
     "MCMC+BAS" = .Call(
@@ -762,7 +766,8 @@ bas.lm <- function(formula,
       as.numeric(delta),
       as.integer(thin),
       Rparents = parents,
-      Rpivot = pivot
+      Rpivot = pivot,
+      Rtol = tol
     ),
     "deterministic" = .Call(
       C_deterministic,
@@ -775,7 +780,8 @@ bas.lm <- function(formula,
       alpha = as.numeric(alpha),
       method = as.integer(method.num),
       modelprior = modelprior,
-      Rpivot = pivot
+      Rpivot = pivot,
+      Rtol = tol
     )
   )
   result$rank_deficient <- FALSE

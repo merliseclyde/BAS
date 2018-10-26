@@ -13,7 +13,7 @@ bas.lm(formula, data, subset, weights, na.action = "na.omit",
   bestmodel = NULL, prob.local = 0, prob.rw = 0.5,
   MCMC.iterations = NULL, lambda = NULL, delta = 0.025, thin = 1,
   renormalize = FALSE, force.heredity = TRUE, pivot = FALSE,
-  bigmem = FALSE)
+  tol = 1e-07, bigmem = FALSE)
 }
 \arguments{
 \item{formula}{linear model formula for the full model with all predictors,
@@ -180,13 +180,16 @@ order terms are included.  Currently only supported with `method='MCMC'`.
 Default is TRUE.}
 
 \item{pivot}{Logical variable to allow pivoting of columns when obtaining the
-OLS estimates of a model so that models that are not full rank can be fit.
+OLS estimates of a model so that models that are not full rank can be fit. Defaults to TRUE.
 Currently coefficients that are not estimable are set to zero.  Use caution with
-interpreting BMA estimates of parameters.  (Experimental).}
+interpreting BMA estimates of parameters.}
+
+\item{tol}{1e-7 as}
 
 \item{bigmem}{Logical variable to indicate that there is access to
 large amounts of memory (physical or virtual) for enumeration
-with large model spaces, e.g. > 2^25.}
+with large model spaces, e.g. > 2^25. default; used in determining rank of X^TX in cholesky decompostion
+with pivoting.}
 }
 \value{
 \code{bas} returns an object of class \code{bas}
@@ -348,7 +351,7 @@ out =  bas.lm(fullModelFormula,
               data = d,
               alpha = 0.125316,
               prior = "JZS",
-              weights = facFifty, force.heredity = FALSE, pivot = TRUE)
+              weights = facFifty, force.heredity = FALSE)
 
 # more complete demo's
 demo(BAS.hald)
