@@ -126,7 +126,7 @@ test_that("pivot", {
   data(Hald)
   hald_bas <- bas.lm(Y ~ .,
     prior = "BIC",
-    modelprior = uniform(), data = Hald
+    modelprior = uniform(), data = Hald, pivot=FALSE
   )
   hald_deterministic <- bas.lm(Y ~ .,
     prior = "BIC",

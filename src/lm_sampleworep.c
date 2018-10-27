@@ -235,7 +235,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 	Xwork = REAL(RXwork);
 	wts = REAL(Rweights);
 
-	double *XtXwork, *XtYwork,*XtX, *XtY, yty,SSY;
+	double *XtXwork, *XtYwork,*XtX, *XtY, yty=0.0,SSY=0.0;
 	PrecomputeData(Xwork, Ywork, wts, &XtXwork, &XtYwork, &XtX, &XtY, &yty, &SSY, p, nobs);
 
 	struct Var *vars = (struct Var *) R_alloc(p, sizeof(struct Var)); // Info about the model variables.

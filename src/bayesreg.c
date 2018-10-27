@@ -9,9 +9,11 @@ void PrecomputeData(double *Xwork, double *Ywork, double *wts, double **pXtXwork
 
 	int p2 = p * p;
 	*pXtXwork  = (double *) R_alloc(p2, sizeof(double));
-	*pXtYwork = vecalloc(p);
+	*pXtYwork = (double *) R_alloc(p, sizeof(double));
 	*pXtX  = (double *) R_alloc(p2, sizeof(double));
-	*pXtY = vecalloc(p);
+	*pXtY = (double *) R_alloc(p, sizeof(double));
+	memset(*pXtX,0.0, p2 * sizeof(double));
+	memset(*pXtY,0.0, p * sizeof(double));
 
 	for (j=0, l=0; j < p; j++) {
 	  for	 (i=0; i < nobs; i++) {
@@ -27,7 +29,7 @@ void PrecomputeData(double *Xwork, double *Ywork, double *wts, double **pXtXwork
 	}
 
 	//precompute XtX
-	memset(*pXtX,0, p2 * sizeof(double));
+
 	F77_NAME(dsyrk)(uplo, trans, &p, &nobs, &one, &Xwork[0], &nobs, &zero, *pXtX, &p);
 
 	double ybar = 0.0;
@@ -39,6 +41,7 @@ void PrecomputeData(double *Xwork, double *Ywork, double *wts, double **pXtXwork
 	*yty = F77_NAME(ddot)(&nobs, &Ywork[0], &inc, &Ywork[0], &inc);
 	*SSY = *yty - (double) nwts* ybar *ybar;
 
+// compute X^TY	
 	F77_NAME(dgemv)(trans, &nobs, &p, &one, &Xwork[0], &nobs, &Ywork[0], &inc, &zero, *pXtY,&inc);
 }
 

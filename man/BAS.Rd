@@ -16,7 +16,7 @@ probabilities may be updated based on the sampled models.
 }
 \details{
 \tabular{ll}{ Package: \tab BAS\cr Depends: \tab R (>= 2.8)\cr License: \tab
-GPL-2\cr URL: http://www.stat.duke.edu/~clyde\cr }
+GPL-3\cr URL: http://www.stat.duke.edu/~clyde\cr }
 
 Index: \preformatted{ }
 }
@@ -53,7 +53,7 @@ Statistical Association. 103:410-423.  \cr
 \url{http://dx.doi.org/10.1198/016214507000001337}
 }
 \seealso{
-\code{\link[BAS]{bas}}
+\code{\link[BAS]{bas.lm}} \code{\link[BAS]{bas.glm}}
 
 Other bas methods: \code{\link{bas.lm}},
   \code{\link{coef.bas}}, \code{\link{confint.coef.bas}},
