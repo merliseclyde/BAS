@@ -108,8 +108,10 @@ test_that("deterministic, BAS and MCMC+BAS", {
   )
 
   hald_MCMCbas <- bas.lm(Y ~ .,
-                         prior = "BIC", method = "MCMC+BAS",
+                         prior = "BIC", method = "MCMC+BAS", n.models=2^4,
+                         MCMC.iterations = 1000,
                          modelprior = uniform(), data = Hald)
+  
                         #MCMC.iterations = 1000)
   hald_deterministic <- bas.lm(Y ~ .,
     prior = "BIC",

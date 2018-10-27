@@ -135,19 +135,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
   }
 
 
-  /* Make space for the models and working variables. */
 
-  /*  pivot = ivecalloc(p);
-  qraux = vecalloc(p);
-  work =  vecalloc(2 * p);
-  effects = vecalloc(nobs);
-  v =  vecalloc(p * p);
-  betaols = vecalloc(p);
-  */
-
-
-
-  /*  Rprintf("Fit Full Model\n"); */
 
 
   RSquareFull = CalculateRSquareFull(XtY, XtX, XtXwork, XtYwork, Rcoef_m, Rse_m, p, nobs, yty, SSY);
@@ -204,7 +192,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
     model_m = INTEGER(Rmodel_m);
 
       for (j = 0, l=0; j < p; j++) {
-	if (model[j] == 1) {
+      	if (model[j] == 1) {
             model_m[l] = j;
            l +=1;}
       }
@@ -219,16 +207,16 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
       for (j=0, l=0; j < pmodel; j++) {
         XtYwork[j] = XtY[model_m[j]];
         for  ( i = 0; i < pmodel; i++) {
-	  XtXwork[j*pmodel + i] = XtX[model_m[j]*p + model_m[i]];
+	         XtXwork[j*pmodel + i] = XtX[model_m[j]*p + model_m[i]];
 	}
       }
 
-
+    R2_m = 0.0;
     mse_m = yty;
     memcpy(coefficients, XtYwork, sizeof(double)*pmodel);
     cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, pmodel, nobs);
 
-    R2_m = 1.0 - (mse_m * (double) ( nobs - pmodel))/SSY;
+    if (pmodel > 1)   R2_m = 1.0 - (mse_m * (double) ( nobs - pmodel))/SSY;
 
     SET_ELEMENT(beta, m, Rcoef_m);
     SET_ELEMENT(se, m, Rse_m);
@@ -320,12 +308,11 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
 	  XtXwork[j*pmodel + i] = XtX[model_m[j]*p + model_m[i]];
 	}
       }
-
+      R2_m = 0.0;
       mse_m = yty;
       memcpy(coefficients, XtYwork, sizeof(double)*pmodel);
       cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, pmodel, nobs);
-
-      R2_m = 1.0 - (mse_m * (double) ( nobs - pmodel))/SSY;
+      if (pmodel > 1)  R2_m = 1.0 - (mse_m * (double) ( nobs - pmodel))/SSY;
       prior_m = compute_prior_probs(model,pmodel,p, modelprior);
       gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
       postnew = logmargy + log(prior_m);
@@ -517,8 +504,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
 
 
 /*    olsreg(Ywork, Xwork, coefficients, se_m, &mse_m, &pmodel, &nobs, pivot,qraux,work,residuals,effects,v,betaols);   */
-
-    R2_m = 1.0 - (mse_m * (double) ( nobs - pmodel))/SSY;
+    if (pmodel > 1)  R2_m = 1.0 - (mse_m * (double) ( nobs - pmodel))/SSY;
 
     SET_ELEMENT(beta, m, Rcoef_m);
     SET_ELEMENT(se, m, Rse_m);
