@@ -116,6 +116,20 @@
       <small>Source: <a href='https://github.com/merliseclyde/BAS/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="bas-1-5-3" class="section level1">
+<h1 class="page-header">
+<a href="#bas-1-5-3" class="anchor"></a>BAS 1.5.3<small> Unreleased </small>
+</h1>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>bug fixes</h2>
+<p>fixes to errors identified on cran checks <a href="https://cran.r-project.org/web/checks/check_results_BAS.html" class="uri">https://cran.r-project.org/web/checks/check_results_BAS.html</a></p>
+<ul>
+<li><p>initialize R2_m = 0.0 in lm_mcmcbas.c</p></li>
+<li><p>switch to default of <code>pivot = TRUE</code> in <code>bas.lm</code>, adding <code>tol</code> as an argument to control tolerance in <code>cholregpovot</code></p></li>
+</ul>
+</div>
+</div>
     <div id="bas-1-5-2" class="section level1">
 <h1 class="page-header">
 <a href="#bas-1-5-2" class="anchor"></a>BAS 1.5.2<small> 2018-10-25 </small>
@@ -340,9 +354,9 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <li>set a flag for MCMC sampling <code>renormalize</code> that selects whether the Monte Carlo frequencies are used to estimate posterior model and marginal inclusion probabilities (default <code>renormalize = FALSE</code>) or that marginal likelihoods time prior probabilities that are renormalized to sum to 1 are used. (the latter is the only option for the other methods); new slots for probne0.MCMC, probne0.RN, postprobs.RN and postprobs.MCMC.</li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>fixed problem with prior.bic, robust, and hyper.g.n where default had missing n that was not set in hyperparameters</li>
 <li>fixed error in predict and plot for GLMs when family is provided as a function</li>
@@ -360,9 +374,9 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <li>added df to the object returned by bas.glm to simplify <code>coefficients</code> function.</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>corrected expected value of shrinkage for intrinsic, hyper-g/n and TCCH priors for glms</li>
 </ul>
@@ -372,9 +386,9 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <h1 class="page-header">
 <a href="#bas-1-4-1-september-17-2016" class="anchor"></a>BAS 1.4.1 September 17, 2016<small> 2016-09-20 </small>
 </h1>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>the modification in 1.4.0 to automatically handle NA’s led to errors if the response was transformed as part of the forumula; this is fixed</li>
 </ul>
@@ -667,6 +681,7 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#bas-1-5-3">1.5.3</a></li>
         <li><a href="#bas-1-5-2">1.5.2</a></li>
         <li><a href="#bas-1-5-1-june-6-2018">1.5.1</a></li>
         <li><a href="#bas-1-5-0-may-2-2018">1.5.0</a></li>
