@@ -9,7 +9,7 @@
 #' probabilities may be updated based on the sampled models.
 #'
 #' \tabular{ll}{ Package: \tab BAS\cr Depends: \tab R (>= 2.8)\cr License: \tab
-#' GPL-2\cr URL: http://www.stat.duke.edu/~clyde\cr }
+#' GPL-3\cr URL: http://www.stat.duke.edu/~clyde\cr }
 #'
 #' Index: \preformatted{ }
 #' @docType package
@@ -18,7 +18,7 @@
 #' @useDynLib BAS, .registration=TRUE, .fixes="C_"
 #' @aliases BAS-package BAS
 #' @author Merlise Clyde, \cr Maintainer: Merlise Clyde <clyde@@stat.duke.edu>
-#' @seealso \code{\link[BAS]{bas}}
+#' @seealso \code{\link[BAS]{bas.lm}} \code{\link[BAS]{bas.glm}}
 #' @references Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive
 #' Sampling for Variable Selection and Model Averaging. Journal of
 #' Computational Graphics and Statistics.  20:80-101 \cr

@@ -1,3 +1,13 @@
+#  BAS 1.5.3
+
+## bug fixes  
+
+fixes to errors identified on cran checks https://cran.r-project.org/web/checks/check_results_BAS.html
+
+* initialize R2_m = 0.0 in lm_mcmcbas.c
+
+* switch to default of `pivot = TRUE` in `bas.lm`, adding `tol` as an argument to control tolerance in `cholregpovot`
+
 # BAS 1.5.2  
 
 ## Features
