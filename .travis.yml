@@ -18,8 +18,7 @@ r:
 
 os:
   - linux
-  - osx
-
+#  - osx
 after_success:
   - Rscript -e 'covr::codecov()'
   - Rscript -e 'devtools::install_github("merliseclyde/BAS"); pkgdown::build_site()'
