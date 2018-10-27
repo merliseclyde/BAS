@@ -136,7 +136,7 @@ Linear Models</h1>
   <span class='kw'>bestmodel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prob.local</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>prob.rw</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>MCMC.iterations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>delta</span> <span class='kw'>=</span> <span class='fl'>0.025</span>, <span class='kw'>thin</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>renormalize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>bigmem</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-07</span>, <span class='kw'>bigmem</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -349,15 +349,20 @@ Default is TRUE.</p></td>
     <tr>
       <th>pivot</th>
       <td><p>Logical variable to allow pivoting of columns when obtaining the
-OLS estimates of a model so that models that are not full rank can be fit.
+OLS estimates of a model so that models that are not full rank can be fit. Defaults to TRUE.
 Currently coefficients that are not estimable are set to zero.  Use caution with
-interpreting BMA estimates of parameters.  (Experimental).</p></td>
+interpreting BMA estimates of parameters.</p></td>
+    </tr>
+    <tr>
+      <th>tol</th>
+      <td><p>1e-7 as</p></td>
     </tr>
     <tr>
       <th>bigmem</th>
       <td><p>Logical variable to indicate that there is access to
 large amounts of memory (physical or virtual) for enumeration
-with large model spaces, e.g. &gt; 2^25.</p></td>
+with large model spaces, e.g. &gt; 2^25. default; used in determining rank of X^TX in cholesky decompostion
+with pivoting.</p></td>
     </tr>
     </table>
     
@@ -631,8 +636,7 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
               <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>d</span>,
               <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.125316</span>,
               <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"JZS"</span>,
-              <span class='kw'>weights</span> <span class='kw'>=</span> <span class='no'>facFifty</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
+              <span class='kw'>weights</span> <span class='kw'>=</span> <span class='no'>facFifty</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: log marginals and posterior probabilities contain NA's.  Consider re-running with the option `pivot=TRUE` if there are models that are not full rank</span></div><div class='input'>
 <span class='co'># more complete demo's</span>
 <span class='fu'>demo</span>(<span class='no'>BAS.hald</span>)</div><div class='output co'>#&gt; 
 #&gt; 
