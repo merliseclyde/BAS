@@ -30,10 +30,6 @@ static void Cintfn(double *x, int n, void *ex)
 
   IS->f(x, n, IS->theta);
 
-    for( i=0; i<n; i++) {
-//    if(!R_FINITE(x[i]))
-//      Rprintf("warning: non-finite function value for integral\n");
-  }
   return;
 }
 
@@ -86,7 +82,7 @@ double ZS_logmarg(double R2, int n, int d, double rscale) {
 
 double ZS_shrinkage(double R2, int n, int d, double rscale) {
 
-  double mode, logmarg, root, bound=0.0, epsabs, epsrel, result, abserr, *work, *ex;
+  double mode, logmarg, root, bound=0.0, epsabs, epsrel, result=0.0, abserr, *work, *ex;
   int inf = 1L, neval, ier, limit=200, lenw, last, *iwork;
   SEXP Rtheta;
   C_int_struct is;

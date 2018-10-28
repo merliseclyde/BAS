@@ -342,6 +342,9 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 		R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY,
                   pmodel, p, nobs, m, &mse_m, &rank_m, pivot, tol);
 		INTEGER(rank)[m] = rank_m;
+		// initialize 
+		logmargy= 0.0;
+		shrinkage_m = 1.0;
 		gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
 //    Rprintf("rank %d dim %d\n", rank_m, pmodel);
 //		gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);

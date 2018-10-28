@@ -48,7 +48,8 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
   Ywork = REAL(RYwork);
   Xwork = REAL(RXwork);
   wts = REAL(Rweights);
-
+  yty = 0.0;
+  SSY = 0.0;
 
 	PrecomputeData(Xwork, Ywork, wts, &XtXwork, &XtYwork, &XtX, &XtY, &yty, &SSY, p, nobs);
 
@@ -65,7 +66,8 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 
   models = cmatalloc(k,p);
   model = (int *) R_alloc(p, sizeof(int));
-
+  memset(model, 0.0, p*sizeof(int));
+  
   k = topk(models, probs, k, vars, n, p);
 
 
@@ -77,7 +79,8 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 
     Rcoef_m = NEW_NUMERIC(p); PROTECT(Rcoef_m);
     Rse_m = NEW_NUMERIC(p); PROTECT(Rse_m);
-    coefficients = REAL(Rcoef_m);  se_m = REAL(Rse_m);
+    coefficients = REAL(Rcoef_m);  
+    se_m = REAL(Rse_m);
 
     memcpy(coefficients, XtY,  p*sizeof(double));
     memcpy(XtXwork, XtX, p*p*sizeof(double));
@@ -226,11 +229,15 @@ int topk(Bit **models, double *prob, int k, struct Var *vars, int n, int p)
 
 
   /* Ask for too many models? */
+   
+  /*   Can't get here due to checks
+
   if (log((double) k)/log((double) 2.0) > (double) n) {
     REprintf("Warning: Asked for %d models, but there are only 2^%d with non-zero prob.\n",
 	k, n);
     k = 1<<n;
   }
+  */
 
   /*  Rprintf("Deterministic sample of (approx) top %d models\n", k); */
 
@@ -238,6 +245,7 @@ int topk(Bit **models, double *prob, int k, struct Var *vars, int n, int p)
   for (i = 0; i < n; i++) list[i] = vars[i].logit;
 
   model = (unsigned char *) R_alloc(n, sizeof(Bit));
+  memset(model, 0, n*sizeof(Bit));
 
   qsize = 2*k;  /* Largest number of items in priority queue. */
   subsetsum = (double *) R_alloc(qsize, sizeof(double));

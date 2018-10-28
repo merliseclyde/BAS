@@ -59,6 +59,8 @@ SEXP glm_deterministic(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	Bit **models = cmatalloc(k,p);
 	int *model = (int *) R_alloc(p, sizeof(int));
+	memset(model, 0, p*sizeof(int));
+	
 	k = topk(models, probs, k, vars, n, p);
 
 	/* now fit all top k models */

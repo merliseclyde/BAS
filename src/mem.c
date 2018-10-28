@@ -29,6 +29,7 @@ unsigned char  **x;
 x = (unsigned char **) R_alloc(nr, sizeof(unsigned char *));
 for (k=0;k<nr;k++){
   x[k] = (unsigned char  *) R_alloc(nc, sizeof(unsigned char));
+  memset(x[k], 0, nc*sizeof(unsigned char));
 }
 return x;
 }
