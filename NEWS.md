@@ -1,12 +1,14 @@
 #  BAS 1.5.3
 
-## bug fixes  
+## Bug Fixes  
 
-fixes to errors identified on cran checks https://cran.r-project.org/web/checks/check_results_BAS.html
+Fixed errors identified on cran checks https://cran.r-project.org/web/checks/check_results_BAS.html
 
-* initialize R2_m = 0.0 in lm_mcmcbas.c
+* initialize R2_m = 0.0 in lm_mcmcbas.c  (lead to NA's with clang on debian and fedora )
 
-* switch to default of `pivot = TRUE` in `bas.lm`, adding `tol` as an argument to control tolerance in `cholregpovot`
+* switch to default of `pivot = TRUE` in `bas.lm`, adding `tol` as an argument to control tolerance in `cholregpovot` for improved stability across platforms with singular or nearly singular designs.
+
+* valgrind messages: Conditional jump or move depends on uninitialised value(s). Initialize vectors allocated via R_alloc in lm_deterministic.c and glm_deterministic.c.
 
 # BAS 1.5.2  
 
