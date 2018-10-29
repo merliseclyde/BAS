@@ -67,7 +67,7 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
   models = cmatalloc(k,p);
   model = (int *) R_alloc(p, sizeof(int));
   memset(model, 0.0, p*sizeof(int));
-  
+
   k = topk(models, probs, k, vars, n, p);
 
 
@@ -79,7 +79,7 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 
     Rcoef_m = NEW_NUMERIC(p); PROTECT(Rcoef_m);
     Rse_m = NEW_NUMERIC(p); PROTECT(Rse_m);
-    coefficients = REAL(Rcoef_m);  
+    coefficients = REAL(Rcoef_m);
     se_m = REAL(Rse_m);
 
     memcpy(coefficients, XtY,  p*sizeof(double));
@@ -229,7 +229,7 @@ int topk(Bit **models, double *prob, int k, struct Var *vars, int n, int p)
 
 
   /* Ask for too many models? */
-   
+
   /*   Can't get here due to checks
 
   if (log((double) k)/log((double) 2.0) > (double) n) {
@@ -249,12 +249,25 @@ int topk(Bit **models, double *prob, int k, struct Var *vars, int n, int p)
 
   qsize = 2*k;  /* Largest number of items in priority queue. */
   subsetsum = (double *) R_alloc(qsize, sizeof(double));
+  memset(subsetsum, 0.0, qsize* sizeof(double));
+
   parent = (int *) R_alloc(qsize, sizeof(int));
+  memset(parent, 0, qsize* sizeof(int));
+
   type =(int *) R_alloc(qsize, sizeof(int));
+  memset(type, 0, qsize* sizeof(int));
+
   position = (int *) R_alloc(qsize, sizeof(int));
+  memset(position, 0, qsize* sizeof(int));
+
   pattern = (int *) R_alloc(qsize, sizeof(int));
+  memset(pattern, 0, qsize* sizeof(int));
+
   queue = (int *) R_alloc(qsize, sizeof(int));
+  memset(queue, 0, qsize* sizeof(int));
+
   bits = (char *) R_alloc(n, sizeof(char));
+  memset(bits, 0, n* sizeof(char));
 
   queuesize = 0;
   /* Store relevant information for root node. */
