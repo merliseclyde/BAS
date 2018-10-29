@@ -81,7 +81,7 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' sampling. The Bayesian Adaptive Sampling algorithm of Clyde, Ghosh, Littman
 #' (2010) samples models without replacement using the initial sampling
 #' probabilities, and will optionally update the sampling probabilities every
-#' "update" models using the estimated marginal inclusion probabilties. BAS
+#' "update" models using the estimated marginal inclusion probabilities. BAS
 #' uses different methods to obtain the \code{initprobs}, which may impact the
 #' results in high-dimensional problems. The deterministic sampler provides a
 #' list of the top models in order of an approximation of independence using
@@ -182,7 +182,7 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' "eplogp" uses the \code{\link{eplogprob}} function to approximate the Bayes
 #' factor from p-values from the full model to find initial marginal inclusion
 #' probabilities; "marg-eplogp" uses\code{\link{eplogprob.marg}} function to
-#' aproximate the Bayes factor from p-values from the full model each simple
+#' approximate the Bayes factor from p-values from the full model each simple
 #' linear regression.  To run a Markov Chain to provide initial estimates of
 #' marginal inclusion probabilities for "BAS", use method="MCMC+BAS" below.
 #' While the initprobs are not used in sampling for method="MCMC", this
@@ -193,7 +193,7 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' to always be included in the model.
 #' @param include.always A formula with terms that should always be included
 #' in the model with probability one.  By default this is `~ 1` meaning that the
-#' intercept is always included.  This will also overide any of the values in `initprobs`
+#' intercept is always included.  This will also override any of the values in `initprobs`
 #' above by setting them to 1.
 #' @param method A character variable indicating which sampling method to use:
 #' \itemize{

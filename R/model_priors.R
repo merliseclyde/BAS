@@ -36,9 +36,9 @@ uniform <- function() {
 #' @param probs a scalar or vector of prior inclusion probabilities. If a
 #' scalar, the values is replicated for all variables ans a 1 is added for the
 #' intercept. BAS checks to see if the length is equal to the dimension of the
-#' parameter vector for the full model and addas a 1 to include the intercept.
+#' parameter vector for the full model and adds a 1 to include the intercept.
 #' @return returns an object of class "prior", with the family and
-#' hyerparameters.
+#' hyperparameters.
 #' @author Merlise Clyde
 #' @seealso \code{\link{bas.lm}},
 #' \code{\link{beta.binomial}},\code{\link{uniform} }
@@ -70,14 +70,14 @@ Bernoulli <- function(probs = 0.5) {
 #' variable inclusion indicator independent Bernoulli distributions with
 #' probability w, and then giving w a beta(alpha,beta) distribution.
 #' Marginalizing over w leads to the distribution on model size having the
-#' beta-binomial distribution. The default hyperparaeters lead to a uniform
+#' beta-binomial distribution. The default hyperparameters lead to a uniform
 #' distribution over model size.
 #'
 #' @aliases beta.binomial Beta.Binomial
 #' @param alpha parameter in the beta prior distribution
 #' @param beta parameter in the beta prior distribution
 #' @return returns an object of class "prior", with the family and
-#' hyerparameters.
+#' hyperparameters.
 #' @author Merlise Clyde
 #' @seealso \code{\link{bas.lm}}, \code{\link{Bernoulli}},\code{\link{uniform}}
 #' @examples
@@ -113,7 +113,7 @@ beta.binomial <- function(alpha = 1.0, beta = 1.0) {
 #' @param trunc parameter that determines truncation in the distribution i.e.
 #' P(M; alpha, beta, trunc) = 0 if M > trunc.
 #' @return returns an object of class "prior", with the family and
-#' hyerparameters.
+#' hyperparameters.
 #' @author Merlise Clyde
 #' @seealso \code{\link{bas.lm}}, \code{\link{Bernoulli}},\code{\link{uniform}}
 #' @examples
@@ -157,7 +157,7 @@ tr.beta.binomial <- function(alpha = 1.0, beta = 1.0, trunc) {
 #' @param trunc parameter that determines truncation in the distribution i.e.
 #' P(gamma; alpha, beta, trunc) = 0 if |gamma| > trunc.
 #' @return returns an object of class "prior", with the family and
-#' hyerparameters.
+#' hyperparameters.
 #' @author Merlise Clyde
 #' @seealso \code{\link{bas.lm}}, \code{\link{Bernoulli}},\code{\link{uniform}}
 #' @examples
@@ -199,7 +199,7 @@ tr.power.prior <- function(kappa = 2, trunc) {
 #' @param trunc parameter that determines truncation in the distribution i.e.
 #' P(M; lambda, trunc) = 0 if M > trunc
 #' @return returns an object of class "prior", with the family and
-#' hyerparameters.
+#' hyperparameters.
 #' @author Merlise Clyde
 #' @seealso \code{\link{bas.lm}}, \code{\link{Bernoulli}},\code{\link{uniform}}
 #' @examples

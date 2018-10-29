@@ -60,7 +60,7 @@ This function first calls the predict method for class bas
 scale for `BMA`, `HPM`, `MPM` etc. If the estimator is `BMA`
 and `type='response'` then the
 inverse link is applied to fitted values for type equal `'link'`
-and model averaging takes place in the `reponse` scale. Thus applying
+and model averaging takes place in the `response` scale. Thus applying
 the inverse link to BMA estimate with `type = 'link'` is
 not equal to the fitted values for `type = 'response'` under
 BMA due to the  nonlinear transformation under the inverse link.

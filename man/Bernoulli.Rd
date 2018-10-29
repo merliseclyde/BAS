@@ -11,11 +11,11 @@ Bernoulli(probs = 0.5)
 \item{probs}{a scalar or vector of prior inclusion probabilities. If a
 scalar, the values is replicated for all variables ans a 1 is added for the
 intercept. BAS checks to see if the length is equal to the dimension of the
-parameter vector for the full model and addas a 1 to include the intercept.}
+parameter vector for the full model and adds a 1 to include the intercept.}
 }
 \value{
 returns an object of class "prior", with the family and
-hyerparameters.
+hyperparameters.
 }
 \description{
 Creates an object representing the prior distribution on models for BAS.

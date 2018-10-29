@@ -29,7 +29,7 @@
 #' @param col.pch color for points in panels 1-3
 #' @param cex.lab graphics parameter to control size of variable names
 #' @param ...  other parameters to be passed through to plotting functions
-#' @param id.n number of points to be labelled in each plot, starting with the
+#' @param id.n number of points to be labeled in each plot, starting with the
 #' most extreme
 #' @param labels.id vector of labels, from which the labels for extreme points
 #' will be chosen.  'NULL' uses observation numbers
@@ -40,7 +40,8 @@
 #' the graph respectively, for plots 1-4
 #' @param subset indices of variables to include/exclude in plot of marginal posterior
 #' inclusion probabilities (NULL).
-#' @param drop.always.included logical variable to drop marginal posterior inclusiond probabilities
+#' @param drop.always.included logical variable to drop marginal posterior inclusion
+#' probabilities
 #' for variables that are always forced into the model.  FALSE by default.
 #' @author Merlise Clyde, based on plot.lm by John Maindonald and Martin
 #' Maechler

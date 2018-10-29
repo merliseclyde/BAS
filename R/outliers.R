@@ -14,7 +14,7 @@
 
 #'
 #' @param lmobj  An object of class `lm`
-#' @param k number of standard deviations used in calcuating
+#' @param k number of standard deviations used in calculating
 #' probability of an individual case being an outlier,
 #' P(|error| > k sigma | data)
 #' @param prior.prob The prior probability of there being no

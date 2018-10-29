@@ -44,7 +44,7 @@ version of \code{deparse(x$call)} is used}
 
 \item{...}{other parameters to be passed through to plotting functions}
 
-\item{id.n}{number of points to be labelled in each plot, starting with the
+\item{id.n}{number of points to be labeled in each plot, starting with the
 most extreme}
 
 \item{labels.id}{vector of labels, from which the labels for extreme points
@@ -61,7 +61,8 @@ the graph respectively, for plots 1-4}
 \item{subset}{indices of variables to include/exclude in plot of marginal posterior
 inclusion probabilities (NULL).}
 
-\item{drop.always.included}{logical variable to drop marginal posterior inclusiond probabilities
+\item{drop.always.included}{logical variable to drop marginal posterior inclusion
+probabilities
 for variables that are always forced into the model.  FALSE by default.}
 }
 \description{

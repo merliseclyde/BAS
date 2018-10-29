@@ -17,7 +17,7 @@ P(M; alpha, beta, trunc) = 0 if M > trunc.}
 }
 \value{
 returns an object of class "prior", with the family and
-hyerparameters.
+hyperparameters.
 }
 \description{
 Creates an object representing the prior distribution on models for BAS

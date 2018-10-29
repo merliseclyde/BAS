@@ -9,7 +9,7 @@ Bayes.outlier(lmobj, k, prior.prob)
 \arguments{
 \item{lmobj}{An object of class `lm`}
 
-\item{k}{number of standard deviations used in calcuating
+\item{k}{number of standard deviations used in calculating
 probability of an individual case being an outlier,
 P(|error| > k sigma | data)}
 

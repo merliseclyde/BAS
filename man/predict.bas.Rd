@@ -14,7 +14,7 @@
 \item{newdata}{dataframe for predictions. If missing, then use the dataframe
 used for fitting for obtaining fitted and predicted values.}
 
-\item{se.fit}{indicator for whether to compute se of fitted and predictied
+\item{se.fit}{indicator for whether to compute se of fitted and predicted
 values}
 
 \item{type}{Type of predictions required. "link" which is on the scale of
@@ -40,7 +40,7 @@ The default is to predict NA.}
 a list of
 \item{fit}{fitted values based on the selected estimator}
 \item{Ybma}{predictions using BMA, the same as fit for non-BMA methods for
-compatabilty; will be deprecated}
+compatibilty; will be deprecated}
 \item{Ypred}{matrix of predictions under
 each model for BMA}
 \item{se.fit}{se of fitted values; in the case of BMA

@@ -78,7 +78,7 @@ to always be included in the model.}
 
 \item{include.always}{A formula with terms that should always be included
 in the model with probability one.  By default this is `~ 1` meaning that the
-intercept is always included.  This will also overide any of the values in `initprobs`
+intercept is always included.  This will also override any of the values in `initprobs`
 above by setting them to 1.}
 
 \item{method}{A character variable indicating which sampling method to use:
@@ -171,7 +171,7 @@ larger p, BAS samples without replacement using random or deterministic
 sampling. The Bayesian Adaptive Sampling algorithm of Clyde, Ghosh, Littman
 (2010) samples models without replacement using the initial sampling
 probabilities, and will optionally update the sampling probabilities every
-"update" models using the estimated marginal inclusion probabilties. BAS
+"update" models using the estimated marginal inclusion probabilities. BAS
 uses different methods to obtain the \code{initprobs}, which may impact the
 results in high-dimensional problems. The deterministic sampler provides a
 list of the top models in order of an approximation of independence using

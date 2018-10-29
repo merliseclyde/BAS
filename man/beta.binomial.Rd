@@ -14,7 +14,7 @@ beta.binomial(alpha = 1, beta = 1)
 }
 \value{
 returns an object of class "prior", with the family and
-hyerparameters.
+hyperparameters.
 }
 \description{
 Creates an object representing the prior distribution on models for BAS.
@@ -24,7 +24,7 @@ The beta-binomial distribution on model size is obtained by assigning each
 variable inclusion indicator independent Bernoulli distributions with
 probability w, and then giving w a beta(alpha,beta) distribution.
 Marginalizing over w leads to the distribution on model size having the
-beta-binomial distribution. The default hyperparaeters lead to a uniform
+beta-binomial distribution. The default hyperparameters lead to a uniform
 distribution over model size.
 }
 \examples{

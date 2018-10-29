@@ -38,7 +38,7 @@
 #' scale for `BMA`, `HPM`, `MPM` etc. If the estimator is `BMA`
 #' and `type='response'` then the
 #' inverse link is applied to fitted values for type equal `'link'`
-#' and model averaging takes place in the `reponse` scale. Thus applying
+#' and model averaging takes place in the `response` scale. Thus applying
 #' the inverse link to BMA estimate with `type = 'link'` is
 #' not equal to the fitted values for `type = 'response'` under
 #' BMA due to the  nonlinear transformation under the inverse link.
@@ -142,7 +142,7 @@ predict.basglm <- function(object,
 #' @param object An object of class BAS, created by \code{bas}
 #' @param newdata dataframe for predictions. If missing, then use the dataframe
 #' used for fitting for obtaining fitted and predicted values.
-#' @param se.fit indicator for whether to compute se of fitted and predictied
+#' @param se.fit indicator for whether to compute se of fitted and predicted
 #' values
 #' @param type Type of predictions required. "link" which is on the scale of
 #' the linear predictor is the only option currently for linear models, which for the normal model
@@ -161,7 +161,7 @@ predict.basglm <- function(object,
 #' @return a list of
 #' \item{fit}{fitted values based on the selected estimator}
 #' \item{Ybma}{predictions using BMA, the same as fit for non-BMA methods for
-#' compatabilty; will be deprecated}
+#' compatibilty; will be deprecated}
 #' \item{Ypred}{matrix of predictions under
 #' each model for BMA}
 #' \item{se.fit}{se of fitted values; in the case of BMA

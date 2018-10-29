@@ -3,7 +3,7 @@
 The goal of this guide is to help you contribute to BAS. The guide is divided into two main pieces:
 
 1. Filing a bug report or feature request in an issue.
-1. Suggesting a change via a pull request.
+2. Suggesting a change via a pull request.
 
 ## Issues
 
@@ -12,7 +12,7 @@ When filing an issue, the most important thing is to include a minimal reproduci
 1.  **Packages** should be loaded at the top of the script, 
 so it's easy to see which ones the example needs.
 
-1.  The easiest way to include **data** is to use `dput()` to generate the R code
+2.  The easiest way to include **data** is to use `dput()` to generate the R code
     to recreate it. For example, to recreate the `mtcars` dataset in R,
     I'd perform the following steps:
 
@@ -23,7 +23,7 @@ so it's easy to see which ones the example needs.
     But even better is if you can create a `data.frame()` with just a handful
     of rows and columns that still illustrates the problem.
 
-1.  Spend a little bit of time ensuring that your **code** is easy for others to
+3.  Spend a little bit of time ensuring that your **code** is easy for others to
     read:
 
     * make sure you've used spaces and your variable names are concise,
@@ -45,9 +45,12 @@ You can check you have actually made a reproducible example by starting up a fre
 To contribute a change to `BAS`, follow these steps:
 
 1. Create a branch in git and make your changes, ideally using `commit -s` to sign-off on commits  under the [Developer Certificate of Origin](https://developercertificate.org)
-1. Push branch to github and issue pull request (PR).
-1. Discuss the pull request.
-1. Iterate until either we accept the PR or decide that it's not
+
+2. Push branch to github and issue pull request (PR).
+
+3. Discuss the pull request.
+
+4. Iterate until either we accept the PR or decide that it's not
    a good fit for `BAS`.
 
 Each of these steps are described in more detail below. This might feel overwhelming the first time you get set up, but it gets easier with practice. If you get stuck at any point, please reach out for help.
@@ -66,7 +69,7 @@ Also include this motivation in `NEWS` so that when a new release of
 item at the top of the file and use markdown for formatting. The
 news item should end with `(@yourGithubUsername, #the_issue_number)`.
 
-1.  __Only related changes__. Before you submit your pull request,
+2.  __Only related changes__. Before you submit your pull request,
 please check to make sure that you haven't accidentally included any
 unrelated  changes. These make it harder to see exactly what's changed,
 and toevaluate any unexpected side effects.
@@ -77,12 +80,12 @@ and toevaluate any unexpected side effects.
   and don't submit any others until the first one has been processed.
 
 
-1.  __Document__ If you're adding new parameters or a new function,
+3.  __Document__ If you're adding new parameters or a new function,
 you'll also need to document them with [roxygen](https://github.com/klutometis/roxygen).   Please add a short
 example to the appropriate function and optionally in the package vignettes. Make sure to re-run `devtools::document()` on the code before submitting.
 
 
-1.  __Testing__ If fixing a bug or adding a new feature, you should add a [testthat](https://github.com/hadley/testthat) unit test.
+4.  __Testing__ If fixing a bug or adding a new feature, you should add a [testthat](https://github.com/hadley/testthat) unit test.
 
 
 
