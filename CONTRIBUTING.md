@@ -3,6 +3,7 @@
 The goal of this guide is to help you contribute to BAS. The guide is divided into two main pieces:
 
 1. Filing a bug report or feature request in an issue.
+
 2. Suggesting a change via a pull request.
 
 ## Issues
@@ -16,9 +17,9 @@ so it's easy to see which ones the example needs.
     to recreate it. For example, to recreate the `mtcars` dataset in R,
     I'd perform the following steps:
 
-       1. Run `dput(mtcars)` in R
-       2. Copy the output
-       3. In my reproducible script, type `mtcars <- ` then paste.
+       a. Run `dput(mtcars)` in R
+       b. Copy the output
+       c. In my reproducible script, type `mtcars <- ` then paste.
 
     But even better is if you can create a `data.frame()` with just a handful
     of rows and columns that still illustrates the problem.
@@ -93,4 +94,5 @@ This seems like a lot of work but don't worry if your pull request isn't perfect
 
 Please don't submit pull requests that change existing behaviour. Instead, think about how you can add a new feature in a minimally invasive way.
 
-Adopted from ggplot2's [CONTRIBUTING.md]  (https://github.com/tidyverse/ggplot2/blob/master/CONTRIBUTING.md)
+Adopted from ggplot2's
+[CONTRIBUTING.md](https://github.com/tidyverse/ggplot2/blob/master/CONTRIBUTING.md)
