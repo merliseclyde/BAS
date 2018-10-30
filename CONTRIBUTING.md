@@ -106,7 +106,7 @@ This seems like a lot of work but don't worry if your pull request isn't perfect
 Please don't submit pull requests that change existing behaviour. Instead, think about how you can add a new feature in a minimally invasive way.
 
 
-## Style Guild for Contributing to BAS
+## Style Guide for Contributing to BAS
 
 A consistent style improves the readibility of your code.
 I am not wed to a particular style and generally draw from both 
@@ -149,7 +149,7 @@ line.
 setting to display a vertical line at 80 characters to visually assist you.
 Turn on by going to
 
-  Tools -> Global Options… -> Code -> Display -> Show margin.
+  Tools -> Global Options… -> Code -> Display -> Show margin
   
 9.  File names for `R` code should be informative and end in `.R`.  Use `-` to improve readibility. Do not include any spaces in file names!   
   
