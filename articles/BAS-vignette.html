@@ -217,23 +217,23 @@
 <p><img src="BAS-vignette_files/figure-html/coefall-1.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-2.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-3.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-4.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-5.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-6.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-7.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-8.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-9.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-10.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-11.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-12.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-13.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-14.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-15.png" width="700"><img src="BAS-vignette_files/figure-html/coefall-16.png" width="700"></p>
 <p>To obtain credible intervals for coefficients, <code>BAS</code> includes a <code>confint</code> method to create Highest Posterior Density intervals from the summaries from <code>coef</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/confint.coef.html">confint</a></span>(coef.ZS)</a></code></pre></div>
-<pre><code>##                  2.5%       97.5%        beta
-## Intercept  6.66842698 6.782470517  6.72493620
-## M          0.00000000 2.210468785  1.14359433
-## So        -0.03711891 0.315919583  0.03547522
-## Ed         0.64775155 3.187932920  1.85848834
-## Po1        0.00000000 1.403992947  0.60067372
-## Po2       -0.15599433 1.462831890  0.31841766
-## LF        -0.49565895 1.055072247  0.05933737
-## M.F       -1.97255690 1.945182143 -0.02702786
-## Pop       -0.12624492 0.008210941 -0.02248283
-## NW         0.00000000 0.167242782  0.06668437
-## U1        -0.48669926 0.385484351 -0.02456854
-## U2         0.00000000 0.654356660  0.20702927
-## GDP       -0.04174350 1.185223752  0.20625063
-## Ineq       0.70772318 2.145768980  1.39012647
-## Prob      -0.41338859 0.000000000 -0.21536203
-## Time      -0.50466163 0.066858024 -0.08433479
+<pre><code>##                    2.5%       97.5%        beta
+## Intercept  6.6706913935 6.780926137  6.72493620
+## M          0.0000000000 2.145025283  1.14359433
+## So        -0.0458671877 0.310571247  0.03547522
+## Ed         0.5947734048 3.136704531  1.85848834
+## Po1        0.0000000000 1.424487706  0.60067372
+## Po2       -0.1424516933 1.469710909  0.31841766
+## LF        -0.5148154960 1.009783524  0.05933737
+## M.F       -2.2234800037 1.879820437 -0.02702786
+## Pop       -0.1286185960 0.004394867 -0.02248283
+## NW         0.0000000000 0.163590139  0.06668437
+## U1        -0.5323887704 0.343730934 -0.02456854
+## U2        -0.0003950047 0.651470742  0.20702927
+## GDP       -0.0150969389 1.183282350  0.20625063
+## Ineq       0.6626895408 2.083051161  1.39012647
+## Prob      -0.4161202282 0.000000000 -0.21536203
+## Time      -0.5142585080 0.049139827 -0.08433479
 ## attr(,"Probability")
 ## [1] 0.95
 ## attr(,"class")
@@ -309,27 +309,19 @@
 <a class="sourceLine" id="cb35-4" data-line-number="4">  <span class="dt">BPM =</span> <span class="kw">as.vector</span>(BPM<span class="op">$</span>fit), <span class="co"># this used fitted</span></a>
 <a class="sourceLine" id="cb35-5" data-line-number="5">  <span class="dt">BMA =</span> <span class="kw">as.vector</span>(BMA<span class="op">$</span>fit)</a>
 <a class="sourceLine" id="cb35-6" data-line-number="6">)) <span class="co"># this used predict</span></a></code></pre></div>
-<pre><code>## Registered S3 methods overwritten by 'ggplot2':
-##   method         from 
-##   [.quosures     rlang
-##   c.quosures     rlang
-##   print.quosures rlang</code></pre>
-<pre><code>## Registered S3 method overwritten by 'GGally':
-##   method from   
-##   +.gg   ggplot2</code></pre>
 <p><img src="BAS-vignette_files/figure-html/unnamed-chunk-6-1.png" width="576"></p>
 <p>Using the <code>se.fit = TRUE</code> option with <code>predict</code> we can also calculate standard deviations for prediction or for the mean and use this as input for the <code>confint</code> function for the prediction object.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">BPM &lt;-<span class="st"> </span><span class="kw"><a href="../reference/predict.bas.html">predict</a></span>(crime.ZS, <span class="dt">estimator =</span> <span class="st">"BPM"</span>, <span class="dt">se.fit =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb38-2" data-line-number="2">crime.conf.fit &lt;-<span class="st"> </span><span class="kw"><a href="../reference/confint.coef.html">confint</a></span>(BPM, <span class="dt">parm =</span> <span class="st">"mean"</span>)</a>
-<a class="sourceLine" id="cb38-3" data-line-number="3">crime.conf.pred &lt;-<span class="st"> </span><span class="kw"><a href="../reference/confint.coef.html">confint</a></span>(BPM, <span class="dt">parm =</span> <span class="st">"pred"</span>)</a>
-<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="kw">plot</span>(crime.conf.fit)</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">BPM &lt;-<span class="st"> </span><span class="kw"><a href="../reference/predict.bas.html">predict</a></span>(crime.ZS, <span class="dt">estimator =</span> <span class="st">"BPM"</span>, <span class="dt">se.fit =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">crime.conf.fit &lt;-<span class="st"> </span><span class="kw"><a href="../reference/confint.coef.html">confint</a></span>(BPM, <span class="dt">parm =</span> <span class="st">"mean"</span>)</a>
+<a class="sourceLine" id="cb36-3" data-line-number="3">crime.conf.pred &lt;-<span class="st"> </span><span class="kw"><a href="../reference/confint.coef.html">confint</a></span>(BPM, <span class="dt">parm =</span> <span class="st">"pred"</span>)</a>
+<a class="sourceLine" id="cb36-4" data-line-number="4"><span class="kw">plot</span>(crime.conf.fit)</a></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/se-1.png" width="672"></p>
 <pre><code>## NULL</code></pre>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="kw">plot</span>(crime.conf.pred)</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">plot</span>(crime.conf.pred)</a></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/se-2.png" width="672"></p>
 <pre><code>## NULL</code></pre>
 <p>For prediction at new points, we can supply a new dataframe to the predict function as in <code>lm</code>.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">new.pred &lt;-<span class="st"> </span><span class="kw"><a href="../reference/predict.bas.html">predict</a></span>(crime.ZS, <span class="dt">newdata =</span> UScrime, <span class="dt">estimator =</span> <span class="st">"MPM"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">new.pred &lt;-<span class="st"> </span><span class="kw"><a href="../reference/predict.bas.html">predict</a></span>(crime.ZS, <span class="dt">newdata =</span> UScrime, <span class="dt">estimator =</span> <span class="st">"MPM"</span>)</a></code></pre></div>
 </div>
 </div>
 <div id="alternative-algorithms" class="section level2">
@@ -337,59 +329,59 @@
 <a href="#alternative-algorithms" class="anchor"></a>Alternative algorithms</h2>
 <p><code>BAS</code> has several options for sampling from the model space with or without enumeration. The (current) default <code>method="BAS"</code> samples models without replacement using estimates of the marginal inclusion probabilities using the algorithm described in <a href="Clyde%20et%20al%202011">http://dx.doi.org/10.1198/jcgs.2010.09049</a>. The initial sampling probabilities provided by <code>initprobs</code> are updated based on the sampled models, every <code>update</code> iterations. This can be more efficient in some cases if a large fraction of the model space has been sampled, however, in cases of high correlation and a large number of predictors, this can lead to biased estimates <a href="Clyde%20and%20Ghosh%2020112">http://dx.doi.org/10.1093/biomet/ass040</a>, in which case MCMC is preferred. The <code>method="MCMC"</code> is described below and is better for large <span class="math inline">\(p\)</span>.</p>
 <p>A deterministic sampling scheme is also available for enumeration;</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw">system.time</span>(</a>
+<a class="sourceLine" id="cb41-2" data-line-number="2">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) {</a>
+<a class="sourceLine" id="cb41-3" data-line-number="3">    crime.ZS &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(y <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb41-4" data-line-number="4">      <span class="dt">data =</span> UScrime,</a>
+<a class="sourceLine" id="cb41-5" data-line-number="5">      <span class="dt">prior =</span> <span class="st">"ZS-null"</span>, <span class="dt">method =</span> <span class="st">"BAS"</span>,</a>
+<a class="sourceLine" id="cb41-6" data-line-number="6">      <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>(), <span class="dt">initprobs =</span> <span class="st">"eplogp"</span></a>
+<a class="sourceLine" id="cb41-7" data-line-number="7">    )</a>
+<a class="sourceLine" id="cb41-8" data-line-number="8">  }</a>
+<a class="sourceLine" id="cb41-9" data-line-number="9">)</a></code></pre></div>
+<pre><code>##    user  system elapsed 
+##   2.352   0.000   2.351</code></pre>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">system.time</span>(</a>
 <a class="sourceLine" id="cb43-2" data-line-number="2">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) {</a>
 <a class="sourceLine" id="cb43-3" data-line-number="3">    crime.ZS &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(y <span class="op">~</span><span class="st"> </span>.,</a>
 <a class="sourceLine" id="cb43-4" data-line-number="4">      <span class="dt">data =</span> UScrime,</a>
-<a class="sourceLine" id="cb43-5" data-line-number="5">      <span class="dt">prior =</span> <span class="st">"ZS-null"</span>, <span class="dt">method =</span> <span class="st">"BAS"</span>,</a>
+<a class="sourceLine" id="cb43-5" data-line-number="5">      <span class="dt">prior =</span> <span class="st">"ZS-null"</span>, <span class="dt">method =</span> <span class="st">"deterministic"</span>,</a>
 <a class="sourceLine" id="cb43-6" data-line-number="6">      <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>(), <span class="dt">initprobs =</span> <span class="st">"eplogp"</span></a>
 <a class="sourceLine" id="cb43-7" data-line-number="7">    )</a>
 <a class="sourceLine" id="cb43-8" data-line-number="8">  }</a>
 <a class="sourceLine" id="cb43-9" data-line-number="9">)</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   2.216   0.000   2.217</code></pre>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw">system.time</span>(</a>
-<a class="sourceLine" id="cb45-2" data-line-number="2">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) {</a>
-<a class="sourceLine" id="cb45-3" data-line-number="3">    crime.ZS &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(y <span class="op">~</span><span class="st"> </span>.,</a>
-<a class="sourceLine" id="cb45-4" data-line-number="4">      <span class="dt">data =</span> UScrime,</a>
-<a class="sourceLine" id="cb45-5" data-line-number="5">      <span class="dt">prior =</span> <span class="st">"ZS-null"</span>, <span class="dt">method =</span> <span class="st">"deterministic"</span>,</a>
-<a class="sourceLine" id="cb45-6" data-line-number="6">      <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>(), <span class="dt">initprobs =</span> <span class="st">"eplogp"</span></a>
-<a class="sourceLine" id="cb45-7" data-line-number="7">    )</a>
-<a class="sourceLine" id="cb45-8" data-line-number="8">  }</a>
-<a class="sourceLine" id="cb45-9" data-line-number="9">)</a></code></pre></div>
-<pre><code>##    user  system elapsed 
-##   1.640   0.000   1.638</code></pre>
+##   1.708   0.000   1.709</code></pre>
 <p>which is faster for enumeration than the default method=“BAS”.</p>
 </div>
 <div id="beyond-enumeration" class="section level2">
 <h2 class="hasAnchor">
 <a href="#beyond-enumeration" class="anchor"></a>Beyond Enumeration</h2>
 <p>Many problems are too large to enumerate all possible models. In such cases we may use the <code>method="BAS"</code> to sample without replacement or the <code>method="MCMC"</code> option to sample models using Markov Chain Monte Carlo sampling to sample models based on their posterior probabilities. For spaces where the number of models greatly exceeds the number of models to sample, the MCMC option is recommended as it provides estimates with low bias compared to the sampling without replacement of BAS (Clyde and Ghosh 2011).</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">crime.ZS &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(y <span class="op">~</span><span class="st"> </span>.,</a>
-<a class="sourceLine" id="cb47-2" data-line-number="2">  <span class="dt">data =</span> UScrime,</a>
-<a class="sourceLine" id="cb47-3" data-line-number="3">  <span class="dt">prior =</span> <span class="st">"ZS-null"</span>,</a>
-<a class="sourceLine" id="cb47-4" data-line-number="4">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>(),</a>
-<a class="sourceLine" id="cb47-5" data-line-number="5">  <span class="dt">method =</span> <span class="st">"MCMC"</span></a>
-<a class="sourceLine" id="cb47-6" data-line-number="6">)</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">crime.ZS &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(y <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb45-2" data-line-number="2">  <span class="dt">data =</span> UScrime,</a>
+<a class="sourceLine" id="cb45-3" data-line-number="3">  <span class="dt">prior =</span> <span class="st">"ZS-null"</span>,</a>
+<a class="sourceLine" id="cb45-4" data-line-number="4">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>(),</a>
+<a class="sourceLine" id="cb45-5" data-line-number="5">  <span class="dt">method =</span> <span class="st">"MCMC"</span></a>
+<a class="sourceLine" id="cb45-6" data-line-number="6">)</a></code></pre></div>
 <p>This will run the MCMC sampler until the number of unique sampled models exceeds <code>n.models</code> which is <span class="math inline">\(2^p\)</span> (if <span class="math inline">\(p &lt; 19\)</span>) by default or until <code>MCMC.iterations</code> has been exceeded, where <code>MCMC.iterations = n.models*2</code> by default.</p>
 <div id="estimates-of-marginal-posterior-inclusion-probabilities-pip" class="section level3">
 <h3 class="hasAnchor">
 <a href="#estimates-of-marginal-posterior-inclusion-probabilities-pip" class="anchor"></a>Estimates of Marginal Posterior Inclusion Probabilities (pip)</h3>
 <p>With MCMC sampling there are two estimates of the marginal inclusion probabilities: <code>object$probne0</code> which are obtained by using the re-normalized posterior odds from sampled models to estimate probabilities and the estimates based on Monte Carlo frequencies <code>object$probs.MCMC</code>. These should be in close agreement if the MCMC sampler has run for enough iterations.</p>
 <p><code>BAS</code> includes a diagnostic function to compare the two sets of estimates of posterior inclusion probabilities and posterior model probabilities</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw"><a href="../reference/diagnostics.html">diagnostics</a></span>(crime.ZS, <span class="dt">type =</span> <span class="st">"pip"</span>, <span class="dt">pch =</span> <span class="dv">16</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="kw"><a href="../reference/diagnostics.html">diagnostics</a></span>(crime.ZS, <span class="dt">type =</span> <span class="st">"pip"</span>, <span class="dt">pch =</span> <span class="dv">16</span>)</a></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/diagnostics-1.png" width="700"></p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw"><a href="../reference/diagnostics.html">diagnostics</a></span>(crime.ZS, <span class="dt">type =</span> <span class="st">"model"</span>, <span class="dt">pch =</span> <span class="dv">16</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw"><a href="../reference/diagnostics.html">diagnostics</a></span>(crime.ZS, <span class="dt">type =</span> <span class="st">"model"</span>, <span class="dt">pch =</span> <span class="dv">16</span>)</a></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/diagnostics-2.png" width="700"></p>
 <p>In the left hand plot of pips, each point represents one posterior inclusion probability for the 15 variables estimated under the two methods. The two estimators are in pretty close agreement. The plot of the model probabilities suggests that we should use more <code>MCMC.iterations</code> if we want more accurate estimates of the posterior model probabilities.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">crime.ZS &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(y <span class="op">~</span><span class="st"> </span>.,</a>
-<a class="sourceLine" id="cb50-2" data-line-number="2">  <span class="dt">data =</span> UScrime,</a>
-<a class="sourceLine" id="cb50-3" data-line-number="3">  <span class="dt">prior =</span> <span class="st">"ZS-null"</span>,</a>
-<a class="sourceLine" id="cb50-4" data-line-number="4">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>(),</a>
-<a class="sourceLine" id="cb50-5" data-line-number="5">  <span class="dt">method =</span> <span class="st">"MCMC"</span>, <span class="dt">MCMC.iterations =</span> <span class="dv">10</span><span class="op">^</span><span class="dv">6</span></a>
-<a class="sourceLine" id="cb50-6" data-line-number="6">)</a>
-<a class="sourceLine" id="cb50-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb50-8" data-line-number="8"><span class="co"># Don't run diagnostics(crime.ZS, type="model", pch=16)</span></a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">crime.ZS &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(y <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">  <span class="dt">data =</span> UScrime,</a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">  <span class="dt">prior =</span> <span class="st">"ZS-null"</span>,</a>
+<a class="sourceLine" id="cb48-4" data-line-number="4">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>(),</a>
+<a class="sourceLine" id="cb48-5" data-line-number="5">  <span class="dt">method =</span> <span class="st">"MCMC"</span>, <span class="dt">MCMC.iterations =</span> <span class="dv">10</span><span class="op">^</span><span class="dv">6</span></a>
+<a class="sourceLine" id="cb48-6" data-line-number="6">)</a>
+<a class="sourceLine" id="cb48-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb48-8" data-line-number="8"><span class="co"># Don't run diagnostics(crime.ZS, type="model", pch=16)</span></a></code></pre></div>
 </div>
 </div>
 <div id="outliers" class="section level2">
@@ -397,18 +389,18 @@
 <a href="#outliers" class="anchor"></a>Outliers</h2>
 <p>BAS can also be used for exploring mean shift or variance inflation outliers by adding indicator variables for each case being an outlier (the mean is not given by the regression) or not. This is similar to the MC3.REG function in BMA, although here we are using a g-prior or mixture of g-priors for the coefficients for the outlier means.</p>
 <p>Using the Stackloss data, we can add an identify matrix to the original dataframe, where each column is an indicator that the ith variable is an outlier.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">data</span>(<span class="st">"stackloss"</span>)</a>
-<a class="sourceLine" id="cb51-2" data-line-number="2">stackloss &lt;-<span class="st"> </span><span class="kw">cbind</span>(stackloss, <span class="kw">diag</span>(<span class="kw">nrow</span>(stackloss)))</a>
-<a class="sourceLine" id="cb51-3" data-line-number="3">stack.bas &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(stack.loss <span class="op">~</span><span class="st"> </span>.,</a>
-<a class="sourceLine" id="cb51-4" data-line-number="4">  <span class="dt">data =</span> stackloss,</a>
-<a class="sourceLine" id="cb51-5" data-line-number="5">  <span class="dt">method =</span> <span class="st">"MCMC"</span>, <span class="dt">initprobs =</span> <span class="st">"marg-eplogp"</span>,</a>
-<a class="sourceLine" id="cb51-6" data-line-number="6">  <span class="dt">prior =</span> <span class="st">"ZS-null"</span>,</a>
-<a class="sourceLine" id="cb51-7" data-line-number="7">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/tr.poisson.html">tr.poisson</a></span>(<span class="dv">4</span>, <span class="dv">10</span>),</a>
-<a class="sourceLine" id="cb51-8" data-line-number="8">  <span class="dt">MCMC.iterations =</span> <span class="dv">200000</span></a>
-<a class="sourceLine" id="cb51-9" data-line-number="9">)</a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw">data</span>(<span class="st">"stackloss"</span>)</a>
+<a class="sourceLine" id="cb49-2" data-line-number="2">stackloss &lt;-<span class="st"> </span><span class="kw">cbind</span>(stackloss, <span class="kw">diag</span>(<span class="kw">nrow</span>(stackloss)))</a>
+<a class="sourceLine" id="cb49-3" data-line-number="3">stack.bas &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(stack.loss <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb49-4" data-line-number="4">  <span class="dt">data =</span> stackloss,</a>
+<a class="sourceLine" id="cb49-5" data-line-number="5">  <span class="dt">method =</span> <span class="st">"MCMC"</span>, <span class="dt">initprobs =</span> <span class="st">"marg-eplogp"</span>,</a>
+<a class="sourceLine" id="cb49-6" data-line-number="6">  <span class="dt">prior =</span> <span class="st">"ZS-null"</span>,</a>
+<a class="sourceLine" id="cb49-7" data-line-number="7">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/tr.poisson.html">tr.poisson</a></span>(<span class="dv">4</span>, <span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb49-8" data-line-number="8">  <span class="dt">MCMC.iterations =</span> <span class="dv">200000</span></a>
+<a class="sourceLine" id="cb49-9" data-line-number="9">)</a></code></pre></div>
 <p>The above call introduces using truncated prior distributions on the model space; in this case the distribution of the number of variables to be included has a Poisson distribution, with mean 4 (under no truncation), and the truncation point is at 10, so that all models with more than 10 (one half of cases rounded down) will have probability zero. This avoids exploration of models that are not full rank.</p>
 <p>Looking at the summaries</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw">as.data.frame</span>(<span class="kw"><a href="../reference/summary.html">summary</a></span>(stack.bas)))</a></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw">as.data.frame</span>(<span class="kw"><a href="../reference/summary.html">summary</a></span>(stack.bas)))</a></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th></th>
@@ -431,7 +423,7 @@
 </tr>
 <tr class="even">
 <td>Air.Flow</td>
-<td align="right">0.999490</td>
+<td align="right">0.999770</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -440,16 +432,16 @@
 </tr>
 <tr class="odd">
 <td>Water.Temp</td>
-<td align="right">0.464725</td>
+<td align="right">0.478790</td>
 <td align="right">1.00000</td>
-<td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
+<td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
 </tr>
 <tr class="even">
 <td>Acid.Conc.</td>
-<td align="right">0.093695</td>
+<td align="right">0.087125</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -458,7 +450,7 @@
 </tr>
 <tr class="odd">
 <td><code>1</code></td>
-<td align="right">0.575030</td>
+<td align="right">0.606365</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -467,16 +459,16 @@
 </tr>
 <tr class="even">
 <td><code>2</code></td>
-<td align="right">0.164900</td>
+<td align="right">0.175005</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
-<td align="right">0.0000000</td>
-<td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
 </tr>
 <tr class="odd">
 <td><code>3</code></td>
-<td align="right">0.613345</td>
+<td align="right">0.639580</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -485,7 +477,7 @@
 </tr>
 <tr class="even">
 <td><code>4</code></td>
-<td align="right">0.949505</td>
+<td align="right">0.953895</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -494,7 +486,7 @@
 </tr>
 <tr class="odd">
 <td><code>5</code></td>
-<td align="right">0.072075</td>
+<td align="right">0.067490</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -503,7 +495,7 @@
 </tr>
 <tr class="even">
 <td><code>6</code></td>
-<td align="right">0.079365</td>
+<td align="right">0.076765</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -512,7 +504,7 @@
 </tr>
 <tr class="odd">
 <td><code>7</code></td>
-<td align="right">0.062815</td>
+<td align="right">0.065070</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -521,7 +513,7 @@
 </tr>
 <tr class="even">
 <td><code>8</code></td>
-<td align="right">0.068030</td>
+<td align="right">0.069445</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -539,7 +531,7 @@
 </tr>
 <tr class="even">
 <td><code>10</code></td>
-<td align="right">0.069135</td>
+<td align="right">0.061965</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -548,7 +540,7 @@
 </tr>
 <tr class="odd">
 <td><code>11</code></td>
-<td align="right">0.067170</td>
+<td align="right">0.064855</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -557,7 +549,7 @@
 </tr>
 <tr class="even">
 <td><code>12</code></td>
-<td align="right">0.089590</td>
+<td align="right">0.083955</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -566,16 +558,16 @@
 </tr>
 <tr class="odd">
 <td><code>13</code></td>
-<td align="right">0.342635</td>
+<td align="right">0.338765</td>
 <td align="right">0.00000</td>
 <td align="right">1.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
-<td align="right">0.0000000</td>
-<td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td><code>14</code></td>
-<td align="right">0.191200</td>
+<td align="right">0.177585</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -584,7 +576,7 @@
 </tr>
 <tr class="odd">
 <td><code>15</code></td>
-<td align="right">0.074650</td>
+<td align="right">0.075490</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -593,7 +585,7 @@
 </tr>
 <tr class="even">
 <td><code>16</code></td>
-<td align="right">0.055960</td>
+<td align="right">0.057360</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -602,7 +594,7 @@
 </tr>
 <tr class="odd">
 <td><code>17</code></td>
-<td align="right">0.065055</td>
+<td align="right">0.063615</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -611,7 +603,7 @@
 </tr>
 <tr class="even">
 <td><code>18</code></td>
-<td align="right">0.060870</td>
+<td align="right">0.068775</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -620,7 +612,7 @@
 </tr>
 <tr class="odd">
 <td><code>19</code></td>
-<td align="right">0.092200</td>
+<td align="right">0.093675</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -629,7 +621,7 @@
 </tr>
 <tr class="even">
 <td><code>20</code></td>
-<td align="right">0.125275</td>
+<td align="right">0.137545</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -638,7 +630,7 @@
 </tr>
 <tr class="odd">
 <td><code>21</code></td>
-<td align="right">0.986795</td>
+<td align="right">0.988120</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -649,35 +641,35 @@
 <td>BF</td>
 <td align="right">NA</td>
 <td align="right">1.00000</td>
-<td align="right">0.5779604</td>
 <td align="right">0.3397571</td>
-<td align="right">0.2016282</td>
 <td align="right">0.5555328</td>
+<td align="right">0.2016282</td>
+<td align="right">0.5779604</td>
 </tr>
 <tr class="odd">
 <td>PostProbs</td>
 <td align="right">NA</td>
-<td align="right">0.06330</td>
-<td align="right">0.0204000</td>
-<td align="right">0.0201000</td>
-<td align="right">0.0197000</td>
-<td align="right">0.0194000</td>
+<td align="right">0.06340</td>
+<td align="right">0.0241000</td>
+<td align="right">0.0208000</td>
+<td align="right">0.0205000</td>
+<td align="right">0.0200000</td>
 </tr>
 <tr class="even">
 <td>R2</td>
 <td align="right">NA</td>
 <td align="right">0.98920</td>
-<td align="right">0.9923000</td>
 <td align="right">0.9873000</td>
-<td align="right">0.9803000</td>
 <td align="right">0.9922000</td>
+<td align="right">0.9803000</td>
+<td align="right">0.9923000</td>
 </tr>
 <tr class="odd">
 <td>dim</td>
 <td align="right">NA</td>
 <td align="right">7.00000</td>
-<td align="right">8.0000000</td>
 <td align="right">7.0000000</td>
+<td align="right">8.0000000</td>
 <td align="right">6.0000000</td>
 <td align="right">8.0000000</td>
 </tr>
@@ -685,10 +677,10 @@
 <td>logmarg</td>
 <td align="right">NA</td>
 <td align="right">23.82319</td>
-<td align="right">23.2749373</td>
 <td align="right">22.7436630</td>
-<td align="right">22.2218573</td>
 <td align="right">23.2353597</td>
+<td align="right">22.2218573</td>
+<td align="right">23.2749373</td>
 </tr>
 </tbody>
 </table>
@@ -697,40 +689,40 @@
 <h2 class="hasAnchor">
 <a href="#factors-and-hierarchical-heredity" class="anchor"></a>Factors and Hierarchical Heredity</h2>
 <p>BAS now includes constraints for factors so that all terms that represent a factor are either included or excluded together. To illustrate, we will use the data set <code>ToothGrowth</code> and convert <code>dose</code> to a factor:</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw">data</span>(ToothGrowth)</a>
-<a class="sourceLine" id="cb53-2" data-line-number="2">ToothGrowth<span class="op">$</span>dose &lt;-<span class="st"> </span><span class="kw">factor</span>(ToothGrowth<span class="op">$</span>dose)</a>
-<a class="sourceLine" id="cb53-3" data-line-number="3"><span class="kw">levels</span>(ToothGrowth<span class="op">$</span>dose) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"Low"</span>, <span class="st">"Medium"</span>, <span class="st">"High"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">data</span>(ToothGrowth)</a>
+<a class="sourceLine" id="cb51-2" data-line-number="2">ToothGrowth<span class="op">$</span>dose &lt;-<span class="st"> </span><span class="kw">factor</span>(ToothGrowth<span class="op">$</span>dose)</a>
+<a class="sourceLine" id="cb51-3" data-line-number="3"><span class="kw">levels</span>(ToothGrowth<span class="op">$</span>dose) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"Low"</span>, <span class="st">"Medium"</span>, <span class="st">"High"</span>)</a></code></pre></div>
 <p>and fit the model</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">TG.bas &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(len <span class="op">~</span><span class="st"> </span>supp <span class="op">+</span><span class="st"> </span>dose,</a>
-<a class="sourceLine" id="cb54-2" data-line-number="2">  <span class="dt">data =</span> ToothGrowth,</a>
-<a class="sourceLine" id="cb54-3" data-line-number="3">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>(), <span class="dt">method =</span> <span class="st">"BAS"</span></a>
-<a class="sourceLine" id="cb54-4" data-line-number="4">)</a>
-<a class="sourceLine" id="cb54-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb54-6" data-line-number="6"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(TG.bas)</a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">TG.bas &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(len <span class="op">~</span><span class="st"> </span>supp <span class="op">+</span><span class="st"> </span>dose,</a>
+<a class="sourceLine" id="cb52-2" data-line-number="2">  <span class="dt">data =</span> ToothGrowth,</a>
+<a class="sourceLine" id="cb52-3" data-line-number="3">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>(), <span class="dt">method =</span> <span class="st">"BAS"</span></a>
+<a class="sourceLine" id="cb52-4" data-line-number="4">)</a>
+<a class="sourceLine" id="cb52-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb52-6" data-line-number="6"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(TG.bas)</a></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 <p>From the image of the model space, we see that all levels of a factor enter or drop from the model together. This hierarchical “heredity” is the default option set by <code>force.heredity = TRUE</code>. To drop that restriction and allow levels of a factor or interaction of a factor to enter or leave independently use <code>force.heredity = FALSE</code>.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1">TG.bas &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(len <span class="op">~</span><span class="st"> </span>supp <span class="op">+</span><span class="st"> </span>dose,</a>
-<a class="sourceLine" id="cb55-2" data-line-number="2">  <span class="dt">data =</span> ToothGrowth,</a>
-<a class="sourceLine" id="cb55-3" data-line-number="3">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>(), <span class="dt">method =</span> <span class="st">"BAS"</span>, <span class="dt">force.heredity =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb55-4" data-line-number="4">)</a>
-<a class="sourceLine" id="cb55-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb55-6" data-line-number="6"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(TG.bas)</a></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">TG.bas &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(len <span class="op">~</span><span class="st"> </span>supp <span class="op">+</span><span class="st"> </span>dose,</a>
+<a class="sourceLine" id="cb53-2" data-line-number="2">  <span class="dt">data =</span> ToothGrowth,</a>
+<a class="sourceLine" id="cb53-3" data-line-number="3">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>(), <span class="dt">method =</span> <span class="st">"BAS"</span>, <span class="dt">force.heredity =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb53-4" data-line-number="4">)</a>
+<a class="sourceLine" id="cb53-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb53-6" data-line-number="6"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(TG.bas)</a></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 <p>This may lead to more parsimonious models, however, the hypotheses that are being tested about the coefficients that represent the factor depend on the choice for the reference group.</p>
 <p>The <code>force.heredity</code> option also forces interactions to be included only if the main effects are also included, or for models with several factors and higher order interactions, the heredity constraint implies that all lower order interactions must be included before adding higher order interactions.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">TG.bas &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(len <span class="op">~</span><span class="st"> </span>supp <span class="op">*</span><span class="st"> </span>dose,</a>
-<a class="sourceLine" id="cb56-2" data-line-number="2">  <span class="dt">data =</span> ToothGrowth,</a>
-<a class="sourceLine" id="cb56-3" data-line-number="3">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>(), <span class="dt">method =</span> <span class="st">"BAS"</span>, <span class="dt">force.heredity =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb56-4" data-line-number="4">)</a>
-<a class="sourceLine" id="cb56-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb56-6" data-line-number="6"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(TG.bas)</a></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">TG.bas &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(len <span class="op">~</span><span class="st"> </span>supp <span class="op">*</span><span class="st"> </span>dose,</a>
+<a class="sourceLine" id="cb54-2" data-line-number="2">  <span class="dt">data =</span> ToothGrowth,</a>
+<a class="sourceLine" id="cb54-3" data-line-number="3">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>(), <span class="dt">method =</span> <span class="st">"BAS"</span>, <span class="dt">force.heredity =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb54-4" data-line-number="4">)</a>
+<a class="sourceLine" id="cb54-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb54-6" data-line-number="6"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(TG.bas)</a></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 <p>The <code>force.heredity</code> is set to FALSE for the sampling methods <code>MCMC+BAS</code> and <code>deterministic</code>. If there are more than 20 predictors and factors, then we recommend using <code>MCMC</code> to enforce the constraints. Alternatively, there is a function, <code>force.heredity.bas</code>, to post-process the output to drop models that violate the hierarchical heredity constraint:</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">TG.bas &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(len <span class="op">~</span><span class="st"> </span>supp <span class="op">*</span><span class="st"> </span>dose,</a>
-<a class="sourceLine" id="cb57-2" data-line-number="2">  <span class="dt">data =</span> ToothGrowth,</a>
-<a class="sourceLine" id="cb57-3" data-line-number="3">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>(), <span class="dt">method =</span> <span class="st">"BAS"</span>, <span class="dt">force.heredity =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb57-4" data-line-number="4">)</a>
-<a class="sourceLine" id="cb57-5" data-line-number="5">TG.herid.bas &lt;-<span class="st"> </span><span class="kw"><a href="../reference/force.heredity.bas.html">force.heredity.bas</a></span>(TG.bas)</a></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1">TG.bas &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(len <span class="op">~</span><span class="st"> </span>supp <span class="op">*</span><span class="st"> </span>dose,</a>
+<a class="sourceLine" id="cb55-2" data-line-number="2">  <span class="dt">data =</span> ToothGrowth,</a>
+<a class="sourceLine" id="cb55-3" data-line-number="3">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>(), <span class="dt">method =</span> <span class="st">"BAS"</span>, <span class="dt">force.heredity =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb55-4" data-line-number="4">)</a>
+<a class="sourceLine" id="cb55-5" data-line-number="5">TG.herid.bas &lt;-<span class="st"> </span><span class="kw"><a href="../reference/force.heredity.bas.html">force.heredity.bas</a></span>(TG.bas)</a></code></pre></div>
 <p>that can be used with those sampling methods.</p>
 </div>
 <div id="weighted-regression" class="section level2">
@@ -740,15 +732,15 @@
  \sigma^2 g (X_\gamma^T W X_\gamma)^{-1}
 \]</span> where <span class="math inline">\(X_\gamma\)</span> is the design matrix under model <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(W\)</span> is the <span class="math inline">\(n \times n\)</span> diagonal matrix with the weights on the diagonal.</p>
 <p>To illustrate, we will use the climate data, available at the url below</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1">climate &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">"https://stat.duke.edu/sites/stat.duke.edu/files/climate.dat"</span>, <span class="dt">header =</span> T)</a>
-<a class="sourceLine" id="cb58-2" data-line-number="2"><span class="kw">str</span>(climate)</a></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">climate &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">"https://stat.duke.edu/sites/stat.duke.edu/files/climate.dat"</span>, <span class="dt">header =</span> T)</a>
+<a class="sourceLine" id="cb56-2" data-line-number="2"><span class="kw">str</span>(climate)</a></code></pre></div>
 <pre><code>## 'data.frame':    63 obs. of  5 variables:
 ##  $ deltaT  : num  -2.6 -2.6 -2.9 -2.4 -2.8 -1.2 -2.4 -2.6 -2.4 -2.5 ...
 ##  $ sdev    : num  0.7 0.8 0.9 0.7 0.7 0.3 1.3 1.3 1.3 0.5 ...
 ##  $ proxy   : int  1 1 1 1 1 1 1 1 1 1 ...
 ##  $ T.M     : int  1 1 1 1 1 1 1 1 1 1 ...
 ##  $ latitude: num  2.5 2.2 0.5 0.3 0.2 -1.1 5.2 11.4 14.6 6.3 ...</code></pre>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw"><a href="../reference/summary.html">summary</a></span>(climate)</a></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw"><a href="../reference/summary.html">summary</a></span>(climate)</a></code></pre></div>
 <pre><code>##      deltaT            sdev            proxy            T.M        
 ##  Min.   :-7.000   Min.   :0.1500   Min.   :1.000   Min.   :0.0000  
 ##  1st Qu.:-3.900   1st Qu.:0.5000   1st Qu.:2.000   1st Qu.:1.0000  
@@ -764,32 +756,32 @@
 ##  3rd Qu.:  9.700  
 ##  Max.   : 29.000</code></pre>
 <p>which includes measurements of changes in temperature (<code>deltaT</code>) at various <code>latitude</code>s as well as a measure of the accuracy of the measured values <code>sdev</code> for 8 different types <code>proxy</code> of obtaining measurements. We will use this to explore weighted regression and the option to group terms in factors or from <code>poly</code>. For illustration purposes, we will eliminate <code>proxy == 6</code> which has only one level as the interactions are not estimable, and then convert <code>proxy</code> to a factor.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb62-2" data-line-number="2">climate &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(climate, proxy <span class="op">!=</span><span class="st"> </span><span class="dv">6</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb62-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">proxy =</span> <span class="kw">factor</span>(proxy))</a></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb60-2" data-line-number="2">climate &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(climate, proxy <span class="op">!=</span><span class="st"> </span><span class="dv">6</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb60-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">proxy =</span> <span class="kw">factor</span>(proxy))</a></code></pre></div>
 <p>We can fit a weighted regression with <code>weights = 1/sdev^2</code> with the following code</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1">climate.bas &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(deltaT <span class="op">~</span><span class="st"> </span>proxy <span class="op">*</span><span class="st"> </span><span class="kw">poly</span>(latitude, <span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb63-2" data-line-number="2">  <span class="dt">data =</span> climate,</a>
-<a class="sourceLine" id="cb63-3" data-line-number="3">  <span class="dt">weights =</span> <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>sdev<span class="op">^</span><span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb63-4" data-line-number="4">  <span class="dt">prior =</span> <span class="st">"hyper-g-n"</span>, <span class="dt">alpha =</span> <span class="fl">3.0</span>,</a>
-<a class="sourceLine" id="cb63-5" data-line-number="5">  <span class="dt">n.models =</span> <span class="dv">2</span><span class="op">^</span><span class="dv">20</span>,</a>
-<a class="sourceLine" id="cb63-6" data-line-number="6">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>()</a>
-<a class="sourceLine" id="cb63-7" data-line-number="7">)</a></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">climate.bas &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(deltaT <span class="op">~</span><span class="st"> </span>proxy <span class="op">*</span><span class="st"> </span><span class="kw">poly</span>(latitude, <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb61-2" data-line-number="2">  <span class="dt">data =</span> climate,</a>
+<a class="sourceLine" id="cb61-3" data-line-number="3">  <span class="dt">weights =</span> <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>sdev<span class="op">^</span><span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb61-4" data-line-number="4">  <span class="dt">prior =</span> <span class="st">"hyper-g-n"</span>, <span class="dt">alpha =</span> <span class="fl">3.0</span>,</a>
+<a class="sourceLine" id="cb61-5" data-line-number="5">  <span class="dt">n.models =</span> <span class="dv">2</span><span class="op">^</span><span class="dv">20</span>,</a>
+<a class="sourceLine" id="cb61-6" data-line-number="6">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>()</a>
+<a class="sourceLine" id="cb61-7" data-line-number="7">)</a></code></pre></div>
 <p>Examining the image of the top models,</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(climate.bas, <span class="dt">rotate =</span> F)</a></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(climate.bas, <span class="dt">rotate =</span> F)</a></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/climate-image-1.png" width="700"></p>
 <p>we see that all levels of a factor enter or drop from the model together, as well as the vectors in the design matrix to represent the term <code>poly</code>.<br>
 Rerunning without the constraint,</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="co"># May take a while to enumerate all 2^20 models</span></a>
-<a class="sourceLine" id="cb65-2" data-line-number="2">climate.bas &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(deltaT <span class="op">~</span><span class="st"> </span>proxy <span class="op">*</span><span class="st"> </span><span class="kw">poly</span>(latitude, <span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb65-3" data-line-number="3">  <span class="dt">data =</span> climate,</a>
-<a class="sourceLine" id="cb65-4" data-line-number="4">  <span class="dt">weights =</span> <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>sdev<span class="op">^</span><span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb65-5" data-line-number="5">  <span class="dt">prior =</span> <span class="st">"hyper-g-n"</span>, <span class="dt">alpha =</span> <span class="fl">3.0</span>,</a>
-<a class="sourceLine" id="cb65-6" data-line-number="6">  <span class="dt">n.models =</span> <span class="dv">2</span><span class="op">^</span><span class="dv">20</span>,</a>
-<a class="sourceLine" id="cb65-7" data-line-number="7">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>(),</a>
-<a class="sourceLine" id="cb65-8" data-line-number="8">  <span class="dt">force.heredity =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb65-9" data-line-number="9">)</a>
-<a class="sourceLine" id="cb65-10" data-line-number="10"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(climate.bas)</a></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="co"># May take a while to enumerate all 2^20 models</span></a>
+<a class="sourceLine" id="cb63-2" data-line-number="2">climate.bas &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bas.lm.html">bas.lm</a></span>(deltaT <span class="op">~</span><span class="st"> </span>proxy <span class="op">*</span><span class="st"> </span><span class="kw">poly</span>(latitude, <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb63-3" data-line-number="3">  <span class="dt">data =</span> climate,</a>
+<a class="sourceLine" id="cb63-4" data-line-number="4">  <span class="dt">weights =</span> <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>sdev<span class="op">^</span><span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb63-5" data-line-number="5">  <span class="dt">prior =</span> <span class="st">"hyper-g-n"</span>, <span class="dt">alpha =</span> <span class="fl">3.0</span>,</a>
+<a class="sourceLine" id="cb63-6" data-line-number="6">  <span class="dt">n.models =</span> <span class="dv">2</span><span class="op">^</span><span class="dv">20</span>,</a>
+<a class="sourceLine" id="cb63-7" data-line-number="7">  <span class="dt">modelprior =</span> <span class="kw"><a href="../reference/uniform.html">uniform</a></span>(),</a>
+<a class="sourceLine" id="cb63-8" data-line-number="8">  <span class="dt">force.heredity =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb63-9" data-line-number="9">)</a>
+<a class="sourceLine" id="cb63-10" data-line-number="10"><span class="kw"><a href="../reference/image.bas.html">image</a></span>(climate.bas)</a></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/wtreg-wo-contraint-1.png" width="700"></p>
 <p>allows one to see which factors levels are different from the reference group.</p>
 </div>
