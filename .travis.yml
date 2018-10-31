@@ -6,7 +6,7 @@ r_build_args: '--no-manual'
 #  apt:
 #    packages:
 #      - valgrind
-#env:
+env:
 #  - VALGRIND_OPTS='--leak-check=full --track-origins=yes'
  global:
    - _R_CRAN_CHECK_INCOMING_=true
