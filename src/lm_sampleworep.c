@@ -33,13 +33,13 @@ void CreateTree_with_pigamma(NODEPTR branch, struct Var *vars,
                              int m, SEXP modeldim, double *pigamma,
                              SEXP Rparents) {
   double prob_parents;
-	for (int i = 0; i< n; i++) {
-		pigamma[i] = 1.0;
+	for (int i = 0; i < n; i++) {
+		pigamma[i] = 0.0;
 		int bit =  bestmodel[vars[i].index];
 		model[vars[i].index] = bit;
 		INTEGER(modeldim)[m]  += bit;
 		if (bit == 1) {
-			for (int j=0; j<=i; j++)  pigamma[j] *= branch->prob;
+			for (int j=0; j<=i; j++)  pigamma[j] += log(branch->prob);
 			if (i < n-1 && branch->one == NULL) {
 			    prob_parents = got_parents(bestmodel, Rparents, i+1, vars, n);
 				  branch->one = make_node(prob_parents);
@@ -50,7 +50,7 @@ void CreateTree_with_pigamma(NODEPTR branch, struct Var *vars,
 		 	branch = branch->one;
 		}
 		else {
-			for (int j=0; j<=i; j++)  pigamma[j] *= (1.0 - branch->prob);
+			for (int j=0; j<=i; j++)  pigamma[j] += log((1.0 - branch->prob));
 			if (i < n-1 && branch->zero == NULL) {
 			  prob_parents = got_parents(bestmodel, Rparents, i+1, vars,n);
 				branch->zero = make_node(prob_parents);
@@ -59,6 +59,9 @@ void CreateTree_with_pigamma(NODEPTR branch, struct Var *vars,
 				branch->zero = make_node(0.0);
 			branch = branch->zero;
 		}
+	}
+	for (int i = 0; i < n; i++) {
+	  pigamma[i] = exp(pigamma[i]);
 	}
 }
 
@@ -100,7 +103,7 @@ void GetNextModel_swop(NODEPTR branch, struct Var *vars,
                    		 SEXP Rparents) {
   double prob_parents = 1.0;
 	for (int i = 0; i< n; i++) {
-		pigamma[i] = 1.0;
+		pigamma[i] = 0.0;
 		int bit =  withprob(branch->prob);
 
 		model[vars[i].index] = bit;
@@ -108,7 +111,7 @@ void GetNextModel_swop(NODEPTR branch, struct Var *vars,
 
 		if (bit == 1) {
 			for (int j=0; j<=i; j++) {
-			  pigamma[j] *= branch->prob; } // calculate probabilty of model
+			  pigamma[j] += log(branch->prob); } // calculate probabilty of model
   			if (i < n-1 && branch->one == NULL) {
   			  //  add new branch
   			  //  check if parents
@@ -118,7 +121,9 @@ void GetNextModel_swop(NODEPTR branch, struct Var *vars,
   			if (i == n-1 && branch->one == NULL) branch->one = make_node(0.0);
 	  		branch = branch->one;
 		} else {
-			for (int j=0; j<=i; j++)  pigamma[j] *= (1.0 - branch->prob);
+			for (int j=0; j<=i; j++) {
+			  pigamma[j] += log(1.0 - branch->prob);
+			}
 			if (i < n-1 && branch->zero == NULL)
 			{
 			  //  add new branch
@@ -129,6 +134,9 @@ void GetNextModel_swop(NODEPTR branch, struct Var *vars,
 			if (i == n-1 && branch->zero == NULL) branch->zero = make_node(0.0);
 			branch = branch->zero;
 		}
+	}
+	for (int i=0; i < n; i++) {
+	  pigamma[i] = exp(pigamma[i]);
 	}
 }
 
@@ -316,7 +324,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 	}  */
 
 	// Sample models
-	//  add DOUBLE_EPS to pigamma[0] due to rounding issues with clang on 
+	//  add DOUBLE_EPS to pigamma[0] due to rounding issues with clang on
 	//  fedora and solaris with clang with force.heredity
 	// https://github.com/merliseclyde/BAS/issues/38
 	for (m = 1;  m < k && (pigamma[0] + DOUBLE_EPS) < 1.0; m++) {
@@ -345,7 +353,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 		R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY,
                   pmodel, p, nobs, m, &mse_m, &rank_m, pivot, tol);
 		INTEGER(rank)[m] = rank_m;
-		// initialize 
+		// initialize
 		logmargy= 0.0;
 		shrinkage_m = 1.0;
 		gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);

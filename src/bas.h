@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "mconf.h"
+//#include "mconf.h"
 #include <math.h>
 #include <string.h>
 #include <float.h>
