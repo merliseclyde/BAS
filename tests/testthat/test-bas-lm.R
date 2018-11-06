@@ -111,7 +111,7 @@ test_that("deterministic, BAS and MCMC+BAS", {
                          prior = "BIC", method = "MCMC+BAS", n.models=2^4,
                          MCMC.iterations = 1000,
                          modelprior = uniform(), data = Hald)
-  
+
                         #MCMC.iterations = 1000)
   hald_deterministic <- bas.lm(Y ~ .,
     prior = "BIC",
@@ -239,10 +239,10 @@ test_that("sample size zero", {
   data(Hald)
   expect_error(bas_hald <- bas.lm(Y ~ .^2, data=Hald[0,], method="MCMC",
                                     force.heredity = TRUE))
-  
+
 })
 
-# add DOUBLE_EPS to fix issue in 
+# add DOUBLE_EPS to fix issue in
 #  https://github.com/merliseclyde/BAS/issues/38
 test_that("herdity and bas.lm", {
   set.seed(2)
@@ -260,8 +260,8 @@ test_that("herdity and bas.lm", {
                           modelprior = uniform(),
                           force.heredity = FALSE)
   pima_BAS_no <- force.heredity.bas(pima_BAS_no)
-  expect_equal(0L, sum(pima_BAS$probne0 > 1.0))
-  expect_equal(0L, sum(pima_BAS_no$probne0[-1] > 1.0))
+  expect_equal(0L, sum(pima_BAS$probne0 - .Machine$double.eps > 1.0))
+  expect_equal(0L, sum(pima_BAS_no$probne0 - .Machine$double.eps > 1.0))
   expect_equal(pima_BAS$probne0, pima_BAS_no$probne0)
   expect_equal(pima_BAS$n.models, pima_BAS_no$n.models)
   expect_equal(0L, sum(duplicated(pima_BAS$which)))
