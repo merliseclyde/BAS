@@ -1,17 +1,16 @@
-#  BAS 1.5.3 Comments to CRAN
+#  BAS 1.5.4 Comments to CRAN
 
-I was requested to fix errors ASAP identified on cran checks   https://cran.r-project.org/web/checks/check_results_BAS.html with the submission 4 days ago.
-Version 1.5.2 included an extensive suite of unit tests. While extensive testing on several platforms prior to submission to CRAN suggested that the package passed CRAN checks,  the unit-tests did catch additional errors on debian/fedora using clang post-submission.  Subsequent testing on fedora with clang (locally) and debian/gcc/valgrind via rhub indicate that the package passes checks (as well as on the previous platforms tested).   Remaining results from valgrind are not linked to lines in the package C code, so I have been unable to track those (similar messages appear on startup with R), so believe that they are false positives.  
+Fixed remaining errors ASAP identified on cran checks   https://cran.r-project.org/web/checks/check_results_BAS.html caught by unit tests on Solaris.  Error in test suite on solaris and fedora/clang depended on state of the random seed and was not immediatly reporducible across platforms, but once identified I was able to identify the issue within the C code and fix. 
 
 
 ## Test environments
 
-* local OS X install, R 3.5.0 R 3.5.1  (clang / gfortran 6.1)
-* local fedora R 3.5.1 (clang + valgrind)
+* local OS X install, R 3.5.1  (clang / gfortran 6.1)
+* local fedora 25  R 3.5.1 (clang)
 * ubuntu 14.04.5 (on travis-ci), R 3.5.1 and R-devel  (gcc)
 * win-builder (devel and release)
 * rhub:  check_with_valgrind (debian+gcc), 
-         check_for_cran(platforms = "fedora-clang-devel")
+         check_for_cran(platforms = "fedora-clang-devel", "solaris-x86-patched")
 
 ## R CMD check results
 There were no ERRORs or WARNINGS. 
@@ -28,12 +27,17 @@ None
 
 
 
-## News Entry for  BAS 1.5.3
+## News Entry for  BAS 1.5.4
+##  Bug Fixes
+	* rounding issues with clang on fedora and solaris with
+	`force.heredity = TRUE` lead to sampling continuing under
+	`method='BAS'` and duplicate models so that normalized posterior
+	probabilities were incorrect.
+	[issue #38](https://github.com/merliseclyde/BAS/issues/38)
 
-Fixed errors identified on cran checks https://cran.r-project.org/web/checks/check_results_BAS.html
+  * FORTRAN errors when data has zero rows 
+  (issue #37)[https://github.com/merliseclyde/BAS/issues/37]
+  add check and test for n == 0 due to subsetting input data
+  
 
-* initialize R2_m = 0.0 in lm_mcmcbas.c  (lead to NA's with clang on debian and fedora )
 
-* switch to default of `pivot = TRUE` in `bas.lm`, adding `tol` as an argument to control tolerance in `cholregpovot` for improved stability across platforms with singular or nearly singular designs.
-
-* valgrind messages: Conditional jump or move depends on uninitialised value(s). Initialize vectors allocated via R_alloc in lm_deterministic.c and glm_deterministic.c.
