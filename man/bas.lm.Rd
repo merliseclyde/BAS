@@ -177,7 +177,7 @@ See details in Clyde and Ghosh (2012).}
 \item{force.heredity}{Logical variable to force all levels of a factor to be
 included together and to include higher order interactions only if lower
 order terms are included.  Currently only supported with `method='MCMC'`.
-Default is TRUE.}
+Default is TRUE for MCMC.}
 
 \item{pivot}{Logical variable to allow pivoting of columns when obtaining the
 OLS estimates of a model so that models that are not full rank can be fit. Defaults to TRUE.

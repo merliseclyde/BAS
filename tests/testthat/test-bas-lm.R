@@ -221,7 +221,7 @@ test_that("force.heredity", {
   expect_equal(basObj$probne0, basObj.old$probne0)
 })
 
-test_that("interactions", {
+test_that("interactions & heredity", {
   data(Hald)
   bas_hald <- bas.lm(Y ~ .^2, data=Hald, method="MCMC",
                      force.heredity = TRUE)
@@ -235,7 +235,45 @@ test_that("interactions", {
                bas_hald$n.models)
  })
 
+test_that("sample size zero", {
+  data(Hald)
+  expect_error(bas_hald <- bas.lm(Y ~ .^2, data=Hald[0,], method="MCMC",
+                                    force.heredity = TRUE))
+  
+})
 
+# add DOUBLE_EPS to fix issue in 
+#  https://github.com/merliseclyde/BAS/issues/38
+test_that("herdity and bas.lm", {
+  set.seed(2)
+  data(Pima.tr, package="MASS")
+  pima_BAS <-  bas.lm(as.numeric(type) ~ (bp + glu + npreg)^2,
+                       data = Pima.tr, method = "BAS",
+                       prior = "BIC",
+                       update = NULL,
+                       modelprior = uniform(),
+                       force.heredity = TRUE)
+  pima_BAS_no <-  bas.lm(as.numeric(type) ~ (bp + glu  + npreg)^2,
+                          data = Pima.tr, method = "deterministic",
+                          prior = "BIC",
+                          update = NULL,
+                          modelprior = uniform(),
+                          force.heredity = FALSE)
+  pima_BAS_no <- force.heredity.bas(pima_BAS_no)
+  expect_equal(0L, sum(pima_BAS$probne0 > 1.0))
+  expect_equal(0L, sum(pima_BAS_no$probne0[-1] > 1.0))
+  expect_equal(pima_BAS$probne0, pima_BAS_no$probne0)
+  expect_equal(pima_BAS$n.models, pima_BAS_no$n.models)
+  expect_equal(0L, sum(duplicated(pima_BAS$which)))
+  pima_BAS_mcmc = bas.lm(as.numeric(type) ~ (bp + glu  + npreg)^2,
+                         data = Pima.tr, method = "MCMC",
+                         prior = "BIC",
+                         update = NULL,
+                         MCMC.iterations = 10000,
+                         modelprior = uniform(),
+                         force.heredity = TRUE)
+  expect_equal(0L, sum(duplicated(pima_BAS_mcmc$which)))
+})
 
 # add more testing for update.bas
 #

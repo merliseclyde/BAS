@@ -1,3 +1,17 @@
+# BAS 1.5.4
+
+## Bug Fixes
+
+	* rounding issues with clang on fedora and solaris with
+	`force.heredity = TRUE` lead to sampling continuing under
+	`method='BAS'` and duplicate models so that normalized posterior
+	probabilities were incorrect.
+	[issue #38](https://github.com/merliseclyde/BAS/issues/38)
+
+  * FORTRAN errors when data has zero rows 
+  (issue #37)[https://github.com/merliseclyde/BAS/issues/37]
+  add check and test for n == 0 due to subsetting input data
+  
 #  BAS 1.5.3
 
 ## Bug Fixes  

@@ -398,24 +398,41 @@ test_that("MCMC+BAS: missing MCMC.iterations and n.models arg", {
 # FIXME  add issue?  check that it works with other prior
 # with prior probabilities; i.e. failed with Jeffreys
 
+#  Checks for https://github.com/merliseclyde/BAS/issues/37
+
+test_that("no data", {
+  data(Pima.tr, package="MASS")
+  expect_error(pima_BAS <-  bas.glm(type ~ (bp + glu + npreg)^2,
+                       data = Pima.tr[0,], method = "BAS",
+                       betaprior = bic.prior(),
+                       family = binomial(), update=NULL,
+                       modelprior =uniform(),
+                       force.heredity=TRUE)  
+  )
+  
+})
+
+#  Checks for https://github.com/merliseclyde/BAS/issues/38 
+
 test_that("herdity and BAS", {
+  set.seed(2)
   data(Pima.tr, package="MASS")
   pima_BAS <-  bas.glm(type ~ (bp + glu + npreg)^2,
                        data = Pima.tr, method = "BAS",
                        betaprior = bic.prior(),
-                       family = binomial(),
+                       family = binomial(), update=NULL,
                        modelprior =uniform(),
-                       update = 5,
                        force.heredity=TRUE)
-  pima_BAS_no <-  bas.glm(type ~ (bp + glu + npreg)^2,
+  pima_BAS_no <-  bas.glm(type ~ (bp + glu  + npreg)^2,
                        data = Pima.tr, method = "BAS",
                        betaprior = bic.prior(),
-                       family = binomial(),
+                       family = binomial(), update=NULL,
                        modelprior =uniform(),
-                       update = 5,
                        force.heredity=FALSE)
   pima_BAS_no <- force.heredity.bas(pima_BAS_no)
   expect_equal(0L, sum(pima_BAS$probne0 > 1.0))
   expect_equal(0L, sum(pima_BAS_no$probne0[-1] > 1.0))
   expect_equal(pima_BAS$probne0, pima_BAS_no$probne0)
+  expect_equal(pima_BAS$n.models, pima_BAS_no$n.models)
+  expect_equal(0L, sum(duplicated(pima_BAS$which)))
 })

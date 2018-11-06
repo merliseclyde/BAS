@@ -287,6 +287,8 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   p <- dim(X)[2]
   nobs <- dim(X)[1]
 
+  if (nobs == 0) {stop("Sample size is zero; check data andsubset")}
+  
   #   weights = as.vector(model.weights(mf))
 
   weights <- as.vector(model.weights(mf))
@@ -400,7 +402,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   #print(MCMC.iterations)
 
 
-  if (is.null(update)) {
+  if (is.null(update) & !force.heredity) {
     if (n.models == 2^(p - 1)) {
       update <- n.models + 1
     } else {

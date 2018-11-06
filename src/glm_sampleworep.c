@@ -99,7 +99,9 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	int *modelwork= ivecalloc(p);
 
 	// sample models
-	for (m = 1;  m < k  && pigamma[0] < 1.0; m++) {
+	// add DOUBLE_EPS to fix issue in 
+	// https://github.com/merliseclyde/BAS/issues/38
+	for (m = 1;  m < k  && (pigamma[0] + DOUBLE_EPS) < 1.0; m++) {
 	  INTEGER(modeldim)[m] = 0.0;
 		for (i = n; i < p; i++)  {
 			INTEGER(modeldim)[m]  +=  model[vars[i].index];

@@ -242,8 +242,8 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' See details in Clyde and Ghosh (2012).
 #' @param force.heredity  Logical variable to force all levels of a factor to be
 #' included together and to include higher order interactions only if lower
-#' order terms are included.  Currently only supported with `method='MCMC'`.
-#' Default is TRUE.
+#' order terms are included.  Currently only supported with `method='MCMC'` and
+#' `method = 'BAS'`; for these methods the default is TRUE.
 #' @param pivot Logical variable to allow pivoting of columns when obtaining the
 #' OLS estimates of a model so that models that are not full rank can be fit. Defaults to TRUE.
 #' Currently coefficients that are not estimable are set to zero.  Use caution with
@@ -526,6 +526,8 @@ bas.lm <- function(formula,
   namesx <- dimnames(X)[[2]]
   namesx[1] <- "Intercept"
   n <- dim(X)[1]
+  
+  if (n == 0) {stop("Sample size is zero; check data andsubset")}
 
   weights <- as.vector(model.weights(mf))
   if (is.null(weights)) {
@@ -649,6 +651,8 @@ bas.lm <- function(formula,
   if (method == "MCMC+BAS" |
     method == "deterministic") {
     force.heredity <- FALSE
+#    warning("force.heredity not supported with these sampling methods, setting to FALSE. 
+#           Use force.heredity.bas() to post-process and inforce constraints")
   } # does not work with updating the tree
   if (force.heredity) {
     parents <- make.parents.of.interactions(mf, data)
@@ -686,14 +690,14 @@ bas.lm <- function(formula,
   #  print(n.models)
   modelprior <- normalize.modelprior(modelprior, p)
 
-
-  if (is.null(update)) {
+  if (is.null(update) & !force.heredity) {
     if (n.models == 2^(p - 1)) {
       update <- n.models + 1
     } else {
       (update <- n.models / num.updates)
     }
   }
+
 
   modelindex <- as.list(1:n.models)
   Yvec <- as.numeric(Y)
