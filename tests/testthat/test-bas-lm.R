@@ -260,8 +260,7 @@ test_that("herdity and bas.lm", {
                           modelprior = uniform(),
                           force.heredity = FALSE)
   pima_BAS_no <- force.heredity.bas(pima_BAS_no)
-  expect_equal(0L, sum(pima_BAS$probne0 - .Machine$double.eps > 1.0))
-  expect_equal(0L, sum(pima_BAS_no$probne0 - .Machine$double.eps > 1.0))
+
   expect_equal(pima_BAS$probne0, pima_BAS_no$probne0)
   expect_equal(pima_BAS$n.models, pima_BAS_no$n.models)
   expect_equal(0L, sum(duplicated(pima_BAS$which)))
