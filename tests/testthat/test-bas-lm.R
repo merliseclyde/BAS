@@ -261,9 +261,15 @@ test_that("herdity and bas.lm", {
                           force.heredity = FALSE)
   pima_BAS_no <- force.heredity.bas(pima_BAS_no)
 
+  expect_equal(0L, sum(duplicated(pima_BAS$which)))
+  sum(duplicated(pima_BAS$which))
+
+  cbind(pima_BAS$probne0, pima_BAS_no$probne0)
+  c(pima_BAS$n.models, pima_BAS_no$n.models)
+
   expect_equal(pima_BAS$probne0, pima_BAS_no$probne0)
   expect_equal(pima_BAS$n.models, pima_BAS_no$n.models)
-  expect_equal(0L, sum(duplicated(pima_BAS$which)))
+
   pima_BAS_mcmc = bas.lm(as.numeric(type) ~ (bp + glu  + npreg)^2,
                          data = Pima.tr, method = "MCMC",
                          prior = "BIC",

@@ -407,12 +407,12 @@ test_that("no data", {
                        betaprior = bic.prior(),
                        family = binomial(), update=NULL,
                        modelprior =uniform(),
-                       force.heredity=TRUE)  
+                       force.heredity=TRUE)
   )
-  
+
 })
 
-#  Checks for https://github.com/merliseclyde/BAS/issues/38 
+#  Checks for https://github.com/merliseclyde/BAS/issues/38
 
 test_that("herdity and BAS", {
   set.seed(2)
@@ -424,14 +424,16 @@ test_that("herdity and BAS", {
                        modelprior =uniform(),
                        force.heredity=TRUE)
   pima_BAS_no <-  bas.glm(type ~ (bp + glu  + npreg)^2,
-                       data = Pima.tr, method = "BAS",
+                       data = Pima.tr, method = "deterministic",
                        betaprior = bic.prior(),
                        family = binomial(), update=NULL,
                        modelprior =uniform(),
                        force.heredity=FALSE)
   pima_BAS_no <- force.heredity.bas(pima_BAS_no)
-  expect_equal(0L, sum(pima_BAS$probne0 > 1.0))
-  expect_equal(0L, sum(pima_BAS_no$probne0[-1] > 1.0))
+  sum(duplicated(pima_BAS$which))
+  cbind(pima_BAS$probne0, pima_BAS_no$probne0)
+  c(pima_BAS$n.models, pima_BAS_no$n.models)
+
   expect_equal(pima_BAS$probne0, pima_BAS_no$probne0)
   expect_equal(pima_BAS$n.models, pima_BAS_no$n.models)
   expect_equal(0L, sum(duplicated(pima_BAS$which)))
