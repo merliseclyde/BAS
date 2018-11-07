@@ -36,6 +36,10 @@ make.parents.of.interactions <-
     rownames(parents) <- colnames(X)
     colnames(parents) <- colnames(X)
 
+    # now determine the number of models
+    #
+    # term.order = table(lengths(regmatches(termnamesX, gregexpr(":", termnamesX))))
+    #
     return(parents)
   }
 

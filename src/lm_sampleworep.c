@@ -327,7 +327,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 	//  add DOUBLE_EPS to pigamma[0] due to rounding issues with clang on
 	//  fedora and solaris with clang with force.heredity
 	// https://github.com/merliseclyde/BAS/issues/38
-	for (m = 1;  m < k && (pigamma[0] + DOUBLE_EPS) < 1.0; m++) {
+	for (m = 1;  m < k && (pigamma[0] + 10.0*DOUBLE_EPS) < 1.0; m++) {
 //	  Rprintf("model %d, starting pigamma = %lf\n", m, pigamma[0]);
 	  INTEGER(modeldim)[m] = 0;
 		for (i = n; i < p; i++)  {
