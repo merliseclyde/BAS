@@ -269,6 +269,10 @@ test_that("herdity and bas.lm", {
 
   expect_equal(pima_BAS$probne0, pima_BAS_no$probne0)
   expect_equal(pima_BAS$n.models, pima_BAS_no$n.models)
+  expect_equal(sort(pima_BAS$R2), sort(pima_BAS_no$R2))
+  expect_equal(sort(pima_BAS$R2), sort(pima_BAS_no$R2))
+  expect_equal(sort(pima_BAS$logmarg), sort(pima_BAS_no$logmarg))
+  expect_equal(sort(pima_BAS$postprobs), sort(pima_BAS_no$postprobs))
 
   pima_BAS_mcmc = bas.lm(as.numeric(type) ~ (bp + glu  + npreg)^2,
                          data = Pima.tr, method = "MCMC",
