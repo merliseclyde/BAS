@@ -417,13 +417,13 @@ test_that("no data", {
 test_that("herdity and BAS", {
   set.seed(2)
   data(Pima.tr, package="MASS")
-  pima_BAS <-  bas.glm(type ~ (bp + glu + npreg)^2,
+  pima_BAS <-  bas.glm(type ~  (age + bp + npreg)^2,
                        data = Pima.tr, method = "BAS",
                        betaprior = bic.prior(),
                        family = binomial(), update=NULL,
                        modelprior =uniform(),
                        force.heredity=TRUE)
-  pima_BAS_no <-  bas.glm(type ~ (bp + glu  + npreg)^2,
+  pima_BAS_no <-  bas.glm(type ~ (age + bp + npreg)^2,
                        data = Pima.tr, method = "deterministic",
                        betaprior = bic.prior(),
                        family = binomial(), update=NULL,
