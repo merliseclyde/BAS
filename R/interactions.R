@@ -37,10 +37,26 @@ make.parents.of.interactions <-
     colnames(parents) <- colnames(X)
 
     # now determine the number of models
+    # find the number of terms without any children
     #
-    # term.order = table(lengths(regmatches(termnamesX, gregexpr(":", termnamesX))))
+
+    n.childless = sum(colSums(parents) == rowSums(parents))
+    term.order = table(lengths(regmatches(termnamesX, gregexpr(":", termnamesX))))
+    # colculate the number of models for  childless parents
+    n.models = 2^(n.childless - 1)   # drop intercept
+    # reduce the number of terms
+    n.parents = term.order[1]
+    order.of.terms = as.integer(names(term.order))[-1] + 1  # order of interaction
+
+    if (n.parents > 0) {
+       model.size = 0:n.parents
+       for (i in order.of.terms) {
+         n.models = n.models*2^choose(model.size, i)
+       }
+       n.models = sum(choose(n.parents, model.size)*n.models)
+    }
     #
-    return(parents)
+    return(list(parents=parents, n.models = n.models))
   }
 
 
@@ -121,9 +137,8 @@ check.heredity <- function(model, parents, prob = .5) {
 
 force.heredity.bas <- function(object, prior.prob = .5) {
   parents <- make.parents.of.interactions(
-    mf = eval(object$call$formula, parent.frame()),
-    data = eval(object$call$data, parent.frame())
-  )
+             mf = eval(object$call$formula, parent.frame()),
+             data = eval(object$call$data, parent.frame()))$parents
   which <- which.matrix(object$which, object$n.vars)
   keep <- apply(which, 1,
     FUN = function(x) {

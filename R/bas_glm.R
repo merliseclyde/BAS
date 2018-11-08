@@ -288,7 +288,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   nobs <- dim(X)[1]
 
   if (nobs == 0) {stop("Sample size is zero; check data andsubset")}
-  
+
   #   weights = as.vector(model.weights(mf))
 
   weights <- as.vector(model.weights(mf))
@@ -348,7 +348,9 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   parents <- matrix(1, 1, 1)
   if (method == "deterministic" | method == "MCMC+BAS") force.heredity <- FALSE # not working yet
   if (force.heredity) {
-    parents <- make.parents.of.interactions(mf, data)
+    parent.terms <- make.parents.of.interactions(mf, data)
+    parents <- parent.terms$parents
+    if (is.null(n.models)) n.models <- parent.terms$n.models
 
     # check to see if really necessary
     if (sum(parents) == nrow(parents)) {
@@ -357,7 +359,6 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
     }
   }
 
-  prob <- normalize.initprobs.lm(initprobs, p)
 
   if (is.null(bestmodel)) {
     #    bestmodel = as.integer(initprobs)
@@ -377,9 +378,10 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
 
 
   if (is.null(n.models)) {
-    n.models <- as.integer(min(2^p, 2^19))
+    n.models <- as.integer(min(2^(p-1), 2^19))
   }
 
+  prob <- normalize.initprobs.lm(initprobs, p)
   n.models <- as.integer(normalize.n.models(n.models, p, prob, method, bigmem))
 
   modelprior <- normalize.modelprior(modelprior, p)

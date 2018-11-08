@@ -526,8 +526,8 @@ bas.lm <- function(formula,
   namesx <- dimnames(X)[[2]]
   namesx[1] <- "Intercept"
   n <- dim(X)[1]
-  
-  if (n == 0) {stop("Sample size is zero; check data andsubset")}
+
+  if (n == 0) {stop("Sample size is zero; check data and subset arguments")}
 
   weights <- as.vector(model.weights(mf))
   if (is.null(weights)) {
@@ -593,13 +593,7 @@ bas.lm <- function(formula,
     }
   }
 
-  if (is.null(n.models)) {
-    n.models <- min(2^p, 2^19)
-  }
-  if (is.null(MCMC.iterations)) {
-    MCMC.iterations <- as.integer(n.models * 10)
-  }
-  Burnin.iterations <- as.integer(MCMC.iterations)
+
 
   if (is.null(lambda)) {
     lambda <- 1.0
@@ -651,12 +645,14 @@ bas.lm <- function(formula,
   if (method == "MCMC+BAS" |
     method == "deterministic") {
     force.heredity <- FALSE
-#    warning("force.heredity not supported with these sampling methods, setting to FALSE. 
+#    warning("force.heredity not supported with these sampling methods, setting to FALSE.
 #           Use force.heredity.bas() to post-process and inforce constraints")
   } # does not work with updating the tree
   if (force.heredity) {
-    parents <- make.parents.of.interactions(mf, data)
-
+    parent.terms <- make.parents.of.interactions(mf, data)
+    parents <- parent.terms$parents
+    # print(parent.terms$n.models)
+    if (is.null(n.models)) n.models <- parent.terms$n.models
     # check to see if really necessary
     if (sum(parents) == nrow(parents)) {
       parents <- matrix(1, 1, 1)
@@ -664,6 +660,13 @@ bas.lm <- function(formula,
     }
   }
 
+  if (is.null(n.models)) {
+    n.models <- min(2^(p-1), 2^19)
+  }
+  if (is.null(MCMC.iterations)) {
+    MCMC.iterations <- as.integer(n.models * 10)
+  }
+  Burnin.iterations <- as.integer(MCMC.iterations)
   prob <- normalize.initprobs.lm(initprobs, p)
 
   if (is.null(bestmodel)) {
@@ -684,10 +687,10 @@ bas.lm <- function(formula,
   }
 
 
-
+ # print(n.models)
   n.models <- normalize.n.models(n.models, p, prob,
                                   method, bigmem)
-  #  print(n.models)
+ # print(n.models)
   modelprior <- normalize.modelprior(modelprior, p)
 
   if (is.null(update) & !force.heredity) {
