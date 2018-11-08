@@ -252,13 +252,13 @@ test_that("herdity and bas.lm", {
                        prior = "BIC",
                        update = NULL,
                        modelprior = uniform(),
-                       force.heredity = TRUE)
+                       force.heredity = TRUE, pivot=TRUE)
   pima_BAS_no <-  bas.lm(as.numeric(type) ~ (bp + glu  + npreg)^2,
                           data = Pima.tr, method = "deterministic",
                           prior = "BIC",
                           update = NULL,
                           modelprior = uniform(),
-                          force.heredity = FALSE)
+                          force.heredity = FALSE, pivot=TRUE)
   pima_BAS_no <- force.heredity.bas(pima_BAS_no)
   set.seed(2)
   pima_BAS_f <-  bas.lm(as.numeric(type) ~ (bp + glu + npreg)^2,
@@ -266,7 +266,7 @@ test_that("herdity and bas.lm", {
                       prior = "BIC",
                       update = NULL,
                       modelprior = uniform(),
-                      force.heredity = FALSE)
+                      force.heredity = FALSE, pivot=FALSE)
   pima_BAS_f <- force.heredity.bas(pima_BAS_f)
 
   expect_equal(0L, sum(duplicated(pima_BAS$which)))
@@ -282,6 +282,7 @@ test_that("herdity and bas.lm", {
   expect_equal(sort(pima_BAS$R2), sort(pima_BAS_f$R2))
   expect_equal(sort(pima_BAS$size), sort(pima_BAS_no$size))
   expect_equal(sort(pima_BAS$size), sort(pima_BAS_f$size))
+  expect_equal(sort(pima_BAS$rank), sort(pima_BAS_f$rank))
   expect_equal(sort(pima_BAS$mse), sort(pima_BAS_no$mse))
   expect_equal(sort(pima_BAS$logmarg), sort(pima_BAS_no$logmarg))
   expect_equal(sort(pima_BAS$postprobs), sort(pima_BAS_no$postprobs))
