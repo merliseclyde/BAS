@@ -150,6 +150,7 @@ force.heredity.bas <- function(object, prior.prob = .5) {
   #    )
   #    keep = priorprobs > 0.0
   object$n.models <- sum(keep)
+
   object$sampleprobs <- object$sampleprobs[keep] # if method=MCMC ??? reweight
   object$which <- object$which[keep]
   object$priorprobs <- object$priorprobs[keep] / sum(object$priorprobs[keep])
@@ -181,6 +182,7 @@ force.heredity.bas <- function(object, prior.prob = .5) {
   object$size <- object$size[keep]
   object$R2 <- object$R2[keep]
   object$df <- object$df[keep]
+  object$rank <- object$rank[keep]
 
   return(object)
 }

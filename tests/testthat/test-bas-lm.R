@@ -269,6 +269,7 @@ test_that("herdity and bas.lm", {
                       force.heredity = FALSE, pivot=FALSE)
   pima_BAS_f <- force.heredity.bas(pima_BAS_f)
 
+  expect_equal(pima_BAS$size, pima_BAS$rank)
   expect_equal(0L, sum(duplicated(pima_BAS$which)))
   sum(duplicated(pima_BAS$which))
 
@@ -286,6 +287,7 @@ test_that("herdity and bas.lm", {
   expect_equal(sort(pima_BAS$mse), sort(pima_BAS_no$mse))
   expect_equal(sort(pima_BAS$logmarg), sort(pima_BAS_no$logmarg))
   expect_equal(sort(pima_BAS$postprobs), sort(pima_BAS_no$postprobs))
+  expect_false(pima_BAS$rank_deficient)
 
   pima_BAS_mcmc = bas.lm(as.numeric(type) ~ (bp + glu  + npreg)^2,
                          data = Pima.tr, method = "MCMC",
