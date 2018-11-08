@@ -279,7 +279,7 @@ test_that("herdity and bas.lm", {
   expect_equal(pima_BAS$probne0, pima_BAS_f$probne0)
   expect_equal(pima_BAS$n.models, pima_BAS_no$n.models)
   expect_equal(sort(pima_BAS$R2), sort(pima_BAS_no$R2))
-  expect_equal(pima_BAS$R2, (pima_BAS_f$R2))
+  expect_equal(sort(pima_BAS$R2), sort(pima_BAS_f$R2))
   expect_equal(sort(pima_BAS$size), sort(pima_BAS_no$size))
   expect_equal(sort(pima_BAS$size), sort(pima_BAS_f$size))
   expect_equal(sort(pima_BAS$mse), sort(pima_BAS_no$mse))

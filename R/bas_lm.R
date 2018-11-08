@@ -457,7 +457,7 @@ bas.lm <- function(formula,
                    thin = 1,
                    renormalize = FALSE,
                    force.heredity = TRUE,
-                   pivot = FALSE,
+                   pivot = TRUE,
                    tol = 1e-7,
                    bigmem = FALSE) {
   num.updates <- 10
