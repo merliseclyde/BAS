@@ -12,7 +12,7 @@ bas.glm(formula, family = binomial(link = "logit"), data, weights,
   include.always = ~1, method = "MCMC", update = NULL,
   bestmodel = NULL, prob.rw = 0.5, MCMC.iterations = NULL,
   control = glm.control(), laplace = FALSE, renormalize = FALSE,
-  force.heredity = TRUE, bigmem = FALSE)
+  force.heredity = FALSE, bigmem = FALSE)
 }
 \arguments{
 \item{formula}{generalized linear model formula for the full model with all
@@ -127,8 +127,8 @@ probabilities or use Monte Carlo frequencies. Applies only to MCMC sampling.}
 
 \item{force.heredity}{Logical variable to force all levels of a factor to be
 included together and to include higher order interactions only if lower
-order terms are included.  Currently only supported with `method='MCMC'`.
-Default is TRUE.}
+order terms are included.  Currently only supported with `method='MCMC'` and
+`method='BAS'` currently.  Default is FALSE (experimental).}
 
 \item{bigmem}{Logical variable to indicate that there is access to
 large amounts of memory (physical or virtual) for enumeration

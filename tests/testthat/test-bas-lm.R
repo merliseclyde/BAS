@@ -247,13 +247,13 @@ test_that("sample size zero", {
 test_that("herdity and bas.lm", {
   data(Pima.tr, package="MASS")
   set.seed(2)
-  pima_BAS <-  bas.lm(as.numeric(type) ~ (bp + glu + npreg)^2,
+  pima_BAS <-  bas.lm(as.numeric(type) ~ (age + ped + npreg)^2,
                        data = Pima.tr, method = "BAS",
                        prior = "BIC",
                        update = NULL,
                        modelprior = uniform(),
                        force.heredity = TRUE, pivot=TRUE)
-  pima_BAS_no <-  bas.lm(as.numeric(type) ~ (bp + glu  + npreg)^2,
+  pima_BAS_no <-  bas.lm(as.numeric(type) ~ (age + ped  + npreg)^2,
                           data = Pima.tr, method = "deterministic",
                           prior = "BIC",
                           update = NULL,
@@ -261,7 +261,7 @@ test_that("herdity and bas.lm", {
                           force.heredity = FALSE, pivot=TRUE)
   pima_BAS_no <- force.heredity.bas(pima_BAS_no)
   set.seed(2)
-  pima_BAS_f <-  bas.lm(as.numeric(type) ~ (bp + glu + npreg)^2,
+  pima_BAS_f <-  bas.lm(as.numeric(type) ~ (age + ped + npreg)^2,
                       data = Pima.tr, method = "BAS",
                       prior = "BIC",
                       update = NULL,

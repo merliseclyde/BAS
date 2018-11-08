@@ -222,7 +222,7 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' the sampling. If NULL sampling starts with the null model
 #' @param prob.local A future option to allow sampling of models "near" the
 #' median probability model.  Not used at this time.
-#' @param prob.rw For any of the MCMC methods, probability of using the
+#' @param prob.rw  Numerical probablity between 0 and 1. For any of the MCMC methods, probability of using the
 #' random-walk Metropolis proposal; otherwise use a random "flip" move
 #' to propose swap a variable that is excluded with a variable in the model.
 #' @param MCMC.iterations Number of iterations for the MCMC sampler; the
@@ -243,7 +243,9 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' @param force.heredity  Logical variable to force all levels of a factor to be
 #' included together and to include higher order interactions only if lower
 #' order terms are included.  Currently only supported with `method='MCMC'` and
-#' `method = 'BAS'`; for these methods the default is TRUE.
+#' `method = 'BAS'`; Default is FALSE as this is still experimental.
+#' The function `force.heredity.bas` can be used to postprocess output to enforce
+#' the constraints.
 #' @param pivot Logical variable to allow pivoting of columns when obtaining the
 #' OLS estimates of a model so that models that are not full rank can be fit. Defaults to TRUE.
 #' Currently coefficients that are not estimable are set to zero.  Use caution with
@@ -456,7 +458,7 @@ bas.lm <- function(formula,
                    delta = 0.025,
                    thin = 1,
                    renormalize = FALSE,
-                   force.heredity = TRUE,
+                   force.heredity = FALSE,
                    pivot = TRUE,
                    tol = 1e-7,
                    bigmem = FALSE) {

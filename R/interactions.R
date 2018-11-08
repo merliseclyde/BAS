@@ -194,7 +194,7 @@ force.heredity.bas <- function(object, prior.prob = .5) {
 # bas.hald = bas.lm(Y ~ .^2, data=Hald)
 # hald.models = which.matrix(bas.hald$which, n.vars=bas.hald$n.vars)
 
-# par.Hald = make.parents.of.interactions(Y ~ .^2, data=Hald)
+# par.Hald = BAS:::make.parents.of.interactions(Y ~ .^2, data=Hald)
 # prior = apply(hald.models, 1,
 #              FUN=function(x) {prob.hereditary(model=x, parents=par.Hald$parents)})
 

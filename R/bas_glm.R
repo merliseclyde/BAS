@@ -143,8 +143,8 @@ normalize.initprobs.glm <- function(initprobs, glm.obj) {
 #' probabilities or use Monte Carlo frequencies. Applies only to MCMC sampling.
 #' @param force.heredity Logical variable to force all levels of a factor to be
 #' included together and to include higher order interactions only if lower
-#' order terms are included.  Currently only supported with `method='MCMC'`.
-#' Default is TRUE.
+#' order terms are included.  Currently only supported with `method='MCMC'` and
+#' `method='BAS'` currently.  Default is FALSE (experimental).
 #' @param bigmem Logical variable to indicate that there is access to
 #' large amounts of memory (physical or virtual) for enumeration
 #' with large model spaces, e.g. > 2^25.
@@ -238,7 +238,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
                     prob.rw = 0.5,
                     MCMC.iterations = NULL,
                     control = glm.control(), laplace = FALSE, renormalize = FALSE,
-                    force.heredity = TRUE,
+                    force.heredity = FALSE,
                     bigmem = FALSE) {
   num.updates <- 10
   call <- match.call()

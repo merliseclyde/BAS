@@ -12,7 +12,7 @@ bas.lm(formula, data, subset, weights, na.action = "na.omit",
   include.always = ~1, method = "BAS", update = NULL,
   bestmodel = NULL, prob.local = 0, prob.rw = 0.5,
   MCMC.iterations = NULL, lambda = NULL, delta = 0.025, thin = 1,
-  renormalize = FALSE, force.heredity = TRUE, pivot = TRUE,
+  renormalize = FALSE, force.heredity = FALSE, pivot = TRUE,
   tol = 1e-07, bigmem = FALSE)
 }
 \arguments{
@@ -150,7 +150,7 @@ the sampling. If NULL sampling starts with the null model}
 \item{prob.local}{A future option to allow sampling of models "near" the
 median probability model.  Not used at this time.}
 
-\item{prob.rw}{For any of the MCMC methods, probability of using the
+\item{prob.rw}{Numerical probablity between 0 and 1. For any of the MCMC methods, probability of using the
 random-walk Metropolis proposal; otherwise use a random "flip" move
 to propose swap a variable that is excluded with a variable in the model.}
 
@@ -177,7 +177,9 @@ See details in Clyde and Ghosh (2012).}
 \item{force.heredity}{Logical variable to force all levels of a factor to be
 included together and to include higher order interactions only if lower
 order terms are included.  Currently only supported with `method='MCMC'` and
-`method = 'BAS'`; for these methods the default is TRUE.}
+`method = 'BAS'`; Default is FALSE as this is still experimental.
+The function `force.heredity.bas` can be used to postprocess output to enforce
+the constraints.}
 
 \item{pivot}{Logical variable to allow pivoting of columns when obtaining the
 OLS estimates of a model so that models that are not full rank can be fit. Defaults to TRUE.
