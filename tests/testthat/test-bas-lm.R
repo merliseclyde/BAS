@@ -245,8 +245,8 @@ test_that("sample size zero", {
 # add DOUBLE_EPS to fix issue in
 #  https://github.com/merliseclyde/BAS/issues/38
 test_that("herdity and bas.lm", {
-  set.seed(2)
   data(Pima.tr, package="MASS")
+  set.seed(2)
   pima_BAS <-  bas.lm(as.numeric(type) ~ (bp + glu + npreg)^2,
                        data = Pima.tr, method = "BAS",
                        prior = "BIC",
@@ -260,6 +260,14 @@ test_that("herdity and bas.lm", {
                           modelprior = uniform(),
                           force.heredity = FALSE)
   pima_BAS_no <- force.heredity.bas(pima_BAS_no)
+  set.seed(2)
+  pima_BAS_f <-  bas.lm(as.numeric(type) ~ (bp + glu + npreg)^2,
+                      data = Pima.tr, method = "BAS",
+                      prior = "BIC",
+                      update = NULL,
+                      modelprior = uniform(),
+                      force.heredity = FALSE)
+  pima_BAS_f <- force.heredity.bas(pima_BAS_f)
 
   expect_equal(0L, sum(duplicated(pima_BAS$which)))
   sum(duplicated(pima_BAS$which))
@@ -268,9 +276,12 @@ test_that("herdity and bas.lm", {
   c(pima_BAS$n.models, pima_BAS_no$n.models)
 
   expect_equal(pima_BAS$probne0, pima_BAS_no$probne0)
+  expect_equal(pima_BAS$probne0, pima_BAS_f$probne0)
   expect_equal(pima_BAS$n.models, pima_BAS_no$n.models)
   expect_equal(sort(pima_BAS$R2), sort(pima_BAS_no$R2))
+  expect_equal(pima_BAS$R2, (pima_BAS_f$R2))
   expect_equal(sort(pima_BAS$size), sort(pima_BAS_no$size))
+  expect_equal(sort(pima_BAS$size), sort(pima_BAS_f$size))
   expect_equal(sort(pima_BAS$mse), sort(pima_BAS_no$mse))
   expect_equal(sort(pima_BAS$logmarg), sort(pima_BAS_no$logmarg))
   expect_equal(sort(pima_BAS$postprobs), sort(pima_BAS_no$postprobs))
