@@ -12,7 +12,7 @@ bas.lm(formula, data, subset, weights, na.action = "na.omit",
   include.always = ~1, method = "BAS", update = NULL,
   bestmodel = NULL, prob.local = 0, prob.rw = 0.5,
   MCMC.iterations = NULL, lambda = NULL, delta = 0.025, thin = 1,
-  renormalize = FALSE, force.heredity = TRUE, pivot = FALSE,
+  renormalize = FALSE, force.heredity = TRUE, pivot = TRUE,
   tol = 1e-07, bigmem = FALSE)
 }
 \arguments{

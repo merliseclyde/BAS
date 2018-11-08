@@ -272,7 +272,7 @@ test_that("herdity and bas.lm", {
   expect_equal(0L, sum(duplicated(pima_BAS$which)))
   sum(duplicated(pima_BAS$which))
 
-  cbind(pima_BAS$probne0, pima_BAS_no$probne0)
+  cbind(pima_BAS$probne0,pima_BAS_f$probne0, pima_BAS_no$probne0)
   c(pima_BAS$n.models, pima_BAS_no$n.models)
 
   expect_equal(pima_BAS$probne0, pima_BAS_no$probne0)
