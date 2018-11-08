@@ -203,6 +203,7 @@ test_that("force.heredity", {
     data = d,
     alpha = 0.125316,
     prior = "JZS",
+    force.heredity = TRUE,
     include.always = as.formula("contNormal ~ contcor1"),
     modelprior = beta.binomial(1, 1),
     weights = d$facFifty
@@ -219,6 +220,7 @@ test_that("force.heredity", {
   basObj.old <- force.heredity.bas(basObj.old)
 
   expect_equal(basObj$probne0, basObj.old$probne0)
+  expect_equal(basObj$n.models, basObj.old$n.models)
 })
 
 test_that("interactions & heredity", {
