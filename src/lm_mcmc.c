@@ -285,7 +285,7 @@ extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeld
 
 	double *Xwork, *Ywork,*wts, *probs, shrinkage_m,
 		mse_m, MH=0.0, prior_m=1.0,
-		R2_m, RSquareFull, logmargy, postold, postnew;
+		R2_m, RSquareFull, logmargy, postold=0.0, postnew=0.0;
 	int i, m, n, pmodel_old, *model_m, *bestmodel, rank_m;
 	int mcurrent, n_sure;
 
@@ -367,8 +367,7 @@ extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeld
 	int nUnique=0, newmodel=0, nsamples=0;
 	double *real_model = vecalloc(n);
 	int *modelold = ivecalloc(p);
-	int old_loc = 0;
-	int new_loc;
+	int old_loc = 0, new_loc = 0;
 	pmodel_old = pmodel;
 	nUnique=1;
 	INTEGER(counts)[0] = 1;

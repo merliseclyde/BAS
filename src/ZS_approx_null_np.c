@@ -24,7 +24,6 @@ typedef struct C_int_struct
 
 static void Cintfn(double *x, int n, void *ex)
 {
-  int i;
 
   IntStruct IS = (IntStruct) ex;
 
@@ -36,7 +35,9 @@ static void Cintfn(double *x, int n, void *ex)
 // use R's integrate code from QUADPACK to obtain marginal likelihood
 double ZS_logmarg(double R2, int n, int d, double rscale) {
 
-  double mode = 0.0, status=1.0, root=0.0, bound=DBL_EPSILON, epsabs, epsrel, result, abserr, *work, *ex;
+  double mode = 0.0, status=1.0, root=0.0, bound=DBL_EPSILON, epsabs, epsrel;
+  double result, abserr, *work;
+//  double *ex;
   int inf = 1L, neval, ier, limit=200, lenw, last, *iwork;
   SEXP Rtheta;
   C_int_struct is;
@@ -62,7 +63,7 @@ double ZS_logmarg(double R2, int n, int d, double rscale) {
   REAL(Rtheta)[4] = (double) mode;
   REAL(Rtheta)[5] = (double) root;
 
-  ex = REAL(Rtheta);
+ // ex = REAL(Rtheta);
 
   is.f = ZS_density;
   is.theta = Rtheta;
@@ -82,7 +83,9 @@ double ZS_logmarg(double R2, int n, int d, double rscale) {
 
 double ZS_shrinkage(double R2, int n, int d, double rscale) {
 
-  double mode=0.0, logmarg, root=0.0, bound=0.0, epsabs, epsrel, result=0.0, abserr, *work, *ex;
+  double mode=0.0, logmarg, root=0.0, bound=0.0, epsabs, epsrel, result=0.0;
+  double abserr, *work;
+//  double *ex;
   int inf = 1L, neval, ier, limit=200, lenw, last, *iwork;
   SEXP Rtheta;
   C_int_struct is;
@@ -102,7 +105,7 @@ double ZS_shrinkage(double R2, int n, int d, double rscale) {
   REAL(Rtheta)[3] = (double) rscale;
   REAL(Rtheta)[4] = (double) mode;
   REAL(Rtheta)[5] = (double) root;
-  ex = REAL(Rtheta);
+//  ex = REAL(Rtheta);
 
   is.f = ZS_density_shrinkage;
   is.theta = Rtheta;
