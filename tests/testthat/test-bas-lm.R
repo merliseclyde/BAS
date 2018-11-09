@@ -263,13 +263,13 @@ test_that("herdity and bas.lm", {
                           force.heredity = FALSE, pivot=TRUE)
   pima_BAS_no <- force.heredity.bas(pima_BAS_no)
   set.seed(2)
-  pima_BAS_f <-  bas.lm(as.numeric(type) ~ (age + bp + npreg)^2,
+  pima_BAS_nf <-  bas.lm(as.numeric(type) ~ (age + bp + npreg)^2,
                       data = Pima.tr, method = "BAS",
                       prior = "BIC",
                       update = NULL,
                       modelprior = uniform(),
                       force.heredity = FALSE, pivot=FALSE)
-  pima_BAS_f <- force.heredity.bas(pima_BAS_f)
+  pima_BAS_f <- force.heredity.bas(pima_BAS_nf)
 
   expect_equal(pima_BAS$size, pima_BAS$rank)
   expect_equal(0L, sum(duplicated(pima_BAS$which)))
@@ -299,6 +299,9 @@ test_that("herdity and bas.lm", {
                          modelprior = uniform(),
                          force.heredity = TRUE)
   expect_equal(0L, sum(duplicated(pima_BAS_mcmc$which)))
+
+  expect_equal(coef(pima_BAS_nf, estimator="MPM"),
+               coef(pima_BAS, estimator="MPM"))
 })
 
 # add more testing for update.bas

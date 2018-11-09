@@ -83,6 +83,15 @@ coef.bas <- function(object, n.models, estimator = "BMA", ...) {
     best <- 1
     models <- rep(0, nvar + 1)
     models[bestmodel + 1] <- 1
+    if (is.null(object$call$force.heredity)) {
+      force.heredity=FALSE
+      }
+    else  force.heredity = object$call$force.heredity
+
+    if (is.null(object$call$pivot)) {
+      pivot = TRUE}
+    else pivot = object$call$pivot
+
     if (sum(models) > 1) {
       object <- bas.lm(
         eval(object$call$formula),
@@ -95,7 +104,9 @@ coef.bas <- function(object, n.models, estimator = "BMA", ...) {
         modelprior = object$modelprior,
         update = NULL,
         bestmodel = models,
-        prob.local = 0.0
+        prob.local = 0.0,
+        force.heredity = force.heredity,
+        pivot = pivot
       )
     }
   }

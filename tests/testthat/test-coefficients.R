@@ -33,3 +33,10 @@ test_that("plot posterior coefficients", {
   expect_null(plot(crime_coef, ask=FALSE))
 })
 
+## FIXME issue #38
+test_that("external formula", {
+  data(Hald)
+  out = step(lm(Y ~ ., data=Hald))
+  hald.bas = bas.lm(formula(out), data= Hald, method="BAS")
+  expect_error(coef(hald.bas, estimator="MPM"))
+})
