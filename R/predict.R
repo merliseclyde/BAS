@@ -284,6 +284,10 @@ predict.bas <- function(object,
     models <- rep(0, nvar + 1)
     models[bestmodel + 1] <- 1
     if (sum(models) > 1) {
+      if (is.null(object$call$pivot))  pivot = TRUE
+      else {pivot = object$call$pivot}
+      if (is.null(object$call$force.heredity)) force.heredity = FALSE
+      else {     force.heredity =  FALSE}
       if (is.null(eval(object$call$weights))) {
         object <- bas.lm(
           eval(object$call$formula),
@@ -295,13 +299,15 @@ predict.bas <- function(object,
           modelprior = object$modelprior,
           update = NULL,
           bestmodel = models,
-          prob.local = .0
+          prob.local = .0,
+          pivot = pivot,
+          force.heredity = force.heredity
         )
       }
       else {
         object <- bas.lm(
           eval(object$call$formula),
-          data = eval(object$call$data, parent.frame()),
+          data = eval(object$call$data, env=parent.frame()),
           weights = eval(object$call$weights),
           n.models = 1,
           alpha = object$g,
@@ -310,7 +316,9 @@ predict.bas <- function(object,
           modelprior = object$modelprior,
           update = NULL,
           bestmodel = models,
-          prob.local = .0
+          prob.local = .0,
+          pivot = pivot,
+          force.heredity = force.heredity
         )
       }
       best <- which.max(object$postprobs)
