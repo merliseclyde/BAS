@@ -52,6 +52,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	n = sortvars(vars, probs, p);
 	for (i =n; i <p; i++) REAL(MCMCprobs)[vars[i].index] = probs[vars[i].index];
 	for (i =0; i <n; i++) REAL(MCMCprobs)[vars[i].index] = 0.0;
+	int noInclusionIs1 = no_prior_inclusion_is_1(p, probs);
 
 	// fill in the sure things
 	int *model = ivecalloc(p);
@@ -80,7 +81,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SEXP glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
 					    glmfamily, Rcontrol, Rlaplace,
 					    betapriorfamily));
-	prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
+	prior_m  = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
 
 	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
 	shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
@@ -135,7 +136,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		  glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
 						 glmfamily, Rcontrol, Rlaplace,
 						 betapriorfamily));
-		  prior_m = compute_prior_probs(model,pmodel,p, modelprior);
+		  prior_m = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
 
 		  logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
 		  shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),

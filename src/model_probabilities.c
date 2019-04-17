@@ -60,7 +60,19 @@ void compute_margprobs_old(Bit **models, SEXP Rmodelprobs, double *margprobs, in
     }
 }
 
-double compute_prior_probs(int *model, int modeldim, int p, SEXP modelprior) {
+int no_prior_inclusion_is_1(int p, double *probs) {
+
+  int noInclusionIs1 = 0;
+  // loop starts from 1 since the intercept is corrected for in the model prior functions
+  for (int i = 1; i < p; i++) { 
+  	if (probs[i] > (1.0 - DBL_EPSILON)) {
+  		noInclusionIs1++;
+  	}
+  }
+  return noInclusionIs1;
+}
+
+double compute_prior_probs(int *model, int modeldim, int p, SEXP modelprior, int noInclusionIs1) {
   const char *family;
   double *hyper_parameters, priorprob = 1.0;
 
@@ -68,6 +80,9 @@ double compute_prior_probs(int *model, int modeldim, int p, SEXP modelprior) {
   family = CHAR(STRING_ELT(getListElement(modelprior, "family"),0));
   hyper_parameters = REAL(getListElement(modelprior,"hyper.parameters"));
 
+  // reduce the model space by the number of predictors that are always included 
+  p -= noInclusionIs1;
+  modeldim -= noInclusionIs1;
 
   if  (strcmp(family, "Beta-Binomial") == 0)
     priorprob = beta_binomial(modeldim, p, hyper_parameters);

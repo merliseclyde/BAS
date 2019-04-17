@@ -317,6 +317,7 @@ extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeld
 	n = sortvars(vars, probs, p);
 	for (i =n; i <p; i++) REAL(MCMCprobs)[vars[i].index] = probs[vars[i].index];
 	for (i =0; i <n; i++) REAL(MCMCprobs)[vars[i].index] = 0.0;
+	int noInclusionIs1 = no_prior_inclusion_is_1(p, probs);
 
 
 	// fill in the sure things
@@ -359,7 +360,7 @@ extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeld
                &shrinkage_m);
 
 
-	prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
+	prior_m  = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
 	if (prior_m == 0.0)  Rprintf("warning initial model has 0 prior probabilty\n");
 	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
 	SetModel(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2, m);
@@ -405,7 +406,7 @@ extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeld
 		}
 
 		if (newmodel == 1) {
-		  prior_m = compute_prior_probs(model,pmodel,p, modelprior);
+		  prior_m = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
 		  if (prior_m == 0.0) {
 		    MH *= 0.0;
 		  }

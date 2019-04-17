@@ -108,6 +108,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
   for (i =n; i <p; i++) REAL(MCMCprobs)[vars[i].index] = probs[vars[i].index];
   for (i =0; i <n; i++) REAL(MCMCprobs)[vars[i].index] = 0.0;
   MCMC_probs =  REAL(MCMCprobs);
+  int noInclusionIs1 = no_prior_inclusion_is_1(p, probs);
 
 
   pigamma = vecalloc(p);
@@ -229,7 +230,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
     REAL(sampleprobs)[m] = 1.0;
     REAL(logmarg)[m] = logmargy;
     REAL(shrinkage)[m] = shrinkage_m;
-    prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
+    prior_m  = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
     REAL(priorprobs)[m] = prior_m;
 
     UNPROTECT(3);
@@ -313,7 +314,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
       memcpy(coefficients, XtYwork, sizeof(double)*pmodel);
       cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, pmodel, nobs);
       if (pmodel > 1)  R2_m = 1.0 - (mse_m * (double) ( nobs - pmodel))/SSY;
-      prior_m = compute_prior_probs(model,pmodel,p, modelprior);
+      prior_m = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
       gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
       postnew = logmargy + log(prior_m);
     }
@@ -515,7 +516,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
    gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0],  RSquareFull, SSY, &logmargy, &shrinkage_m);
    REAL(logmarg)[m] = logmargy;
    REAL(shrinkage)[m] = shrinkage_m;
-   REAL(priorprobs)[m] = compute_prior_probs(model,pmodel,p, modelprior);
+   REAL(priorprobs)[m] = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
 
 
     if (m > 1) {

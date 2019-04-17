@@ -52,6 +52,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	struct Var *vars = (struct Var *) R_alloc(p, sizeof(struct Var)); // Info about the model variables.
 	probs =  REAL(Rprobs);
 	int n = sortvars(vars, probs, p);
+	int noInclusionIs1 = no_prior_inclusion_is_1(p, probs);
 
 	int *model = ivecalloc(p);
 	/* fill in the sure things */
@@ -86,7 +87,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SEXP glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
 					    glmfamily, Rcontrol, Rlaplace,
 					    betapriorfamily));
-	double prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
+	double prior_m  = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
 	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
 	shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
 					"shrinkage"))[0];
@@ -122,7 +123,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
 					       glmfamily, Rcontrol, Rlaplace,
 					       betapriorfamily));
-		prior_m = compute_prior_probs(model,pmodel,p, modelprior);
+		prior_m = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
 		logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
 		shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
 					"shrinkage"))[0];
