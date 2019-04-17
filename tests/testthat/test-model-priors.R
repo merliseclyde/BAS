@@ -37,3 +37,14 @@ test_that("Bernoulli hereditary prior", {
                       modelprior = Bernoulli.heredity(.5, NULL))
   )
 })
+
+test_that("Always include changes model-prior", {
+  
+  res <- bas.lm(Y ~ ., data = Hald, modelprior = beta.binomial(1, 1), 
+                       include.always = ~ 1 + X1 + X2)
+  ord <- order(lengths(res$which))
+  expect_equal(
+    object = res$priorprobs[ord],
+    expected = c(0.333333333333333, 0.166666666666667, 0.166666666666667, 0.333333333333333)
+  )
+})
