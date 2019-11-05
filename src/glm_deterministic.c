@@ -61,6 +61,7 @@ SEXP glm_deterministic(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	int *model = (int *) R_alloc(p, sizeof(int));
 	memset(model, 0, p*sizeof(int));
 	
+	int noInclusionIs1 = no_prior_inclusion_is_1(p, probs);
 	k = topk(models, probs, k, vars, n, p);
 
 	/* now fit all top k models */
@@ -82,7 +83,7 @@ SEXP glm_deterministic(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		SEXP glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
 						    glmfamily, Rcontrol, Rlaplace,
 						    betapriorfamily));
-		double prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
+		double prior_m  = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
 		logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
 		shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
 						  "shrinkage"))[0];

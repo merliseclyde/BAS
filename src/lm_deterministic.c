@@ -59,6 +59,7 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
   vars = (struct Var *) R_alloc(p, sizeof(struct Var));
   probs =  REAL(Rprobs);
   n = sortvars(vars, probs, p);
+  int noInclusionIs1 = no_prior_inclusion_is_1(p, probs);
 
 
   /* Make space for the models and working variables. */
@@ -154,7 +155,7 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
       gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull,
                     SSY, &logmarg_m, &shrinkage_m);
       REAL(logmarg)[m] = logmarg_m;
-      REAL(priorprobs)[m] = compute_prior_probs( model, pmodel,p, modelprior);
+      REAL(priorprobs)[m] = compute_prior_probs( model, pmodel,p, modelprior, noInclusionIs1);
       REAL(shrinkage)[m] = shrinkage_m;
       UNPROTECT(2);
   }

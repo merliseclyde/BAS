@@ -241,6 +241,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 	struct Var *vars = (struct Var *) R_alloc(p, sizeof(struct Var)); // Info about the model variables.
 	probs =  REAL(Rprobs);
 	int n = sortvars(vars, probs, p);
+	int noInclusionIs1 = no_prior_inclusion_is_1(p, probs);
 
 	SEXP  Rse_m = NULL, Rcoef_m = NULL, Rmodel_m = NULL;
 	RSquareFull = CalculateRSquareFull(XtY, XtX, XtXwork, XtYwork, Rcoef_m, Rse_m, p, nobs, yty, SSY);
@@ -293,7 +294,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 //	gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
 
 //  check should this depend on rank or pmodel?
-	double prior_m  = compute_prior_probs(model,pmodel,p, modelprior);
+	double prior_m  = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
 
 
 
@@ -349,7 +350,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 //    Rprintf("rank %d dim %d\n", rank_m, pmodel);
 //		gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
 
-		prior_m = compute_prior_probs(model,pmodel,p, modelprior);
+		prior_m = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1); 
 		SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
 		SetModel_lm(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2,m);
 	  UNPROTECT(3);
