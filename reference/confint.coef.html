@@ -202,7 +202,8 @@ of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
 
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"Hald"</span>)
 <span class='no'>hald_gprior</span> <span class='kw'>&lt;-</span>  <span class='fu'>bas.lm</span>(<span class='no'>Y</span>~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>13</span>,
-                            <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"g-prior"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='input'><span class='no'>coef_hald</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>hald_gprior</span>)
+                            <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"g-prior"</span>)
+<span class='no'>coef_hald</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>hald_gprior</span>)
 <span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>coef_hald</span>)</div><div class='output co'>#&gt;                2.5%      97.5%       beta
 #&gt; Intercept 93.933815 97.0073090 95.4230769
 #&gt; X1         0.000000  1.8777590  1.2150202

@@ -261,7 +261,8 @@ the fourth plot show the posterior marginal inclusion probabilities.</p>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>Hald</span>)
 <span class='no'>hald.gprior</span> <span class='kw'>=</span>  <span class='fu'>bas.lm</span>(<span class='no'>Y</span>~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"g-prior"</span>, <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>13</span>,
                       <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'>beta.binomial</span>(<span class='fl'>1</span>,<span class='fl'>1</span>),
-                      <span class='kw'>initprobs</span><span class='kw'>=</span><span class='st'>"eplogp"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='input'>
+                      <span class='kw'>initprobs</span><span class='kw'>=</span><span class='st'>"eplogp"</span>)
+
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>hald.gprior</span>)</div><div class='img'><img src='plot-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot-4.png' alt='' width='700' height='433' /></div><div class='input'>
 
 </div></pre>

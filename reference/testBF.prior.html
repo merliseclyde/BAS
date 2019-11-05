@@ -195,7 +195,7 @@ hyerparameters.</p>
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>Pima.tr</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(),
   <span class='kw'>betaprior</span> <span class='kw'>=</span> <span class='fu'>testBF.prior</span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>Pima.tr</span>)),
   <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'>uniform</span>(), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"BAS"</span>
-)</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='output co'>#&gt; 
+)</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; bas.glm(formula = type ~ ., family = binomial(), data = Pima.tr, 
 #&gt;     betaprior = testBF.prior(nrow(Pima.tr)), modelprior = uniform(), 

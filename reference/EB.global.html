@@ -182,7 +182,8 @@ American Statistical Association. 103:410-423.  <br />
 <span class='no'>UScrime</span>[,-<span class='fl'>2</span>] <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>UScrime</span>[,-<span class='fl'>2</span>])
 <span class='co'># EB local uses a different g within each model</span>
 <span class='no'>crime.EBL</span> <span class='kw'>=</span>  <span class='fu'>bas.lm</span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>UScrime</span>, <span class='kw'>n.models</span><span class='kw'>=</span><span class='fl'>2</span>^<span class='fl'>15</span>,
-                    <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"EB-local"</span>, <span class='kw'>initprobs</span><span class='kw'>=</span> <span class='st'>"eplogp"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='input'><span class='co'># use a common (global) estimate of g</span>
+                    <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"EB-local"</span>, <span class='kw'>initprobs</span><span class='kw'>=</span> <span class='st'>"eplogp"</span>)
+<span class='co'># use a common (global) estimate of g</span>
 <span class='no'>crime.EBG</span> <span class='kw'>=</span> <span class='fu'>EB.global</span>(<span class='no'>crime.EBL</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -135,11 +135,11 @@ Linear Models</h1>
     <p>Sample without replacement from a posterior distribution on models</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bas.lm</span>(<span class='no'>formula</span>, <span class='no'>data</span>, <span class='no'>subset</span>, <span class='no'>weights</span>, <span class='kw'>na.action</span> <span class='kw'>=</span> <span class='st'>"na.omit"</span>,
-  <span class='kw'>n.models</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"ZS-null"</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'>beta.binomial</span>(<span class='fl'>1</span>, <span class='fl'>1</span>), <span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"Uniform"</span>,
-  <span class='kw'>include.always</span> <span class='kw'>=</span> ~<span class='fl'>1</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"BAS"</span>, <span class='kw'>update</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>bestmodel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prob.local</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>prob.rw</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+    <pre class="usage"><span class='fu'>bas.lm</span>(<span class='no'>formula</span>, <span class='no'>data</span>, <span class='no'>subset</span>, <span class='no'>weights</span>, <span class='kw'>contrasts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>na.action</span> <span class='kw'>=</span> <span class='st'>"na.omit"</span>, <span class='kw'>n.models</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"ZS-null"</span>,
+  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'>beta.binomial</span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
+  <span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"Uniform"</span>, <span class='kw'>include.always</span> <span class='kw'>=</span> ~<span class='fl'>1</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"BAS"</span>,
+  <span class='kw'>update</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bestmodel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prob.local</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>prob.rw</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>MCMC.iterations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>delta</span> <span class='kw'>=</span> <span class='fl'>0.025</span>, <span class='kw'>thin</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>renormalize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-07</span>, <span class='kw'>bigmem</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
@@ -168,6 +168,10 @@ used in the fitting process.</p></td>
       <td><p>an optional vector of weights to be used in the fitting
 process. Should be NULL or a numeric vector. If non-NULL, Bayes estimates
 are obtained assuming that Y ~ N(Xb, sigma^2 diag(1/weights)).</p></td>
+    </tr>
+    <tr>
+      <th>contrasts</th>
+      <td><p>an optional list. See the contrasts.arg of `model.matrix.default()`.</p></td>
     </tr>
     <tr>
       <th>na.action</th>
@@ -526,7 +530,8 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>UScrime</span>, <span class='kw'>n.models</span> <span class='kw'>=</span> <span class='fl'>2</span>^<span class='fl'>15</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"BIC"</span>,
 <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'>beta.binomial</span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
 <span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"eplogp"</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='input'>
+)
+
 
 <span class='co'># use MCMC rather than enumeration</span>
 <span class='no'>crime.mcmc</span> <span class='kw'>&lt;-</span> <span class='fu'>bas.lm</span>(<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>y</span>) ~ <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>M</span>) + <span class='no'>So</span> + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>Ed</span>) +
@@ -539,7 +544,8 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 <span class='kw'>MCMC.iterations</span> <span class='kw'>=</span> <span class='fl'>20000</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"BIC"</span>,
 <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'>beta.binomial</span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
 <span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"eplogp"</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='input'>
+)
+
 <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>crime.bic</span>)</div><div class='output co'>#&gt;           P(B != 0 | Y)   model 1       model 2     model 3     model 4
 #&gt; Intercept     1.0000000   1.00000  1.000000e+00   1.0000000   1.0000000
 #&gt; log(M)        0.9335117   1.00000  1.000000e+00   1.0000000   1.0000000
@@ -592,7 +598,8 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ToothGrowth</span>,
   <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'>uniform</span>(), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"BAS"</span>,
   <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>TG.bas</span>)</div><div class='output co'>#&gt;                   P(B != 0 | Y)  model 1    model 2     model 3      model 4
+)
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>TG.bas</span>)</div><div class='output co'>#&gt;                   P(B != 0 | Y)  model 1    model 2     model 3      model 4
 #&gt; Intercept             1.0000000  1.00000  1.0000000  1.00000000 1.000000e+00
 #&gt; suppVC                0.9910702  1.00000  1.0000000  0.00000000 0.000000e+00
 #&gt; doseMedium            1.0000000  1.00000  1.0000000  1.00000000 0.000000e+00
@@ -628,14 +635,14 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
               <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>d</span>,
               <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.125316</span>,
               <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"JZS"</span>,
-              <span class='kw'>weights</span> <span class='kw'>=</span> <span class='no'>facFifty</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='output co'>#&gt; <span class='warning'>Warning: log marginals and posterior probabilities contain NA's.  Consider re-running with the option `pivot=TRUE` if there are models that are not full rank</span></div><div class='input'>
+              <span class='kw'>weights</span> <span class='kw'>=</span> <span class='no'>facFifty</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: log marginals and posterior probabilities contain NA's.  Consider re-running with the option `pivot=TRUE` if there are models that are not full rank</span></div><div class='input'>
 
 <span class='co'># use pivot = TRUE to fit non-full rank case</span>
 <span class='no'>out</span> <span class='kw'>=</span>  <span class='fu'>bas.lm</span>(<span class='no'>fullModelFormula</span>,
               <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>d</span>,
               <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.125316</span>,
               <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"JZS"</span>,
-              <span class='kw'>weights</span> <span class='kw'>=</span> <span class='no'>facFifty</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='output co'>#&gt; <span class='warning'>Warning: log marginals and posterior probabilities contain NA's.  Consider re-running with the option `pivot=TRUE` if there are models that are not full rank</span></div><div class='input'>
+              <span class='kw'>weights</span> <span class='kw'>=</span> <span class='no'>facFifty</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: log marginals and posterior probabilities contain NA's.  Consider re-running with the option `pivot=TRUE` if there are models that are not full rank</span></div><div class='input'>
 <span class='co'># more complete demo's</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/demo.html'>demo</a></span>(<span class='no'>BAS.hald</span>)</div><div class='output co'>#&gt; 
 #&gt; 
@@ -646,7 +653,8 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; 
 #&gt; &gt; hald.gprior =  bas.lm(Y~ ., data=Hald, prior="g-prior", alpha=13,
 #&gt; +                       modelprior=beta.binomial(1,1),
-#&gt; +                       initprobs="eplogp")</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='output co'>#&gt; 
+#&gt; +                       initprobs="eplogp")
+#&gt; 
 #&gt; &gt; hald.gprior
 #&gt; 
 #&gt; Call:
@@ -689,7 +697,7 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; X3         -0.1271     0.4976   0.4653       
 #&gt; X4         -0.3269     0.4717   0.6329       
 #&gt; 
-#&gt; &gt; plot(hald.coef)</div><div class='img'><img src='bas.lm-12.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-13.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-14.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-15.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; &gt; plot(hald.coef)</div><div class='img'><img src='bas.lm-12.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-13.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-14.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-15.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-16.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
 #&gt; &gt; predict(hald.gprior, top=5, se.fit=TRUE)  
 #&gt; $fit
 #&gt;  [1]  79.74246  74.50010 105.29268  89.88693  95.57177 104.56409 103.40145
@@ -816,7 +824,8 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; attr(,"class")
 #&gt; [1] "confint.bas"
 #&gt; 
-#&gt; &gt; predict(hald.gprior, estimator="MPM", se.fit=TRUE)  </div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='output co'>#&gt; $fit
+#&gt; &gt; predict(hald.gprior, estimator="MPM", se.fit=TRUE)  
+#&gt; $fit
 #&gt;  [1]  79.65151  74.47846 105.42183  89.83174  95.62799 104.59616 103.50684
 #&gt;  [8]  77.00839  92.07571 114.10876  82.68233 111.04286 110.46741
 #&gt; attr(,"model")
@@ -874,7 +883,8 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; attr(,"class")
 #&gt; [1] "pred.bas"
 #&gt; 
-#&gt; &gt; confint(predict(hald.gprior, Hald, estimator="MPM", se.fit=TRUE), parm="mean")</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='output co'>#&gt;            2.5%     97.5%      mean
+#&gt; &gt; confint(predict(hald.gprior, Hald, estimator="MPM", se.fit=TRUE), parm="mean")
+#&gt;            2.5%     97.5%      mean
 #&gt;  [1,]  72.85939  86.44363  79.65151
 #&gt;  [2,]  69.50215  79.45478  74.47846
 #&gt;  [3,] 101.93102 108.91264 105.42183
@@ -899,7 +909,8 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; 
 #&gt; &gt; hald.gprior =  bas.lm(Y~ ., data=Hald, n.models=2^4,
 #&gt; +                       prior="g-prior", alpha=13, modelprior=uniform(),
-#&gt; +                       initprobs="eplogp")</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='img'><img src='bas.lm-16.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; +                       initprobs="eplogp")
+#&gt; 
 #&gt; &gt; hald.EB = update(hald.gprior, newprior="EB-global")
 #&gt; 
 #&gt; &gt; hald.bic = update(hald.gprior,newprior="BIC")

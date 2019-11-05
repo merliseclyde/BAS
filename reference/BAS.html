@@ -191,7 +191,8 @@ Statistical Association. 103:410-423.  <br />
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"Hald"</span>)
-<span class='no'>hald.gprior</span> <span class='kw'>=</span>  <span class='fu'>bas.lm</span>(<span class='no'>Y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>13</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"g-prior"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='input'>
+<span class='no'>hald.gprior</span> <span class='kw'>=</span>  <span class='fu'>bas.lm</span>(<span class='no'>Y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>13</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"g-prior"</span>)
+
 <span class='co'># more complete demos</span>
 
 <span class='fu'><a href='https://rdrr.io/r/utils/demo.html'>demo</a></span>(<span class='no'>BAS.hald</span>)</div><div class='output co'>#&gt; 
@@ -203,7 +204,8 @@ Statistical Association. 103:410-423.  <br />
 #&gt; 
 #&gt; &gt; hald.gprior =  bas.lm(Y~ ., data=Hald, prior="g-prior", alpha=13,
 #&gt; +                       modelprior=beta.binomial(1,1),
-#&gt; +                       initprobs="eplogp")</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='output co'>#&gt; 
+#&gt; +                       initprobs="eplogp")
+#&gt; 
 #&gt; &gt; hald.gprior
 #&gt; 
 #&gt; Call:
@@ -246,7 +248,7 @@ Statistical Association. 103:410-423.  <br />
 #&gt; X3         -0.1271     0.4976   0.4653       
 #&gt; X4         -0.3269     0.4717   0.6329       
 #&gt; 
-#&gt; &gt; plot(hald.coef)</div><div class='img'><img src='BAS-6.png' alt='' width='700' height='433' /></div><div class='img'><img src='BAS-7.png' alt='' width='700' height='433' /></div><div class='img'><img src='BAS-8.png' alt='' width='700' height='433' /></div><div class='img'><img src='BAS-9.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; &gt; plot(hald.coef)</div><div class='img'><img src='BAS-6.png' alt='' width='700' height='433' /></div><div class='img'><img src='BAS-7.png' alt='' width='700' height='433' /></div><div class='img'><img src='BAS-8.png' alt='' width='700' height='433' /></div><div class='img'><img src='BAS-9.png' alt='' width='700' height='433' /></div><div class='img'><img src='BAS-10.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
 #&gt; &gt; predict(hald.gprior, top=5, se.fit=TRUE)  
 #&gt; $fit
 #&gt;  [1]  79.74246  74.50010 105.29268  89.88693  95.57177 104.56409 103.40145
@@ -373,7 +375,8 @@ Statistical Association. 103:410-423.  <br />
 #&gt; attr(,"class")
 #&gt; [1] "confint.bas"
 #&gt; 
-#&gt; &gt; predict(hald.gprior, estimator="MPM", se.fit=TRUE)  </div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='output co'>#&gt; $fit
+#&gt; &gt; predict(hald.gprior, estimator="MPM", se.fit=TRUE)  
+#&gt; $fit
 #&gt;  [1]  79.65151  74.47846 105.42183  89.83174  95.62799 104.59616 103.50684
 #&gt;  [8]  77.00839  92.07571 114.10876  82.68233 111.04286 110.46741
 #&gt; attr(,"model")
@@ -431,7 +434,8 @@ Statistical Association. 103:410-423.  <br />
 #&gt; attr(,"class")
 #&gt; [1] "pred.bas"
 #&gt; 
-#&gt; &gt; confint(predict(hald.gprior, Hald, estimator="MPM", se.fit=TRUE), parm="mean")</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='output co'>#&gt;            2.5%     97.5%      mean
+#&gt; &gt; confint(predict(hald.gprior, Hald, estimator="MPM", se.fit=TRUE), parm="mean")
+#&gt;            2.5%     97.5%      mean
 #&gt;  [1,]  72.85939  86.44363  79.65151
 #&gt;  [2,]  69.50215  79.45478  74.47846
 #&gt;  [3,] 101.93102 108.91264 105.42183
@@ -456,7 +460,8 @@ Statistical Association. 103:410-423.  <br />
 #&gt; 
 #&gt; &gt; hald.gprior =  bas.lm(Y~ ., data=Hald, n.models=2^4,
 #&gt; +                       prior="g-prior", alpha=13, modelprior=uniform(),
-#&gt; +                       initprobs="eplogp")</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='img'><img src='BAS-10.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; +                       initprobs="eplogp")
+#&gt; 
 #&gt; &gt; hald.EB = update(hald.gprior, newprior="EB-global")
 #&gt; 
 #&gt; &gt; hald.bic = update(hald.gprior,newprior="BIC")

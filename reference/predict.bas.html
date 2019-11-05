@@ -236,7 +236,8 @@ probability models.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"Hald"</span>)
-<span class='no'>hald.gprior</span> <span class='kw'>=</span>  <span class='fu'>bas.lm</span>(<span class='no'>Y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>13</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"g-prior"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='input'>
+<span class='no'>hald.gprior</span> <span class='kw'>=</span>  <span class='fu'>bas.lm</span>(<span class='no'>Y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>13</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"g-prior"</span>)
+
 <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>hald.gprior</span>, <span class='kw'>newdata</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>estimator</span><span class='kw'>=</span><span class='st'>"BPM"</span>, <span class='kw'>se.fit</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; $fit
 #&gt;  [1]  79.65151  74.47846 105.42183  89.83174  95.62799 104.59616 103.50684
 #&gt;  [8]  77.00839  92.07571 114.10876  82.68233 111.04286 110.46741
@@ -382,7 +383,8 @@ probability models.</p>
 #&gt; [1] "confint.bas"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/case.names.html'>variable.names</a></span>(<span class='no'>hald.hpm</span>)</div><div class='output co'>#&gt; [1] "Intercept" "X1"        "X2"       </div><div class='input'>
 <span class='no'>hald.mpm</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>hald.gprior</span>, <span class='kw'>newdata</span><span class='kw'>=</span><span class='no'>Hald</span>[<span class='fl'>1</span>,],
                     <span class='kw'>se.fit</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
-                    <span class='kw'>estimator</span><span class='kw'>=</span><span class='st'>"MPM"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>hald.mpm</span>)</div><div class='output co'>#&gt;          2.5%    97.5%     pred
+                    <span class='kw'>estimator</span><span class='kw'>=</span><span class='st'>"MPM"</span>)
+<span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>hald.mpm</span>)</div><div class='output co'>#&gt;          2.5%    97.5%     pred
 #&gt; [1,] 67.79843 91.50459 79.65151
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95

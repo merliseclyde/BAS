@@ -229,7 +229,8 @@ American Statistical Association.  103:410-423.  <br />
     <pre class="examples"><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"Hald"</span>)
 <span class='no'>hald.gprior</span> <span class='kw'>=</span>  <span class='fu'>bas.lm</span>(<span class='no'>Y</span>~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>n.models</span><span class='kw'>=</span><span class='fl'>2</span>^<span class='fl'>4</span>, <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>13</span>,
-                      <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"ZS-null"</span>, <span class='kw'>initprobs</span><span class='kw'>=</span><span class='st'>"Uniform"</span>, <span class='kw'>update</span><span class='kw'>=</span><span class='fl'>10</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='input'><span class='no'>coef.hald.gprior</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coefficients</a></span>(<span class='no'>hald.gprior</span>)
+                      <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"ZS-null"</span>, <span class='kw'>initprobs</span><span class='kw'>=</span><span class='st'>"Uniform"</span>, <span class='kw'>update</span><span class='kw'>=</span><span class='fl'>10</span>)
+<span class='no'>coef.hald.gprior</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coefficients</a></span>(<span class='no'>hald.gprior</span>)
 <span class='no'>coef.hald.gprior</span></div><div class='output co'>#&gt; 
 #&gt;  Marginal Posterior Summaries of Coefficients: 
 #&gt; 
@@ -252,7 +253,8 @@ American Statistical Association.  103:410-423.  <br />
 #&gt; attr(,"class")
 #&gt; [1] "confint.bas"</div><div class='input'>
 <span class='co'>#Estimation under Median Probability Model</span>
-<span class='no'>coef.hald.gprior</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coefficients</a></span>(<span class='no'>hald.gprior</span>, <span class='kw'>estimator</span><span class='kw'>=</span><span class='st'>"MPM"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='input'><span class='no'>coef.hald.gprior</span></div><div class='output co'>#&gt; 
+<span class='no'>coef.hald.gprior</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coefficients</a></span>(<span class='no'>hald.gprior</span>, <span class='kw'>estimator</span><span class='kw'>=</span><span class='st'>"MPM"</span>)
+<span class='no'>coef.hald.gprior</span></div><div class='output co'>#&gt; 
 #&gt;  Marginal Posterior Summaries of Coefficients: 
 #&gt; 
 #&gt;  Using  MPM 

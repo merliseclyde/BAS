@@ -223,7 +223,8 @@ Principles of the Conditioning Process, Allyn and Bacon, Inc., Boston.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>bodyfat</span>)
-<span class='no'>bodyfat.bas</span> <span class='kw'>=</span> <span class='fu'>bas.lm</span>(<span class='no'>Bodyfat</span> ~ <span class='no'>Abdomen</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>bodyfat</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"ZS-null"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: non-list contrasts argument ignored</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>bodyfat.bas</span>)</div><div class='output co'>#&gt;           P(B != 0 | Y)  model 1      model 2
+<span class='no'>bodyfat.bas</span> <span class='kw'>=</span> <span class='fu'>bas.lm</span>(<span class='no'>Bodyfat</span> ~ <span class='no'>Abdomen</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>bodyfat</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"ZS-null"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>bodyfat.bas</span>)</div><div class='output co'>#&gt;           P(B != 0 | Y)  model 1      model 2
 #&gt; Intercept             1   1.0000 1.000000e+00
 #&gt; Abdomen               1   1.0000 0.000000e+00
 #&gt; BF                   NA   1.0000 1.039211e-57
