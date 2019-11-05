@@ -1,3 +1,15 @@
+#  BAS 1.5.4
+
+# Features
+
+Modified prior probabilities to adjust for the number of variables always included when 
+using include.always.  [Pull request #41](https://github.com/merliseclyde/BAS/pull/41) by Don van de Bergh.  [Issue #40](https://github.com/merliseclyde/BAS/issues/40)
+
+## Other 
+
+* Put ORCID in quotes in author list (per R-dev changes)
+
+
 #  BAS 1.5.3
 
 ## Bug Fixes  
