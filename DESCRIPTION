@@ -10,7 +10,7 @@ Authors@R: c(person("Merlise", "Clyde", email="clyde@duke.edu",
 	   person("Quanli", "Wang", role="ctb"),
 	   person("Joyee", "Ghosh", role="ctb"),
 	   person("Yingbo", "Li", role="ctb"),
-	   person("Don", "van de Berg", role="ctb")
+	   person("Don", "van de Berg", role="ctb"))
 Depends:
     R (>= 3.0)
 Imports:
@@ -61,4 +61,4 @@ NeedsCompilation: yes
 ByteCompile: yes
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
