@@ -113,6 +113,7 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' @param weights an optional vector of weights to be used in the fitting
 #' process. Should be NULL or a numeric vector. If non-NULL, Bayes estimates
 #' are obtained assuming that Y ~ N(Xb, sigma^2 diag(1/weights)).
+#' @param contrasts an optional list. See the contrasts.arg of `model.matrix.default()`.
 #' @param na.action a function which indicates what should happen when the data
 #' contain NAs. The default is "na.omit".
 #' @param n.models number of models to sample either without replacement
@@ -439,6 +440,7 @@ bas.lm <- function(formula,
                    data,
                    subset,
                    weights,
+                   contrasts=NULL,
                    na.action = "na.omit",
                    n.models = NULL,
                    prior = "ZS-null",

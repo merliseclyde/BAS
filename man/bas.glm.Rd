@@ -6,13 +6,13 @@
 Generalized Linear Models}
 \usage{
 bas.glm(formula, family = binomial(link = "logit"), data, weights,
-  subset, offset, na.action = "na.omit", n.models = NULL,
-  betaprior = CCH(alpha = 0.5, beta = as.numeric(nrow(data)), s = 0),
-  modelprior = beta.binomial(1, 1), initprobs = "Uniform",
-  include.always = ~1, method = "MCMC", update = NULL,
-  bestmodel = NULL, prob.rw = 0.5, MCMC.iterations = NULL,
-  control = glm.control(), laplace = FALSE, renormalize = FALSE,
-  force.heredity = TRUE, bigmem = FALSE)
+  subset, contrasts = NULL, offset, na.action = "na.omit",
+  n.models = NULL, betaprior = CCH(alpha = 0.5, beta =
+  as.numeric(nrow(data)), s = 0), modelprior = beta.binomial(1, 1),
+  initprobs = "Uniform", include.always = ~1, method = "MCMC",
+  update = NULL, bestmodel = NULL, prob.rw = 0.5,
+  MCMC.iterations = NULL, control = glm.control(), laplace = FALSE,
+  renormalize = FALSE, force.heredity = TRUE, bigmem = FALSE)
 }
 \arguments{
 \item{formula}{generalized linear model formula for the full model with all
@@ -29,6 +29,8 @@ exponential family; currently only `binomial()` with the logistic link and
 May be missing in which case weights are 1.}
 
 \item{subset}{subset of data used in fitting}
+
+\item{contrasts}{an optional list. See the contrasts.arg of `model.matrix.default()`.}
 
 \item{offset}{a priori known component to be included in the linear
 predictor; by default 0.}

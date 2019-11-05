@@ -61,6 +61,7 @@ normalize.initprobs.glm <- function(initprobs, glm.obj) {
 #' @param weights optional vector of weights to be used in the fitting process.
 #' May be missing in which case weights are 1.
 #' @param subset subset of data used in fitting
+#' @param contrasts an optional list. See the contrasts.arg of `model.matrix.default()`.
 #' @param offset a priori known component to be included in the linear
 #' predictor; by default 0.
 #' @param na.action a function which indicates what should happen when the data
@@ -226,7 +227,7 @@ normalize.initprobs.glm <- function(initprobs, glm.obj) {
 #' @rdname bas.glm
 #' @export
 bas.glm <- function(formula, family = binomial(link = "logit"),
-                    data, weights, subset, offset, na.action = "na.omit",
+                    data, weights, subset, contrasts=NULL, offset, na.action = "na.omit",
                     n.models = NULL,
                     betaprior = CCH(alpha = .5, beta = as.numeric(nrow(data)), s = 0),
                     modelprior = beta.binomial(1, 1),

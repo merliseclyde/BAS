@@ -6,11 +6,11 @@
 \title{Bayesian Adaptive Sampling for Bayesian Model Averaging and Variable Selection in
 Linear Models}
 \usage{
-bas.lm(formula, data, subset, weights, na.action = "na.omit",
-  n.models = NULL, prior = "ZS-null", alpha = NULL,
-  modelprior = beta.binomial(1, 1), initprobs = "Uniform",
-  include.always = ~1, method = "BAS", update = NULL,
-  bestmodel = NULL, prob.local = 0, prob.rw = 0.5,
+bas.lm(formula, data, subset, weights, contrasts = NULL,
+  na.action = "na.omit", n.models = NULL, prior = "ZS-null",
+  alpha = NULL, modelprior = beta.binomial(1, 1),
+  initprobs = "Uniform", include.always = ~1, method = "BAS",
+  update = NULL, bestmodel = NULL, prob.local = 0, prob.rw = 0.5,
   MCMC.iterations = NULL, lambda = NULL, delta = 0.025, thin = 1,
   renormalize = FALSE, force.heredity = TRUE, pivot = FALSE,
   tol = 1e-07, bigmem = FALSE)
@@ -29,6 +29,8 @@ used in the fitting process.}
 \item{weights}{an optional vector of weights to be used in the fitting
 process. Should be NULL or a numeric vector. If non-NULL, Bayes estimates
 are obtained assuming that Y ~ N(Xb, sigma^2 diag(1/weights)).}
+
+\item{contrasts}{an optional list. See the contrasts.arg of `model.matrix.default()`.}
 
 \item{na.action}{a function which indicates what should happen when the data
 contain NAs. The default is "na.omit".}
