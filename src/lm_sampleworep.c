@@ -188,6 +188,14 @@ double got_parents(int *model, SEXP Rparents, int level, struct Var *var, int ns
 return(prob);
 }
 
+// issue 37 & 38
+inline int lessThanOne(double a)
+{
+  // DBL_EPSILON is too restrictive. This might need further tweaking
+  double LOCAL_DBL_EPSILON = 1E-10;
+  return (1.0 - a) >= (LOCAL_DBL_EPSILON);
+}
+
 extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
                             SEXP Rmodeldim, SEXP incint, SEXP Ralpha,
                             SEXP method, SEXP modelprior, SEXP Rupdate,
@@ -317,7 +325,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 	}  */
 
 	// Sample models
-	for (m = 1;  m < k && pigamma[0] < 1.0; m++) {
+	for (m = 1;  m < k && lessThanOne(pigamma[0]); m++) {
 	//  Rprintf("model %d, starting pigamma = %lf\n", m, pigamma[0]);
 	  INTEGER(modeldim)[m] = 0;
 		for (i = n; i < p; i++)  {
@@ -343,14 +351,14 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 		R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY,
                   pmodel, p, nobs, m, &mse_m, &rank_m, pivot, tol);
 		INTEGER(rank)[m] = rank_m;
-		// initialize 
+		// initialize
 		logmargy= 0.0;
 		shrinkage_m = 1.0;
 		gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
 //    Rprintf("rank %d dim %d\n", rank_m, pmodel);
 //		gexpectations(p, pmodel, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
 
-		prior_m = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1); 
+		prior_m = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
 		SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
 		SetModel_lm(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2,m);
 	  UNPROTECT(3);
