@@ -304,7 +304,7 @@ test_that("cv.summary", {
                               score="percent-explained"))
 })
 
-# FIXME issue #28
+# FIXED issue #28
 test_that("diagnostic plot for glm MCMC", {
   data(Pima.tr, package="MASS")
   pima_MCMC <- bas.glm(type ~ .,
@@ -395,7 +395,7 @@ test_that("MCMC+BAS: missing MCMC.iterations and n.models arg", {
   expect_equal(pima_BAS$n.models, pima_2$n.models)
 })
 
-# FIXME  add issue?  check that it works with other prior
+# issue 38 (in progress)  check that it works with other prior
 # with prior probabilities; i.e. failed with Jeffreys
 
 test_that("herdity and BAS", {
@@ -403,19 +403,19 @@ test_that("herdity and BAS", {
   pima_BAS <-  bas.glm(type ~ (bp + glu + npreg)^2,
                        data = Pima.tr, method = "BAS",
                        betaprior = bic.prior(),
-                       family = binomial(),
+                       family = binomial(), update=NULL,
                        modelprior =uniform(),
-                       update = 5,
                        force.heredity=TRUE)
   pima_BAS_no <-  bas.glm(type ~ (bp + glu + npreg)^2,
                        data = Pima.tr, method = "BAS",
                        betaprior = bic.prior(),
-                       family = binomial(),
+                       family = binomial(),  update=NULL,
                        modelprior =uniform(),
-                       update = 5,
                        force.heredity=FALSE)
   pima_BAS_no <- force.heredity.bas(pima_BAS_no)
   expect_equal(0L, sum(pima_BAS$probne0 > 1.0))
   expect_equal(0L, sum(pima_BAS_no$probne0[-1] > 1.0))
   expect_equal(pima_BAS$probne0, pima_BAS_no$probne0)
+  expect_equal(0L, sum(duplicated(pima_BAS$which)))
 })
+

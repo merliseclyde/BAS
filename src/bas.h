@@ -306,4 +306,11 @@ SEXP glm_bas(SEXP RX, SEXP RY, glmstptr * family, SEXP Roffset, SEXP Rweights, S
 SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Rcoef, SEXP Rmu, SEXP Rweights, glmstptr * glmfamily, betapriorptr * betapriorfamily, SEXP Rlaplace);
 
 
+// issue 38
+static inline int lessThanOne(double a)
+{
+  // DBL_EPSILON is too restrictive. This might need further tweaking
+  double LOCAL_DBL_EPSILON = 1E-10;
+  return (1.0 - a) >= (LOCAL_DBL_EPSILON);
+}
 

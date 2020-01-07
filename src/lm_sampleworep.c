@@ -28,6 +28,8 @@ void SetModel(SEXP Rcoef_m, SEXP Rse_m, SEXP Rmodel_m, double mse_m, double R2_m
 void SetModel_lm(SEXP Rcoef_m, SEXP Rse_m, SEXP Rmodel_m, double mse_m, double R2_m,
               SEXP beta, SEXP se, SEXP modelspace, SEXP mse, SEXP R2, int m);
 
+// extern inline int lessThanOne(double a);
+
 void CreateTree_with_pigamma(NODEPTR branch, struct Var *vars,
                              int *bestmodel, int *model, int n,
                              int m, SEXP modeldim, double *pigamma,
@@ -188,13 +190,7 @@ double got_parents(int *model, SEXP Rparents, int level, struct Var *var, int ns
 return(prob);
 }
 
-// issue 37 & 38
-inline int lessThanOne(double a)
-{
-  // DBL_EPSILON is too restrictive. This might need further tweaking
-  double LOCAL_DBL_EPSILON = 1E-10;
-  return (1.0 - a) >= (LOCAL_DBL_EPSILON);
-}
+
 
 extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
                             SEXP Rmodeldim, SEXP incint, SEXP Ralpha,
@@ -325,6 +321,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 	}  */
 
 	// Sample models
+	//	for (m = 1;  m < k && pigamma[0] < 1.0; m++) {
 	for (m = 1;  m < k && lessThanOne(pigamma[0]); m++) {
 	//  Rprintf("model %d, starting pigamma = %lf\n", m, pigamma[0]);
 	  INTEGER(modeldim)[m] = 0;

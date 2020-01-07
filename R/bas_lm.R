@@ -529,6 +529,8 @@ bas.lm <- function(formula,
   namesx[1] <- "Intercept"
   n <- dim(X)[1]
 
+  if (n == 0) {stop("Sample size is zero; check data and subset arguments")}
+
   weights <- as.vector(model.weights(mf))
   if (is.null(weights)) {
     weights <- rep(1, n)
@@ -690,11 +692,14 @@ bas.lm <- function(formula,
 
 
   if (is.null(update)) {
-    if (n.models == 2^(p - 1)) {
-      update <- n.models + 1
-    } else {
-      (update <- n.models / num.updates)
-    }
+    if (force.heredity) {  # do not update tree for BAS
+      update <- n.models + 1}
+    else {
+      if (n.models == 2^(p - 1)) {
+        update <- n.models + 1
+      } else {
+        (update <- n.models / num.updates)
+      }}
   }
 
   modelindex <- as.list(1:n.models)

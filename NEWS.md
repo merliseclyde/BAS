@@ -7,8 +7,13 @@ using include.always.  [Pull request #41](https://github.com/merliseclyde/BAS/pu
 
 ## Bug Fixes 
 
+* Fixed valgrind error in src/ZS_approx_null_np.c for invalid write noted in CRAN checks
+
 * Added `contrast=NULL` argument to `bas.lm` and `bas.glm` so that non-NULL contrasts do not
 trigger warning in `model.matrix` as of R 3.6.0.  [Bug #44](https://github.com/merliseclyde/BAS/issues/44)
+
+* Added check for sample size equal to zero due to subsetting or missing data
+[Bug #37](https://github.com/merliseclyde/BAS/issues/37)
 
 ## Other 
 
