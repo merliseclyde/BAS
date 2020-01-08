@@ -48,8 +48,9 @@ Statistical Association.  103:410-423.  \cr
 \url{http://dx.doi.org/10.1198/016214507000001337}
 }
 \seealso{
-Other special functions: \code{\link{hypergeometric1F1}},
-  \code{\link{phi1}}
+Other special functions: 
+\code{\link{hypergeometric1F1}()},
+\code{\link{phi1}()}
 }
 \author{
 Merlise Clyde (\email{clyde@duke.edu})

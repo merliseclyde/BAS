@@ -55,15 +55,21 @@ Statistical Association. 103:410-423.  \cr
 \seealso{
 \code{\link[BAS]{bas.lm}} \code{\link[BAS]{bas.glm}}
 
-Other bas methods: \code{\link{bas.lm}},
-  \code{\link{coef.bas}}, \code{\link{confint.coef.bas}},
-  \code{\link{confint.pred.bas}},
-  \code{\link{diagnostics}}, \code{\link{fitted.bas}},
-  \code{\link{force.heredity.bas}},
-  \code{\link{image.bas}}, \code{\link{predict.basglm}},
-  \code{\link{predict.bas}}, \code{\link{summary.bas}},
-  \code{\link{update.bas}},
-  \code{\link{variable.names.pred.bas}}
+Other bas methods: 
+\code{\link{bas.lm}()},
+\code{\link{coef.bas}()},
+\code{\link{confint.coef.bas}()},
+\code{\link{confint.pred.bas}()},
+\code{\link{diagnostics}()},
+\code{\link{fitted.bas}()},
+\code{\link{force.heredity.bas}()},
+\code{\link{image.bas}()},
+\code{\link{plot.confint.bas}()},
+\code{\link{predict.basglm}()},
+\code{\link{predict.bas}()},
+\code{\link{summary.bas}()},
+\code{\link{update.bas}()},
+\code{\link{variable.names.pred.bas}()}
 }
 \author{
 Merlise Clyde, \cr Maintainer: Merlise Clyde <clyde@stat.duke.edu>

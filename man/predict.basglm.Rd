@@ -4,9 +4,16 @@
 \alias{predict.basglm}
 \title{Prediction Method for an Object of Class basglm}
 \usage{
-\method{predict}{basglm}(object, newdata, se.fit = FALSE,
-  type = c("response", "link"), top = NULL, estimator = "BMA",
-  na.action = na.pass, ...)
+\method{predict}{basglm}(
+  object,
+  newdata,
+  se.fit = FALSE,
+  type = c("response", "link"),
+  top = NULL,
+  estimator = "BMA",
+  na.action = na.pass,
+  ...
+)
 }
 \arguments{
 \item{object}{An object of class "basglm", created by \code{bas.glm}}
@@ -81,18 +88,26 @@ cv.summary.bas(pred$fit, Pima.te$type, score="miss-class")
 \code{\link{bas.glm}}, \code{\link{predict.bas}},
 \code{\link{fitted.bas}}
 
-Other predict methods: \code{\link{fitted.bas}},
-  \code{\link{predict.bas}},
-  \code{\link{variable.names.pred.bas}}
+Other predict methods: 
+\code{\link{fitted.bas}()},
+\code{\link{predict.bas}()},
+\code{\link{variable.names.pred.bas}()}
 
-Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
-  \code{\link{coef.bas}}, \code{\link{confint.coef.bas}},
-  \code{\link{confint.pred.bas}},
-  \code{\link{diagnostics}}, \code{\link{fitted.bas}},
-  \code{\link{force.heredity.bas}},
-  \code{\link{image.bas}}, \code{\link{predict.bas}},
-  \code{\link{summary.bas}}, \code{\link{update.bas}},
-  \code{\link{variable.names.pred.bas}}
+Other bas methods: 
+\code{\link{BAS}},
+\code{\link{bas.lm}()},
+\code{\link{coef.bas}()},
+\code{\link{confint.coef.bas}()},
+\code{\link{confint.pred.bas}()},
+\code{\link{diagnostics}()},
+\code{\link{fitted.bas}()},
+\code{\link{force.heredity.bas}()},
+\code{\link{image.bas}()},
+\code{\link{plot.confint.bas}()},
+\code{\link{predict.bas}()},
+\code{\link{summary.bas}()},
+\code{\link{update.bas}()},
+\code{\link{variable.names.pred.bas}()}
 }
 \author{
 Merlise Clyde

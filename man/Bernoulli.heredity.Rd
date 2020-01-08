@@ -21,9 +21,12 @@ model hierarchy induced by interactions
 Not implemented yet for use with bas.lm or bas.glm
 }
 \seealso{
-Other priors modelpriors: \code{\link{Bernoulli}},
-  \code{\link{beta.binomial}},
-  \code{\link{tr.beta.binomial}}, \code{\link{tr.poisson}},
-  \code{\link{tr.power.prior}}, \code{\link{uniform}}
+Other priors modelpriors: 
+\code{\link{Bernoulli}()},
+\code{\link{beta.binomial}()},
+\code{\link{tr.beta.binomial}()},
+\code{\link{tr.poisson}()},
+\code{\link{tr.power.prior}()},
+\code{\link{uniform}()}
 }
 \concept{priors modelpriors}

@@ -5,8 +5,14 @@
 \alias{fitted}
 \title{Fitted values for a BAS BMA objects}
 \usage{
-\method{fitted}{bas}(object, type = "link", estimator = "BMA",
-  top = NULL, na.action = na.pass, ...)
+\method{fitted}{bas}(
+  object,
+  type = "link",
+  estimator = "BMA",
+  top = NULL,
+  na.action = na.pass,
+  ...
+)
 }
 \arguments{
 \item{object}{An object of class 'bas' as created by \code{\link{bas}}}
@@ -71,19 +77,26 @@ and Statistics.  20:80-101 \cr
 \seealso{
 \code{\link{predict.bas}}  \code{\link{predict.basglm}}
 
-Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
-  \code{\link{coef.bas}}, \code{\link{confint.coef.bas}},
-  \code{\link{confint.pred.bas}},
-  \code{\link{diagnostics}},
-  \code{\link{force.heredity.bas}},
-  \code{\link{image.bas}}, \code{\link{predict.basglm}},
-  \code{\link{predict.bas}}, \code{\link{summary.bas}},
-  \code{\link{update.bas}},
-  \code{\link{variable.names.pred.bas}}
+Other bas methods: 
+\code{\link{BAS}},
+\code{\link{bas.lm}()},
+\code{\link{coef.bas}()},
+\code{\link{confint.coef.bas}()},
+\code{\link{confint.pred.bas}()},
+\code{\link{diagnostics}()},
+\code{\link{force.heredity.bas}()},
+\code{\link{image.bas}()},
+\code{\link{plot.confint.bas}()},
+\code{\link{predict.basglm}()},
+\code{\link{predict.bas}()},
+\code{\link{summary.bas}()},
+\code{\link{update.bas}()},
+\code{\link{variable.names.pred.bas}()}
 
-Other predict methods: \code{\link{predict.basglm}},
-  \code{\link{predict.bas}},
-  \code{\link{variable.names.pred.bas}}
+Other predict methods: 
+\code{\link{predict.basglm}()},
+\code{\link{predict.bas}()},
+\code{\link{variable.names.pred.bas}()}
 }
 \author{
 Merlise Clyde \email{clyde@AT@duke.edu}

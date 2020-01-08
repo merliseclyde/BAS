@@ -46,8 +46,9 @@ models <- which.matrix(hald.bic$which, hald.bic$n.vars)     #matrix of model ind
 \seealso{
 \code{\link{bas}}
 
-Other as.matrix methods: \code{\link{list2matrix.which}},
-  \code{\link{which.matrix}}
+Other as.matrix methods: 
+\code{\link{list2matrix.which}()},
+\code{\link{which.matrix}()}
 }
 \author{
 Merlise Clyde \email{clyde@duke.edu}

@@ -35,13 +35,19 @@ CCH(alpha = .5, beta = 100, s = 0)
 \code{\link{IC.prior}}, \code{\link{bic.prior}},
 \code{\link{bas.glm}}
 
-Other beta priors: \code{\link{EB.local}},
-  \code{\link{IC.prior}}, \code{\link{Jeffreys}},
-  \code{\link{TG}}, \code{\link{beta.prime}},
-  \code{\link{g.prior}}, \code{\link{hyper.g.n}},
-  \code{\link{hyper.g}}, \code{\link{intrinsic}},
-  \code{\link{robust}}, \code{\link{tCCH}},
-  \code{\link{testBF.prior}}
+Other beta priors: 
+\code{\link{EB.local}()},
+\code{\link{IC.prior}()},
+\code{\link{Jeffreys}()},
+\code{\link{TG}()},
+\code{\link{beta.prime}()},
+\code{\link{g.prior}()},
+\code{\link{hyper.g.n}()},
+\code{\link{hyper.g}()},
+\code{\link{intrinsic}()},
+\code{\link{robust}()},
+\code{\link{tCCH}()},
+\code{\link{testBF.prior}()}
 }
 \author{
 Merlise A Clyde

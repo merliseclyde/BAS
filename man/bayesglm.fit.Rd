@@ -5,10 +5,19 @@
 \title{Fitting Generalized Linear Models and Bayesian marginal likelihood
 evaluation}
 \usage{
-bayesglm.fit(x, y, weights = rep(1, nobs), start = NULL,
-  etastart = NULL, mustart = NULL, offset = rep(0, nobs),
-  family = binomial(), coefprior = bic.prior(nobs),
-  control = glm.control(), intercept = TRUE)
+bayesglm.fit(
+  x,
+  y,
+  weights = rep(1, nobs),
+  start = NULL,
+  etastart = NULL,
+  mustart = NULL,
+  offset = rep(0, nobs),
+  family = binomial(),
+  coefprior = bic.prior(nobs),
+  control = glm.control(),
+  intercept = TRUE
+)
 }
 \arguments{
 \item{x}{design matrix}

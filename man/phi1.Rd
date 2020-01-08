@@ -45,8 +45,9 @@ hypergeometric1F1(1, 1.5, 3, log = FALSE)
 Gordy 1998
 }
 \seealso{
-Other special functions: \code{\link{hypergeometric1F1}},
-  \code{\link{hypergeometric2F1}}
+Other special functions: 
+\code{\link{hypergeometric1F1}()},
+\code{\link{hypergeometric2F1}()}
 }
 \author{
 Merlise Clyde (\email{clyde@stat.duke.edu})

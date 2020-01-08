@@ -199,7 +199,7 @@ confint.pred.bas <- function(object, parm, level = 0.95, nsim = 10000, ...) {
 #'
 #' @rdname  plot.confint
 #' @method  plot  confint.bas
-#' @method  bas methods
+#' @family bas methods
 #' @family CI methods
 #' @export
 plot.confint.bas <- function(x, horizontal = FALSE, ...) {

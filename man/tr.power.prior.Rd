@@ -46,10 +46,13 @@ crime.bic <- bas.lm(y ~ .,
 \seealso{
 \code{\link{bas.lm}}, \code{\link{Bernoulli}},\code{\link{uniform}}
 
-Other priors modelpriors: \code{\link{Bernoulli.heredity}},
-  \code{\link{Bernoulli}}, \code{\link{beta.binomial}},
-  \code{\link{tr.beta.binomial}}, \code{\link{tr.poisson}},
-  \code{\link{uniform}}
+Other priors modelpriors: 
+\code{\link{Bernoulli.heredity}()},
+\code{\link{Bernoulli}()},
+\code{\link{beta.binomial}()},
+\code{\link{tr.beta.binomial}()},
+\code{\link{tr.poisson}()},
+\code{\link{uniform}()}
 }
 \author{
 Merlise Clyde

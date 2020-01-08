@@ -10,8 +10,7 @@
 \usage{
 \method{coef}{bas}(object, n.models, estimator = "BMA", ...)
 
-\method{print}{coef.bas}(x, digits = max(3, getOption("digits") - 3),
-  ...)
+\method{print}{coef.bas}(x, digits = max(3, getOption("digits") - 3), ...)
 }
 \arguments{
 \item{object}{object of class 'bas' created by BAS}
@@ -98,15 +97,21 @@ American Statistical Association.  103:410-423.  \cr
 \seealso{
 \code{\link{bas}}, \code{\link{confint.coef.bas}}
 
-Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
-  \code{\link{confint.coef.bas}},
-  \code{\link{confint.pred.bas}},
-  \code{\link{diagnostics}}, \code{\link{fitted.bas}},
-  \code{\link{force.heredity.bas}},
-  \code{\link{image.bas}}, \code{\link{predict.basglm}},
-  \code{\link{predict.bas}}, \code{\link{summary.bas}},
-  \code{\link{update.bas}},
-  \code{\link{variable.names.pred.bas}}
+Other bas methods: 
+\code{\link{BAS}},
+\code{\link{bas.lm}()},
+\code{\link{confint.coef.bas}()},
+\code{\link{confint.pred.bas}()},
+\code{\link{diagnostics}()},
+\code{\link{fitted.bas}()},
+\code{\link{force.heredity.bas}()},
+\code{\link{image.bas}()},
+\code{\link{plot.confint.bas}()},
+\code{\link{predict.basglm}()},
+\code{\link{predict.bas}()},
+\code{\link{summary.bas}()},
+\code{\link{update.bas}()},
+\code{\link{variable.names.pred.bas}()}
 }
 \author{
 Merlise Clyde \email{clyde@duke.edu}

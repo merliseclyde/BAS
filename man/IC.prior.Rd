@@ -38,13 +38,19 @@ bic.prior(100)
 \seealso{
 \code{\link{g.prior}}
 
-Other beta priors: \code{\link{CCH}},
-  \code{\link{EB.local}}, \code{\link{Jeffreys}},
-  \code{\link{TG}}, \code{\link{beta.prime}},
-  \code{\link{g.prior}}, \code{\link{hyper.g.n}},
-  \code{\link{hyper.g}}, \code{\link{intrinsic}},
-  \code{\link{robust}}, \code{\link{tCCH}},
-  \code{\link{testBF.prior}}
+Other beta priors: 
+\code{\link{CCH}()},
+\code{\link{EB.local}()},
+\code{\link{Jeffreys}()},
+\code{\link{TG}()},
+\code{\link{beta.prime}()},
+\code{\link{g.prior}()},
+\code{\link{hyper.g.n}()},
+\code{\link{hyper.g}()},
+\code{\link{intrinsic}()},
+\code{\link{robust}()},
+\code{\link{tCCH}()},
+\code{\link{testBF.prior}()}
 }
 \author{
 Merlise Clyde

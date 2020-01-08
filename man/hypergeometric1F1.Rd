@@ -32,8 +32,9 @@ hypergeometric1F1(11.14756, 0.5, 0.00175097)
 Cephes library hyp1f1.c
 }
 \seealso{
-Other special functions: \code{\link{hypergeometric2F1}},
-  \code{\link{phi1}}
+Other special functions: 
+\code{\link{hypergeometric2F1}()},
+\code{\link{phi1}()}
 }
 \author{
 Merlise Clyde (\email{clyde@stat.duke.edu})

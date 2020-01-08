@@ -5,8 +5,7 @@
 \alias{confint}
 \title{Compute Credible Intervals for BAS regression coefficients from BAS objects}
 \usage{
-\method{confint}{coef.bas}(object, parm, level = 0.95, nsim = 10000,
-  ...)
+\method{confint}{coef.bas}(object, parm, level = 0.95, nsim = 10000, ...)
 }
 \arguments{
 \item{object}{a coef.bas object}
@@ -55,17 +54,25 @@ confint(coef_hald, parm="X4")
 
 }
 \seealso{
-Other CI methods: \code{\link{confint.pred.bas}},
-  \code{\link{plot.confint.bas}}
+Other CI methods: 
+\code{\link{confint.pred.bas}()},
+\code{\link{plot.confint.bas}()}
 
-Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
-  \code{\link{coef.bas}}, \code{\link{confint.pred.bas}},
-  \code{\link{diagnostics}}, \code{\link{fitted.bas}},
-  \code{\link{force.heredity.bas}},
-  \code{\link{image.bas}}, \code{\link{predict.basglm}},
-  \code{\link{predict.bas}}, \code{\link{summary.bas}},
-  \code{\link{update.bas}},
-  \code{\link{variable.names.pred.bas}}
+Other bas methods: 
+\code{\link{BAS}},
+\code{\link{bas.lm}()},
+\code{\link{coef.bas}()},
+\code{\link{confint.pred.bas}()},
+\code{\link{diagnostics}()},
+\code{\link{fitted.bas}()},
+\code{\link{force.heredity.bas}()},
+\code{\link{image.bas}()},
+\code{\link{plot.confint.bas}()},
+\code{\link{predict.basglm}()},
+\code{\link{predict.bas}()},
+\code{\link{summary.bas}()},
+\code{\link{update.bas}()},
+\code{\link{variable.names.pred.bas}()}
 }
 \author{
 Merlise A Clyde

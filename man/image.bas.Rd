@@ -5,10 +5,23 @@
 \alias{image}
 \title{Images of models used in Bayesian model averaging}
 \usage{
-\method{image}{bas}(x, top.models = 20, intensity = TRUE,
-  prob = TRUE, log = TRUE, rotate = TRUE, color = "rainbow",
-  subset = NULL, drop.always.included = FALSE, offset = 0.75,
-  digits = 3, vlas = 2, plas = 0, rlas = 0, ...)
+\method{image}{bas}(
+  x,
+  top.models = 20,
+  intensity = TRUE,
+  prob = TRUE,
+  log = TRUE,
+  rotate = TRUE,
+  color = "rainbow",
+  subset = NULL,
+  drop.always.included = FALSE,
+  offset = 0.75,
+  digits = 3,
+  vlas = 2,
+  plas = 0,
+  rlas = 0,
+  ...
+)
 }
 \arguments{
 \item{x}{A BMA object of type 'bas' created by BAS}
@@ -81,17 +94,25 @@ Dawid, J.O. Berger, and A.F.M. Smith eds. Oxford University Press, pages
 \seealso{
 \code{\link{bas}}
 
-Other bas methods: \code{\link{BAS}}, \code{\link{bas.lm}},
-  \code{\link{coef.bas}}, \code{\link{confint.coef.bas}},
-  \code{\link{confint.pred.bas}},
-  \code{\link{diagnostics}}, \code{\link{fitted.bas}},
-  \code{\link{force.heredity.bas}},
-  \code{\link{predict.basglm}}, \code{\link{predict.bas}},
-  \code{\link{summary.bas}}, \code{\link{update.bas}},
-  \code{\link{variable.names.pred.bas}}
+Other bas methods: 
+\code{\link{BAS}},
+\code{\link{bas.lm}()},
+\code{\link{coef.bas}()},
+\code{\link{confint.coef.bas}()},
+\code{\link{confint.pred.bas}()},
+\code{\link{diagnostics}()},
+\code{\link{fitted.bas}()},
+\code{\link{force.heredity.bas}()},
+\code{\link{plot.confint.bas}()},
+\code{\link{predict.basglm}()},
+\code{\link{predict.bas}()},
+\code{\link{summary.bas}()},
+\code{\link{update.bas}()},
+\code{\link{variable.names.pred.bas}()}
 
-Other bas plots: \code{\link{plot.bas}},
-  \code{\link{plot.coef.bas}}
+Other bas plots: 
+\code{\link{plot.bas}()},
+\code{\link{plot.coef.bas}()}
 }
 \author{
 Merlise Clyde \email{clyde@stat.duke.edu}

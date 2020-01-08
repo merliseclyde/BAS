@@ -5,14 +5,31 @@
 \title{Bayesian Adaptive Sampling Without Replacement for Variable Selection in
 Generalized Linear Models}
 \usage{
-bas.glm(formula, family = binomial(link = "logit"), data, weights,
-  subset, contrasts = NULL, offset, na.action = "na.omit",
-  n.models = NULL, betaprior = CCH(alpha = 0.5, beta =
-  as.numeric(nrow(data)), s = 0), modelprior = beta.binomial(1, 1),
-  initprobs = "Uniform", include.always = ~1, method = "MCMC",
-  update = NULL, bestmodel = NULL, prob.rw = 0.5,
-  MCMC.iterations = NULL, control = glm.control(), laplace = FALSE,
-  renormalize = FALSE, force.heredity = TRUE, bigmem = FALSE)
+bas.glm(
+  formula,
+  family = binomial(link = "logit"),
+  data,
+  weights,
+  subset,
+  contrasts = NULL,
+  offset,
+  na.action = "na.omit",
+  n.models = NULL,
+  betaprior = CCH(alpha = 0.5, beta = as.numeric(nrow(data)), s = 0),
+  modelprior = beta.binomial(1, 1),
+  initprobs = "Uniform",
+  include.always = ~1,
+  method = "MCMC",
+  update = NULL,
+  bestmodel = NULL,
+  prob.rw = 0.5,
+  MCMC.iterations = NULL,
+  control = glm.control(),
+  laplace = FALSE,
+  renormalize = FALSE,
+  force.heredity = TRUE,
+  bigmem = FALSE
+)
 }
 \arguments{
 \item{formula}{generalized linear model formula for the full model with all

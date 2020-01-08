@@ -6,14 +6,34 @@
 \title{Bayesian Adaptive Sampling for Bayesian Model Averaging and Variable Selection in
 Linear Models}
 \usage{
-bas.lm(formula, data, subset, weights, contrasts = NULL,
-  na.action = "na.omit", n.models = NULL, prior = "ZS-null",
-  alpha = NULL, modelprior = beta.binomial(1, 1),
-  initprobs = "Uniform", include.always = ~1, method = "BAS",
-  update = NULL, bestmodel = NULL, prob.local = 0, prob.rw = 0.5,
-  MCMC.iterations = NULL, lambda = NULL, delta = 0.025, thin = 1,
-  renormalize = FALSE, force.heredity = TRUE, pivot = FALSE,
-  tol = 1e-07, bigmem = FALSE)
+bas.lm(
+  formula,
+  data,
+  subset,
+  weights,
+  contrasts = NULL,
+  na.action = "na.omit",
+  n.models = NULL,
+  prior = "ZS-null",
+  alpha = NULL,
+  modelprior = beta.binomial(1, 1),
+  initprobs = "Uniform",
+  include.always = ~1,
+  method = "BAS",
+  update = NULL,
+  bestmodel = NULL,
+  prob.local = 0,
+  prob.rw = 0.5,
+  MCMC.iterations = NULL,
+  lambda = NULL,
+  delta = 0.025,
+  thin = 1,
+  renormalize = FALSE,
+  force.heredity = TRUE,
+  pivot = FALSE,
+  tol = 1e-07,
+  bigmem = FALSE
+)
 }
 \arguments{
 \item{formula}{linear model formula for the full model with all predictors,
@@ -411,15 +431,21 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 \code{\link{plot.bas}}, \code{\link{image.bas}}, \code{\link{eplogprob}},
 \code{\link{update.bas}}
 
-Other bas methods: \code{\link{BAS}},
-  \code{\link{coef.bas}}, \code{\link{confint.coef.bas}},
-  \code{\link{confint.pred.bas}},
-  \code{\link{diagnostics}}, \code{\link{fitted.bas}},
-  \code{\link{force.heredity.bas}},
-  \code{\link{image.bas}}, \code{\link{predict.basglm}},
-  \code{\link{predict.bas}}, \code{\link{summary.bas}},
-  \code{\link{update.bas}},
-  \code{\link{variable.names.pred.bas}}
+Other bas methods: 
+\code{\link{BAS}},
+\code{\link{coef.bas}()},
+\code{\link{confint.coef.bas}()},
+\code{\link{confint.pred.bas}()},
+\code{\link{diagnostics}()},
+\code{\link{fitted.bas}()},
+\code{\link{force.heredity.bas}()},
+\code{\link{image.bas}()},
+\code{\link{plot.confint.bas}()},
+\code{\link{predict.basglm}()},
+\code{\link{predict.bas}()},
+\code{\link{summary.bas}()},
+\code{\link{update.bas}()},
+\code{\link{variable.names.pred.bas}()}
 }
 \author{
 Merlise Clyde (\email{clyde@duke.edu}) and Michael Littman

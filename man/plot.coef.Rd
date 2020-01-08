@@ -5,8 +5,7 @@
 \title{Plots the posterior distributions of coefficients derived from Bayesian
 model averaging}
 \usage{
-\method{plot}{coef.bas}(x, e = 1e-04, subset = 1:x$n.vars,
-  ask = TRUE, ...)
+\method{plot}{coef.bas}(x, e = 1e-04, subset = 1:x$n.vars, ask = TRUE, ...)
 }
 \arguments{
 \item{x}{object of class coef.bas}
@@ -58,8 +57,9 @@ regression. Computational Statistics and Data Analysis, 22, 251-270.
 \seealso{
 \code{ \link{coef.bas}}
 
-Other bas plots: \code{\link{image.bas}},
-  \code{\link{plot.bas}}
+Other bas plots: 
+\code{\link{image.bas}()},
+\code{\link{plot.bas}()}
 }
 \author{
 based on function \code{plot.bic} by Ian Painter in package BMA;

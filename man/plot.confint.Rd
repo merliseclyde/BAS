@@ -45,12 +45,30 @@ plot(confint(predict(hald.ZS, se.fit=TRUE), parm="mean"))
 \code{\link{confint.coef.bas}}, \code{\link{confint.pred.bas}},
 \code{\link{coef.bas}}, \code{\link{predict.bas}}, \code{link{bas.lm}}
 
-Other CI methods: \code{\link{confint.coef.bas}},
-  \code{\link{confint.pred.bas}}
+Other bas methods: 
+\code{\link{BAS}},
+\code{\link{bas.lm}()},
+\code{\link{coef.bas}()},
+\code{\link{confint.coef.bas}()},
+\code{\link{confint.pred.bas}()},
+\code{\link{diagnostics}()},
+\code{\link{fitted.bas}()},
+\code{\link{force.heredity.bas}()},
+\code{\link{image.bas}()},
+\code{\link{predict.basglm}()},
+\code{\link{predict.bas}()},
+\code{\link{summary.bas}()},
+\code{\link{update.bas}()},
+\code{\link{variable.names.pred.bas}()}
+
+Other CI methods: 
+\code{\link{confint.coef.bas}()},
+\code{\link{confint.pred.bas}()}
 }
 \author{
 Merlise A Clyde
 }
 \concept{CI methods}
+\concept{bas methods}
 \keyword{bayesian}
 \keyword{regression}
