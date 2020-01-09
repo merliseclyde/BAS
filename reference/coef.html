@@ -142,8 +142,7 @@ object of class 'bas'</p>
 <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>object</span>, <span class='no'>n.models</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"BMA"</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for coef.bas</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fl'>3</span>, <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"digits"</span>) - <span class='fl'>3</span>),
-  <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fl'>3</span>, <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"digits"</span>) - <span class='fl'>3</span>), <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -215,15 +214,21 @@ American Statistical Association.  103:410-423.  <br />
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code>bas</code>, <code>confint.coef.bas</code></p>
-<p>Other bas methods: <code>BAS</code>, <code>bas.lm</code>,
-  <code>confint.coef.bas</code>,
-  <code>confint.pred.bas</code>,
-  <code>diagnostics</code>, <code>fitted.bas</code>,
-  <code>force.heredity.bas</code>,
-  <code>image.bas</code>, <code>predict.basglm</code>,
-  <code>predict.bas</code>, <code>summary.bas</code>,
-  <code>update.bas</code>,
-  <code>variable.names.pred.bas</code></p></div>
+<p>Other bas methods: 
+<code>BAS</code>,
+<code>bas.lm()</code>,
+<code>confint.coef.bas()</code>,
+<code>confint.pred.bas()</code>,
+<code>diagnostics()</code>,
+<code>fitted.bas()</code>,
+<code>force.heredity.bas()</code>,
+<code>image.bas()</code>,
+<code>plot.confint.bas()</code>,
+<code>predict.basglm()</code>,
+<code>predict.bas()</code>,
+<code>summary.bas()</code>,
+<code>update.bas()</code>,
+<code>variable.names.pred.bas()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -243,11 +248,11 @@ American Statistical Association.  103:410-423.  <br />
 #&gt; X2          0.42326    0.38407   0.76017      
 #&gt; X3         -0.03997    0.33398   0.30660      
 #&gt; X4         -0.22077    0.36931   0.44354      </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>coef.hald.gprior</span>)</div><div class='img'><img src='coef-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='coef-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='coef-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='coef-4.png' alt='' width='700' height='433' /></div><div class='img'><img src='coef-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>coef.hald.gprior</span>)</div><div class='output co'>#&gt;                 2.5%      97.5%        beta
-#&gt; Intercept 93.9758694 96.8755245 95.42307692
-#&gt; X1         0.6238686  2.1403436  1.40116123
-#&gt; X2        -0.1280366  0.9361793  0.42325794
-#&gt; X3        -0.7939681  0.6853544 -0.03997087
-#&gt; X4        -0.8038768  0.2620682 -0.22076600
+#&gt; Intercept 93.9629753 96.8458428 95.42307692
+#&gt; X1         0.6441292  2.0974046  1.40116123
+#&gt; X2        -0.0125754  0.9147269  0.42325794
+#&gt; X3        -0.7976671  0.6097530 -0.03997087
+#&gt; X4        -0.7947680  0.1638248 -0.22076600
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")

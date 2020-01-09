@@ -135,14 +135,31 @@ Generalized Linear Models</h1>
     <p>Sample with or without replacement from a posterior distribution on GLMs</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bas.glm</span>(<span class='no'>formula</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(<span class='kw'>link</span> <span class='kw'>=</span> <span class='st'>"logit"</span>), <span class='no'>data</span>, <span class='no'>weights</span>,
-  <span class='no'>subset</span>, <span class='kw'>contrasts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>offset</span>, <span class='kw'>na.action</span> <span class='kw'>=</span> <span class='st'>"na.omit"</span>,
-  <span class='kw'>n.models</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>betaprior</span> <span class='kw'>=</span> <span class='fu'>CCH</span>(<span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>beta</span> <span class='kw'>=</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>data</span>)), <span class='kw'>s</span> <span class='kw'>=</span> <span class='fl'>0</span>), <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'>beta.binomial</span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
-  <span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"Uniform"</span>, <span class='kw'>include.always</span> <span class='kw'>=</span> ~<span class='fl'>1</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"MCMC"</span>,
-  <span class='kw'>update</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bestmodel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prob.rw</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>MCMC.iterations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.control.html'>glm.control</a></span>(), <span class='kw'>laplace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>renormalize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>bigmem</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>bas.glm</span>(
+  <span class='no'>formula</span>,
+  <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(<span class='kw'>link</span> <span class='kw'>=</span> <span class='st'>"logit"</span>),
+  <span class='no'>data</span>,
+  <span class='no'>weights</span>,
+  <span class='no'>subset</span>,
+  <span class='kw'>contrasts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>offset</span>,
+  <span class='kw'>na.action</span> <span class='kw'>=</span> <span class='st'>"na.omit"</span>,
+  <span class='kw'>n.models</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>betaprior</span> <span class='kw'>=</span> <span class='fu'>CCH</span>(<span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>data</span>)), <span class='kw'>s</span> <span class='kw'>=</span> <span class='fl'>0</span>),
+  <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'>beta.binomial</span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
+  <span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"Uniform"</span>,
+  <span class='kw'>include.always</span> <span class='kw'>=</span> ~<span class='fl'>1</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"MCMC"</span>,
+  <span class='kw'>update</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>bestmodel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>prob.rw</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+  <span class='kw'>MCMC.iterations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.control.html'>glm.control</a></span>(),
+  <span class='kw'>laplace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>renormalize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>bigmem</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -360,13 +377,14 @@ correlations of variables are small to modest.  The priors on coefficients
 are mixtures of g-priors that provide approximations to the power prior.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Li, Y. and Clyde, M. (2015) Mixtures of g-priors in Generalized
-Linear Models. <a href='http://arxiv.org/abs/1503.06913'>http://arxiv.org/abs/1503.06913</a></p>
-<p>Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive Sampling for
+    <p>Li, Y. and Clyde, M. (2019) Mixtures of g-priors in Generalized
+Linear Models. Journal of the Americal Statistical Association. 113:1828-1845 <br />
+<a href='https://doi.org/10.1080/01621459.2018.1469992'>https://doi.org/10.1080/01621459.2018.1469992</a> <br />
+Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive Sampling for
 Variable Selection and Model Averaging. Journal of Computational Graphics
 and Statistics.  20:80-101 <br />
-<a href='http://dx.doi.org/10.1198/jcgs.2010.09049'>http://dx.doi.org/10.1198/jcgs.2010.09049</a></p>
-<p>Raftery, A.E, Madigan, D. and Hoeting, J.A. (1997) Bayesian Model Averaging
+<a href='http://dx.doi.org/10.1198/jcgs.2010.09049'>http://dx.doi.org/10.1198/jcgs.2010.09049</a> <br />
+Raftery, A.E, Madigan, D. and Hoeting, J.A. (1997) Bayesian Model Averaging
 for Linear Regression Models. Journal of the American Statistical
 Association.</p>
 
@@ -410,13 +428,16 @@ Association.</p>
 #&gt; R2         3.043000e-01
 #&gt; dim        8.000000e+00
 #&gt; logmarg   -1.065369e+02</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='no'>pima.cch</span>)</div><div class='img'><img src='bas.glm-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Note MCMC.iterations are set to 1000 for illustration purposes</span>
+<span class='co'># Please check convergence diagnostics and run longer in practice</span>
+
 <span class='no'>pima.robust</span> <span class='kw'>=</span> <span class='fu'>bas.glm</span>(<span class='no'>type</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Pima.tr</span>, <span class='kw'>n.models</span><span class='kw'>=</span> <span class='fl'>2</span>^<span class='fl'>7</span>,
-              <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"MCMC"</span>, <span class='kw'>MCMC.iterations</span><span class='kw'>=</span><span class='fl'>20000</span>,
+              <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"MCMC"</span>, <span class='kw'>MCMC.iterations</span><span class='kw'>=</span><span class='fl'>5000</span>,
               <span class='kw'>betaprior</span><span class='kw'>=</span><span class='fu'>robust</span>(), <span class='kw'>family</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(),
               <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'>beta.binomial</span>(<span class='fl'>1</span>,<span class='fl'>1</span>))
 
 <span class='no'>pima.BIC</span> <span class='kw'>=</span> <span class='fu'>bas.glm</span>(<span class='no'>type</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Pima.tr</span>, <span class='kw'>n.models</span><span class='kw'>=</span> <span class='fl'>2</span>^<span class='fl'>7</span>,
-              <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"BAS+MCMC"</span>, <span class='kw'>MCMC.iterations</span><span class='kw'>=</span><span class='fl'>1000</span>,
+              <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"BAS+MCMC"</span>, <span class='kw'>MCMC.iterations</span><span class='kw'>=</span><span class='fl'>5000</span>,
               <span class='kw'>betaprior</span><span class='kw'>=</span><span class='fu'>bic.prior</span>(), <span class='kw'>family</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(),
               <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'>uniform</span>())
 <span class='co'># Poisson example</span>
@@ -426,7 +447,7 @@ Association.</p>
   <span class='no'>crabs.bas</span> <span class='kw'>=</span> <span class='fu'>bas.glm</span>(<span class='no'>satell</span> ~ <span class='no'>color</span>*<span class='no'>spine</span>*<span class='no'>width</span> + <span class='no'>weight</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>crabs</span>,
                       <span class='kw'>family</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>poisson</a></span>(),
                       <span class='kw'>betaprior</span><span class='kw'>=</span><span class='fu'>EB.local</span>(), <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'>uniform</span>(),
-                      <span class='kw'>method</span><span class='kw'>=</span><span class='st'>'MCMC'</span>, <span class='kw'>n.models</span><span class='kw'>=</span><span class='fl'>2</span>^<span class='fl'>10</span>, <span class='kw'>MCMC.iterations</span><span class='kw'>=</span><span class='fl'>10000</span>,
+                      <span class='kw'>method</span><span class='kw'>=</span><span class='st'>'MCMC'</span>, <span class='kw'>n.models</span><span class='kw'>=</span><span class='fl'>2</span>^<span class='fl'>10</span>, <span class='kw'>MCMC.iterations</span><span class='kw'>=</span><span class='fl'>5000</span>,
                       <span class='kw'>prob.rw</span><span class='kw'>=</span><span class='fl'>.95</span>)
 }</div></pre>
   </div>
@@ -441,7 +462,7 @@ Association.</p>
     </ul>
 
     <h2>Author</h2>
-    <p>Merlise Clyde (<a href='mailto:clyde@stat.duke.edu'>clyde@stat.duke.edu</a>), Quanli Wang and Yingbo
+    <p>Merlise Clyde (<a href='mailto:clyde@duke.edu'>clyde@duke.edu</a>), Quanli Wang and Yingbo
 Li</p>
   </div>
 </div>

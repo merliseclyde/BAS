@@ -135,14 +135,34 @@ Linear Models</h1>
     <p>Sample without replacement from a posterior distribution on models</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bas.lm</span>(<span class='no'>formula</span>, <span class='no'>data</span>, <span class='no'>subset</span>, <span class='no'>weights</span>, <span class='kw'>contrasts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>na.action</span> <span class='kw'>=</span> <span class='st'>"na.omit"</span>, <span class='kw'>n.models</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"ZS-null"</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'>beta.binomial</span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
-  <span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"Uniform"</span>, <span class='kw'>include.always</span> <span class='kw'>=</span> ~<span class='fl'>1</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"BAS"</span>,
-  <span class='kw'>update</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bestmodel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prob.local</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>prob.rw</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>MCMC.iterations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>delta</span> <span class='kw'>=</span> <span class='fl'>0.025</span>, <span class='kw'>thin</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>renormalize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-07</span>, <span class='kw'>bigmem</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>bas.lm</span>(
+  <span class='no'>formula</span>,
+  <span class='no'>data</span>,
+  <span class='no'>subset</span>,
+  <span class='no'>weights</span>,
+  <span class='kw'>contrasts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>na.action</span> <span class='kw'>=</span> <span class='st'>"na.omit"</span>,
+  <span class='kw'>n.models</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"ZS-null"</span>,
+  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'>beta.binomial</span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
+  <span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"Uniform"</span>,
+  <span class='kw'>include.always</span> <span class='kw'>=</span> ~<span class='fl'>1</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"BAS"</span>,
+  <span class='kw'>update</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>bestmodel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>prob.local</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>prob.rw</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+  <span class='kw'>MCMC.iterations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>delta</span> <span class='kw'>=</span> <span class='fl'>0.025</span>,
+  <span class='kw'>thin</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>renormalize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-07</span>,
+  <span class='kw'>bigmem</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -508,15 +528,21 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 <code>print.bas</code>, <code>predict.bas</code>, <code>fitted.bas</code>
 <code>plot.bas</code>, <code>image.bas</code>, <code>eplogprob</code>,
 <code>update.bas</code></p>
-<p>Other bas methods: <code>BAS</code>,
-  <code>coef.bas</code>, <code>confint.coef.bas</code>,
-  <code>confint.pred.bas</code>,
-  <code>diagnostics</code>, <code>fitted.bas</code>,
-  <code>force.heredity.bas</code>,
-  <code>image.bas</code>, <code>predict.basglm</code>,
-  <code>predict.bas</code>, <code>summary.bas</code>,
-  <code>update.bas</code>,
-  <code>variable.names.pred.bas</code></p></div>
+<p>Other bas methods: 
+<code>BAS</code>,
+<code>coef.bas()</code>,
+<code>confint.coef.bas()</code>,
+<code>confint.pred.bas()</code>,
+<code>diagnostics()</code>,
+<code>fitted.bas()</code>,
+<code>force.heredity.bas()</code>,
+<code>image.bas()</code>,
+<code>plot.confint.bas()</code>,
+<code>predict.basglm()</code>,
+<code>predict.bas()</code>,
+<code>summary.bas()</code>,
+<code>update.bas()</code>,
+<code>variable.names.pred.bas()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -776,7 +802,7 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; [1] 12 12 12 12 12
 #&gt; 
 #&gt; $best
-#&gt; [1] 10  7  8  9 12
+#&gt; [1]  4  6  8 11 13
 #&gt; 
 #&gt; $bestmodel
 #&gt; $bestmodel[[1]]
@@ -806,19 +832,19 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; 
 #&gt; &gt; confint(predict(hald.gprior, Hald, estimator="BMA", se.fit=TRUE, top=5), parm="mean")
 #&gt;            2.5%     97.5%      mean
-#&gt;  [1,]  73.04991  86.04464  79.74246
-#&gt;  [2,]  69.46540  79.54447  74.50010
-#&gt;  [3,] 101.03496 109.77527 105.29268
-#&gt;  [4,]  84.93309  94.64512  89.88693
-#&gt;  [5,]  90.54579 100.42375  95.57177
-#&gt;  [6,] 101.32555 108.02356 104.56409
-#&gt;  [7,]  97.84462 109.61154 103.40145
-#&gt;  [8,]  71.71355  82.65300  77.13668
-#&gt;  [9,]  87.48389  96.45955  91.99731
-#&gt; [10,] 106.90349 122.18386 114.21325
-#&gt; [11,]  77.36976  88.01220  82.78446
-#&gt; [12,] 106.75039 115.44064 111.00723
-#&gt; [13,] 105.77578 115.14246 110.40160
+#&gt;  [1,]  73.23082  86.19474  79.74246
+#&gt;  [2,]  69.12484  79.55277  74.50010
+#&gt;  [3,] 100.93968 109.45852 105.29268
+#&gt;  [4,]  84.94745  94.57892  89.88693
+#&gt;  [5,]  90.41103 100.50733  95.57177
+#&gt;  [6,] 101.10640 107.75531 104.56409
+#&gt;  [7,]  97.70174 109.18712 103.40145
+#&gt;  [8,]  72.10231  83.28339  77.13668
+#&gt;  [9,]  87.50319  96.44557  91.99731
+#&gt; [10,] 106.39672 121.85412 114.21325
+#&gt; [11,]  77.75135  88.25943  82.78446
+#&gt; [12,] 106.79822 115.57481 111.00723
+#&gt; [13,] 105.61698 115.13652 110.40160
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")

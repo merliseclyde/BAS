@@ -21,15 +21,18 @@
     corresponding to the Zellner-Siow Cauchy Priors or the
     mixture of g-priors from Liang et al (2008)
     &lt;DOI:10.1198/016214507000001337&gt;
-    for linear models or mixtures of g-priors in GLMs of Li and Clyde (2018)
-    &lt;arXiv:1503.06913&gt;. Other model
-    selection criteria include AIC, BIC and Empirical Bayes estimates of g.
+    for linear models or mixtures of g-priors from  Li and Clyde
+    (2019) &lt;DOI:10.1080/01621459.2018.1469992&gt; in generalized linear models.
+    Other model selection criteria include AIC, BIC and Empirical Bayes estimates of g.
     Sampling probabilities may be updated based on the sampled models
-    using Sampling w/out Replacement or an efficient MCMC algorithm
+    using Sampling w/out Replacement or an efficient MCMC algorithm which
     samples models using the BAS tree structure as an efficient hash table.
     Uniform priors over all models or beta-binomial prior distributions on
     model size are allowed, and for large p truncated priors on the model
-    space may be used.  The user may force variables to always be included.
+    space may be used to enforce sampling models that are full rank.  
+    The user may force variables to always be included in addition to imposing constraints
+    that higher order interactions are included only if their parents are
+    included in the model.
     Details behind the sampling algorithm are provided in
     Clyde, Ghosh and Littman (2010)   &lt;DOI:10.1198/jcgs.2010.09049&gt;.
     This material is based upon work supported by the National Science

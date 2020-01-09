@@ -137,10 +137,19 @@ evaluation</h1>
 Bayesian model comparison</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bayesglm.fit</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>, <span class='no'>nobs</span>), <span class='kw'>start</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>etastart</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>mustart</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>, <span class='no'>nobs</span>),
-  <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(), <span class='kw'>coefprior</span> <span class='kw'>=</span> <span class='fu'>bic.prior</span>(<span class='no'>nobs</span>),
-  <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.control.html'>glm.control</a></span>(), <span class='kw'>intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>bayesglm.fit</span>(
+  <span class='no'>x</span>,
+  <span class='no'>y</span>,
+  <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>, <span class='no'>nobs</span>),
+  <span class='kw'>start</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>etastart</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>mustart</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>, <span class='no'>nobs</span>),
+  <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(),
+  <span class='kw'>coefprior</span> <span class='kw'>=</span> <span class='fu'>bic.prior</span>(<span class='no'>nobs</span>),
+  <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.control.html'>glm.control</a></span>(),
+  <span class='kw'>intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

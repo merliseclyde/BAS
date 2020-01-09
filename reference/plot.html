@@ -139,15 +139,28 @@ probabilities.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for bas</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>),
-  <span class='kw'>caption</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Residuals vs Fitted"</span>, <span class='st'>"Model Probabilities"</span>,
-  <span class='st'>"Model Complexity"</span>, <span class='st'>"Inclusion Probabilities"</span>), <span class='kw'>panel</span> <span class='kw'>=</span> <span class='kw'>if</span> (<span class='no'>add.smooth</span>)
-  <span class='no'>panel.smooth</span> <span class='kw'>else</span> <span class='no'>points</span>, <span class='kw'>sub.caption</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>""</span>,
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(
+  <span class='no'>x</span>,
+  <span class='kw'>which</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>),
+  <span class='kw'>caption</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Residuals vs Fitted"</span>, <span class='st'>"Model Probabilities"</span>, <span class='st'>"Model Complexity"</span>,
+    <span class='st'>"Inclusion Probabilities"</span>),
+  <span class='kw'>panel</span> <span class='kw'>=</span> <span class='kw'>if</span> (<span class='no'>add.smooth</span>) <span class='no'>panel.smooth</span> <span class='kw'>else</span> <span class='no'>points</span>,
+  <span class='kw'>sub.caption</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>""</span>,
   <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/prod.html'>prod</a></span>(<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='st'>"mfcol"</span>)) <span class='kw'>&lt;</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>which</span>) <span class='kw'>&amp;&amp;</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/dev.interactive.html'>dev.interactive</a></span>(),
-  <span class='kw'>col.in</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>col.ex</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>col.pch</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>cex.lab</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>,
-  <span class='kw'>id.n</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>labels.id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cex.id</span> <span class='kw'>=</span> <span class='fl'>0.75</span>,
-  <span class='kw'>add.smooth</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"add.smooth"</span>), <span class='kw'>label.pos</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>2</span>),
-  <span class='kw'>subset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>drop.always.included</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>col.in</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>col.ex</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>col.pch</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>cex.lab</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>id.n</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>labels.id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>cex.id</span> <span class='kw'>=</span> <span class='fl'>0.75</span>,
+  <span class='kw'>add.smooth</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"add.smooth"</span>),
+  <span class='kw'>label.pos</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>2</span>),
+  <span class='kw'>subset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>drop.always.included</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -253,8 +266,9 @@ the fourth plot show the posterior marginal inclusion probabilities.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code>plot.coef.bas</code> and <code>image.bas</code>.</p>
-<p>Other bas plots: <code>image.bas</code>,
-  <code>plot.coef.bas</code></p></div>
+<p>Other bas plots: 
+<code>image.bas()</code>,
+<code>plot.coef.bas()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>

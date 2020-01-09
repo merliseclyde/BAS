@@ -135,8 +135,7 @@ the regression function</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for pred.bas</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>object</span>, <span class='no'>parm</span>, <span class='kw'>level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>nsim</span> <span class='kw'>=</span> <span class='fl'>10000</span>,
-  <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>object</span>, <span class='no'>parm</span>, <span class='kw'>level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>nsim</span> <span class='kw'>=</span> <span class='fl'>10000</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -179,16 +178,24 @@ Carlo draws. <!-- %% ~~ If necessary, more details than the description above ~~
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code>predict.bas</code></p>
-<p>Other bas methods: <code>BAS</code>, <code>bas.lm</code>,
-  <code>coef.bas</code>, <code>confint.coef.bas</code>,
-  <code>diagnostics</code>, <code>fitted.bas</code>,
-  <code>force.heredity.bas</code>,
-  <code>image.bas</code>, <code>predict.basglm</code>,
-  <code>predict.bas</code>, <code>summary.bas</code>,
-  <code>update.bas</code>,
-  <code>variable.names.pred.bas</code></p>
-<p>Other CI methods: <code>confint.coef.bas</code>,
-  <code>plot.confint.bas</code></p></div>
+<p>Other bas methods: 
+<code>BAS</code>,
+<code>bas.lm()</code>,
+<code>coef.bas()</code>,
+<code>confint.coef.bas()</code>,
+<code>diagnostics()</code>,
+<code>fitted.bas()</code>,
+<code>force.heredity.bas()</code>,
+<code>image.bas()</code>,
+<code>plot.confint.bas()</code>,
+<code>predict.basglm()</code>,
+<code>predict.bas()</code>,
+<code>summary.bas()</code>,
+<code>update.bas()</code>,
+<code>variable.names.pred.bas()</code></p>
+<p>Other CI methods: 
+<code>confint.coef.bas()</code>,
+<code>plot.confint.bas()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -231,19 +238,19 @@ Carlo draws. <!-- %% ~~ If necessary, more details than the description above ~~
 #&gt; attr(,"class")
 #&gt; [1] "confint.bas"</div><div class='input'><span class='no'>hald.pred</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>hald.gprior</span>, <span class='kw'>estimator</span><span class='kw'>=</span><span class='st'>"BMA"</span>, <span class='kw'>predict</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>se.fit</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>hald.pred</span>)</div><div class='output co'>#&gt;            2.5%     97.5%      pred
-#&gt;  [1,]  67.26034  91.19093  79.68307
-#&gt;  [2,]  63.30520  85.59485  74.69127
-#&gt;  [3,]  94.81506 116.81531 105.63258
-#&gt;  [4,]  78.61596 100.79871  89.91648
-#&gt;  [5,]  84.51183 107.36009  95.67480
-#&gt;  [6,]  94.29571 115.07318 104.57616
-#&gt;  [7,]  91.95534 114.87245 103.47945
-#&gt;  [8,]  65.97147  88.40922  76.96808
-#&gt;  [9,]  81.57743 102.93825  92.22184
-#&gt; [10,] 101.23013 126.98286 113.84918
-#&gt; [11,]  71.24838  93.79827  82.59035
-#&gt; [12,]  99.89985 121.53728 110.87673
-#&gt; [13,]  99.34287 121.50798 110.34001
+#&gt;  [1,]  68.03987  91.92073  79.68307
+#&gt;  [2,]  63.31218  86.13568  74.69127
+#&gt;  [3,]  95.09194 116.76361 105.63258
+#&gt;  [4,]  78.56923 100.86459  89.91648
+#&gt;  [5,]  84.09238 106.73018  95.67480
+#&gt;  [6,]  94.08601 115.15264 104.57616
+#&gt;  [7,]  92.20658 115.13035 103.47945
+#&gt;  [8,]  65.98261  88.63747  76.96808
+#&gt;  [9,]  81.37629 103.02665  92.22184
+#&gt; [10,] 100.63425 125.70259 113.84918
+#&gt; [11,]  71.33852  94.48943  82.59035
+#&gt; [12,] 100.15747 121.82889 110.87673
+#&gt; [13,]  99.63888 121.58718 110.34001
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")

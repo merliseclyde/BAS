@@ -143,8 +143,7 @@ than the description above ~~</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for coef.bas</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>object</span>, <span class='no'>parm</span>, <span class='kw'>level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>nsim</span> <span class='kw'>=</span> <span class='fl'>10000</span>,
-  <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>object</span>, <span class='no'>parm</span>, <span class='kw'>level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>nsim</span> <span class='kw'>=</span> <span class='fl'>10000</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,16 +185,24 @@ sampling so results may be subject to Monte Carlo variation and larger values
 of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other CI methods: <code>confint.pred.bas</code>,
-  <code>plot.confint.bas</code></p>
-<p>Other bas methods: <code>BAS</code>, <code>bas.lm</code>,
-  <code>coef.bas</code>, <code>confint.pred.bas</code>,
-  <code>diagnostics</code>, <code>fitted.bas</code>,
-  <code>force.heredity.bas</code>,
-  <code>image.bas</code>, <code>predict.basglm</code>,
-  <code>predict.bas</code>, <code>summary.bas</code>,
-  <code>update.bas</code>,
-  <code>variable.names.pred.bas</code></p></div>
+    <div class='dont-index'><p>Other CI methods: 
+<code>confint.pred.bas()</code>,
+<code>plot.confint.bas()</code></p>
+<p>Other bas methods: 
+<code>BAS</code>,
+<code>bas.lm()</code>,
+<code>coef.bas()</code>,
+<code>confint.pred.bas()</code>,
+<code>diagnostics()</code>,
+<code>fitted.bas()</code>,
+<code>force.heredity.bas()</code>,
+<code>image.bas()</code>,
+<code>plot.confint.bas()</code>,
+<code>predict.basglm()</code>,
+<code>predict.bas()</code>,
+<code>summary.bas()</code>,
+<code>update.bas()</code>,
+<code>variable.names.pred.bas()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -205,26 +212,26 @@ of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
                             <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"g-prior"</span>)
 <span class='no'>coef_hald</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>hald_gprior</span>)
 <span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>coef_hald</span>)</div><div class='output co'>#&gt;                2.5%      97.5%       beta
-#&gt; Intercept 93.933815 97.0073090 95.4230769
-#&gt; X1         0.000000  1.8777590  1.2150202
-#&gt; X2        -1.166193  0.8593000  0.2756235
-#&gt; X3        -1.530548  0.5588929 -0.1270575
-#&gt; X4        -1.724650  0.2439520 -0.3268710
+#&gt; Intercept 93.877521 96.9129188 95.4230769
+#&gt; X1         0.000000  1.8748331  1.2150202
+#&gt; X2        -1.100106  0.9359891  0.2756235
+#&gt; X3        -1.530730  0.5813378 -0.1270575
+#&gt; X4        -1.751257  0.2331237 -0.3268710
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
-#&gt; [1] "confint.bas"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>coef_hald</span>, <span class='kw'>approx</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>nsim</span><span class='kw'>=</span><span class='fl'>5000</span>)</div><div class='output co'>#&gt;                   2.5%      97.5%       beta
-#&gt; Intercept 93.934940882 97.0551153 95.4230769
-#&gt; X1        -0.001636284  1.8977863  1.2150202
-#&gt; X2        -1.113215479  0.9523479  0.2756235
-#&gt; X3        -1.529370413  0.5915658 -0.1270575
-#&gt; X4        -1.703311420  0.3040491 -0.3268710
+#&gt; [1] "confint.bas"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>coef_hald</span>, <span class='kw'>approx</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>nsim</span><span class='kw'>=</span><span class='fl'>5000</span>)</div><div class='output co'>#&gt;                2.5%      97.5%       beta
+#&gt; Intercept 93.890979 96.9897445 95.4230769
+#&gt; X1         0.000000  1.8547485  1.2150202
+#&gt; X2        -1.149506  0.8469971  0.2756235
+#&gt; X3        -1.540537  0.5487222 -0.1270575
+#&gt; X4        -1.705682  0.2387074 -0.3268710
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
 #&gt; [1] "confint.bas"</div><div class='input'><span class='co'># extract just the coefficient of X4</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>coef_hald</span>, <span class='kw'>parm</span><span class='kw'>=</span><span class='st'>"X4"</span>)</div><div class='output co'>#&gt;         2.5%     97.5%      beta
-#&gt; X4 -1.687437 0.2819529 -0.326871
+<span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>coef_hald</span>, <span class='kw'>parm</span><span class='kw'>=</span><span class='st'>"X4"</span>)</div><div class='output co'>#&gt;        2.5%     97.5%      beta
+#&gt; X4 -1.72266 0.2980393 -0.326871
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")

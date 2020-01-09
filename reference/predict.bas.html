@@ -135,8 +135,16 @@ class inheriting from 'bas'.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for bas</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>object</span>, <span class='no'>newdata</span>, <span class='kw'>se.fit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"link"</span>,
-  <span class='kw'>top</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"BMA"</span>, <span class='kw'>na.action</span> <span class='kw'>=</span> <span class='no'>na.pass</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(
+  <span class='no'>object</span>,
+  <span class='no'>newdata</span>,
+  <span class='kw'>se.fit</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"link"</span>,
+  <span class='kw'>top</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"BMA"</span>,
+  <span class='kw'>na.action</span> <span class='kw'>=</span> <span class='no'>na.pass</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -221,17 +229,25 @@ probability models.</p>
 
     <div class='dont-index'><p><code>bas</code>, <code>fitted.bas</code>,
 <code>confint.pred.bas</code>,  <code>variable.names.pred.bas</code></p>
-<p>Other predict methods: <code>fitted.bas</code>,
-  <code>predict.basglm</code>,
-  <code>variable.names.pred.bas</code></p>
-<p>Other bas methods: <code>BAS</code>, <code>bas.lm</code>,
-  <code>coef.bas</code>, <code>confint.coef.bas</code>,
-  <code>confint.pred.bas</code>,
-  <code>diagnostics</code>, <code>fitted.bas</code>,
-  <code>force.heredity.bas</code>,
-  <code>image.bas</code>, <code>predict.basglm</code>,
-  <code>summary.bas</code>, <code>update.bas</code>,
-  <code>variable.names.pred.bas</code></p></div>
+<p>Other predict methods: 
+<code>fitted.bas()</code>,
+<code>predict.basglm()</code>,
+<code>variable.names.pred.bas()</code></p>
+<p>Other bas methods: 
+<code>BAS</code>,
+<code>bas.lm()</code>,
+<code>coef.bas()</code>,
+<code>confint.coef.bas()</code>,
+<code>confint.pred.bas()</code>,
+<code>diagnostics()</code>,
+<code>fitted.bas()</code>,
+<code>force.heredity.bas()</code>,
+<code>image.bas()</code>,
+<code>plot.confint.bas()</code>,
+<code>predict.basglm()</code>,
+<code>summary.bas()</code>,
+<code>update.bas()</code>,
+<code>variable.names.pred.bas()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -244,7 +260,7 @@ probability models.</p>
 #&gt; attr(,"model")
 #&gt; [1] 0 1 2 4
 #&gt; attr(,"best")
-#&gt; [1] 10
+#&gt; [1] 2
 #&gt; attr(,"estimator")
 #&gt; [1] "BPM"
 #&gt; 
@@ -328,7 +344,7 @@ probability models.</p>
 #&gt; [1] 12
 #&gt; 
 #&gt; $best
-#&gt; [1] 10
+#&gt; [1] 2
 #&gt; 
 #&gt; $bestmodel
 #&gt; [1] 0 1 2 4
@@ -345,19 +361,19 @@ probability models.</p>
 #&gt;  [8]  77.00839  92.07571 114.10876  82.68233 111.04286 110.46741</div><div class='input'><span class='co'># default is BMA and estimation of mean vector</span>
 <span class='no'>hald.bma</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>hald.gprior</span>, <span class='kw'>top</span><span class='kw'>=</span><span class='fl'>5</span>, <span class='kw'>se.fit</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>hald.bma</span>)</div><div class='output co'>#&gt;            2.5%     97.5%      pred
-#&gt;  [1,]  68.08337  91.53996  79.74246
-#&gt;  [2,]  63.16022  85.66560  74.50010
-#&gt;  [3,]  94.41424 115.64026 105.29268
-#&gt;  [4,]  78.96122 100.64728  89.88693
-#&gt;  [5,]  84.84545 107.41901  95.57177
-#&gt;  [6,]  94.43164 115.29980 104.56409
-#&gt;  [7,]  91.15329 113.97757 103.40145
-#&gt;  [8,]  65.73031  88.58861  77.13668
-#&gt;  [9,]  81.16504 102.88541  91.99731
-#&gt; [10,] 101.92666 126.94519 114.21325
-#&gt; [11,]  71.97205  94.16750  82.78446
-#&gt; [12,]  99.68581 121.90564 111.00723
-#&gt; [13,]  99.30097 121.27243 110.40160
+#&gt;  [1,]  67.75391  91.23360  79.74246
+#&gt;  [2,]  63.57414  85.57983  74.50010
+#&gt;  [3,]  95.02969 116.61752 105.29268
+#&gt;  [4,]  78.38035 100.45589  89.88693
+#&gt;  [5,]  84.97694 106.82753  95.57177
+#&gt;  [6,]  94.10416 115.04052 104.56409
+#&gt;  [7,]  92.08018 114.97884 103.40145
+#&gt;  [8,]  65.78742  88.54080  77.13668
+#&gt;  [9,]  81.20704 102.69598  91.99731
+#&gt; [10,] 101.17598 126.19551 114.21325
+#&gt; [11,]  71.65889  94.03212  82.78446
+#&gt; [12,]  99.88969 121.37406 111.00723
+#&gt; [13,]  99.68210 122.00763 110.40160
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
