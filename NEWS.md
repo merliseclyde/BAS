@@ -46,7 +46,7 @@ Fixed errors identified on cran checks https://cran.r-project.org/web/checks/che
 
 * update `fitted.bas` to use predict so that code covers both GLM and LM cases with `type='link'` or `type='response'`
 
-* Updates to package for [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/2055/badge)](https://bestpractices.coreinfrastructure.org/projects/2055)  certification
+* Updates to package for [CII Best Practices Badge](https://bestpractices.coreinfrastructure.org/projects/2055)  certification
 
 * Added [Code Coverage](https://codecov.io/gh/merliseclyde/BAS) support and more extensive tests using `test_that`.
 

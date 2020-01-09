@@ -26,3 +26,4 @@ cran-comments.md
 ^codecov\.yml$
 CONTRIBUTING.md
 
+^cran-comments\.md$

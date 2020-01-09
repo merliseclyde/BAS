@@ -21,13 +21,13 @@ The `BAS` package provides easy to use functions to implement Bayesian Model Ave
 Prior distributions on coefficients are
 based on Zellner's g-prior or mixtures of g-priors, such as the 
 Zellner-Siow Cauchy prior or mixtures of g-priors from 
-[Liang et al (2008)](http://dx.doi.org/10.1198/016214507000001337)
+[Liang et al (2008)](https://dx.doi.org/10.1198/016214507000001337)
 for linear models, as well as other options including AIC, BIC, RIC and Empirical Bayes methods.  Extensions to Generalized Linear Models are based on the 
 mixtures of g-priors in GLMs of
-[Li and Clyde (2015)](http://arxiv.org/abs/1503.06913) using an integrated 
-Laplace approximation.
+[Li and Clyde (2019)](https://doi.org/10.1080/01621459.2018.1469992) using an 
+integrated Laplace approximation.
 
-`BAS` uses an adaptive sampling algorithm  to sample without replacement from the space of models or MCMC sampling which is recommended for sampling problems with a large number of predictors. See [Clyde, Littman & Ghosh](http://dx.doi.org/10.1198/jcgs.2010.09049) for more details for the sampling algorithms.
+`BAS` uses an adaptive sampling algorithm  to sample without replacement from the space of models or MCMC sampling which is recommended for sampling problems with a large number of predictors. See [Clyde, Littman & Ghosh](https//dx.doi.org/10.1198/jcgs.2010.09049) for more details for the sampling algorithms.
 
 ## Installing BAS
 
@@ -296,8 +296,9 @@ new.pred <- predict(crime.ZS, newdata = UScrime, estimator = "MPM")
 
 ## Alternative algorithms
 
-`BAS` has several options for sampling from the model space with or without enumeration.  The (current) default `method="BAS"` samples models without replacement using estimates of the marginal inclusion probabilities using the algorithm described in  [http://dx.doi.org/10.1198/jcgs.2010.09049](Clyde et al 2011).  The initial sampling probabilities provided by `initprobs` are updated based on the sampled models, every `update` iterations.
-This can be more efficient in some cases if a large fraction of the model space has been sampled, however, in cases of high correlation and a large number of predictors, this can lead to biased estimates [http://dx.doi.org/10.1093/biomet/ass040](Clyde and Ghosh 20112), in which case MCMC is preferred.  The `method="MCMC"` is described below and is better for large $p$. 
+`BAS` has several options for sampling from the model space with or without enumeration.  The (current) default `method="BAS"` samples models without replacement using estimates of the marginal inclusion probabilities using the algorithm described in  [Clyde et al (2011)](https//dx.doi.org/10.1198/jcgs.2010.09049).  The initial sampling probabilities provided by `initprobs` are updated based on the sampled models, every `update` iterations.
+This can be more efficient in some cases if a large fraction of the model space has been sampled, however, in cases of high correlation and a large number of predictors, this can lead to biased estimates
+[Clyde and Ghosh (2012)](https//dx.doi.org/10.1093/biomet/ass040), in which case MCMC is preferred.  The `method="MCMC"` is described below and is better for large $p$. 
 
 A deterministic sampling scheme is also available for enumeration;
 
@@ -514,5 +515,5 @@ allows one to see which factors levels are different from the reference group.
 `BAS` includes other prior distributions on coefficients and models, as well as `bas.glm` for fitting Generalized Linear Models.  The syntax for `bas.glm` and `bas.lm` are not yet the same, particularly for how some of the priors on coefficients are represented, so please see the documentation for more features and details until this is updated or another vignette is added!
 
 For issues or feature requests please submit via the package's github page 
-[merliseclyde/BAS](http://github.com/merliseclyde/BAS)
+[merliseclyde/BAS](https//github.com/merliseclyde/BAS)
 
