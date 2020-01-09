@@ -21,6 +21,7 @@ Imports:
 Suggests:
     MASS,
     knitr,
+    ggplot2,
     GGally,
     rmarkdown,
     roxygen2,
