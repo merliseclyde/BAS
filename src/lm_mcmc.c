@@ -250,11 +250,11 @@ double random_switch_heredity(int *model, struct Var *vars, int n,
 
 
 // [[register]]
-extern SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint,
-                     SEXP Ralpha,SEXP method,SEXP modelprior, SEXP Rupdate,
-                     SEXP Rbestmodel, SEXP plocal, SEXP BURNIN_Iterations,
-                     SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA,
-                     SEXP Rthin, SEXP Rparents, SEXP Rpivot, SEXP Rtol)
+SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
+              SEXP incint, SEXP Ralpha, SEXP method, SEXP modelprior, SEXP Rupdate,
+              SEXP Rbestmodel, SEXP plocal, SEXP BURNIN_Iterations,
+              SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA,
+              SEXP Rthin, SEXP Rparents, SEXP Rpivot, SEXP Rtol)
 {
 	int nProtected = 0;
 	SEXP RXwork = PROTECT(duplicate(X)); nProtected++;

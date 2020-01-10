@@ -2,11 +2,11 @@
 
 // [[register]]
 SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
-		 SEXP Rprobinit, SEXP Rmodeldim,
-		 SEXP modelprior, SEXP betaprior, SEXP Rbestmodel,SEXP plocal,
-		 SEXP BURNIN_Iterations,
-		 SEXP family, SEXP Rcontrol,
-		 SEXP Rupdate, SEXP Rlaplace, SEXP Rparents)
+		             SEXP Rprobinit, SEXP Rmodeldim,
+		             SEXP modelprior, SEXP betaprior, SEXP Rbestmodel, SEXP plocal,
+		             SEXP BURNIN_Iterations,
+		             SEXP family, SEXP Rcontrol,
+		             SEXP Rupdate, SEXP Rlaplace, SEXP Rparents)
 {
 	int nProtected = 0;
 	int nModels=LENGTH(Rmodeldim);
