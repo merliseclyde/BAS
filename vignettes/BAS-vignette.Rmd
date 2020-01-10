@@ -27,7 +27,7 @@ mixtures of g-priors in GLMs of
 [Li and Clyde (2019)](https://doi.org/10.1080/01621459.2018.1469992) using an 
 integrated Laplace approximation.
 
-`BAS` uses an adaptive sampling algorithm  to sample without replacement from the space of models or MCMC sampling which is recommended for sampling problems with a large number of predictors. See [Clyde, Littman & Ghosh](https//dx.doi.org/10.1198/jcgs.2010.09049) for more details for the sampling algorithms.
+`BAS` uses an adaptive sampling algorithm  to sample without replacement from the space of models or MCMC sampling which is recommended for sampling problems with a large number of predictors. See [Clyde, Littman & Ghosh](https://dx.doi.org/10.1198/jcgs.2010.09049) for more details for the sampling algorithms.
 
 ## Installing BAS
 
@@ -515,5 +515,5 @@ allows one to see which factors levels are different from the reference group.
 `BAS` includes other prior distributions on coefficients and models, as well as `bas.glm` for fitting Generalized Linear Models.  The syntax for `bas.glm` and `bas.lm` are not yet the same, particularly for how some of the priors on coefficients are represented, so please see the documentation for more features and details until this is updated or another vignette is added!
 
 For issues or feature requests please submit via the package's github page 
-[merliseclyde/BAS](https//github.com/merliseclyde/BAS)
+[merliseclyde/BAS](https://github.com/merliseclyde/BAS)
 
