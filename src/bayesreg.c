@@ -41,7 +41,7 @@ void PrecomputeData(double *Xwork, double *Ywork, double *wts, double **pXtXwork
 	*yty = F77_NAME(ddot)(&nobs, &Ywork[0], &inc, &Ywork[0], &inc);
 	*SSY = *yty - (double) nwts* ybar *ybar;
 
-// compute X^TY	
+// compute X^TY
 	F77_NAME(dgemv)(trans, &nobs, &p, &one, &Xwork[0], &nobs, &Ywork[0], &inc, &zero, *pXtY,&inc);
 }
 
@@ -130,14 +130,12 @@ int cholregpivot(double *XtY, double *XtX, double *coefficients, double *se, dou
 	/* On entry *coefficients equals X'Y, which is over written with the OLS estimates */
 	/* On entry MSE = Y'Y */
 
-  double  one, ete=0.0, zero, *work, *tmpcoef;
-	int  job, l, i, j, info, inc, rank, *piv, p2;
-	zero = 0.0;
-	one = 1.0;
+  double  ete=0.0,  *work, *tmpcoef;
+	int  job, l, i, j, info, inc, rank, *piv;
+
 	inc = 1;
 	job = 01;
 	info = 1;
-	p2 = p*p;
 
 	piv  = (int *)  R_alloc(p, sizeof(int));
 	tmpcoef  = (double *)  R_alloc(p, sizeof(double));
@@ -242,11 +240,10 @@ void cholreg(double *XtY, double *XtX, double *coefficients, double *se, double 
   /* On entry *coefficients equals X'Y, which is over written with the OLS estimates */
   /* On entry MSE = Y'Y */
 
-  double   ete, one, zero;
+  double   ete = 0.0;
 //  double   tol=100*DBL_EPSILON;
   int  job, l, i, j, info, inc;
-  zero = 0.0;
-  one = 1.0;
+
   inc = 1;
   job = 01;
   info = 1;
@@ -471,7 +468,7 @@ double shrinkage_laplace(double R2, int n, int p, double alpha)
 double log_laplace_2F1(double a, double b, double c, double z)
  {
 
-   double ghat1, ghat2, ghat,logint,sigmahat, D, A, B, C,root1, root2;
+   double ghat,logint,sigmahat, D, A, B, C;
 
    // 2F1(a,b,c, Z)      =        Gamma(c)
    //                        --------------------- * integral
@@ -505,16 +502,16 @@ double log_laplace_2F1(double a, double b, double c, double z)
 
    if (D < 0 )    Rprintf("ERROR: In Laplace approximation to 2F1");
 
-   root1 = (-B - sqrt(D))/(2.*A);
-   root2 = (-B + sqrt(D))/(2.*A);
+  // root1 = (-B - sqrt(D))/(2.*A);
+  // root2 = (-B + sqrt(D))/(2.*A);
 
-   ghat1 = (2.*b)/(c + b*(z - 2.0) - a*z + sqrt(c*c + 4*a*b*z -  2.0*(a + b)*c *z + (a -b )*(a-b)*z*z));
+ //  ghat1 = (2.*b)/(c + b*(z - 2.0) - a*z + sqrt(c*c + 4*a*b*z -  2.0*(a + b)*c *z + (a -b )*(a-b)*z*z));
 
-   ghat2 =  -(c +b*(-2. + z) - a*z + sqrt(c*c + 4*a*b*z -  2.0*(a + b)*c *z + (a -b )*(a-b)*z*z))/(2.*(b - c)*(z - 1.));
+ //  ghat2 =  -(c +b*(-2. + z) - a*z + sqrt(c*c + 4*a*b*z -  2.0*(a + b)*c *z + (a -b )*(a-b)*z*z))/(2.*(b - c)*(z - 1.));
 
-   // Rprintf("+root = %lf -root = %lf ghat1  = %lf hgat2 = %lf\n", root2, root1, ghat1, ghat2);
-   ghat = ghat1;
-   if ( ghat1 < 0) Rprintf("ERROR: In Laplace approximation to 2F1");
+ // Rprintf("+root = %lf -root = %lf ghat1  = %lf hgat2 = %lf\n", root2, root1, ghat1, ghat2);
+ //  ghat = ghat1;
+   if ( ghat < 0) Rprintf("ERROR: In Laplace approximation to 2F1");
 
    sigmahat =1.0/((-a + c)*((ghat/(1 + ghat))*(1 - ghat/(1 + ghat))) +
 		    a*((ghat*(1.-z))/(1.+ghat*(1.-z))*

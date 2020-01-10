@@ -56,14 +56,15 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
   SEXP NumUnique = PROTECT(allocVector(INTSXP, 1)); ++nProtected;
   SEXP Rse_m = NULL, Rcoef_m = NULL, Rmodel_m;
 
-  double *Xwork, *Ywork, *wts, *coefficients,*probs, shrinkage_m, *MCMC_probs,
+  double *Xwork, *Ywork, *wts, *coefficients,*probs, shrinkage_m,
     SSY, yty, mse_m, *se_m, MH=0.0, prior_m=1.0, *real_model,
     R2_m, RSquareFull, alpha, prone, denom, logmargy, postold, postnew;
   int nobs, p, k, i, j, m, n, l, pmodel, pmodel_old, *xdims, *model_m, *bestmodel, *varin, *varout;
   int mcurrent,  update, n_sure;
-  double  mod, rem, problocal, *pigamma,  eps, *hyper_parameters;
+  double  mod, rem, problocal, *pigamma,  eps;
+//  double *hyper_parameters, delta;  //For future use
   double *XtX, *XtY, *XtXwork, *XtYwork, *SSgam, *Cov, *priorCov, *marg_probs;
-  double  lambda,  delta, one=1.0;
+  double  lambda, one=1.0;
 
   int inc=1;
   int *model, *modelold, bit, *modelwork, old_loc, new_loc;
@@ -80,13 +81,14 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
   k = LENGTH(modelprobs);
   update = INTEGER(Rupdate)[0];
   lambda=REAL(LAMBDA)[0];
-  delta = REAL(DELTA)[0];
+  //  delta = REAL(DELTA)[0];
   //  Rprintf("delta %f lambda %f", delta, lambda);
   eps = DBL_EPSILON;
   problocal = REAL(plocal)[0];
   //  Rprintf("Update %i and prob.switch %f\n", update, problocal);
   /* Extract prior on models  */
-  hyper_parameters = REAL(getListElement(modelprior,"hyper.parameters"));
+
+ // hyper_parameters = REAL(getListElement(modelprior,"hyper.parameters"));
 
   /*  Rprintf("n %d p %d \n", nobs, p);  */
 
@@ -107,7 +109,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
 
   for (i =n; i <p; i++) REAL(MCMCprobs)[vars[i].index] = probs[vars[i].index];
   for (i =0; i <n; i++) REAL(MCMCprobs)[vars[i].index] = 0.0;
-  MCMC_probs =  REAL(MCMCprobs);
+
   int noInclusionIs1 = no_prior_inclusion_is_1(p, probs);
 
 

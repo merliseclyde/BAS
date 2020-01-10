@@ -319,9 +319,12 @@ if( fabs(d-id) > EPS ) /* test for integer c-a-b */
   	q *= gammafn(d) /(gammafn(c-a) * gammafn(c-b));
 	else q *= exp(lgammafn(d)  - (lgammafn(c-a) + lgammafn(c-b)));
 	r = pow(s,d) * hys2f1( c-a, c-b, d+1.0, s, &err1 );
-	if ( d > 0)
-	r *= gammafn(-d) /gammafn(a) * gammafn(b);
-  else	r *= exp(lgammafn(-d) - (lgammafn(a) + lgammafn(b)));
+	if ( d > 0) {
+	  r *= gammafn(-d) /gammafn(a) * gammafn(b);
+	}
+  else {
+    r *= exp(lgammafn(-d) - (lgammafn(a) + lgammafn(b)));
+  }
 	y = q + r;
 //  Rprintf("\n %lf %lf %lf \n", y, q, r);
 	q = fabs(q); /* estimate cancellation error */
