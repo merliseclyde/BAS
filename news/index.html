@@ -180,7 +180,7 @@
 <h2 class="hasAnchor">
 <a href="#features-1" class="anchor"></a>Features</h2>
 <ul>
-<li><p>Included an option <code>pivot=TRUE</code> in <code>bas.lm</code> to fit the models using a pivoted Cholesky decomposition to allow models that are rank-deficient. <a href="https://github.com/merliseclyde/BAS/issues/24">Enhancment <a href='https://github.com/merliseclyde/BAS/issues/24'>#24</a></a> and <a href="https://github.com/merliseclyde/BAS/issues/21">Bug <a href='https://github.com/merliseclyde/BAS/issues/21'>#21</a></a>. Currently coefficients that are not-estimable are set to zero so that <code>predict</code> and other methods will work as before. The vector <code>rank</code> is added to the output (see documenation for <code>bas.lm</code>) and the degrees of freedom methods that assume a uniform prior for obtaining estimates (AIC and BIC) are adjusted to use <code>rank</code> rather than <code>size</code>.</p></li>
+<li><p>Included an option <code>pivot=TRUE</code> in <code>bas.lm</code> to fit the models using a pivoted Cholesky decomposition to allow models that are rank-deficient. <a href="https://github.com/merliseclyde/BAS/issues/24">Enhancment <a href='https://github.com/merliseclyde/BAS/issues/24'>#24</a></a> and <a href="https://github.com/merliseclyde/BAS/issues/21">Bug <a href='https://github.com/merliseclyde/BAS/issues/21'>#21</a></a>. Currently coefficients that are not-estimable are set to zero so that <code>predict</code> and other methods will work as before. The vector <code>rank</code> is added to the output (see documentation for <code>bas.lm</code>) and the degrees of freedom methods that assume a uniform prior for obtaining estimates (AIC and BIC) are adjusted to use <code>rank</code> rather than <code>size</code>.</p></li>
 <li><p>Added option <code>force.heredity=TRUE</code>to force lower order terms to be included if higher order terms are present (hierarchical constraint) for <code>method='MCMC'</code> and <code>method='BAS'</code> with <code>bas.lm</code> and <code>bas.glm</code>. Updated Vignette to illustrate. <a href="https://github.com/merliseclyde/BAS/issues/19">enhancement <a href='https://github.com/merliseclyde/BAS/issues/19'>#19</a></a>. Checks to see if <em>parents</em> are included using <code>include.always</code> pass <a href="https://github.com/merliseclyde/BAS/issues/26">issue <a href='https://github.com/merliseclyde/BAS/issues/26'>#26</a></a>.</p></li>
 <li><p>Added option <code>drop.always.included</code> to <code>image.bas</code> so that variables that are always included may be excluded from the image. By default all are shown <a href="https://github.com/merliseclyde/BAS/issues/23">enhancement <a href='https://github.com/merliseclyde/BAS/issues/23'>#23</a></a></p></li>
 <li><p>Added option <code>drop.always.included</code> and <code>subset</code> to <code>plot.bas</code> so that variables that are always included may be excluded from the plot showing the marginal posterior inclusion probabilities (<code>which=4</code>). By default all are shown <a href="https://github.com/merliseclyde/BAS/issues/23">enhancement <a href='https://github.com/merliseclyde/BAS/issues/23'>#23</a></a></p></li>
@@ -196,7 +196,7 @@
 <li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/36">issue <a href='https://github.com/merliseclyde/BAS/issues/36'>#36</a></a> Errors in prior = “ZS-null” when R2 is not finite or out of range due to model being not full rank. Change in <code>gexpectations</code> function in file <code>bayesreg.c</code></p></li>
 <li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/35">issue <a href='https://github.com/merliseclyde/BAS/issues/35'>#35</a></a> for <code>method="MCMC+BAS"</code> in <code>bas.glm</code> in <code>glm_mcmcbas.c</code> when no values are provided for <code>MCMC.iterations</code> or <code>n.models</code> and defaults are used. Added unit test in <code>test-bas-glm.R</code></p></li>
 <li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/34">issue <a href='https://github.com/merliseclyde/BAS/issues/34'>#34</a></a> for <code>bas.glm</code> where variables in <code>include.always</code> had marginal inclusion probabilities that were incorrect. Added unit test in <code>test-bas-glm.R</code></p></li>
-<li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/33">issue <a href='https://github.com/merliseclyde/BAS/issues/33'>#33</a></a> for Jeffreys prior where marginal inclusion probabilities were not renomalized after dropping intercept model</p></li>
+<li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/33">issue <a href='https://github.com/merliseclyde/BAS/issues/33'>#33</a></a> for Jeffreys prior where marginal inclusion probabilities were not renormalized after dropping intercept model</p></li>
 <li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/32">issue <a href='https://github.com/merliseclyde/BAS/issues/32'>#32</a></a> to allow vectorization for <code>phi1</code> function in R/cch.R and added unit test to “tests/testthat/test-special-functions.R”</p></li>
 <li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/30">issue <a href='https://github.com/merliseclyde/BAS/issues/31'>#31</a></a> to coerce <code>g</code> to be a REAL for <code>g.prior</code> prior and <code>IC.prior</code> in <code>bas.glm</code>; added unit-test “tests/testthat/test-bas-glm.R”</p></li>
 <li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/30">issue <a href='https://github.com/merliseclyde/BAS/issues/30'>#30</a></a> added n as hyperparameter if NULL and coerced to be a REAL for <code>intrinsic</code> prior in <code>bas.glm</code>; added unit-test</p></li>
@@ -367,7 +367,7 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <h2 class="hasAnchor">
 <a href="#updates-2" class="anchor"></a>Updates</h2>
 <ul>
-<li><p>Extract coefficent summaries, credible intervals and plots for the <code>HPM</code> and <code>MPM</code> in addition to the default <code>BMA</code> by adding a new <code>estimator</code> argument to the <code>coef</code> function. The new <code>n.models</code> argument to <code>coef</code> provides summaries based on the top <code>n.models</code> highest probability models to reduce computation time. ‘n.models = 1’ is equivalent to the highest probability model.</p></li>
+<li><p>Extract coefficient summaries, credible intervals and plots for the <code>HPM</code> and <code>MPM</code> in addition to the default <code>BMA</code> by adding a new <code>estimator</code> argument to the <code>coef</code> function. The new <code>n.models</code> argument to <code>coef</code> provides summaries based on the top <code>n.models</code> highest probability models to reduce computation time. ‘n.models = 1’ is equivalent to the highest probability model.</p></li>
 <li><p>use of newdata that is a vector is now depricated for predict.bas; newdata must be a dataframe or missing, in which case fitted values based on the dataframe used in fitting is used</p></li>
 <li><p>factor levels are handled as in <code>lm</code> or <code>glm</code> for prediction when there may be only level of a factor in the newdata</p></li>
 </ul>
@@ -432,7 +432,7 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <h2 class="hasAnchor">
 <a href="#bug-fixes-4" class="anchor"></a>Bug Fixes</h2>
 <ul>
-<li>the modification in 1.4.0 to automatically handle NA’s led to errors if the response was transformed as part of the forumula; this is fixed</li>
+<li>the modification in 1.4.0 to automatically handle NA’s led to errors if the response was transformed as part of the formula; this is fixed</li>
 </ul>
 </div>
 <div id="features-5" class="section level2">
@@ -455,7 +455,7 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <li>added <code>na.action</code> for <code>bas.lm</code> and <code>bas.glm</code> to omit missing data.</li>
 <li>new function to plot credible intervals created by <code>confint.pred.bas</code> or <code>confint.coef.bas</code>. See the help files for an example or the vignette.</li>
 <li>added <code>se.fit</code> option in <code>predict.basglm</code>.</li>
-<li>Added <code>testBF</code> as a <code>betaprior</code> option for <code>bas.glm</code> to implement Bayes Fatcors based on the likelihood ratio statistic’s distribution for GLMs.</li>
+<li>Added <code>testBF</code> as a <code>betaprior</code> option for <code>bas.glm</code> to implement Bayes Factors based on the likelihood ratio statistic’s distribution for GLMs.</li>
 <li>DOI for this version is <a href="http://dx.doi.org/10.5281/zenodo.60948" class="uri">http://dx.doi.org/10.5281/zenodo.60948</a>
 </li>
 </ul>
@@ -483,7 +483,7 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <a href="#deprication" class="anchor"></a>Deprication</h2>
 <ul>
 <li>deprecated use of <code>type</code> to specify estimator in fitted.bas and replaced with <code>estimator</code> so that <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> and <code><a href="https://rdrr.io/r/stats/fitted.values.html">fitted()</a></code> are compatible with other S3 methods.</li>
-<li>updated funtions to be of class <code>bas</code> to avoid NAMESPACE conficts with other libraries</li>
+<li>updated functions to be of class <code>bas</code> to avoid NAMESPACE conflicts with other libraries</li>
 </ul>
 </div>
 </div>
