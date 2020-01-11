@@ -93,7 +93,7 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' or even modest p if the number of
 #' models sampled is not close to the number of possible models and/or there are significant
 #' correlations among the predictors as the bias in estimates of inclusion
-#' probabilities from "BAS" or "MSMS+BAS" may be large relative to the reduced
+#' probabilities from "BAS" or "MCMC+BAS" may be large relative to the reduced
 #' variability from using the normalized model probabilities as shown in Clyde and Ghosh, 2012.
 #' Diagnostic plots with MCMC can be used to assess convergence.
 #' For large problems we recommend thinning with MCMC to reduce memory requirements.
@@ -252,7 +252,8 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' @param tol 1e-7 as
 #' @param bigmem Logical variable to indicate that there is access to
 #' large amounts of memory (physical or virtual) for enumeration
-#' with large model spaces, e.g. > 2^25. default; used in determining rank of X^TX in cholesky decompostion
+#' with large model spaces, e.g. > 2^25. default; used in determining rank of X^TX in cholesky
+#' decomposition
 #' with pivoting.
 #'
 #' @return \code{bas} returns an object of class \code{bas}

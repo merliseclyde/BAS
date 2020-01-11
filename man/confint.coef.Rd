@@ -28,7 +28,7 @@ credible limits for each parameter. These will be labeled as 1-level)/2 and
 }
 \description{
 Uses Monte Carlo simulations using posterior means and standard deviations
-of coefficents to generate draws from the posterior distributions and
+of coefficients to generate draws from the posterior distributions and
 returns highest posterior density (HPD) credible intervals.  If the number
 of models equals one, then use the t distribution to find intervals.  These
 currently condition on the estimate of $g$. %% ~~ If necessary, more details

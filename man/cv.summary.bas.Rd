@@ -18,8 +18,7 @@ or "miss-class"}
 \value{
 For squared error, the average prediction error for the Bayesian
 estimator error = sqrt(sum(ytrue - yhat)^2/npred) while for binary data the
-misclassification rate is more appropriate.  For continuous data the
-"percent-explained" reports ar, similar to an out of sample R2.
+misclassification rate is more appropriate.
 }
 \description{
 Compute average prediction error from out of sample predictions
@@ -47,6 +46,6 @@ cv.summary.bas(yhat$fit, testdata$kid_score)
 \code{\link{predict.bas}}
 }
 \author{
-Merlise Clyde \email{clyde@stat.duke.edu}
+Merlise Clyde \email{clyde@duke.edu}
 }
 \keyword{regression}

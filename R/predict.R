@@ -161,7 +161,7 @@ predict.basglm <- function(object,
 #' @return a list of
 #' \item{fit}{fitted values based on the selected estimator}
 #' \item{Ybma}{predictions using BMA, the same as fit for non-BMA methods for
-#' compatibilty; will be deprecated}
+#' compatibility; will be deprecated}
 #' \item{Ypred}{matrix of predictions under
 #' each model for BMA}
 #' \item{se.fit}{se of fitted values; in the case of BMA

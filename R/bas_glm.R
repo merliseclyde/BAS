@@ -176,7 +176,7 @@ normalize.initprobs.glm <- function(initprobs, glm.obj) {
 #' @author Merlise Clyde (\email{clyde@@duke.edu}), Quanli Wang and Yingbo
 #' Li
 #' @references Li, Y. and Clyde, M. (2019) Mixtures of g-priors in Generalized
-#' Linear Models. Journal of the Americal Statistical Association. 113:1828-1845 \cr
+#' Linear Models. Journal of the American Statistical Association. 113:1828-1845 \cr
 #' \url{https://doi.org/10.1080/01621459.2018.1469992} \cr
 #' Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive Sampling for
 #' Variable Selection and Model Averaging. Journal of Computational Graphics
