@@ -2,12 +2,14 @@
 
 ## Features
 
-* Modified prior probabilities to adjust for the number of variables always included when 
-using include.always.  [Pull request #41](https://github.com/merliseclyde/BAS/pull/41) by Don van de Bergh.  [Issue #40](https://github.com/merliseclyde/BAS/issues/40)
+* Modified prior probabilities to adjust for the number of variables always
+included when using include.always.  [Pull request #41](https://github.com/merliseclyde/BAS/pull/41) by Don van de Bergh.  [Issue #40](https://github.com/merliseclyde/BAS/issues/40)
 
 ## Bug Fixes 
 
 * Fixed valgrind error in src/ZS_approx_null_np.c for invalid write noted in CRAN checks
+
+*Fixed function declarations identified with LTO
 
 * Added `contrast=NULL` argument to `bas.lm` and `bas.glm` so that non-NULL contrasts do not
 trigger warning in `model.matrix` as of R 3.6.0.  [Bug #44](https://github.com/merliseclyde/BAS/issues/44)

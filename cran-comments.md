@@ -1,7 +1,12 @@
-#  BAS 1.5.4 Comments to CRAN
-#  
-I was requested to fix valgrind errors identified on cran checks   https://cran.r-project.org/web/checks/check_results_BAS.html. 
-Subsequent testing on fedora with clang (locally) and debian/gcc/valgrind via rhub indicate that the package passes checks.  
+#  BAS 1.5.4 Comments to CRAN  (resubmission)
+ 
+This submission addresses additional issues found on the *last* version released on CRAN:
+ LTO <https://urldefense.proofpoint.com/v2/url?u=https-3A__www.stats.ox.ac.uk_pub_bdr_LTO_BAS.out&d=DwICAw&c=imBPVzF25OnBgGmVOlcsiEgHoG1i6YHLR0Sj_gZ4adc&r=NOkxkvdFOOffXzeTY2kgZQ&m=52W89JkPbOpG86B0ILRzgnU71_hsgNFiQNKrlb5-Nt0&s=r-lKhBavxLKaoTr_9AlOwdBxfkFOR0sTSi-oR-WKzxU&e= >
+ valgrind <https://urldefense.proofpoint.com/v2/url?u=https-3A__www.stats.ox.ac.uk_pub_bdr_memtests_valgrind_BAS&d=DwICAw&c=imBPVzF25OnBgGmVOlcsiEgHoG1i6YHLR0Sj_gZ4adc&r=NOkxkvdFOOffXzeTY2kgZQ&m=52W89JkPbOpG86B0ILRzgnU71_hsgNFiQNKrlb5-Nt0&s=xZMf4TAeqaSYWV8VES3z6OGZLkp320XviDiKS8Wj8Yg&e= >
+
+Subsequent testing on fedora with clang (locally) and debian/gcc/valgrind via rhub indicate that the package passes above checks for issues identified above.  
+
+The ERRORS in the *last* submission for Solaris remain (errors were allowed for last submission).
 
 ## Test environments
 
@@ -48,3 +53,27 @@ This occurred with the previous release and significant debugging has not been a
 
  
   None
+
+## NEWS for BAS 1.5.4
+
+## Features
+
+* Modified prior probabilities to adjust for the number of variables always
+included when using include.always.  [Pull request #41](https://github.com/merliseclyde/BAS/pull/41) by Don van de Bergh.  [Issue #40](https://github.com/merliseclyde/BAS/issues/40)
+
+## Bug Fixes 
+
+* Fixed valgrind error in src/ZS_approx_null_np.c for invalid write noted in CRAN checks
+
+*Fixed function declarations identified with LTO
+
+* Added `contrast=NULL` argument to `bas.lm` and `bas.glm` so that non-NULL contrasts do not
+trigger warning in `model.matrix` as of R 3.6.0.  [Bug #44](https://github.com/merliseclyde/BAS/issues/44)
+
+* Added check for sample size equal to zero due to subsetting or missing data
+[Bug #37](https://github.com/merliseclyde/BAS/issues/37)
+
+## Other 
+
+* Put ORCID in quotes in author list (per R-dev changes)
+
