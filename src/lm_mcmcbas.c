@@ -63,7 +63,9 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
   int mcurrent,  update, n_sure;
   double  mod, rem, problocal, *pigamma,  eps;
 //  double *hyper_parameters, delta;  //For future use
-  double *XtX, *XtY, *XtXwork, *XtYwork, *SSgam, *Cov, *priorCov, *marg_probs;
+  double *XtX, *XtY, *XtXwork, *XtYwork;
+ // double *marg_probs;
+ // double *SSgam, *Cov, *priorCov;
   double  lambda, one=1.0;
 
   int inc=1;
@@ -115,7 +117,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
 
   pigamma = vecalloc(p);
   real_model = vecalloc(n);
-  marg_probs = vecalloc(n);
+//  marg_probs = vecalloc(n);
   modelold = ivecalloc(p);
   model = ivecalloc(p);
   modelwork= ivecalloc(p);
@@ -124,7 +126,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
 
 
   /* create gamma gamma' matrix */
-  SSgam  = (double *) R_alloc(n * n, sizeof(double));
+/*  SSgam  = (double *) R_alloc(n * n, sizeof(double));
   Cov  = (double *) R_alloc(n * n, sizeof(double));
   priorCov  = (double *) R_alloc(n * n, sizeof(double));
   for (j=0; j < n; j++) {
@@ -137,7 +139,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
     marg_probs[i] = 0.0;
   }
 
-
+*/
 
 
 
@@ -367,7 +369,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
    }
 
    // Update SSgam = gamma gamma^T + SSgam
-   F77_NAME(dsyr)("U", &n,  &one, &real_model[0], &inc,  &SSgam[0], &n);
+ //  F77_NAME(dsyr)("U", &n,  &one, &real_model[0], &inc,  &SSgam[0], &n);
    m++;
   }
 
