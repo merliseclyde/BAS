@@ -138,6 +138,8 @@ int cholregpivot(double *XtY, double *XtX, double *coefficients, double *se, dou
 	info = 1;
 
 	piv  = (int *)  R_alloc(p, sizeof(int));
+	memset(piv, 0, p*sizeof(int));
+
 	tmpcoef  = (double *)  R_alloc(p, sizeof(double));
   work =  (double *) R_alloc(p*p, sizeof(double));
 

@@ -251,6 +251,8 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 	RSquareFull = CalculateRSquareFull(XtY, XtX, XtXwork, XtYwork, Rcoef_m, Rse_m, p, nobs, yty, SSY);
 
 	int *model = ivecalloc(p);
+	memset(model, 0, p * sizeof(int));
+
 	/* fill in the sure things */
 	for (i = n; i < p; i++)  {
 		model[vars[i].index] = (int) vars[i].prob;

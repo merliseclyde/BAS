@@ -51,6 +51,7 @@ double FitModel(SEXP Rcoef_m, SEXP Rse_m, double *XtY, double *XtX, int *model_m
 	}
 	*pmse_m = yty;
 	 memcpy(coefficients, XtYwork, sizeof(double)*pmodel);
+
 	if (pivot == 1) {
   	*rank_m = cholregpivot(XtYwork, XtXwork, coefficients, se_m, pmse_m, pmodel, nobs, pivot, tol);
 	}
@@ -320,8 +321,10 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	int noInclusionIs1 = no_prior_inclusion_is_1(p, probs);
 
 
-	// fill in the sure things
+	//  allocate working model and fill in the sure things
 	int *model = ivecalloc(p);
+	memset(model, 0, p * sizeof(int));
+
 	for (i = n, n_sure = 0; i < p; i++)  {
 		model[vars[i].index] = (int) vars[i].prob;
 		if (model[vars[i].index] == 1) ++n_sure;
