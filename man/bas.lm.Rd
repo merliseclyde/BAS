@@ -30,7 +30,7 @@ bas.lm(
   thin = 1,
   renormalize = FALSE,
   force.heredity = TRUE,
-  pivot = FALSE,
+  pivot = TRUE,
   tol = 1e-07,
   bigmem = FALSE
 )
@@ -202,7 +202,8 @@ order terms are included.  Currently only supported with `method='MCMC'`.
 Default is TRUE.}
 
 \item{pivot}{Logical variable to allow pivoting of columns when obtaining the
-OLS estimates of a model so that models that are not full rank can be fit. Defaults to TRUE.
+OLS estimates of a model so that models that are not full rank can be fit.
+Defaults to TRUE.
 Currently coefficients that are not estimable are set to zero.  Use caution with
 interpreting BMA estimates of parameters.}
 
@@ -369,12 +370,14 @@ fullModelFormula <- as.formula("contNormal ~  contGamma * contExpon +
               weights = facFifty, force.heredity = FALSE, pivot = FALSE)
 
 
-# use pivot = TRUE to fit non-full rank case
+# use pivot = TRUE to fit non-full rank case  (default)
+# This is slower but safer
+
 out =  bas.lm(fullModelFormula,
               data = d,
               alpha = 0.125316,
               prior = "JZS",
-              weights = facFifty, force.heredity = FALSE)
+              weights = facFifty, force.heredity = FALSE, pivot = TRUE)
 
 # more complete demo's
 demo(BAS.hald)

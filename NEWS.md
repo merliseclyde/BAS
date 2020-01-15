@@ -9,7 +9,7 @@ included when using include.always.  [Pull request #41](https://github.com/merli
 
 * Fixed valgrind error in src/ZS_approx_null_np.c for invalid write noted in CRAN checks
 
-*Fixed function declarations identified with LTO
+* fixed function declaration type-mismatch and argument errors identified by LTO noted in CRAN checks
 
 * Added `contrast=NULL` argument to `bas.lm` and `bas.glm` so that non-NULL contrasts do not
 trigger warning in `model.matrix` as of R 3.6.0.  [Bug #44](https://github.com/merliseclyde/BAS/issues/44)
