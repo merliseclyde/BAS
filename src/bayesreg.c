@@ -141,8 +141,12 @@ int cholregpivot(double *XtY, double *XtX, double *coefficients, double *se, dou
 	memset(piv, 0, p*sizeof(int));
 
 	tmpcoef  = (double *)  R_alloc(p, sizeof(double));
-  work =  (double *) R_alloc(p*p, sizeof(double));
-
+	if (p > 1) {
+    work =  (double *) R_alloc(p*p, sizeof(double)); }
+	else {
+	 // error(" called cholreg with p = 1 \n Fixme \n");
+	  work = (double *) R_alloc(2*p, sizeof(double));
+	}
 
 // compute Cholesky decomposition of X^TX using pivoting
 	F77_NAME(dpstrf)("U", &p, &XtX[0], &p, &piv[0], &rank, &tol, &work[0], &info);
