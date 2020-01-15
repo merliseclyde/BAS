@@ -159,7 +159,7 @@ Linear Models</h1>
   <span class='kw'>thin</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>renormalize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-07</span>,
   <span class='kw'>bigmem</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
@@ -379,7 +379,8 @@ Default is TRUE.</p></td>
     <tr>
       <th>pivot</th>
       <td><p>Logical variable to allow pivoting of columns when obtaining the
-OLS estimates of a model so that models that are not full rank can be fit. Defaults to TRUE.
+OLS estimates of a model so that models that are not full rank can be fit.
+Defaults to TRUE.
 Currently coefficients that are not estimable are set to zero.  Use caution with
 interpreting BMA estimates of parameters.</p></td>
     </tr>
@@ -664,12 +665,15 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
               <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"JZS"</span>,
               <span class='kw'>weights</span> <span class='kw'>=</span> <span class='no'>facFifty</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: log marginals and posterior probabilities contain NA's.  Consider re-running with the option `pivot=TRUE` if there are models that are not full rank</span></div><div class='input'>
 
-<span class='co'># use pivot = TRUE to fit non-full rank case</span>
+<span class='co'># use pivot = TRUE to fit non-full rank case  (default)</span>
+<span class='co'># This is slower but safer</span>
+
 <span class='no'>out</span> <span class='kw'>=</span>  <span class='fu'>bas.lm</span>(<span class='no'>fullModelFormula</span>,
               <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>d</span>,
               <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.125316</span>,
               <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"JZS"</span>,
-              <span class='kw'>weights</span> <span class='kw'>=</span> <span class='no'>facFifty</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: log marginals and posterior probabilities contain NA's.  Consider re-running with the option `pivot=TRUE` if there are models that are not full rank</span></div><div class='input'>
+              <span class='kw'>weights</span> <span class='kw'>=</span> <span class='no'>facFifty</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
 <span class='co'># more complete demo's</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/demo.html'>demo</a></span>(<span class='no'>BAS.hald</span>)</div><div class='output co'>#&gt; 
 #&gt; 

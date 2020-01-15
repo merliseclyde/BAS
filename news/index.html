@@ -141,10 +141,8 @@
 <h2 class="hasAnchor">
 <a href="#bug-fixes" class="anchor"></a>Bug Fixes</h2>
 <ul>
-<li>Fixed valgrind error in src/ZS_approx_null_np.c for invalid write noted in CRAN checks</li>
-</ul>
-<p>*Fixed function declarations identified with LTO</p>
-<ul>
+<li><p>Fixed valgrind error in src/ZS_approx_null_np.c for invalid write noted in CRAN checks</p></li>
+<li><p>fixed function declaration type-mismatch and argument errors identified by LTO noted in CRAN checks</p></li>
 <li><p>Added <code>contrast=NULL</code> argument to <code>bas.lm</code> and <code>bas.glm</code> so that non-NULL contrasts do not trigger warning in <code>model.matrix</code> as of R 3.6.0. <a href="https://github.com/merliseclyde/BAS/issues/44">Bug <a href='https://github.com/merliseclyde/BAS/issues/44'>#44</a></a></p></li>
 <li><p>Added check for sample size equal to zero due to subsetting or missing data <a href="https://github.com/merliseclyde/BAS/issues/37">Bug <a href='https://github.com/merliseclyde/BAS/issues/37'>#37</a></a></p></li>
 </ul>
