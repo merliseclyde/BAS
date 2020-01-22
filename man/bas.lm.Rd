@@ -390,10 +390,10 @@ demo(BAS.USCrime)
 Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive
 Sampling for Variable Selection and Model Averaging. Journal of
 Computational Graphics and Statistics.  20:80-101 \cr
-\url{http://dx.doi.org/10.1198/jcgs.2010.09049}
+\url{https://dx.doi.org/10.1198/jcgs.2010.09049}
 
 Clyde, M. and Ghosh. J. (2012) Finite population estimators in stochastic search variable selection.
-Biometrika, 99 (4), 981-988. \url{http://dx.doi.org/10.1093/biomet/ass040}
+Biometrika, 99 (4), 981-988.\cr  \url{http://academic.oup.com/biomet/article-abstract/99/4/981/231287}
 
 Clyde, M. and George, E. I. (2004) Model Uncertainty. Statist. Sci., 19,
 81-94. \cr \url{http://dx.doi.org/10.1214/088342304000000035}

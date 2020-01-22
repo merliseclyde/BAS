@@ -56,19 +56,19 @@
 #' @aliases Bodyfat bodyfat
 #' @docType data
 #' @format A data frame with 252 observations on the following 15 variables.
-#' \describe{ \item{list("Density")}{a numeric vector for the density
-#' determined from underwater weighing} \item{list("Bodyfat")}{percent body fat
-#' from Siri's (1956) equation} \item{list("Age")}{age of individual in years}
-#' \item{list("Weight")}{weight of the individual in pounds}
-#' \item{list("Height")}{height of individual in inches}
-#' \item{list("Neck")}{neck circumference in centimeters (cm)}
-#' \item{list("Chest")}{chest circumference (cm)}
-#' \item{list("Abdomen")}{abdomen circumference (cm)} \item{list("Hip")}{hip
-#' circumference (cm)} \item{list("Thigh")}{thigh circumference (cm)}
-#' \item{list("Knee")}{knee circumference (cm)} \item{list("Ankle")}{ankle
-#' circumference (cm)} \item{list("Biceps")}{bicep (extended) circumference
-#' (cm)} \item{list("Forearm")}{forearm circumference (cm)}
-#' \item{list("Wrist")}{wrist circumference (cm)} }
+#' \describe{ \item{Density}{a numeric vector for the density
+#' determined from underwater weighing} \item{Bodyfat}{percent body fat
+#' from Siri's (1956) equation} \item{Age}{age of individual in years}
+#' \item{Weight}{weight of the individual in pounds}
+#' \item{Height}{height of individual in inches}
+#' \item{Neck}{neck circumference in centimeters (cm)}
+#' \item{Chest}{chest circumference (cm)}
+#' \item{Abdomen}{abdomen circumference (cm)} \item{Hip}{hip
+#' circumference (cm)} \item{"Thigh"}{thigh circumference (cm)}
+#' \item{"Knee"}{knee circumference (cm)} \item{Ankle}{ankle
+#' circumference (cm)} \item{Biceps}{bicep (extended) circumference
+#' (cm)} \item{Forearm}{forearm circumference (cm)}
+#' \item{Wrist}{wrist circumference (cm)} }
 #' @references Bailey, Covert (1994). Smart Exercise: Burning Fat, Getting Fit,
 #' Houghton-Mifflin Co., Boston, pp. 179-186.
 #'
@@ -107,7 +107,36 @@
 #'
 NULL
 
-
+#' Climate Data
+#' @name climate
+#' @docType data
+#' @format Scientists are interested in the Earth's temperature change since the last
+#' glacial maximum, about 20,000 years ago. The first study to estimate the
+#' temperature change was published in 1980, and estimated a change of -1.5 degrees
+#'  C, +/- 1.2 degrees C in tropical sea surface temperatures.
+#'  The negative value means that the Earth was colder then than now.
+#'  Since 1980 there have been many other studies.
+#' \code{climate} is a dataset contaning 63 measurements on 5 variables:
+#' \describe{\item{\emph{deltaT}}{ the response variables, which is the change in temperature
+#' in degrees Celsius;}
+#' \item{\emph{sdev}}{a standard deviation for the calculated \emph{deltaT};}
+#' \item{\emph{proxy}}{a number 1-8 reflecting which type of measurement system was used to derive
+#' deltaT. Some proxies can be used over land, others over water.
+#' The proxies are coded as\cr
+#' 1 "Mg/Ca"         \cr
+#' 2 "alkenone"      \cr
+#' 3 "Faunal"        \cr
+#' 4 "Sr/Ca"         \cr
+#' 5 "del 180"       \cr
+#' 6 "Ice Core"      \cr
+#' 7 "Pollen"        \cr
+#' 8 "Noble Gas"     \cr
+#'}
+#'\item{\emph{T/M}}{, an indicator of whether it was a terrestrial or marine study (T/M),
+#'  which is coded as 0 for Terrestrial, 1 for Marine;}
+#'\item{ \emph{latitude}}{the latitude where the data were collected.}}
+#' @source Data provided originally by Michael Lavine and available at \url{https://stat.duke.edu/sites/stat.duke.edu/files/climate.dat}
+NULL
 
 #' Hald Data
 #'

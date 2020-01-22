@@ -6,19 +6,19 @@
 \alias{Bodyfat}
 \title{Bodyfat Data}
 \format{A data frame with 252 observations on the following 15 variables.
-\describe{ \item{list("Density")}{a numeric vector for the density
-determined from underwater weighing} \item{list("Bodyfat")}{percent body fat
-from Siri's (1956) equation} \item{list("Age")}{age of individual in years}
-\item{list("Weight")}{weight of the individual in pounds}
-\item{list("Height")}{height of individual in inches}
-\item{list("Neck")}{neck circumference in centimeters (cm)}
-\item{list("Chest")}{chest circumference (cm)}
-\item{list("Abdomen")}{abdomen circumference (cm)} \item{list("Hip")}{hip
-circumference (cm)} \item{list("Thigh")}{thigh circumference (cm)}
-\item{list("Knee")}{knee circumference (cm)} \item{list("Ankle")}{ankle
-circumference (cm)} \item{list("Biceps")}{bicep (extended) circumference
-(cm)} \item{list("Forearm")}{forearm circumference (cm)}
-\item{list("Wrist")}{wrist circumference (cm)} }}
+\describe{ \item{Density}{a numeric vector for the density
+determined from underwater weighing} \item{Bodyfat}{percent body fat
+from Siri's (1956) equation} \item{Age}{age of individual in years}
+\item{Weight}{weight of the individual in pounds}
+\item{Height}{height of individual in inches}
+\item{Neck}{neck circumference in centimeters (cm)}
+\item{Chest}{chest circumference (cm)}
+\item{Abdomen}{abdomen circumference (cm)} \item{Hip}{hip
+circumference (cm)} \item{"Thigh"}{thigh circumference (cm)}
+\item{"Knee"}{knee circumference (cm)} \item{Ankle}{ankle
+circumference (cm)} \item{Biceps}{bicep (extended) circumference
+(cm)} \item{Forearm}{forearm circumference (cm)}
+\item{Wrist}{wrist circumference (cm)} }}
 \source{
 These data are used to produce the predictive equations for lean
 body weight given in the abstract "Generalized body composition prediction

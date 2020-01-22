@@ -399,6 +399,7 @@ test_that("MCMC+BAS: missing MCMC.iterations and n.models arg", {
 # with prior probabilities; i.e. failed with Jeffreys
 
 test_that("herdity and BAS", {
+  skip_on_os("solaris")
   data(Pima.tr, package="MASS")
   pima_BAS <-  bas.glm(type ~ (bp + glu + npreg)^2,
                        data = Pima.tr, method = "BAS",

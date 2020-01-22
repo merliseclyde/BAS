@@ -193,6 +193,7 @@ test_that("big model space", {
 
 test_that("force.heredity", {
   # based on bug #26
+  skip_on_os("solaris")
   loc <- system.file("testdata", package = "BAS")
   d <- read.csv(paste(loc, "JASP-testdata.csv", sep = "/"))
 
@@ -222,6 +223,7 @@ test_that("force.heredity", {
 })
 
 test_that("interactions & heredity", {
+  skip_on_os("solaris")
   data(Hald)
   bas_hald <- bas.lm(Y ~ .^2, data=Hald, method="MCMC",
                      force.heredity = TRUE)
@@ -239,13 +241,14 @@ test_that("interactions & heredity", {
 test_that("sample size zero", {
   data(Hald)
   expect_error(bas_hald <- bas.lm(Y ~ .^2, data=Hald[0,], method="MCMC",
-                                  force.heredity = TRUE))
+                                  force.heredity = FALSE))
 
 })
 
 
 #  https://github.com/merliseclyde/BAS/issues/38
 test_that("heredity and bas.lm", {
+  skip_on_os("solaris")
   set.seed(2)
   data(Pima.tr, package="MASS")
   pima_BAS <-  bas.lm(as.numeric(type) ~ (bp + glu + npreg)^2,
@@ -305,6 +308,7 @@ test_that("as.matrix tools", {
 })
 
 test_that("check non-full rank", {
+  skip_on_os("solaris")
   loc <- system.file("testdata", package = "BAS")
   d <- read.csv(paste(loc, "JASP-testdata.csv", sep = "/"))
 
