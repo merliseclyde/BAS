@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract the variable names for a model from a BAS prediction object — variable.names.pred.bas • BAS</title>
+<title>Climate Data — climate • BAS</title>
 
 
 <!-- jquery -->
@@ -41,12 +41,8 @@
 
 
 
-<meta property="og:title" content="Extract the variable names for a model from a BAS prediction object — variable.names.pred.bas" />
-<meta property="og:description" content="S3 method for class 'pred.bas'.  Simple utility
-function to extract the variable names.  Used to print names
-for the selected models using estimators for 'HPM', 'MPM' or 'BPM&quot;.
-for the selected model created by predict for BAS
-objects." />
+<meta property="og:title" content="Climate Data — climate" />
+<meta property="og:description" content="Climate Data" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -127,79 +123,53 @@ objects." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract the variable names for a model from a BAS prediction object</h1>
-    <small class="dont-index">Source: <a href='https://github.com/merliseclyde/BAS/blob/master/R/predict.R'><code>R/predict.R</code></a></small>
-    <div class="hidden name"><code>variable.names.pred.bas.Rd</code></div>
+    <h1>Climate Data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/merliseclyde/BAS/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>climate.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>S3 method for class 'pred.bas'.  Simple utility
-function to extract the variable names.  Used to print names
-for the selected models using estimators for 'HPM', 'MPM' or 'BPM".
-for the selected model created by <code>predict</code> for BAS
-objects.</p>
+    <p>Climate Data</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for pred.bas</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/case.names.html'>variable.names</a></span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>object</th>
-      <td><p>a BAS object created by <code>predict</code> from a BAS
-`bas.lm` or `bas.glm` object</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>other arguments to pass on</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>a character vector with the names of the variables
-included in the selected model; in the case of 'BMA' this will
-be all variables</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>Scientists are interested in the Earth's temperature change since the last
+glacial maximum, about 20,000 years ago. The first study to estimate the
+temperature change was published in 1980, and estimated a change of -1.5 degrees
+ C, +/- 1.2 degrees C in tropical sea surface temperatures.
+ The negative value means that the Earth was colder then than now.
+ Since 1980 there have been many other studies.
+<code>climate</code> is a dataset contaning 63 measurements on 5 variables:</p><dl class='dl-horizontal'>
 
-    <div class='dont-index'><p><code>predict.bas</code></p>
-<p>Other predict methods: 
-<code>fitted.bas()</code>,
-<code>predict.basglm()</code>,
-<code>predict.bas()</code></p>
-<p>Other bas methods: 
-<code>BAS</code>,
-<code>bas.lm()</code>,
-<code>coef.bas()</code>,
-<code>confint.coef.bas()</code>,
-<code>confint.pred.bas()</code>,
-<code>diagnostics()</code>,
-<code>fitted.bas()</code>,
-<code>force.heredity.bas()</code>,
-<code>image.bas()</code>,
-<code>plot.confint.bas()</code>,
-<code>predict.basglm()</code>,
-<code>predict.bas()</code>,
-<code>summary.bas()</code>,
-<code>update.bas()</code></p></div>
+<dt><em>sdev</em></dt><dd><p>a standard deviation for the calculated <em>deltaT</em>;</p></dd>
+<dt><em>proxy</em></dt><dd><p>a number 1-8 reflecting which type of measurement system was used to derive
+deltaT. Some proxies can be used over land, others over water.
+The proxies are coded as<br />
+1 "Mg/Ca"         <br />
+2 "alkenone"      <br />
+3 "Faunal"        <br />
+4 "Sr/Ca"         <br />
+5 "del 180"       <br />
+6 "Ice Core"      <br />
+7 "Pollen"        <br />
+8 "Noble Gas"     <br /></p></dd>
+<dt><em>T/M</em></dt><dd><p>, an indicator of whether it was a terrestrial or marine study (T/M),
+ which is coded as 0 for Terrestrial, 1 for Marine;</p></dd>
+<dt> <em>latitude</em></dt><dd><p>the latitude where the data were collected.</p></dd>
+</dl>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>Hald</span>)
-<span class='no'>hald.gprior</span> <span class='kw'>=</span>  <span class='fu'>bas.lm</span>(<span class='no'>Y</span>~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"ZS-null"</span>, <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'>uniform</span>())
-<span class='no'>hald.bpm</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>hald.gprior</span>, <span class='kw'>newdata</span><span class='kw'>=</span><span class='no'>Hald</span>[<span class='fl'>1</span>,],
-                   <span class='kw'>se.fit</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
-                   <span class='kw'>estimator</span><span class='kw'>=</span><span class='st'>"BPM"</span>)
-<span class='fu'><a href='https://rdrr.io/r/stats/case.names.html'>variable.names</a></span>(<span class='no'>hald.bpm</span>)</div><div class='output co'>#&gt; [1] "Intercept" "X2"       </div></pre>
+    <p>Data provided originally by Michael Lavine and available at <a href='https://stat.duke.edu/sites/stat.duke.edu/files/climate.dat'>https://stat.duke.edu/sites/stat.duke.edu/files/climate.dat</a></p>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#format">Format</a></li>
+      <li><a href="#source">Source</a></li>
     </ul>
 
   </div>
