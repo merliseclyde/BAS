@@ -128,7 +128,7 @@ tCCH <- function(alpha = 1, beta = 2, s = 0, r = 3 / 2, v = 1, theta = 1) {
 #' @references Womack, A., Novelo,L.L., Casella, G. (2014). "Inference From
 #' Intrinsic Bayes' Procedures Under Model Selection and Uncertainty". Journal
 #' of the American Statistical Association.  109:1040-1053.
-#' \url{http://amstat.tandfonline.com/doi/abs/10.1080/01621459.2014.880348}
+#' \url{https://amstat.tandfonline.com/doi/abs/10.1080/01621459.2014.880348}
 #'
 #' @examples
 #' n <- 500

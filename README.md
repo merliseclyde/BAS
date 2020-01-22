@@ -6,15 +6,15 @@
 [![CII Best
 Practices](https://bestpractices.coreinfrastructure.org/projects/2055/badge)](https://bestpractices.coreinfrastructure.org/projects/2055)
 [![](https://travis-ci.org/merliseclyde/BAS.png?branch=master)](https://travis-ci.org/merliseclyde/BAS)
-[![](http://www.r-pkg.org/badges/version/BAS)](http://cran.r-project.org/package=BAS)
-[![](http://cranlogs.r-pkg.org/badges/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
-[![](http://cranlogs.r-pkg.org/badges/grand-total/BAS)](http://cran.rstudio.com/web/packages/BAS/index.html)
+[![](https://www.r-pkg.org/badges/version/BAS)](https://cran.r-project.org/package=BAS)
+[![](https://cranlogs.r-pkg.org/badges/BAS)](https://cran.rstudio.com/web/packages/BAS/index.html)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/BAS)](https://cran.rstudio.com/web/packages/BAS/index.html)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/merliseclyde/BAS/master.svg)](https://codecov.io/github/merliseclyde/BAS?branch=master)
-[![Rdoc](http://www.rdocumentation.org/badges/version/BAS)](http://www.rdocumentation.org/packages/BAS)
+[![Rdoc](https://www.rdocumentation.org/badges/version/BAS)](https://www.rdocumentation.org/packages/BAS)
 [![DOI](https://zenodo.org/badge/DOI/110.5281/zenodo.595639.svg)](https://doi.org/10.5281/zenodo.595639)
 
-The `BAS` [R](http://r-project.org) package is designed to provide an
+The `BAS` [R](https://r-project.org) package is designed to provide an
 easy to use package and fast code for implementing Bayesian Model
 Averaging and Model Selection in `R` using state of the art prior
 distributions for linear and generalized linear models. The prior
@@ -31,7 +31,7 @@ Metropolis-Hastings proposals.
 ## Installation
 
 The stable version
-[![](http://www.r-pkg.org/badges/version/BAS)](http://cran.r-project.org/package=BAS)
+[![](https://www.r-pkg.org/badges/version/BAS)](https://cran.r-project.org/package=BAS)
 can be installed easily in the `R` console like any other package:
 
 ``` r
@@ -43,7 +43,7 @@ the package with quick-fixes, new features and probably new bugs. It’s
 currently hosted on [GitHub](https://github.com/merliseclyde/BAS). To
 get the latest development version from
 [GitHub](https://github.com/merliseclyde), use the `devtools` package
-from [CRAN](http://cran.r-project.org/package=devtools) and enter in
+from [CRAN](https://cran.r-project.org/package=devtools) and enter in
 `R`:
 
 ``` r
@@ -58,8 +58,8 @@ before installing.
 Installing the package from source does require compilation of C and
 FORTRAN code as the library makes use of BLAS and LAPACK for efficient
 model fitting. See [CRAN
-manuals](http://cran.r-project.org/doc/manuals/r-devel/R-admin.html) for
-installing packages from source under different operating systems.
+manuals](https://cran.r-project.org/doc/manuals/r-devel/R-admin.html)
+for installing packages from source under different operating systems.
 
 ## Usage
 
@@ -122,7 +122,7 @@ Feel free to report any issues or request features to be added via the
 [github issues page](https://github.com/merliseclyde/BAS/issues).
 
 For current documentation and vignettes see the [BAS
-website](http://merliseclyde.github.io/BAS)
+website](https://merliseclyde.github.io/BAS)
 
 ### Support
 

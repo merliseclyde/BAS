@@ -18,7 +18,7 @@
 #'
 #' \dontrun{
 #' library(foreign)
-#' cognitive <- read.dta("http://www.stat.columbia.edu/~gelman/arm/examples/child.iq/kidiq.dta")
+#' cognitive <- read.dta("https://www.stat.columbia.edu/~gelman/arm/examples/child.iq/kidiq.dta")
 #' cognitive$mom_work <- as.numeric(cognitive$mom_work > 1)
 #' cognitive$mom_hs <- as.numeric(cognitive$mom_hs > 0)
 #' colnames(cognitive) <- c("kid_score", "hs", "iq", "work", "age")

@@ -494,7 +494,7 @@ predict.bas <- function(object,
 #' Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive Sampling for
 #' Variable Selection and Model Averaging. Journal of Computational Graphics
 #' and Statistics.  20:80-101 \cr
-#' \url{http://dx.doi.org/10.1198/jcgs.2010.09049}
+#' \url{https://dx.doi.org/10.1198/jcgs.2010.09049}
 #' @keywords regression
 #' @examples
 #'

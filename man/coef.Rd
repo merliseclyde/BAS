@@ -92,7 +92,7 @@ confint(coef.hald.gprior)
 Liang, F., Paulo, R., Molina, G., Clyde, M. and Berger, J.O.
 (2005) Mixtures of g-priors for Bayesian Variable Selection.  Journal of the
 American Statistical Association.  103:410-423.  \cr
-\url{http://dx.doi.org/10.1198/016214507000001337}
+\url{https://dx.doi.org/10.1198/016214507000001337}
 }
 \seealso{
 \code{\link{bas}}, \code{\link{confint.coef.bas}}

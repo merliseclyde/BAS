@@ -296,9 +296,9 @@ new.pred <- predict(crime.ZS, newdata = UScrime, estimator = "MPM")
 
 ## Alternative algorithms
 
-`BAS` has several options for sampling from the model space with or without enumeration.  The (current) default `method="BAS"` samples models without replacement using estimates of the marginal inclusion probabilities using the algorithm described in  [Clyde et al (2011)](https://doi.org/10.1198/jcgs.2010.09049).  The initial sampling probabilities provided by `initprobs` are updated based on the sampled models, every `update` iterations.
+`BAS` has several options for sampling from the model space with or without enumeration.  The (current) default `method="BAS"` samples models without replacement using estimates of the marginal inclusion probabilities using the algorithm described in  [Clyde et al (2011)](https://dx.doi.org/10.1198/jcgs.2010.09049).  The initial sampling probabilities provided by `initprobs` are updated based on the sampled models, every `update` iterations.
 This can be more efficient in some cases if a large fraction of the model space has been sampled, however, in cases of high correlation and a large number of predictors, this can lead to biased estimates
-[Clyde and Ghosh (2012)](http://academic.oup.com/biomet/article-abstract/99/4/981/231287), in which case MCMC is preferred.  The `method="MCMC"` is described below and is better for large $p$. 
+[Clyde and Ghosh (2012)](https://dx.doi.org/10.1093/biomet/ass040), in which case MCMC is preferred.  The `method="MCMC"` is described below and is better for large $p$. 
 
 A deterministic sampling scheme is also available for enumeration;
 
