@@ -166,7 +166,7 @@ misclassification rate is more appropriate.</p>
     <pre class="examples"><div class='input'>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>foreign</span>)
-<span class='no'>cognitive</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/foreign/man/read.dta.html'>read.dta</a></span>(<span class='st'>"http://www.stat.columbia.edu/~gelman/arm/examples/child.iq/kidiq.dta"</span>)
+<span class='no'>cognitive</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/foreign/man/read.dta.html'>read.dta</a></span>(<span class='st'>"https://www.stat.columbia.edu/~gelman/arm/examples/child.iq/kidiq.dta"</span>)
 <span class='no'>cognitive</span>$<span class='no'>mom_work</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='no'>cognitive</span>$<span class='no'>mom_work</span> <span class='kw'>&gt;</span> <span class='fl'>1</span>)
 <span class='no'>cognitive</span>$<span class='no'>mom_hs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='no'>cognitive</span>$<span class='no'>mom_hs</span> <span class='kw'>&gt;</span> <span class='fl'>0</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>cognitive</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kid_score"</span>, <span class='st'>"hs"</span>, <span class='st'>"iq"</span>, <span class='st'>"work"</span>, <span class='st'>"age"</span>)
