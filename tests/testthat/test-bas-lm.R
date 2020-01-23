@@ -206,7 +206,7 @@ test_that("force.heredity", {
     prior = "JZS",
     include.always = as.formula("contNormal ~ contcor1"),
     modelprior = beta.binomial(1, 1),
-    weights = d$facFifty
+    weights = d$facFifty, force.heredity = TRUE
   )
   set.seed(1)
   basObj.old <- bas.lm(simpleFormula,

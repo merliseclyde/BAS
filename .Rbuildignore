@@ -27,3 +27,5 @@ cran-comments.md
 CONTRIBUTING.md
 
 ^cran-comments\.md$
+^doc$
+^Meta$

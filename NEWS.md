@@ -1,4 +1,18 @@
-#  BAS 1.5.4
+# BAS 1.5.5
+
+## Bug Fixes
+
+* Fixed WARNING under fedora-clang-devel. Added climate.dat file unde package directoy for building vignette so that package does not violate CRAN's 
+Result: WARN 
+    Error(s) in re-building vignettes:
+    --- re-building ‘BAS-vignette.Rmd’ using rmarkdown
+    Quitting from lines 463-466 (BAS-vignette.Rmd) 
+    Error: processing vignette 'BAS-vignette.Rmd' failed with diagnostics:
+    cannot open the connection to 'https://stat.duke.edu/sites/stat.duke.edu/files/climate.dat'
+
+* Fixed testthat errors under Solaris.  Default settings for `force.heredity` is set back to FALSE in `bas.lm` and `bas.glm`.
+
+# BAS 1.5.4
 
 ## Features
 

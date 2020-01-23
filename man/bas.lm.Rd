@@ -29,7 +29,7 @@ bas.lm(
   delta = 0.025,
   thin = 1,
   renormalize = FALSE,
-  force.heredity = TRUE,
+  force.heredity = FALSE,
   pivot = TRUE,
   tol = 1e-07,
   bigmem = FALSE
@@ -198,7 +198,8 @@ See details in Clyde and Ghosh (2012).}
 
 \item{force.heredity}{Logical variable to force all levels of a factor to be
 included together and to include higher order interactions only if lower
-order terms are included.  Currently only supported with `method='MCMC'`.
+order terms are included.  Currently supported with `method='MCMC'`
+and experimentally with `method='BAS'` on non-Solaris platforms.
 Default is FALSE.}
 
 \item{pivot}{Logical variable to allow pivoting of columns when obtaining the

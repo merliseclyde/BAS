@@ -27,7 +27,7 @@ bas.glm(
   control = glm.control(),
   laplace = FALSE,
   renormalize = FALSE,
-  force.heredity = TRUE,
+  force.heredity = FALSE,
   bigmem = FALSE
 )
 }
@@ -146,8 +146,9 @@ probabilities or use Monte Carlo frequencies. Applies only to MCMC sampling.}
 
 \item{force.heredity}{Logical variable to force all levels of a factor to be
 included together and to include higher order interactions only if lower
-order terms are included.  Currently only supported with `method='MCMC'`.
-Default is TRUE.}
+order terms are included.  Currently only supported with `method='MCMC'`
+and `method='BAS'` (experimental) on non-Solaris platforms.
+Default is FALSE.}
 
 \item{bigmem}{Logical variable to indicate that there is access to
 large amounts of memory (physical or virtual) for enumeration

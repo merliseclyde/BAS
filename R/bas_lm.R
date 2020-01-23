@@ -245,7 +245,8 @@ is.solaris<-function() {
 #' See details in Clyde and Ghosh (2012).
 #' @param force.heredity  Logical variable to force all levels of a factor to be
 #' included together and to include higher order interactions only if lower
-#' order terms are included.  Currently only supported with `method='MCMC'`.
+#' order terms are included.  Currently supported with `method='MCMC'`
+#' and experimentally with `method='BAS'` on non-Solaris platforms.
 #' Default is FALSE.
 #' @param pivot Logical variable to allow pivoting of columns when obtaining the
 #' OLS estimates of a model so that models that are not full rank can be fit.
@@ -464,7 +465,7 @@ bas.lm <- function(formula,
                    delta = 0.025,
                    thin = 1,
                    renormalize = FALSE,
-                   force.heredity = TRUE,
+                   force.heredity = FALSE,
                    pivot = TRUE,
                    tol = 1e-7,
                    bigmem = FALSE) {
@@ -657,7 +658,7 @@ bas.lm <- function(formula,
 
   parents <- matrix(1, 1, 1)
   if (method == "MCMC+BAS" |
-    method == "deterministic") {
+    method == "deterministic" | is.solaris()) {
     force.heredity <- FALSE
   } # does not work with updating the tree
   if (force.heredity) {
