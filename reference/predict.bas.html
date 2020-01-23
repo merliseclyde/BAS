@@ -260,7 +260,7 @@ probability models.</p>
 #&gt; attr(,"model")
 #&gt; [1] 0 1 2 4
 #&gt; attr(,"best")
-#&gt; [1] 2
+#&gt; [1] 13
 #&gt; attr(,"estimator")
 #&gt; [1] "BPM"
 #&gt; 
@@ -344,7 +344,7 @@ probability models.</p>
 #&gt; [1] 12
 #&gt; 
 #&gt; $best
-#&gt; [1] 2
+#&gt; [1] 13
 #&gt; 
 #&gt; $bestmodel
 #&gt; [1] 0 1 2 4
@@ -361,19 +361,19 @@ probability models.</p>
 #&gt;  [8]  77.00839  92.07571 114.10876  82.68233 111.04286 110.46741</div><div class='input'><span class='co'># default is BMA and estimation of mean vector</span>
 <span class='no'>hald.bma</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>hald.gprior</span>, <span class='kw'>top</span><span class='kw'>=</span><span class='fl'>5</span>, <span class='kw'>se.fit</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>hald.bma</span>)</div><div class='output co'>#&gt;            2.5%     97.5%      pred
-#&gt;  [1,]  67.75391  91.23360  79.74246
-#&gt;  [2,]  63.57414  85.57983  74.50010
-#&gt;  [3,]  95.02969 116.61752 105.29268
-#&gt;  [4,]  78.38035 100.45589  89.88693
-#&gt;  [5,]  84.97694 106.82753  95.57177
-#&gt;  [6,]  94.10416 115.04052 104.56409
-#&gt;  [7,]  92.08018 114.97884 103.40145
-#&gt;  [8,]  65.78742  88.54080  77.13668
-#&gt;  [9,]  81.20704 102.69598  91.99731
-#&gt; [10,] 101.17598 126.19551 114.21325
-#&gt; [11,]  71.65889  94.03212  82.78446
-#&gt; [12,]  99.88969 121.37406 111.00723
-#&gt; [13,]  99.68210 122.00763 110.40160
+#&gt;  [1,]  68.46548  91.94555  79.74246
+#&gt;  [2,]  63.48809  85.48077  74.50010
+#&gt;  [3,]  94.76560 116.33138 105.29268
+#&gt;  [4,]  78.28194 100.44600  89.88693
+#&gt;  [5,]  84.55794 106.17917  95.57177
+#&gt;  [6,]  94.29147 115.32561 104.56409
+#&gt;  [7,]  92.36472 115.33617 103.40145
+#&gt;  [8,]  66.06944  88.64651  77.13668
+#&gt;  [9,]  81.01598 102.61502  91.99731
+#&gt; [10,] 101.49456 126.62234 114.21325
+#&gt; [11,]  72.03752  94.34542  82.78446
+#&gt; [12,] 100.01809 121.56149 111.00723
+#&gt; [13,]  99.47052 121.84683 110.40160
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")

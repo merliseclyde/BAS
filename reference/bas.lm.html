@@ -158,7 +158,7 @@ Linear Models</h1>
   <span class='kw'>delta</span> <span class='kw'>=</span> <span class='fl'>0.025</span>,
   <span class='kw'>thin</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>renormalize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-07</span>,
   <span class='kw'>bigmem</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
@@ -373,7 +373,8 @@ See details in Clyde and Ghosh (2012).</p></td>
       <th>force.heredity</th>
       <td><p>Logical variable to force all levels of a factor to be
 included together and to include higher order interactions only if lower
-order terms are included.  Currently only supported with `method='MCMC'`.
+order terms are included.  Currently supported with `method='MCMC'`
+and experimentally with `method='BAS'` on non-Solaris platforms.
 Default is FALSE.</p></td>
     </tr>
     <tr>
@@ -807,7 +808,7 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; [1] 12 12 12 12 12
 #&gt; 
 #&gt; $best
-#&gt; [1]  4  6  8 11 13
+#&gt; [1] 10 11  7  8  3
 #&gt; 
 #&gt; $bestmodel
 #&gt; $bestmodel[[1]]
@@ -837,19 +838,19 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; 
 #&gt; &gt; confint(predict(hald.gprior, Hald, estimator="BMA", se.fit=TRUE, top=5), parm="mean")
 #&gt;            2.5%     97.5%      mean
-#&gt;  [1,]  73.23082  86.19474  79.74246
-#&gt;  [2,]  69.12484  79.55277  74.50010
-#&gt;  [3,] 100.93968 109.45852 105.29268
-#&gt;  [4,]  84.94745  94.57892  89.88693
-#&gt;  [5,]  90.41103 100.50733  95.57177
-#&gt;  [6,] 101.10640 107.75531 104.56409
-#&gt;  [7,]  97.70174 109.18712 103.40145
-#&gt;  [8,]  72.10231  83.28339  77.13668
-#&gt;  [9,]  87.50319  96.44557  91.99731
-#&gt; [10,] 106.39672 121.85412 114.21325
-#&gt; [11,]  77.75135  88.25943  82.78446
-#&gt; [12,] 106.79822 115.57481 111.00723
-#&gt; [13,] 105.61698 115.13652 110.40160
+#&gt;  [1,]  73.27030  86.21520  79.74246
+#&gt;  [2,]  69.36215  79.62430  74.50010
+#&gt;  [3,] 101.00220 109.75053 105.29268
+#&gt;  [4,]  85.04014  94.49379  89.88693
+#&gt;  [5,]  90.32186 100.32520  95.57177
+#&gt;  [6,] 101.34316 107.92909 104.56409
+#&gt;  [7,]  97.54333 109.17084 103.40145
+#&gt;  [8,]  71.64516  82.63840  77.13668
+#&gt;  [9,]  87.62252  96.54948  91.99731
+#&gt; [10,] 106.45893 121.68949 114.21325
+#&gt; [11,]  77.51213  88.13170  82.78446
+#&gt; [12,] 106.68404 115.53258 111.00723
+#&gt; [13,] 105.77390 115.38846 110.40160
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")

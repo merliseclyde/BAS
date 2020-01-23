@@ -157,7 +157,7 @@ Generalized Linear Models</h1>
   <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.control.html'>glm.control</a></span>(),
   <span class='kw'>laplace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>renormalize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>bigmem</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
@@ -322,8 +322,9 @@ probabilities or use Monte Carlo frequencies. Applies only to MCMC sampling.</p>
       <th>force.heredity</th>
       <td><p>Logical variable to force all levels of a factor to be
 included together and to include higher order interactions only if lower
-order terms are included.  Currently only supported with `method='MCMC'`.
-Default is TRUE.</p></td>
+order terms are included.  Currently only supported with `method='MCMC'`
+and `method='BAS'` (experimental) on non-Solaris platforms.
+Default is FALSE.</p></td>
     </tr>
     <tr>
       <th>bigmem</th>

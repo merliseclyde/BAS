@@ -212,26 +212,26 @@ of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
                             <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"g-prior"</span>)
 <span class='no'>coef_hald</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>hald_gprior</span>)
 <span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>coef_hald</span>)</div><div class='output co'>#&gt;                2.5%      97.5%       beta
-#&gt; Intercept 93.877521 96.9129188 95.4230769
-#&gt; X1         0.000000  1.8748331  1.2150202
-#&gt; X2        -1.100106  0.9359891  0.2756235
-#&gt; X3        -1.530730  0.5813378 -0.1270575
-#&gt; X4        -1.751257  0.2331237 -0.3268710
+#&gt; Intercept 93.880781 96.9113634 95.4230769
+#&gt; X1         0.000000  1.8942471  1.2150202
+#&gt; X2        -1.094706  0.9383005  0.2756235
+#&gt; X3        -1.490076  0.6258418 -0.1270575
+#&gt; X4        -1.721432  0.2611582 -0.3268710
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
 #&gt; [1] "confint.bas"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>coef_hald</span>, <span class='kw'>approx</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>nsim</span><span class='kw'>=</span><span class='fl'>5000</span>)</div><div class='output co'>#&gt;                2.5%      97.5%       beta
-#&gt; Intercept 93.890979 96.9897445 95.4230769
-#&gt; X1         0.000000  1.8547485  1.2150202
-#&gt; X2        -1.149506  0.8469971  0.2756235
-#&gt; X3        -1.540537  0.5487222 -0.1270575
-#&gt; X4        -1.705682  0.2387074 -0.3268710
+#&gt; Intercept 93.910853 97.0365545 95.4230769
+#&gt; X1         0.000000  1.8645339  1.2150202
+#&gt; X2        -1.111524  0.8959157  0.2756235
+#&gt; X3        -1.562010  0.5333807 -0.1270575
+#&gt; X4        -1.675039  0.2779912 -0.3268710
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
 #&gt; [1] "confint.bas"</div><div class='input'><span class='co'># extract just the coefficient of X4</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>coef_hald</span>, <span class='kw'>parm</span><span class='kw'>=</span><span class='st'>"X4"</span>)</div><div class='output co'>#&gt;        2.5%     97.5%      beta
-#&gt; X4 -1.72266 0.2980393 -0.326871
+<span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='no'>coef_hald</span>, <span class='kw'>parm</span><span class='kw'>=</span><span class='st'>"X4"</span>)</div><div class='output co'>#&gt;         2.5%     97.5%      beta
+#&gt; X4 -1.661371 0.3088764 -0.326871
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
