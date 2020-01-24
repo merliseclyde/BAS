@@ -72,7 +72,6 @@ NOTE to CRAN:  url is valid,  but encounters time-out during check (passes check
 
  Possibly mis-spelled words in DESCRIPTION:
  
-  BAS (32:31)
   Ghosh (40:12)
   Liang (25:30)
   Littman (40:22)
