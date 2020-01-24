@@ -166,14 +166,7 @@ plot(coef.ZS, subset = c(5:6), ask = F)
 ```
 
 The vertical bar represents the posterior probability that the coefficient is 0 while
-the  bell shaped curve represents the density of plausible values from all the models where the coefficient is non-zero.   This is scaled so that the height of the density for non-zero values is the probability that the coefficient is non-zero.  
-
-Omitting the `subset` argument provides all of the marginal distributions
-
-```{r coefall}
-
-plot(coef.ZS, ask = FALSE)
-```
+the  bell shaped curve represents the density of plausible values from all the models where the coefficient is non-zero.   This is scaled so that the height of the density for non-zero values is the probability that the coefficient is non-zero.  Omitting the `subset` argument provides all of the marginal distributions.
 
 
 To obtain credible intervals for coefficients, `BAS` includes a `confint` method to create Highest Posterior Density intervals from the summaries from `coef`.
@@ -199,7 +192,7 @@ plot(confint(coef(crime.ZS, estimator = "HPM")))
 
 or the median probability model
 
-```{r, warning=FALSE,  fig.width=7}
+```{r, warning=FALSE,  fig.width=7, eval=FALSE}
 plot(confint(coef(crime.ZS, estimator = "MPM")))
 ```
 
@@ -400,9 +393,9 @@ ToothGrowth$dose <- factor(ToothGrowth$dose)
 levels(ToothGrowth$dose) <- c("Low", "Medium", "High")
 ```
 
-and fit the model
-```{r}
-TG.bas <- bas.lm(len ~ supp + dose,
+and fit the model of main effects and two way interaction without any constraints:
+```{r, fig.width=7}
+TG.bas <- bas.lm(len ~ supp*dose,
   data = ToothGrowth,
   modelprior = uniform(), method = "BAS"
 )
@@ -410,22 +403,12 @@ TG.bas <- bas.lm(len ~ supp + dose,
 image(TG.bas)
 ```
 
-From the image of the model space, we see that all levels of a factor  enter or drop from the model together.  This  hierarchical "heredity" is the default option set by `force.heredity = TRUE`.  To drop that restriction and allow levels of a factor or interaction of a factor  to enter or leave independently use `force.heredity = FALSE`. 
+From the image of the model space, we see that levels of a factor  enter or drop from the model independently and that interactions may be included without the main effects.  This may lead to more parsimonious models, however, the hypotheses that are being tested  about the coefficients that represent the factor depend on the choice for the reference group.  To force levels of a factor to enter or leave together we can use `force.heredity = TRUE`. 
 
-```{r}
-TG.bas <- bas.lm(len ~ supp + dose,
-  data = ToothGrowth,
-  modelprior = uniform(), method = "BAS", force.heredity = FALSE
-)
-
-image(TG.bas)
-```
-
-This may lead to more parsimonious models, however, the hypotheses that are being tested  about the coefficients that represent the factor depend on the choice for the reference group.
 
 The `force.heredity` option also forces interactions to be included only if the main effects are also included, or for models with several factors and higher order interactions, the heredity constraint implies that all lower order interactions must be included before adding higher order interactions.
 
-```{r}
+```{r, fig.width=7}
 TG.bas <- bas.lm(len ~ supp * dose,
   data = ToothGrowth,
   modelprior = uniform(), method = "BAS", force.heredity = TRUE
