@@ -1,16 +1,17 @@
 # BAS 1.5.5
 
-## Bug Fixes
+##  Changes
 
-* Fixed WARNING under fedora-clang-devel. Added climate.dat file unde package directoy for building vignette so that package does not violate CRAN's 
-Result: WARN 
-    Error(s) in re-building vignettes:
-    --- re-building ‘BAS-vignette.Rmd’ using rmarkdown
-    Quitting from lines 463-466 (BAS-vignette.Rmd) 
-    Error: processing vignette 'BAS-vignette.Rmd' failed with diagnostics:
-    cannot open the connection to 'https://stat.duke.edu/sites/stat.duke.edu/files/climate.dat'
+* Fixed WARNING under fedora-clang-devel. Added climate.dat file to package for
+building vignette so that package does not violate CRAN's policy 
+for accessing internet resources and is more permament if file location/url 
+changes locally.
 
-* Fixed testthat errors under Solaris.  Default settings for `force.heredity` is set back to FALSE in `bas.lm` and `bas.glm`.
+* Fixed testthat errors under Solaris.  Default settings for `force.heredity` is
+set back to FALSE in `bas.lm` and `bas.glm` so that methods work on all 
+platforms.  For Solaris, users who wish to impose the `force.heredity` 
+constraint may use the post-processing function.
+
 
 # BAS 1.5.4
 
@@ -95,7 +96,7 @@ and added unit test to "tests/testthat/test-special-functions.R"
 
 * added warning if marginal likelihoods/posterior probabilities are NA with default model fitting method with suggestion that models be rerun with `pivot = TRUE`.  This uses a modified Cholesky decomposition with pivoting so that if the model is rank deficient or nearly singular the dimensionality is reduced.  [Bug #21](https://github.com/merliseclyde/BAS/issues/21).   
 
-* corrected count for first model with `method='MCMC'` which lead to potential model with 0 probabiliy and errors in `image`.
+* corrected count for first model with `method='MCMC'` which lead to potential model with 0 probability and errors in `image`.
 
 * coerced predicted values to be a vector under BMA (was a matrix)
 
@@ -222,7 +223,7 @@ Chaloner & Brant for linear models.
 
 * Extract coefficient summaries, credible intervals and plots for the `HPM` and ` MPM` in addition to the default `BMA` by adding a new `estimator` argument to the `coef` function. The new `n.models` argument to `coef` provides summaries based on the top `n.models` highest probability models to reduce computation time. 'n.models = 1' is equivalent to the highest probability model.
 
-* use of newdata that is a vector is now depricated for predict.bas; newdata must be a dataframe or missing, in which case fitted values based on the dataframe used in fitting is used
+* use of newdata that is a vector is now deprecated for predict.bas; newdata must be a dataframe or missing, in which case fitted values based on the dataframe used in fitting is used
 
 * factor levels are handled as in `lm` or `glm` for prediction when there may be only level of a factor in the newdata
 
@@ -372,7 +373,7 @@ A vignette has been added at long last!  This illustrates several of the new fea
 	SLR models to create starting probabilities or order variables
 	especially for p > n case
 	- added standalone function for hypergeometric1F1 using Cephes
-	library and a Laplace aproximation
+	library and a Laplace approximation
 	-Added class "BAS" so that predict and fitted functions (S3
 	methods) are not masked by functions in the BVS package: to do
 	modify the rest of the S3 methods.
@@ -443,7 +444,7 @@ A vignette has been added at long last!  This illustrates several of the new fea
 
 # BAS 0.4
 
-	- fixed fortran calls to use F77_NAME macro 
+	- fixed FORTRAN calls to use F77_NAME macro 
 	- changed  allocation of objects for .Call to prevent some objects from being overwritten.  
   
 # BAS 0.3

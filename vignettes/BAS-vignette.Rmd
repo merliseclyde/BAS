@@ -8,6 +8,7 @@ r_packages:
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging and Variable Selection}
+  %VignetteEngine{knitr::rmarkdown}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -353,7 +354,7 @@ crime.ZS <- bas.lm(y ~ .,
   method = "MCMC", MCMC.iterations = 10^6
 )
 
-# Don't run diagnostics(crime.ZS, type="model", pch=16)
+diagnostics(crime.ZS, type="model", pch=16)
 ```
 
 
@@ -469,14 +470,14 @@ climate.bas <- bas.lm(deltaT ~ proxy * poly(latitude, 2),
 ```
 
 Examining the image of the top  models,
-```{r climate-image}
+```{r climate-image, fig.width=7}
 image(climate.bas, rotate = F)
 ```
 
 we see that all levels of a factor  enter or drop from the model together, as well as the vectors in the design matrix to represent the term `poly`.   
 Rerunning without the constraint, 
 
-```{r wtreg-wo-contraint}
+```{r wtreg-wo-contraint, fig.width=7}
 # May take a while to enumerate all 2^20 models
 climate.bas <- bas.lm(deltaT ~ proxy * poly(latitude, 2),
   data = climate,

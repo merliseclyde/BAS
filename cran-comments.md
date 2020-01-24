@@ -1,6 +1,12 @@
 # BAS 1.5.5  Comments to CRAN
 
-resubmission to fix additional errors found during Version 1.5.4  (1-20-2020)
+resubmission to fix  errors found in package version 1.5.4: 
+ 
+    CRAN repository db overrides:
+    X-CRAN-Comment: Archived on 2020-01-20 as check issues were still not
+      corrected.
+  
+Fedora:   Internet access violation
 
 Flavor: r-devel-linux-x86_64-fedora-clang
 Check: re-building of vignette outputs 
@@ -16,77 +22,67 @@ Result: WARN
 Solaris:
 Check: tests 
 Result: ERROR 
-     Running ‘testthat.R’ [31s/35s]
+    Running ‘testthat.R’ [31s/35s]
     Running the tests in ‘tests/testthat.R’ failed.
+    
 
 ## Test environments
 
 * local OS X install, R 3.6.2
-* debian/gcc-9 fortran-9/valgrind R-devel (4.0.0)
-* ubuntu 14.04 (on travis-ci), R 3.6.2
-* win-builder (devel and release)
-* R-hub windows-x86_64-devel (r-devel)
-* R-hub ubuntu-gcc-release (r-release)
+* local fedora/clang fortran-9/valgrind R-devel (4.0.0)
+* ubuntu 14.04 (on travis-ci), R 3.6.2 R-devel
+* win-builder (r-devel)
 * R-hub fedora-clang-devel (r-devel)
-* R-hub linux-x86_64-rocker-gcc-san (r-devel)
 * R-hub solaris-x86-patched (r-patched)
-* R-hub debian-gcc-release (r-release) (with valgrind)
 
-## R CMD check results
+Passes all checks on OSX/current, fedora/clang/R-devel, ubuntu/current/R-devel
+Notes (windows) and error (Solaris) are false positives (see details below from checks)
 
-No Notes, Warnings or Errors on platforms except 
+In particular, the issues identified in the last submission on Fedora and Solaris have been identified and fixed for this submission
 
-* On fedora-clang-devel (r-devel):  0 error | 0 warnings | 2 notes  (False positives)
+## R CMD check results for this submission
 
- checking CRAN incoming feasibility ...NB: need Internet access to use CRAN incoming checks
-  NOTE
+* On fedora-clang-devel (r-devel):  0 error | 0 warnings | 1 notes  
+
+NOTE Maintainer: ‘Merlise Clyde <clyde@duke.edu>’
+  
+  
+* On solaris-x86-patched (r-patched)  1 error | 0 warnings | 1 notes
+  checking CRAN incoming feasibility ... NOTE
   Maintainer: ‘Merlise Clyde <clyde@duke.edu>’
   
-  Possibly mis-spelled words in DESCRIPTION:
-    BAS (32:30)
-    DMS (42:28)
-    Ghosh (40:12)
-    Liang (25:30)
-    Littman (40:22)
-    Siow (24:34)
-    Zellner (24:26)
-    Zellner's (23:10)
-    al (25:39)
-    et (25:36)
+    Found the following (possibly) invalid URLs:
+    URL: https://dx.doi.org/10.1093/biomet/ass040
+      From: man/bas.lm.Rd
+            inst/doc/BAS-vignette.html
+      Status: Error
+      Message: libcurl error code 56:
+        	OpenSSL SSL_read: SSL_ERROR_SYSCALL, errno 131
 
-* On Solaris: 1 error | 0 warnings | 0 notes 
+NOTE to CRAN:  url is valid,  but encounters time-out during check (passes check on all other platforms, and no issues with other urls in package)
 
-Error: testthat unit tests failed Execution halted
+* win-builder (r-devel)  0 errors | 0 warnings  | 1 notes 
 
+  checking CRAN incoming feasibility ... NOTE
+  Maintainer: 'Merlise Clyde <clyde@duke.edu>'
+  
+  New submission
+  
+  Package was archived on CRAN
 
-## valgrind report (debian/gcc-9/R-devel)
-## 
-R -d "valgrind --tool=memcheck --leak-check=full --track-origins=yes --log-fd=1 --log-file=BAS.Rcheck/BAS-valgrind.txt" --vanilla < BAS.Rcheck/BAS-Ex.R
+ Possibly mis-spelled words in DESCRIPTION:
  
- =1802== Memcheck, a memory error detector
-==1802== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==1802== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
-==1802== Command: /usr/local/lib/R/bin/exec/R --vanilla
-==1802== Parent PID: 1
-==1802==
-==1802==
-==1802== HEAP SUMMARY:
-==1802==     in use at exit: 148,567,369 bytes in 51,660 blocks
-==1802==   total heap usage: 473,272 allocs, 421,612 frees, 1,187,563,817 bytes allocated
-==1802==
-==1802== LEAK SUMMARY:
-==1802==    definitely lost: 0 bytes in 0 blocks
-==1802==    indirectly lost: 0 bytes in 0 blocks
-==1802==      possibly lost: 0 bytes in 0 blocks
-==1802==    still reachable: 148,567,369 bytes in 51,660 blocks
-==1802==                       of which reachable via heuristic:
-==1802==                         newarray           : 4,264 bytes in 1 blocks
-==1802==         suppressed: 0 bytes in 0 blocks
-==1802== Reachable blocks (those to which a pointer was found) are not shown.
-==1802== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==1802==
-==1802== For lists of detected and suppressed errors, rerun with: -s
-==1802== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+  BAS (32:31)
+  Ghosh (40:12)
+  Liang (25:30)
+  Littman (40:22)
+  Siow (24:34)
+  Zellner (24:26)
+  Zellner's (23:10)
+  al (25:39)
+  et (25:36)
+
+NOTE to CRAN:  Notes are regarding maintainer (standard) and spelling (all correct)
 
 ## Reverse Dependencies
 
