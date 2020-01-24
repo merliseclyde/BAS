@@ -36,7 +36,7 @@ Result: ERROR
 * R-hub solaris-x86-patched (r-patched)
 
 Passes all checks on OSX/current, fedora/clang/R-devel, ubuntu/current/R-devel
-Notes (windows) and error (Solaris) are false positives (see details below from checks)
+Notes (windows) and error (Solaris) are false positives (see details below from checks).  Now issues identified via valgrind under fedora/clang fortran-9/valgrind R-devel (4.0.0)
 
 In particular, the issues identified in the last submission on Fedora and Solaris have been identified and fixed for this submission
 
