@@ -116,7 +116,7 @@ NULL
 #'  C, +/- 1.2 degrees C in tropical sea surface temperatures.
 #'  The negative value means that the Earth was colder then than now.
 #'  Since 1980 there have been many other studies.
-#' \code{climate} is a dataset contaning 63 measurements on 5 variables:
+#' \code{climate} is a dataset with 63 measurements on 5 variables:
 #' \describe{\item{\emph{deltaT}}{ the response variables, which is the change in temperature
 #' in degrees Celsius;}
 #' \item{\emph{sdev}}{a standard deviation for the calculated \emph{deltaT};}
