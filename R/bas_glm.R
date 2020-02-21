@@ -254,7 +254,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
     family <- family()
   }
 
-  if (!(family$family %in% c("binomial", "poisson"))) {
+  if (!(family$family %in% c("binomial", "poisson", "gamma"))) {
     stop(paste("family ", family$family, "not implemented"))
   }
   if (missing(data)) {
