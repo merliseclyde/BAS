@@ -338,6 +338,63 @@ void  Lapack_chol2inv(double *A, int sz, double *ans)
 
 
 
+/* Gamma */
+
+double gam_loglik(double *Y, double*mu, double *wts, int n) {
+  int i;
+  double ll = 0.0;
+  
+  for (i = 0; i < n; i++) {
+    ll += wts[i]*dpois(Y[i],mu[i],1);
+  }
+  return(ll);
+}
+
+
+void gam_variance(double *mu, double *var, int n) {
+  
+  int i;
+  
+  for (i = 0; i<n; i++) {
+    var[i] = mu[i];
+  }
+}
+
+
+
+void gam_dev_resids(double *ry, double *rmu, double *rwt, double *rans, int n)
+{
+  int i;
+  double mui, yi, wti;
+  
+  for (i = 0; i < n; i++) {
+    mui = rmu[i];
+    yi = ry[i];
+    wti = rwt[i];
+    rans[i] = mui * wti;
+    if (yi > 0) {
+      rans[i] = wti*(yi*log(yi/mui) - (yi - mui));
+    }
+    rans[i] *= 2.0;
+  }
+}
+
+
+void gam_initialize(double *Y, double *mu,  double *weights, int n) {
+  int i;
+  for (i = 0; i < n; i++) {
+    if (Y[i] < 0.0) error("negative values not allowed for Poisson");
+    mu[i] =  Y[i] + 0.1;
+  }
+}
+
+
+double gam_dispersion(double *resid,  double *weights, int n, int rank) {
+  return(1.0);
+}
+
+
+
 struct glmfamilystruc * make_glmfamily_structure(SEXP family) {
 
   glmstptr *glmfamily;
@@ -372,6 +429,20 @@ struct glmfamilystruc * make_glmfamily_structure(SEXP family) {
 	  glmfamily->initialize = poisson_initialize;
 	  glmfamily->variance = poisson_variance;
 	  glmfamily->loglik =  poisson_loglik;
+	  if (strcmp(glmfamily->link, "log") != 0) {
+	    warning("no other links implemented yet, using log\n");
+	  }
+	  glmfamily->linkfun = log_link;
+	  glmfamily->mu_eta = log_mu_eta;
+	  glmfamily->linkinv =  log_linkinv;
+	  glmfamily->info_matrix =  poisson_log_info;
+	}
+	else if  (strcmp(glmfamily->family, "gamma") == 0) {
+	  glmfamily->dev_resids = gam_dev_resids;
+	  glmfamily->dispersion = gam_dispersion;
+	  glmfamily->initialize = gam_initialize;
+	  glmfamily->variance = gam_variance;
+	  glmfamily->loglik =  gam_loglik;
 	  if (strcmp(glmfamily->link, "log") != 0) {
 	    warning("no other links implemented yet, using log\n");
 	  }
