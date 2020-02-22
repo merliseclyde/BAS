@@ -340,7 +340,7 @@ void  Lapack_chol2inv(double *A, int sz, double *ans)
 
 /* Gamma */
 
-double gam_loglik(double *Y, double*mu, double *wts, int n) {
+double gamma_loglik(double *Y, double*mu, double *wts, int n) {
   int i;
   double ll = 0.0;
   
@@ -351,7 +351,7 @@ double gam_loglik(double *Y, double*mu, double *wts, int n) {
 }
 
 
-void gam_variance(double *mu, double *var, int n) {
+void gamma_variance(double *mu, double *var, int n) {
   
   int i;
   
@@ -362,7 +362,7 @@ void gam_variance(double *mu, double *var, int n) {
 
 
 
-void gam_dev_resids(double *ry, double *rmu, double *rwt, double *rans, int n)
+void gamma_dev_resids(double *ry, double *rmu, double *rwt, double *rans, int n)
 {
   int i;
   double mui, yi, wti;
@@ -380,7 +380,7 @@ void gam_dev_resids(double *ry, double *rmu, double *rwt, double *rans, int n)
 }
 
 
-void gam_initialize(double *Y, double *mu,  double *weights, int n) {
+void gamma_initialize(double *Y, double *mu,  double *weights, int n) {
   int i;
   for (i = 0; i < n; i++) {
     if (Y[i] < 0.0) error("negative values not allowed for Poisson");
@@ -389,7 +389,7 @@ void gam_initialize(double *Y, double *mu,  double *weights, int n) {
 }
 
 
-double gam_dispersion(double *resid,  double *weights, int n, int rank) {
+double gamma_dispersion(double *resid,  double *weights, int n, int rank) {
   return(1.0);
 }
 
@@ -437,12 +437,12 @@ struct glmfamilystruc * make_glmfamily_structure(SEXP family) {
 	  glmfamily->linkinv =  log_linkinv;
 	  glmfamily->info_matrix =  poisson_log_info;
 	}
-	else if  (strcmp(glmfamily->family, "gamma") == 0) {
-	  glmfamily->dev_resids = poisson_dev_resids;
-	  glmfamily->dispersion = poisson_dispersion;
-	  glmfamily->initialize = poisson_initialize;
-	  glmfamily->variance = poisson_variance;
-	  glmfamily->loglik =  poisson_loglik;
+	else if  (strcmp(glmfamily->family, "Gamma") == 0) {
+	  glmfamily->dev_resids = gamma_dev_resids;
+	  glmfamily->dispersion = gamma_dispersion;
+	  glmfamily->initialize = gamma_initialize;
+	  glmfamily->variance = gamma_variance;
+	  glmfamily->loglik =  gamma_loglik;
 	  if (strcmp(glmfamily->link, "log") != 0) {
 	    warning("no other links implemented yet, using log\n");
 	  }

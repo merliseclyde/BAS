@@ -255,6 +255,12 @@ void log_mu_eta(double *eta, double *mu, int n);
 void poisson_log_info(double *y, double *mu, double *weights, double *var, int n);
 void poisson_dev_resids(double *y, double *mu, double *wt, double *res, int n);
 void poisson_initialize(double *Y, double *mu,  double *weights, int n);
+// Gamma
+double gamma_loglik(double *Y, double *mu, double *wts, int n);
+double gamma_dispersion(double *resid,  double *weights, int n, int rank) ;
+void gamma_variance(double *mu, double *var, int n);
+void gamma_dev_resids(double *y, double *mu, double *wt, double *res, int n);
+void gamma_initialize(double *Y, double *mu,  double *weights, int n);
 
 
 // Normal
