@@ -120,6 +120,64 @@ double poisson_dispersion(double *resid,  double *weights, int n, int rank) {
   return(1.0);
 }
 
+
+/* Gamma */
+
+double gamma_loglik(double *Y, double*mu, double *wts, int n) {
+  int i;
+  double ll = 0.0;
+  
+  for (i = 0; i < n; i++) {
+    ll += wts[i]*dgamma(Y[i],0.1,0.1/mu[i],1);
+  }
+  return(ll);
+}
+
+
+void gamma_variance(double *mu, double *var, int n) {
+  
+  int i;
+  
+  for (i = 0; i<n; i++) {
+    var[i] = pow (mu[i],2.0)/0.1;
+  }
+}
+
+
+
+void gamma_dev_resids(double *ry, double *rmu, double *rwt, double *rans, int n)
+{
+  int i;
+  double mui, yi, wti;
+  
+  for (i = 0; i < n; i++) {
+    mui = rmu[i];
+    yi = ry[i];
+    wti = rwt[i];
+    rans[i] = mui * wti;
+    if (yi > 0) {
+      rans[i] = wti*(yi*log(yi/mui) - (yi - mui));
+    }
+    rans[i] *= 2.0;
+  }
+}
+
+
+void gamma_initialize(double *Y, double *mu,  double *weights, int n) {
+  int i;
+  for (i = 0; i < n; i++) {
+    if (Y[i] < 0.0) error("negative values not allowed for Gamma");
+    mu[i] =  Y[i] + 0.1;
+  }
+}
+
+
+double gamma_dispersion(double *resid,  double *weights, int n, int rank) {
+  return(1.0);
+}
+
+
+
 /* Binomial */
 
 double binomial_loglik(double *Y, double*mu, double *wts, int n) {
@@ -338,60 +396,6 @@ void  Lapack_chol2inv(double *A, int sz, double *ans)
 
 
 
-/* Gamma */
-
-double gamma_loglik(double *Y, double*mu, double *wts, int n) {
-  int i;
-  double ll = 0.0;
-  
-  for (i = 0; i < n; i++) {
-    ll += wts[i]*dpois(Y[i],mu[i],1);
-  }
-  return(ll);
-}
-
-
-void gamma_variance(double *mu, double *var, int n) {
-  
-  int i;
-  
-  for (i = 0; i<n; i++) {
-    var[i] = mu[i];
-  }
-}
-
-
-
-void gamma_dev_resids(double *ry, double *rmu, double *rwt, double *rans, int n)
-{
-  int i;
-  double mui, yi, wti;
-  
-  for (i = 0; i < n; i++) {
-    mui = rmu[i];
-    yi = ry[i];
-    wti = rwt[i];
-    rans[i] = mui * wti;
-    if (yi > 0) {
-      rans[i] = wti*(yi*log(yi/mui) - (yi - mui));
-    }
-    rans[i] *= 2.0;
-  }
-}
-
-
-void gamma_initialize(double *Y, double *mu,  double *weights, int n) {
-  int i;
-  for (i = 0; i < n; i++) {
-    if (Y[i] < 0.0) error("negative values not allowed for Poisson");
-    mu[i] =  Y[i] + 0.1;
-  }
-}
-
-
-double gamma_dispersion(double *resid,  double *weights, int n, int rank) {
-  return(1.0);
-}
 
 
 
