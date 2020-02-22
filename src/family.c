@@ -438,11 +438,11 @@ struct glmfamilystruc * make_glmfamily_structure(SEXP family) {
 	  glmfamily->info_matrix =  poisson_log_info;
 	}
 	else if  (strcmp(glmfamily->family, "gamma") == 0) {
-	  glmfamily->dev_resids = gam_dev_resids;
-	  glmfamily->dispersion = gam_dispersion;
-	  glmfamily->initialize = gam_initialize;
-	  glmfamily->variance = gam_variance;
-	  glmfamily->loglik =  gam_loglik;
+	  glmfamily->dev_resids = poisson_dev_resids;
+	  glmfamily->dispersion = poisson_dispersion;
+	  glmfamily->initialize = poisson_initialize;
+	  glmfamily->variance = poisson_variance;
+	  glmfamily->loglik =  poisson_loglik;
 	  if (strcmp(glmfamily->link, "log") != 0) {
 	    warning("no other links implemented yet, using log\n");
 	  }
@@ -453,7 +453,7 @@ struct glmfamilystruc * make_glmfamily_structure(SEXP family) {
 	}
 
 	else {
-	  error("only 'binomial() and 'poisson() families supported now\n");
+	  error("only 'binomial() and 'poisson() and 'gamma() families supported now\n");
 	  //	  stop(1);
 	}
 	return(glmfamily);
