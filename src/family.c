@@ -126,9 +126,12 @@ double poisson_dispersion(double *resid,  double *weights, int n, int rank) {
 double gamma_loglik(double *Y, double*mu, double *wts, int n) {
   int i;
   double ll = 0.0;
+  double dev = 1.0, disp; 
+
+  disp = dev/n;
   
   for (i = 0; i < n; i++) {
-    ll += wts[i]*dgamma(Y[i],0.1,0.1/mu[i],1);
+    ll += wts[i]*dgamma(Y[i],1/disp,1/(mu[i]*disp),1);
   }
   return(ll);
 }
@@ -139,10 +142,9 @@ void gamma_variance(double *mu, double *var, int n) {
   int i;
   
   for (i = 0; i<n; i++) {
-    var[i] = pow (mu[i],2.0)/0.1;
+    var[i] = pow (mu[i],2.0);
   }
 }
-
 
 
 void gamma_dev_resids(double *ry, double *rmu, double *rwt, double *rans, int n)
@@ -154,11 +156,10 @@ void gamma_dev_resids(double *ry, double *rmu, double *rwt, double *rans, int n)
     mui = rmu[i];
     yi = ry[i];
     wti = rwt[i];
-    rans[i] = mui * wti;
+    rans[i] = 2.0 *  wti * (yi - mui)/mui;
     if (yi > 0) {
-      rans[i] = wti*(yi*log(yi/mui) - (yi - mui));
+      rans[i] += -2.0 * wti * log(yi/mui) ;
     }
-    rans[i] *= 2.0;
   }
 }
 
@@ -167,7 +168,7 @@ void gamma_initialize(double *Y, double *mu,  double *weights, int n) {
   int i;
   for (i = 0; i < n; i++) {
     if (Y[i] < 0.0) error("negative values not allowed for Gamma");
-    mu[i] =  Y[i] + 0.1;
+    mu[i] =  Y[i];
   }
 }
 
