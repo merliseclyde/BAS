@@ -230,13 +230,13 @@ typedef struct glmfamilystruc {
   void (*initialize)(double *Y, double *mu, double *weights, int n);
   double (*dispersion)(double *resid,  double *weights, int n, int rank);
   void (*info_matrix) (double *y, double *mu, double *weights, double *var, int n);
-  double (*loglik) (double *y, double *mu, double *weights, int n);
+  double (*loglik) (double *y, double *mu, double *weights, double *devb, int n);
 } glmstptr;
 
 glmstptr * make_glmfamily_structure(SEXP family);
 
 // Binomial family
-double binomial_loglik(double *Y, double *mu, double *wts, int n);
+double binomial_loglik(double *Y, double *mu, double *wts, double *devb, int n);
 void logit_link(double *mu, double *eta, int n);
 void logit_variance(double *mu, double *var, int n);
 void logit_linkinv(double *eta, double *mu, int n);
@@ -246,7 +246,7 @@ void binomial_dev_resids(double *y, double *mu, double *wt, double *res, int n);
 double binomial_dispersion(double *resid,  double *weights, int n, int rank);
 void binomial_initialize(double *Y, double *mu,  double *weights, int n);
 // Poisson
-double poisson_loglik(double *Y, double *mu, double *wts, int n);
+double poisson_loglik(double *Y, double *mu, double *wts, double *devb, int n);
 double poisson_dispersion(double *resid,  double *weights, int n, int rank) ;
 void log_link(double *mu, double *eta, int n);
 void poisson_variance(double *mu, double *var, int n);
@@ -256,7 +256,7 @@ void poisson_log_info(double *y, double *mu, double *weights, double *var, int n
 void poisson_dev_resids(double *y, double *mu, double *wt, double *res, int n);
 void poisson_initialize(double *Y, double *mu,  double *weights, int n);
 // Gamma
-double gamma_loglik(double *Y, double *mu, double *wts, int n);
+double gamma_loglik(double *Y, double *mu, double *wts, double *devb, int n);
 double gamma_dispersion(double *resid,  double *weights, int n, int rank) ;
 void gamma_variance(double *mu, double *var, int n);
 void gamma_dev_resids(double *y, double *mu, double *wt, double *res, int n);
@@ -309,7 +309,7 @@ SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
 
 SEXP glm_bas(SEXP RX, SEXP RY, glmstptr * family, SEXP Roffset, SEXP Rweights, SEXP Rcontrol);
 
-SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Rcoef, SEXP Rmu, SEXP Rweights, glmstptr * glmfamily, betapriorptr * betapriorfamily, SEXP Rlaplace);
+SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Rcoef, SEXP Rmu, SEXP Rdeviance, SEXP Rweights, glmstptr * glmfamily, betapriorptr * betapriorfamily, SEXP Rlaplace);
 
 
 // issue 38
