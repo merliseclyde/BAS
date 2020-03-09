@@ -390,7 +390,7 @@ double logBF_hyperGprior_laplace(double R2, int n, int p, double alpha)
       n = sample size
       p = number of rank of X (including intercept)
       alpha = prior hyperparameter
-      n and p are adjusted by subtrating off one
+      n and p are adjusted by substracting off one
       because of the flat prior on the intercept
    */
 
@@ -400,12 +400,17 @@ double logBF_hyperGprior_laplace(double R2, int n, int p, double alpha)
     dp = (double) p - 1.0;
 /*  Laplace approximation in terms of exp(tau) = g  */
 /*  Agrees with Mathematica but not paper  */
-  if (p == 1 || dn <= dp) logmarg = 0.0;
+  if (p == 1 || dn <= dp) {
+    logmarg = 0.0;
+    }
   else {
     ghat = (-4.+ alpha + dp + (2. - dn)*R2 -
 	    sqrt(-8.*(-2. + alpha + dp)*(-1.0 + R2) + (-4. + alpha + dp + (2.-dn)* R2)*(-4. + alpha + dp + (2.-dn)* R2)))/(2.*(-2. + alpha + dp)*(-1. + R2));
 
-    if (ghat <= 0.0)  { Rprintf("ERROR: In Laplace approximation to  logmarg,  ghat =  %f  R2 = %f p = %d  n = %d\n", ghat, R2, p,n);}
+    if (ghat <= 0.0)  {
+      Rprintf("ERROR: In Laplace approximation to  logmarg,  ghat =  %f  R2 = %f p = %d  n = %d\n",
+              ghat, R2, p,n);
+    }
 
 
     /*  Substitute ghat (unconstrained) into sigma, simplify, then plug in ghat
@@ -511,7 +516,7 @@ double log_laplace_2F1(double a, double b, double c, double z)
   // root1 = (-B - sqrt(D))/(2.*A);
   // root2 = (-B + sqrt(D))/(2.*A);
 
- //  ghat1 = (2.*b)/(c + b*(z - 2.0) - a*z + sqrt(c*c + 4*a*b*z -  2.0*(a + b)*c *z + (a -b )*(a-b)*z*z));
+   ghat = (2.*b)/(c + b*(z - 2.0) - a*z + sqrt(c*c + 4*a*b*z -  2.0*(a + b)*c *z + (a -b )*(a-b)*z*z));
 
  //  ghat2 =  -(c +b*(-2. + z) - a*z + sqrt(c*c + 4*a*b*z -  2.0*(a + b)*c *z + (a -b )*(a-b)*z*z))/(2.*(b - c)*(z - 1.));
 

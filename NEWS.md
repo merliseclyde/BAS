@@ -1,3 +1,9 @@
+# BAS 1.5.6
+
+## Bug Fixes
+
+* Fixed NaN results for the Laplace approximation in the 2F1 function (issue #46) and added unit test.
+
 # BAS 1.5.5
 
 ##  Changes
