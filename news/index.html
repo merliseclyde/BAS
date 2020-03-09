@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BAS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.6</span>
       </span>
     </div>
 
@@ -125,9 +125,21 @@
       <small>Source: <a href='https://github.com/merliseclyde/BAS/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="bas-1-5-6" class="section level1">
+<h1 class="page-header">
+<a href="#bas-1-5-6" class="anchor"></a>BAS 1.5.6<small> Unreleased </small>
+</h1>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug Fixes</h2>
+<ul>
+<li>Fixed NaN results for the Laplace approximation in the 2F1 function (issue <a href='https://github.com/merliseclyde/BAS/issues/46'>#46</a>) and added unit test.</li>
+</ul>
+</div>
+</div>
     <div id="bas-1-5-5" class="section level1">
 <h1 class="page-header">
-<a href="#bas-1-5-5" class="anchor"></a>BAS 1.5.5<small> Unreleased </small>
+<a href="#bas-1-5-5" class="anchor"></a>BAS 1.5.5<small> 2020-01-24 </small>
 </h1>
 <div id="changes" class="section level2">
 <h2 class="hasAnchor">
@@ -150,9 +162,9 @@
 </li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li><p>Fixed valgrind error in src/ZS_approx_null_np.c for invalid write noted in CRAN checks</p></li>
 <li><p>fixed function declaration type-mismatch and argument errors identified by LTO noted in CRAN checks</p></li>
@@ -172,9 +184,9 @@
 <h1 class="page-header">
 <a href="#bas-1-5-3" class="anchor"></a>BAS 1.5.3<small> 2018-10-30 </small>
 </h1>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h2>
 <p>Fixed errors identified on cran checks <a href="https://cran.r-project.org/web/checks/check_results_BAS.html" class="uri">https://cran.r-project.org/web/checks/check_results_BAS.html</a></p>
 <ul>
 <li><p>initialize R2_m = 0.0 in lm_mcmcbas.c (lead to NA’s with clang on debian and fedora )</p></li>
@@ -407,9 +419,9 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <li>set a flag for MCMC sampling <code>renormalize</code> that selects whether the Monte Carlo frequencies are used to estimate posterior model and marginal inclusion probabilities (default <code>renormalize = FALSE</code>) or that marginal likelihoods time prior probabilities that are renormalized to sum to 1 are used. (the latter is the only option for the other methods); new slots for probne0.MCMC, probne0.RN, postprobs.RN and postprobs.MCMC.</li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>fixed problem with prior.bic, robust, and hyper.g.n where default had missing n that was not set in hyperparameters</li>
 <li>fixed error in predict and plot for GLMs when family is provided as a function</li>
@@ -427,9 +439,9 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <li>added df to the object returned by bas.glm to simplify <code>coefficients</code> function.</li>
 </ul>
 </div>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>corrected expected value of shrinkage for intrinsic, hyper-g/n and TCCH priors for glms</li>
 </ul>
@@ -439,9 +451,9 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
 <h1 class="page-header">
 <a href="#bas-1-4-1-september-17-2016" class="anchor"></a>BAS 1.4.1 September 17, 2016<small> 2016-09-20 </small>
 </h1>
-<div id="bug-fixes-4" class="section level2">
+<div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-5" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>the modification in 1.4.0 to automatically handle NA’s led to errors if the response was transformed as part of the formula; this is fixed</li>
 </ul>
@@ -734,6 +746,7 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11">issue <a href='ht
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#bas-1-5-6">1.5.6</a></li>
         <li><a href="#bas-1-5-5">1.5.5</a></li>
         <li><a href="#bas-1-5-4">1.5.4</a></li>
         <li><a href="#bas-1-5-3">1.5.3</a></li>
