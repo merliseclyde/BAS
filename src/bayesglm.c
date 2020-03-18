@@ -88,8 +88,6 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
 
   double  one = 1.0,  tol, devold, devnew;
   double disp;
-  double residuals2;
-  
 
   int   i, j, l, m, rank=1, *pivot=INTEGER(Rpivot), conv=0;
 
