@@ -37,7 +37,7 @@ Should be NULL or a numeric vector.}
 predictor}
 
 \item{family}{a description of the error distribution and link function for
-exponential family; currently only binomial() and poisson() with canonical
+exponential family; currently only binomial(), poisson(), and Gamma() with canonical
 links are implemented.}
 
 \item{coefprior}{function specifying prior distribution on coefficients with
