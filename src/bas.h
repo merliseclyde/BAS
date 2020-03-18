@@ -301,7 +301,7 @@ void SetModel2(double logmargy, double shrinkage_m, double prior_m,
 double FitModel(SEXP Rcoef_m, SEXP Rse_m, double *XtY, double *XtX, int *model_m,
                 double *XtYwork, double *XtXwork, double yty, double SSY, int pmodel, int p,
                 int nobs, int m, double *pmse_m, int *rank_m, int pivot, double tol);
-SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
+SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m, //input data
                   SEXP Roffset, SEXP Rweights,
                   glmstptr * glmfamily, SEXP Rcontrol,
                   SEXP Rlaplace, betapriorptr * betapriorfamily);
