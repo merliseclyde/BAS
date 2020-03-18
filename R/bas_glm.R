@@ -56,7 +56,7 @@ normalize.initprobs.glm <- function(initprobs, glm.obj) {
 #' each model.
 #' @param family a description of the error distribution and link function for
 #' exponential family; currently only `binomial()` with the logistic link and
-#' `poisson()` with the log link are available.
+#' `poisson()` and `Gamma()`with the log link are available.
 #' @param data data frame
 #' @param weights optional vector of weights to be used in the fitting process.
 #' May be missing in which case weights are 1.
