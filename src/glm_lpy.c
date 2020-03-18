@@ -91,7 +91,7 @@ SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, SEXP Rdeviance, SEXP Rwts,
 	double sum_Ieta = 0.0, logdet_Iintercept;
 	int i, j, l, base;
 
-	loglik_mle = glmfamily->loglik(Y, mu, weights, devb, n);
+	loglik_mle = glmfamily->loglik(Y, mu, weights, devb[0], n);
 	glmfamily->info_matrix(Y, mu, weights, Ieta, n);
 
 	for (i = 0; i < n; i++) {

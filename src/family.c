@@ -31,7 +31,7 @@ static R_INLINE double x_d_omx(double x) {
 static R_INLINE double x_d_opx(double x) {return x/(1 + x);}
 
 
-double poisson_loglik(double *Y, double*mu, double *wts, double *devb, int n) {
+double poisson_loglik(double *Y, double*mu, double *wts, double devb, int n) {
   int i;
   double ll = 0.0;
 
@@ -123,18 +123,17 @@ double poisson_dispersion(double *resid,  double *weights, int n, int rank) {
 
 /* Gamma */
 
-double gamma_loglik(double *Y, double*mu, double *wts, double *devb, int n) {
+double gamma_loglik(double *Y, double*mu, double *wts, double devb, int n) {
   int i;
   double ll = 0.0;
   double disp, ntemp;
   
 
   for (i = 0; i < n; i++) {
-    disp += devb[i];
     ntemp += wts[i];
   }
   
-  disp = disp/ntemp;
+  disp = devb/ntemp;
   
   for (i = 0; i < n; i++) {
     ll += wts[i]*dgamma(Y[i],1/disp,1/(mu[i]*disp),1);
@@ -181,7 +180,7 @@ void gamma_initialize(double *Y, double *mu,  double *weights, int n) {
 
 /* Binomial */
 
-double binomial_loglik(double *Y, double*mu, double *wts, double *devb, int n) {
+double binomial_loglik(double *Y, double*mu, double *wts, double devb, int n) {
   int i;
   double ll = 0.0;
 
