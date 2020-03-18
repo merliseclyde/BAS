@@ -177,22 +177,6 @@ void gamma_initialize(double *Y, double *mu,  double *weights, int n) {
 }
 
 
-double gamma_dispersion(double *resid,  double *weights, int n, int rank) {
-  int i;
-  double disp;
-  
-  for (i = 0; i < n; i++) {
-    disp += resid[i];
-  }
-  disp=disp/(double)n;
-    
-    return(disp);
-  
-  
-}
-
-
-
 /* Binomial */
 
 double binomial_loglik(double *Y, double*mu, double *wts, double *devb, int n) {
@@ -314,6 +298,7 @@ double Gaussian_dispersion(double *resid,  double *weights, int n, int rank) {
     if (weights[i] > 0) nwt += 1;
     dispersion += weights[i]*resid[i]*resid[i];
   }
+  
    return(dispersion/(double) (nwt - rank));
 }
 
@@ -360,7 +345,7 @@ void chol2se(double *qr, double *se, double *R, double *covwork, int p, int n) {
   Lapack_chol2inv(R, p, covwork);
 
 for (j=0; j < p; j++) {
-  se[j] = sqrt(covwork[j*p + j]);
+  se[j] = covwork[j*p + j];
 }
 
  return;
@@ -458,7 +443,7 @@ struct glmfamilystruc * make_glmfamily_structure(SEXP family) {
 	}
 	else if  (strcmp(glmfamily->family, "Gamma") == 0) {
 	  glmfamily->dev_resids = gamma_dev_resids;
-	  glmfamily->dispersion = gamma_dispersion;
+	  glmfamily->dispersion = Gaussian_dispersion;
 	  glmfamily->initialize = gamma_initialize;
 	  glmfamily->variance = gamma_variance;
 	  glmfamily->loglik =  gamma_loglik;
