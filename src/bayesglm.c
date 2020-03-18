@@ -207,7 +207,7 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
   if (rank == p)   chol2se(&Xwork[0], &se[0], &R[0], &cov[0], p, n);
       else	{
 	  QR2cov(&Xwork[0], &R[0], &cov[0], rank, n);
-  	for (j=0; j < rank; j++)  se[pivot[j]-1] = sqrt(cov[j*rank + j]);
+  	for (j=0; j < rank; j++)  se[pivot[j]-1] = cov[j*rank + j];
         }
 
       for (j=0; j < p; j++) {
