@@ -202,8 +202,7 @@ are mixtures of g-priors that provide approximations to the power prior.
 }
 \examples{
 
-library(MASS)
-data(Pima.tr)
+data(Pima.tr, package="MASS")
 
 
 # enumeration  with default method="BAS"
@@ -229,9 +228,10 @@ pima.BIC = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
               modelprior=uniform())
 # Poisson example
 
-  data(crabs)
+  data(crabs, package="BAS")
   #short run for illustration
-  crabs.bas = bas.glm(satell ~ color*spine*width + weight, data=crabs,
+  crabs.bas = bas.glm(satell ~ color*spine*width + weight,
+                      data=crabs,
                       family=poisson(),
                       betaprior=EB.local(), modelprior=uniform(),
                       method='MCMC', n.models=2^10, MCMC.iterations=5000,

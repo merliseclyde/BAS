@@ -34,9 +34,6 @@ Wiley, Hoboken, NJ., Section 4.3.2,
  Satellite Male Groups in Horseshoe Crabs, \emph{Limulus polyphemus},
  \emph{Ethology}, \bold{102}, 1--21.
 }
-\usage{
-crabs
-}
 \description{
 Data on horseshoe crabs (\emph{Limulus polyphemus}).
  Responseis number of males surrounding a breeding female,

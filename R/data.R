@@ -196,15 +196,16 @@ NULL
 #'
 NULL
 
-#' @title Horseshoe Crab Data
+#'  Horseshoe Crab Data
 #'
-#' @name crabs
-#' @docType data
-#' @description  Data on horseshoe crabs (\emph{Limulus polyphemus}).
+#'  Data on horseshoe crabs (\emph{Limulus polyphemus}).
 #'  Responseis number of males surrounding a breeding female,
 #'  color (factor), condition (factor), weight (quantitative),
 #'  and width (quantitative) of the female.
-#' @usage crabs
+#'
+#' @name crabs
+#' @docType data
+#'
 #' @format A data frame with 173 observations on 6 variables.
 #'Individuals (rows of the data frame) are female horseshoe crabs.
 #'Variables other than \code{satell} refer to these females. The variables are

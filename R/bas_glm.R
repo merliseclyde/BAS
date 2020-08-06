@@ -189,8 +189,7 @@ normalize.initprobs.glm <- function(initprobs, glm.obj) {
 #' @keywords GLM regression
 #' @examples
 #'
-#' library(MASS)
-#' data(Pima.tr)
+#' data(Pima.tr, package="MASS")
 #'
 #'
 #' # enumeration  with default method="BAS"
@@ -216,9 +215,10 @@ normalize.initprobs.glm <- function(initprobs, glm.obj) {
 #'               modelprior=uniform())
 #' # Poisson example
 #'
-#'   data(crabs)
+#'   data(crabs, package="BAS")
 #'   #short run for illustration
-#'   crabs.bas = bas.glm(satell ~ color*spine*width + weight, data=crabs,
+#'   crabs.bas = bas.glm(satell ~ color*spine*width + weight,
+#'                       data=crabs,
 #'                       family=poisson(),
 #'                       betaprior=EB.local(), modelprior=uniform(),
 #'                       method='MCMC', n.models=2^10, MCMC.iterations=5000,
