@@ -1,4 +1,8 @@
 # BAS 1.5.6
+## Changes
+
+* Updated tests and examples to use Suggested packages conditionally per CRAN policy 
+"Error: poisson regression (@test-bas-glm.R#118)" 
 
 ## Bug Fixes
 

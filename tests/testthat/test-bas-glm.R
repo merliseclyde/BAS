@@ -115,6 +115,7 @@ test_that("missing data arg", {
   })
 
 test_that("poisson regression", {
+  if (requireNamespace("glmbb", quietly=TRUE)) {
   data(crabs, package = "glmbb")
   crabs.bas <- bas.glm(satell ~ color * spine * width + weight,
     data = crabs,
@@ -124,7 +125,7 @@ test_that("poisson regression", {
     prob.rw = .95
   )
   expect_null(plot(crabs.bas))
-  expect_equal(0, sum(crabs.bas$shrinkage > 1))
+  expect_equal(0, sum(crabs.bas$shrinkage > 1))}
 })
 
 test_that("glm_fit", {
