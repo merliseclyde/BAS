@@ -215,15 +215,15 @@ normalize.initprobs.glm <- function(initprobs, glm.obj) {
 #'               betaprior=bic.prior(), family=binomial(),
 #'               modelprior=uniform())
 #' # Poisson example
-#' if(requireNamespace("glmbb", quietly=TRUE)) {
-#'   data(crabs, package='glmbb')
+#'
+#'   data(crabs)
 #'   #short run for illustration
 #'   crabs.bas = bas.glm(satell ~ color*spine*width + weight, data=crabs,
 #'                       family=poisson(),
 #'                       betaprior=EB.local(), modelprior=uniform(),
 #'                       method='MCMC', n.models=2^10, MCMC.iterations=5000,
 #'                       prob.rw=.95)
-#' }
+#'
 #' @concept BMA
 #' @concept variable selection
 #' @family BMA functions

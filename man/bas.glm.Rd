@@ -228,15 +228,15 @@ pima.BIC = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
               betaprior=bic.prior(), family=binomial(),
               modelprior=uniform())
 # Poisson example
-if(requireNamespace("glmbb", quietly=TRUE)) {
-  data(crabs, package='glmbb')
+
+  data(crabs)
   #short run for illustration
   crabs.bas = bas.glm(satell ~ color*spine*width + weight, data=crabs,
                       family=poisson(),
                       betaprior=EB.local(), modelprior=uniform(),
                       method='MCMC', n.models=2^10, MCMC.iterations=5000,
                       prob.rw=.95)
-}
+
 }
 \references{
 Li, Y. and Clyde, M. (2019) Mixtures of g-priors in Generalized
