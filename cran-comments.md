@@ -1,6 +1,6 @@
-# BAS 1.5.5  Comments to CRAN
+# BAS 1.5.6  Comments to CRAN
 
-resubmission to fix  errors found in package version 1.5.4: 
+resubmission to fix  errors found in package version 1.5.5: 
  
     CRAN repository db overrides:
     X-CRAN-Comment: Archived on 2020-01-20 as check issues were still not
