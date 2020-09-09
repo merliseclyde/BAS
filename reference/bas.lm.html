@@ -139,32 +139,32 @@ Linear Models</h1>
     </div>
 
     <pre class="usage"><span class='fu'>bas.lm</span>(
-  <span class='no'>formula</span>,
-  <span class='no'>data</span>,
-  <span class='no'>subset</span>,
-  <span class='no'>weights</span>,
-  <span class='kw'>contrasts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>na.action</span> <span class='kw'>=</span> <span class='st'>"na.omit"</span>,
-  <span class='kw'>n.models</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"ZS-null"</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'>beta.binomial</span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
-  <span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"Uniform"</span>,
-  <span class='kw'>include.always</span> <span class='kw'>=</span> ~<span class='fl'>1</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"BAS"</span>,
-  <span class='kw'>update</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>bestmodel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>prob.local</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>prob.rw</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>MCMC.iterations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>delta</span> <span class='kw'>=</span> <span class='fl'>0.025</span>,
-  <span class='kw'>thin</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>renormalize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-07</span>,
-  <span class='kw'>bigmem</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>formula</span>,
+  <span class='kw'>data</span>,
+  <span class='kw'>subset</span>,
+  <span class='kw'>weights</span>,
+  contrasts = <span class='kw'>NULL</span>,
+  na.action = <span class='st'>"na.omit"</span>,
+  n.models = <span class='kw'>NULL</span>,
+  prior = <span class='st'>"ZS-null"</span>,
+  alpha = <span class='kw'>NULL</span>,
+  modelprior = <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
+  initprobs = <span class='st'>"Uniform"</span>,
+  include.always = <span class='op'>~</span><span class='fl'>1</span>,
+  method = <span class='st'>"BAS"</span>,
+  update = <span class='kw'>NULL</span>,
+  bestmodel = <span class='kw'>NULL</span>,
+  prob.local = <span class='fl'>0</span>,
+  prob.rw = <span class='fl'>0.5</span>,
+  MCMC.iterations = <span class='kw'>NULL</span>,
+  lambda = <span class='kw'>NULL</span>,
+  delta = <span class='fl'>0.025</span>,
+  thin = <span class='fl'>1</span>,
+  renormalize = <span class='fl'>FALSE</span>,
+  force.heredity = <span class='fl'>FALSE</span>,
+  pivot = <span class='fl'>TRUE</span>,
+  tol = <span class='fl'>1e-07</span>,
+  bigmem = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -262,12 +262,12 @@ beta ~ C(0, sigma^2 alpha (X'X/n)^-1).</p></td>
     <tr>
       <th>modelprior</th>
       <td><p>Family of prior distribution on the models.  Choices
-include <code>uniform</code> <code>Bernoulli</code> or
-<code>beta.binomial</code>, <code>tr.beta.binomial</code>,
-(with truncation) <code>tr.poisson</code> (a truncated Poisson), and
-<code>tr.power.prior</code> (a truncated power family),
+include <code><a href='uniform.html'>uniform</a></code> <code><a href='Bernoulli.html'>Bernoulli</a></code> or
+<code><a href='beta.binomial.html'>beta.binomial</a></code>, <code><a href='tr.beta.binomial.html'>tr.beta.binomial</a></code>,
+(with truncation) <code><a href='tr.poisson.html'>tr.poisson</a></code> (a truncated Poisson), and
+<code><a href='tr.power.prior.html'>tr.power.prior</a></code> (a truncated power family),
  with the default being a
-<code>beta.binomial(1,1)</code>.  Truncated versions are useful for p &gt; n.</p></td>
+<code><a href='beta.binomial.html'>beta.binomial(1,1)</a></code>.  Truncated versions are useful for p &gt; n.</p></td>
     </tr>
     <tr>
       <th>initprobs</th>
@@ -278,9 +278,9 @@ and provides the initial inclusion probabilities used for sampling without
 replacement with method="BAS".  Options for the character string giving the
 method are: "Uniform" or "uniform" where each predictor variable is equally
 likely to be sampled (equivalent to random sampling without replacement);
-"eplogp" uses the <code>eplogprob</code> function to approximate the Bayes
+"eplogp" uses the <code><a href='eplogprob.html'>eplogprob</a></code> function to approximate the Bayes
 factor from p-values from the full model to find initial marginal inclusion
-probabilities; "marg-eplogp" uses<code>eplogprob.marg</code> function to
+probabilities; "marg-eplogp" uses<code><a href='eplogprob.marg.html'>eplogprob.marg</a></code> function to
 approximate the Bayes factor from p-values from the full model each simple
 linear regression.  To run a Markov Chain to provide initial estimates of
 marginal inclusion probabilities for "BAS", use method="MCMC+BAS" below.
@@ -369,7 +369,7 @@ similar to the Gibbs sampler in SSVS.</p></td>
 based on renormalizing the marginal likelihoods times prior probabilities
 (TRUE) or frequencies from MCMC.  The latter are unbiased in long runs,
 while the former may have less variability.  May be compared via the
-diagnostic plot function <code>diagnostics</code>.
+diagnostic plot function <code><a href='diagnostics.html'>diagnostics</a></code>.
 See details in Clyde and Ghosh (2012).</p></td>
     </tr>
     <tr>
@@ -443,18 +443,18 @@ BMA object</p></dd>
 <dt>Y</dt><dd><p>response</p></dd>
 <dt>X</dt><dd><p>matrix of predictors</p></dd>
 <dt>mean.x</dt><dd><p>vector of means for each column of X (used in
-<code>predict.bas</code>)</p></dd>
+<code><a href='predict.bas.html'>predict.bas</a></code>)</p></dd>
 <dt>include.always</dt><dd><p>indices of variables that are forced into the model</p></dd>
 
-The function summary.bas, is used to print a summary of the
-results. The function plot.bas is used to plot posterior
-distributions for the coefficients and image.bas provides an
+The function <a href='summary.bas.html'>summary.bas</a>, is used to print a summary of the
+results. The function <a href='plot.bas.html'>plot.bas</a> is used to plot posterior
+distributions for the coefficients and <a href='image.bas.html'>image.bas</a> provides an
 image of the distribution over models.  Posterior summaries of coefficients
-can be extracted using coefficients.bas.  Fitted values and
-predictions can be obtained using the S3 functions fitted.bas
-and predict.bas.  BAS objects may be updated to use a
+can be extracted using <a href='coef.bas.html'>coefficients.bas</a>.  Fitted values and
+predictions can be obtained using the S3 functions <a href='fitted.bas.html'>fitted.bas</a>
+and <a href='predict.bas.html'>predict.bas</a>.  BAS objects may be updated to use a
 different prior (without rerunning the sampler) using the function
-update.bas. For MCMC sampling diagnostics can be used
+<a href='update.bas.html'>update.bas</a>. For MCMC sampling <a href='diagnostics.html'>diagnostics</a> can be used
 to assess whether the MCMC has run long enough so that the posterior probabilities
 are stable. For more details see the associated demos and vignette.
 
@@ -530,55 +530,59 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 56.  p. 356-374.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>summary.bas</code>, <code>coefficients.bas</code>,
-<code>print.bas</code>, <code>predict.bas</code>, <code>fitted.bas</code>
-<code>plot.bas</code>, <code>image.bas</code>, <code>eplogprob</code>,
-<code>update.bas</code></p>
+    <div class='dont-index'><p><code><a href='summary.bas.html'>summary.bas</a></code>, <code><a href='coef.bas.html'>coefficients.bas</a></code>,
+<code><a href='print.bas.html'>print.bas</a></code>, <code><a href='predict.bas.html'>predict.bas</a></code>, <code><a href='fitted.bas.html'>fitted.bas</a></code>
+<code><a href='plot.bas.html'>plot.bas</a></code>, <code><a href='image.bas.html'>image.bas</a></code>, <code><a href='eplogprob.html'>eplogprob</a></code>,
+<code><a href='update.bas.html'>update.bas</a></code></p>
 <p>Other bas methods: 
-<code>BAS</code>,
-<code>coef.bas()</code>,
-<code>confint.coef.bas()</code>,
-<code>confint.pred.bas()</code>,
-<code>diagnostics()</code>,
-<code>fitted.bas()</code>,
-<code>force.heredity.bas()</code>,
-<code>image.bas()</code>,
-<code>plot.confint.bas()</code>,
-<code>predict.basglm()</code>,
-<code>predict.bas()</code>,
-<code>summary.bas()</code>,
-<code>update.bas()</code>,
-<code>variable.names.pred.bas()</code></p></div>
+<code><a href='BAS.html'>BAS</a></code>,
+<code><a href='coef.bas.html'>coef.bas</a>()</code>,
+<code><a href='confint.coef.bas.html'>confint.coef.bas</a>()</code>,
+<code><a href='confint.pred.bas.html'>confint.pred.bas</a>()</code>,
+<code><a href='diagnostics.html'>diagnostics</a>()</code>,
+<code><a href='fitted.bas.html'>fitted.bas</a>()</code>,
+<code><a href='force.heredity.bas.html'>force.heredity.bas</a>()</code>,
+<code><a href='image.bas.html'>image.bas</a>()</code>,
+<code><a href='plot.confint.bas.html'>plot.confint.bas</a>()</code>,
+<code><a href='predict.basglm.html'>predict.basglm</a>()</code>,
+<code><a href='predict.bas.html'>predict.bas</a>()</code>,
+<code><a href='summary.bas.html'>summary.bas</a>()</code>,
+<code><a href='update.bas.html'>update.bas</a>()</code>,
+<code><a href='variable.names.pred.bas.html'>variable.names.pred.bas</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Merlise Clyde (<a href='mailto:clyde@duke.edu'>clyde@duke.edu</a>) and Michael Littman</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>MASS</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>UScrime</span>)
-<span class='no'>crime.bic</span> <span class='kw'>&lt;-</span> <span class='fu'>bas.lm</span>(<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>y</span>) ~ <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>M</span>) + <span class='no'>So</span> + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>Ed</span>) +
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>Po1</span>) + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>Po2</span>) +
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>LF</span>) + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>M.F</span>) + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>Pop</span>) + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>NW</span>) +
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>U1</span>) + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>U2</span>) + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>GDP</span>) + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>Ineq</span>) +
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>Prob</span>) + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>Time</span>),
-<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>UScrime</span>, <span class='kw'>n.models</span> <span class='kw'>=</span> <span class='fl'>2</span>^<span class='fl'>15</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"BIC"</span>,
-<span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'>beta.binomial</span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
-<span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"eplogp"</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://www.stats.ox.ac.uk/pub/MASS4'>MASS</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>UScrime</span>)
+<span class='kw'>crime.bic</span> <span class='op'>&lt;-</span> <span class='fu'>bas.lm</span>(<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>y</span>) <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>M</span>) <span class='op'>+</span> <span class='kw'>So</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Ed</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Po1</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Po2</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>LF</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>M.F</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Pop</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>NW</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>U1</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>U2</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>GDP</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Ineq</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Prob</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Time</span>),
+data = <span class='kw'>UScrime</span>, n.models = <span class='fl'>2</span><span class='op'>^</span><span class='fl'>15</span>, prior = <span class='st'>"BIC"</span>,
+modelprior = <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
+initprobs = <span class='st'>"eplogp"</span>, pivot = <span class='fl'>FALSE</span>
 )
 
 
 <span class='co'># use MCMC rather than enumeration</span>
-<span class='no'>crime.mcmc</span> <span class='kw'>&lt;-</span> <span class='fu'>bas.lm</span>(<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>y</span>) ~ <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>M</span>) + <span class='no'>So</span> + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>Ed</span>) +
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>Po1</span>) + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>Po2</span>) +
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>LF</span>) + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>M.F</span>) + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>Pop</span>) + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>NW</span>) +
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>U1</span>) + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>U2</span>) + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>GDP</span>) + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>Ineq</span>) +
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>Prob</span>) + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>Time</span>),
-<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>UScrime</span>,
-<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"MCMC"</span>,
-<span class='kw'>MCMC.iterations</span> <span class='kw'>=</span> <span class='fl'>20000</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"BIC"</span>,
-<span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'>beta.binomial</span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
-<span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"eplogp"</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+<span class='kw'>crime.mcmc</span> <span class='op'>&lt;-</span> <span class='fu'>bas.lm</span>(<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>y</span>) <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>M</span>) <span class='op'>+</span> <span class='kw'>So</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Ed</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Po1</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Po2</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>LF</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>M.F</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Pop</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>NW</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>U1</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>U2</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>GDP</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Ineq</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Prob</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Time</span>),
+data = <span class='kw'>UScrime</span>,
+method = <span class='st'>"MCMC"</span>,
+MCMC.iterations = <span class='fl'>20000</span>, prior = <span class='st'>"BIC"</span>,
+modelprior = <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
+initprobs = <span class='st'>"eplogp"</span>, pivot = <span class='fl'>FALSE</span>
 )
 
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>crime.bic</span>)</div><div class='output co'>#&gt;           P(B != 0 | Y)   model 1       model 2     model 3     model 4
+<span class='fu'><a href='summary.bas.html'>summary</a></span>(<span class='kw'>crime.bic</span>)
+</div><div class='output co'>#&gt;           P(B != 0 | Y)   model 1       model 2     model 3     model 4
 #&gt; Intercept     1.0000000   1.00000  1.000000e+00   1.0000000   1.0000000
 #&gt; log(M)        0.9335117   1.00000  1.000000e+00   1.0000000   1.0000000
 #&gt; So            0.3276563   0.00000  1.000000e+00   0.0000000   0.0000000
@@ -621,17 +625,20 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; PostProbs   0.0099000
 #&gt; R2          0.8375000
 #&gt; dim         9.0000000
-#&gt; logmarg   -22.8118635</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>crime.bic</span>)</div><div class='img'><img src='bas.lm-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='no'>crime.bic</span>, <span class='kw'>subset</span> <span class='kw'>=</span> -<span class='fl'>1</span>)</div><div class='img'><img src='bas.lm-5.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; logmarg   -22.8118635</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>crime.bic</span>)
+</div><div class='img'><img src='bas.lm-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='image.bas.html'>image</a></span>(<span class='kw'>crime.bic</span>, subset = <span class='op'>-</span><span class='fl'>1</span>)
+</div><div class='img'><img src='bas.lm-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># example with two-way interactions and hierarchical constraints</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ToothGrowth</span>)
-<span class='no'>ToothGrowth</span>$<span class='no'>dose</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='no'>ToothGrowth</span>$<span class='no'>dose</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span>(<span class='no'>ToothGrowth</span>$<span class='no'>dose</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Low"</span>, <span class='st'>"Medium"</span>, <span class='st'>"High"</span>)
-<span class='no'>TG.bas</span> <span class='kw'>&lt;-</span> <span class='fu'>bas.lm</span>(<span class='no'>len</span> ~ <span class='no'>supp</span> * <span class='no'>dose</span>,
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ToothGrowth</span>,
-  <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'>uniform</span>(), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"BAS"</span>,
-  <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>ToothGrowth</span>)
+<span class='kw'>ToothGrowth</span><span class='op'>$</span><span class='kw'>dose</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='kw'>ToothGrowth</span><span class='op'>$</span><span class='kw'>dose</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span>(<span class='kw'>ToothGrowth</span><span class='op'>$</span><span class='kw'>dose</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Low"</span>, <span class='st'>"Medium"</span>, <span class='st'>"High"</span>)
+<span class='kw'>TG.bas</span> <span class='op'>&lt;-</span> <span class='fu'>bas.lm</span>(<span class='kw'>len</span> <span class='op'>~</span> <span class='kw'>supp</span> <span class='op'>*</span> <span class='kw'>dose</span>,
+  data = <span class='kw'>ToothGrowth</span>,
+  modelprior = <span class='fu'><a href='uniform.html'>uniform</a></span>(), method = <span class='st'>"BAS"</span>,
+  force.heredity = <span class='fl'>TRUE</span>
 )
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>TG.bas</span>)</div><div class='output co'>#&gt;                   P(B != 0 | Y)  model 1    model 2     model 3      model 4
+<span class='fu'><a href='summary.bas.html'>summary</a></span>(<span class='kw'>TG.bas</span>)
+</div><div class='output co'>#&gt;                   P(B != 0 | Y)  model 1    model 2     model 3      model 4
 #&gt; Intercept             1.0000000  1.00000  1.0000000  1.00000000 1.000000e+00
 #&gt; suppVC                0.9910702  1.00000  1.0000000  0.00000000 0.000000e+00
 #&gt; doseMedium            1.0000000  1.00000  1.0000000  1.00000000 0.000000e+00
@@ -654,32 +661,35 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; PostProbs          0.000000e+00
 #&gt; R2                 5.950000e-02
 #&gt; dim                2.000000e+00
-#&gt; logmarg           -1.270492e+00</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='no'>TG.bas</span>)</div><div class='img'><img src='bas.lm-6.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; logmarg           -1.270492e+00</div><div class='input'><span class='fu'><a href='image.bas.html'>image</a></span>(<span class='kw'>TG.bas</span>)
+</div><div class='img'><img src='bas.lm-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># exmple with non-full rank case</span>
 
- <span class='no'>loc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"testdata"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"BAS"</span>)
- <span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='no'>loc</span>, <span class='st'>"JASP-testdata.csv"</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"/"</span>))
-<span class='no'>fullModelFormula</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>as.formula</a></span>(<span class='st'>"contNormal ~  contGamma * contExpon +
+ <span class='kw'>loc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"testdata"</span>, package = <span class='st'>"BAS"</span>)
+ <span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='kw'>loc</span>, <span class='st'>"JASP-testdata.csv"</span>, sep = <span class='st'>"/"</span>))
+<span class='kw'>fullModelFormula</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>as.formula</a></span>(<span class='st'>"contNormal ~  contGamma * contExpon +
                                 contGamma * contcor1 + contExpon * contcor1"</span>)
 
 <span class='co'># should give warning; use pivot = T to fit non-full rank case (fails on i386)</span>
- <span class='no'>out</span> <span class='kw'>=</span> <span class='fu'>bas.lm</span>(<span class='no'>fullModelFormula</span>,
-              <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>d</span>,
-              <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.125316</span>,
-              <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"JZS"</span>,
-              <span class='kw'>weights</span> <span class='kw'>=</span> <span class='no'>facFifty</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: log marginals and posterior probabilities contain NA's.  Consider re-running with the option `pivot=TRUE` if there are models that are not full rank</span></div><div class='input'>
+ <span class='kw'>out</span> <span class='op'>=</span> <span class='fu'>bas.lm</span>(<span class='kw'>fullModelFormula</span>,
+              data = <span class='kw'>d</span>,
+              alpha = <span class='fl'>0.125316</span>,
+              prior = <span class='st'>"JZS"</span>,
+              weights = <span class='kw'>facFifty</span>, force.heredity = <span class='fl'>FALSE</span>, pivot = <span class='fl'>FALSE</span>)
+</div><div class='output co'>#&gt; <span class='warning'>Warning: log marginals and posterior probabilities contain NA's.  Consider re-running with the option `pivot=TRUE` if there are models that are not full rank</span></div><div class='input'>
 
 <span class='co'># use pivot = TRUE to fit non-full rank case  (default)</span>
 <span class='co'># This is slower but safer</span>
 
-<span class='no'>out</span> <span class='kw'>=</span>  <span class='fu'>bas.lm</span>(<span class='no'>fullModelFormula</span>,
-              <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>d</span>,
-              <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.125316</span>,
-              <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"JZS"</span>,
-              <span class='kw'>weights</span> <span class='kw'>=</span> <span class='no'>facFifty</span>, <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pivot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='kw'>out</span> <span class='op'>=</span>  <span class='fu'>bas.lm</span>(<span class='kw'>fullModelFormula</span>,
+              data = <span class='kw'>d</span>,
+              alpha = <span class='fl'>0.125316</span>,
+              prior = <span class='st'>"JZS"</span>,
+              weights = <span class='kw'>facFifty</span>, force.heredity = <span class='fl'>FALSE</span>, pivot = <span class='fl'>TRUE</span>)
 
 <span class='co'># more complete demo's</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/demo.html'>demo</a></span>(<span class='no'>BAS.hald</span>)</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/r/utils/demo.html'>demo</a></span>(<span class='kw'>BAS.hald</span>)
+</div><div class='output co'>#&gt; 
 #&gt; 
 #&gt; 	demo(BAS.hald)
 #&gt; 	---- ~~~~~~~~
@@ -950,9 +960,11 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 #&gt; 
 #&gt; &gt; hald.bic = update(hald.gprior,newprior="BIC")
 #&gt; 
-#&gt; &gt; hald.zs = update(hald.bic, newprior="ZS-null")</div><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/utils/demo.html'>demo</a></span>(<span class='no'>BAS.USCrime</span>)
-}</div></pre>
+#&gt; &gt; hald.zs = update(hald.bic, newprior="ZS-null")</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/utils/demo.html'>demo</a></span>(<span class='kw'>BAS.USCrime</span>)
+}
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -968,7 +980,7 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

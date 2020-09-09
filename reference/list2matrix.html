@@ -141,7 +141,7 @@ entries.  These functions coerce the list object to a matrix and fill in the
 zeros to facilitate other computations.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>list2matrix.bas</span>(<span class='no'>x</span>, <span class='no'>what</span>, <span class='kw'>which.models</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>list2matrix.bas</span>(<span class='kw'>x</span>, <span class='kw'>what</span>, which.models = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,26 +168,31 @@ columns <code>x$n.vars</code></p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>list2matrix.bas(x, which)</code> is equivalent to
-<code>list2matrix.which(x)</code>, however, the latter uses sapply rather than a
+<code><a href='list2matrix.which.html'>list2matrix.which(x)</a></code>, however, the latter uses sapply rather than a
 loop.
 <code>list2matrix.which</code> and <code>which.matrix</code> both coerce
 <code>x$which</code> into a matrix.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>bas</code></p>
+    <div class='dont-index'><p><code><a href='bas.lm.html'>bas</a></code></p>
 <p>Other as.matrix methods: 
-<code>list2matrix.which()</code>,
-<code>which.matrix()</code></p></div>
+<code><a href='list2matrix.which.html'>list2matrix.which</a>()</code>,
+<code><a href='which.matrix.html'>which.matrix</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Merlise Clyde <a href='mailto:clyde@duke.edu'>clyde@duke.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>Hald</span>)
-<span class='no'>hald.bic</span> <span class='kw'>&lt;-</span>  <span class='fu'>bas.lm</span>(<span class='no'>Y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"BIC"</span>,
-                    <span class='kw'>initprobs</span><span class='kw'>=</span> <span class='st'>"eplogp"</span>)
-<span class='no'>coef</span> <span class='kw'>&lt;-</span> <span class='fu'>list2matrix.bas</span>(<span class='no'>hald.bic</span>, <span class='st'>"mle"</span>)  <span class='co'># extract all coefficients</span>
-<span class='no'>se</span> <span class='kw'>&lt;-</span> <span class='fu'>list2matrix.bas</span>(<span class='no'>hald.bic</span>, <span class='st'>"mle.se"</span>)
-<span class='no'>models</span> <span class='kw'>&lt;-</span> <span class='fu'>list2matrix.which</span>(<span class='no'>hald.bic</span>)     <span class='co'>#matrix of model indicators</span>
-<span class='no'>models</span> <span class='kw'>&lt;-</span> <span class='fu'>which.matrix</span>(<span class='no'>hald.bic</span>$<span class='no'>which</span>, <span class='no'>hald.bic</span>$<span class='no'>n.vars</span>)     <span class='co'>#matrix of model indicators</span></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>Hald</span>)
+<span class='kw'>hald.bic</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='kw'>Y</span> <span class='op'>~</span> <span class='kw'>.</span>, data=<span class='kw'>Hald</span>, prior=<span class='st'>"BIC"</span>,
+                    initprobs= <span class='st'>"eplogp"</span>)
+<span class='kw'>coef</span> <span class='op'>&lt;-</span> <span class='fu'>list2matrix.bas</span>(<span class='kw'>hald.bic</span>, <span class='st'>"mle"</span>)  <span class='co'># extract all coefficients</span>
+<span class='kw'>se</span> <span class='op'>&lt;-</span> <span class='fu'>list2matrix.bas</span>(<span class='kw'>hald.bic</span>, <span class='st'>"mle.se"</span>)
+<span class='kw'>models</span> <span class='op'>&lt;-</span> <span class='fu'><a href='list2matrix.which.html'>list2matrix.which</a></span>(<span class='kw'>hald.bic</span>)     <span class='co'>#matrix of model indicators</span>
+<span class='kw'>models</span> <span class='op'>&lt;-</span> <span class='fu'><a href='which.matrix.html'>which.matrix</a></span>(<span class='kw'>hald.bic</span><span class='op'>$</span><span class='kw'>which</span>, <span class='kw'>hald.bic</span><span class='op'>$</span><span class='kw'>n.vars</span>)     <span class='co'>#matrix of model indicators</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -203,7 +208,7 @@ loop.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

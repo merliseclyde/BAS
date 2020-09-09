@@ -135,7 +135,7 @@
     <p>Creates an object representing the prior distribution on models for BAS.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>Bernoulli</span>(<span class='kw'>probs</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</pre>
+    <pre class="usage"><span class='fu'>Bernoulli</span>(probs = <span class='fl'>0.5</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,18 +162,22 @@ probability probs, the distribution on model size binomial(p, probs)
 distribution.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>bas.lm</code>,
-<code>beta.binomial</code>,<code>uniform </code></p>
+    <div class='dont-index'><p><code><a href='bas.lm.html'>bas.lm</a></code>,
+<code><a href='beta.binomial.html'>beta.binomial</a></code>,<code><a href='uniform.html'>uniform</a> </code></p>
 <p>Other priors modelpriors: 
-<code>Bernoulli.heredity()</code>,
-<code>beta.binomial()</code>,
-<code>tr.beta.binomial()</code>,
-<code>tr.poisson()</code>,
-<code>tr.power.prior()</code>,
-<code>uniform()</code></p></div>
+<code><a href='Bernoulli.heredity.html'>Bernoulli.heredity</a>()</code>,
+<code><a href='beta.binomial.html'>beta.binomial</a>()</code>,
+<code><a href='tr.beta.binomial.html'>tr.beta.binomial</a>()</code>,
+<code><a href='tr.poisson.html'>tr.poisson</a>()</code>,
+<code><a href='tr.power.prior.html'>tr.power.prior</a>()</code>,
+<code><a href='uniform.html'>uniform</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Merlise Clyde</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>Bernoulli</span>(<span class='fl'>.9</span>)</div><div class='output co'>#&gt; $family
+    <pre class="examples"><div class='input'><span class='fu'>Bernoulli</span>(<span class='fl'>.9</span>)
+</div><div class='output co'>#&gt; $family
 #&gt; [1] "Bernoulli"
 #&gt; 
 #&gt; $hyper.parameters
@@ -196,7 +200,7 @@ distribution.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

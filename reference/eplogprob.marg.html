@@ -146,7 +146,7 @@ to order variables and if appropriate obtain initial inclusion probabilities
 for sampling using Bayesian Adaptive Sampling <code>bas.lm</code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>eplogprob.marg</span>(<span class='no'>Y</span>, <span class='no'>X</span>, <span class='kw'>thresh</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>0.99</span>, <span class='kw'>int</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>eplogprob.marg</span>(<span class='kw'>Y</span>, <span class='kw'>X</span>, thresh = <span class='fl'>0.5</span>, max = <span class='fl'>0.99</span>, int = <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -202,14 +202,18 @@ correlation coefficient between y and X_j.</p>
 American Statistician, 55, 62-71.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>bas</code></p></div>
+    <div class='dont-index'><p><code><a href='bas.lm.html'>bas</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Merlise Clyde <a href='mailto:clyde@stat.duke.edu'>clyde@stat.duke.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>MASS</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>UScrime</span>)
-<span class='no'>UScrime</span>[,-<span class='fl'>2</span>] <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>UScrime</span>[,-<span class='fl'>2</span>])
-<span class='fu'>eplogprob</span>(<span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>UScrime</span>))</div><div class='output co'>#&gt; (Intercept)           M          So          Ed         Po1         Po2 
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://www.stats.ox.ac.uk/pub/MASS4'>MASS</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>UScrime</span>)
+<span class='kw'>UScrime</span>[,<span class='op'>-</span><span class='fl'>2</span>] <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>UScrime</span>[,<span class='op'>-</span><span class='fl'>2</span>])
+<span class='fu'><a href='eplogprob.html'>eplogprob</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>y</span> <span class='op'>~</span> <span class='kw'>.</span>, data=<span class='kw'>UScrime</span>))
+</div><div class='output co'>#&gt; (Intercept)           M          So          Ed         Po1         Po2 
 #&gt;   1.0000000   0.9480823   0.5000000   0.9883193   0.5045770   0.5000000 
 #&gt;          LF         M.F         Pop          NW          U1          U2 
 #&gt;   0.5000000   0.5304659   0.5807429   0.8046414   0.5000000   0.6858642 
@@ -230,7 +234,7 @@ American Statistician, 55, 62-71.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

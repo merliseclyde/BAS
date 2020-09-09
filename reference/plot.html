@@ -142,27 +142,27 @@ probabilities.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for bas</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(
-  <span class='no'>x</span>,
-  <span class='kw'>which</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>),
-  <span class='kw'>caption</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Residuals vs Fitted"</span>, <span class='st'>"Model Probabilities"</span>, <span class='st'>"Model Complexity"</span>,
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(
+  <span class='kw'>x</span>,
+  which = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>),
+  caption = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Residuals vs Fitted"</span>, <span class='st'>"Model Probabilities"</span>, <span class='st'>"Model Complexity"</span>,
     <span class='st'>"Inclusion Probabilities"</span>),
-  <span class='kw'>panel</span> <span class='kw'>=</span> <span class='kw'>if</span> (<span class='no'>add.smooth</span>) <span class='no'>panel.smooth</span> <span class='kw'>else</span> <span class='no'>points</span>,
-  <span class='kw'>sub.caption</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/prod.html'>prod</a></span>(<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='st'>"mfcol"</span>)) <span class='kw'>&lt;</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>which</span>) <span class='kw'>&amp;&amp;</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/dev.interactive.html'>dev.interactive</a></span>(),
-  <span class='kw'>col.in</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>col.ex</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>col.pch</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>cex.lab</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>id.n</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>labels.id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>cex.id</span> <span class='kw'>=</span> <span class='fl'>0.75</span>,
-  <span class='kw'>add.smooth</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"add.smooth"</span>),
-  <span class='kw'>label.pos</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>2</span>),
-  <span class='kw'>subset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>drop.always.included</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  panel = <span class='co'>if</span> (<span class='kw'>add.smooth</span>) <span class='kw'>panel.smooth</span> <span class='co'>else</span> <span class='kw'>points</span>,
+  sub.caption = <span class='kw'>NULL</span>,
+  main = <span class='st'>""</span>,
+  ask = <span class='fu'><a href='https://rdrr.io/r/base/prod.html'>prod</a></span>(<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='st'>"mfcol"</span>)) <span class='op'>&lt;</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='kw'>which</span>) <span class='op'>&amp;&amp;</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/dev.interactive.html'>dev.interactive</a></span>(),
+  col.in = <span class='fl'>2</span>,
+  col.ex = <span class='fl'>1</span>,
+  col.pch = <span class='fl'>1</span>,
+  cex.lab = <span class='fl'>1</span>,
+  <span class='kw'>...</span>,
+  id.n = <span class='fl'>3</span>,
+  labels.id = <span class='kw'>NULL</span>,
+  cex.id = <span class='fl'>0.75</span>,
+  add.smooth = <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"add.smooth"</span>),
+  label.pos = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>2</span>),
+  subset = <span class='kw'>NULL</span>,
+  drop.always.included = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -268,19 +268,24 @@ The third is a plot of log marginal likelihood versus model dimension and
 the fourth plot show the posterior marginal inclusion probabilities.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>plot.coef.bas</code> and <code>image.bas</code>.</p>
+    <div class='dont-index'><p><code><a href='plot.coef.bas.html'>plot.coef.bas</a></code> and <code><a href='image.bas.html'>image.bas</a></code>.</p>
 <p>Other bas plots: 
-<code>image.bas()</code>,
-<code>plot.coef.bas()</code></p></div>
+<code><a href='image.bas.html'>image.bas</a>()</code>,
+<code><a href='plot.coef.bas.html'>plot.coef.bas</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Merlise Clyde, based on plot.lm by John Maindonald and Martin
+Maechler</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>Hald</span>)
-<span class='no'>hald.gprior</span> <span class='kw'>=</span>  <span class='fu'>bas.lm</span>(<span class='no'>Y</span>~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"g-prior"</span>, <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>13</span>,
-                      <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'>beta.binomial</span>(<span class='fl'>1</span>,<span class='fl'>1</span>),
-                      <span class='kw'>initprobs</span><span class='kw'>=</span><span class='st'>"eplogp"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>Hald</span>)
+<span class='kw'>hald.gprior</span> <span class='op'>=</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='kw'>Y</span><span class='op'>~</span> <span class='kw'>.</span>, data=<span class='kw'>Hald</span>, prior=<span class='st'>"g-prior"</span>, alpha=<span class='fl'>13</span>,
+                      modelprior=<span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>),
+                      initprobs=<span class='st'>"eplogp"</span>)
 
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>hald.gprior</span>)</div><div class='img'><img src='plot-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>hald.gprior</span>)
+</div><div class='img'><img src='plot-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot-4.png' alt='' width='700' height='433' /></div><div class='input'>
 
 </div></pre>
   </div>
@@ -298,7 +303,7 @@ the fourth plot show the posterior marginal inclusion probabilities.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

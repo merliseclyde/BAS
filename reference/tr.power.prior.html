@@ -139,7 +139,7 @@ using a truncated Distribution on the Model Size where the probability of
 gamma = p^-kappa |gamma| where gamma is the vector of model indicators</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tr.power.prior</span>(<span class='kw'>kappa</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='no'>trunc</span>)</pre>
+    <pre class="usage"><span class='fu'>tr.power.prior</span>(kappa = <span class='fl'>2</span>, <span class='kw'>trunc</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -170,32 +170,37 @@ lead to a uniform distribution over model size.  The Truncated version
 assigns zero probability to all models of size &gt; trunc.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>bas.lm</code>, <code>Bernoulli</code>,<code>uniform</code></p>
+    <div class='dont-index'><p><code><a href='bas.lm.html'>bas.lm</a></code>, <code><a href='Bernoulli.html'>Bernoulli</a></code>,<code><a href='uniform.html'>uniform</a></code></p>
 <p>Other priors modelpriors: 
-<code>Bernoulli.heredity()</code>,
-<code>Bernoulli()</code>,
-<code>beta.binomial()</code>,
-<code>tr.beta.binomial()</code>,
-<code>tr.poisson()</code>,
-<code>uniform()</code></p></div>
+<code><a href='Bernoulli.heredity.html'>Bernoulli.heredity</a>()</code>,
+<code><a href='Bernoulli.html'>Bernoulli</a>()</code>,
+<code><a href='beta.binomial.html'>beta.binomial</a>()</code>,
+<code><a href='tr.beta.binomial.html'>tr.beta.binomial</a>()</code>,
+<code><a href='tr.poisson.html'>tr.poisson</a>()</code>,
+<code><a href='uniform.html'>uniform</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Merlise Clyde</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>tr.power.prior</span>(<span class='fl'>2</span>, <span class='fl'>8</span>)</div><div class='output co'>#&gt; $family
+<span class='fu'>tr.power.prior</span>(<span class='fl'>2</span>, <span class='fl'>8</span>)
+</div><div class='output co'>#&gt; $family
 #&gt; [1] "Trunc-Power-Prior"
 #&gt; 
 #&gt; $hyper.parameters
 #&gt; [1] 2 8
 #&gt; 
 #&gt; attr(,"class")
-#&gt; [1] "prior"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>MASS</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>UScrime</span>)
-<span class='no'>UScrime</span>[, -<span class='fl'>2</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>UScrime</span>[, -<span class='fl'>2</span>])
-<span class='no'>crime.bic</span> <span class='kw'>&lt;-</span> <span class='fu'>bas.lm</span>(<span class='no'>y</span> ~ <span class='no'>.</span>,
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>UScrime</span>, <span class='kw'>n.models</span> <span class='kw'>=</span> <span class='fl'>2</span>^<span class='fl'>15</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"BIC"</span>,
-  <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'>tr.power.prior</span>(<span class='fl'>2</span>, <span class='fl'>8</span>),
-  <span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"eplogp"</span>
-)</div></pre>
+#&gt; [1] "prior"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://www.stats.ox.ac.uk/pub/MASS4'>MASS</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>UScrime</span>)
+<span class='kw'>UScrime</span>[, <span class='op'>-</span><span class='fl'>2</span>] <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>UScrime</span>[, <span class='op'>-</span><span class='fl'>2</span>])
+<span class='kw'>crime.bic</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='kw'>y</span> <span class='op'>~</span> <span class='kw'>.</span>,
+  data = <span class='kw'>UScrime</span>, n.models = <span class='fl'>2</span><span class='op'>^</span><span class='fl'>15</span>, prior = <span class='st'>"BIC"</span>,
+  modelprior = <span class='fu'>tr.power.prior</span>(<span class='fl'>2</span>, <span class='fl'>8</span>),
+  initprobs = <span class='st'>"eplogp"</span>
+)
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -211,7 +216,7 @@ assigns zero probability to all models of size &gt; trunc.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

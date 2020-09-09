@@ -137,7 +137,7 @@ the tCCH mixture of g-priors on coefficients for BAS." />
 the tCCH mixture of g-priors on coefficients for BAS.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>intrinsic</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>intrinsic</span>(n = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -157,7 +157,7 @@ for the tCCH prior where theta in the tCCH prior is determined by the model
 size and sample size.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Creates a structure used for <code>bas.glm</code>.</p>
+    <p>Creates a structure used for <code><a href='bas.glm.html'>bas.glm</a></code>.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Womack, A., Novelo,L.L., Casella, G. (2014). "Inference From
@@ -166,25 +166,29 @@ of the American Statistical Association.  109:1040-1053.
 <a href='https://amstat.tandfonline.com/doi/abs/10.1080/01621459.2014.880348'>https://amstat.tandfonline.com/doi/abs/10.1080/01621459.2014.880348</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>tCCH</code>, <code>robust</code>, <code>hyper.g</code>,
-<code>hyper.g.n</code><code>bas.glm</code></p>
+    <div class='dont-index'><p><code><a href='tCCH.html'>tCCH</a></code>, <code><a href='robust.html'>robust</a></code>, <code><a href='hyper.g.html'>hyper.g</a></code>,
+<code><a href='hyper.g.n.html'>hyper.g.n</a></code><code><a href='bas.glm.html'>bas.glm</a></code></p>
 <p>Other beta priors: 
-<code>CCH()</code>,
-<code>EB.local()</code>,
-<code>IC.prior()</code>,
-<code>Jeffreys()</code>,
-<code>TG()</code>,
-<code>beta.prime()</code>,
-<code>g.prior()</code>,
-<code>hyper.g.n()</code>,
-<code>hyper.g()</code>,
-<code>robust()</code>,
-<code>tCCH()</code>,
-<code>testBF.prior()</code></p></div>
+<code><a href='CCH.html'>CCH</a>()</code>,
+<code><a href='EB.local.html'>EB.local</a>()</code>,
+<code><a href='IC.prior.html'>IC.prior</a>()</code>,
+<code><a href='Jeffreys.html'>Jeffreys</a>()</code>,
+<code><a href='TG.html'>TG</a>()</code>,
+<code><a href='beta.prime.html'>beta.prime</a>()</code>,
+<code><a href='g.prior.html'>g.prior</a>()</code>,
+<code><a href='hyper.g.n.html'>hyper.g.n</a>()</code>,
+<code><a href='hyper.g.html'>hyper.g</a>()</code>,
+<code><a href='robust.html'>robust</a>()</code>,
+<code><a href='tCCH.html'>tCCH</a>()</code>,
+<code><a href='testBF.prior.html'>testBF.prior</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Merlise A Clyde</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>n</span> <span class='kw'>&lt;-</span> <span class='fl'>500</span>
-<span class='fu'>tCCH</span>(<span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>s</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>r</span> <span class='kw'>=</span> <span class='fl'>1.5</span>, <span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>theta</span> <span class='kw'>=</span> <span class='fl'>1</span> / <span class='no'>n</span>)</div><div class='output co'>#&gt; $family
+    <pre class="examples"><div class='input'><span class='kw'>n</span> <span class='op'>&lt;-</span> <span class='fl'>500</span>
+<span class='fu'><a href='tCCH.html'>tCCH</a></span>(alpha = <span class='fl'>1</span>, beta = <span class='fl'>2</span>, s = <span class='fl'>0</span>, r = <span class='fl'>1.5</span>, v = <span class='fl'>1</span>, theta = <span class='fl'>1</span> <span class='op'>/</span> <span class='kw'>n</span>)
+</div><div class='output co'>#&gt; $family
 #&gt; [1] "tCCH"
 #&gt; 
 #&gt; $class
@@ -227,7 +231,7 @@ of the American Statistical Association.  109:1040-1053.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

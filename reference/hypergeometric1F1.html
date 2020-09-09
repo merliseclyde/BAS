@@ -137,7 +137,7 @@ Gamma(b)/(Gamma(b-a)Gamma(a)) Int_0^1 t^(b-1) (1 - t)^(b-a-1) exp(c t) dt" />
 Gamma(b)/(Gamma(b-a)Gamma(a)) Int_0^1 t^(b-1) (1 - t)^(b-a-1) exp(c t) dt</p>
     </div>
 
-    <pre class="usage"><span class='fu'>hypergeometric1F1</span>(<span class='no'>a</span>, <span class='no'>b</span>, <span class='no'>c</span>, <span class='kw'>laplace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>hypergeometric1F1</span>(<span class='kw'>a</span>, <span class='kw'>b</span>, <span class='kw'>c</span>, laplace = <span class='fl'>FALSE</span>, log = <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,11 +172,15 @@ the Laplace approximation.</p></td>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other special functions: 
-<code>hypergeometric2F1()</code>,
-<code>phi1()</code></p></div>
+<code><a href='hypergeometric2F1.html'>hypergeometric2F1</a>()</code>,
+<code><a href='phi1.html'>phi1</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Merlise Clyde (<a href='mailto:clyde@stat.duke.edu'>clyde@stat.duke.edu</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>hypergeometric1F1</span>(<span class='fl'>11.14756</span>, <span class='fl'>0.5</span>, <span class='fl'>0.00175097</span>)</div><div class='output co'>#&gt; [1] 0.03856253</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>hypergeometric1F1</span>(<span class='fl'>11.14756</span>, <span class='fl'>0.5</span>, <span class='fl'>0.00175097</span>)
+</div><div class='output co'>#&gt; [1] 0.03856253</div><div class='input'>
 
 </div></pre>
   </div>
@@ -194,7 +198,7 @@ the Laplace approximation.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

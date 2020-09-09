@@ -139,7 +139,7 @@ a Horn hypergeometric function or Humbert's hypergeometric used in Gordy
 (1998) with integral representation:</p>
     </div>
 
-    <pre class="usage"><span class='fu'>phi1</span>(<span class='no'>a</span>, <span class='no'>b</span>, <span class='no'>c</span>, <span class='no'>x</span>, <span class='no'>y</span>)</pre>
+    <pre class="usage"><span class='fu'>phi1</span>(<span class='kw'>a</span>, <span class='kw'>b</span>, <span class='kw'>c</span>, <span class='kw'>x</span>, <span class='kw'>y</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -179,16 +179,23 @@ arguments for x and y are reversed in the reference above.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other special functions: 
-<code>hypergeometric1F1()</code>,
-<code>hypergeometric2F1()</code></p></div>
+<code><a href='hypergeometric1F1.html'>hypergeometric1F1</a>()</code>,
+<code><a href='hypergeometric2F1.html'>hypergeometric2F1</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Merlise Clyde (<a href='mailto:clyde@stat.duke.edu'>clyde@stat.duke.edu</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># special cases</span>
 <span class='co'># phi1(a, b, c, x=0, y) is the same as 2F1(b, a; c, y)</span>
-<span class='fu'>phi1</span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>1.5</span>, <span class='fl'>0</span>, <span class='fl'>1</span> / <span class='fl'>100</span>)</div><div class='output co'>#&gt; [1] 1.013495</div><div class='input'><span class='fu'>hypergeometric2F1</span>(<span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>1.5</span>, <span class='fl'>1</span> / <span class='fl'>100</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] 1.013495</div><div class='input'>
+<span class='fu'>phi1</span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>1.5</span>, <span class='fl'>0</span>, <span class='fl'>1</span> <span class='op'>/</span> <span class='fl'>100</span>)
+</div><div class='output co'>#&gt; [1] 1.013495</div><div class='input'><span class='fu'><a href='hypergeometric2F1.html'>hypergeometric2F1</a></span>(<span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>1.5</span>, <span class='fl'>1</span> <span class='op'>/</span> <span class='fl'>100</span>, log = <span class='fl'>FALSE</span>)
+</div><div class='output co'>#&gt; [1] 1.013495</div><div class='input'>
 <span class='co'># phi1(a,0,c,x,y) is the same as 1F1(a,c,x)</span>
-<span class='fu'>phi1</span>(<span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>1.5</span>, <span class='fl'>3</span>, <span class='fl'>1</span> / <span class='fl'>100</span>)</div><div class='output co'>#&gt; [1] 10.13001</div><div class='input'><span class='fu'>hypergeometric1F1</span>(<span class='fl'>1</span>, <span class='fl'>1.5</span>, <span class='fl'>3</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] 10.13001</div></pre>
+<span class='fu'>phi1</span>(<span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>1.5</span>, <span class='fl'>3</span>, <span class='fl'>1</span> <span class='op'>/</span> <span class='fl'>100</span>)
+</div><div class='output co'>#&gt; [1] 10.13001</div><div class='input'><span class='fu'><a href='hypergeometric1F1.html'>hypergeometric1F1</a></span>(<span class='fl'>1</span>, <span class='fl'>1.5</span>, <span class='fl'>3</span>, log = <span class='fl'>FALSE</span>)
+</div><div class='output co'>#&gt; [1] 10.13001</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -204,7 +211,7 @@ arguments for x and y are reversed in the reference above.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

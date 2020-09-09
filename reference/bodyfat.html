@@ -145,7 +145,7 @@ easy methods of estimating body fat that are not inconvenient/costly.</p>
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame with 252 observations on the following 15 variables.</p><dl'>
+    <p>A data frame with 252 observations on the following 15 variables.</p><dl>
 <dt>Density</dt><dd><p>a numeric vector for the density
 determined from underwater weighing</p></dd> <dt>Bodyfat</dt><dd><p>percent body fat
 from Siri's (1956) equation</p></dd> <dt>Age</dt><dd><p>age of individual in years</p></dd>
@@ -226,18 +226,22 @@ Principles of the Conditioning Process, Allyn and Bacon, Inc., Boston.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>bodyfat</span>)
-<span class='no'>bodyfat.bas</span> <span class='kw'>=</span> <span class='fu'>bas.lm</span>(<span class='no'>Bodyfat</span> ~ <span class='no'>Abdomen</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>bodyfat</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"ZS-null"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>bodyfat.bas</span>)</div><div class='output co'>#&gt;           P(B != 0 | Y)  model 1      model 2
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>bodyfat</span>)
+<span class='kw'>bodyfat.bas</span> <span class='op'>=</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='kw'>Bodyfat</span> <span class='op'>~</span> <span class='kw'>Abdomen</span>, data=<span class='kw'>bodyfat</span>, prior=<span class='st'>"ZS-null"</span>)
+<span class='fu'><a href='summary.bas.html'>summary</a></span>(<span class='kw'>bodyfat.bas</span>)
+</div><div class='output co'>#&gt;           P(B != 0 | Y)  model 1      model 2
 #&gt; Intercept             1   1.0000 1.000000e+00
 #&gt; Abdomen               1   1.0000 0.000000e+00
 #&gt; BF                   NA   1.0000 1.039211e-57
 #&gt; PostProbs            NA   1.0000 0.000000e+00
 #&gt; R2                   NA   0.6617 0.000000e+00
 #&gt; dim                  NA   2.0000 1.000000e+00
-#&gt; logmarg              NA 131.2089 0.000000e+00</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>Bodyfat</span> ~ <span class='no'>Abdomen</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>bodyfat</span>, <span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>"abdomen circumference (cm)"</span>)</div><div class='input'><span class='no'>betas</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>bodyfat.bas</span>)$<span class='no'>postmean</span>   <span class='co'># current version has that intercept is ybar</span>
-<span class='no'>betas</span>[<span class='fl'>1</span>] <span class='kw'>=</span> <span class='no'>betas</span>[<span class='fl'>1</span>] - <span class='no'>betas</span>[<span class='fl'>2</span>]*<span class='no'>bodyfat.bas</span>$<span class='no'>mean.x</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='no'>betas</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>Bodyfat</span> ~ <span class='no'>Abdomen</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>bodyfat</span>)), <span class='kw'>col</span><span class='kw'>=</span><span class='fl'>2</span>, <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='img'><img src='bodyfat-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; logmarg              NA 131.2089 0.000000e+00</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>Bodyfat</span> <span class='op'>~</span> <span class='kw'>Abdomen</span>, data=<span class='kw'>bodyfat</span>, xlab=<span class='st'>"abdomen circumference (cm)"</span>)
+</div><div class='input'><span class='kw'>betas</span> <span class='op'>=</span> <span class='fu'><a href='coef.bas.html'>coef</a></span>(<span class='kw'>bodyfat.bas</span>)<span class='op'>$</span><span class='kw'>postmean</span>   <span class='co'># current version has that intercept is ybar</span>
+<span class='kw'>betas</span>[<span class='fl'>1</span>] <span class='op'>=</span> <span class='kw'>betas</span>[<span class='fl'>1</span>] <span class='op'>-</span> <span class='kw'>betas</span>[<span class='fl'>2</span>]<span class='op'>*</span><span class='kw'>bodyfat.bas</span><span class='op'>$</span><span class='kw'>mean.x</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='kw'>betas</span>)
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='fu'><a href='coef.bas.html'>coef</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>Bodyfat</span> <span class='op'>~</span> <span class='kw'>Abdomen</span>, data=<span class='kw'>bodyfat</span>)), col=<span class='fl'>2</span>, lty=<span class='fl'>2</span>)
+</div><div class='img'><img src='bodyfat-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -254,7 +258,7 @@ Principles of the Conditioning Process, Allyn and Bacon, Inc., Boston.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

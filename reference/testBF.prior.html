@@ -137,7 +137,7 @@ BAS that corresponds to the test-based Bayes Factors." />
 BAS that corresponds to the test-based Bayes Factors.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>testBF.prior</span>(<span class='no'>g</span>)</pre>
+    <pre class="usage"><span class='fu'>testBF.prior</span>(<span class='kw'>g</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -158,24 +158,28 @@ hyerparameters.</p>
     <p>Creates a prior object structure used for BAS in `bas.glm`.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>g.prior</code>, <code>bas.glm</code></p>
+    <div class='dont-index'><p><code><a href='g.prior.html'>g.prior</a></code>, <code><a href='bas.glm.html'>bas.glm</a></code></p>
 <p>Other beta priors: 
-<code>CCH()</code>,
-<code>EB.local()</code>,
-<code>IC.prior()</code>,
-<code>Jeffreys()</code>,
-<code>TG()</code>,
-<code>beta.prime()</code>,
-<code>g.prior()</code>,
-<code>hyper.g.n()</code>,
-<code>hyper.g()</code>,
-<code>intrinsic()</code>,
-<code>robust()</code>,
-<code>tCCH()</code></p></div>
+<code><a href='CCH.html'>CCH</a>()</code>,
+<code><a href='EB.local.html'>EB.local</a>()</code>,
+<code><a href='IC.prior.html'>IC.prior</a>()</code>,
+<code><a href='Jeffreys.html'>Jeffreys</a>()</code>,
+<code><a href='TG.html'>TG</a>()</code>,
+<code><a href='beta.prime.html'>beta.prime</a>()</code>,
+<code><a href='g.prior.html'>g.prior</a>()</code>,
+<code><a href='hyper.g.n.html'>hyper.g.n</a>()</code>,
+<code><a href='hyper.g.html'>hyper.g</a>()</code>,
+<code><a href='intrinsic.html'>intrinsic</a>()</code>,
+<code><a href='robust.html'>robust</a>()</code>,
+<code><a href='tCCH.html'>tCCH</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Merlise Clyde</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>testBF.prior</span>(<span class='fl'>100</span>)</div><div class='output co'>#&gt; $family
+<span class='fu'>testBF.prior</span>(<span class='fl'>100</span>)
+</div><div class='output co'>#&gt; $family
 #&gt; [1] "testBF.prior"
 #&gt; 
 #&gt; $g
@@ -196,15 +200,16 @@ hyerparameters.</p>
 #&gt; 
 #&gt; 
 #&gt; attr(,"class")
-#&gt; [1] "prior"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>MASS</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>Pima.tr</span>)
+#&gt; [1] "prior"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://www.stats.ox.ac.uk/pub/MASS4'>MASS</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>Pima.tr</span>)
 
 <span class='co'># use g = n</span>
-<span class='fu'>bas.glm</span>(<span class='no'>type</span> ~ <span class='no'>.</span>,
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>Pima.tr</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(),
-  <span class='kw'>betaprior</span> <span class='kw'>=</span> <span class='fu'>testBF.prior</span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>Pima.tr</span>)),
-  <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'>uniform</span>(), <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"BAS"</span>
-)</div><div class='output co'>#&gt; 
+<span class='fu'><a href='bas.glm.html'>bas.glm</a></span>(<span class='kw'>type</span> <span class='op'>~</span> <span class='kw'>.</span>,
+  data = <span class='kw'>Pima.tr</span>, family = <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(),
+  betaprior = <span class='fu'>testBF.prior</span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>Pima.tr</span>)),
+  modelprior = <span class='fu'><a href='uniform.html'>uniform</a></span>(), method = <span class='st'>"BAS"</span>
+)
+</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; bas.glm(formula = type ~ ., family = binomial(), data = Pima.tr, 
 #&gt;     betaprior = testBF.prior(nrow(Pima.tr)), modelprior = uniform(), 
@@ -231,7 +236,7 @@ hyerparameters.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

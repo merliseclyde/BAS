@@ -138,7 +138,7 @@ created by <code>bas</code> Bayesian Adaptive Sampling</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for bas</span>
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>object</span>, <span class='kw'>n.models</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>summary</span>(<span class='kw'>object</span>, n.models = <span class='fl'>5</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -169,28 +169,32 @@ models, R2, dim (which includes the intercept) and the log of the marginal
 likelihood.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>coef.bas</code></p>
+    <div class='dont-index'><p><code><a href='coef.bas.html'>coef.bas</a></code></p>
 <p>Other bas methods: 
-<code>BAS</code>,
-<code>bas.lm()</code>,
-<code>coef.bas()</code>,
-<code>confint.coef.bas()</code>,
-<code>confint.pred.bas()</code>,
-<code>diagnostics()</code>,
-<code>fitted.bas()</code>,
-<code>force.heredity.bas()</code>,
-<code>image.bas()</code>,
-<code>plot.confint.bas()</code>,
-<code>predict.basglm()</code>,
-<code>predict.bas()</code>,
-<code>update.bas()</code>,
-<code>variable.names.pred.bas()</code></p></div>
+<code><a href='BAS.html'>BAS</a></code>,
+<code><a href='bas.lm.html'>bas.lm</a>()</code>,
+<code><a href='coef.bas.html'>coef.bas</a>()</code>,
+<code><a href='confint.coef.bas.html'>confint.coef.bas</a>()</code>,
+<code><a href='confint.pred.bas.html'>confint.pred.bas</a>()</code>,
+<code><a href='diagnostics.html'>diagnostics</a>()</code>,
+<code><a href='fitted.bas.html'>fitted.bas</a>()</code>,
+<code><a href='force.heredity.bas.html'>force.heredity.bas</a>()</code>,
+<code><a href='image.bas.html'>image.bas</a>()</code>,
+<code><a href='plot.confint.bas.html'>plot.confint.bas</a>()</code>,
+<code><a href='predict.basglm.html'>predict.basglm</a>()</code>,
+<code><a href='predict.bas.html'>predict.bas</a>()</code>,
+<code><a href='update.bas.html'>update.bas</a>()</code>,
+<code><a href='variable.names.pred.bas.html'>variable.names.pred.bas</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Merlise Clyde <a href='mailto:clyde@duke.edu'>clyde@duke.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>UScrime</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"MASS"</span>)
-<span class='no'>UScrime</span>[, -<span class='fl'>2</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>UScrime</span>[, -<span class='fl'>2</span>])
-<span class='no'>crime.bic</span> <span class='kw'>&lt;-</span> <span class='fu'>bas.lm</span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>UScrime</span>, <span class='kw'>n.models</span> <span class='kw'>=</span> <span class='fl'>2</span>^<span class='fl'>15</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"BIC"</span>, <span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"eplogp"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>crime.bic</span>)</div><div class='output co'>#&gt; 
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>UScrime</span>, package = <span class='st'>"MASS"</span>)
+<span class='kw'>UScrime</span>[, <span class='op'>-</span><span class='fl'>2</span>] <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>UScrime</span>[, <span class='op'>-</span><span class='fl'>2</span>])
+<span class='kw'>crime.bic</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='kw'>y</span> <span class='op'>~</span> <span class='kw'>.</span>, data = <span class='kw'>UScrime</span>, n.models = <span class='fl'>2</span><span class='op'>^</span><span class='fl'>15</span>, prior = <span class='st'>"BIC"</span>, initprobs = <span class='st'>"eplogp"</span>)
+<span class='fu'><a href='print.bas.html'>print</a></span>(<span class='kw'>crime.bic</span>)
+</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; bas.lm(formula = y ~ ., data = UScrime, n.models = 2^15, prior = "BIC", 
 #&gt;     initprobs = "eplogp")
@@ -202,7 +206,8 @@ likelihood.</p>
 #&gt;       M.F        Pop         NW         U1         U2        GDP       Ineq  
 #&gt;    0.3298     0.4963     0.8346     0.3481     0.7752     0.5254     0.9992  
 #&gt;      Prob       Time  
-#&gt;    0.9541     0.5433  </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>crime.bic</span>)</div><div class='output co'>#&gt;           P(B != 0 | Y)   model 1       model 2     model 3     model 4
+#&gt;    0.9541     0.5433  </div><div class='input'><span class='fu'>summary</span>(<span class='kw'>crime.bic</span>)
+</div><div class='output co'>#&gt;           P(B != 0 | Y)   model 1       model 2     model 3     model 4
 #&gt; Intercept     1.0000000   1.00000  1.000000e+00   1.0000000   1.0000000
 #&gt; M             0.9335117   1.00000  1.000000e+00   1.0000000   1.0000000
 #&gt; So            0.3276563   0.00000  1.000000e+00   0.0000000   0.0000000
@@ -261,7 +266,7 @@ likelihood.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

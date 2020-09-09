@@ -139,29 +139,29 @@ Generalized Linear Models</h1>
     </div>
 
     <pre class="usage"><span class='fu'>bas.glm</span>(
-  <span class='no'>formula</span>,
-  <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(<span class='kw'>link</span> <span class='kw'>=</span> <span class='st'>"logit"</span>),
-  <span class='no'>data</span>,
-  <span class='no'>weights</span>,
-  <span class='no'>subset</span>,
-  <span class='kw'>contrasts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>offset</span>,
-  <span class='kw'>na.action</span> <span class='kw'>=</span> <span class='st'>"na.omit"</span>,
-  <span class='kw'>n.models</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>betaprior</span> <span class='kw'>=</span> <span class='fu'>CCH</span>(<span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>data</span>)), <span class='kw'>s</span> <span class='kw'>=</span> <span class='fl'>0</span>),
-  <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'>beta.binomial</span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
-  <span class='kw'>initprobs</span> <span class='kw'>=</span> <span class='st'>"Uniform"</span>,
-  <span class='kw'>include.always</span> <span class='kw'>=</span> ~<span class='fl'>1</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"MCMC"</span>,
-  <span class='kw'>update</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>bestmodel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>prob.rw</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>MCMC.iterations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.control.html'>glm.control</a></span>(),
-  <span class='kw'>laplace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>renormalize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>force.heredity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>bigmem</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>formula</span>,
+  family = <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(link = <span class='st'>"logit"</span>),
+  <span class='kw'>data</span>,
+  <span class='kw'>weights</span>,
+  <span class='kw'>subset</span>,
+  contrasts = <span class='kw'>NULL</span>,
+  <span class='kw'>offset</span>,
+  na.action = <span class='st'>"na.omit"</span>,
+  n.models = <span class='kw'>NULL</span>,
+  betaprior = <span class='fu'><a href='CCH.html'>CCH</a></span>(alpha = <span class='fl'>0.5</span>, beta = <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>data</span>)), s = <span class='fl'>0</span>),
+  modelprior = <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
+  initprobs = <span class='st'>"Uniform"</span>,
+  include.always = <span class='op'>~</span><span class='fl'>1</span>,
+  method = <span class='st'>"MCMC"</span>,
+  update = <span class='kw'>NULL</span>,
+  bestmodel = <span class='kw'>NULL</span>,
+  prob.rw = <span class='fl'>0.5</span>,
+  MCMC.iterations = <span class='kw'>NULL</span>,
+  control = <span class='fu'><a href='https://rdrr.io/r/stats/glm.control.html'>glm.control</a></span>(),
+  laplace = <span class='fl'>FALSE</span>,
+  renormalize = <span class='fl'>FALSE</span>,
+  force.heredity = <span class='fl'>FALSE</span>,
+  bigmem = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -218,17 +218,17 @@ sampled.</p></td>
     <tr>
       <th>betaprior</th>
       <td><p>Prior on coefficients for model coefficients (except
-intercept).  Options include <code>g.prior</code>, <code>CCH</code>,
-<code>robust</code>, <code>intrinsic</code>, <code>beta.prime</code>,
-<code>EB.local</code>, <code><a href='https://rdrr.io/r/stats/AIC.html'>AIC</a></code>, and <code><a href='https://rdrr.io/r/stats/AIC.html'>BIC</a></code>.</p></td>
+intercept).  Options include <code><a href='g.prior.html'>g.prior</a></code>, <code><a href='CCH.html'>CCH</a></code>,
+<code><a href='robust.html'>robust</a></code>, <code><a href='intrinsic.html'>intrinsic</a></code>, <code><a href='beta.prime.html'>beta.prime</a></code>,
+<code><a href='EB.local.html'>EB.local</a></code>, <code><a href='https://rdrr.io/r/stats/AIC.html'>AIC</a></code>, and <code><a href='https://rdrr.io/r/stats/AIC.html'>BIC</a></code>.</p></td>
     </tr>
     <tr>
       <th>modelprior</th>
       <td><p>Family of prior distribution on the models.  Choices
-include <code>uniform</code>, <code>Bernoulli</code>,
-<code>beta.binomial</code>, truncated Beta-Binomial,
-<code>tr.beta.binomial</code>, and truncated power family
-<code>tr.power.prior</code>.</p></td>
+include <code><a href='uniform.html'>uniform</a></code>, <code><a href='Bernoulli.html'>Bernoulli</a></code>,
+<code><a href='beta.binomial.html'>beta.binomial</a></code>, truncated Beta-Binomial,
+<code><a href='tr.beta.binomial.html'>tr.beta.binomial</a></code>, and truncated power family
+<code><a href='tr.power.prior.html'>tr.power.prior</a></code>.</p></td>
     </tr>
     <tr>
       <th>initprobs</th>
@@ -238,13 +238,13 @@ probability one and does not need to be added here) or a character string
 giving the method used to construct the sampling probabilities if "Uniform"
 each predictor variable is equally likely to be sampled (equivalent to
 random sampling without replacement). If "eplogp", use the
-<code>eplogprob</code> function to approximate the Bayes factor using
+<code><a href='eplogprob.html'>eplogprob</a></code> function to approximate the Bayes factor using
 p-values to find initial marginal inclusion probabilities and sample
 without replacement using these inclusion probabilities, which may be
 updated using estimates of the marginal inclusion probabilities. "eplogp"
 assumes that MLEs from the full model exist; for problems where that is not
 the case or 'p' is large, initial sampling probabilities may be obtained
-using <code>eplogprob.marg</code> which fits a model to each predictor
+using <code><a href='eplogprob.marg.html'>eplogprob.marg</a></code> which fits a model to each predictor
 separately.  To run a Markov Chain to provide initial
 estimates of marginal inclusion probabilities, use method="MCMC+BAS" below.
 While the initprobs are not used in sampling for method="MCMC", this
@@ -391,19 +391,24 @@ and Statistics.  20:80-101 <br />
 Raftery, A.E, Madigan, D. and Hoeting, J.A. (1997) Bayesian Model Averaging
 for Linear Regression Models. Journal of the American Statistical
 Association.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Merlise Clyde (<a href='mailto:clyde@duke.edu'>clyde@duke.edu</a>), Quanli Wang and Yingbo
+Li</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>Pima.tr</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"MASS"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>Pima.tr</span>, package=<span class='st'>"MASS"</span>)
 
 
 <span class='co'># enumeration  with default method="BAS"</span>
-<span class='no'>pima.cch</span> <span class='kw'>=</span> <span class='fu'>bas.glm</span>(<span class='no'>type</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Pima.tr</span>, <span class='kw'>n.models</span><span class='kw'>=</span> <span class='fl'>2</span>^<span class='fl'>7</span>,
-              <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"BAS"</span>,
-              <span class='kw'>betaprior</span><span class='kw'>=</span><span class='fu'>CCH</span>(<span class='kw'>a</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>b</span><span class='kw'>=</span><span class='fl'>532</span>/<span class='fl'>2</span>, <span class='kw'>s</span><span class='kw'>=</span><span class='fl'>0</span>), <span class='kw'>family</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(),
-              <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'>beta.binomial</span>(<span class='fl'>1</span>,<span class='fl'>1</span>))
+<span class='kw'>pima.cch</span> <span class='op'>=</span> <span class='fu'>bas.glm</span>(<span class='kw'>type</span> <span class='op'>~</span> <span class='kw'>.</span>, data=<span class='kw'>Pima.tr</span>, n.models= <span class='fl'>2</span><span class='op'>^</span><span class='fl'>7</span>,
+              method=<span class='st'>"BAS"</span>,
+              betaprior=<span class='fu'><a href='CCH.html'>CCH</a></span>(a=<span class='fl'>1</span>, b=<span class='fl'>532</span><span class='op'>/</span><span class='fl'>2</span>, s=<span class='fl'>0</span>), family=<span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(),
+              modelprior=<span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>))
 
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>pima.cch</span>)</div><div class='output co'>#&gt;           P(B != 0 | Y)   model 1      model 2      model 3      model 4
+<span class='fu'><a href='summary.bas.html'>summary</a></span>(<span class='kw'>pima.cch</span>)
+</div><div class='output co'>#&gt;           P(B != 0 | Y)   model 1      model 2      model 3      model 4
 #&gt; Intercept     1.0000000    1.0000    1.0000000    1.0000000    1.0000000
 #&gt; npreg         0.5684414    0.0000    1.0000000    1.0000000    0.0000000
 #&gt; glu           0.9999949    1.0000    1.0000000    1.0000000    1.0000000
@@ -430,29 +435,32 @@ Association.</p>
 #&gt; PostProbs  4.840000e-02
 #&gt; R2         3.043000e-01
 #&gt; dim        8.000000e+00
-#&gt; logmarg   -1.065369e+02</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='no'>pima.cch</span>)</div><div class='img'><img src='bas.glm-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; logmarg   -1.065369e+02</div><div class='input'><span class='fu'><a href='image.bas.html'>image</a></span>(<span class='kw'>pima.cch</span>)
+</div><div class='img'><img src='bas.glm-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Note MCMC.iterations are set to 1000 for illustration purposes</span>
 <span class='co'># Please check convergence diagnostics and run longer in practice</span>
 
-<span class='no'>pima.robust</span> <span class='kw'>=</span> <span class='fu'>bas.glm</span>(<span class='no'>type</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Pima.tr</span>, <span class='kw'>n.models</span><span class='kw'>=</span> <span class='fl'>2</span>^<span class='fl'>7</span>,
-              <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"MCMC"</span>, <span class='kw'>MCMC.iterations</span><span class='kw'>=</span><span class='fl'>5000</span>,
-              <span class='kw'>betaprior</span><span class='kw'>=</span><span class='fu'>robust</span>(), <span class='kw'>family</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(),
-              <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'>beta.binomial</span>(<span class='fl'>1</span>,<span class='fl'>1</span>))
+<span class='kw'>pima.robust</span> <span class='op'>=</span> <span class='fu'>bas.glm</span>(<span class='kw'>type</span> <span class='op'>~</span> <span class='kw'>.</span>, data=<span class='kw'>Pima.tr</span>, n.models= <span class='fl'>2</span><span class='op'>^</span><span class='fl'>7</span>,
+              method=<span class='st'>"MCMC"</span>, MCMC.iterations=<span class='fl'>5000</span>,
+              betaprior=<span class='fu'><a href='robust.html'>robust</a></span>(), family=<span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(),
+              modelprior=<span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>))
 
-<span class='no'>pima.BIC</span> <span class='kw'>=</span> <span class='fu'>bas.glm</span>(<span class='no'>type</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Pima.tr</span>, <span class='kw'>n.models</span><span class='kw'>=</span> <span class='fl'>2</span>^<span class='fl'>7</span>,
-              <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"BAS+MCMC"</span>, <span class='kw'>MCMC.iterations</span><span class='kw'>=</span><span class='fl'>5000</span>,
-              <span class='kw'>betaprior</span><span class='kw'>=</span><span class='fu'>bic.prior</span>(), <span class='kw'>family</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(),
-              <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'>uniform</span>())
+<span class='kw'>pima.BIC</span> <span class='op'>=</span> <span class='fu'>bas.glm</span>(<span class='kw'>type</span> <span class='op'>~</span> <span class='kw'>.</span>, data=<span class='kw'>Pima.tr</span>, n.models= <span class='fl'>2</span><span class='op'>^</span><span class='fl'>7</span>,
+              method=<span class='st'>"BAS+MCMC"</span>, MCMC.iterations=<span class='fl'>5000</span>,
+              betaprior=<span class='fu'><a href='IC.prior.html'>bic.prior</a></span>(), family=<span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(),
+              modelprior=<span class='fu'><a href='uniform.html'>uniform</a></span>())
 <span class='co'># Poisson example</span>
 
-  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>crabs</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"BAS"</span>)
+  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>crabs</span>, package=<span class='st'>"BAS"</span>)
   <span class='co'>#short run for illustration</span>
-  <span class='no'>crabs.bas</span> <span class='kw'>=</span> <span class='fu'>bas.glm</span>(<span class='no'>satell</span> ~ <span class='no'>color</span>*<span class='no'>spine</span>*<span class='no'>width</span> + <span class='no'>weight</span>,
-                      <span class='kw'>data</span><span class='kw'>=</span><span class='no'>crabs</span>,
-                      <span class='kw'>family</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>poisson</a></span>(),
-                      <span class='kw'>betaprior</span><span class='kw'>=</span><span class='fu'>EB.local</span>(), <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'>uniform</span>(),
-                      <span class='kw'>method</span><span class='kw'>=</span><span class='st'>'MCMC'</span>, <span class='kw'>n.models</span><span class='kw'>=</span><span class='fl'>2</span>^<span class='fl'>10</span>, <span class='kw'>MCMC.iterations</span><span class='kw'>=</span><span class='fl'>5000</span>,
-                      <span class='kw'>prob.rw</span><span class='kw'>=</span><span class='fl'>.95</span>)</div></pre>
+  <span class='kw'>crabs.bas</span> <span class='op'>=</span> <span class='fu'>bas.glm</span>(<span class='kw'>satell</span> <span class='op'>~</span> <span class='kw'>color</span><span class='op'>*</span><span class='kw'>spine</span><span class='op'>*</span><span class='kw'>width</span> <span class='op'>+</span> <span class='kw'>weight</span>,
+                      data=<span class='kw'>crabs</span>,
+                      family=<span class='fu'><a href='https://rdrr.io/r/stats/family.html'>poisson</a></span>(),
+                      betaprior=<span class='fu'><a href='EB.local.html'>EB.local</a></span>(), modelprior=<span class='fu'><a href='uniform.html'>uniform</a></span>(),
+                      method=<span class='st'>'MCMC'</span>, n.models=<span class='fl'>2</span><span class='op'>^</span><span class='fl'>10</span>, MCMC.iterations=<span class='fl'>5000</span>,
+                      prob.rw=<span class='fl'>.95</span>)
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -468,7 +476,7 @@ Association.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

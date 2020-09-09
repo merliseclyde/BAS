@@ -117,9 +117,13 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>The stable version <a href="https://cran.r-project.org/package=BAS"><img src="https://www.r-pkg.org/badges/version/BAS"></a> can be installed easily in the <code>R</code> console like any other package:</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">'BAS'</span>)</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">'BAS'</span>)
+</pre></div>
 <p>On the other hand, I welcome everyone to use the most recent version of the package with quick-fixes, new features and probably new bugs. It’s currently hosted on <a href="https://github.com/merliseclyde/BAS">GitHub</a>. To get the latest development version from <a href="https://github.com/merliseclyde">GitHub</a>, use the <code>devtools</code> package from <a href="https://cran.r-project.org/package=devtools">CRAN</a> and enter in <code>R</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">install_github</span>(<span class="st">'merliseclyde/BAS'</span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="kw">devtools</span>::<span class="fu">install_github</span>(<span class="st">'merliseclyde/BAS'</span>)
+</pre></div>
 <p>You can check out the current build and test coverage status courtesy Travis CI: <a href="https://travis-ci.org/merliseclyde/BAS"><img src="https://travis-ci.org/merliseclyde/BAS.png?branch=master"></a> before installing.</p>
 <p>Installing the package from source does require compilation of C and FORTRAN code as the library makes use of BLAS and LAPACK for efficient model fitting. See <a href="https://cran.r-project.org/doc/manuals/r-devel/R-admin.html">CRAN manuals</a> for installing packages from source under different operating systems.</p>
 </div>
@@ -127,22 +131,30 @@
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>To begin load the package:</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">BAS</span>)</pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://www.r-project.org">BAS</a></span>)
+</pre></div>
 <p>The two main function in <code>BAS</code> are <code>bas.lm</code> and <code>bas.glm</code> for implementing Bayesian Model Averaging and Variable Selection using Zellner’s g-prior and mixtures of g priors. Both functions have a syntax similar to the <code>lm</code> and <code>glm</code> functions respectively. We illustrate using <code>BAS</code> on a simple example with the famous Hald data set using the Zellner-Siow Cauchy prior via</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">Hald</span>)
-<span class="no">hald.ZS</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BAS/man/bas.lm.html">bas.lm</a></span>(<span class="no">Y</span> ~ <span class="no">.</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">Hald</span>, <span class="kw">prior</span><span class="kw">=</span><span class="st">"ZS-null"</span>, <span class="kw">modelprior</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/pkg/BAS/man/uniform.html">uniform</a></span>(), <span class="kw">method</span><span class="kw">=</span><span class="st">"BAS"</span>)</pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">Hald</span>)
+<span class="kw">hald.ZS</span> <span class="op">=</span> <span class="fu"><a href="reference/bas.lm.html">bas.lm</a></span>(<span class="kw">Y</span> <span class="op">~</span> <span class="kw">.</span>, data=<span class="kw">Hald</span>, prior=<span class="st">"ZS-null"</span>, modelprior=<span class="fu"><a href="reference/uniform.html">uniform</a></span>(), method=<span class="st">"BAS"</span>)
+</pre></div>
 <p><code>BAS</code> has <code>summary</code>, <code>plot</code> <code>coef</code>, <code>predict</code> and <code>fitted</code> functions like the <code>lm</code>/<code>glm</code> functions. Images of the model space highlighting which variable are important may be obtained via</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/BAS/man/image.bas.html">image</a></span>(<span class="no">hald.ZS</span>)</pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="fu"><a href="reference/image.bas.html">image</a></span>(<span class="kw">hald.ZS</span>)
+</pre></div>
 <p><img src="reference/figures/unnamed-chunk-3-1.png"><!-- --></p>
 <p>Run <code><a href="https://rdrr.io/r/utils/demo.html">demo("BAS.hald")</a></code> or <code><a href="https://rdrr.io/r/utils/demo.html">demo("BAS.USCrime")</a></code> or see the package vignette for more examples and options such as using MCMC for model spaces that cannot be enumerated.</p>
 <div id="generalized-linear-models" class="section level3">
 <h3 class="hasAnchor">
 <a href="#generalized-linear-models" class="anchor"></a>Generalized Linear Models</h3>
 <p><code>BAS</code> now includes for support for binomial and binary regression and Poisson regression using Laplace approximations to obtain Bayes Factors used in calculating posterior probabilities of models or sampling of models. Here is an example using the Pima diabetes data set with the hyper-g/n prior:</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">MASS</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">Pima.tr</span>)
-<span class="no">Pima.hgn</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BAS/man/bas.glm.html">bas.glm</a></span>(<span class="no">type</span> ~ <span class="no">.</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">Pima.tr</span>, <span class="kw">method</span><span class="kw">=</span><span class="st">"BAS"</span>, <span class="kw">family</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span>(),
-                  <span class="kw">betaprior</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/pkg/BAS/man/hyper.g.n.html">hyper.g.n</a></span>(), <span class="kw">modelprior</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/pkg/BAS/man/uniform.html">uniform</a></span>())</pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://www.stats.ox.ac.uk/pub/MASS4">MASS</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">Pima.tr</span>)
+<span class="kw">Pima.hgn</span> <span class="op">=</span> <span class="fu"><a href="reference/bas.glm.html">bas.glm</a></span>(<span class="kw">type</span> <span class="op">~</span> <span class="kw">.</span>, data=<span class="kw">Pima.tr</span>, method=<span class="st">"BAS"</span>, family=<span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span>(),
+                  betaprior=<span class="fu"><a href="reference/hyper.g.n.html">hyper.g.n</a></span>(), modelprior=<span class="fu"><a href="reference/uniform.html">uniform</a></span>())
+</pre></div>
 <p>Note, the syntax for specifying priors on the coefficients in <code>bas.glm</code> uses a function with arguments to specify the hyper-parameters, rather than a text string to specify the prior name and a separate argument for the hyper-parameters. <code>bas.lm</code> will be moving to this format sometime in the future.</p>
 </div>
 </div>
@@ -223,7 +235,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

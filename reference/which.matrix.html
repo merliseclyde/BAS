@@ -137,7 +137,7 @@ zeros to facilitate other computations." />
 zeros to facilitate other computations.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>which.matrix</span>(<span class='no'>which</span>, <span class='no'>n.vars</span>)</pre>
+    <pre class="usage"><span class='fu'>which.matrix</span>(<span class='kw'>which</span>, <span class='kw'>n.vars</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,17 +163,22 @@ columns <code>x$n.vars</code></p>
 <code>x$which</code> into a matrix.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>bas</code></p>
+    <div class='dont-index'><p><code><a href='bas.lm.html'>bas</a></code></p>
 <p>Other as.matrix methods: 
-<code>list2matrix.bas()</code>,
-<code>list2matrix.which()</code></p></div>
+<code><a href='list2matrix.bas.html'>list2matrix.bas</a>()</code>,
+<code><a href='list2matrix.which.html'>list2matrix.which</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Merlise Clyde <a href='mailto:clyde@duke.edu'>clyde@duke.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>Hald</span>)
-<span class='no'>Hald.bic</span> <span class='kw'>&lt;-</span>  <span class='fu'>bas.lm</span>(<span class='no'>Y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"BIC"</span>, <span class='kw'>initprobs</span><span class='kw'>=</span><span class='st'>"eplogp"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>Hald</span>)
+<span class='kw'>Hald.bic</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='kw'>Y</span> <span class='op'>~</span> <span class='kw'>.</span>, data=<span class='kw'>Hald</span>, prior=<span class='st'>"BIC"</span>, initprobs=<span class='st'>"eplogp"</span>)
 <span class='co'># matrix of model indicators</span>
-<span class='no'>models</span> <span class='kw'>&lt;-</span> <span class='fu'>which.matrix</span>(<span class='no'>Hald.bic</span>$<span class='no'>which</span>, <span class='no'>Hald.bic</span>$<span class='no'>n.vars</span>)</div></pre>
+<span class='kw'>models</span> <span class='op'>&lt;-</span> <span class='fu'>which.matrix</span>(<span class='kw'>Hald.bic</span><span class='op'>$</span><span class='kw'>which</span>, <span class='kw'>Hald.bic</span><span class='op'>$</span><span class='kw'>n.vars</span>)
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -189,7 +194,7 @@ columns <code>x$n.vars</code></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

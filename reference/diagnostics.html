@@ -135,7 +135,7 @@
     <p>Function to help assess convergence of MCMC sampling for bas objects.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>diagnostics</span>(<span class='no'>obj</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"pip"</span>, <span class='st'>"model"</span>), <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>diagnostics</span>(<span class='kw'>obj</span>, type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"pip"</span>, <span class='st'>"model"</span>), <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -173,34 +173,38 @@ variability on repeated runs.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other bas methods: 
-<code>BAS</code>,
-<code>bas.lm()</code>,
-<code>coef.bas()</code>,
-<code>confint.coef.bas()</code>,
-<code>confint.pred.bas()</code>,
-<code>fitted.bas()</code>,
-<code>force.heredity.bas()</code>,
-<code>image.bas()</code>,
-<code>plot.confint.bas()</code>,
-<code>predict.basglm()</code>,
-<code>predict.bas()</code>,
-<code>summary.bas()</code>,
-<code>update.bas()</code>,
-<code>variable.names.pred.bas()</code></p></div>
+<code><a href='BAS.html'>BAS</a></code>,
+<code><a href='bas.lm.html'>bas.lm</a>()</code>,
+<code><a href='coef.bas.html'>coef.bas</a>()</code>,
+<code><a href='confint.coef.bas.html'>confint.coef.bas</a>()</code>,
+<code><a href='confint.pred.bas.html'>confint.pred.bas</a>()</code>,
+<code><a href='fitted.bas.html'>fitted.bas</a>()</code>,
+<code><a href='force.heredity.bas.html'>force.heredity.bas</a>()</code>,
+<code><a href='image.bas.html'>image.bas</a>()</code>,
+<code><a href='plot.confint.bas.html'>plot.confint.bas</a>()</code>,
+<code><a href='predict.basglm.html'>predict.basglm</a>()</code>,
+<code><a href='predict.bas.html'>predict.bas</a>()</code>,
+<code><a href='summary.bas.html'>summary.bas</a>()</code>,
+<code><a href='update.bas.html'>update.bas</a>()</code>,
+<code><a href='variable.names.pred.bas.html'>variable.names.pred.bas</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Merlise Clyde (<a href='mailto:clyde@duke.edu'>clyde@duke.edu</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>MASS</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>UScrime</span>)
-<span class='no'>UScrime</span>[, -<span class='fl'>2</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>UScrime</span>[, -<span class='fl'>2</span>])
-<span class='no'>crime.ZS</span> <span class='kw'>&lt;-</span> <span class='fu'>bas.lm</span>(<span class='no'>y</span> ~ <span class='no'>.</span>,
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>UScrime</span>,
-  <span class='kw'>prior</span> <span class='kw'>=</span> <span class='st'>"ZS-null"</span>,
-  <span class='kw'>modelprior</span> <span class='kw'>=</span> <span class='fu'>uniform</span>(),
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"MCMC"</span>,
-  <span class='kw'>MCMC.iter</span> <span class='kw'>=</span> <span class='fl'>1000</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://www.stats.ox.ac.uk/pub/MASS4'>MASS</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>UScrime</span>)
+<span class='kw'>UScrime</span>[, <span class='op'>-</span><span class='fl'>2</span>] <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>UScrime</span>[, <span class='op'>-</span><span class='fl'>2</span>])
+<span class='kw'>crime.ZS</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='kw'>y</span> <span class='op'>~</span> <span class='kw'>.</span>,
+  data = <span class='kw'>UScrime</span>,
+  prior = <span class='st'>"ZS-null"</span>,
+  modelprior = <span class='fu'><a href='uniform.html'>uniform</a></span>(),
+  method = <span class='st'>"MCMC"</span>,
+  MCMC.iter = <span class='fl'>1000</span>
 ) <span class='co'># short run for the example</span>
-<span class='fu'>diagnostics</span>(<span class='no'>crime.ZS</span>)</div><div class='img'><img src='diagnostics-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='diagnostics-2.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>diagnostics</span>(<span class='kw'>crime.ZS</span>)
+</div><div class='img'><img src='diagnostics-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='diagnostics-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -216,7 +220,7 @@ variability on repeated runs.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

@@ -142,15 +142,15 @@ of what the function does. ~~</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for confint.bas</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>horizontal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>x</span>, horizontal = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>the output from <code>confint.coef.bas</code> or
-<code>confint.pred.bas</code> containing credible intervals and estimates.</p></td>
+      <td><p>the output from <code><a href='confint.coef.bas.html'>confint.coef.bas</a></code> or
+<code><a href='confint.pred.bas.html'>confint.pred.bas</a></code> containing credible intervals and estimates.</p></td>
     </tr>
     <tr>
       <th>horizontal</th>
@@ -168,40 +168,46 @@ of what the function does. ~~</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function takes the HPD intervals or credible intervals created by
-<code>confint.coef.bas</code> or <code>confint.pred.bas</code> from BAS
+<code><a href='confint.coef.bas.html'>confint.coef.bas</a></code> or <code><a href='confint.pred.bas.html'>confint.pred.bas</a></code> from BAS
 objects, and creates a plot of the posterior mean with segments representing
 the credible interval.  BAS tries to return HPD intervals, and under model
 averaging these may not be symmetric.  <!-- %% ~~ If necessary, more details than -->
 the description above ~~</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>confint.coef.bas</code>, <code>confint.pred.bas</code>,
-<code>coef.bas</code>, <code>predict.bas</code>, <code>link{bas.lm}</code></p>
+    <div class='dont-index'><p><code><a href='confint.coef.bas.html'>confint.coef.bas</a></code>, <code><a href='confint.pred.bas.html'>confint.pred.bas</a></code>,
+<code><a href='coef.bas.html'>coef.bas</a></code>, <code><a href='predict.bas.html'>predict.bas</a></code>, <code>link{bas.lm}</code></p>
 <p>Other bas methods: 
-<code>BAS</code>,
-<code>bas.lm()</code>,
-<code>coef.bas()</code>,
-<code>confint.coef.bas()</code>,
-<code>confint.pred.bas()</code>,
-<code>diagnostics()</code>,
-<code>fitted.bas()</code>,
-<code>force.heredity.bas()</code>,
-<code>image.bas()</code>,
-<code>predict.basglm()</code>,
-<code>predict.bas()</code>,
-<code>summary.bas()</code>,
-<code>update.bas()</code>,
-<code>variable.names.pred.bas()</code></p>
+<code><a href='BAS.html'>BAS</a></code>,
+<code><a href='bas.lm.html'>bas.lm</a>()</code>,
+<code><a href='coef.bas.html'>coef.bas</a>()</code>,
+<code><a href='confint.coef.bas.html'>confint.coef.bas</a>()</code>,
+<code><a href='confint.pred.bas.html'>confint.pred.bas</a>()</code>,
+<code><a href='diagnostics.html'>diagnostics</a>()</code>,
+<code><a href='fitted.bas.html'>fitted.bas</a>()</code>,
+<code><a href='force.heredity.bas.html'>force.heredity.bas</a>()</code>,
+<code><a href='image.bas.html'>image.bas</a>()</code>,
+<code><a href='predict.basglm.html'>predict.basglm</a>()</code>,
+<code><a href='predict.bas.html'>predict.bas</a>()</code>,
+<code><a href='summary.bas.html'>summary.bas</a>()</code>,
+<code><a href='update.bas.html'>update.bas</a>()</code>,
+<code><a href='variable.names.pred.bas.html'>variable.names.pred.bas</a>()</code></p>
 <p>Other CI methods: 
-<code>confint.coef.bas()</code>,
-<code>confint.pred.bas()</code></p></div>
+<code><a href='confint.coef.bas.html'>confint.coef.bas</a>()</code>,
+<code><a href='confint.pred.bas.html'>confint.pred.bas</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Merlise A Clyde</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>Hald</span>)
-<span class='no'>hald.ZS</span> <span class='kw'>=</span> <span class='fu'>bas.lm</span>(<span class='no'>Y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Hald</span>, <span class='kw'>prior</span><span class='kw'>=</span><span class='st'>"ZS-null"</span>, <span class='kw'>modelprior</span><span class='kw'>=</span><span class='fu'>uniform</span>())
-<span class='no'>hald.coef</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>hald.ZS</span>), <span class='kw'>parm</span><span class='kw'>=</span><span class='fl'>2</span>:<span class='fl'>5</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>hald.coef</span>)</div><div class='img'><img src='plot.confint-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; NULL</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>hald.coef</span>, <span class='kw'>horizontal</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='img'><img src='plot.confint-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; NULL</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>hald.ZS</span>, <span class='kw'>se.fit</span><span class='kw'>=</span><span class='fl'>TRUE</span>), <span class='kw'>parm</span><span class='kw'>=</span><span class='st'>"mean"</span>))</div><div class='img'><img src='plot.confint-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; NULL</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>Hald</span>)
+<span class='kw'>hald.ZS</span> <span class='op'>=</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='kw'>Y</span> <span class='op'>~</span> <span class='kw'>.</span>, data=<span class='kw'>Hald</span>, prior=<span class='st'>"ZS-null"</span>, modelprior=<span class='fu'><a href='uniform.html'>uniform</a></span>())
+<span class='kw'>hald.coef</span> <span class='op'>=</span> <span class='fu'><a href='confint.coef.bas.html'>confint</a></span>(<span class='fu'><a href='coef.bas.html'>coef</a></span>(<span class='kw'>hald.ZS</span>), parm=<span class='fl'>2</span><span class='op'>:</span><span class='fl'>5</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>hald.coef</span>)
+</div><div class='img'><img src='plot.confint-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; NULL</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>hald.coef</span>, horizontal=<span class='fl'>TRUE</span>)
+</div><div class='img'><img src='plot.confint-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; NULL</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='fu'><a href='confint.coef.bas.html'>confint</a></span>(<span class='fu'><a href='predict.bas.html'>predict</a></span>(<span class='kw'>hald.ZS</span>, se.fit=<span class='fl'>TRUE</span>), parm=<span class='st'>"mean"</span>))
+</div><div class='img'><img src='plot.confint-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; NULL</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -218,7 +224,7 @@ the description above ~~</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>
