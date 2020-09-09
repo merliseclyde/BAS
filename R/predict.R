@@ -75,10 +75,7 @@ predict.basglm <- function(object,
     top <- 1
   }
 
-  # predict.bas code assumes intercept is based on centered X's
-  # add mean.x to object that is all zeros.
 
- object$mean.x = rep(0, object$n.vars - 1)
   # get predictions on linear predictor scale
   pred <- predict.bas(
     object,
@@ -571,12 +568,21 @@ fitted.bas <- function(object,
 
   df <- object$df[best]
 
+  mean.x = object$mean.x  # glms don't have centered X for intercept so need t
+  # to center X and newX to get the right hat values with orthogonal X
+  if (is.null(mean.x)) {
+    mean.x =colMeans(object$X[,-1])
+    X = sweep(X, 2, mean.x)
+  }
+
+
+
   shrinkage <- object$shrinkage[best]
   if (insample) {
     xiXTXxiT <- hat(object$X[, model + 1]) - 1 / n
   } else {
     X <- cbind(1, X[, model[-1], drop = FALSE])
-    oldX <- (sweep(object$X[, -1], 2, object$mean.x))[, model[-1]]
+    oldX <- (sweep(object$X[, -1], 2, mean.x))[, model[-1]]  #center
     #    browser()
     XRinv <- X %*% solve(qr.R(qr(cbind(1, oldX))))
     xiXTXxiT <- apply(XRinv^2, 1, sum) - 1 / n
@@ -606,6 +612,11 @@ fitted.bas <- function(object,
 
   df <- object$df[best]
 
+  mean.x = object$mean.x
+  if (is.null(mean.x)) {
+    mean.x =colMeans(object$X[,-1])
+    Xnew = sweep(Xnew, 2, mean.x)
+  }
 
   shrinkage <- object$shrinkage[best]
   if (insample) {
@@ -620,7 +631,7 @@ fitted.bas <- function(object,
   }
   else {
     Xnew <- cbind(1, Xnew)
-    Xold <- cbind(1, sweep(object$X[, -1], 2, object$mean.x))
+    Xold <- cbind(1, sweep(object$X[, -1], 2, mean.x))
     xiXTXxiT <- sapply(
       object$which[best],
       FUN = function(model, Xnew, Xold) {

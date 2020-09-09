@@ -47,3 +47,30 @@ test_that("predict.bas.glm", {
                        se.fit = TRUE))
   #expect_null(plot(confint(pima_pred)))
 })
+
+test_that("se.fit.glm", {
+  data("Pima.tr", package="MASS")
+  data("Pima.te", package="MASS")
+
+pima.bic = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
+                             method="BAS",
+                             betaprior=bic.prior(n=200), family=binomial(),
+                             modelprior=beta.binomial(1,1))
+
+pred.bic = predict(pima.bic, newdata=Pima.te, se.fit = TRUE, top=1, type="link")
+
+form = paste("type ~ ",
+             paste0((pred.bic$best.vars[pred.bic$bestmodel[[1]] + 1])[- 1],
+                     collapse = "+"))
+
+pima.glm = glm(form, data=Pima.tr, family=binomial())
+pred.glm = predict(pima.glm, newdata=Pima.te, se.fit=TRUE, type='link')
+
+expect_true(all.equal(pred.glm$fit, pred.bic$fit, check.attributes = FALSE))
+
+# issue #50 in github regarding se.fit failing; debugging indicates se.fit is
+# incorrect
+# Should be expect_true
+expect_false(all.equal(pred.glm$se.fit, pred.bic$se.fit, check.attributes = FALSE))
+
+})
