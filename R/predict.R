@@ -75,6 +75,10 @@ predict.basglm <- function(object,
     top <- 1
   }
 
+  # predict.bas code assumes intercept is based on centered X's
+  # add mean.x to object that is all zeros.
+
+ object$mean.x = rep(0, object$n.vars - 1)
   # get predictions on linear predictor scale
   pred <- predict.bas(
     object,
