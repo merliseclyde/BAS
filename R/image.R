@@ -28,11 +28,15 @@
 #' @param subset indices of variables to include/exclude in plot
 #' @param drop.always.included logical variable to drop variables that are
 #' always forced into the model.  FALSE by default.
+#' @param namesx character vector for predictors.  By default, this is NULL and
+#' names are extracted from `x$namesx`. Should be the same length as
+#' p + 1 (including the intercept).
 #' @param offset numeric value to add to intensity
 #' @param digits number of digits in posterior probabilities to keep
-#' @param vlas las parameter for placing variable names; see par
-#' @param plas las parameter for posterior probability axis
-#' @param rlas las parameter for model ranks
+#' @param vlas las parameter for placing variable names; see `par()`
+#' @param plas las parameter for posterior probability axis; see `par()`
+#' @param rlas las parameter for model ranks; see `par()`
+#' @param mar  mar parameter for margins; see `par()`
 #' @param ... Other parameters to be passed to the \code{image} and \code{axis}
 #' functions.
 #' @note Suggestion to allow area of models be proportional to posterior
@@ -55,8 +59,12 @@
 #' @family bas plots
 #' @method image bas
 #' @export
-image.bas <- function(x, top.models = 20, intensity = TRUE, prob = TRUE, log = TRUE, rotate = TRUE, color = "rainbow", subset = NULL, drop.always.included = FALSE,
-                      offset = .75, digits = 3, vlas = 2, plas = 0, rlas = 0, ...) {
+image.bas <- function(x, top.models = 20, intensity = TRUE, prob = TRUE,
+                      log = TRUE, rotate = TRUE, color = "rainbow",
+                      subset = NULL, drop.always.included = FALSE,
+                      namesx = NULL,
+                      offset = .75, digits = 3,
+                      vlas = 2, plas = 0, rlas = 0, mar = NULL, ...) {
   postprob <- x$postprobs
   top.models <- min(top.models, x$n.models)
   best <- order(-x$postprobs)[1:top.models]
@@ -75,7 +83,12 @@ image.bas <- function(x, top.models = 20, intensity = TRUE, prob = TRUE, log = T
 
   which.mat <- which.mat[, subset, drop = FALSE]
   nvar <- ncol(which.mat)
-  namesx <- x$namesx[subset]
+
+  if (is.null(namesx)) namesx = x$namesx
+  if (length(namesx) != x$n.vars) {
+    stop("length of namesx does not equal number of variables")
+  }
+  namesx <- namesx[subset]
 
   scale <- postprob
   prob.lab <- "Posterior Probability"
@@ -113,7 +126,8 @@ image.bas <- function(x, top.models = 20, intensity = TRUE, prob = TRUE, log = T
 
 
   if (rotate) {
-    par(mar = c(6, 6, 3, 5) + .1)
+    if (is.null(mar)) mar = c(6, 6, 3, 5) + .1
+    par(mar = mar)
     image(0:nvar, mat, t(which.mat[top.models:1, , drop = FALSE]),
       xaxt = "n", yaxt = "n",
       ylab = "",
@@ -129,7 +143,8 @@ image.bas <- function(x, top.models = 20, intensity = TRUE, prob = TRUE, log = T
     axis(1, at = (1:nvar - .5), labels = namesx, las = vlas, ...)
   }
   else {
-    par(mar = c(6, 8, 6, 2) + .1)
+    if (is.null(mar)) mar = c(6, 8, 6, 2) + .1
+    par(mar = mar)
     image(mat, 0:nvar, which.mat[, nvar:1, drop = FALSE],
       xaxt = "n", yaxt = "n",
       xlab = "",

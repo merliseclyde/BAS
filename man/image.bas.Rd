@@ -15,11 +15,13 @@
   color = "rainbow",
   subset = NULL,
   drop.always.included = FALSE,
+  namesx = NULL,
   offset = 0.75,
   digits = 3,
   vlas = 2,
   plas = 0,
   rlas = 0,
+  mar = NULL,
   ...
 )
 }
@@ -53,15 +55,21 @@ white image (greyscale image)}
 \item{drop.always.included}{logical variable to drop variables that are
 always forced into the model.  FALSE by default.}
 
+\item{namesx}{character vector for predictors.  By default, this is NULL and
+names are extracted from `x$namesx`. Should be the same length as
+p + 1 (including the intercept).}
+
 \item{offset}{numeric value to add to intensity}
 
 \item{digits}{number of digits in posterior probabilities to keep}
 
-\item{vlas}{las parameter for placing variable names; see par}
+\item{vlas}{las parameter for placing variable names; see `par()`}
 
-\item{plas}{las parameter for posterior probability axis}
+\item{plas}{las parameter for posterior probability axis; see `par()`}
 
-\item{rlas}{las parameter for model ranks}
+\item{rlas}{las parameter for model ranks; see `par()`}
+
+\item{mar}{mar parameter for margins; see `par()`}
 
 \item{...}{Other parameters to be passed to the \code{image} and \code{axis}
 functions.}
@@ -101,6 +109,7 @@ Other bas methods:
 \code{\link{confint.coef.bas}()},
 \code{\link{confint.pred.bas}()},
 \code{\link{diagnostics}()},
+\code{\link{extract_MPM}()},
 \code{\link{fitted.bas}()},
 \code{\link{force.heredity.bas}()},
 \code{\link{plot.confint.bas}()},
