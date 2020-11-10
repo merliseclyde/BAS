@@ -36,18 +36,42 @@ test_that("predict.bas.glm", {
   pima_pred <- predict(pima_gprior,
                        estimator = "HPM",
                        se.fit = FALSE)
+  pima_top <-  predict(pima_gprior,
+                       estimator = "BMA", top=1,
+                       se.fit = TRUE)
 
-  # should not error
-  expect_error(predict(pima_gprior,
-                       estimator = "HPM",
-                       se.fit = TRUE))
-#  expect_null(plot(confint(pima_pred, parm = "mean")))
-#  should not error
-  expect_error( predict(hald_gprior, newdata=Pima.te, estimator = "HPM",
-                       se.fit = TRUE))
-  #expect_null(plot(confint(pima_pred)))
+ expect_equal(pima_pred$fit, pima_top$fit, check.attributes = FALSE)
+
 })
 
+
+
+#Fixed Issue #51
+test_that("MPM and predict glm", {
+  data("Pima.tr", package="MASS")
+  data("Pima.te", package="MASS")
+  pima_gprior <- bas.glm(type ~ ., data = Pima.tr,
+                         betaprior = g.prior(g=as.numeric(nrow(Pima.tr))),
+                         family=binomial())
+  pima_MPM = extract_MPM(pima_gprior)
+
+  expect_equal(predict(pima_gprior, estimator = "MPM", se.fit = FALSE)$fit,
+               predict(pima_MPM, se.fit = FALSE)$fit,
+               check.attributes = FALSE)
+
+
+  pima_pred <- predict(pima_gprior,
+                       estimator = "MPM", type = "link",
+                       se.fit = FALSE)
+  pima_fit <-  fitted(pima_gprior,
+                       estimator = "MPM")
+
+  expect_equal(pima_pred$fit, pima_fit, check.attributes = FALSE)
+
+})
+
+
+# Issue #52 SE's are incorrect for glms and weighted regression
 test_that("se.fit.glm", {
   data("Pima.tr", package="MASS")
   data("Pima.te", package="MASS")
@@ -57,6 +81,7 @@ pima.bic = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
                              betaprior=bic.prior(n=200), family=binomial(),
                              modelprior=beta.binomial(1,1))
 
+fit.bic = predict(pima.bic,  se.fit = TRUE, top=1, type="link", estimator="HPM")
 pred.bic = predict(pima.bic, newdata=Pima.te, se.fit = TRUE, top=1, type="link")
 
 form = paste("type ~ ",
@@ -64,13 +89,32 @@ form = paste("type ~ ",
                      collapse = "+"))
 
 pima.glm = glm(form, data=Pima.tr, family=binomial())
+fit.glm = predict(pima.glm,  se.fit=TRUE, type='link')
 pred.glm = predict(pima.glm, newdata=Pima.te, se.fit=TRUE, type='link')
 
-expect_true(all.equal(pred.glm$fit, pred.bic$fit, check.attributes = FALSE))
+expect_true(all.equal(fit.glm$fit, fit.bic$fit, check.attributes = FALSE))
+
 
 # issue #50 in github regarding se.fit failing; debugging indicates se.fit is
 # incorrect
-# Should be expect_true
-expect_false(all.equal(pred.glm$se.fit, pred.bic$se.fit, check.attributes = FALSE))
+# Should be expect_equal
 
+expect_equal(fit.glm$se.fit,  fit.bic$se.fit, check.attributes = FALSE)
+expect_equal(pred.glm$se.fit, pred.bic$se.fit, check.attributes = FALSE)
+
+
+})
+
+# Added feature issue #53
+test_that("MPM and predict in lm", {
+  data(Hald, package="BAS")
+  hald_bic =  bas.lm(Y ~ ., data=Hald, alpha=13, prior="BIC",
+                     modelprior = uniform())
+
+  hald_MPM = extract_MPM(hald_bic)
+  expect_equal(predict(hald_bic, estimator = "MPM")$fit,
+               predict(hald_MPM)$fit, check.attributes = FALSE)
+  expect_equal(predict(hald_bic, estimator = "MPM")$fit,
+               predict(hald_bic, estimator = "MPMold")$fit,
+               check.attributes = FALSE)
 })

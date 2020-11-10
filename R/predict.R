@@ -230,10 +230,13 @@ predict.bas <- function(object,
                         estimator = "BMA",
                         na.action = na.pass,
                         ...) {
-  if (!(estimator %in% c("BMA", "HPM", "MPM", "BPM"))) {
+  if (!(estimator %in% c("BMA", "HPM", "MPM", "BPM", "MPMold"))) {
     stop("Estimator must be one of 'BMA', 'BPM', 'HPM', or 'MPM'.")
   }
 
+  if (estimator == "MPM") {
+    object = extract_MPM(object)
+  }
   tt <- terms(object)
 
   if (missing(newdata) || is.null(newdata)) {
@@ -277,7 +280,7 @@ predict.bas <- function(object,
   df <- object$df
 
 
-  if (estimator == "MPM") {
+  if (estimator == "MPMold") {
     nvar <- object$n.vars - 1
     bestmodel <- (0:nvar)[object$probne0 > .5]
     newX <- cbind(1, newdata)
@@ -415,12 +418,11 @@ predict.bas <- function(object,
 
   if (se.fit) {
     if (estimator != "BMA") {
-      se <- .se.fit(fit, newdata, object, insample)
+      se <- .se.fit(fit, newdata, object, insample, type)
     }
     else {
       se <- .se.bma(
-        Ybma, newdata, Ypred, best, object,
-        insample
+        Ybma, newdata, Ypred, best, object, insample, type
       )
     }
   }
@@ -521,8 +523,12 @@ fitted.bas <- function(object,
   if (is.null(top)) {
     top <- nmodels
   }
+
+  if (estimator == "MPM") { top = 1 }
+
+
   if (estimator == "HPM") {
-    yhat <- predict(
+     yhat <- predict(
       object,
       newdata = NULL,
       top = 1,
@@ -530,6 +536,7 @@ fitted.bas <- function(object,
       na.action = na.action
     )$fit
   }
+
   if (estimator == "BMA") {
     yhat <- predict(
       object,
@@ -548,6 +555,15 @@ fitted.bas <- function(object,
       na.action = na.action
     )$fit
   }
+  if (estimator == "MPMold") {
+    yhat <- predict(
+      object,
+      newdata = NULL,
+      top = top,
+      estimator = "MPMold", type = type,
+      na.action = na.action
+    )$fit
+  }
   if (estimator == "BPM") {
     yhat <- predict(
       object,
@@ -558,10 +574,19 @@ fitted.bas <- function(object,
     )$fit
   }
 
+ yhat <- predict(
+    object,
+    newdata = NULL,
+    top = top,
+    estimator = estimator,
+    type = type,
+    na.action = na.action
+  )$fit
+
   return(as.vector(yhat))
 }
 
-.se.fit <- function(yhat, X, object, insample) {
+.se.fit <- function(yhat, X, object, insample, type) {
   n <- object$n
   model <- attr(yhat, "model")
   best <- attr(yhat, "best")
@@ -569,7 +594,7 @@ fitted.bas <- function(object,
   df <- object$df[best]
 
   mean.x = object$mean.x  # glms don't have centered X for intercept so need t
-  # to center X and newX to get the right hat values with orthogonal X
+  # to center X and newX to get the right hat values with weights
   if (is.null(mean.x)) {
     mean.x =colMeans(object$X[,-1])
     X = sweep(X, 2, mean.x)
@@ -578,9 +603,33 @@ fitted.bas <- function(object,
 
 
   shrinkage <- object$shrinkage[best]
+
   if (insample) {
-    xiXTXxiT <- hat(object$X[, model + 1]) - 1 / n
-  } else {
+
+    if (!is.null(object$family$family)) {
+        if (type == 'link') {
+          mu.eta <- object$family$mu.eta(as.vector(yhat))
+          weights <- mu.eta^2/object$family$variance(object$family$linkinv(yhat))
+        }
+        else {
+          mu.eta <-  object$family$mu.eta(object$family$link(as.vector(yhat)))
+          weights <-  mu.eta^2/object$family$variance(as.vector(yhat))
+        }
+      }
+    else {
+        if (!is.null(object$weights)) {
+            weights <- object$weights
+        }
+        else {
+              weights = rep(1, object$n)
+        }
+    }
+    # browser()  FIX issue #52
+    xiXTXxiT <- hat(diag(sqrt(weights)) %*% object$X[, model + 1])/weights - 1 / sum(weights)
+  }
+  else {
+
+    #Fix below! FIX issue #52
     X <- cbind(1, X[, model[-1], drop = FALSE])
     oldX <- (sweep(object$X[, -1], 2, mean.x))[, model[-1]]  #center
     #    browser()
@@ -589,9 +638,9 @@ fitted.bas <- function(object,
   }
   scale_fit <- 1 / n + object$shrinkage[best] * xiXTXxiT
   if (is.null(object$family)) {
-    family <- gaussian()
+    object$family <- gaussian()
   }
-  if (eval(family)$family == "gaussian") {
+  if (object$family$family == "gaussian") {
     ssy <- var(object$Y) * (n - 1)
     bayes_mse <- ssy * (1 - shrinkage * object$R2[best]) / df
   }
@@ -607,7 +656,7 @@ fitted.bas <- function(object,
   ))
 }
 
-.se.bma <- function(fit, Xnew, Ypred, best, object, insample) {
+.se.bma <- function(fit, Xnew, Ypred, best, object, insample, type) {
   n <- object$n
 
   df <- object$df[best]

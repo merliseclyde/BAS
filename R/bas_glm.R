@@ -159,18 +159,26 @@ normalize.initprobs.glm <- function(initprobs, glm.obj) {
 #' \item{priorprobs}{the prior probabilities of the models selected}
 #' \item{logmarg}{values of the log of the marginal likelihood for the models}
 #' \item{n.vars}{total number of independent variables in the full model,
-#' including the intercept} \item{size}{the number of independent variables in
-#' each of the models, includes the intercept} \item{which}{a list of lists
+#' including the intercept}
+#' \item{size}{the number of independent variables in
+#' each of the models, includes the intercept}
+#' \item{which}{a list of lists
 #' with one list per model with variables that are included in the model}
 #' \item{probne0}{the posterior probability that each variable is non-zero}
 #' \item{coefficients}{list of lists with one list per model giving the GLM
-#' estimate of each (nonzero) coefficient for each model.} \item{se}{list of
+#' estimate of each (nonzero) coefficient for each model.}
+#' \item{se}{list of
 #' lists with one list per model giving the GLM standard error of each
-#' coefficient for each model} \item{deviance}{the GLM deviance for each model}
+#' coefficient for each model}
+#' \item{deviance}{the GLM deviance for each model}
 #' \item{modelprior}{the prior distribution on models that created the BMA
-#' object} \item{Q}{the Q statistic for each model used in the marginal
-#' likelihood approximation} \item{Y}{response} \item{X}{matrix of predictors}
-#' \item{family}{family object from the original call} \item{betaprior}{family
+#' object}
+#' \item{Q}{the Q statistic for each model used in the marginal
+#' likelihood approximation}
+#' \item{Y}{response}
+#' \item{X}{matrix of predictors}
+#' \item{family}{family object from the original call}
+#' \item{betaprior}{family
 #' object for prior on coefficients, including hyperparameters}
 #' \item{modelprior}{family object for prior on the models}
 #' \item{include.always}{indices of variables that are forced into the model}

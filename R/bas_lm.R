@@ -302,6 +302,7 @@ is.solaris<-function() {
 #' \item{X}{matrix of predictors}
 #' \item{mean.x}{vector of means for each column of X (used in
 #' \code{\link{predict.bas}})}
+#' \link{weights} used in model fitting
 #' \item{include.always}{indices of variables that are forced into the model}
 #'
 #' The function \code{\link{summary.bas}}, is used to print a summary of the
@@ -844,6 +845,7 @@ bas.lm <- function(formula,
   result$xlevels <- .getXlevels(mt, mf)
   result$terms <- mt
   result$model <- mf
+  result$weights <- weights
 
   class(result) <- c("bas")
   if (prior == "EB-global") {

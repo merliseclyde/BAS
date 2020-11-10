@@ -84,6 +84,7 @@ Other bas methods:
 \code{\link{confint.coef.bas}()},
 \code{\link{confint.pred.bas}()},
 \code{\link{diagnostics}()},
+\code{\link{extract_MPM}()},
 \code{\link{force.heredity.bas}()},
 \code{\link{image.bas}()},
 \code{\link{plot.confint.bas}()},

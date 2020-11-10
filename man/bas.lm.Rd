@@ -259,6 +259,7 @@ BMA object}
 \item{X}{matrix of predictors}
 \item{mean.x}{vector of means for each column of X (used in
 \code{\link{predict.bas}})}
+\link{weights} used in model fitting
 \item{include.always}{indices of variables that are forced into the model}
 
 The function \code{\link{summary.bas}}, is used to print a summary of the
@@ -442,6 +443,7 @@ Other bas methods:
 \code{\link{confint.coef.bas}()},
 \code{\link{confint.pred.bas}()},
 \code{\link{diagnostics}()},
+\code{\link{extract_MPM}()},
 \code{\link{fitted.bas}()},
 \code{\link{force.heredity.bas}()},
 \code{\link{image.bas}()},
