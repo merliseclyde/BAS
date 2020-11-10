@@ -79,7 +79,7 @@ created by bas Bayesian Adaptive Sampling" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BAS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0</span>
       </span>
     </div>
 
@@ -138,7 +138,7 @@ created by <code>bas</code> Bayesian Adaptive Sampling</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for bas</span>
-<span class='fu'>print</span>(<span class='kw'>x</span>, digits = <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fl'>3L</span>, <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"digits"</span>) <span class='op'>-</span> <span class='fl'>3L</span>), <span class='kw'>...</span>)</pre>
+<span class='fu'>print</span><span class='op'>(</span><span class='va'>x</span>, digits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fl'>3L</span>, <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"digits"</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>3L</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -175,11 +175,11 @@ likelihood.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://www.stats.ox.ac.uk/pub/MASS4'>MASS</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>UScrime</span>)
-<span class='kw'>UScrime</span>[, <span class='op'>-</span><span class='fl'>2</span>] <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>UScrime</span>[, <span class='op'>-</span><span class='fl'>2</span>])
-<span class='kw'>crime.bic</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='kw'>y</span> <span class='op'>~</span> <span class='kw'>.</span>, data = <span class='kw'>UScrime</span>, n.models = <span class='fl'>2</span><span class='op'>^</span><span class='fl'>15</span>, prior = <span class='st'>"BIC"</span>, initprobs = <span class='st'>"eplogp"</span>)
-<span class='fu'>print</span>(<span class='kw'>crime.bic</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://www.stats.ox.ac.uk/pub/MASS4/'>MASS</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>UScrime</span><span class='op'>)</span>
+<span class='va'>UScrime</span><span class='op'>[</span>, <span class='op'>-</span><span class='fl'>2</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>UScrime</span><span class='op'>[</span>, <span class='op'>-</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span>
+<span class='va'>crime.bic</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span><span class='op'>(</span><span class='va'>y</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>UScrime</span>, n.models <span class='op'>=</span> <span class='fl'>2</span><span class='op'>^</span><span class='fl'>15</span>, prior <span class='op'>=</span> <span class='st'>"BIC"</span>, initprobs <span class='op'>=</span> <span class='st'>"eplogp"</span><span class='op'>)</span>
+<span class='fu'>print</span><span class='op'>(</span><span class='va'>crime.bic</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; bas.lm(formula = y ~ ., data = UScrime, n.models = 2^15, prior = "BIC", 
@@ -192,7 +192,7 @@ likelihood.</p>
 #&gt;       M.F        Pop         NW         U1         U2        GDP       Ineq  
 #&gt;    0.3298     0.4963     0.8346     0.3481     0.7752     0.5254     0.9992  
 #&gt;      Prob       Time  
-#&gt;    0.9541     0.5433  </div><div class='input'><span class='fu'><a href='summary.bas.html'>summary</a></span>(<span class='kw'>crime.bic</span>)
+#&gt;    0.9541     0.5433  </div><div class='input'><span class='fu'><a href='summary.bas.html'>summary</a></span><span class='op'>(</span><span class='va'>crime.bic</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;           P(B != 0 | Y)   model 1       model 2     model 3     model 4
 #&gt; Intercept     1.0000000   1.00000  1.000000e+00   1.0000000   1.0000000
 #&gt; M             0.9335117   1.00000  1.000000e+00   1.0000000   1.0000000
@@ -252,7 +252,7 @@ likelihood.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

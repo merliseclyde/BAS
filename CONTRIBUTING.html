@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">BAS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0</span>
       </span>
     </div>
 
@@ -152,9 +152,9 @@
 <li><p><strong>Packages</strong> should be loaded at the top of the script, so it’s easy to see which ones the example needs.</p></li>
 <li>
 <p>The easiest way to include <strong>data</strong> is to use <code><a href="https://rdrr.io/r/base/dput.html">dput()</a></code> to generate the R code to recreate it. For example, to recreate the <code>mtcars</code> dataset in R, I’d perform the following steps:</p>
-a. Run <code><a href="https://rdrr.io/r/base/dput.html">dput(mtcars)</a></code> in R
-b. Copy the output
-<p>c. In my reproducible script, type <code>mtcars &lt;-</code> then paste.</p>
+<p>a. Run <code><a href="https://rdrr.io/r/base/dput.html">dput(mtcars)</a></code> in R</p>
+<p>b. Copy the output</p>
+<p>c. In my reproducible script, type <code>mtcars &lt;-</code> then paste.</p>
 <p>But even better is if you can create a <code><a href="https://rdrr.io/r/base/data.frame.html">data.frame()</a></code> with just a handful of rows and columns that still illustrates the problem.</p>
 </li>
 <li>
@@ -210,7 +210,7 @@ b. Copy the output
 <a href="#style-guide-for-contributing-to-bas" class="anchor"></a>Style Guide for Contributing to BAS</h2>
 <p>A consistent style improves the readibility of your code. I am not wed to a particular style and generally draw from both <a href="https://google.github.io/styleguide/Rguide.xml">Google Style Guide</a> as well as <a href="http://adv-r.had.co.nz/Style.html">Hadley Wickham’s Style Guide</a> as noted below. Using a package such as <a href="http://styler.r-lib.org">styler</a> to enforce styling based on the TidyVerse is helpful, but is not required.</p>
 <ol>
-<li><p><em>Function and Variable names</em>: Use informative names using “.”, camel case, or "_" to improve readibility, i.e. <code>variable.name</code>, <code>VariableName</code> or <code>variable_name</code>, rather than <code>foo</code> or <code>xxx</code>. I tend to avoid <code>_</code> for historical reasons going back to <code>S</code>.</p></li>
+<li><p><em>Function and Variable names</em>: Use informative names using “.”, camel case, or "_" to improve readibility, i.e. <code>variable.name</code>, <code>VariableName</code> or <code>variable_name</code>, rather than <code>foo</code> or <code>xxx</code>. I tend to avoid <code>_</code> for historical reasons going back to <code>S</code>.</p></li>
 <li><p><em>Assignment</em>: Use either <code><a href="https://rdrr.io/r/base/assignOps.html">&lt;-</a></code> or <code><a href="https://rdrr.io/r/base/assignOps.html">=</a></code> for assignment but be consistent within your contribution. As many style guides prefer <code><a href="https://rdrr.io/r/base/assignOps.html">&lt;-</a></code> I suggest using <code>styler</code> to enforce use of <code><a href="https://rdrr.io/r/base/assignOps.html">&lt;-</a></code>, but I am OK with <code><a href="https://rdrr.io/r/base/assignOps.html">=</a></code> as it is shorter to type! Just be consistent within the contributed code.</p></li>
 <li><p><em>Spaces</em>: Include spaces around operators <code>=, +, -, &lt;-,  ==</code> etc to improve readibility. Put a space after a comman, but not before it. <code><a href="https://rdrr.io/r/base/Colon.html">:</a></code> or <code><a href="https://rdrr.io/r/base/ns-dblcolon.html">::</a></code> never have spaces around them. Additional spaces or newlines are fine if they improve readibilty of code (e.g. aligmnent of arguments).</p></li>
 <li><p><em>Comments</em>: Comment your code whenever you can. Explain the why and not the what as that should be clear from your code. Use <code>#</code> to start a comment followed by a space and capitalize the first letter; short inline comments (comments on the same line as code) need two spaces before the <code>#</code></p></li>
@@ -245,7 +245,7 @@ b. Copy the output
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

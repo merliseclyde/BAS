@@ -84,7 +84,7 @@ probabilities may be updated based on the sampled models." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BAS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0</span>
       </span>
     </div>
 
@@ -202,12 +202,12 @@ Statistical Association. 103:410-423.  <br />
     <p>Merlise Clyde, <br /> Maintainer: Merlise Clyde &lt;clyde@stat.duke.edu&gt;</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"Hald"</span>)
-<span class='kw'>hald.gprior</span> <span class='op'>=</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='kw'>Y</span> <span class='op'>~</span> <span class='kw'>.</span>, data=<span class='kw'>Hald</span>, alpha=<span class='fl'>13</span>, prior=<span class='st'>"g-prior"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"Hald"</span><span class='op'>)</span>
+<span class='va'>hald.gprior</span> <span class='op'>=</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span><span class='op'>(</span><span class='va'>Y</span> <span class='op'>~</span> <span class='va'>.</span>, data<span class='op'>=</span><span class='va'>Hald</span>, alpha<span class='op'>=</span><span class='fl'>13</span>, prior<span class='op'>=</span><span class='st'>"g-prior"</span><span class='op'>)</span>
 
 <span class='co'># more complete demos</span>
 
-<span class='fu'><a href='https://rdrr.io/r/utils/demo.html'>demo</a></span>(<span class='kw'>BAS.hald</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/demo.html'>demo</a></span><span class='op'>(</span><span class='va'>BAS.hald</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
 #&gt; 
 #&gt; 	demo(BAS.hald)
@@ -261,7 +261,7 @@ Statistical Association. 103:410-423.  <br />
 #&gt; X3         -0.1271     0.4976   0.4653       
 #&gt; X4         -0.3269     0.4717   0.6329       
 #&gt; 
-#&gt; &gt; plot(hald.coef)</div><div class='img'><img src='BAS-6.png' alt='' width='700' height='433' /></div><div class='img'><img src='BAS-7.png' alt='' width='700' height='433' /></div><div class='img'><img src='BAS-8.png' alt='' width='700' height='433' /></div><div class='img'><img src='BAS-9.png' alt='' width='700' height='433' /></div><div class='img'><img src='BAS-10.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; &gt; plot(hald.coef)</div><div class='img'><img src='BAS-6.png' alt='' width='700' height='433' /></div><div class='img'><img src='BAS-7.png' alt='' width='700' height='433' /></div><div class='img'><img src='BAS-8.png' alt='' width='700' height='433' /></div><div class='img'><img src='BAS-9.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
 #&gt; &gt; predict(hald.gprior, top=5, se.fit=TRUE)  
 #&gt; $fit
 #&gt;  [1]  79.74246  74.50010 105.29268  89.88693  95.57177 104.56409 103.40145
@@ -392,36 +392,37 @@ Statistical Association. 103:410-423.  <br />
 #&gt; $fit
 #&gt;  [1]  79.65151  74.47846 105.42183  89.83174  95.62799 104.59616 103.50684
 #&gt;  [8]  77.00839  92.07571 114.10876  82.68233 111.04286 110.46741
-#&gt; attr(,"model")
-#&gt; [1] 0 1 2 4
-#&gt; attr(,"best")
-#&gt; [1] 1
-#&gt; attr(,"estimator")
-#&gt; [1] "MPM"
 #&gt; 
 #&gt; $Ybma
-#&gt;  [1]  79.65151  74.47846 105.42183  89.83174  95.62799 104.59616 103.50684
-#&gt;  [8]  77.00839  92.07571 114.10876  82.68233 111.04286 110.46741
-#&gt; attr(,"model")
-#&gt; [1] 0 1 2 4
-#&gt; attr(,"best")
-#&gt; [1] 1
-#&gt; attr(,"estimator")
-#&gt; [1] "MPM"
+#&gt;            [,1]
+#&gt;  [1,]  79.65151
+#&gt;  [2,]  74.47846
+#&gt;  [3,] 105.42183
+#&gt;  [4,]  89.83174
+#&gt;  [5,]  95.62799
+#&gt;  [6,] 104.59616
+#&gt;  [7,] 103.50684
+#&gt;  [8,]  77.00839
+#&gt;  [9,]  92.07571
+#&gt; [10,] 114.10876
+#&gt; [11,]  82.68233
+#&gt; [12,] 111.04286
+#&gt; [13,] 110.46741
 #&gt; 
 #&gt; $Ypred
-#&gt; NULL
+#&gt;          [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]
+#&gt; [1,] 79.65151 74.47846 105.4218 89.83174 95.62799 104.5962 103.5068 77.00839
+#&gt;          [,9]    [,10]    [,11]    [,12]    [,13]
+#&gt; [1,] 92.07571 114.1088 82.68233 111.0429 110.4674
 #&gt; 
 #&gt; $postprobs
-#&gt; NULL
+#&gt; [1] 1
 #&gt; 
 #&gt; $se.fit
-#&gt;  [1] 3.117350 2.283957 1.602160 2.149087 2.589321 1.508471 2.610923 2.545817
-#&gt;  [9] 1.990817 3.485929 2.456636 1.951456 2.212238
+#&gt; numeric(0)
 #&gt; 
 #&gt; $se.pred
-#&gt;  [1] 5.440156 5.009380 4.737547 4.949344 5.155775 4.706689 5.166658 5.134065
-#&gt;  [9] 4.882702 5.659428 5.090431 4.866787 4.977090
+#&gt; numeric(0)
 #&gt; 
 #&gt; $se.bma.fit
 #&gt; NULL
@@ -433,13 +434,15 @@ Statistical Association. 103:410-423.  <br />
 #&gt; [1] 12
 #&gt; 
 #&gt; $best
-#&gt; NULL
+#&gt; [1] 1
 #&gt; 
 #&gt; $bestmodel
+#&gt; $bestmodel[[1]]
 #&gt; [1] 0 1 2 4
 #&gt; 
+#&gt; 
 #&gt; $best.vars
-#&gt; [1] "Intercept" "X1"        "X2"        "X4"       
+#&gt; [1] "Intercept" "X1"        "X2"        "X3"        "X4"       
 #&gt; 
 #&gt; $estimator
 #&gt; [1] "MPM"
@@ -447,21 +450,7 @@ Statistical Association. 103:410-423.  <br />
 #&gt; attr(,"class")
 #&gt; [1] "pred.bas"
 #&gt; 
-#&gt; &gt; confint(predict(hald.gprior, Hald, estimator="MPM", se.fit=TRUE), parm="mean")
-#&gt;            2.5%     97.5%      mean
-#&gt;  [1,]  72.85939  86.44363  79.65151
-#&gt;  [2,]  69.50215  79.45478  74.47846
-#&gt;  [3,] 101.93102 108.91264 105.42183
-#&gt;  [4,]  85.14928  94.51420  89.83174
-#&gt;  [5,]  89.98634 101.26964  95.62799
-#&gt;  [6,] 101.30948 107.88283 104.59616
-#&gt;  [7,]  97.81813 109.19556 103.50684
-#&gt;  [8,]  71.46153  82.55525  77.00839
-#&gt;  [9,]  87.73810  96.41333  92.07571
-#&gt; [10,] 106.51357 121.70394 114.10876
-#&gt; [11,]  77.32978  88.03488  82.68233
-#&gt; [12,] 106.79101 115.29472 111.04286
-#&gt; [13,] 105.64736 115.28746 110.46741
+#&gt; &gt; confint(predict(hald.gprior, Hald, estimator="MPM", se.fit=TRUE), parm="mean")</div><div class='output co'>#&gt; <span class='warning'>Warning: number of rows of result is not a multiple of vector length (arg 2)</span></div><div class='img'><img src='BAS-10.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;      2.5% 97.5% mean
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
@@ -479,9 +468,9 @@ Statistical Association. 103:410-423.  <br />
 #&gt; 
 #&gt; &gt; hald.bic = update(hald.gprior,newprior="BIC")
 #&gt; 
-#&gt; &gt; hald.zs = update(hald.bic, newprior="ZS-null")</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/utils/demo.html'>demo</a></span>(<span class='kw'>BAS.USCrime</span>)
-}
+#&gt; &gt; hald.zs = update(hald.bic, newprior="ZS-null")</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/demo.html'>demo</a></span><span class='op'>(</span><span class='va'>BAS.USCrime</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -498,7 +487,7 @@ Statistical Association. 103:410-423.  <br />
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

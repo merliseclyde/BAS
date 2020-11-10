@@ -79,7 +79,7 @@ the regression function" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BAS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0</span>
       </span>
     </div>
 
@@ -138,7 +138,7 @@ the regression function</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for pred.bas</span>
-<span class='fu'><a href='confint.coef.bas.html'>confint</a></span>(<span class='kw'>object</span>, <span class='kw'>parm</span>, level = <span class='fl'>0.95</span>, nsim = <span class='fl'>10000</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'><a href='confint.coef.bas.html'>confint</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>parm</span>, level <span class='op'>=</span> <span class='fl'>0.95</span>, nsim <span class='op'>=</span> <span class='fl'>10000</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -205,10 +205,10 @@ Carlo draws. <!-- %% ~~ If necessary, more details than the description above ~~
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"Hald"</span>)
-<span class='kw'>hald.gprior</span> <span class='op'>=</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span>(<span class='kw'>Y</span><span class='op'>~</span> <span class='kw'>.</span>, data=<span class='kw'>Hald</span>, alpha=<span class='fl'>13</span>, prior=<span class='st'>"g-prior"</span>)
-<span class='kw'>hald.pred</span> <span class='op'>=</span> <span class='fu'><a href='predict.bas.html'>predict</a></span>(<span class='kw'>hald.gprior</span>, estimator=<span class='st'>"BPM"</span>, predict=<span class='fl'>FALSE</span>, se.fit=<span class='fl'>TRUE</span>)
-<span class='fu'><a href='confint.coef.bas.html'>confint</a></span>(<span class='kw'>hald.pred</span>, parm=<span class='st'>"mean"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"Hald"</span><span class='op'>)</span>
+<span class='va'>hald.gprior</span> <span class='op'>=</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span><span class='op'>(</span><span class='va'>Y</span><span class='op'>~</span> <span class='va'>.</span>, data<span class='op'>=</span><span class='va'>Hald</span>, alpha<span class='op'>=</span><span class='fl'>13</span>, prior<span class='op'>=</span><span class='st'>"g-prior"</span><span class='op'>)</span>
+<span class='va'>hald.pred</span> <span class='op'>=</span> <span class='fu'><a href='predict.bas.html'>predict</a></span><span class='op'>(</span><span class='va'>hald.gprior</span>, estimator<span class='op'>=</span><span class='st'>"BPM"</span>, predict<span class='op'>=</span><span class='cn'>FALSE</span>, se.fit<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='confint.coef.bas.html'>confint</a></span><span class='op'>(</span><span class='va'>hald.pred</span>, parm<span class='op'>=</span><span class='st'>"mean"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;            2.5%     97.5%      mean
 #&gt;  [1,]  72.85939  86.44363  79.65151
 #&gt;  [2,]  69.50215  79.45478  74.47846
@@ -226,7 +226,7 @@ Carlo draws. <!-- %% ~~ If necessary, more details than the description above ~~
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
-#&gt; [1] "confint.bas"</div><div class='input'><span class='fu'><a href='confint.coef.bas.html'>confint</a></span>(<span class='kw'>hald.pred</span>)  <span class='co'>#default</span>
+#&gt; [1] "confint.bas"</div><div class='input'><span class='fu'><a href='confint.coef.bas.html'>confint</a></span><span class='op'>(</span><span class='va'>hald.pred</span><span class='op'>)</span>  <span class='co'>#default</span>
 </div><div class='output co'>#&gt;            2.5%     97.5%      pred
 #&gt;  [1,]  67.79843  91.50459  79.65151
 #&gt;  [2,]  63.56396  85.39296  74.47846
@@ -244,22 +244,22 @@ Carlo draws. <!-- %% ~~ If necessary, more details than the description above ~~
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
-#&gt; [1] "confint.bas"</div><div class='input'><span class='kw'>hald.pred</span> <span class='op'>=</span> <span class='fu'><a href='predict.bas.html'>predict</a></span>(<span class='kw'>hald.gprior</span>, estimator=<span class='st'>"BMA"</span>, predict=<span class='fl'>FALSE</span>, se.fit=<span class='fl'>TRUE</span>)
-<span class='fu'><a href='confint.coef.bas.html'>confint</a></span>(<span class='kw'>hald.pred</span>)
+#&gt; [1] "confint.bas"</div><div class='input'><span class='va'>hald.pred</span> <span class='op'>=</span> <span class='fu'><a href='predict.bas.html'>predict</a></span><span class='op'>(</span><span class='va'>hald.gprior</span>, estimator<span class='op'>=</span><span class='st'>"BMA"</span>, predict<span class='op'>=</span><span class='cn'>FALSE</span>, se.fit<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='confint.coef.bas.html'>confint</a></span><span class='op'>(</span><span class='va'>hald.pred</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;            2.5%     97.5%      pred
-#&gt;  [1,]  68.04259  91.75256  79.68307
-#&gt;  [2,]  63.18476  85.71646  74.69127
-#&gt;  [3,]  95.30563 116.86576 105.63258
-#&gt;  [4,]  78.85448 101.25556  89.91648
-#&gt;  [5,]  84.26100 106.96261  95.67480
-#&gt;  [6,]  94.01374 114.89036 104.57616
-#&gt;  [7,]  91.96032 114.95317 103.47945
-#&gt;  [8,]  65.19900  87.94134  76.96808
-#&gt;  [9,]  81.36128 103.20313  92.22184
-#&gt; [10,] 100.42468 125.60485 113.84918
-#&gt; [11,]  71.50251  94.23882  82.59035
-#&gt; [12,]  99.65938 121.51349 110.87673
-#&gt; [13,]  98.82775 120.90322 110.34001
+#&gt;  [1,]  68.19846  92.06394  79.68307
+#&gt;  [2,]  63.13402  85.64633  74.69127
+#&gt;  [3,]  94.60746 116.12602 105.63258
+#&gt;  [4,]  78.37466 100.61338  89.91648
+#&gt;  [5,]  83.59682 106.54337  95.67480
+#&gt;  [6,]  94.02098 114.93059 104.57616
+#&gt;  [7,]  92.34892 115.38786 103.47945
+#&gt;  [8,]  65.36008  87.91979  76.96808
+#&gt;  [9,]  81.80864 103.53447  92.22184
+#&gt; [10,] 101.58578 126.62094 113.84918
+#&gt; [11,]  71.31986  93.93309  82.59035
+#&gt; [12,]  99.48389 121.18458 110.87673
+#&gt; [13,]  99.32587 121.46785 110.34001
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
@@ -281,7 +281,7 @@ Carlo draws. <!-- %% ~~ If necessary, more details than the description above ~~
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

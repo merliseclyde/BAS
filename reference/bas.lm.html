@@ -80,7 +80,7 @@ Linear Models — bas.lm" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BAS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0</span>
       </span>
     </div>
 
@@ -138,34 +138,34 @@ Linear Models</h1>
     <p>Sample without replacement from a posterior distribution on models</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bas.lm</span>(
-  <span class='kw'>formula</span>,
-  <span class='kw'>data</span>,
-  <span class='kw'>subset</span>,
-  <span class='kw'>weights</span>,
-  contrasts = <span class='kw'>NULL</span>,
-  na.action = <span class='st'>"na.omit"</span>,
-  n.models = <span class='kw'>NULL</span>,
-  prior = <span class='st'>"ZS-null"</span>,
-  alpha = <span class='kw'>NULL</span>,
-  modelprior = <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
-  initprobs = <span class='st'>"Uniform"</span>,
-  include.always = <span class='op'>~</span><span class='fl'>1</span>,
-  method = <span class='st'>"BAS"</span>,
-  update = <span class='kw'>NULL</span>,
-  bestmodel = <span class='kw'>NULL</span>,
-  prob.local = <span class='fl'>0</span>,
-  prob.rw = <span class='fl'>0.5</span>,
-  MCMC.iterations = <span class='kw'>NULL</span>,
-  lambda = <span class='kw'>NULL</span>,
-  delta = <span class='fl'>0.025</span>,
-  thin = <span class='fl'>1</span>,
-  renormalize = <span class='fl'>FALSE</span>,
-  force.heredity = <span class='fl'>FALSE</span>,
-  pivot = <span class='fl'>TRUE</span>,
-  tol = <span class='fl'>1e-07</span>,
-  bigmem = <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>bas.lm</span><span class='op'>(</span>
+  <span class='va'>formula</span>,
+  <span class='va'>data</span>,
+  <span class='va'>subset</span>,
+  <span class='va'>weights</span>,
+  contrasts <span class='op'>=</span> <span class='cn'>NULL</span>,
+  na.action <span class='op'>=</span> <span class='st'>"na.omit"</span>,
+  n.models <span class='op'>=</span> <span class='cn'>NULL</span>,
+  prior <span class='op'>=</span> <span class='st'>"ZS-null"</span>,
+  alpha <span class='op'>=</span> <span class='cn'>NULL</span>,
+  modelprior <span class='op'>=</span> <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span>,
+  initprobs <span class='op'>=</span> <span class='st'>"Uniform"</span>,
+  include.always <span class='op'>=</span> <span class='op'>~</span><span class='fl'>1</span>,
+  method <span class='op'>=</span> <span class='st'>"BAS"</span>,
+  update <span class='op'>=</span> <span class='cn'>NULL</span>,
+  bestmodel <span class='op'>=</span> <span class='cn'>NULL</span>,
+  prob.local <span class='op'>=</span> <span class='fl'>0</span>,
+  prob.rw <span class='op'>=</span> <span class='fl'>0.5</span>,
+  MCMC.iterations <span class='op'>=</span> <span class='cn'>NULL</span>,
+  lambda <span class='op'>=</span> <span class='cn'>NULL</span>,
+  delta <span class='op'>=</span> <span class='fl'>0.025</span>,
+  thin <span class='op'>=</span> <span class='fl'>1</span>,
+  renormalize <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  force.heredity <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  pivot <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  tol <span class='op'>=</span> <span class='fl'>1e-07</span>,
+  bigmem <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -444,6 +444,7 @@ BMA object</p></dd>
 <dt>X</dt><dd><p>matrix of predictors</p></dd>
 <dt>mean.x</dt><dd><p>vector of means for each column of X (used in
 <code><a href='predict.bas.html'>predict.bas</a></code>)</p></dd>
+weights used in model fitting
 <dt>include.always</dt><dd><p>indices of variables that are forced into the model</p></dd>
 
 The function <a href='summary.bas.html'>summary.bas</a>, is used to print a summary of the
@@ -540,6 +541,7 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 <code><a href='confint.coef.bas.html'>confint.coef.bas</a>()</code>,
 <code><a href='confint.pred.bas.html'>confint.pred.bas</a>()</code>,
 <code><a href='diagnostics.html'>diagnostics</a>()</code>,
+<code><a href='extract_MPM.html'>extract_MPM</a>()</code>,
 <code><a href='fitted.bas.html'>fitted.bas</a>()</code>,
 <code><a href='force.heredity.bas.html'>force.heredity.bas</a>()</code>,
 <code><a href='image.bas.html'>image.bas</a>()</code>,
@@ -555,33 +557,33 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://www.stats.ox.ac.uk/pub/MASS4'>MASS</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>UScrime</span>)
-<span class='kw'>crime.bic</span> <span class='op'>&lt;-</span> <span class='fu'>bas.lm</span>(<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>y</span>) <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>M</span>) <span class='op'>+</span> <span class='kw'>So</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Ed</span>) <span class='op'>+</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Po1</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Po2</span>) <span class='op'>+</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>LF</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>M.F</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Pop</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>NW</span>) <span class='op'>+</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>U1</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>U2</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>GDP</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Ineq</span>) <span class='op'>+</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Prob</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Time</span>),
-data = <span class='kw'>UScrime</span>, n.models = <span class='fl'>2</span><span class='op'>^</span><span class='fl'>15</span>, prior = <span class='st'>"BIC"</span>,
-modelprior = <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
-initprobs = <span class='st'>"eplogp"</span>, pivot = <span class='fl'>FALSE</span>
-)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://www.stats.ox.ac.uk/pub/MASS4/'>MASS</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>UScrime</span><span class='op'>)</span>
+<span class='va'>crime.bic</span> <span class='op'>&lt;-</span> <span class='fu'>bas.lm</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>M</span><span class='op'>)</span> <span class='op'>+</span> <span class='va'>So</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Ed</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Po1</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Po2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>LF</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>M.F</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Pop</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>NW</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>U1</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>U2</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>GDP</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Ineq</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Prob</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Time</span><span class='op'>)</span>,
+data <span class='op'>=</span> <span class='va'>UScrime</span>, n.models <span class='op'>=</span> <span class='fl'>2</span><span class='op'>^</span><span class='fl'>15</span>, prior <span class='op'>=</span> <span class='st'>"BIC"</span>,
+modelprior <span class='op'>=</span> <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span>,
+initprobs <span class='op'>=</span> <span class='st'>"eplogp"</span>, pivot <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
 
 <span class='co'># use MCMC rather than enumeration</span>
-<span class='kw'>crime.mcmc</span> <span class='op'>&lt;-</span> <span class='fu'>bas.lm</span>(<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>y</span>) <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>M</span>) <span class='op'>+</span> <span class='kw'>So</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Ed</span>) <span class='op'>+</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Po1</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Po2</span>) <span class='op'>+</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>LF</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>M.F</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Pop</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>NW</span>) <span class='op'>+</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>U1</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>U2</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>GDP</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Ineq</span>) <span class='op'>+</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Prob</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='kw'>Time</span>),
-data = <span class='kw'>UScrime</span>,
-method = <span class='st'>"MCMC"</span>,
-MCMC.iterations = <span class='fl'>20000</span>, prior = <span class='st'>"BIC"</span>,
-modelprior = <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
-initprobs = <span class='st'>"eplogp"</span>, pivot = <span class='fl'>FALSE</span>
-)
+<span class='va'>crime.mcmc</span> <span class='op'>&lt;-</span> <span class='fu'>bas.lm</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>M</span><span class='op'>)</span> <span class='op'>+</span> <span class='va'>So</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Ed</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Po1</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Po2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>LF</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>M.F</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Pop</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>NW</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>U1</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>U2</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>GDP</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Ineq</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Prob</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Time</span><span class='op'>)</span>,
+data <span class='op'>=</span> <span class='va'>UScrime</span>,
+method <span class='op'>=</span> <span class='st'>"MCMC"</span>,
+MCMC.iterations <span class='op'>=</span> <span class='fl'>20000</span>, prior <span class='op'>=</span> <span class='st'>"BIC"</span>,
+modelprior <span class='op'>=</span> <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span>,
+initprobs <span class='op'>=</span> <span class='st'>"eplogp"</span>, pivot <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
-<span class='fu'><a href='summary.bas.html'>summary</a></span>(<span class='kw'>crime.bic</span>)
+<span class='fu'><a href='summary.bas.html'>summary</a></span><span class='op'>(</span><span class='va'>crime.bic</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;           P(B != 0 | Y)   model 1       model 2     model 3     model 4
 #&gt; Intercept     1.0000000   1.00000  1.000000e+00   1.0000000   1.0000000
 #&gt; log(M)        0.9335117   1.00000  1.000000e+00   1.0000000   1.0000000
@@ -625,19 +627,19 @@ initprobs = <span class='st'>"eplogp"</span>, pivot = <span class='fl'>FALSE</sp
 #&gt; PostProbs   0.0099000
 #&gt; R2          0.8375000
 #&gt; dim         9.0000000
-#&gt; logmarg   -22.8118635</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>crime.bic</span>)
-</div><div class='img'><img src='bas.lm-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='image.bas.html'>image</a></span>(<span class='kw'>crime.bic</span>, subset = <span class='op'>-</span><span class='fl'>1</span>)
+#&gt; logmarg   -22.8118635</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>crime.bic</span><span class='op'>)</span>
+</div><div class='img'><img src='bas.lm-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='image.bas.html'>image</a></span><span class='op'>(</span><span class='va'>crime.bic</span>, subset <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>
 </div><div class='img'><img src='bas.lm-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># example with two-way interactions and hierarchical constraints</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>ToothGrowth</span>)
-<span class='kw'>ToothGrowth</span><span class='op'>$</span><span class='kw'>dose</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='kw'>ToothGrowth</span><span class='op'>$</span><span class='kw'>dose</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span>(<span class='kw'>ToothGrowth</span><span class='op'>$</span><span class='kw'>dose</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Low"</span>, <span class='st'>"Medium"</span>, <span class='st'>"High"</span>)
-<span class='kw'>TG.bas</span> <span class='op'>&lt;-</span> <span class='fu'>bas.lm</span>(<span class='kw'>len</span> <span class='op'>~</span> <span class='kw'>supp</span> <span class='op'>*</span> <span class='kw'>dose</span>,
-  data = <span class='kw'>ToothGrowth</span>,
-  modelprior = <span class='fu'><a href='uniform.html'>uniform</a></span>(), method = <span class='st'>"BAS"</span>,
-  force.heredity = <span class='fl'>TRUE</span>
-)
-<span class='fu'><a href='summary.bas.html'>summary</a></span>(<span class='kw'>TG.bas</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>ToothGrowth</span><span class='op'>)</span>
+<span class='va'>ToothGrowth</span><span class='op'>$</span><span class='va'>dose</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>ToothGrowth</span><span class='op'>$</span><span class='va'>dose</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>ToothGrowth</span><span class='op'>$</span><span class='va'>dose</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Low"</span>, <span class='st'>"Medium"</span>, <span class='st'>"High"</span><span class='op'>)</span>
+<span class='va'>TG.bas</span> <span class='op'>&lt;-</span> <span class='fu'>bas.lm</span><span class='op'>(</span><span class='va'>len</span> <span class='op'>~</span> <span class='va'>supp</span> <span class='op'>*</span> <span class='va'>dose</span>,
+  data <span class='op'>=</span> <span class='va'>ToothGrowth</span>,
+  modelprior <span class='op'>=</span> <span class='fu'><a href='uniform.html'>uniform</a></span><span class='op'>(</span><span class='op'>)</span>, method <span class='op'>=</span> <span class='st'>"BAS"</span>,
+  force.heredity <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
+<span class='fu'><a href='summary.bas.html'>summary</a></span><span class='op'>(</span><span class='va'>TG.bas</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                   P(B != 0 | Y)  model 1    model 2     model 3      model 4
 #&gt; Intercept             1.0000000  1.00000  1.0000000  1.00000000 1.000000e+00
 #&gt; suppVC                0.9910702  1.00000  1.0000000  0.00000000 0.000000e+00
@@ -661,34 +663,34 @@ initprobs = <span class='st'>"eplogp"</span>, pivot = <span class='fl'>FALSE</sp
 #&gt; PostProbs          0.000000e+00
 #&gt; R2                 5.950000e-02
 #&gt; dim                2.000000e+00
-#&gt; logmarg           -1.270492e+00</div><div class='input'><span class='fu'><a href='image.bas.html'>image</a></span>(<span class='kw'>TG.bas</span>)
+#&gt; logmarg           -1.270492e+00</div><div class='input'><span class='fu'><a href='image.bas.html'>image</a></span><span class='op'>(</span><span class='va'>TG.bas</span><span class='op'>)</span>
 </div><div class='img'><img src='bas.lm-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># exmple with non-full rank case</span>
 
- <span class='kw'>loc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"testdata"</span>, package = <span class='st'>"BAS"</span>)
- <span class='kw'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='kw'>loc</span>, <span class='st'>"JASP-testdata.csv"</span>, sep = <span class='st'>"/"</span>))
-<span class='kw'>fullModelFormula</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>as.formula</a></span>(<span class='st'>"contNormal ~  contGamma * contExpon +
-                                contGamma * contcor1 + contExpon * contcor1"</span>)
+ <span class='va'>loc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"testdata"</span>, package <span class='op'>=</span> <span class='st'>"BAS"</span><span class='op'>)</span>
+ <span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='va'>loc</span>, <span class='st'>"JASP-testdata.csv"</span>, sep <span class='op'>=</span> <span class='st'>"/"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>fullModelFormula</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>as.formula</a></span><span class='op'>(</span><span class='st'>"contNormal ~  contGamma * contExpon +
+                                contGamma * contcor1 + contExpon * contcor1"</span><span class='op'>)</span>
 
 <span class='co'># should give warning; use pivot = T to fit non-full rank case (fails on i386)</span>
- <span class='kw'>out</span> <span class='op'>=</span> <span class='fu'>bas.lm</span>(<span class='kw'>fullModelFormula</span>,
-              data = <span class='kw'>d</span>,
-              alpha = <span class='fl'>0.125316</span>,
-              prior = <span class='st'>"JZS"</span>,
-              weights = <span class='kw'>facFifty</span>, force.heredity = <span class='fl'>FALSE</span>, pivot = <span class='fl'>FALSE</span>)
+ <span class='va'>out</span> <span class='op'>=</span> <span class='fu'>bas.lm</span><span class='op'>(</span><span class='va'>fullModelFormula</span>,
+              data <span class='op'>=</span> <span class='va'>d</span>,
+              alpha <span class='op'>=</span> <span class='fl'>0.125316</span>,
+              prior <span class='op'>=</span> <span class='st'>"JZS"</span>,
+              weights <span class='op'>=</span> <span class='va'>facFifty</span>, force.heredity <span class='op'>=</span> <span class='cn'>FALSE</span>, pivot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: log marginals and posterior probabilities contain NA's.  Consider re-running with the option `pivot=TRUE` if there are models that are not full rank</span></div><div class='input'>
 
 <span class='co'># use pivot = TRUE to fit non-full rank case  (default)</span>
 <span class='co'># This is slower but safer</span>
 
-<span class='kw'>out</span> <span class='op'>=</span>  <span class='fu'>bas.lm</span>(<span class='kw'>fullModelFormula</span>,
-              data = <span class='kw'>d</span>,
-              alpha = <span class='fl'>0.125316</span>,
-              prior = <span class='st'>"JZS"</span>,
-              weights = <span class='kw'>facFifty</span>, force.heredity = <span class='fl'>FALSE</span>, pivot = <span class='fl'>TRUE</span>)
+<span class='va'>out</span> <span class='op'>=</span>  <span class='fu'>bas.lm</span><span class='op'>(</span><span class='va'>fullModelFormula</span>,
+              data <span class='op'>=</span> <span class='va'>d</span>,
+              alpha <span class='op'>=</span> <span class='fl'>0.125316</span>,
+              prior <span class='op'>=</span> <span class='st'>"JZS"</span>,
+              weights <span class='op'>=</span> <span class='va'>facFifty</span>, force.heredity <span class='op'>=</span> <span class='cn'>FALSE</span>, pivot <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># more complete demo's</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/demo.html'>demo</a></span>(<span class='kw'>BAS.hald</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/demo.html'>demo</a></span><span class='op'>(</span><span class='va'>BAS.hald</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
 #&gt; 
 #&gt; 	demo(BAS.hald)
@@ -742,7 +744,7 @@ initprobs = <span class='st'>"eplogp"</span>, pivot = <span class='fl'>FALSE</sp
 #&gt; X3         -0.1271     0.4976   0.4653       
 #&gt; X4         -0.3269     0.4717   0.6329       
 #&gt; 
-#&gt; &gt; plot(hald.coef)</div><div class='img'><img src='bas.lm-12.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-13.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-14.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-15.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-16.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; &gt; plot(hald.coef)</div><div class='img'><img src='bas.lm-12.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-13.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-14.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-15.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
 #&gt; &gt; predict(hald.gprior, top=5, se.fit=TRUE)  
 #&gt; $fit
 #&gt;  [1]  79.74246  74.50010 105.29268  89.88693  95.57177 104.56409 103.40145
@@ -821,7 +823,7 @@ initprobs = <span class='st'>"eplogp"</span>, pivot = <span class='fl'>FALSE</sp
 #&gt; [1] 12 12 12 12 12
 #&gt; 
 #&gt; $best
-#&gt; [1] 10 11  7  8  3
+#&gt; [1]  4  9 10  5  2
 #&gt; 
 #&gt; $bestmodel
 #&gt; $bestmodel[[1]]
@@ -851,19 +853,19 @@ initprobs = <span class='st'>"eplogp"</span>, pivot = <span class='fl'>FALSE</sp
 #&gt; 
 #&gt; &gt; confint(predict(hald.gprior, Hald, estimator="BMA", se.fit=TRUE, top=5), parm="mean")
 #&gt;            2.5%     97.5%      mean
-#&gt;  [1,]  73.27030  86.21520  79.74246
-#&gt;  [2,]  69.36215  79.62430  74.50010
-#&gt;  [3,] 101.00220 109.75053 105.29268
-#&gt;  [4,]  85.04014  94.49379  89.88693
-#&gt;  [5,]  90.32186 100.32520  95.57177
-#&gt;  [6,] 101.34316 107.92909 104.56409
-#&gt;  [7,]  97.54333 109.17084 103.40145
-#&gt;  [8,]  71.64516  82.63840  77.13668
-#&gt;  [9,]  87.62252  96.54948  91.99731
-#&gt; [10,] 106.45893 121.68949 114.21325
-#&gt; [11,]  77.51213  88.13170  82.78446
-#&gt; [12,] 106.68404 115.53258 111.00723
-#&gt; [13,] 105.77390 115.38846 110.40160
+#&gt;  [1,]  73.13598  86.22934  79.74246
+#&gt;  [2,]  69.04206  79.36270  74.50010
+#&gt;  [3,] 100.98281 109.62245 105.29268
+#&gt;  [4,]  84.93302  94.41596  89.88693
+#&gt;  [5,]  90.47580 100.42847  95.57177
+#&gt;  [6,] 101.17185 107.80571 104.56409
+#&gt;  [7,]  97.69431 109.29454 103.40145
+#&gt;  [8,]  71.76879  82.91634  77.13668
+#&gt;  [9,]  87.34167  96.36130  91.99731
+#&gt; [10,] 106.73443 121.88011 114.21325
+#&gt; [11,]  77.75356  88.31113  82.78446
+#&gt; [12,] 106.69239 115.57770 111.00723
+#&gt; [13,] 105.86891 115.36706 110.40160
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
@@ -873,36 +875,37 @@ initprobs = <span class='st'>"eplogp"</span>, pivot = <span class='fl'>FALSE</sp
 #&gt; $fit
 #&gt;  [1]  79.65151  74.47846 105.42183  89.83174  95.62799 104.59616 103.50684
 #&gt;  [8]  77.00839  92.07571 114.10876  82.68233 111.04286 110.46741
-#&gt; attr(,"model")
-#&gt; [1] 0 1 2 4
-#&gt; attr(,"best")
-#&gt; [1] 1
-#&gt; attr(,"estimator")
-#&gt; [1] "MPM"
 #&gt; 
 #&gt; $Ybma
-#&gt;  [1]  79.65151  74.47846 105.42183  89.83174  95.62799 104.59616 103.50684
-#&gt;  [8]  77.00839  92.07571 114.10876  82.68233 111.04286 110.46741
-#&gt; attr(,"model")
-#&gt; [1] 0 1 2 4
-#&gt; attr(,"best")
-#&gt; [1] 1
-#&gt; attr(,"estimator")
-#&gt; [1] "MPM"
+#&gt;            [,1]
+#&gt;  [1,]  79.65151
+#&gt;  [2,]  74.47846
+#&gt;  [3,] 105.42183
+#&gt;  [4,]  89.83174
+#&gt;  [5,]  95.62799
+#&gt;  [6,] 104.59616
+#&gt;  [7,] 103.50684
+#&gt;  [8,]  77.00839
+#&gt;  [9,]  92.07571
+#&gt; [10,] 114.10876
+#&gt; [11,]  82.68233
+#&gt; [12,] 111.04286
+#&gt; [13,] 110.46741
 #&gt; 
 #&gt; $Ypred
-#&gt; NULL
+#&gt;          [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]
+#&gt; [1,] 79.65151 74.47846 105.4218 89.83174 95.62799 104.5962 103.5068 77.00839
+#&gt;          [,9]    [,10]    [,11]    [,12]    [,13]
+#&gt; [1,] 92.07571 114.1088 82.68233 111.0429 110.4674
 #&gt; 
 #&gt; $postprobs
-#&gt; NULL
+#&gt; [1] 1
 #&gt; 
 #&gt; $se.fit
-#&gt;  [1] 3.117350 2.283957 1.602160 2.149087 2.589321 1.508471 2.610923 2.545817
-#&gt;  [9] 1.990817 3.485929 2.456636 1.951456 2.212238
+#&gt; numeric(0)
 #&gt; 
 #&gt; $se.pred
-#&gt;  [1] 5.440156 5.009380 4.737547 4.949344 5.155775 4.706689 5.166658 5.134065
-#&gt;  [9] 4.882702 5.659428 5.090431 4.866787 4.977090
+#&gt; numeric(0)
 #&gt; 
 #&gt; $se.bma.fit
 #&gt; NULL
@@ -914,13 +917,15 @@ initprobs = <span class='st'>"eplogp"</span>, pivot = <span class='fl'>FALSE</sp
 #&gt; [1] 12
 #&gt; 
 #&gt; $best
-#&gt; NULL
+#&gt; [1] 1
 #&gt; 
 #&gt; $bestmodel
+#&gt; $bestmodel[[1]]
 #&gt; [1] 0 1 2 4
 #&gt; 
+#&gt; 
 #&gt; $best.vars
-#&gt; [1] "Intercept" "X1"        "X2"        "X4"       
+#&gt; [1] "Intercept" "X1"        "X2"        "X3"        "X4"       
 #&gt; 
 #&gt; $estimator
 #&gt; [1] "MPM"
@@ -928,21 +933,7 @@ initprobs = <span class='st'>"eplogp"</span>, pivot = <span class='fl'>FALSE</sp
 #&gt; attr(,"class")
 #&gt; [1] "pred.bas"
 #&gt; 
-#&gt; &gt; confint(predict(hald.gprior, Hald, estimator="MPM", se.fit=TRUE), parm="mean")
-#&gt;            2.5%     97.5%      mean
-#&gt;  [1,]  72.85939  86.44363  79.65151
-#&gt;  [2,]  69.50215  79.45478  74.47846
-#&gt;  [3,] 101.93102 108.91264 105.42183
-#&gt;  [4,]  85.14928  94.51420  89.83174
-#&gt;  [5,]  89.98634 101.26964  95.62799
-#&gt;  [6,] 101.30948 107.88283 104.59616
-#&gt;  [7,]  97.81813 109.19556 103.50684
-#&gt;  [8,]  71.46153  82.55525  77.00839
-#&gt;  [9,]  87.73810  96.41333  92.07571
-#&gt; [10,] 106.51357 121.70394 114.10876
-#&gt; [11,]  77.32978  88.03488  82.68233
-#&gt; [12,] 106.79101 115.29472 111.04286
-#&gt; [13,] 105.64736 115.28746 110.46741
+#&gt; &gt; confint(predict(hald.gprior, Hald, estimator="MPM", se.fit=TRUE), parm="mean")</div><div class='output co'>#&gt; <span class='warning'>Warning: number of rows of result is not a multiple of vector length (arg 2)</span></div><div class='img'><img src='bas.lm-16.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;      2.5% 97.5% mean
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
@@ -960,9 +951,9 @@ initprobs = <span class='st'>"eplogp"</span>, pivot = <span class='fl'>FALSE</sp
 #&gt; 
 #&gt; &gt; hald.bic = update(hald.gprior,newprior="BIC")
 #&gt; 
-#&gt; &gt; hald.zs = update(hald.bic, newprior="ZS-null")</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/utils/demo.html'>demo</a></span>(<span class='kw'>BAS.USCrime</span>)
-}
+#&gt; &gt; hald.zs = update(hald.bic, newprior="ZS-null")</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/demo.html'>demo</a></span><span class='op'>(</span><span class='va'>BAS.USCrime</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 </div></pre>
   </div>
@@ -980,7 +971,7 @@ initprobs = <span class='st'>"eplogp"</span>, pivot = <span class='fl'>FALSE</sp
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
