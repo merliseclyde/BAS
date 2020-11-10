@@ -54,6 +54,7 @@ eplogprob = function(lm.obj, thresh=.5, max = 0.99, int=TRUE) {
       stop("Full model is not full rank,  use `initprobs='marg-eplogp'` instead\n")
     }
     else {
+      pval[pval <  .Machine$double.eps] =  .Machine$double.eps
       prob = 1/(1 - exp(1)*pval*log(pval))
       prob[pval > 1/exp(1)] = thresh
       prob[prob > max] = max
