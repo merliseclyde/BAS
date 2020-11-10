@@ -6,7 +6,7 @@
 #' @details The Median Probability Model is the model where variables are
 #' included if the marginal posterior probabilty of the coefficient being
 #' zero is greater than 0.5.  As this model may not have been sampled (and even
-#' if it has) it is oftern faster to refit the model using bas, rather than
+#' if it has) it is often faster to refit the model using bas, rather than
 #' search the list of models to see where it was included.
 #' @examples
 #' data(Hald, package="BAS")
