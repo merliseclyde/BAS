@@ -243,6 +243,7 @@ probability models.</p>
 <code><a href='confint.coef.bas.html'>confint.coef.bas</a>()</code>,
 <code><a href='confint.pred.bas.html'>confint.pred.bas</a>()</code>,
 <code><a href='diagnostics.html'>diagnostics</a>()</code>,
+<code><a href='extract_MPM.html'>extract_MPM</a>()</code>,
 <code><a href='fitted.bas.html'>fitted.bas</a>()</code>,
 <code><a href='force.heredity.bas.html'>force.heredity.bas</a>()</code>,
 <code><a href='image.bas.html'>image.bas</a>()</code>,
@@ -267,7 +268,7 @@ probability models.</p>
 #&gt; attr(,"model")
 #&gt; [1] 0 1 2 4
 #&gt; attr(,"best")
-#&gt; [1] 12
+#&gt; [1] 4
 #&gt; attr(,"estimator")
 #&gt; [1] "BPM"
 #&gt; 
@@ -351,7 +352,7 @@ probability models.</p>
 #&gt; [1] 12
 #&gt; 
 #&gt; $best
-#&gt; [1] 12
+#&gt; [1] 4
 #&gt; 
 #&gt; $bestmodel
 #&gt; [1] 0 1 2 4
@@ -370,19 +371,19 @@ probability models.</p>
 <span class='va'>hald.bma</span> <span class='op'>=</span> <span class='fu'>predict</span><span class='op'>(</span><span class='va'>hald.gprior</span>, top<span class='op'>=</span><span class='fl'>5</span>, se.fit<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='fu'><a href='confint.coef.bas.html'>confint</a></span><span class='op'>(</span><span class='va'>hald.bma</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;            2.5%     97.5%      pred
-#&gt;  [1,]  68.16996  91.68989  79.74246
-#&gt;  [2,]  63.80408  85.83417  74.50010
-#&gt;  [3,]  94.03418 115.70063 105.29268
-#&gt;  [4,]  78.33261 100.40648  89.88693
-#&gt;  [5,]  85.04296 106.73549  95.57177
-#&gt;  [6,]  94.29147 115.20842 104.56409
-#&gt;  [7,]  92.00130 114.95891 103.40145
-#&gt;  [8,]  65.33560  88.10511  77.13668
-#&gt;  [9,]  81.29811 102.79057  91.99731
-#&gt; [10,] 102.07803 127.06924 114.21325
-#&gt; [11,]  71.18974  93.32478  82.78446
-#&gt; [12,]  99.74831 121.38138 111.00723
-#&gt; [13,]  99.22510 121.54665 110.40160
+#&gt;  [1,]  67.48251  91.26424  79.74246
+#&gt;  [2,]  63.91100  86.10173  74.50010
+#&gt;  [3,]  94.93265 116.51460 105.29268
+#&gt;  [4,]  78.95200 100.71279  89.88693
+#&gt;  [5,]  84.74226 106.77362  95.57177
+#&gt;  [6,]  93.56902 114.44674 104.56409
+#&gt;  [7,]  92.44246 115.18152 103.40145
+#&gt;  [8,]  65.63258  88.35578  77.13668
+#&gt;  [9,]  81.66371 103.00609  91.99731
+#&gt; [10,] 101.90641 126.99327 114.21325
+#&gt; [11,]  71.49061  93.92691  82.78446
+#&gt; [12,] 100.34252 122.05667 111.00723
+#&gt; [13,]  99.09165 121.36950 110.40160
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")

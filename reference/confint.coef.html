@@ -197,6 +197,7 @@ of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
 <code><a href='coef.bas.html'>coef.bas</a>()</code>,
 <code><a href='confint.pred.bas.html'>confint.pred.bas</a>()</code>,
 <code><a href='diagnostics.html'>diagnostics</a>()</code>,
+<code><a href='extract_MPM.html'>extract_MPM</a>()</code>,
 <code><a href='fitted.bas.html'>fitted.bas</a>()</code>,
 <code><a href='force.heredity.bas.html'>force.heredity.bas</a>()</code>,
 <code><a href='image.bas.html'>image.bas</a>()</code>,
@@ -219,28 +220,28 @@ of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
 <span class='va'>coef_hald</span> <span class='op'>&lt;-</span> <span class='fu'><a href='coef.bas.html'>coef</a></span><span class='op'>(</span><span class='va'>hald_gprior</span><span class='op'>)</span>
 <span class='fu'>confint</span><span class='op'>(</span><span class='va'>coef_hald</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                2.5%      97.5%       beta
-#&gt; Intercept 93.938554 96.9776364 95.4230769
-#&gt; X1         0.000000  1.8990638  1.2150202
-#&gt; X2        -1.087344  0.9817120  0.2756235
-#&gt; X3        -1.510343  0.6146863 -0.1270575
-#&gt; X4        -1.797732  0.2144441 -0.3268710
+#&gt; Intercept 93.787692 96.9194284 95.4230769
+#&gt; X1         0.000000  1.8641243  1.2150202
+#&gt; X2        -1.154257  0.8886773  0.2756235
+#&gt; X3        -1.543700  0.5638541 -0.1270575
+#&gt; X4        -1.708426  0.2727311 -0.3268710
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
 #&gt; [1] "confint.bas"</div><div class='input'><span class='fu'>confint</span><span class='op'>(</span><span class='va'>coef_hald</span>, approx<span class='op'>=</span><span class='cn'>FALSE</span>, nsim<span class='op'>=</span><span class='fl'>5000</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                   2.5%      97.5%       beta
-#&gt; Intercept 93.969341300 97.0785872 95.4230769
-#&gt; X1        -0.000540086  1.8816724  1.2150202
-#&gt; X2        -1.043200828  0.9937294  0.2756235
-#&gt; X3        -1.475252851  0.6368476 -0.1270575
-#&gt; X4        -1.616898588  0.3756444 -0.3268710
+</div><div class='output co'>#&gt;                2.5%      97.5%       beta
+#&gt; Intercept 93.840162 96.9389390 95.4230769
+#&gt; X1         0.000000  1.9166129  1.2150202
+#&gt; X2        -1.044448  1.0378191  0.2756235
+#&gt; X3        -1.531589  0.6012822 -0.1270575
+#&gt; X4        -1.618047  0.4188364 -0.3268710
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
 #&gt; [1] "confint.bas"</div><div class='input'><span class='co'># extract just the coefficient of X4</span>
 <span class='fu'>confint</span><span class='op'>(</span><span class='va'>coef_hald</span>, parm<span class='op'>=</span><span class='st'>"X4"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;         2.5%     97.5%      beta
-#&gt; X4 -1.652435 0.3231849 -0.326871
+#&gt; X4 -1.699301 0.2820853 -0.326871
 #&gt; attr(,"Probability")
 #&gt; [1] 0.95
 #&gt; attr(,"class")
