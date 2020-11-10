@@ -33,3 +33,26 @@ test_that("plot posterior coefficients", {
   expect_null(plot(crime_coef, ask=FALSE))
 })
 
+
+test_that("BPM coefficients", {
+  # unit test for merliseclyde/BAS#49
+  data("Hald")
+  hald.bas =  bas.lm(Y~ .,
+                     data = Hald,
+                     alpha = 1,
+                     modelprior = uniform(),
+                     prior = "BIC", n.models = 2^4)
+
+  hald.pred <- predict(hald.bas, estimator = "BPM")
+  BPM = as.vector(which.matrix(hald.bas$which[hald.pred$best],
+                               hald.bas$n.vars))
+
+  hald.BPM = bas.lm(Y ~ ., data = Hald,
+                    alpha = 1,
+                    prior = "BIC",
+                    modelprior = uniform(),
+                    bestmodel = BPM, n.models = 1)
+  hald.coef <- coef(hald.BPM)
+
+ expect_equal(hald.coef$postmean[BPM == 1], hald.bas$mle[[hald.pred$best]])
+})

@@ -16,7 +16,7 @@ probabilities may be updated based on the sampled models.
 }
 \details{
 \tabular{ll}{ Package: \tab BAS\cr Depends: \tab R (>= 2.8)\cr License: \tab
-GPL-3\cr URL: https://www.stat.duke.edu/~clyde\cr }
+GPL-3\cr URL: https://www2.stat.duke.edu/~clyde\cr }
 
 Index: \preformatted{ }
 }
@@ -24,12 +24,15 @@ Index: \preformatted{ }
 data("Hald")
 hald.gprior =  bas.lm(Y ~ ., data=Hald, alpha=13, prior="g-prior")
 
-# more complete demos
+# For more examples see the demos
 
-demo(BAS.hald)
 \dontrun{
+demo(BAS.hald)
 demo(BAS.USCrime)
 }
+
+# or package vignette
+
 }
 \references{
 Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive
@@ -61,6 +64,7 @@ Other bas methods:
 \code{\link{confint.coef.bas}()},
 \code{\link{confint.pred.bas}()},
 \code{\link{diagnostics}()},
+\code{\link{extract_MPM}()},
 \code{\link{fitted.bas}()},
 \code{\link{force.heredity.bas}()},
 \code{\link{image.bas}()},

@@ -48,28 +48,42 @@
 #' @examples
 #'
 #' data("Hald")
-#' hald.gprior =  bas.lm(Y~ ., data=Hald, n.models=2^4, alpha=13,
+#' hald.bas =  bas.lm(Y~ ., data=Hald, n.models=2^4, alpha=13,
 #'                       prior="ZS-null", initprobs="Uniform", update=10)
-#' coef.hald.gprior = coefficients(hald.gprior)
-#' coef.hald.gprior
-#' plot(coef.hald.gprior)
-#' confint(coef.hald.gprior)
+#' coef.hald.bas = coefficients(hald.bas)
+#' coef.hald.bas
+#' plot(coef.hald.bas)
+#' confint(coef.hald.bas)
 #'
 #' #Estimation under Median Probability Model
-#' coef.hald.gprior = coefficients(hald.gprior, estimator="MPM")
-#' coef.hald.gprior
-#' plot(coef.hald.gprior)
-#' plot(confint(coef.hald.gprior))
+#' coef.hald.bas = coefficients(hald.bas, estimator="MPM")
+#' coef.hald.bas
+#' plot(coef.hald.bas)
+#' plot(confint(coef.hald.bas))
+#'
+#' # Highest Probability Model
+#' coef.hald.bas = coefficients(hald.bas, estimator="HPM")
+#' coef.hald.bas
+#' plot(coef.hald.bas)
+#' confint(coef.hald.bas)
+#'
+#' # Best Predictive Model
+#'
+#'# Note:  output from coef is sorted in order of highest probability model.
+#'# To extract coefficients of the highest probability model refit the model
 #'
 #'
-#' coef.hald.gprior = coefficients(hald.gprior, estimator="HPM")
-#' coef.hald.gprior
-#' plot(coef.hald.gprior)
-#' confint(coef.hald.gprior)
+#' hald.pred <- predict(hald.bas, estimator = "BPM")
+#' BPM = as.vector(which.matrix(hald.bas$which[hald.pred$best],
+#'                              hald.bas$n.vars))
 #'
-#' # To add estimation under Best Predictive Model
-#'
-#'
+#' hald.BPM = bas.lm(Y ~ ., data = Hald,
+#'                   alpha=13,
+#'                   prior="ZS-null",
+#'                   modelprior = uniform(),
+#'                   bestmodel = BPM,
+#'                   n.models = 1)
+#' hald.coef <- coef(hald.BPM)
 #' @rdname coef
 #' @family bas methods
 #' @export

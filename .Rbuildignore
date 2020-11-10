@@ -29,3 +29,4 @@ CONTRIBUTING.md
 ^cran-comments\.md$
 ^doc$
 ^Meta$
+^\.github$

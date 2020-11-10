@@ -55,6 +55,7 @@ Other bas methods:
 \code{\link{coef.bas}()},
 \code{\link{confint.coef.bas}()},
 \code{\link{diagnostics}()},
+\code{\link{extract_MPM}()},
 \code{\link{fitted.bas}()},
 \code{\link{force.heredity.bas}()},
 \code{\link{image.bas}()},
