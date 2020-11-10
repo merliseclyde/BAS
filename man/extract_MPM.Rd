@@ -24,7 +24,7 @@ if it has) it is oftern faster to refit the model using bas, rather than
 search the list of models to see where it was included.
 }
 \examples{
-data(Hald, package=BAS)
+data(Hald, package="BAS")
 hald_bic =  bas.lm(Y ~ ., data=Hald, alpha=13, prior="BIC")
 extract_MPM(hald_bic)
 
