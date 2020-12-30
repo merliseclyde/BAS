@@ -17,7 +17,7 @@
 #' @param offset a priori known component to be included in the linear
 #' predictor
 #' @param family a description of the error distribution and link function for
-#' exponential family; currently only binomial() and poisson() with canonical
+#' exponential family; currently only binomial(), poisson(), and Gamma() with canonical
 #' links are implemented.
 #' @param coefprior function specifying prior distribution on coefficients with
 #' optional hyperparameters leading to marginal likelihood calculations;

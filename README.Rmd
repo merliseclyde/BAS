@@ -88,7 +88,7 @@ Run `demo("BAS.hald")` or `demo("BAS.USCrime")` or see the package vignette for 
 
 ### Generalized Linear Models
 
-`BAS` now includes for support for binomial and binary regression and Poisson regression using Laplace approximations to obtain Bayes Factors used in calculating posterior probabilities of models or sampling of models.  Here is an example using the Pima diabetes data set with the hyper-g/n prior:
+`BAS` now includes for support for binomial and binary regression, Poisson regression, and Gamma regression using Laplace approximations to obtain Bayes Factors used in calculating posterior probabilities of models or sampling of models.  Here is an example using the Pima diabetes data set with the hyper-g/n prior:
 
 ```{r binary}
 library(MASS)
