@@ -79,7 +79,7 @@ under different loss functions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BAS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.5</span>
       </span>
     </div>
 
@@ -252,17 +252,18 @@ BMA due to the  nonlinear transformation under the inverse link.</p>
     <p>Merlise Clyde</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>Pima.tr</span>, package<span class='op'>=</span><span class='st'>"MASS"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>Pima.te</span>, package<span class='op'>=</span><span class='st'>"MASS"</span><span class='op'>)</span>
-<span class='va'>Pima.bas</span> <span class='op'>=</span> <span class='fu'><a href='bas.glm.html'>bas.glm</a></span><span class='op'>(</span><span class='va'>type</span> <span class='op'>~</span> <span class='va'>.</span>, data<span class='op'>=</span><span class='va'>Pima.tr</span>, n.models<span class='op'>=</span> <span class='fl'>2</span><span class='op'>^</span><span class='fl'>7</span>, method<span class='op'>=</span><span class='st'>"BAS"</span>,
-           betaprior<span class='op'>=</span><span class='fu'><a href='CCH.html'>CCH</a></span><span class='op'>(</span>a<span class='op'>=</span><span class='fl'>1</span>, b<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>Pima.tr</span><span class='op'>)</span><span class='op'>/</span><span class='fl'>2</span>, s<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>, family<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span><span class='op'>)</span>,
-           modelprior<span class='op'>=</span><span class='fu'><a href='uniform.html'>uniform</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>pred</span> <span class='op'>=</span> <span class='fu'><a href='predict.bas.html'>predict</a></span><span class='op'>(</span><span class='va'>Pima.bas</span>, newdata<span class='op'>=</span><span class='va'>Pima.te</span>, top<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>  <span class='co'># Highest Probability model</span>
-<span class='fu'><a href='cv.summary.bas.html'>cv.summary.bas</a></span><span class='op'>(</span><span class='va'>pred</span><span class='op'>$</span><span class='va'>fit</span>, <span class='va'>Pima.te</span><span class='op'>$</span><span class='va'>type</span>, score<span class='op'>=</span><span class='st'>"miss-class"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.2108434</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>Pima.tr</span>, package<span class='op'>=</span><span class='st'>"MASS"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>Pima.te</span>, package<span class='op'>=</span><span class='st'>"MASS"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Pima.bas</span> <span class='op'>=</span> <span class='fu'><a href='bas.glm.html'>bas.glm</a></span><span class='op'>(</span><span class='va'>type</span> <span class='op'>~</span> <span class='va'>.</span>, data<span class='op'>=</span><span class='va'>Pima.tr</span>, n.models<span class='op'>=</span> <span class='fl'>2</span><span class='op'>^</span><span class='fl'>7</span>, method<span class='op'>=</span><span class='st'>"BAS"</span>,</span>
+<span class='r-in'>           betaprior<span class='op'>=</span><span class='fu'><a href='CCH.html'>CCH</a></span><span class='op'>(</span>a<span class='op'>=</span><span class='fl'>1</span>, b<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>Pima.tr</span><span class='op'>)</span><span class='op'>/</span><span class='fl'>2</span>, s<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>, family<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span><span class='op'>)</span>,</span>
+<span class='r-in'>           modelprior<span class='op'>=</span><span class='fu'><a href='uniform.html'>uniform</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>pred</span> <span class='op'>=</span> <span class='fu'><a href='predict.bas.html'>predict</a></span><span class='op'>(</span><span class='va'>Pima.bas</span>, newdata<span class='op'>=</span><span class='va'>Pima.te</span>, top<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>  <span class='co'># Highest Probability model</span></span>
+<span class='r-in'><span class='fu'><a href='cv.summary.bas.html'>cv.summary.bas</a></span><span class='op'>(</span><span class='va'>pred</span><span class='op'>$</span><span class='va'>fit</span>, <span class='va'>Pima.te</span><span class='op'>$</span><span class='va'>type</span>, score<span class='op'>=</span><span class='st'>"miss-class"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.2108434</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

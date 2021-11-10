@@ -81,7 +81,7 @@ by Bayesian model averaging over linear regression." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BAS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.5</span>
       </span>
     </div>
 
@@ -201,15 +201,31 @@ regression. Computational Statistics and Data Analysis, 22, 251-270.</p>
 adapted for 'bas' class by Merlise Clyde <a href='mailto:clyde@stat.duke.edu'>clyde@stat.duke.edu</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://www.stats.ox.ac.uk/pub/MASS4/'>MASS</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>UScrime</span><span class='op'>)</span>
-<span class='va'>UScrime</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>2</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>UScrime</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span>
-<span class='va'>crime_bic</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span><span class='op'>(</span><span class='va'>y</span> <span class='op'>~</span> <span class='va'>.</span>, data<span class='op'>=</span><span class='va'>UScrime</span>, n.models<span class='op'>=</span><span class='fl'>2</span><span class='op'>^</span><span class='fl'>15</span>, prior<span class='op'>=</span><span class='st'>"BIC"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='coef.bas.html'>coefficients</a></span><span class='op'>(</span><span class='va'>crime_bic</span><span class='op'>)</span>, ask<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='img'><img src='plot.coef-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot.coef-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot.coef-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot.coef-4.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot.coef-5.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot.coef-6.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot.coef-7.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot.coef-8.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot.coef-9.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot.coef-10.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot.coef-11.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot.coef-12.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot.coef-13.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot.coef-14.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot.coef-15.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot.coef-16.png' alt='' width='700' height='433' /></div><div class='input'>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://www.stats.ox.ac.uk/pub/MASS4/'>MASS</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>UScrime</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>UScrime</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>2</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>UScrime</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>crime_bic</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bas.lm.html'>bas.lm</a></span><span class='op'>(</span><span class='va'>y</span> <span class='op'>~</span> <span class='va'>.</span>, data<span class='op'>=</span><span class='va'>UScrime</span>, n.models<span class='op'>=</span><span class='fl'>2</span><span class='op'>^</span><span class='fl'>15</span>, prior<span class='op'>=</span><span class='st'>"BIC"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='coef.bas.html'>coefficients</a></span><span class='op'>(</span><span class='va'>crime_bic</span><span class='op'>)</span>, ask<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='plot.coef-1.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='plot.coef-2.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='plot.coef-3.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='plot.coef-4.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='plot.coef-5.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='plot.coef-6.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='plot.coef-7.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='plot.coef-8.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='plot.coef-9.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='plot.coef-10.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='plot.coef-11.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='plot.coef-12.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='plot.coef-13.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='plot.coef-14.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='plot.coef-15.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='plot.coef-16.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

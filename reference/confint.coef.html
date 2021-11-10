@@ -83,7 +83,7 @@ than the description above ~~" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BAS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.5</span>
       </span>
     </div>
 
@@ -212,42 +212,45 @@ of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
     <p>Merlise A Clyde</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"Hald"</span><span class='op'>)</span>
-<span class='va'>hald_gprior</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span><span class='op'>(</span><span class='va'>Y</span><span class='op'>~</span> <span class='va'>.</span>, data<span class='op'>=</span><span class='va'>Hald</span>, alpha<span class='op'>=</span><span class='fl'>13</span>,
-                            prior<span class='op'>=</span><span class='st'>"g-prior"</span><span class='op'>)</span>
-<span class='va'>coef_hald</span> <span class='op'>&lt;-</span> <span class='fu'><a href='coef.bas.html'>coef</a></span><span class='op'>(</span><span class='va'>hald_gprior</span><span class='op'>)</span>
-<span class='fu'>confint</span><span class='op'>(</span><span class='va'>coef_hald</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                2.5%      97.5%       beta
-#&gt; Intercept 93.787692 96.9194284 95.4230769
-#&gt; X1         0.000000  1.8641243  1.2150202
-#&gt; X2        -1.154257  0.8886773  0.2756235
-#&gt; X3        -1.543700  0.5638541 -0.1270575
-#&gt; X4        -1.708426  0.2727311 -0.3268710
-#&gt; attr(,"Probability")
-#&gt; [1] 0.95
-#&gt; attr(,"class")
-#&gt; [1] "confint.bas"</div><div class='input'><span class='fu'>confint</span><span class='op'>(</span><span class='va'>coef_hald</span>, approx<span class='op'>=</span><span class='cn'>FALSE</span>, nsim<span class='op'>=</span><span class='fl'>5000</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                2.5%      97.5%       beta
-#&gt; Intercept 93.840162 96.9389390 95.4230769
-#&gt; X1         0.000000  1.9166129  1.2150202
-#&gt; X2        -1.044448  1.0378191  0.2756235
-#&gt; X3        -1.531589  0.6012822 -0.1270575
-#&gt; X4        -1.618047  0.4188364 -0.3268710
-#&gt; attr(,"Probability")
-#&gt; [1] 0.95
-#&gt; attr(,"class")
-#&gt; [1] "confint.bas"</div><div class='input'><span class='co'># extract just the coefficient of X4</span>
-<span class='fu'>confint</span><span class='op'>(</span><span class='va'>coef_hald</span>, parm<span class='op'>=</span><span class='st'>"X4"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;         2.5%     97.5%      beta
-#&gt; X4 -1.699301 0.2820853 -0.326871
-#&gt; attr(,"Probability")
-#&gt; [1] 0.95
-#&gt; attr(,"class")
-#&gt; [1] "confint.bas"</div><div class='input'>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"Hald"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>hald_gprior</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='bas.lm.html'>bas.lm</a></span><span class='op'>(</span><span class='va'>Y</span><span class='op'>~</span> <span class='va'>.</span>, data<span class='op'>=</span><span class='va'>Hald</span>, alpha<span class='op'>=</span><span class='fl'>13</span>,</span>
+<span class='r-in'>                            prior<span class='op'>=</span><span class='st'>"g-prior"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>coef_hald</span> <span class='op'>&lt;-</span> <span class='fu'><a href='coef.bas.html'>coef</a></span><span class='op'>(</span><span class='va'>hald_gprior</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>confint</span><span class='op'>(</span><span class='va'>coef_hald</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                2.5%      97.5%       beta</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Intercept 93.787692 96.9194284 95.4230769</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X1         0.000000  1.8641243  1.2150202</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2        -1.154257  0.8886773  0.2756235</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X3        -1.543700  0.5638541 -0.1270575</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X4        -1.708426  0.2727311 -0.3268710</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"Probability")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.95</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "confint.bas"</span>
+<span class='r-in'><span class='fu'>confint</span><span class='op'>(</span><span class='va'>coef_hald</span>, approx<span class='op'>=</span><span class='cn'>FALSE</span>, nsim<span class='op'>=</span><span class='fl'>5000</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                2.5%      97.5%       beta</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Intercept 93.840162 96.9389390 95.4230769</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X1         0.000000  1.9166129  1.2150202</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2        -1.044448  1.0378191  0.2756235</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X3        -1.531589  0.6012822 -0.1270575</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X4        -1.618047  0.4188364 -0.3268710</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"Probability")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.95</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "confint.bas"</span>
+<span class='r-in'><span class='co'># extract just the coefficient of X4</span></span>
+<span class='r-in'><span class='fu'>confint</span><span class='op'>(</span><span class='va'>coef_hald</span>, parm<span class='op'>=</span><span class='st'>"X4"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         2.5%     97.5%      beta</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X4 -1.699301 0.2820853 -0.326871</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"Probability")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.95</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "confint.bas"</span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

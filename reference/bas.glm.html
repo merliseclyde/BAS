@@ -80,7 +80,7 @@ Generalized Linear Models — bas.glm" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BAS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.5</span>
       </span>
     </div>
 
@@ -405,70 +405,72 @@ Association.</p>
 Li</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>Pima.tr</span>, package<span class='op'>=</span><span class='st'>"MASS"</span><span class='op'>)</span>
-
-
-<span class='co'># enumeration  with default method="BAS"</span>
-<span class='va'>pima.cch</span> <span class='op'>=</span> <span class='fu'>bas.glm</span><span class='op'>(</span><span class='va'>type</span> <span class='op'>~</span> <span class='va'>.</span>, data<span class='op'>=</span><span class='va'>Pima.tr</span>, n.models<span class='op'>=</span> <span class='fl'>2</span><span class='op'>^</span><span class='fl'>7</span>,
-              method<span class='op'>=</span><span class='st'>"BAS"</span>,
-              betaprior<span class='op'>=</span><span class='fu'><a href='CCH.html'>CCH</a></span><span class='op'>(</span>a<span class='op'>=</span><span class='fl'>1</span>, b<span class='op'>=</span><span class='fl'>532</span><span class='op'>/</span><span class='fl'>2</span>, s<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>, family<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span><span class='op'>)</span>,
-              modelprior<span class='op'>=</span><span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='fu'><a href='summary.bas.html'>summary</a></span><span class='op'>(</span><span class='va'>pima.cch</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;           P(B != 0 | Y)   model 1      model 2      model 3      model 4
-#&gt; Intercept     1.0000000    1.0000    1.0000000    1.0000000    1.0000000
-#&gt; npreg         0.5684414    0.0000    1.0000000    1.0000000    0.0000000
-#&gt; glu           0.9999949    1.0000    1.0000000    1.0000000    1.0000000
-#&gt; bp            0.2198720    0.0000    0.0000000    0.0000000    0.0000000
-#&gt; skin          0.2653924    0.0000    0.0000000    0.0000000    0.0000000
-#&gt; bmi           0.7425039    1.0000    1.0000000    1.0000000    0.0000000
-#&gt; ped           0.8860972    1.0000    1.0000000    1.0000000    1.0000000
-#&gt; age           0.7459954    1.0000    1.0000000    0.0000000    1.0000000
-#&gt; BF                   NA    1.0000    0.4406494    0.6209086    0.4628319
-#&gt; PostProbs            NA    0.1596    0.1172000    0.0991000    0.0739000
-#&gt; R2                   NA    0.2938    0.3040000    0.2901000    0.2703000
-#&gt; dim                  NA    5.0000    6.0000000    5.0000000    4.0000000
-#&gt; logmarg              NA -101.7878 -102.6072611 -102.2643268 -102.5581467
-#&gt;                 model 5
-#&gt; Intercept  1.000000e+00
-#&gt; npreg      1.000000e+00
-#&gt; glu        1.000000e+00
-#&gt; bp         1.000000e+00
-#&gt; skin       1.000000e+00
-#&gt; bmi        1.000000e+00
-#&gt; ped        1.000000e+00
-#&gt; age        1.000000e+00
-#&gt; BF         8.659168e-03
-#&gt; PostProbs  4.840000e-02
-#&gt; R2         3.043000e-01
-#&gt; dim        8.000000e+00
-#&gt; logmarg   -1.065369e+02</div><div class='input'><span class='fu'><a href='image.bas.html'>image</a></span><span class='op'>(</span><span class='va'>pima.cch</span><span class='op'>)</span>
-</div><div class='img'><img src='bas.glm-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Note MCMC.iterations are set to 1000 for illustration purposes</span>
-<span class='co'># Please check convergence diagnostics and run longer in practice</span>
-
-<span class='va'>pima.robust</span> <span class='op'>=</span> <span class='fu'>bas.glm</span><span class='op'>(</span><span class='va'>type</span> <span class='op'>~</span> <span class='va'>.</span>, data<span class='op'>=</span><span class='va'>Pima.tr</span>, n.models<span class='op'>=</span> <span class='fl'>2</span><span class='op'>^</span><span class='fl'>7</span>,
-              method<span class='op'>=</span><span class='st'>"MCMC"</span>, MCMC.iterations<span class='op'>=</span><span class='fl'>5000</span>,
-              betaprior<span class='op'>=</span><span class='fu'><a href='robust.html'>robust</a></span><span class='op'>(</span><span class='op'>)</span>, family<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span><span class='op'>)</span>,
-              modelprior<span class='op'>=</span><span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='va'>pima.BIC</span> <span class='op'>=</span> <span class='fu'>bas.glm</span><span class='op'>(</span><span class='va'>type</span> <span class='op'>~</span> <span class='va'>.</span>, data<span class='op'>=</span><span class='va'>Pima.tr</span>, n.models<span class='op'>=</span> <span class='fl'>2</span><span class='op'>^</span><span class='fl'>7</span>,
-              method<span class='op'>=</span><span class='st'>"BAS+MCMC"</span>, MCMC.iterations<span class='op'>=</span><span class='fl'>5000</span>,
-              betaprior<span class='op'>=</span><span class='fu'><a href='IC.prior.html'>bic.prior</a></span><span class='op'>(</span><span class='op'>)</span>, family<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span><span class='op'>)</span>,
-              modelprior<span class='op'>=</span><span class='fu'><a href='uniform.html'>uniform</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-<span class='co'># Poisson example</span>
-
-  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>crabs</span>, package<span class='op'>=</span><span class='st'>"BAS"</span><span class='op'>)</span>
-  <span class='co'>#short run for illustration</span>
-  <span class='va'>crabs.bas</span> <span class='op'>=</span> <span class='fu'>bas.glm</span><span class='op'>(</span><span class='va'>satell</span> <span class='op'>~</span> <span class='va'>color</span><span class='op'>*</span><span class='va'>spine</span><span class='op'>*</span><span class='va'>width</span> <span class='op'>+</span> <span class='va'>weight</span>,
-                      data<span class='op'>=</span><span class='va'>crabs</span>,
-                      family<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>poisson</a></span><span class='op'>(</span><span class='op'>)</span>,
-                      betaprior<span class='op'>=</span><span class='fu'><a href='EB.local.html'>EB.local</a></span><span class='op'>(</span><span class='op'>)</span>, modelprior<span class='op'>=</span><span class='fu'><a href='uniform.html'>uniform</a></span><span class='op'>(</span><span class='op'>)</span>,
-                      method<span class='op'>=</span><span class='st'>'MCMC'</span>, n.models<span class='op'>=</span><span class='fl'>2</span><span class='op'>^</span><span class='fl'>10</span>, MCMC.iterations<span class='op'>=</span><span class='fl'>5000</span>,
-                      prob.rw<span class='op'>=</span><span class='fl'>.95</span><span class='op'>)</span>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>Pima.tr</span>, package<span class='op'>=</span><span class='st'>"MASS"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># enumeration  with default method="BAS"</span></span>
+<span class='r-in'><span class='va'>pima.cch</span> <span class='op'>=</span> <span class='fu'>bas.glm</span><span class='op'>(</span><span class='va'>type</span> <span class='op'>~</span> <span class='va'>.</span>, data<span class='op'>=</span><span class='va'>Pima.tr</span>, n.models<span class='op'>=</span> <span class='fl'>2</span><span class='op'>^</span><span class='fl'>7</span>,</span>
+<span class='r-in'>              method<span class='op'>=</span><span class='st'>"BAS"</span>,</span>
+<span class='r-in'>              betaprior<span class='op'>=</span><span class='fu'><a href='CCH.html'>CCH</a></span><span class='op'>(</span>a<span class='op'>=</span><span class='fl'>1</span>, b<span class='op'>=</span><span class='fl'>532</span><span class='op'>/</span><span class='fl'>2</span>, s<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>, family<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span><span class='op'>)</span>,</span>
+<span class='r-in'>              modelprior<span class='op'>=</span><span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='summary.bas.html'>summary</a></span><span class='op'>(</span><span class='va'>pima.cch</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           P(B != 0 | Y)   model 1      model 2      model 3      model 4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Intercept     1.0000000    1.0000    1.0000000    1.0000000    1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> npreg         0.5684414    0.0000    1.0000000    1.0000000    0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> glu           0.9999949    1.0000    1.0000000    1.0000000    1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> bp            0.2198720    0.0000    0.0000000    0.0000000    0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> skin          0.2653924    0.0000    0.0000000    0.0000000    0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> bmi           0.7425039    1.0000    1.0000000    1.0000000    0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ped           0.8860972    1.0000    1.0000000    1.0000000    1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> age           0.7459954    1.0000    1.0000000    0.0000000    1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> BF                   NA    1.0000    0.4406494    0.6209086    0.4628319</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> PostProbs            NA    0.1596    0.1172000    0.0991000    0.0739000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> R2                   NA    0.2938    0.3040000    0.2901000    0.2703000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> dim                  NA    5.0000    6.0000000    5.0000000    4.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> logmarg              NA -101.7878 -102.6072611 -102.2643268 -102.5581467</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 model 5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Intercept  1.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> npreg      1.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> glu        1.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> bp         1.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> skin       1.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> bmi        1.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ped        1.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> age        1.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> BF         8.659168e-03</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> PostProbs  4.840000e-02</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> R2         3.043000e-01</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> dim        8.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> logmarg   -1.065369e+02</span>
+<span class='r-in'><span class='fu'><a href='image.bas.html'>image</a></span><span class='op'>(</span><span class='va'>pima.cch</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='bas.glm-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Note MCMC.iterations are set to 1000 for illustration purposes</span></span>
+<span class='r-in'><span class='co'># Please check convergence diagnostics and run longer in practice</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>pima.robust</span> <span class='op'>=</span> <span class='fu'>bas.glm</span><span class='op'>(</span><span class='va'>type</span> <span class='op'>~</span> <span class='va'>.</span>, data<span class='op'>=</span><span class='va'>Pima.tr</span>, n.models<span class='op'>=</span> <span class='fl'>2</span><span class='op'>^</span><span class='fl'>7</span>,</span>
+<span class='r-in'>              method<span class='op'>=</span><span class='st'>"MCMC"</span>, MCMC.iterations<span class='op'>=</span><span class='fl'>5000</span>,</span>
+<span class='r-in'>              betaprior<span class='op'>=</span><span class='fu'><a href='robust.html'>robust</a></span><span class='op'>(</span><span class='op'>)</span>, family<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span><span class='op'>)</span>,</span>
+<span class='r-in'>              modelprior<span class='op'>=</span><span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>pima.BIC</span> <span class='op'>=</span> <span class='fu'>bas.glm</span><span class='op'>(</span><span class='va'>type</span> <span class='op'>~</span> <span class='va'>.</span>, data<span class='op'>=</span><span class='va'>Pima.tr</span>, n.models<span class='op'>=</span> <span class='fl'>2</span><span class='op'>^</span><span class='fl'>7</span>,</span>
+<span class='r-in'>              method<span class='op'>=</span><span class='st'>"BAS+MCMC"</span>, MCMC.iterations<span class='op'>=</span><span class='fl'>5000</span>,</span>
+<span class='r-in'>              betaprior<span class='op'>=</span><span class='fu'><a href='IC.prior.html'>bic.prior</a></span><span class='op'>(</span><span class='op'>)</span>, family<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span><span class='op'>)</span>,</span>
+<span class='r-in'>              modelprior<span class='op'>=</span><span class='fu'><a href='uniform.html'>uniform</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># Poisson example</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>crabs</span>, package<span class='op'>=</span><span class='st'>"BAS"</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='co'>#short run for illustration</span></span>
+<span class='r-in'>  <span class='va'>crabs.bas</span> <span class='op'>=</span> <span class='fu'>bas.glm</span><span class='op'>(</span><span class='va'>satell</span> <span class='op'>~</span> <span class='va'>color</span><span class='op'>*</span><span class='va'>spine</span><span class='op'>*</span><span class='va'>width</span> <span class='op'>+</span> <span class='va'>weight</span>,</span>
+<span class='r-in'>                      data<span class='op'>=</span><span class='va'>crabs</span>,</span>
+<span class='r-in'>                      family<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>poisson</a></span><span class='op'>(</span><span class='op'>)</span>,</span>
+<span class='r-in'>                      betaprior<span class='op'>=</span><span class='fu'><a href='EB.local.html'>EB.local</a></span><span class='op'>(</span><span class='op'>)</span>, modelprior<span class='op'>=</span><span class='fu'><a href='uniform.html'>uniform</a></span><span class='op'>(</span><span class='op'>)</span>,</span>
+<span class='r-in'>                      method<span class='op'>=</span><span class='st'>'MCMC'</span>, n.models<span class='op'>=</span><span class='fl'>2</span><span class='op'>^</span><span class='fl'>10</span>, MCMC.iterations<span class='op'>=</span><span class='fl'>5000</span>,</span>
+<span class='r-in'>                      prob.rw<span class='op'>=</span><span class='fl'>.95</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

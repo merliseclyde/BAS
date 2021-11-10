@@ -80,7 +80,7 @@ Linear Models — bas.lm" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BAS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.5</span>
       </span>
     </div>
 
@@ -267,7 +267,7 @@ include <code><a href='uniform.html'>uniform</a></code> <code><a href='Bernoulli
 (with truncation) <code><a href='tr.poisson.html'>tr.poisson</a></code> (a truncated Poisson), and
 <code><a href='tr.power.prior.html'>tr.power.prior</a></code> (a truncated power family),
  with the default being a
-<code><a href='beta.binomial.html'>beta.binomial(1,1)</a></code>.  Truncated versions are useful for p &gt; n.</p></td>
+<code>beta.binomial(1,1)</code>.  Truncated versions are useful for p &gt; n.</p></td>
     </tr>
     <tr>
       <th>initprobs</th>
@@ -556,406 +556,431 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
     <p>Merlise Clyde (<a href='mailto:clyde@duke.edu'>clyde@duke.edu</a>) and Michael Littman</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://www.stats.ox.ac.uk/pub/MASS4/'>MASS</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>UScrime</span><span class='op'>)</span>
-<span class='va'>crime.bic</span> <span class='op'>&lt;-</span> <span class='fu'>bas.lm</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>M</span><span class='op'>)</span> <span class='op'>+</span> <span class='va'>So</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Ed</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Po1</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Po2</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>LF</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>M.F</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Pop</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>NW</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>U1</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>U2</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>GDP</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Ineq</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Prob</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Time</span><span class='op'>)</span>,
-data <span class='op'>=</span> <span class='va'>UScrime</span>, n.models <span class='op'>=</span> <span class='fl'>2</span><span class='op'>^</span><span class='fl'>15</span>, prior <span class='op'>=</span> <span class='st'>"BIC"</span>,
-modelprior <span class='op'>=</span> <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span>,
-initprobs <span class='op'>=</span> <span class='st'>"eplogp"</span>, pivot <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span>
-
-
-<span class='co'># use MCMC rather than enumeration</span>
-<span class='va'>crime.mcmc</span> <span class='op'>&lt;-</span> <span class='fu'>bas.lm</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>M</span><span class='op'>)</span> <span class='op'>+</span> <span class='va'>So</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Ed</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Po1</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Po2</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>LF</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>M.F</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Pop</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>NW</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>U1</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>U2</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>GDP</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Ineq</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Prob</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Time</span><span class='op'>)</span>,
-data <span class='op'>=</span> <span class='va'>UScrime</span>,
-method <span class='op'>=</span> <span class='st'>"MCMC"</span>,
-MCMC.iterations <span class='op'>=</span> <span class='fl'>20000</span>, prior <span class='op'>=</span> <span class='st'>"BIC"</span>,
-modelprior <span class='op'>=</span> <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span>,
-initprobs <span class='op'>=</span> <span class='st'>"eplogp"</span>, pivot <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span>
-
-<span class='fu'><a href='summary.bas.html'>summary</a></span><span class='op'>(</span><span class='va'>crime.bic</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;           P(B != 0 | Y)   model 1       model 2     model 3     model 4
-#&gt; Intercept     1.0000000   1.00000  1.000000e+00   1.0000000   1.0000000
-#&gt; log(M)        0.9335117   1.00000  1.000000e+00   1.0000000   1.0000000
-#&gt; So            0.3276563   0.00000  1.000000e+00   0.0000000   0.0000000
-#&gt; log(Ed)       0.9910219   1.00000  1.000000e+00   1.0000000   1.0000000
-#&gt; log(Po1)      0.7246635   1.00000  1.000000e+00   1.0000000   1.0000000
-#&gt; log(Po2)      0.4602481   0.00000  1.000000e+00   0.0000000   0.0000000
-#&gt; log(LF)       0.2935326   0.00000  1.000000e+00   0.0000000   0.0000000
-#&gt; log(M.F)      0.3298168   0.00000  1.000000e+00   0.0000000   0.0000000
-#&gt; log(Pop)      0.4962869   0.00000  1.000000e+00   0.0000000   0.0000000
-#&gt; log(NW)       0.8346412   1.00000  1.000000e+00   1.0000000   1.0000000
-#&gt; log(U1)       0.3481266   0.00000  1.000000e+00   0.0000000   0.0000000
-#&gt; log(U2)       0.7752102   1.00000  1.000000e+00   1.0000000   1.0000000
-#&gt; log(GDP)      0.5253694   0.00000  1.000000e+00   0.0000000   1.0000000
-#&gt; log(Ineq)     0.9992058   1.00000  1.000000e+00   1.0000000   1.0000000
-#&gt; log(Prob)     0.9541470   1.00000  1.000000e+00   1.0000000   1.0000000
-#&gt; log(Time)     0.5432686   1.00000  1.000000e+00   0.0000000   1.0000000
-#&gt; BF                   NA   1.00000  1.267935e-04   0.7609295   0.5431578
-#&gt; PostProbs            NA   0.01910  1.560000e-02   0.0145000   0.0133000
-#&gt; R2                   NA   0.84200  8.695000e-01   0.8265000   0.8506000
-#&gt; dim                  NA   9.00000  1.600000e+01   8.0000000  10.0000000
-#&gt; logmarg              NA -22.15855 -3.113150e+01 -22.4317627 -22.7689035
-#&gt;               model 5
-#&gt; Intercept   1.0000000
-#&gt; log(M)      1.0000000
-#&gt; So          0.0000000
-#&gt; log(Ed)     1.0000000
-#&gt; log(Po1)    1.0000000
-#&gt; log(Po2)    0.0000000
-#&gt; log(LF)     0.0000000
-#&gt; log(M.F)    0.0000000
-#&gt; log(Pop)    1.0000000
-#&gt; log(NW)     1.0000000
-#&gt; log(U1)     0.0000000
-#&gt; log(U2)     1.0000000
-#&gt; log(GDP)    0.0000000
-#&gt; log(Ineq)   1.0000000
-#&gt; log(Prob)   1.0000000
-#&gt; log(Time)   0.0000000
-#&gt; BF          0.5203179
-#&gt; PostProbs   0.0099000
-#&gt; R2          0.8375000
-#&gt; dim         9.0000000
-#&gt; logmarg   -22.8118635</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>crime.bic</span><span class='op'>)</span>
-</div><div class='img'><img src='bas.lm-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='image.bas.html'>image</a></span><span class='op'>(</span><span class='va'>crime.bic</span>, subset <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='img'><img src='bas.lm-5.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># example with two-way interactions and hierarchical constraints</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>ToothGrowth</span><span class='op'>)</span>
-<span class='va'>ToothGrowth</span><span class='op'>$</span><span class='va'>dose</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>ToothGrowth</span><span class='op'>$</span><span class='va'>dose</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>ToothGrowth</span><span class='op'>$</span><span class='va'>dose</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Low"</span>, <span class='st'>"Medium"</span>, <span class='st'>"High"</span><span class='op'>)</span>
-<span class='va'>TG.bas</span> <span class='op'>&lt;-</span> <span class='fu'>bas.lm</span><span class='op'>(</span><span class='va'>len</span> <span class='op'>~</span> <span class='va'>supp</span> <span class='op'>*</span> <span class='va'>dose</span>,
-  data <span class='op'>=</span> <span class='va'>ToothGrowth</span>,
-  modelprior <span class='op'>=</span> <span class='fu'><a href='uniform.html'>uniform</a></span><span class='op'>(</span><span class='op'>)</span>, method <span class='op'>=</span> <span class='st'>"BAS"</span>,
-  force.heredity <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span>
-<span class='fu'><a href='summary.bas.html'>summary</a></span><span class='op'>(</span><span class='va'>TG.bas</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                   P(B != 0 | Y)  model 1    model 2     model 3      model 4
-#&gt; Intercept             1.0000000  1.00000  1.0000000  1.00000000 1.000000e+00
-#&gt; suppVC                0.9910702  1.00000  1.0000000  0.00000000 0.000000e+00
-#&gt; doseMedium            1.0000000  1.00000  1.0000000  1.00000000 0.000000e+00
-#&gt; doseHigh              1.0000000  1.00000  1.0000000  1.00000000 0.000000e+00
-#&gt; suppVC:doseMedium     0.4500943  0.00000  1.0000000  0.00000000 0.000000e+00
-#&gt; suppVC:doseHigh       0.4500943  0.00000  1.0000000  0.00000000 0.000000e+00
-#&gt; BF                           NA  1.00000  0.8320043  0.01650685 2.812754e-15
-#&gt; PostProbs                    NA  0.54100  0.4501000  0.00890000 0.000000e+00
-#&gt; R2                           NA  0.76230  0.7937000  0.70290000 0.000000e+00
-#&gt; dim                          NA  4.00000  6.0000000  3.00000000 1.000000e+00
-#&gt; logmarg                      NA 33.50461 33.3206946 29.40063248 0.000000e+00
-#&gt;                         model 5
-#&gt; Intercept          1.000000e+00
-#&gt; suppVC             1.000000e+00
-#&gt; doseMedium         0.000000e+00
-#&gt; doseHigh           0.000000e+00
-#&gt; suppVC:doseMedium  0.000000e+00
-#&gt; suppVC:doseHigh    0.000000e+00
-#&gt; BF                 7.895214e-16
-#&gt; PostProbs          0.000000e+00
-#&gt; R2                 5.950000e-02
-#&gt; dim                2.000000e+00
-#&gt; logmarg           -1.270492e+00</div><div class='input'><span class='fu'><a href='image.bas.html'>image</a></span><span class='op'>(</span><span class='va'>TG.bas</span><span class='op'>)</span>
-</div><div class='img'><img src='bas.lm-6.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># exmple with non-full rank case</span>
-
- <span class='va'>loc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"testdata"</span>, package <span class='op'>=</span> <span class='st'>"BAS"</span><span class='op'>)</span>
- <span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='va'>loc</span>, <span class='st'>"JASP-testdata.csv"</span>, sep <span class='op'>=</span> <span class='st'>"/"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>fullModelFormula</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>as.formula</a></span><span class='op'>(</span><span class='st'>"contNormal ~  contGamma * contExpon +
-                                contGamma * contcor1 + contExpon * contcor1"</span><span class='op'>)</span>
-
-<span class='co'># should give warning; use pivot = T to fit non-full rank case (fails on i386)</span>
- <span class='va'>out</span> <span class='op'>=</span> <span class='fu'>bas.lm</span><span class='op'>(</span><span class='va'>fullModelFormula</span>,
-              data <span class='op'>=</span> <span class='va'>d</span>,
-              alpha <span class='op'>=</span> <span class='fl'>0.125316</span>,
-              prior <span class='op'>=</span> <span class='st'>"JZS"</span>,
-              weights <span class='op'>=</span> <span class='va'>facFifty</span>, force.heredity <span class='op'>=</span> <span class='cn'>FALSE</span>, pivot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: log marginals and posterior probabilities contain NA's.  Consider re-running with the option `pivot=TRUE` if there are models that are not full rank</span></div><div class='input'>
-
-<span class='co'># use pivot = TRUE to fit non-full rank case  (default)</span>
-<span class='co'># This is slower but safer</span>
-
-<span class='va'>out</span> <span class='op'>=</span>  <span class='fu'>bas.lm</span><span class='op'>(</span><span class='va'>fullModelFormula</span>,
-              data <span class='op'>=</span> <span class='va'>d</span>,
-              alpha <span class='op'>=</span> <span class='fl'>0.125316</span>,
-              prior <span class='op'>=</span> <span class='st'>"JZS"</span>,
-              weights <span class='op'>=</span> <span class='va'>facFifty</span>, force.heredity <span class='op'>=</span> <span class='cn'>FALSE</span>, pivot <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='co'># more complete demo's</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/demo.html'>demo</a></span><span class='op'>(</span><span class='va'>BAS.hald</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; 
-#&gt; 	demo(BAS.hald)
-#&gt; 	---- ~~~~~~~~
-#&gt; 
-#&gt; &gt; data(Hald)
-#&gt; 
-#&gt; &gt; hald.gprior =  bas.lm(Y~ ., data=Hald, prior="g-prior", alpha=13,
-#&gt; +                       modelprior=beta.binomial(1,1),
-#&gt; +                       initprobs="eplogp")
-#&gt; 
-#&gt; &gt; hald.gprior
-#&gt; 
-#&gt; Call:
-#&gt; bas.lm(formula = Y ~ ., data = Hald, prior = "g-prior", alpha = 13, 
-#&gt;     modelprior = beta.binomial(1, 1), initprobs = "eplogp")
-#&gt; 
-#&gt; 
-#&gt;  Marginal Posterior Inclusion Probabilities: 
-#&gt; Intercept         X1         X2         X3         X4  
-#&gt;    1.0000     0.9019     0.6896     0.4653     0.6329  
-#&gt; 
-#&gt; &gt; plot(hald.gprior)</div><div class='img'><img src='bas.lm-7.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-8.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-9.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-10.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
-#&gt; &gt; summary(hald.gprior)
-#&gt;           P(B != 0 | Y)  model 1    model 2    model 3    model 4    model 5
-#&gt; Intercept     1.0000000  1.00000  1.0000000 1.00000000  1.0000000  1.0000000
-#&gt; X1            0.9019245  1.00000  1.0000000 1.00000000  1.0000000  1.0000000
-#&gt; X2            0.6895830  1.00000  0.0000000 1.00000000  1.0000000  1.0000000
-#&gt; X3            0.4652762  0.00000  0.0000000 1.00000000  0.0000000  1.0000000
-#&gt; X4            0.6329266  0.00000  1.0000000 1.00000000  1.0000000  0.0000000
-#&gt; BF                   NA  1.00000  0.6923944 0.08991408  0.3355714  0.3344926
-#&gt; PostProbs            NA  0.24320  0.1684000 0.13120000  0.1224000  0.1220000
-#&gt; R2                   NA  0.97870  0.9725000 0.98240000  0.9823000  0.9823000
-#&gt; dim                  NA  3.00000  3.0000000 5.00000000  4.0000000  4.0000000
-#&gt; logmarg              NA 11.72735 11.3597547 9.31845348 10.6354335 10.6322138
-#&gt; 
-#&gt; &gt; image(hald.gprior, subset=-1, vlas=0)</div><div class='img'><img src='bas.lm-11.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
-#&gt; &gt; hald.coef = coefficients(hald.gprior)
-#&gt; 
-#&gt; &gt; hald.coef
-#&gt; 
-#&gt;  Marginal Posterior Summaries of Coefficients: 
-#&gt; 
-#&gt;  Using  BMA 
-#&gt; 
-#&gt;  Based on the top  16 models 
-#&gt;            post mean  post SD  post p(B != 0)
-#&gt; Intercept  95.4231     0.7107   1.0000       
-#&gt; X1          1.2150     0.5190   0.9019       
-#&gt; X2          0.2756     0.4832   0.6896       
-#&gt; X3         -0.1271     0.4976   0.4653       
-#&gt; X4         -0.3269     0.4717   0.6329       
-#&gt; 
-#&gt; &gt; plot(hald.coef)</div><div class='img'><img src='bas.lm-12.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-13.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-14.png' alt='' width='700' height='433' /></div><div class='img'><img src='bas.lm-15.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
-#&gt; &gt; predict(hald.gprior, top=5, se.fit=TRUE)  
-#&gt; $fit
-#&gt;  [1]  79.74246  74.50010 105.29268  89.88693  95.57177 104.56409 103.40145
-#&gt;  [8]  77.13668  91.99731 114.21325  82.78446 111.00723 110.40160
-#&gt; 
-#&gt; $Ybma
-#&gt;            [,1]
-#&gt;  [1,]  79.74246
-#&gt;  [2,]  74.50010
-#&gt;  [3,] 105.29268
-#&gt;  [4,]  89.88693
-#&gt;  [5,]  95.57177
-#&gt;  [6,] 104.56409
-#&gt;  [7,] 103.40145
-#&gt;  [8,]  77.13668
-#&gt;  [9,]  91.99731
-#&gt; [10,] 114.21325
-#&gt; [11,]  82.78446
-#&gt; [12,] 111.00723
-#&gt; [13,] 110.40160
-#&gt; 
-#&gt; $Ypred
-#&gt;          [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]
-#&gt; [1,] 81.17036 74.83464 105.0725 89.69881 97.15898 104.4575 103.3893 76.06454
-#&gt; [2,] 77.70296 74.24113 105.8554 90.46267 93.09565 104.7152 103.1399 78.80193
-#&gt; [3,] 79.70437 74.40553 105.2175 89.76253 95.63309 104.5709 103.5254 77.08557
-#&gt; [4,] 79.65151 74.47846 105.4218 89.83174 95.62799 104.5962 103.5068 77.00839
-#&gt; [5,] 79.84321 74.31409 104.9063 89.65651 95.70301 104.5285 103.5476 77.15919
-#&gt;          [,9]    [,10]    [,11]    [,12]    [,13]
-#&gt; [1,] 91.57174 113.1722 81.59906 111.2219 111.0884
-#&gt; [2,] 92.68123 115.8058 84.50293 110.4162 109.0791
-#&gt; [3,] 91.98604 114.1759 82.78145 111.1196 110.5321
-#&gt; [4,] 92.07571 114.1088 82.68233 111.0429 110.4674
-#&gt; [5,] 91.83513 114.2353 82.88128 111.2384 110.6515
-#&gt; 
-#&gt; $postprobs
-#&gt; [1] 0.3089304 0.2139017 0.1666632 0.1555023 0.1550024
-#&gt; 
-#&gt; $se.fit
-#&gt;          [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]
-#&gt; [1,] 2.220164 2.265862 1.546911 2.181188 1.310135 1.523300 2.655096 2.176560
-#&gt; [2,] 2.716798 2.389723 1.633637 2.179215 1.321062 1.581232 2.721957 2.078129
-#&gt; [3,] 3.203405 2.501485 3.279273 2.357164 2.589756 1.549136 2.623290 2.765255
-#&gt; [4,] 3.117350 2.283957 1.602160 2.149087 2.589321 1.508471 2.610923 2.545817
-#&gt; [5,] 2.932580 2.353352 1.538009 2.141694 2.507848 1.498758 2.616407 2.680289
-#&gt;          [,9]    [,10]    [,11]    [,12]    [,13]
-#&gt; [1,] 1.883610 3.264656 1.908238 1.970691 2.054234
-#&gt; [2,] 2.013244 3.298134 1.933819 1.964374 1.924460
-#&gt; [3,] 2.353516 3.609909 2.821295 2.227363 2.390135
-#&gt; [4,] 1.990817 3.485929 2.456636 1.951456 2.212238
-#&gt; [5,] 1.889302 3.569065 2.665166 1.934336 2.117189
-#&gt; 
-#&gt; $se.pred
-#&gt;          [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]
-#&gt; [1,] 5.057182 5.077410 4.799885 5.040193 4.728892 4.792328 5.262651 5.038191
-#&gt; [2,] 5.415848 5.259391 4.961773 5.167146 4.867815 4.944766 5.418438 5.125333
-#&gt; [3,] 5.489152 5.111401 5.533771 5.042342 5.155175 4.718984 5.172102 5.245534
-#&gt; [4,] 5.440156 5.009380 4.737547 4.949344 5.155775 4.706689 5.166658 5.134065
-#&gt; [5,] 5.337427 5.042456 4.717369 4.947217 5.116386 4.704719 5.170463 5.203081
-#&gt;          [,9]    [,10]    [,11]    [,12]    [,13]
-#&gt; [1,] 4.918734 5.594992 4.928218 4.952735 4.986566
-#&gt; [2,] 5.099370 5.729582 5.068538 5.080274 5.064974
-#&gt; [3,] 5.040638 5.735890 5.275291 4.982985 5.057839
-#&gt; [4,] 4.882702 5.659428 5.090431 4.866787 4.977090
-#&gt; [5,] 4.843301 5.711946 5.195307 4.861045 4.936658
-#&gt; 
-#&gt; $se.bma.fit
-#&gt;  [1] 2.688224 2.095245 1.769625 1.970919 2.197285 1.363804 2.356457 2.302631
-#&gt;  [9] 1.822084 3.141443 2.237663 1.801849 1.991374
-#&gt; 
-#&gt; $se.bma.pred
-#&gt;  [1] 4.838655 4.536087 4.395180 4.480017 4.584113 4.248058 4.662502 4.635531
-#&gt;  [9] 4.416563 5.104380 4.603604 4.408253 4.489054
-#&gt; 
-#&gt; $df
-#&gt; [1] 12 12 12 12 12
-#&gt; 
-#&gt; $best
-#&gt; [1]  7  3 12 14  8
-#&gt; 
-#&gt; $bestmodel
-#&gt; $bestmodel[[1]]
-#&gt; [1] 0 1 2
-#&gt; 
-#&gt; $bestmodel[[2]]
-#&gt; [1] 0 1 4
-#&gt; 
-#&gt; $bestmodel[[3]]
-#&gt; [1] 0 1 2 3 4
-#&gt; 
-#&gt; $bestmodel[[4]]
-#&gt; [1] 0 1 2 4
-#&gt; 
-#&gt; $bestmodel[[5]]
-#&gt; [1] 0 1 2 3
-#&gt; 
-#&gt; 
-#&gt; $best.vars
-#&gt; [1] "Intercept" "X1"        "X2"        "X3"        "X4"       
-#&gt; 
-#&gt; $estimator
-#&gt; [1] "BMA"
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "pred.bas"
-#&gt; 
-#&gt; &gt; confint(predict(hald.gprior, Hald, estimator="BMA", se.fit=TRUE, top=5), parm="mean")
-#&gt;            2.5%     97.5%      mean
-#&gt;  [1,]  73.14344  85.98936  79.74246
-#&gt;  [2,]  69.17879  79.54704  74.50010
-#&gt;  [3,] 100.84534 109.49004 105.29268
-#&gt;  [4,]  85.24164  94.79407  89.88693
-#&gt;  [5,]  90.59779 100.36471  95.57177
-#&gt;  [6,] 101.02479 107.78653 104.56409
-#&gt;  [7,]  97.47160 109.01169 103.40145
-#&gt;  [8,]  71.67868  82.61563  77.13668
-#&gt;  [9,]  87.57661  96.30489  91.99731
-#&gt; [10,] 106.59779 121.77646 114.21325
-#&gt; [11,]  77.65505  88.21687  82.78446
-#&gt; [12,] 106.70258 115.53730 111.00723
-#&gt; [13,] 105.64711 115.13696 110.40160
-#&gt; attr(,"Probability")
-#&gt; [1] 0.95
-#&gt; attr(,"class")
-#&gt; [1] "confint.bas"
-#&gt; 
-#&gt; &gt; predict(hald.gprior, estimator="MPM", se.fit=TRUE)  
-#&gt; $fit
-#&gt;  [1]  79.65151  74.47846 105.42183  89.83174  95.62799 104.59616 103.50684
-#&gt;  [8]  77.00839  92.07571 114.10876  82.68233 111.04286 110.46741
-#&gt; 
-#&gt; $Ybma
-#&gt;            [,1]
-#&gt;  [1,]  79.65151
-#&gt;  [2,]  74.47846
-#&gt;  [3,] 105.42183
-#&gt;  [4,]  89.83174
-#&gt;  [5,]  95.62799
-#&gt;  [6,] 104.59616
-#&gt;  [7,] 103.50684
-#&gt;  [8,]  77.00839
-#&gt;  [9,]  92.07571
-#&gt; [10,] 114.10876
-#&gt; [11,]  82.68233
-#&gt; [12,] 111.04286
-#&gt; [13,] 110.46741
-#&gt; 
-#&gt; $Ypred
-#&gt;          [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]
-#&gt; [1,] 79.65151 74.47846 105.4218 89.83174 95.62799 104.5962 103.5068 77.00839
-#&gt;          [,9]    [,10]    [,11]    [,12]    [,13]
-#&gt; [1,] 92.07571 114.1088 82.68233 111.0429 110.4674
-#&gt; 
-#&gt; $postprobs
-#&gt; [1] 1
-#&gt; 
-#&gt; $se.fit
-#&gt; numeric(0)
-#&gt; 
-#&gt; $se.pred
-#&gt; numeric(0)
-#&gt; 
-#&gt; $se.bma.fit
-#&gt; NULL
-#&gt; 
-#&gt; $se.bma.pred
-#&gt; NULL
-#&gt; 
-#&gt; $df
-#&gt; [1] 12
-#&gt; 
-#&gt; $best
-#&gt; [1] 1
-#&gt; 
-#&gt; $bestmodel
-#&gt; $bestmodel[[1]]
-#&gt; [1] 0 1 2 4
-#&gt; 
-#&gt; 
-#&gt; $best.vars
-#&gt; [1] "Intercept" "X1"        "X2"        "X3"        "X4"       
-#&gt; 
-#&gt; $estimator
-#&gt; [1] "MPM"
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "pred.bas"
-#&gt; 
-#&gt; &gt; confint(predict(hald.gprior, Hald, estimator="MPM", se.fit=TRUE), parm="mean")</div><div class='output co'>#&gt; <span class='warning'>Warning: number of rows of result is not a multiple of vector length (arg 2)</span></div><div class='img'><img src='bas.lm-16.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;      2.5% 97.5% mean
-#&gt; attr(,"Probability")
-#&gt; [1] 0.95
-#&gt; attr(,"class")
-#&gt; [1] "confint.bas"
-#&gt; 
-#&gt; &gt; fitted(hald.gprior, estimator="HPM")
-#&gt;  [1]  81.17036  74.83464 105.07248  89.69881  97.15898 104.45753 103.38927
-#&gt;  [8]  76.06454  91.57174 113.17222  81.59906 111.22195 111.08841
-#&gt; 
-#&gt; &gt; hald.gprior =  bas.lm(Y~ ., data=Hald, n.models=2^4,
-#&gt; +                       prior="g-prior", alpha=13, modelprior=uniform(),
-#&gt; +                       initprobs="eplogp")
-#&gt; 
-#&gt; &gt; hald.EB = update(hald.gprior, newprior="EB-global")
-#&gt; 
-#&gt; &gt; hald.bic = update(hald.gprior,newprior="BIC")
-#&gt; 
-#&gt; &gt; hald.zs = update(hald.bic, newprior="ZS-null")</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/demo.html'>demo</a></span><span class='op'>(</span><span class='va'>BAS.USCrime</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://www.stats.ox.ac.uk/pub/MASS4/'>MASS</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>UScrime</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>crime.bic</span> <span class='op'>&lt;-</span> <span class='fu'>bas.lm</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>M</span><span class='op'>)</span> <span class='op'>+</span> <span class='va'>So</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Ed</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Po1</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Po2</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>LF</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>M.F</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Pop</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>NW</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>U1</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>U2</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>GDP</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Ineq</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Prob</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Time</span><span class='op'>)</span>,</span>
+<span class='r-in'>data <span class='op'>=</span> <span class='va'>UScrime</span>, n.models <span class='op'>=</span> <span class='fl'>2</span><span class='op'>^</span><span class='fl'>15</span>, prior <span class='op'>=</span> <span class='st'>"BIC"</span>,</span>
+<span class='r-in'>modelprior <span class='op'>=</span> <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span>,</span>
+<span class='r-in'>initprobs <span class='op'>=</span> <span class='st'>"eplogp"</span>, pivot <span class='op'>=</span> <span class='cn'>FALSE</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># use MCMC rather than enumeration</span></span>
+<span class='r-in'><span class='va'>crime.mcmc</span> <span class='op'>&lt;-</span> <span class='fu'>bas.lm</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>M</span><span class='op'>)</span> <span class='op'>+</span> <span class='va'>So</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Ed</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Po1</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Po2</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>LF</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>M.F</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Pop</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>NW</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>U1</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>U2</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>GDP</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Ineq</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Prob</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>Time</span><span class='op'>)</span>,</span>
+<span class='r-in'>data <span class='op'>=</span> <span class='va'>UScrime</span>,</span>
+<span class='r-in'>method <span class='op'>=</span> <span class='st'>"MCMC"</span>,</span>
+<span class='r-in'>MCMC.iterations <span class='op'>=</span> <span class='fl'>20000</span>, prior <span class='op'>=</span> <span class='st'>"BIC"</span>,</span>
+<span class='r-in'>modelprior <span class='op'>=</span> <span class='fu'><a href='beta.binomial.html'>beta.binomial</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span>,</span>
+<span class='r-in'>initprobs <span class='op'>=</span> <span class='st'>"eplogp"</span>, pivot <span class='op'>=</span> <span class='cn'>FALSE</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='summary.bas.html'>summary</a></span><span class='op'>(</span><span class='va'>crime.bic</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           P(B != 0 | Y)   model 1       model 2     model 3     model 4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Intercept     1.0000000   1.00000  1.000000e+00   1.0000000   1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(M)        0.9335117   1.00000  1.000000e+00   1.0000000   1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> So            0.3276563   0.00000  1.000000e+00   0.0000000   0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(Ed)       0.9910219   1.00000  1.000000e+00   1.0000000   1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(Po1)      0.7246635   1.00000  1.000000e+00   1.0000000   1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(Po2)      0.4602481   0.00000  1.000000e+00   0.0000000   0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(LF)       0.2935326   0.00000  1.000000e+00   0.0000000   0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(M.F)      0.3298168   0.00000  1.000000e+00   0.0000000   0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(Pop)      0.4962869   0.00000  1.000000e+00   0.0000000   0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(NW)       0.8346412   1.00000  1.000000e+00   1.0000000   1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(U1)       0.3481266   0.00000  1.000000e+00   0.0000000   0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(U2)       0.7752102   1.00000  1.000000e+00   1.0000000   1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(GDP)      0.5253694   0.00000  1.000000e+00   0.0000000   1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(Ineq)     0.9992058   1.00000  1.000000e+00   1.0000000   1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(Prob)     0.9541470   1.00000  1.000000e+00   1.0000000   1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(Time)     0.5432686   1.00000  1.000000e+00   0.0000000   1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> BF                   NA   1.00000  1.267935e-04   0.7609295   0.5431578</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> PostProbs            NA   0.01910  1.560000e-02   0.0145000   0.0133000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> R2                   NA   0.84200  8.695000e-01   0.8265000   0.8506000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> dim                  NA   9.00000  1.600000e+01   8.0000000  10.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> logmarg              NA -22.15855 -3.113150e+01 -22.4317627 -22.7689035</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               model 5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Intercept   1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(M)      1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> So          0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(Ed)     1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(Po1)    1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(Po2)    0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(LF)     0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(M.F)    0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(Pop)    1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(NW)     1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(U1)     0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(U2)     1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(GDP)    0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(Ineq)   1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(Prob)   1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> log(Time)   0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> BF          0.5203179</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> PostProbs   0.0099000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> R2          0.8375000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> dim         9.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> logmarg   -22.8118635</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>crime.bic</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='bas.lm-1.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='bas.lm-2.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='bas.lm-3.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='bas.lm-4.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='fu'><a href='image.bas.html'>image</a></span><span class='op'>(</span><span class='va'>crime.bic</span>, subset <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='bas.lm-5.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># example with two-way interactions and hierarchical constraints</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>ToothGrowth</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>ToothGrowth</span><span class='op'>$</span><span class='va'>dose</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>ToothGrowth</span><span class='op'>$</span><span class='va'>dose</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>ToothGrowth</span><span class='op'>$</span><span class='va'>dose</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Low"</span>, <span class='st'>"Medium"</span>, <span class='st'>"High"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>TG.bas</span> <span class='op'>&lt;-</span> <span class='fu'>bas.lm</span><span class='op'>(</span><span class='va'>len</span> <span class='op'>~</span> <span class='va'>supp</span> <span class='op'>*</span> <span class='va'>dose</span>,</span>
+<span class='r-in'>  data <span class='op'>=</span> <span class='va'>ToothGrowth</span>,</span>
+<span class='r-in'>  modelprior <span class='op'>=</span> <span class='fu'><a href='uniform.html'>uniform</a></span><span class='op'>(</span><span class='op'>)</span>, method <span class='op'>=</span> <span class='st'>"BAS"</span>,</span>
+<span class='r-in'>  force.heredity <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='summary.bas.html'>summary</a></span><span class='op'>(</span><span class='va'>TG.bas</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   P(B != 0 | Y)  model 1    model 2     model 3      model 4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Intercept             1.0000000  1.00000  1.0000000  1.00000000 1.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> suppVC                0.9910702  1.00000  1.0000000  0.00000000 0.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> doseMedium            1.0000000  1.00000  1.0000000  1.00000000 0.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> doseHigh              1.0000000  1.00000  1.0000000  1.00000000 0.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> suppVC:doseMedium     0.4500943  0.00000  1.0000000  0.00000000 0.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> suppVC:doseHigh       0.4500943  0.00000  1.0000000  0.00000000 0.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> BF                           NA  1.00000  0.8320043  0.01650685 2.812754e-15</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> PostProbs                    NA  0.54100  0.4501000  0.00890000 0.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> R2                           NA  0.76230  0.7937000  0.70290000 0.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> dim                          NA  4.00000  6.0000000  3.00000000 1.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> logmarg                      NA 33.50461 33.3206946 29.40063248 0.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                         model 5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Intercept          1.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> suppVC             1.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> doseMedium         0.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> doseHigh           0.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> suppVC:doseMedium  0.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> suppVC:doseHigh    0.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> BF                 7.895214e-16</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> PostProbs          0.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> R2                 5.950000e-02</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> dim                2.000000e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> logmarg           -1.270492e+00</span>
+<span class='r-in'><span class='fu'><a href='image.bas.html'>image</a></span><span class='op'>(</span><span class='va'>TG.bas</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='bas.lm-6.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># exmple with non-full rank case</span></span>
+<span class='r-in'></span>
+<span class='r-in'> <span class='va'>loc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"testdata"</span>, package <span class='op'>=</span> <span class='st'>"BAS"</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='va'>loc</span>, <span class='st'>"JASP-testdata.csv"</span>, sep <span class='op'>=</span> <span class='st'>"/"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>fullModelFormula</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>as.formula</a></span><span class='op'>(</span><span class='st'>"contNormal ~  contGamma * contExpon +</span>
+<span class='r-in'>                                contGamma * contcor1 + contExpon * contcor1"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># should give warning; use pivot = T to fit non-full rank case (fails on i386)</span></span>
+<span class='r-in'> <span class='va'>out</span> <span class='op'>=</span> <span class='fu'>bas.lm</span><span class='op'>(</span><span class='va'>fullModelFormula</span>,</span>
+<span class='r-in'>              data <span class='op'>=</span> <span class='va'>d</span>,</span>
+<span class='r-in'>              alpha <span class='op'>=</span> <span class='fl'>0.125316</span>,</span>
+<span class='r-in'>              prior <span class='op'>=</span> <span class='st'>"JZS"</span>,</span>
+<span class='r-in'>              weights <span class='op'>=</span> <span class='va'>facFifty</span>, force.heredity <span class='op'>=</span> <span class='cn'>FALSE</span>, pivot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>log marginals and posterior probabilities contain NA's.  Consider re-running with the option `pivot=TRUE` if there are models that are not full rank</span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># use pivot = TRUE to fit non-full rank case  (default)</span></span>
+<span class='r-in'><span class='co'># This is slower but safer</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>out</span> <span class='op'>=</span>  <span class='fu'>bas.lm</span><span class='op'>(</span><span class='va'>fullModelFormula</span>,</span>
+<span class='r-in'>              data <span class='op'>=</span> <span class='va'>d</span>,</span>
+<span class='r-in'>              alpha <span class='op'>=</span> <span class='fl'>0.125316</span>,</span>
+<span class='r-in'>              prior <span class='op'>=</span> <span class='st'>"JZS"</span>,</span>
+<span class='r-in'>              weights <span class='op'>=</span> <span class='va'>facFifty</span>, force.heredity <span class='op'>=</span> <span class='cn'>FALSE</span>, pivot <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># more complete demo's</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/demo.html'>demo</a></span><span class='op'>(</span><span class='va'>BAS.hald</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	demo(BAS.hald)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	---- ~~~~~~~~</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; data(Hald)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; hald.gprior =  bas.lm(Y~ ., data=Hald, prior="g-prior", alpha=13,</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> +                       modelprior=beta.binomial(1,1),</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> +                       initprobs="eplogp")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; hald.gprior</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Call:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> bas.lm(formula = Y ~ ., data = Hald, prior = "g-prior", alpha = 13, </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     modelprior = beta.binomial(1, 1), initprobs = "eplogp")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Marginal Posterior Inclusion Probabilities: </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Intercept         X1         X2         X3         X4  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    1.0000     0.9019     0.6896     0.4653     0.6329  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; plot(hald.gprior)</span>
+<span class='r-plt img'><img src='bas.lm-7.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='bas.lm-8.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='bas.lm-9.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='bas.lm-10.png' alt='' width='700' height='433' /></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; summary(hald.gprior)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           P(B != 0 | Y)  model 1    model 2    model 3    model 4    model 5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Intercept     1.0000000  1.00000  1.0000000 1.00000000  1.0000000  1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X1            0.9019245  1.00000  1.0000000 1.00000000  1.0000000  1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2            0.6895830  1.00000  0.0000000 1.00000000  1.0000000  1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X3            0.4652762  0.00000  0.0000000 1.00000000  0.0000000  1.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X4            0.6329266  0.00000  1.0000000 1.00000000  1.0000000  0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> BF                   NA  1.00000  0.6923944 0.08991408  0.3355714  0.3344926</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> PostProbs            NA  0.24320  0.1684000 0.13120000  0.1224000  0.1220000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> R2                   NA  0.97870  0.9725000 0.98240000  0.9823000  0.9823000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> dim                  NA  3.00000  3.0000000 5.00000000  4.0000000  4.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> logmarg              NA 11.72735 11.3597547 9.31845348 10.6354335 10.6322138</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; image(hald.gprior, subset=-1, vlas=0)</span>
+<span class='r-plt img'><img src='bas.lm-11.png' alt='' width='700' height='433' /></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; hald.coef = coefficients(hald.gprior)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; hald.coef</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Marginal Posterior Summaries of Coefficients: </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Using  BMA </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Based on the top  16 models </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            post mean  post SD  post p(B != 0)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Intercept  95.4231     0.7107   1.0000       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X1          1.2150     0.5190   0.9019       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2          0.2756     0.4832   0.6896       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X3         -0.1271     0.4976   0.4653       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X4         -0.3269     0.4717   0.6329       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; plot(hald.coef)</span>
+<span class='r-plt img'><img src='bas.lm-12.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='bas.lm-13.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='bas.lm-14.png' alt='' width='700' height='433' /></span>
+<span class='r-plt img'><img src='bas.lm-15.png' alt='' width='700' height='433' /></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; predict(hald.gprior, top=5, se.fit=TRUE)  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $fit</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  79.74246  74.50010 105.29268  89.88693  95.57177 104.56409 103.40145</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8]  77.13668  91.99731 114.21325  82.78446 111.00723 110.40160</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $Ybma</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            [,1]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1,]  79.74246</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [2,]  74.50010</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3,] 105.29268</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4,]  89.88693</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5,]  95.57177</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6,] 104.56409</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7,] 103.40145</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8,]  77.13668</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9,]  91.99731</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [10,] 114.21325</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11,]  82.78446</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [12,] 111.00723</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13,] 110.40160</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $Ypred</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,] 81.17036 74.83464 105.0725 89.69881 97.15898 104.4575 103.3893 76.06454</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2,] 77.70296 74.24113 105.8554 90.46267 93.09565 104.7152 103.1399 78.80193</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [3,] 79.70437 74.40553 105.2175 89.76253 95.63309 104.5709 103.5254 77.08557</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [4,] 79.65151 74.47846 105.4218 89.83174 95.62799 104.5962 103.5068 77.00839</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [5,] 79.84321 74.31409 104.9063 89.65651 95.70301 104.5285 103.5476 77.15919</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          [,9]    [,10]    [,11]    [,12]    [,13]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,] 91.57174 113.1722 81.59906 111.2219 111.0884</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2,] 92.68123 115.8058 84.50293 110.4162 109.0791</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [3,] 91.98604 114.1759 82.78145 111.1196 110.5321</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [4,] 92.07571 114.1088 82.68233 111.0429 110.4674</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [5,] 91.83513 114.2353 82.88128 111.2384 110.6515</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $postprobs</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.3089304 0.2139017 0.1666632 0.1555023 0.1550024</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $se.fit</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,] 2.220164 2.265862 1.546911 2.181188 1.310135 1.523300 2.655096 2.176560</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2,] 2.716798 2.389723 1.633637 2.179215 1.321062 1.581232 2.721957 2.078129</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [3,] 3.203405 2.501485 3.279273 2.357164 2.589756 1.549136 2.623290 2.765255</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [4,] 3.117350 2.283957 1.602160 2.149087 2.589321 1.508471 2.610923 2.545817</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [5,] 2.932580 2.353352 1.538009 2.141694 2.507848 1.498758 2.616407 2.680289</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          [,9]    [,10]    [,11]    [,12]    [,13]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,] 1.883610 3.264656 1.908238 1.970691 2.054234</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2,] 2.013244 3.298134 1.933819 1.964374 1.924460</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [3,] 2.353516 3.609909 2.821295 2.227363 2.390135</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [4,] 1.990817 3.485929 2.456636 1.951456 2.212238</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [5,] 1.889302 3.569065 2.665166 1.934336 2.117189</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $se.pred</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,] 5.057182 5.077410 4.799885 5.040193 4.728892 4.792328 5.262651 5.038191</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2,] 5.415848 5.259391 4.961773 5.167146 4.867815 4.944766 5.418438 5.125333</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [3,] 5.489152 5.111401 5.533771 5.042342 5.155175 4.718984 5.172102 5.245534</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [4,] 5.440156 5.009380 4.737547 4.949344 5.155775 4.706689 5.166658 5.134065</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [5,] 5.337427 5.042456 4.717369 4.947217 5.116386 4.704719 5.170463 5.203081</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          [,9]    [,10]    [,11]    [,12]    [,13]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,] 4.918734 5.594992 4.928218 4.952735 4.986566</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2,] 5.099370 5.729582 5.068538 5.080274 5.064974</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [3,] 5.040638 5.735890 5.275291 4.982985 5.057839</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [4,] 4.882702 5.659428 5.090431 4.866787 4.977090</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [5,] 4.843301 5.711946 5.195307 4.861045 4.936658</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $se.bma.fit</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 2.688224 2.095245 1.769625 1.970919 2.197285 1.363804 2.356457 2.302631</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] 1.822084 3.141443 2.237663 1.801849 1.991374</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $se.bma.pred</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 4.838655 4.536087 4.395180 4.480017 4.584113 4.248058 4.662502 4.635531</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] 4.416563 5.104380 4.603604 4.408253 4.489054</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $df</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 12 12 12 12 12</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $best</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1]  7  3 12 14  8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $bestmodel</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $bestmodel[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0 1 2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $bestmodel[[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0 1 4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $bestmodel[[3]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0 1 2 3 4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $bestmodel[[4]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0 1 2 4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $bestmodel[[5]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0 1 2 3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $best.vars</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Intercept" "X1"        "X2"        "X3"        "X4"       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $estimator</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "BMA"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "pred.bas"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; confint(predict(hald.gprior, Hald, estimator="BMA", se.fit=TRUE, top=5), parm="mean")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            2.5%     97.5%      mean</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1,]  73.14344  85.98936  79.74246</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [2,]  69.17879  79.54704  74.50010</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3,] 100.84534 109.49004 105.29268</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4,]  85.24164  94.79407  89.88693</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5,]  90.59779 100.36471  95.57177</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6,] 101.02479 107.78653 104.56409</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7,]  97.47160 109.01169 103.40145</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8,]  71.67868  82.61563  77.13668</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9,]  87.57661  96.30489  91.99731</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [10,] 106.59779 121.77646 114.21325</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11,]  77.65505  88.21687  82.78446</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [12,] 106.70258 115.53730 111.00723</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13,] 105.64711 115.13696 110.40160</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"Probability")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.95</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "confint.bas"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; predict(hald.gprior, estimator="MPM", se.fit=TRUE)  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $fit</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  79.65151  74.47846 105.42183  89.83174  95.62799 104.59616 103.50684</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8]  77.00839  92.07571 114.10876  82.68233 111.04286 110.46741</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $Ybma</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            [,1]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1,]  79.65151</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [2,]  74.47846</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3,] 105.42183</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4,]  89.83174</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5,]  95.62799</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6,] 104.59616</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7,] 103.50684</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8,]  77.00839</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9,]  92.07571</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [10,] 114.10876</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11,]  82.68233</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [12,] 111.04286</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13,] 110.46741</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $Ypred</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,] 79.65151 74.47846 105.4218 89.83174 95.62799 104.5962 103.5068 77.00839</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          [,9]    [,10]    [,11]    [,12]    [,13]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,] 92.07571 114.1088 82.68233 111.0429 110.4674</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $postprobs</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $se.fit</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> numeric(0)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $se.pred</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> numeric(0)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $se.bma.fit</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $se.bma.pred</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $df</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 12</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $best</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $bestmodel</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $bestmodel[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0 1 2 4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $best.vars</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Intercept" "X1"        "X2"        "X3"        "X4"       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $estimator</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "MPM"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "pred.bas"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; confint(predict(hald.gprior, Hald, estimator="MPM", se.fit=TRUE), parm="mean")</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>number of rows of result is not a multiple of vector length (arg 2)</span>
+<span class='r-plt img'><img src='bas.lm-16.png' alt='' width='700' height='433' /></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      2.5% 97.5% mean</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"Probability")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.95</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "confint.bas"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; fitted(hald.gprior, estimator="HPM")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  81.17036  74.83464 105.07248  89.69881  97.15898 104.45753 103.38927</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8]  76.06454  91.57174 113.17222  81.59906 111.22195 111.08841</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; hald.gprior =  bas.lm(Y~ ., data=Hald, n.models=2^4,</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> +                       prior="g-prior", alpha=13, modelprior=uniform(),</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> +                       initprobs="eplogp")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; hald.EB = update(hald.gprior, newprior="EB-global")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; hald.bic = update(hald.gprior,newprior="BIC")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; hald.zs = update(hald.bic, newprior="ZS-null")</span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/demo.html'>demo</a></span><span class='op'>(</span><span class='va'>BAS.USCrime</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
