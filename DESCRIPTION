@@ -27,7 +27,6 @@ Suggests:
     roxygen2,
     dplyr,
     glmbb,
-    pkgdown,
     testthat,
     covr
 Description: Package for Bayesian Variable Selection and  Model Averaging 
