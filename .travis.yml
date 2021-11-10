@@ -14,7 +14,11 @@ env:
 r:
   - devel
   - release
+  
 os: linux
+
+compiler: gcc
+
 after_success:
   - Rscript -e 'covr::codecov()'
 deploy:
