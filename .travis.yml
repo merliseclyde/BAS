@@ -15,12 +15,8 @@ r:
   - devel
   - release
 os: linux
-dist: focal
-group: edge
-arch: arm64-graviton2
 after_success:
   - Rscript -e 'covr::codecov()'
-  - Rscript -e 'devtools::install_github("merliseclyde/BAS")'
 deploy:
   provider: pages
   skip-cleanup: true

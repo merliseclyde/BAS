@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 [![](https://www.r-pkg.org/badges/version/BAS)](https://cran.r-project.org/package=BAS)
 [![](https://cranlogs.r-pkg.org/badges/BAS)](https://cran.rstudio.com/web/packages/BAS/index.html) [![](https://cranlogs.r-pkg.org/badges/grand-total/BAS)](https://cran.rstudio.com/web/packages/BAS/index.html)
 [![Coverage Status](https://img.shields.io/codecov/c/github/merliseclyde/BAS/master.svg)](https://codecov.io/github/merliseclyde/BAS?branch=master)
-[![Rdoc](https://www.rdocumentation.org/badges/version/BAS)](https://www.rdocumentation.org/packages/BAS)
+[![Rdoc](https://api.rdocumentation.org/badges/version/BAS)](https://www.rdocumentation.org/packages/BAS/)
 [![DOI](https://zenodo.org/badge/DOI/110.5281/zenodo.595639.svg)](https://doi.org/10.5281/zenodo.595639)
 
 
@@ -60,7 +60,7 @@ use the `devtools` package from
 devtools::install_github('merliseclyde/BAS')
 ```
 
-You can check out the current build and test coverage status courtesy Travis CI: [![](https://travis-ci.org/merliseclyde/BAS.png?branch=master)](https://travis-ci.org/merliseclyde/BAS) 
+You can check out the current build and test coverage status courtesy Travis CI: [![](https://app.travis-ci.com/merliseclyde/BAS.svg?branch=master)](https://app.travis-ci.com/merliseclyde/BAS) 
 before installing.
 
 Installing the package from source does require compilation of C and FORTRAN code as the library makes use of BLAS and LAPACK for efficient model fitting.  See [CRAN manuals](https://cran.r-project.org/doc/manuals/r-devel/R-admin.html) for installing packages from source under different operating systems.
