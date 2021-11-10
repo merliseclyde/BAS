@@ -5,7 +5,7 @@
 
 [![CII Best
 Practices](https://bestpractices.coreinfrastructure.org/projects/2055/badge)](https://bestpractices.coreinfrastructure.org/projects/2055)
-[![](https://travis-ci.org/merliseclyde/BAS.png?branch=master)](https://travis-ci.org/merliseclyde/BAS)
+[![](https://app.travis-ci.com/merliseclyde/BAS.svg?branch=master)](https://app.travis-ci.com/merliseclyde/BAS)
 [![](https://www.r-pkg.org/badges/version/BAS)](https://cran.r-project.org/package=BAS)
 [![](https://cranlogs.r-pkg.org/badges/BAS)](https://cran.rstudio.com/web/packages/BAS/index.html)
 [![](https://cranlogs.r-pkg.org/badges/grand-total/BAS)](https://cran.rstudio.com/web/packages/BAS/index.html)
