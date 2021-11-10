@@ -20,9 +20,7 @@ group: edge
 arch: arm64-graviton2
 after_success:
   - Rscript -e 'covr::codecov()'
-  - Rscript -e 'devtools::install_github("pkgdown")'
   - Rscript -e 'devtools::install_github("merliseclyde/BAS")'
-  - Rscript -e 'pkgdown::build_site()'
 deploy:
   provider: pages
   skip-cleanup: true
