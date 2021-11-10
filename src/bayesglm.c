@@ -92,7 +92,7 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
 
   glmstptr *glmfamily;
   coefdistptr *coefprior;
-  char  trans[]="N";
+//  char  trans[]="N";
 
   tol = fmin(1e-07, REAL(getListElement(Rcontrol,"epsilon"))[0]/1000);
 
@@ -172,7 +172,8 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
 
 
     F77_NAME(dcopy)(&n, &offset[0], &inc, &eta[0], &inc);
-    F77_NAME(dgemv)(trans, &n, &p, &one, &X[0], &n, &coef[0], &inc, &one, &eta[0],&inc);
+    F77_NAME(dgemv)("N", &n, &p, &one, &X[0], &n, &coef[0], &inc, &one, &eta[0],&inc
+                      FCONE);
 
     glmfamily->linkinv(eta, mu, n);
     glmfamily->dev_resids(Y, mu, weights, residuals, n);

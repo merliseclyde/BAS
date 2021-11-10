@@ -1,3 +1,14 @@
+# BAS 1.6.0
+
+## Changes
+
+* update Fortran code to be compliant with `USE_FC_LEN_T`  for character strings
+
+## Bug Fixes 
+
+* updated `log_laplace_F21` in src code which had an uninitialized variable 
+leading to NaN being returned from `R` function `hypergeometric2F1`
+
 # BAS 1.5.5
 
 ##  Changes

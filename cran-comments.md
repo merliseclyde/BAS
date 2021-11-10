@@ -1,44 +1,16 @@
-# BAS 1.5.5  Comments to CRAN
+# BAS 1.6.0  Comments to CRAN
 
-resubmission to fix  errors found in package version 1.5.4: 
- 
-    CRAN repository db overrides:
-    X-CRAN-Comment: Archived on 2020-01-20 as check issues were still not
-      corrected.
-  
-Fedora:   Internet access violation
+## submission to include  USE_FC_LEN_T for calls to Fortran subroutines with character strings in light of requirement under R 4.2.0
 
-Flavor: r-devel-linux-x86_64-fedora-clang
-Check: re-building of vignette outputs 
-Result: WARN 
-    Error(s) in re-building vignettes:
-    --- re-building ‘BAS-vignette.Rmd’ using rmarkdown
-    Quitting from lines 463-466 (BAS-vignette.Rmd) 
-    Error: processing vignette 'BAS-vignette.Rmd' failed with diagnostics:
-    cannot open the connection to 'https://stat.duke.edu/sites/stat.duke.edu/files/climate.dat'
-    --- failed re-building ‘BAS-vignette.Rmd’
-    
-
-Solaris:
-Check: tests 
-Result: ERROR 
-    Running ‘testthat.R’ [31s/35s]
-    Running the tests in ‘tests/testthat.R’ failed.
-    
 
 ## Test environments
 
-* local OS X install, R 3.6.2
-* local fedora/clang fortran-9/valgrind R-devel (4.0.0)
-* ubuntu 14.04 (on travis-ci), R 3.6.2 R-devel
+* local OS X install, R 4.1.2
+* ubuntu 14.04 (on travis-ci), R 4.1.2 R-devel
 * win-builder (r-devel)
 * R-hub fedora-clang-devel (r-devel)
 * R-hub solaris-x86-patched (r-patched)
 
-Passes all checks on OSX/current, fedora/clang/R-devel, ubuntu/current/R-devel
-Notes (windows) and error (Solaris) are false positives (see details below from checks).  Now issues identified via valgrind under fedora/clang fortran-9/valgrind R-devel (4.0.0)
-
-In particular, the issues identified in the last submission on Fedora and Solaris have been identified and fixed for this submission
 
 ## R CMD check results for this submission
 

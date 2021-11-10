@@ -263,9 +263,9 @@ double quadform (double *bwork, double *R,  int p) {
 
   double Q = 0.0;
   int inc = 1;
-  char uplo[] = "U", trans[]="T", diag[]="N";
+//  char uplo[] = "U", trans[]="T", diag[]="N";
   //  F77_NAME(dcopy)(&p, &b[0], &inc,  &bwork[0], &inc);
-  F77_NAME(dtrsv)(uplo, trans, diag, &p, &R[0], &p, &bwork[0], &inc);
+  F77_NAME(dtrsv)("U", "T", "N", &p, &R[0], &p, &bwork[0], &inc FCONE FCONE FCONE);
   Q = F77_NAME(dnrm2)(&p, &bwork[0], &inc);
   Q *=Q;
   return(Q);
@@ -321,7 +321,7 @@ void  Lapack_chol2inv(double *A, int sz, double *ans)
 		ans[i + j * sz] = A[i + j * sz];
 	}
 
-	F77_CALL(dpotri)("Upper", &sz, &ans[0], &sz, &i);
+	F77_CALL(dpotri)("U", &sz, &ans[0], &sz, &i FCONE);
 	if (i != 0) {
 	    if (i > 0)
 		error(_("element (%d, %d) is zero, so the inverse cannot be computed"),
