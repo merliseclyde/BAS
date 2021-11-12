@@ -25,7 +25,9 @@ Suggests:
     GGally,
     rmarkdown,
     roxygen2,
-    dplyr
+    dplyr,
+    testthat,
+    codecov
 Description: Bayesian Variable Selection and  Model Averaging 
     in linear models and generalized linear models implemented using
     prior distributions on coefficients based on
