@@ -6,7 +6,7 @@
 
 ## Bug Fixes 
 
-* updated `log_laplace_F21` in src code which had an uninitialized variable 
+* fixed warning in src code for `log_laplace_F21` which had an uninitialized variable 
 leading to NaN being returned from `R` function `hypergeometric2F1`
 
 # BAS 1.5.5
