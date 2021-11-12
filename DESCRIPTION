@@ -27,7 +27,7 @@ Suggests:
     roxygen2,
     dplyr,
     testthat,
-    codecov
+    covr
 Description: Bayesian Variable Selection and  Model Averaging 
     in linear models and generalized linear models implemented using
     prior distributions on coefficients based on
