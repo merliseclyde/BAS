@@ -67,6 +67,9 @@
     <loc>http://merliseclyde.github.io/BAS//reference/confint.pred.html</loc>
   </url>
   <url>
+    <loc>http://merliseclyde.github.io/BAS//reference/crabs.html</loc>
+  </url>
+  <url>
     <loc>http://merliseclyde.github.io/BAS//reference/cv.summary.bas.html</loc>
   </url>
   <url>
@@ -77,6 +80,9 @@
   </url>
   <url>
     <loc>http://merliseclyde.github.io/BAS//reference/eplogprob.marg.html</loc>
+  </url>
+  <url>
+    <loc>http://merliseclyde.github.io/BAS//reference/extract_MPM.html</loc>
   </url>
   <url>
     <loc>http://merliseclyde.github.io/BAS//reference/fitted.html</loc>

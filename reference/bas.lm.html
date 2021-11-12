@@ -80,7 +80,7 @@ Linear Models — bas.lm" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BAS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.5</span>
       </span>
     </div>
 
@@ -444,6 +444,7 @@ BMA object</p></dd>
 <dt>X</dt><dd><p>matrix of predictors</p></dd>
 <dt>mean.x</dt><dd><p>vector of means for each column of X (used in
 <code><a href='predict.bas.html'>predict.bas</a></code>)</p></dd>
+weights used in model fitting
 <dt>include.always</dt><dd><p>indices of variables that are forced into the model</p></dd>
 
 The function <a href='summary.bas.html'>summary.bas</a>, is used to print a summary of the
@@ -540,6 +541,7 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 <code><a href='confint.coef.bas.html'>confint.coef.bas</a>()</code>,
 <code><a href='confint.pred.bas.html'>confint.pred.bas</a>()</code>,
 <code><a href='diagnostics.html'>diagnostics</a>()</code>,
+<code><a href='extract_MPM.html'>extract_MPM</a>()</code>,
 <code><a href='fitted.bas.html'>fitted.bas</a>()</code>,
 <code><a href='force.heredity.bas.html'>force.heredity.bas</a>()</code>,
 <code><a href='image.bas.html'>image.bas</a>()</code>,
@@ -763,7 +765,6 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 <span class='r-plt img'><img src='bas.lm-13.png' alt='' width='700' height='433' /></span>
 <span class='r-plt img'><img src='bas.lm-14.png' alt='' width='700' height='433' /></span>
 <span class='r-plt img'><img src='bas.lm-15.png' alt='' width='700' height='433' /></span>
-<span class='r-plt img'><img src='bas.lm-16.png' alt='' width='700' height='433' /></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; predict(hald.gprior, top=5, se.fit=TRUE)  </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $fit</span>
@@ -843,7 +844,7 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 12 12 12 12 12</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $best</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 10 11  7  8  3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 11  9  2 12  4</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $bestmodel</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $bestmodel[[1]]</span>
@@ -873,19 +874,19 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; confint(predict(hald.gprior, Hald, estimator="BMA", se.fit=TRUE, top=5), parm="mean")</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>            2.5%     97.5%      mean</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1,]  73.27030  86.21520  79.74246</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [2,]  69.36215  79.62430  74.50010</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3,] 101.00220 109.75053 105.29268</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4,]  85.04014  94.49379  89.88693</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5,]  90.32186 100.32520  95.57177</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6,] 101.34316 107.92909 104.56409</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7,]  97.54333 109.17084 103.40145</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8,]  71.64516  82.63840  77.13668</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9,]  87.62252  96.54948  91.99731</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [10,] 106.45893 121.68949 114.21325</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [11,]  77.51213  88.13170  82.78446</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [12,] 106.68404 115.53258 111.00723</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [13,] 105.77390 115.38846 110.40160</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1,]  73.51468  86.26557  79.74246</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [2,]  69.13838  79.50452  74.50010</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3,] 101.16608 109.76982 105.29268</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4,]  85.07825  94.67357  89.88693</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5,]  90.38879 100.21778  95.57177</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6,] 101.25028 108.04955 104.56409</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7,]  97.46956 108.98534 103.40145</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8,]  71.49826  82.58594  77.13668</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9,]  87.80499  96.65580  91.99731</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [10,] 106.61018 121.81749 114.21325</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11,]  77.55197  88.12866  82.78446</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [12,] 106.63521 115.49819 111.00723</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13,] 105.48187 115.04859 110.40160</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"Probability")</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.95</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
@@ -895,36 +896,37 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $fit</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  79.65151  74.47846 105.42183  89.83174  95.62799 104.59616 103.50684</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  [8]  77.00839  92.07571 114.10876  82.68233 111.04286 110.46741</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"model")</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0 1 2 4</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"best")</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"estimator")</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "MPM"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $Ybma</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  79.65151  74.47846 105.42183  89.83174  95.62799 104.59616 103.50684</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8]  77.00839  92.07571 114.10876  82.68233 111.04286 110.46741</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"model")</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0 1 2 4</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"best")</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"estimator")</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "MPM"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            [,1]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1,]  79.65151</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [2,]  74.47846</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3,] 105.42183</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4,]  89.83174</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5,]  95.62799</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6,] 104.59616</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7,] 103.50684</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8,]  77.00839</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9,]  92.07571</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [10,] 114.10876</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11,]  82.68233</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [12,] 111.04286</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13,] 110.46741</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $Ypred</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,] 79.65151 74.47846 105.4218 89.83174 95.62799 104.5962 103.5068 77.00839</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          [,9]    [,10]    [,11]    [,12]    [,13]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,] 92.07571 114.1088 82.68233 111.0429 110.4674</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $postprobs</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $se.fit</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 3.117350 2.283957 1.602160 2.149087 2.589321 1.508471 2.610923 2.545817</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] 1.990817 3.485929 2.456636 1.951456 2.212238</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> numeric(0)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $se.pred</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 5.440156 5.009380 4.737547 4.949344 5.155775 4.706689 5.166658 5.134065</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] 4.882702 5.659428 5.090431 4.866787 4.977090</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> numeric(0)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $se.bma.fit</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
@@ -936,13 +938,15 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 12</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $best</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $bestmodel</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $bestmodel[[1]]</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0 1 2 4</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $best.vars</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Intercept" "X1"        "X2"        "X4"       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Intercept" "X1"        "X2"        "X3"        "X4"       </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $estimator</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "MPM"</span>
@@ -951,20 +955,9 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "pred.bas"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> &gt; confint(predict(hald.gprior, Hald, estimator="MPM", se.fit=TRUE), parm="mean")</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>            2.5%     97.5%      mean</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1,]  72.85939  86.44363  79.65151</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [2,]  69.50215  79.45478  74.47846</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3,] 101.93102 108.91264 105.42183</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4,]  85.14928  94.51420  89.83174</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5,]  89.98634 101.26964  95.62799</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6,] 101.30948 107.88283 104.59616</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7,]  97.81813 109.19556 103.50684</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8,]  71.46153  82.55525  77.00839</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9,]  87.73810  96.41333  92.07571</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [10,] 106.51357 121.70394 114.10876</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [11,]  77.32978  88.03488  82.68233</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [12,] 106.79101 115.29472 111.04286</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [13,] 105.64736 115.28746 110.46741</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>number of rows of result is not a multiple of vector length (arg 2)</span>
+<span class='r-plt img'><img src='bas.lm-16.png' alt='' width='700' height='433' /></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      2.5% 97.5% mean</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"Probability")</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.95</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>

@@ -78,7 +78,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BAS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.5</span>
       </span>
     </div>
 
@@ -146,11 +146,13 @@
   color <span class='op'>=</span> <span class='st'>"rainbow"</span>,
   subset <span class='op'>=</span> <span class='cn'>NULL</span>,
   drop.always.included <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  namesx <span class='op'>=</span> <span class='cn'>NULL</span>,
   offset <span class='op'>=</span> <span class='fl'>0.75</span>,
   digits <span class='op'>=</span> <span class='fl'>3</span>,
   vlas <span class='op'>=</span> <span class='fl'>2</span>,
   plas <span class='op'>=</span> <span class='fl'>0</span>,
   rlas <span class='op'>=</span> <span class='fl'>0</span>,
+  mar <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -205,6 +207,12 @@ white image (greyscale image)</p></td>
 always forced into the model.  FALSE by default.</p></td>
     </tr>
     <tr>
+      <th>namesx</th>
+      <td><p>character vector for predictors.  By default, this is NULL and
+names are extracted from `x$namesx`. Should be the same length as
+p + 1 (including the intercept).</p></td>
+    </tr>
+    <tr>
       <th>offset</th>
       <td><p>numeric value to add to intensity</p></td>
     </tr>
@@ -214,15 +222,19 @@ always forced into the model.  FALSE by default.</p></td>
     </tr>
     <tr>
       <th>vlas</th>
-      <td><p>las parameter for placing variable names; see par</p></td>
+      <td><p>las parameter for placing variable names; see `par()`</p></td>
     </tr>
     <tr>
       <th>plas</th>
-      <td><p>las parameter for posterior probability axis</p></td>
+      <td><p>las parameter for posterior probability axis; see `par()`</p></td>
     </tr>
     <tr>
       <th>rlas</th>
-      <td><p>las parameter for model ranks</p></td>
+      <td><p>las parameter for model ranks; see `par()`</p></td>
+    </tr>
+    <tr>
+      <th>mar</th>
+      <td><p>mar parameter for margins; see `par()`</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -256,6 +268,7 @@ Dawid, J.O. Berger, and A.F.M. Smith eds. Oxford University Press, pages
 <code><a href='confint.coef.bas.html'>confint.coef.bas</a>()</code>,
 <code><a href='confint.pred.bas.html'>confint.pred.bas</a>()</code>,
 <code><a href='diagnostics.html'>diagnostics</a>()</code>,
+<code><a href='extract_MPM.html'>extract_MPM</a>()</code>,
 <code><a href='fitted.bas.html'>fitted.bas</a>()</code>,
 <code><a href='force.heredity.bas.html'>force.heredity.bas</a>()</code>,
 <code><a href='plot.confint.bas.html'>plot.confint.bas</a>()</code>,

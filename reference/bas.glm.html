@@ -80,7 +80,7 @@ Generalized Linear Models — bas.glm" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BAS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.5</span>
       </span>
     </div>
 
@@ -346,18 +346,26 @@ components:</p>
 <dt>priorprobs</dt><dd><p>the prior probabilities of the models selected</p></dd>
 <dt>logmarg</dt><dd><p>values of the log of the marginal likelihood for the models</p></dd>
 <dt>n.vars</dt><dd><p>total number of independent variables in the full model,
-including the intercept</p></dd> <dt>size</dt><dd><p>the number of independent variables in
-each of the models, includes the intercept</p></dd> <dt>which</dt><dd><p>a list of lists
+including the intercept</p></dd>
+<dt>size</dt><dd><p>the number of independent variables in
+each of the models, includes the intercept</p></dd>
+<dt>which</dt><dd><p>a list of lists
 with one list per model with variables that are included in the model</p></dd>
 <dt>probne0</dt><dd><p>the posterior probability that each variable is non-zero</p></dd>
 <dt>coefficients</dt><dd><p>list of lists with one list per model giving the GLM
-estimate of each (nonzero) coefficient for each model.</p></dd> <dt>se</dt><dd><p>list of
+estimate of each (nonzero) coefficient for each model.</p></dd>
+<dt>se</dt><dd><p>list of
 lists with one list per model giving the GLM standard error of each
-coefficient for each model</p></dd> <dt>deviance</dt><dd><p>the GLM deviance for each model</p></dd>
+coefficient for each model</p></dd>
+<dt>deviance</dt><dd><p>the GLM deviance for each model</p></dd>
 <dt>modelprior</dt><dd><p>the prior distribution on models that created the BMA
-object</p></dd> <dt>Q</dt><dd><p>the Q statistic for each model used in the marginal
-likelihood approximation</p></dd> <dt>Y</dt><dd><p>response</p></dd> <dt>X</dt><dd><p>matrix of predictors</p></dd>
-<dt>family</dt><dd><p>family object from the original call</p></dd> <dt>betaprior</dt><dd><p>family
+object</p></dd>
+<dt>Q</dt><dd><p>the Q statistic for each model used in the marginal
+likelihood approximation</p></dd>
+<dt>Y</dt><dd><p>response</p></dd>
+<dt>X</dt><dd><p>matrix of predictors</p></dd>
+<dt>family</dt><dd><p>family object from the original call</p></dd>
+<dt>betaprior</dt><dd><p>family
 object for prior on coefficients, including hyperparameters</p></dd>
 <dt>modelprior</dt><dd><p>family object for prior on the models</p></dd>
 <dt>include.always</dt><dd><p>indices of variables that are forced into the model</p></dd>
@@ -400,8 +408,7 @@ Li</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='r-in'></span>
-<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://www.stats.ox.ac.uk/pub/MASS4/'>MASS</a></span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>Pima.tr</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>Pima.tr</span>, package<span class='op'>=</span><span class='st'>"MASS"</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># enumeration  with default method="BAS"</span></span>
@@ -455,15 +462,16 @@ Li</p>
 <span class='r-in'>              betaprior<span class='op'>=</span><span class='fu'><a href='IC.prior.html'>bic.prior</a></span><span class='op'>(</span><span class='op'>)</span>, family<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span><span class='op'>)</span>,</span>
 <span class='r-in'>              modelprior<span class='op'>=</span><span class='fu'><a href='uniform.html'>uniform</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-in'><span class='co'># Poisson example</span></span>
-<span class='r-in'><span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"glmbb"</span>, quietly<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>crabs</span>, package<span class='op'>=</span><span class='st'>'glmbb'</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>crabs</span>, package<span class='op'>=</span><span class='st'>"BAS"</span><span class='op'>)</span></span>
 <span class='r-in'>  <span class='co'>#short run for illustration</span></span>
-<span class='r-in'>  <span class='va'>crabs.bas</span> <span class='op'>=</span> <span class='fu'>bas.glm</span><span class='op'>(</span><span class='va'>satell</span> <span class='op'>~</span> <span class='va'>color</span><span class='op'>*</span><span class='va'>spine</span><span class='op'>*</span><span class='va'>width</span> <span class='op'>+</span> <span class='va'>weight</span>, data<span class='op'>=</span><span class='va'>crabs</span>,</span>
+<span class='r-in'>  <span class='va'>crabs.bas</span> <span class='op'>=</span> <span class='fu'>bas.glm</span><span class='op'>(</span><span class='va'>satell</span> <span class='op'>~</span> <span class='va'>color</span><span class='op'>*</span><span class='va'>spine</span><span class='op'>*</span><span class='va'>width</span> <span class='op'>+</span> <span class='va'>weight</span>,</span>
+<span class='r-in'>                      data<span class='op'>=</span><span class='va'>crabs</span>,</span>
 <span class='r-in'>                      family<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>poisson</a></span><span class='op'>(</span><span class='op'>)</span>,</span>
 <span class='r-in'>                      betaprior<span class='op'>=</span><span class='fu'><a href='EB.local.html'>EB.local</a></span><span class='op'>(</span><span class='op'>)</span>, modelprior<span class='op'>=</span><span class='fu'><a href='uniform.html'>uniform</a></span><span class='op'>(</span><span class='op'>)</span>,</span>
 <span class='r-in'>                      method<span class='op'>=</span><span class='st'>'MCMC'</span>, n.models<span class='op'>=</span><span class='fl'>2</span><span class='op'>^</span><span class='fl'>10</span>, MCMC.iterations<span class='op'>=</span><span class='fl'>5000</span>,</span>
 <span class='r-in'>                      prob.rw<span class='op'>=</span><span class='fl'>.95</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
