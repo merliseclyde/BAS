@@ -135,7 +135,7 @@ NULL
 #'\item{\emph{T/M}}{, an indicator of whether it was a terrestrial or marine study (T/M),
 #'  which is coded as 0 for Terrestrial, 1 for Marine;}
 #'\item{ \emph{latitude}}{the latitude where the data were collected.}}
-#' @source Data provided originally by Michael Lavine and available at \url{https://stat.duke.edu/sites/stat.duke.edu/files/climate.dat}
+#' @source Data provided originally by Michael Lavine 
 NULL
 
 #' Hald Data

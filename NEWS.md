@@ -76,7 +76,7 @@ Fixed errors identified on cran checks https://cran.r-project.org/web/checks/che
 
 * Updates to package for [CII Best Practices Badge](https://bestpractices.coreinfrastructure.org/projects/2055)  certification
 
-* Added [Code Coverage](https://codecov.io/gh/merliseclyde/BAS) support and more extensive tests using `test_that`.
+* Added [Code Coverage](https://app.codecov.io/gh/merliseclyde/BAS) support and more extensive tests using `test_that`.
 
 ## Bugs
 

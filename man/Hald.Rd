@@ -5,12 +5,14 @@
 \alias{Hald}
 \alias{hald}
 \title{Hald Data}
-\format{\code{hald} is a dataframe with 13 observations and 5 variables
+\format{
+\code{hald} is a dataframe with 13 observations and 5 variables
 (columns),
 
 Y: Heat evolved per gram of cement (in calories) X1: Amount of tricalcium
 aluminate X2: Amount of tricalcium silicate X3: Amount of tetracalcium
-alumino ferrite X4: Amount of dicalcium silicate}
+alumino ferrite X4: Amount of dicalcium silicate
+}
 \source{
 Wood, H., Steinour, H.H., and Starke, H.R. (1932). "Effect of
 Composition of Portland cement on Heat Evolved During Hardening", Industrial

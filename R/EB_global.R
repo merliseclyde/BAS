@@ -18,7 +18,7 @@
 #' @references Liang, F., Paulo, R., Molina, G., Clyde, M. and Berger, J.O.
 #' (2008) Mixtures of g-priors for Bayesian Variable Selection. Journal of the
 #' American Statistical Association. 103:410-423.  \cr
-#' \url{https://dx.doi.org/10.1198/016214507000001337}
+#' \doi{10.1198/016214507000001337}
 #' @keywords regression
 #' @examples
 #'

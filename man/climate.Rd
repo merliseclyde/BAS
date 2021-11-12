@@ -4,7 +4,8 @@
 \name{climate}
 \alias{climate}
 \title{Climate Data}
-\format{Scientists are interested in the Earth's temperature change since the last
+\format{
+Scientists are interested in the Earth's temperature change since the last
 glacial maximum, about 20,000 years ago. The first study to estimate the
 temperature change was published in 1980, and estimated a change of -1.5 degrees
  C, +/- 1.2 degrees C in tropical sea surface temperatures.
@@ -28,9 +29,10 @@ The proxies are coded as\cr
 }
 \item{\emph{T/M}}{, an indicator of whether it was a terrestrial or marine study (T/M),
  which is coded as 0 for Terrestrial, 1 for Marine;}
-\item{ \emph{latitude}}{the latitude where the data were collected.}}}
+\item{ \emph{latitude}}{the latitude where the data were collected.}}
+}
 \source{
-Data provided originally by Michael Lavine and available at \url{https://stat.duke.edu/sites/stat.duke.edu/files/climate.dat}
+Data provided originally by Michael Lavine
 }
 \description{
 Climate Data

@@ -1,21 +1,21 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# [BAS: Bayesian Variable Selection and Model Averaging using Bayesian Adaptive Sampling](https://github.com/merliseclyde/BAS)
+# [BAS: Bayesian Variable Selection and Model Averaging using Bayesian Adaptive Sampling](https://github.com/merliseclyde/BAS/)
 
 [![CII Best
 Practices](https://bestpractices.coreinfrastructure.org/projects/2055/badge)](https://bestpractices.coreinfrastructure.org/projects/2055)
 [![](https://app.travis-ci.com/merliseclyde/BAS.svg?branch=master)](https://app.travis-ci.com/merliseclyde/BAS)
-[![](https://www.r-pkg.org/badges/version/BAS)](https://cran.r-project.org/package=BAS)
-[![](https://cranlogs.r-pkg.org/badges/BAS)](https://cran.rstudio.com/web/packages/BAS/index.html)
-[![](https://cranlogs.r-pkg.org/badges/grand-total/BAS)](https://cran.rstudio.com/web/packages/BAS/index.html)
+[![](https://www.r-pkg.org/badges/version/BAS)](https://cran.r-project.org/package=BAS/)
+[![](https://cranlogs.r-pkg.org/badges/BAS)](https://cran.r-project.org/package=BAS/)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/BAS)](https://cran.r-project.org/package=BAS/)
 [![Coverage
-Status](https://img.shields.io/codecov/c/github/merliseclyde/BAS/master.svg)](https://codecov.io/github/merliseclyde/BAS?branch=master)
-[![Rdoc](https://www.rdocumentation.org/badges/version/BAS)](https://www.rdocumentation.org/packages/BAS)
+Status](https://img.shields.io/codecov/c/github/merliseclyde/BAS/master.svg)](https://app.codecov.io/github/merliseclyde/BAS?branch=master)
+[![Rdoc](https://api.rdocumentation.org/badges/version/BAS)](https://www.rdocumentation.org/packages/BAS/)
 [![DOI](https://zenodo.org/badge/DOI/110.5281/zenodo.595639.svg)](https://doi.org/10.5281/zenodo.595639)
 
-The `BAS` [R](https://r-project.org) package is designed to provide an
-easy to use package and fast code for implementing Bayesian Model
+The `BAS` [R](https://www.r-project.org/) package is designed to provide
+an easy to use package and fast code for implementing Bayesian Model
 Averaging and Model Selection in `R` using state of the art prior
 distributions for linear and generalized linear models. The prior
 distributions in `BAS` are based on Zellner’s g-prior or mixtures of
@@ -40,9 +40,9 @@ install.packages('BAS')
 
 On the other hand, I welcome everyone to use the most recent version of
 the package with quick-fixes, new features and probably new bugs. It’s
-currently hosted on [GitHub](https://github.com/merliseclyde/BAS). To
+currently hosted on [GitHub](https://github.com/merliseclyde/BAS/). To
 get the latest development version from
-[GitHub](https://github.com/merliseclyde), use the `devtools` package
+[GitHub](https://github.com/merliseclyde/), use the `devtools` package
 from [CRAN](https://cran.r-project.org/package=devtools) and enter in
 `R`:
 
@@ -52,7 +52,7 @@ devtools::install_github('merliseclyde/BAS')
 
 You can check out the current build and test coverage status courtesy
 Travis CI:
-[![](https://travis-ci.org/merliseclyde/BAS.png?branch=master)](https://travis-ci.org/merliseclyde/BAS)
+[![](https://app.travis-ci.com/merliseclyde/BAS.svg?branch=master)](https://app.travis-ci.com/merliseclyde/BAS/)
 before installing.
 
 Installing the package from source does require compilation of C and
@@ -119,10 +119,10 @@ the future.
 ## Feature Requests and Issues
 
 Feel free to report any issues or request features to be added via the
-[github issues page](https://github.com/merliseclyde/BAS/issues).
+[github issues page](https://github.com/merliseclyde/BAS/issues/).
 
 For current documentation and vignettes see the [BAS
-website](https://merliseclyde.github.io/BAS)
+website](https://merliseclyde.github.io/BAS/)
 
 ### Support
 

@@ -5,7 +5,8 @@
 \alias{bodyfat}
 \alias{Bodyfat}
 \title{Bodyfat Data}
-\format{A data frame with 252 observations on the following 15 variables.
+\format{
+A data frame with 252 observations on the following 15 variables.
 \describe{ \item{Density}{a numeric vector for the density
 determined from underwater weighing} \item{Bodyfat}{percent body fat
 from Siri's (1956) equation} \item{Age}{age of individual in years}
@@ -18,7 +19,8 @@ circumference (cm)} \item{"Thigh"}{thigh circumference (cm)}
 \item{"Knee"}{knee circumference (cm)} \item{Ankle}{ankle
 circumference (cm)} \item{Biceps}{bicep (extended) circumference
 (cm)} \item{Forearm}{forearm circumference (cm)}
-\item{Wrist}{wrist circumference (cm)} }}
+\item{Wrist}{wrist circumference (cm)} }
+}
 \source{
 These data are used to produce the predictive equations for lean
 body weight given in the abstract "Generalized body composition prediction
