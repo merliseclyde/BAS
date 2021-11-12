@@ -1,19 +1,33 @@
+<<<<<<< HEAD
 on:
   push:
     branches:
       - main
       - master
+=======
+# Workflow derived from https://github.com/r-lib/actions/tree/master/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+on:
+  push:
+    branches: [main, master]
+    tags: ['*']
+>>>>>>> master
 
 name: pkgdown
 
 jobs:
   pkgdown:
+<<<<<<< HEAD
     runs-on: macOS-latest
+=======
+    runs-on: ubuntu-latest
+>>>>>>> master
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
 
+<<<<<<< HEAD
       - uses: r-lib/actions/setup-r@v1
 
       - uses: r-lib/actions/setup-pandoc@v1
@@ -45,4 +59,21 @@ jobs:
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
+=======
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - uses: r-lib/actions/setup-r@v1
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v1
+        with:
+          extra-packages: pkgdown
+          needs: website
+
+      - name: Deploy package
+        run: |
+          git config --local user.name "$GITHUB_ACTOR"
+          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+>>>>>>> master
           Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'

@@ -3,7 +3,7 @@
 
 
 void PrecomputeData(double *Xwork, double *Ywork, double *wts, double **pXtXwork, double **pXtYwork, double **pXtX, double **pXtY, double *yty, double *SSY, int p, int nobs) {
-	char uplo[] = "U", trans[]="T";
+//	char uplo[] = "U", trans[]="T";
 	double one=1.0, zero=0.0, nwts=0.0;
 	int inc=1, i, j,l;
 
@@ -30,7 +30,7 @@ void PrecomputeData(double *Xwork, double *Ywork, double *wts, double **pXtXwork
 
 	//precompute XtX
 
-	F77_NAME(dsyrk)(uplo, trans, &p, &nobs, &one, &Xwork[0], &nobs, &zero, *pXtX, &p);
+	F77_NAME(dsyrk)("U", "T", &p, &nobs, &one, &Xwork[0], &nobs, &zero, *pXtX, &p FCONE FCONE);
 
 	double ybar = 0.0;
 
@@ -42,7 +42,8 @@ void PrecomputeData(double *Xwork, double *Ywork, double *wts, double **pXtXwork
 	*SSY = *yty - (double) nwts* ybar *ybar;
 
 // compute X^TY
-	F77_NAME(dgemv)(trans, &nobs, &p, &one, &Xwork[0], &nobs, &Ywork[0], &inc, &zero, *pXtY,&inc);
+	F77_NAME(dgemv)("T", &nobs, &p, &one, &Xwork[0], &nobs, &Ywork[0], &inc, &zero, 
+                  *pXtY,&inc FCONE);
 }
 
 
@@ -149,7 +150,7 @@ int cholregpivot(double *XtY, double *XtX, double *coefficients, double *se, dou
 	}
 
 // compute Cholesky decomposition of X^TX using pivoting
-	F77_NAME(dpstrf)("U", &p, &XtX[0], &p, &piv[0], &rank, &tol, &work[0], &info);
+	F77_NAME(dpstrf)("U", &p, &XtX[0], &p, &piv[0], &rank, &tol, &work[0], &info FCONE);
 
 	// copy XtY to tmpcoef based on pivot order
   for (i=0; i < p; i++){
@@ -172,7 +173,7 @@ int cholregpivot(double *XtY, double *XtX, double *coefficients, double *se, dou
     }
  // solve for OLS as before
  //
- F77_NAME(dpotrs)("U", &rank, &inc, &work[0],&rank,&tmpcoef[0],&rank, &info);
+ F77_NAME(dpotrs)("U", &rank, &inc, &work[0],&rank,&tmpcoef[0],&rank, &info FCONE);
 
 
  /* R^TR b = XtY
@@ -225,7 +226,7 @@ ete = 0.0;
 
 //	Rprintf(" mse = %lf\n", *mse);
 
-   F77_NAME(dpotri)("U", &rank, &work[0],&rank, &job);
+   F77_NAME(dpotri)("U", &rank, &work[0],&rank, &job FCONE);
 //  QR2cov(&XtX[0], &work[0], &XtX[0], rank, p);
 
   memset(se, 0.0, p*sizeof(double));
@@ -259,12 +260,12 @@ void cholreg(double *XtY, double *XtX, double *coefficients, double *se, double 
   //  F77_NAME(dpstrf)("U", &p, &XtX[0],&p, &piv[0], &rank, &tol, &work[0], &info);
 
   // compute Cholesky decomposition of X^TX; no pivoting
-   F77_NAME(dpotrf)("U",&p, &XtX[0],&p, &info);
+   F77_NAME(dpotrf)("U",&p, &XtX[0],&p, &info FCONE);
  // solve for coefficients
-   F77_NAME(dpotrs)("U", &p, &inc, &XtX[0],&p,&coefficients[0],&p, &info);
+   F77_NAME(dpotrs)("U", &p, &inc, &XtX[0],&p,&coefficients[0],&p, &info FCONE);
 
   // Find inverse to obtain SE
-  F77_NAME(dpotri)("U", &p, &XtX[0],&p, &job);
+  F77_NAME(dpotri)("U", &p, &XtX[0],&p, &job FCONE);
   ete = F77_NAME(ddot)(&p, &coefficients[0], &inc, &XtY[0], &inc);
 
   if ( n <= p) {
@@ -516,7 +517,9 @@ double log_laplace_2F1(double a, double b, double c, double z)
   // root1 = (-B - sqrt(D))/(2.*A);
   // root2 = (-B + sqrt(D))/(2.*A);
 
-   ghat = (2.*b)/(c + b*(z - 2.0) - a*z + sqrt(c*c + 4*a*b*z -  2.0*(a + b)*c *z + (a -b )*(a-b)*z*z));
+
+ // ghat1 = (2.*b)/(c + b*(z - 2.0) - a*z + sqrt(c*c + 4*a*b*z -  2.0*(a + b)*c *z + (a -b )*(a-b)*z*z));
+  ghat = (2.*b)/(c + b*(z - 2.0) - a*z + sqrt(c*c + 4*a*b*z -  2.0*(a + b)*c *z + (a -b )*(a-b)*z*z));
 
  //  ghat2 =  -(c +b*(-2. + z) - a*z + sqrt(c*c + 4*a*b*z -  2.0*(a + b)*c *z + (a -b )*(a-b)*z*z))/(2.*(b - c)*(z - 1.));
 

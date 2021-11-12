@@ -1,6 +1,6 @@
 Package: BAS
 Version: 1.6.5
-Date: 2020-11-09
+Date: 2020-11-12
 Title: Bayesian Variable Selection and Model Averaging using Bayesian Adaptive Sampling
 Authors@R: c(person("Merlise", "Clyde", email="clyde@duke.edu",
 	   		       role=c("aut","cre", "cph"),
@@ -25,9 +25,7 @@ Suggests:
     GGally,
     rmarkdown,
     roxygen2,
-    dplyr,
-    testthat,
-    covr
+    dplyr
 Description: Bayesian Variable Selection and  Model Averaging 
     in linear models and generalized linear models implemented using
     prior distributions on coefficients based on
@@ -64,4 +62,5 @@ NeedsCompilation: yes
 ByteCompile: yes
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
+

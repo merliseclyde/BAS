@@ -1,3 +1,11 @@
+// before any R headers, or define in PKG_CPPFLAGS
+#define USE_FC_LEN_T
+#include <Rconfig.h>
+#include <R_ext/BLAS.h>
+#ifndef FCONE
+# define FCONE
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "mconf.h"
@@ -5,14 +13,13 @@
 #include <string.h>
 #include <float.h>
 #include <R.h>
-#include <Rconfig.h>
 #include <Rdefines.h>
 #include <Rmath.h>
 #include <Rinternals.h>
 #include <R_ext/Constants.h>
 #include <R_ext/Applic.h>
 #include <R_ext/Rdynload.h>
-#include <R_ext/BLAS.h>
+
 #include <R_ext/Lapack.h>
 #include <R_ext/Linpack.h>
 

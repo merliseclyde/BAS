@@ -247,13 +247,13 @@ pima.BIC = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
 
 }
 \references{
-Li, Y. and Clyde, M. (2019) Mixtures of g-priors in Generalized
+Li, Y. and Clyde, M. (2018) Mixtures of g-priors in Generalized
 Linear Models. Journal of the American Statistical Association. 113:1828-1845 \cr
-\url{https://dx.doi.org/10.1080/01621459.2018.1469992} \cr
+\doi{10.1080/01621459.2018.1469992} \cr
 Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive Sampling for
 Variable Selection and Model Averaging. Journal of Computational Graphics
 and Statistics.  20:80-101 \cr
-\url{https://dx.doi.org/10.1198/jcgs.2010.09049} \cr
+\doi{10.1198/jcgs.2010.09049} \cr
 Raftery, A.E, Madigan, D. and Hoeting, J.A. (1997) Bayesian Model Averaging
 for Linear Regression Models. Journal of the American Statistical
 Association.

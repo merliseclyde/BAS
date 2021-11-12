@@ -324,13 +324,13 @@ is.solaris<-function() {
 #' @references Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive
 #' Sampling for Variable Selection and Model Averaging. Journal of
 #' Computational Graphics and Statistics.  20:80-101 \cr
-#' \url{https://dx.doi.org/10.1198/jcgs.2010.09049}
+#' \doi{10.1198/jcgs.2010.09049}
 #'
 #' Clyde, M. and Ghosh. J. (2012) Finite population estimators in stochastic search variable selection.
-#' Biometrika, 99 (4), 981-988. \url{https://dx.doi.org/10.1093/biomet/ass040}
+#' Biometrika, 99 (4), 981-988. \doi{10.1093/biomet/ass040}
 #'
 #' Clyde, M. and George, E. I. (2004) Model Uncertainty. Statist. Sci., 19,
-#' 81-94. \cr \url{https://dx.doi.org/10.1214/088342304000000035}
+#' 81-94. \cr \doi{10.1214/088342304000000035}
 #'
 #' Clyde, M. (1999) Bayesian Model Averaging and Model Search Strategies (with
 #' discussion). In Bayesian Statistics 6. J.M. Bernardo, A.P. Dawid, J.O.
@@ -339,12 +339,12 @@ is.solaris<-function() {
 #' Hoeting, J. A., Madigan, D., Raftery, A. E. and Volinsky, C. T. (1999)
 #' Bayesian model averaging: a tutorial (with discussion). Statist. Sci., 14,
 #' 382-401. \cr
-#' \url{https://dx.doi.org/10.1214/ss/1009212519}
+#' \doi{10.1214/ss/1009212519}
 #'
 #' Liang, F., Paulo, R., Molina, G., Clyde, M. and Berger, J.O. (2008) Mixtures
 #' of g-priors for Bayesian Variable Selection. Journal of the American
 #' Statistical Association.  103:410-423.  \cr
-#' \url{https://dx.doi.org/10.1198/016214507000001337}
+#' \doi{10.1198/016214507000001337}
 #'
 #' Zellner, A. (1986) On assessing prior distributions and Bayesian regression
 #' analysis with g-prior distributions. In Bayesian Inference and Decision

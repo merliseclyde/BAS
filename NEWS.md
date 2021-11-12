@@ -1,4 +1,5 @@
-# BAS 1.5.6
+# BAS 1.6.5
+
 ## Changes
 
 * Updated tests and examples to use Suggested packages conditionally per CRAN policy 
@@ -7,6 +8,19 @@
 ## Bug Fixes
 
 * Fixed NaN results for the Laplace approximation in the 2F1 function (issue #46) and added unit test.
+
+
+# BAS 1.6.0
+
+## Changes
+
+* update Fortran code to be compliant with `USE_FC_LEN_T`  for character strings
+
+## Bug Fixes 
+
+* fixed warning in src code for `log_laplace_F21` which had an uninitialized variable 
+leading to NaN being returned from `R` function `hypergeometric2F1`
+>>>>>>> master
 
 # BAS 1.5.5
 
@@ -75,7 +89,7 @@ Fixed errors identified on cran checks https://cran.r-project.org/web/checks/che
 
 * Updates to package for [CII Best Practices Badge](https://bestpractices.coreinfrastructure.org/projects/2055)  certification
 
-* Added [Code Coverage](https://codecov.io/gh/merliseclyde/BAS) support and more extensive tests using `test_that`.
+* Added [Code Coverage](https://app.codecov.io/gh/merliseclyde/BAS) support and more extensive tests using `test_that`.
 
 ## Bugs
 

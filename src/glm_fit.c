@@ -55,7 +55,7 @@ SEXP glm_bas(SEXP RX, SEXP RY, glmstptr *glmfamily, SEXP Roffset, SEXP Rweights,
 
 	int   i, j, l, rank=1, *pivot=INTEGER(Rpivot), conv=0;
 
-        char  trans[]="N";
+  char  trans[]="N";
 
 	//	glmstptr *glmfamily;
 	//      glmfamily = make_glmfamily_structure(family);
@@ -111,7 +111,8 @@ SEXP glm_bas(SEXP RX, SEXP RY, glmstptr *glmfamily, SEXP Roffset, SEXP Rweights,
 		}
 
 		F77_NAME(dcopy)(&n, &offset[0], &inc, &eta[0], &inc);
-		F77_NAME(dgemv)(trans, &n, &p, &one, &X[0], &n, &coef[0], &inc, &one, &eta[0],&inc);
+		F77_NAME(dgemv)("N", &n, &p, &one, &X[0], &n, &coef[0], &inc, &one, &eta[0],&inc 
+                    FCONE);
 
 		glmfamily->linkinv(eta, mu, n);
 		glmfamily->dev_resids(Y, mu, weights, residuals, n);

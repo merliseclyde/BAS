@@ -32,7 +32,7 @@ The proxies are coded as\cr
 \item{ \emph{latitude}}{the latitude where the data were collected.}}
 }
 \source{
-Data provided originally by Michael Lavine and available at \url{https://stat.duke.edu/sites/stat.duke.edu/files/climate.dat}
+Data provided originally by Michael Lavine
 }
 \description{
 Climate Data

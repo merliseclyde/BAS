@@ -38,22 +38,22 @@ demo(BAS.USCrime)
 Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive
 Sampling for Variable Selection and Model Averaging. Journal of
 Computational Graphics and Statistics.  20:80-101 \cr
-\url{https://dx.doi.org/10.1198/jcgs.2010.09049}
+\doi{10.1198/jcgs.2010.09049}
 
 Clyde, M. and George, E. I. (2004) Model uncertainty. Statist. Sci., 19,
-81-94. \cr \url{https://dx.doi.org/10.1214/088342304000000035}
+81-94. \cr \doi{10.1214/088342304000000035}
 
 Clyde, M. (1999) Bayesian Model Averaging and Model Search Strategies (with
 discussion). In Bayesian Statistics 6. J.M. Bernardo, A.P. Dawid, J.O.
 Berger, and A.F.M. Smith eds. Oxford University Press, pages 157-185.
 
-Li, Y. and Clyde, M. (2015) Mixtures of g-priors in Generalized Linear
-Models.  \url{https://arxiv.org/abs/1503.06913}
+Li, Y. and Clyde, M. (2018) Mixtures of g-priors in Generalized Linear
+Models. Journal of the American Statistical Association, 113:524, 1828-1845 \doi{10.1080/01621459.2018.1469992}
 
 Liang, F., Paulo, R., Molina, G., Clyde, M. and Berger, J.O. (2008) Mixtures
 of g-priors for Bayesian Variable Selection. Journal of the American
 Statistical Association. 103:410-423.  \cr
-\url{https://dx.doi.org/10.1198/016214507000001337}
+\doi{10.1198/016214507000001337}
 }
 \seealso{
 \code{\link[BAS]{bas.lm}} \code{\link[BAS]{bas.glm}}
