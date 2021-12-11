@@ -4,7 +4,7 @@
 \alias{phi1}
 \title{Compound Confluent hypergeometric function of two variables}
 \usage{
-phi1(a, b, c, x, y)
+phi1(a, b, c, x, y, log = FALSE)
 }
 \arguments{
 \item{a}{a > 0}
@@ -16,6 +16,8 @@ phi1(a, b, c, x, y)
 \item{x}{x > 0}
 
 \item{y}{0 <= y < 1}
+
+\item{log}{logical indicating whether to return phi1 on the log scale}
 }
 \description{
 Compute the Confluent Hypergeometric function of two variables, also know as
@@ -23,7 +25,7 @@ a Horn hypergeometric function or Humbert's hypergeometric used in Gordy
 (1998) with integral representation:
 }
 \details{
-phi_1(a,b,c,x,y) = Beta(a,b) Int_0^1
+phi_1(a,b,c,x,y) =  (Gamma(c)/Gamma(a) Gamma(a-c)) Int_0^1
 t^(a-1) (1 - t)^(c-a-1) (1 - yt)^(-b) exp(x t) dt
 \url{https://en.wikipedia.org/wiki/Humbert_series} Note that Gordy's
 arguments for x and y are reversed in the reference above.
@@ -50,7 +52,7 @@ Other special functions:
 \code{\link{hypergeometric2F1}()}
 }
 \author{
-Merlise Clyde (\email{clyde@stat.duke.edu})
+Merlise Clyde (\email{clyde@duke.edu})
 }
 \concept{special functions}
 \keyword{math}

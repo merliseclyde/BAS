@@ -10,7 +10,7 @@ extern void gexpectations_vect(void *, void *, void *, void *, void *, void *, v
 extern void hypergeometric1F1(void *, void *, void *, void *, void *, void *);
 extern void hypergeometric2F1(void *, void *, void *, void *, void *);
 extern void logHyperGauss2F1(void *, void *, void *, void *, void *);
-extern void phi1(void *, void *, void *, void *, void *, void *, void *);
+extern void phi1(void *, void *, void *, void *, void *, void *, void *, void*, void*);
 
 /* .Call calls */
 extern SEXP glm_deterministic(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
@@ -30,7 +30,7 @@ static const R_CMethodDef CEntries[] = {
   {"hypergeometric1F1",  (DL_FUNC) &hypergeometric1F1,  6},
   {"hypergeometric2F1",  (DL_FUNC) &hypergeometric2F1,  5},
   {"logHyperGauss2F1",   (DL_FUNC) &logHyperGauss2F1,   5},
-  {"phi1",               (DL_FUNC) &phi1,               7},
+  {"phi1",               (DL_FUNC) &phi1,               9},
   {NULL, NULL, 0}
 };
 

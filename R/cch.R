@@ -4,7 +4,7 @@
 #' a Horn hypergeometric function or Humbert's hypergeometric used in Gordy
 #' (1998) with integral representation:
 #'
-#'  phi_1(a,b,c,x,y) = Beta(a,b) Int_0^1
+#'  phi_1(a,b,c,x,y) =  (Gamma(c)/Gamma(a) Gamma(a-c)) Int_0^1
 #' t^(a-1) (1 - t)^(c-a-1) (1 - yt)^(-b) exp(x t) dt
 #' \url{https://en.wikipedia.org/wiki/Humbert_series} Note that Gordy's
 #' arguments for x and y are reversed in the reference above.
@@ -17,7 +17,8 @@
 #' @param c c > 0
 #' @param x x > 0
 #' @param y 0 <= y < 1
-#' @author Merlise Clyde (\email{clyde@@stat.duke.edu})
+#' @param log logical indicating whether to return phi1 on the log scale
+#' @author Merlise Clyde (\email{clyde@@duke.edu})
 #' @references Gordy 1998
 #' @keywords math
 #' @examples
@@ -35,13 +36,17 @@
 #' @export
 #'
 #'
-phi1 <- function(a, b, c, x, y) {
-  # phi1 = int u^{t-1} (1 - v u)^{q - 1} e^-{s u} /B(t, q) (theta
+phi1 <- function(a, b, c, x, y, log=FALSE) {
+  #  phi_1(a,b,c,x,y) =  (Gamma(c)/Gamma(a) Gamma(a-c)) Int_0^1
+  # t^(a-1) (1 - t)^(c-a-1) (1 - yt)^(-b) exp(x t) dt
   na <- length(a)
   nb <- length(b)
   nc <- length(c)
   nx <- length(x)
   ny <- length(y)
+  
+  if (any(y < 0 | y >= 1) )stop("y is outside of [0, 1)")
+  if (any(x < 0)) stop("x must be >= 0")
 
   ns = c(na,nb, nc, nx, ny)
   n = max(ns)
@@ -49,6 +54,13 @@ phi1 <- function(a, b, c, x, y) {
   if ((n > 1) && (mean(ns) != n)) {
     stop("length of inputs are not the same")
   }
+  
+  MV = log(.Machine$double.xmax)/2
+  MX = max(x)
+  div = ceiling(MX/MV)
+  scale = 1/exp(max(0, (MX - MV)/div))
+
+  
   out <- rep(0, n)
   ans <- .C(C_phi1,
             as.numeric(a),
@@ -56,6 +68,9 @@ phi1 <- function(a, b, c, x, y) {
             as.numeric(c),
             as.numeric(x),
             as.numeric(y),
+            as.integer(div),
+            as.numeric(scale),
             out = as.numeric(out), as.integer(n))$out
+  if (!log) ans=exp(ans)
   return(ans)
 }

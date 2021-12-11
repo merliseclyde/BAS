@@ -2,7 +2,7 @@
 % Please edit documentation in R/hypergeometric1F1.R
 \name{hypergeometric1F1}
 \alias{hypergeometric1F1}
-\title{Confluent hypergeometric2F1 function}
+\title{Confluent hypergeometric1F1 function}
 \usage{
 hypergeometric1F1(a, b, c, laplace = FALSE, log = TRUE)
 }

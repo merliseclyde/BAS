@@ -1,3 +1,13 @@
+# BAS 1.6.1
+
+## Changes
+
+Rewrote `phi1` function to use direct numerical integration when Wald statistic is large so that marginal likelihoods are not NA as suggested by Daniel Heeman and Alexander Ly
+
+## Bug Fixes
+
+added internal function for `phi1_int` when the original `HyperTwo` function in the original `phi1` function returns NA [Issue #55](https://github.com/merliseclyde/BAS/issues/55)
+
 # BAS 1.6.0
 
 ## Changes
