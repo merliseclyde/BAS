@@ -24,6 +24,7 @@ bas.glm(
   bestmodel = NULL,
   prob.rw = 0.5,
   MCMC.iterations = NULL,
+  thin = 1,
   control = glm.control(),
   laplace = FALSE,
   renormalize = FALSE,
@@ -131,6 +132,13 @@ model.}
 
 \item{MCMC.iterations}{Number of models to sample when using any of the MCMC
 options; should be greater than 'n.models'. By default 10*n.models.}
+
+\item{thin}{oFr "MCMC", thin the MCMC chain every "thin" iterations; default 
+is no
+thinning.  For large p, thinning can be used to significantly reduce memory
+requirements as models and associated summaries are saved only every thin 
+iterations.  For thin = p, the  model and associated output are recorded 
+every p iterations,similar to the Gibbs sampler in SSVS.}
 
 \item{control}{a list of parameters that control convergence in the fitting
 process.  See the documentation for \code{glm.control()}}

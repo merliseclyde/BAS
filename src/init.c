@@ -15,7 +15,7 @@ extern void phi1(void *, void *, void *, void *, void *, void *, void *, void*, 
 /* .Call calls */
 extern SEXP glm_deterministic(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP glm_fit(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP glm_mcmc(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP glm_mcmc(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP glm_mcmcbas(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP glm_sampleworep(SEXP,SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP deterministic(SEXP,SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
@@ -37,7 +37,7 @@ static const R_CMethodDef CEntries[] = {
 static const R_CallMethodDef CallEntries[] = {
   {"glm_deterministic", (DL_FUNC) &glm_deterministic, 11},
   {"glm_fit",           (DL_FUNC) &glm_fit,            7},
-  {"glm_mcmc",          (DL_FUNC) &glm_mcmc,          15},
+  {"glm_mcmc",          (DL_FUNC) &glm_mcmc,          16},
   {"glm_mcmcbas",       (DL_FUNC) &glm_mcmcbas,       16},
   {"glm_sampleworep",   (DL_FUNC) &glm_sampleworep,   15},
   {"mcmc_new",          (DL_FUNC) &mcmc_new,          20},

@@ -5,7 +5,7 @@
 SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	      SEXP Rprobinit, SEXP Rmodeldim,
 	      SEXP modelprior,  SEXP betaprior, SEXP Rbestmodel,  SEXP plocal,
-	      SEXP BURNIN_Iterations,
+	      SEXP BURNIN_Iterations, SEXP Rthin, 
 	      SEXP family, SEXP Rcontrol, SEXP Rlaplace, SEXP Rparents
 			  )
 {
@@ -46,6 +46,8 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	//get dimsensions of all variables
 	int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
 	int k = LENGTH(modelprobs);
+	
+	int thin = INTEGER(Rthin)[0];
 
 	struct Var *vars = (struct Var *) R_alloc(p, sizeof(struct Var)); // Info about the model variables.
 	probs =  REAL(Rprobs);
@@ -151,22 +153,23 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		MH *= exp(postnew - postold);
 		//    Rprintf("MH new %lf old %lf\n", postnew, postold);
 		if (unif_rand() < MH) {
-			if (newmodel == 1)  {
+		 if (newmodel == 1)  {
+			if ((m % thin) == 0 )  {
 			  new_loc = nUnique;
 			  insert_model_tree(tree, vars, n, model, nUnique);
 			  INTEGER(modeldim)[nUnique] = pmodel;
 				//Rprintf("model %d: %d variables\n", m, pmodel);
 			  SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
 			  SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept, nUnique);
-
-			  UNPROTECT(2);
 			  ++nUnique;
 			}
+			UNPROTECT(2);
+		 }
 			old_loc = new_loc;
 			postold = postnew;
 			pmodel_old = pmodel;
 			memcpy(modelold, model, sizeof(int)*p);
-		} else  {
+		 } else  {
 			if (newmodel == 1) UNPROTECT(2);
 		}
 		INTEGER(counts)[old_loc] += 1;
@@ -175,7 +178,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 			real_model[n-1-i] = (double) modelold[vars[i].index];
 			REAL(MCMCprobs)[vars[i].index] += (double) modelold[vars[i].index];
 		}
-		m++;
+	m++;
 	}
 
 	for (i = 0; i < n; i++) {
