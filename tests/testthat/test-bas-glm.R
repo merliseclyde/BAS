@@ -420,3 +420,29 @@ test_that("herdity and BAS", {
   expect_equal(0L, sum(duplicated(pima_BAS$which)))
 })
 
+# issue 55 in progress
+test_that("phi1 and NAs in bas.glm", {
+  # parameters for the hyper g/n function
+  a1 = 1
+  b1 = 2
+  r1 = 1.5
+  s1 = 0
+  v1 = 1
+  
+  example_df_large <- structure(list(Var1 = structure(c(1L, 2L, 1L, 2L, 1L, 2L, 1L, 2L), 
+                                                      .Label = c("A", "B"), class = "factor"), 
+                                     Var2 = structure(c(1L, 1L, 2L, 2L, 1L, 1L, 2L, 2L),
+                                                      .Label = c("A", "B"), class = "factor"), 
+                                     Var3 = structure(c(1L, 1L, 1L, 1L, 2L, 2L, 2L, 2L),
+                                                      .Label = c("A", "B"), class = "factor"), 
+                                     Freq = c(120L, 85L, 266L, 301L,  101L, 146L, 523L, 958L)), 
+                                class = "data.frame", row.names = c(NA,-8L))
+  b <-  bas.glm(Freq ~ Var1 + Var2 + Var3 + Var1*Var3 +Var2*Var3 + Var1*Var2, 
+                data=example_df_large,
+                family=poisson(),
+                betaprior= hyper.g.n(), modelprior=uniform(),
+                include.always = "~ 1 + Var1 + Var2 + Var3 + Var1*Var3 + Var2*Var3",
+                n.models=2^10, MCMC.iterations=10,
+                prob.rw=.95)
+  expect_equal(TRUE, is.finite(exp(b$logmarg[2] - b$logmarg[1])))
+})

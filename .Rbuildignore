@@ -15,6 +15,7 @@ stylesheets/
 NAMESPACE-preRoxygen
 BAS-Ex.Rout.fail
 BAS-Ex.R
+run_checks.R
 docs/*
 inst/docs/*
 _pkgdown.yml

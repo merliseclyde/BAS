@@ -1,6 +1,4 @@
-# BAS 1.6.0  Comments to CRAN
-
-## submission to include  USE_FC_LEN_T for calls to Fortran subroutines with character strings in light of requirement under R 4.2.0
+# BAS 1.6.1 Comments to CRAN
 
 
 ## Test environments

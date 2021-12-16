@@ -2,11 +2,11 @@
 
 ## Changes
 
-Rewrote `phi1` function to use direct numerical integration when Wald statistic is large so that marginal likelihoods are not NA as suggested by Daniel Heeman and Alexander Ly
+Rewrote `phi1` function to use direct numerical integration (`phi1_int`) when Wald statistic is large so that marginal likelihoods are not NA as suggested by Daniel Heeman and Alexander Ly (see below).  This should improve stability of estimates of Bayes Factors and model probabilities from `bas.glm` that used the `HyperTwo` function, including coefficient priors for `hyper.g.n()`, `robust()`, and `intrinsic()`.  Added additional unit tests.
 
 ## Bug Fixes
 
-added internal function for `phi1_int` when the original `HyperTwo` function in the original `phi1` function returns NA [Issue #55](https://github.com/merliseclyde/BAS/issues/55)
+added internal function for `phi1_int` when the original `HyperTwo` function returns NA [Issue #55](https://github.com/merliseclyde/BAS/issues/55)  See more details above.
 
 # BAS 1.6.0
 
