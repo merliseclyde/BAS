@@ -161,8 +161,8 @@ double Jeffreys_glm_logmarg(SEXP hyperparams, int pmodel, double W,
 
 double tCCH_glm_logmarg(SEXP hyperparams, int pmodel, double W,
 		       double loglik_mle, double logdet_Iintercept, int Laplace ) {
-  double a, b, s, r, v, theta, logmarglik, p, scale, MV=307;
-  int div;
+  double a, b, s, r, v, theta, logmarglik, p;
+
 
   a = REAL(getListElement(hyperparams, "alpha"))[0];
   b = REAL(getListElement(hyperparams, "beta"))[0];
@@ -171,10 +171,9 @@ double tCCH_glm_logmarg(SEXP hyperparams, int pmodel, double W,
   v = REAL(getListElement(hyperparams, "v"))[0];
   theta =  REAL(getListElement(hyperparams, "theta"))[0];
 
-  scale = 1.0;
-  div= 1L;
+
   p = (double) pmodel;
-  double MY = (s + W)/(2.0*v);
+
 //  div= ceil(MY/MV);
 //  scale = 1.0/exp(fmax2(0.0, (MY - MV)/div));
   
@@ -186,8 +185,8 @@ double tCCH_glm_logmarg(SEXP hyperparams, int pmodel, double W,
       -.5*p*log(v) -.5*W/v
       - lbeta(a / 2.0, b / 2.0)
       - phi1_int(b/2.0, r, (a + b)/2.0, (s)/(2.0*v), 1.0 - theta, div, scale);  */
-      logmarglik += tcch_int((a + p)/2, b/2, r, (s + W)/2, v, theta,  div, scale) -
-                    tcch_int(a/2, b/2, r, s/2, v, theta,  div, scale) ;
+      logmarglik += tcch_int((a + p)/2, b/2, r, (s + W)/2, v, theta) -
+                    tcch_int(a/2, b/2, r, s/2, v, theta) ;
   }
 //  Rprintf("integrate: tcch=%lf W=%lf a=%lf b=%lf r=%lf v=%lf  k = %lf, scale=%le div=%lf\n", 
 //          logmarglik,  W, a, b, r, v, theta, scale, div);
@@ -195,8 +194,7 @@ double tCCH_glm_logmarg(SEXP hyperparams, int pmodel, double W,
 }
 
 double tCCH_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace ) {
-  double a, b, s, r, v, theta, p, shrinkage, scale, MV=307;
-  int div;
+  double a, b, s, r, v, theta, p, shrinkage;
 
   a = REAL(getListElement(hyperparams, "alpha"))[0];
   b = REAL(getListElement(hyperparams, "beta"))[0];
@@ -206,15 +204,11 @@ double tCCH_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace ) 
   theta =  REAL(getListElement(hyperparams, "theta"))[0];
 
   p = (double) pmodel;
-  double MY = (s + W)/(2.0*v);
- 
-  scale = 1.0;
-  div= 1L; 
 
   shrinkage = 1.0;
   if (p >= 1.0) {
-   shrinkage -= exp(tcch_int((a + p + 2.0)/2.0, b/2.0, r, (s + W)/2.0, v, theta,  div, scale) -
-                    tcch_int((a + p)/2, b/2.0, r, (s + W)/2.0, v, theta,  div, scale));
+   shrinkage -= exp(tcch_int((a + p + 2.0)/2.0, b/2.0, r, (s + W)/2.0, v, theta) -
+                    tcch_int((a + p)/2, b/2.0, r, (s + W)/2.0, v, theta));
   }
 
   return(shrinkage);
@@ -243,7 +237,7 @@ double intrinsic_glm_logmarg(SEXP hyperparams, int pmodel, double W,
   logmarglik =   loglik_mle + M_LN_SQRT_2PI - 0.5* logdet_Iintercept;
   if (p >= 1.0) {
     logmarglik +=   lbeta((a + p) / 2.0, b / 2.0)
-      + phi1_int(b/2.0, r, (a + b + p)/2.0, (s+W)/(2.0*v), 1.0 - theta, div, scale)
+      + 
       -.5*p*log(v) -.5*W/v
       - lbeta(a / 2.0, b / 2.0)
       - phi1_int(b/2.0, r, (a + b)/2.0, s/(2.0*v), 1.0 - theta, div, scale);

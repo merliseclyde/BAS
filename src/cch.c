@@ -138,7 +138,7 @@ for (i=0; i < n; i++) {
   UNPROTECT(2);
 }
 
-double tcch_int(double a, double b, double r, double s, double v,  double k, int div, double scale) {
+double tcch_int(double a, double b, double r, double s, double v,  double k) {
   
   
   
@@ -165,9 +165,7 @@ double tcch_int(double a, double b, double r, double s, double v,  double k, int
   REAL(Rtheta)[3] = s;
   REAL(Rtheta)[4] = v;
   REAL(Rtheta)[5] = k;
-  REAL(Rtheta)[6] = (double) div;
-  REAL(Rtheta)[7] = scale;
-  
+
   
  // if (v <= 0 | v > 1)  Rprintf("Error in tcch: v is outside [0, 1)");
   upper = 1.0/v;
@@ -180,18 +178,17 @@ double tcch_int(double a, double b, double r, double s, double v,  double k, int
          &abserr,&neval,&ier,&limit,&lenw,&last,iwork,work);
   
   if (!R_FINITE(result)) {
-    Rprintf("ttch return Inf: int %lf s=%lf a=%lf b=%lf r=%lf  v= %lf k=%lf div= %lf scale=%le lower=%lf upper=%lf\n", 
-            log(result), s, a, b, r, v, k, (double) div, scale, lower, upper);
+    Rprintf("ttch return Inf: int %lf s=%lf a=%lf b=%lf r=%lf  v= %lf k=%lf lower=%lf upper=%lf\n", 
+            log(result), s, a, b, r, v, k, lower, upper);
   }
-  
   UNPROTECT(1);
   return(log(result));
 }
 
 void tcch_density(double *u, int n, SEXP Rtheta) {
   
-  double a, b, r, s, v, k, scale, z;
-  int i, j, div;
+  double a, b, r, s, v, k, z;
+  int i, j;
   
   PROTECT(Rtheta);
   SEXP Rex = PROTECT(duplicate(Rtheta));
@@ -202,9 +199,7 @@ void tcch_density(double *u, int n, SEXP Rtheta) {
   s = REAL(Rex)[3];
   v = REAL(Rex)[4];
   k = REAL(Rex)[5];
-  div = REAL(Rex)[6]; 
-  scale = REAL(Rex)[7];
-  
+ 
   
   for (i=0; i < n; i++) {
     z = u[i];
@@ -289,12 +284,12 @@ void phi1(double *a, double *b, double *c, double *x, double *y, int *div, doubl
 }
 
 void tcch(double *a, double *b, double *r, double *s, double *v, double *theta, 
-          int *div, double *scale, double *tcch, 
+          double *tcch, 
           int *npara)
 {
   int k;
   
     for (k = 0; k < *npara; k++) {
-      tcch[k] = tcch_int(a[k], b[k], r[k], s[k], v[k], theta[k], *div, *scale); 
+      tcch[k] = tcch_int(a[k], b[k], r[k], s[k], v[k], theta[k]); 
     }
 }

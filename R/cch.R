@@ -156,13 +156,7 @@ trCCH <- function(a, b, r, s, v, k, log=FALSE) {
   if ((n > 1) && (mean(ns) != n)) {
     stop("length of inputs are not the same")
   }
-  
-  div = 1; scale = 1;
-#  MV = log(.Machine$double.xmax)/2
-#  MX = max(s)
-#  div = ceiling(MX/MV)
-#  scale = 1/exp(max(0, (MX - MV)/div))
-  
+
   
   out <- rep(0, n)
   ans <- .C(C_tcch,
@@ -172,8 +166,6 @@ trCCH <- function(a, b, r, s, v, k, log=FALSE) {
             as.numeric(s),
             as.numeric(v),
             as.numeric(k),
-            as.integer(div),
-            as.numeric(scale),
             out = as.numeric(out), as.integer(n))$out
   if (!log) ans=exp(ans)
   return(ans)
