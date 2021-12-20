@@ -34,7 +34,8 @@ Cephes library hyp1f1.c
 \seealso{
 Other special functions: 
 \code{\link{hypergeometric2F1}()},
-\code{\link{phi1}()}
+\code{\link{phi1}()},
+\code{\link{trCCH}()}
 }
 \author{
 Merlise Clyde (\email{clyde@stat.duke.edu})

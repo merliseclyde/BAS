@@ -50,7 +50,8 @@ Statistical Association.  103:410-423.  \cr
 \seealso{
 Other special functions: 
 \code{\link{hypergeometric1F1}()},
-\code{\link{phi1}()}
+\code{\link{phi1}()},
+\code{\link{trCCH}()}
 }
 \author{
 Merlise Clyde (\email{clyde@duke.edu})

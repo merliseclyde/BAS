@@ -15,7 +15,7 @@ phi1(a, b, c, x, y, log = FALSE)
 
 \item{x}{x > 0}
 
-\item{y}{0 <= y < 1}
+\item{y}{y > 0}
 
 \item{log}{logical indicating whether to return phi1 on the log scale}
 }
@@ -58,7 +58,8 @@ Gordy 1998
 \seealso{
 Other special functions: 
 \code{\link{hypergeometric1F1}()},
-\code{\link{hypergeometric2F1}()}
+\code{\link{hypergeometric2F1}()},
+\code{\link{trCCH}()}
 }
 \author{
 Merlise Clyde (\email{clyde@duke.edu})

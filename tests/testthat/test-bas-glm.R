@@ -249,14 +249,14 @@ test_that("cch prior for GLM", {
 test_that("Tcch prior for GLM", {
   data(Pima.tr, package = "MASS")
   pima_Tcch <- bas.glm(type ~ ., data = Pima.tr, method = "BAS",
-    betaprior = tCCH(alpha = 2), family = binomial(),
+    betaprior = tCCH(alpha = 2, b = 2), family = binomial(),
     modelprior = uniform()
   )
   pima_cch <- bas.glm(type ~ ., data = Pima.tr, method = "BAS",
     betaprior = CCH(2, 2), family = binomial(),
     modelprior = uniform()
   )
-  expect_equal(pima_cch$probne0, pima_Tcch$probne0)
+  expect_equal(pima_cch$probne0, pima_Tcch$probne0, tolerance = .00001)
   pima_tcch <- bas.glm(type ~ ., data = Pima.tr,
                        method = "BAS",
                        betaprior = tCCH(alpha = 1,

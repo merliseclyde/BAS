@@ -60,8 +60,6 @@ static void Cintfn(double *x, int n, void *ex)
 
 double phi1_int(double a, double b, double c, double x, double y, int div, double scale) {
   
- 
-  
   // use R's integrate code from QUADPACK to obtain marginal likelihood
 
     double offset = 0.0, lower = 0.0, upper = 1.0, epsabs, epsrel;
@@ -87,7 +85,7 @@ double phi1_int(double a, double b, double c, double x, double y, int div, doubl
     REAL(Rtheta)[5] = (double) div;
     REAL(Rtheta)[6] = scale;
     
-    
+//    if (y <= 0 )  Rprintf("Error in Phi1: y  <= 0");
     
     is.f = phi1_density;
     is.theta = Rtheta;
@@ -109,7 +107,7 @@ double phi1_int(double a, double b, double c, double x, double y, int div, doubl
 
 void phi1_density(double *u, int n, SEXP Rtheta) {
 
-  double a,b,c,x,y,t,div, scale;
+  double a,b,c,x,y,z,div, scale;
   int i, j;
 
   PROTECT(Rtheta);
@@ -122,15 +120,17 @@ void phi1_density(double *u, int n, SEXP Rtheta) {
   y = REAL(Rex)[4];
   div = REAL(Rex)[5]; 
   scale = REAL(Rex)[6];
+  
+
 
 for (i=0; i < n; i++) {
-  t = u[i];
-  u[i] =  exp((a - 1.0)*log(t) + (c - a - 1.0)*log(1.0 - t) - b*log(1.0 - y*t));
+  z = u[i];
+  u[i] =  exp((a - 1.0)*log(z) + (c - a - 1.0)*log(1.0 - z) - b*log(1.0 - y*z));
   for (j=0; j < (int) div; j++) {
-    u[i] *= scale*exp(t*x/div);
+    u[i] *= scale*exp(z*x/div);
   }
   if (!R_FINITE(u[i])) {
-    Rprintf("integrate: t= %lf phi1=%lf W=%lf a=%lf b=%lf c=%lf y=%lf scale=%le div=%lf\n", t, u[i], x, a, b, c, y, scale, div);
+    Rprintf("integrate: z= %lf phi1=%lf W=%lf a=%lf b=%lf c=%lf y=%lf scale=%le div=%lf\n", z, u[i], x, a, b, c, y, scale, div);
     }
   
   u[i] *=  exp(lgammafn(c) -lgammafn(a) - lgammafn(c - a));
@@ -138,7 +138,91 @@ for (i=0; i < n; i++) {
   UNPROTECT(2);
 }
 
+double tcch_int(double a, double b, double r, double s, double v,  double k, int div, double scale) {
   
+  
+  
+  // use R's integrate code from QUADPACK to obtain marginal likelihood
+  
+  double offset = 0.0, lower = 0.0, upper,  epsabs, epsrel;
+  double result, abserr, *work;
+  int neval, ier, limit=200, lenw, last, *iwork;
+  SEXP Rtheta;
+  C_int_struct is;
+  
+  
+  epsabs = R_pow(DOUBLE_EPS, 0.25);
+  epsrel = epsabs;
+  lenw = 4 * limit;
+  iwork = (int *) R_alloc((size_t) limit, sizeof(int));
+  work = (double *) R_alloc((size_t) lenw, sizeof(double));
+  
+  
+  PROTECT(Rtheta = allocVector(REALSXP, 8));
+  REAL(Rtheta)[0] = a;
+  REAL(Rtheta)[1] = b;
+  REAL(Rtheta)[2] = r;
+  REAL(Rtheta)[3] = s;
+  REAL(Rtheta)[4] = v;
+  REAL(Rtheta)[5] = k;
+  REAL(Rtheta)[6] = (double) div;
+  REAL(Rtheta)[7] = scale;
+  
+  
+ // if (v <= 0 | v > 1)  Rprintf("Error in tcch: v is outside [0, 1)");
+  upper = 1.0/v;
+  
+  is.f = tcch_density;
+  is.theta = Rtheta;
+  
+  
+  Rdqags(Cintfn, (void*)&is, &lower,&upper,&epsabs,&epsrel,&result,
+         &abserr,&neval,&ier,&limit,&lenw,&last,iwork,work);
+  
+  if (!R_FINITE(result)) {
+    Rprintf("ttch return Inf: int %lf s=%lf a=%lf b=%lf r=%lf  v= %lf k=%lf div= %lf scale=%le lower=%lf upper=%lf\n", 
+            log(result), s, a, b, r, v, k, (double) div, scale, lower, upper);
+  }
+  
+  UNPROTECT(1);
+  return(log(result));
+}
+
+void tcch_density(double *u, int n, SEXP Rtheta) {
+  
+  double a, b, r, s, v, k, scale, z;
+  int i, j, div;
+  
+  PROTECT(Rtheta);
+  SEXP Rex = PROTECT(duplicate(Rtheta));
+  
+  a = REAL(Rex)[0];
+  b = REAL(Rex)[1];
+  r = REAL(Rex)[2];
+  s = REAL(Rex)[3];
+  v = REAL(Rex)[4];
+  k = REAL(Rex)[5];
+  div = REAL(Rex)[6]; 
+  scale = REAL(Rex)[7];
+  
+  
+  for (i=0; i < n; i++) {
+    z = u[i];
+    u[i] =  (a - 1.0)*log(z) + 
+            (b - 1.0)*log(1.0 - v*z) - r*log(k + (1.0 - k)*v*z);
+//    for (j=0; j < (int) div; j++) {
+    u[i] += -z*s;
+//    }
+    u[i] = exp(u[i]);
+ /*   if (!R_FINITE(u[i])) {
+      Rprintf("integrate: z= %lf tcch=%lf W=%lf a=%lf b=%lf r=%lf v=%lf  k = %lf, scale=%le div=%lf\n", 
+              z, u[i], a, b, r, v, k, scale, div);
+    }
+*/
+  }
+  UNPROTECT(2);
+}
+
 
 /*--------------------------------------------------------------------------
   HyperTwo
@@ -204,3 +288,13 @@ void phi1(double *a, double *b, double *c, double *x, double *y, int *div, doubl
   }
 }
 
+void tcch(double *a, double *b, double *r, double *s, double *v, double *theta, 
+          int *div, double *scale, double *tcch, 
+          int *npara)
+{
+  int k;
+  
+    for (k = 0; k < *npara; k++) {
+      tcch[k] = tcch_int(a[k], b[k], r[k], s[k], v[k], theta[k], *div, *scale); 
+    }
+}
