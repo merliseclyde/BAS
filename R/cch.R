@@ -91,12 +91,13 @@ phi1 <- function(a, b, c, x, y, log=FALSE) {
 #'  (2018) which is the normalizing constant in the tcch density of Gordy
 #' (1998) with integral representation:
 #'
-#'  trunc.cch(a,b,r,s,v,k) =  Int_0^1/v
-#' u^(a-1) (1 - vu)^(b -1) (k + (1 - k)vu)^(-r) exp(-s u) du
+#' tr.cch(a,b,r,s,v,k) =  Int_0^1/v
+#'                     u^(a-1) (1 - vu)^(b -1) (k + (1 - k)vu)^(-r) exp(-s u) du
 #' 
 #' This uses a more 
 #' stable method for calculating the normalizing constant using R's `integrate` 
-#' function rather than the version in Gordy 1998. For calculating Bayes factors that use the `trCCH` function we 
+#' function rather than the version in Gordy 1998. For calculating Bayes factors 
+#' that use the `trCCH` function we 
 #' recommend using the `log=TRUE` option to compute log Bayes factors.
 #'
 #'
@@ -133,7 +134,7 @@ phi1 <- function(a, b, c, x, y, log=FALSE) {
 #' 
 #' phi1(a, r,  a + b, -s, 1 - 1/k,  log=FALSE)*(k^-r)*gamma(a)*gamma(b)/gamma(a+b)
 #' trCCH(a,b,r,s,v,k)
-#' @rdname TrCCH
+#' @rdname trCCH
 #' @family special functions
 #' @export
 trCCH <- function(a, b, r, s, v, k, log=FALSE) {
