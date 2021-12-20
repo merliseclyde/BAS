@@ -174,17 +174,9 @@ double tCCH_glm_logmarg(SEXP hyperparams, int pmodel, double W,
 
   p = (double) pmodel;
 
-//  div= ceil(MY/MV);
-//  scale = 1.0/exp(fmax2(0.0, (MY - MV)/div));
-  
   logmarglik =   loglik_mle + M_LN_SQRT_2PI - 0.5* logdet_Iintercept;
   
   if (p >= 1.0) {
- /*   logmarglik +=   lbeta((a + p) / 2.0, b / 2.0)
-      + phi1_int(b/2.0, r, (a + b + p)/2.0, (s + W)/(2.0*v), 1.0 - theta, div, scale)
-      -.5*p*log(v) -.5*W/v
-      - lbeta(a / 2.0, b / 2.0)
-      - phi1_int(b/2.0, r, (a + b)/2.0, (s)/(2.0*v), 1.0 - theta, div, scale);  */
       logmarglik += tcch_int((a + p)/2, b/2, r, (s + W)/2, v, theta) -
                     tcch_int(a/2, b/2, r, s/2, v, theta) ;
   }

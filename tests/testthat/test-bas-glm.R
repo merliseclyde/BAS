@@ -157,6 +157,17 @@ test_that("robust prior for GLM", {
   )
   expect_equal(nrow(Pima.tr), pima_BAS$betaprior$hyper.parameters$n)
   expect_equal(0, sum(pima_BAS$shrinkage > 1))
+  
+  n = nrow(Pima.tr)
+  p = pima_BAS$size - 1
+  W = pima_BAS$Q 
+  ns = length(W)
+  a = rep(1, ns); b  = rep(2, ns);
+  r = rep(1.5, ns);  s = rep(0, ns);  v = (n + 1)/(p + 1); k = rep(1, ns)
+  shrinkage  = 1 - exp(trCCH((a + p + 2)/2, b/2, r, (s + W)/2, v, k, log=TRUE) - trCCH((a + p)/2, b/2, r, (s + W)/2, v, k, log=TRUE))
+  shrinkage[p == 0] = 1
+  expect_equal(shrinkage, pima_BAS$shrinkage , tol=.00001)
+  
 })
 
 test_that("intrinsic prior for GLM", {
@@ -256,6 +267,8 @@ test_that("TCCHprior for GLM", {
     betaprior = CCH(2, 2), family = binomial(),
     modelprior = uniform()
   )
+
+  
   expect_equal(pima_cch$probne0, pima_Tcch$probne0, tolerance = .00001)
   expect_equal(sort(pima_cch$shrinkage), sort(pima_Tcch$shrinkage), tolerance = .001)
   
