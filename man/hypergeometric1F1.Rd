@@ -21,7 +21,7 @@ the Laplace approximation.}
 }
 \description{
 Compute the Confluent Hypergeometric function: 1F1(a,b,c,t) =
-Gamma(b)/(Gamma(b-a)Gamma(a)) Int_0^1 t^(b-1) (1 - t)^(b-a-1) exp(c t) dt
+Gamma(b)/(Gamma(b-a)Gamma(a)) Int_0^1 t^(a-1) (1 - t)^(b-a-1) exp(c t) dt
 }
 \examples{
 hypergeometric1F1(11.14756, 0.5, 0.00175097)

@@ -36,7 +36,7 @@ expect_warning(hypergeometric2F1(3,1,1000, .999))
 #' 
 
 test_that("tcch", {
-  k = 10;  a = .5; b = 2; r = 2;  
+  k = 10;  a = 2; b = 3; r = 2;  
   expect_equal(
    # trCCH(a, b, r, s=0, v = 1, k) is the same as
    # 2F1(a, r, a + b, 1 - 1/k)*beta(a, b)/k^r

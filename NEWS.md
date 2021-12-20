@@ -2,13 +2,27 @@
 
 ## Changes
 
+* added a function `trCCH` that uses integration to compute the normalizing constant in the 
+  Truncated Compund Confluent Hypergeometric distribution that provides the
+  correct normalizing constant for Gordy (1998) and is more stable for large values 
+  compared to the current `phi1` function.  This is now used in the `TCCH` prior for `bas.glm`.
+
+
 * Rewrote `phi1` function to use direct numerical integration (`phi1_int`) when Wald statistic is large so that marginal likelihoods are not NA as suggested by Daniel Heeman and Alexander Ly (see below).  This should improve stability of estimates of Bayes Factors and model probabilities from `bas.glm` that used the `HyperTwo` function, including coefficient priors for `hyper.g.n()`, `robust()`, and `intrinsic()`.  Added additional unit tests.
 
 * Added `thin` as an option for `bas.glm`
 
+* added unit tests and examples to show the connections between the special 
+ functions `trCCH`, `phi1`, `1F1` and `2F1`
+
 ## Bug Fixes
 
-added internal function for `phi1_int` when the original `HyperTwo` function returns NA [Issue #55](https://github.com/merliseclyde/BAS/issues/55)  See more details above.
+* added internal function for `phi1_int` when the original `HyperTwo` function returns NA [Issue #55](https://github.com/merliseclyde/BAS/issues/55)  See more details above.
+
+* corrected the shrinkage estimate under the `CCH` prior that did not include
+  terms involving the `beta` function.
+
+
 
 # BAS 1.6.0
 

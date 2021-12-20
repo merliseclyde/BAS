@@ -110,6 +110,32 @@ double CCH_glm_logmarg(SEXP hyperparams, int pmodel, double W,
 
   return(logmarglik);
 }
+
+double CCH_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace ) {
+  double a, b, s, p, shrinkage = 1.0;
+  
+  a = REAL(getListElement(hyperparams, "alpha"))[0];
+  b = REAL(getListElement(hyperparams, "beta"))[0];
+  s = REAL(getListElement(hyperparams, "s"))[0];
+  
+  // Rprintf("a = %lf\n", a);
+  // Rprintf("b = %lf\n", b);
+  // Rprintf("s = %lf\n", s);
+  
+  p = (double) pmodel;
+  shrinkage = 1.0;
+  if (p >= 1.0)
+    // shrinkage = shrinkage_chg(a + p, a + b + p, -(s+W), Laplace);
+    shrinkage = 1.0 - exp(loghyperg1F1((a+p+2.0)/2.0, (a+p+b +2.0)/2.0, -(s+W)/2, Laplace) 
+                          + lbeta((a+p+2.0)/2.0,b/2.0) 
+                          - loghyperg1F1((a+p)/2,(a+p+b)/2.0, -(s+W)/2, Laplace) 
+                          - lbeta((a+p)/2.0,b/2.0)
+    );
+  
+  return(shrinkage);
+}
+
+
 double Jeffreys_glm_logmarg(SEXP hyperparams, int pmodel, double W,
 		       double loglik_mle, double logdet_Iintercept, int Laplace ) {
   double a, b, s, logmarglik, p;
@@ -181,17 +207,14 @@ double tCCH_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace ) 
 
   p = (double) pmodel;
   double MY = (s + W)/(2.0*v);
-  div= ceil(MY/MV);
-  scale = 1.0/exp(fmax2(0.0, (MY - MV)/div));
-  
+ 
+  scale = 1.0;
+  div= 1L; 
 
   shrinkage = 1.0;
   if (p >= 1.0) {
-   shrinkage -=  exp( -log(v)
-    + lbeta((a + p) / 2.0 + 1.0, b / 2.0)
-    + phi1_int(b/2.0, r, (a + p + b)/2.0 + 1.0, (s + W)/(2.0*v), 1.0 - theta, div, scale)
-    - lbeta((a+p) / 2.0, b/2.0)
-    - phi1_int(b/2.0, r, (a + p + b)/2.0, (s + W)/(2.0*v), 1.0 - theta, div, scale));
+   shrinkage -= exp(tcch_int((a + p + 2.0)/2.0, b/2.0, r, (s + W)/2.0, v, theta,  div, scale) -
+                    tcch_int((a + p)/2, b/2.0, r, (s + W)/2.0, v, theta,  div, scale));
   }
 
   return(shrinkage);
@@ -260,28 +283,6 @@ double intrinsic_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Lapla
 }
 
 
-double CCH_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace ) {
-  double a, b, s, p, shrinkage = 1.0;
-
-  a = REAL(getListElement(hyperparams, "alpha"))[0];
-  b = REAL(getListElement(hyperparams, "beta"))[0];
-  s = REAL(getListElement(hyperparams, "s"))[0];
-
-  // Rprintf("a = %lf\n", a);
-  // Rprintf("b = %lf\n", b);
-  // Rprintf("s = %lf\n", s);
-
-  p = (double) pmodel;
-  shrinkage = 1.0;
-  if (p >= 1.0)
-    // shrinkage = shrinkage_chg(a + p, a + b + p, -(s+W), Laplace);
-    shrinkage = 1.0 - exp(log(a + p) -log(a + b + p)
-                    +loghyperg1F1((a+p+2.0)/2.0, (a+p+b +2.0)/2.0, -(s+W)/2, Laplace)
-                    -loghyperg1F1((a+p)/2,(a+p+b)/2.0, -(s+W)/2, Laplace)
-    );
-
-  return(shrinkage);
-}
 
 double betaprime_glm_logmarg(SEXP hyperparams, int pmodel, double W,
 		       double loglik_mle, double logdet_Iintercept, int Laplace ) {

@@ -124,7 +124,7 @@ phi1 <- function(a, b, c, x, y, log=FALSE) {
 #' hypergeometric2F1(a, r, a + b, 1 - 1/k, log = FALSE)
 #'
 #' # trCCH(a,b,0,s,1,1) is the same as 
-#' # beta(a, b) 1F1(a, a + b, −s, log=FALSE)
+#' # beta(a, b) 1F1(a, a + b, -s, log=FALSE)
 #' s = 3; r = 0; v = 1; k = 1
 #' beta(a, b)*hypergeometric1F1(a, a+b, -s, log = FALSE)
 #' trCCH(a, b, r, s, v, k)
