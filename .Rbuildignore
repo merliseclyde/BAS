@@ -15,8 +15,6 @@ NAMESPACE-preRoxygen
 BAS-Ex.Rout.fail
 BAS-Ex.R
 run_checks.R
-docs/*
-inst/docs/*
 _pkgdown.yml
 LICENSE
 CODE_OF_CONDUCT.md
@@ -29,4 +27,4 @@ CONTRIBUTING.md
 ^doc$
 ^Meta$
 ^\.github$
-R/gordy.R
+^pkgdown$

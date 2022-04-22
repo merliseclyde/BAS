@@ -30,7 +30,25 @@
 
 0 errors ✓ | 0 warnings ✓ | 1 note x
 
-NOTE to CRAN:  Note occurs only on Windows r-devel 
+NOTE to CRAN:  Note occurs only on Windows r-devel on rhub
+
+* Platform Windows via win-builder (r-devel, r-release)  0 errors | 0 warnings  | 1 notes 
+
+checking CRAN incoming feasibility ... NOTE
+Maintainer: 'Merlise Clyde <clyde@duke.edu>'
+
+Found the following (possibly) invalid URLs:
+  URL: https://doi.org/10.1214/088342304000000035
+    From: man/BAS.Rd
+          man/bas.lm.Rd
+    Status: 500
+    Message: Internal Server Error
+  URL: https://doi.org/10.1214/ss/1009212519
+    From: man/bas.lm.Rd
+    Status: 500
+    Message: Internal Server Error
+
+NOTE to CRAN:  url is valid,  but encounters time-out during check (passes check on all other platforms, and no issues with other urls in package)
 
 
 ## Reverse Dependencies
