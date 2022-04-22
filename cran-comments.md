@@ -1,13 +1,11 @@
 # BAS 1.6.1 Comments to CRAN
 
-
 ## Test environments
 
-* local OS X install, R 4.1.2
+* local OS X install, R 4.1.3
 * ubuntu  (on travis-ci, github), R-release R-devel R-oldrelease
 * rhub Fedora, Debian, Ubunto, Windows (r-devel)
 * win-builder (r-release, r-devel)
-
 
 ## R CMD check results for this submission
 

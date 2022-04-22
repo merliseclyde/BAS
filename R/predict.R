@@ -696,7 +696,7 @@ fitted.bas <- function(object,
 #' @export
 #'
 variable.names.pred.bas <- function(object, ...) {
-  if (class(object) == "pred.bas") {
+  if (inherits(object, "pred.bas")) {
     object$best.vars
   }
 }
