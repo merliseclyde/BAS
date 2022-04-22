@@ -1,15 +1,11 @@
-# BAS 1.6.0  Comments to CRAN
-
-## submission to include  USE_FC_LEN_T for calls to Fortran subroutines with character strings in light of requirement under R 4.2.0
-
+# BAS 1.6.1 Comments to CRAN
 
 ## Test environments
 
-* local OS X install, R 4.1.2
+* local OS X install, R 4.1.3
 * ubuntu  (on travis-ci, github), R-release R-devel R-oldrelease
 * rhub Fedora, Debian, Ubunto, Windows (r-devel)
 * win-builder (r-release, r-devel)
-
 
 ## R CMD check results for this submission
 

@@ -99,7 +99,7 @@ Other predict methods:
 \code{\link{variable.names.pred.bas}()}
 }
 \author{
-Merlise Clyde \email{clyde@AT@duke.edu}
+Merlise Clyde \email{clyde@duke.edu}
 }
 \concept{bas methods}
 \concept{predict methods}

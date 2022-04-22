@@ -154,6 +154,13 @@ void ZS_density(double *x, int n, SEXP Rtheta);
 void ZS_density_shrinkage(double *x, int n, SEXP Rtheta);
 double find_mode_g_JZS(double R2, int n, int d, double *root, double *status);
 double E_ZS_approx_null(double R2, int n, int d);
+void phi1(double *a, double *b, double *c, double *x, double *y, int *div, double *scale, double*phi, 
+             int *npara);
+void phi1_density(double *u, int n, SEXP Rtheta);
+double tcch_int(double a, double b, double r, double s, double v,  double k);
+void tcch_density(double *u, int n, SEXP Rtheta);
+void tcch(double *a, double *b, double *r, double *s, double *v, double *theta, double *tcch, int *npara);
+double phi1_int(double a, double b, double c, double x, double y, int div, double scale);
 double BIC(double Rsquare, int n,  int p, double SSY);
 double AIC(double Rsquare, int n,  int p, double SSY);
 NODEPTR make_node(double pr);

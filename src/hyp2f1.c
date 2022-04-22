@@ -55,7 +55,7 @@
  * A "singularity" message is printed on overflow or
  * in cases not addressed (such as x < -1).
  */
-
+
 /*							hyp2f1	*/
 
 
@@ -70,26 +70,24 @@ Copyright 1984, 1987, 1992, 2000 by Stephen L. Moshier
 
 
 #ifdef DEC
-#define EPS 1.0e-14
 #define EPS2 1.0e-11
 #endif
 
 #ifdef IBMPC
-#define EPS 1.0e-13
 #define EPS2 1.0e-10
 #endif
 
 #ifdef MIEEE
-#define EPS 1.0e-13
 #define EPS2 1.0e-10
 #endif
 
 #ifdef UNK
-#define EPS 1.0e-13
 #define EPS2 1.0e-10
 #endif
 
 #define ETHRESH 1.0e-12
+
+#define EPS DBL_EPSILON
 
 #ifdef ANSIPROT
 extern double fabs ( double );

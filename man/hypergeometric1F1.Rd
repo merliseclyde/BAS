@@ -2,7 +2,7 @@
 % Please edit documentation in R/hypergeometric1F1.R
 \name{hypergeometric1F1}
 \alias{hypergeometric1F1}
-\title{Confluent hypergeometric2F1 function}
+\title{Confluent hypergeometric1F1 function}
 \usage{
 hypergeometric1F1(a, b, c, laplace = FALSE, log = TRUE)
 }
@@ -21,7 +21,7 @@ the Laplace approximation.}
 }
 \description{
 Compute the Confluent Hypergeometric function: 1F1(a,b,c,t) =
-Gamma(b)/(Gamma(b-a)Gamma(a)) Int_0^1 t^(b-1) (1 - t)^(b-a-1) exp(c t) dt
+Gamma(b)/(Gamma(b-a)Gamma(a)) Int_0^1 t^(a-1) (1 - t)^(b-a-1) exp(c t) dt
 }
 \examples{
 hypergeometric1F1(11.14756, 0.5, 0.00175097)
@@ -34,7 +34,8 @@ Cephes library hyp1f1.c
 \seealso{
 Other special functions: 
 \code{\link{hypergeometric2F1}()},
-\code{\link{phi1}()}
+\code{\link{phi1}()},
+\code{\link{trCCH}()}
 }
 \author{
 Merlise Clyde (\email{clyde@stat.duke.edu})

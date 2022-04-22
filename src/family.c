@@ -4,7 +4,7 @@
 
 static const double THRESH = 30.;
 static const double MTHRESH = -30.;
-static const double INVEPS = 1/DOUBLE_EPS;
+static const double INVEPS = 1/DBL_EPSILON;
 
 /**
  * Evaluate x/(1 - x). An inline function is used so that x is
@@ -75,7 +75,7 @@ void log_linkinv(double *reta, double *rans, int n) {
     int i;
 
     for (i = 0; i < n; i++) {
-      rans[i] = fmax2(exp(reta[i]), DOUBLE_EPS);
+      rans[i] = fmax2(exp(reta[i]), DBL_EPSILON);
     }
 }
 
@@ -84,7 +84,7 @@ void log_mu_eta(double *reta, double *rans, int n)
 {
     int i;
     for (i = 0; i < n; i++) {
-      rans[i] = fmax2(exp(reta[i]), DOUBLE_EPS);
+      rans[i] = fmax2(exp(reta[i]), DBL_EPSILON);
     }
 }
 
@@ -178,7 +178,7 @@ void logit_linkinv(double *reta, double *rans, int n) {
 
     for (i = 0; i < n; i++) {
 	double etai = reta[i], tmp;
-	tmp = (etai < MTHRESH) ? DOUBLE_EPS :
+	tmp = (etai < MTHRESH) ? DBL_EPSILON :
 	    ((etai > THRESH) ? INVEPS : exp(etai));
 	rans[i] = x_d_opx(tmp);
     }
@@ -192,7 +192,7 @@ void logit_mu_eta(double *reta, double *rans, int n)
 		double etai = reta[i];
 		double opexp = 1 + exp(etai);
 
-		rans[i] = (etai > THRESH || etai < MTHRESH) ? DOUBLE_EPS :
+		rans[i] = (etai > THRESH || etai < MTHRESH) ? DBL_EPSILON :
 			exp(etai)/(opexp * opexp);
     }
 }

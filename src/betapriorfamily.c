@@ -110,6 +110,32 @@ double CCH_glm_logmarg(SEXP hyperparams, int pmodel, double W,
 
   return(logmarglik);
 }
+
+double CCH_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace ) {
+  double a, b, s, p, shrinkage = 1.0;
+  
+  a = REAL(getListElement(hyperparams, "alpha"))[0];
+  b = REAL(getListElement(hyperparams, "beta"))[0];
+  s = REAL(getListElement(hyperparams, "s"))[0];
+  
+  // Rprintf("a = %lf\n", a);
+  // Rprintf("b = %lf\n", b);
+  // Rprintf("s = %lf\n", s);
+  
+  p = (double) pmodel;
+  shrinkage = 1.0;
+  if (p >= 1.0)
+    // shrinkage = shrinkage_chg(a + p, a + b + p, -(s+W), Laplace);
+    shrinkage = 1.0 - exp(loghyperg1F1((a+p+2.0)/2.0, (a+p+b +2.0)/2.0, -(s+W)/2, Laplace) 
+                          + lbeta((a+p+2.0)/2.0,b/2.0) 
+                          - loghyperg1F1((a+p)/2,(a+p+b)/2.0, -(s+W)/2, Laplace) 
+                          - lbeta((a+p)/2.0,b/2.0)
+    );
+  
+  return(shrinkage);
+}
+
+
 double Jeffreys_glm_logmarg(SEXP hyperparams, int pmodel, double W,
 		       double loglik_mle, double logdet_Iintercept, int Laplace ) {
   double a, b, s, logmarglik, p;
@@ -137,6 +163,7 @@ double tCCH_glm_logmarg(SEXP hyperparams, int pmodel, double W,
 		       double loglik_mle, double logdet_Iintercept, int Laplace ) {
   double a, b, s, r, v, theta, logmarglik, p;
 
+
   a = REAL(getListElement(hyperparams, "alpha"))[0];
   b = REAL(getListElement(hyperparams, "beta"))[0];
   s = REAL(getListElement(hyperparams, "s"))[0];
@@ -144,17 +171,17 @@ double tCCH_glm_logmarg(SEXP hyperparams, int pmodel, double W,
   v = REAL(getListElement(hyperparams, "v"))[0];
   theta =  REAL(getListElement(hyperparams, "theta"))[0];
 
+
   p = (double) pmodel;
 
   logmarglik =   loglik_mle + M_LN_SQRT_2PI - 0.5* logdet_Iintercept;
+  
   if (p >= 1.0) {
-    logmarglik +=   lbeta((a + p) / 2.0, b / 2.0)
-      + log(HyperTwo(b/2.0, r, (a + b + p)/2.0, (s+W)/(2.0*v), 1.0 - theta))
-      -.5*p*log(v) -.5*W/v
-      - lbeta(a / 2.0, b / 2.0)
-      - log(HyperTwo(b/2.0, r, (a + b)/2.0, s/(2.0*v), 1.0 - theta));
+      logmarglik += tcch_int((a + p)/2, b/2, r, (s + W)/2, v, theta) -
+                    tcch_int(a/2, b/2, r, s/2, v, theta) ;
   }
-
+//  Rprintf("integrate: tcch=%lf W=%lf a=%lf b=%lf r=%lf v=%lf  k = %lf, scale=%le div=%lf\n", 
+//          logmarglik,  W, a, b, r, v, theta, scale, div);
   return(logmarglik);
 }
 
@@ -172,11 +199,8 @@ double tCCH_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace ) 
 
   shrinkage = 1.0;
   if (p >= 1.0) {
-   shrinkage -=  exp( -log(v)
-    + lbeta((a + p) / 2.0 + 1.0, b / 2.0)
-    + log(HyperTwo(b/2.0, r, (a +b+p)/2.0 + 1.0, (s+W)/(2.0*v), 1.0-theta))
-    - lbeta((a+p) / 2.0, b/2.0)
-    - log(HyperTwo(b/2.0, r, (a + p+ b)/2.0, (s+W)/(2.0*v), 1.0 - theta)));
+   shrinkage -= exp(tcch_int((a + p + 2.0)/2.0, b/2.0, r, (s + W)/2.0, v, theta) -
+                    tcch_int((a + p)/2, b/2.0, r, (s + W)/2.0, v, theta));
   }
 
   return(shrinkage);
@@ -193,17 +217,14 @@ double intrinsic_glm_logmarg(SEXP hyperparams, int pmodel, double W,
   n = REAL(getListElement(hyperparams, "n"))[0];
 
   p = (double) pmodel;
-
   v = (n + p + 1.0)/(p + 1);
   theta = (n + p + 1.0)/n;
-
+  
+ 
   logmarglik =   loglik_mle + M_LN_SQRT_2PI - 0.5* logdet_Iintercept;
   if (p >= 1.0) {
-    logmarglik +=   lbeta((a + p) / 2.0, b / 2.0)
-      + log(HyperTwo(b/2.0, r, (a + b + p)/2.0, (s+W)/(2.0*v), 1.0 - theta))
-      -.5*p*log(v) -.5*W/v
-      - lbeta(a / 2.0, b / 2.0)
-      - log(HyperTwo(b/2.0, r, (a + b)/2.0, s/(2.0*v), 1.0 - theta));
+    logmarglik += tcch_int((a + p)/2, b/2, r, (s + W)/2, v, theta) 
+                - tcch_int(a/2, b/2, r, s/2, v, theta) ;
   }
 
   return(logmarglik);
@@ -224,40 +245,14 @@ double intrinsic_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Lapla
 
   shrinkage = 1.0;
   if (p >= 1.0) {
-     u = exp(-log(v)
-             + lbeta((a + p) / 2.0 + 1.0, b / 2.0)
-             + log(HyperTwo(b/2.0, r, (a +b+p)/2.0 + 1.0, (s+W)/(2.0*v), 1.0-theta))
-             - lbeta((a+p) / 2.0, b/2.0)
-             - log(HyperTwo(b/2.0, r, (a + p+ b)/2.0, (s+W)/(2.0*v), 1.0 - theta)));
-    shrinkage = 1.0 - u;
+    shrinkage -= exp(tcch_int((a + p + 2.0)/2.0, b/2.0, r, (s + W)/2.0, v, theta) 
+                     - tcch_int((a + p)/2, b/2.0, r, (s + W)/2.0, v, theta));
   }
 
   return(shrinkage);
 }
 
 
-double CCH_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace ) {
-  double a, b, s, p, shrinkage = 1.0;
-
-  a = REAL(getListElement(hyperparams, "alpha"))[0];
-  b = REAL(getListElement(hyperparams, "beta"))[0];
-  s = REAL(getListElement(hyperparams, "s"))[0];
-
-  // Rprintf("a = %lf\n", a);
-  // Rprintf("b = %lf\n", b);
-  // Rprintf("s = %lf\n", s);
-
-  p = (double) pmodel;
-  shrinkage = 1.0;
-  if (p >= 1.0)
-    // shrinkage = shrinkage_chg(a + p, a + b + p, -(s+W), Laplace);
-    shrinkage = 1.0 - exp(log(a + p) -log(a + b + p)
-                    +loghyperg1F1((a+p+2.0)/2.0, (a+p+b +2.0)/2.0, -(s+W)/2, Laplace)
-                    -loghyperg1F1((a+p)/2,(a+p+b)/2.0, -(s+W)/2, Laplace)
-    );
-
-  return(shrinkage);
-}
 
 double betaprime_glm_logmarg(SEXP hyperparams, int pmodel, double W,
 		       double loglik_mle, double logdet_Iintercept, int Laplace ) {
