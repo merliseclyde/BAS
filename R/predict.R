@@ -485,7 +485,7 @@ predict.bas <- function(object,
 #' @param na.action function determining what should be done with missing values in newdata. The default is to predict NA.
 #' @param ... optional arguments, not used currently
 #' @return A vector of length n of fitted values.
-#' @author Merlise Clyde \email{clyde@@AT@@duke.edu}
+#' @author Merlise Clyde \email{clyde@duke.edu}
 #' @seealso \code{\link{predict.bas}}  \code{\link{predict.basglm}}
 #' @references Barbieri, M.  and Berger, J.O. (2004) Optimal predictive model
 #' selection. Annals of Statistics. 32, 870-897. \cr

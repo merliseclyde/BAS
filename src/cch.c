@@ -69,7 +69,7 @@ double phi1_int(double a, double b, double c, double x, double y, int div, doubl
     C_int_struct is;
     
     
-    epsabs = R_pow(DOUBLE_EPS, 0.25);
+    epsabs = R_pow(DBL_EPSILON, 0.25);
     epsrel = epsabs;
     lenw = 4 * limit;
     iwork = (int *) R_alloc((size_t) limit, sizeof(int));

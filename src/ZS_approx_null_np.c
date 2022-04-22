@@ -45,7 +45,7 @@ double ZS_logmarg(double R2, int n, int d, double rscale) {
 
   if (d <= 1 || n - d <= 1) return(0.0);
 
-  epsabs = R_pow(DOUBLE_EPS, 0.25);
+  epsabs = R_pow(DBL_EPSILON, 0.25);
   epsrel = epsabs;
   lenw = 4 * limit;
   iwork = (int *) R_alloc((size_t) limit, sizeof(int));
@@ -112,7 +112,7 @@ double ZS_shrinkage(double R2, int n, int d, double rscale) {
          &abserr,&neval,&ier,&limit,&lenw,&last,iwork,work);
 
   logmarg = ZS_logmarg(R2, n, d, rscale);
-  if (!R_FINITE(result) | !R_FINITE(logmarg)) result = 1.0;
+  if (!R_FINITE(result) || !R_FINITE(logmarg)) result = 1.0;
   else result = exp(log(result) - logmarg + mode);
 
 //  Rprintf("Shrinkage return: logBF %lf R2=%lf n= %lf d=%lf r=%lf \n", result, ex[0], ex[1], ex[2], ex[3]);

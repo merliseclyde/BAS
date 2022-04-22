@@ -9,7 +9,6 @@
 ^README-.*\.png$
 params.json
 javascripts/
-index.html
 images/
 stylesheets/
 NAMESPACE-preRoxygen
@@ -30,3 +29,4 @@ CONTRIBUTING.md
 ^doc$
 ^Meta$
 ^\.github$
+R/gordy.R
