@@ -16,7 +16,6 @@
 #' @name BAS
 #'
 #' @useDynLib BAS, .registration=TRUE, .fixes="C_"
-#' @aliases BAS-package BAS
 #' @author Merlise Clyde, \cr Maintainer: Merlise Clyde <clyde@@stat.duke.edu>
 #' @seealso \code{\link[BAS]{bas.lm}} \code{\link[BAS]{bas.glm}}
 #' @references Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive
