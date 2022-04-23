@@ -26,6 +26,8 @@
 
 * Package Archived  04/23/2022
 * Possibly misspelled words in DESCRIPTION  (all are correct)
+* Found the following (possibly) invalid URLs:
+  URL: https://doi.org/10.1214/088342304000000035 in bas.Rd  (500 inteternal error; url is valid)
 
 
 
