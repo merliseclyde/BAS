@@ -90,7 +90,7 @@ double ZS_shrinkage(double R2, int n, int d, double rscale) {
 
   if (d <= 1) return(1.0);
 
-  epsabs = R_pow(DOUBLE_EPS, 0.25);
+  epsabs = R_pow(DBL_EPSILON, 0.25);
   epsrel = epsabs;
   lenw = 4 * limit;
   iwork = (int *) R_alloc((size_t) limit, sizeof(int));

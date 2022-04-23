@@ -28,3 +28,4 @@ CONTRIBUTING.md
 ^Meta$
 ^\.github$
 ^pkgdown$
+^CRAN-SUBMISSION$
