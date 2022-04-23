@@ -1,4 +1,6 @@
-# BAS 1.6.1 Comments to CRAN
+# BAS 1.6.2 Comments to CRAN
+
+# Resubmission of 1.6.1 as there were 2 additional uses of DOUBLE_EPS missed on submission 04-22-2022
 
 ## Test environments
 

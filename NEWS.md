@@ -1,3 +1,7 @@
+# BAS 1.6.2
+
+* replaced deprecated `DOUBLE_EPS` with `DBL_EPSILON` for R 4.2.0 release (in two places)
+
 # BAS 1.6.1
 
 ## Changes
