@@ -1,6 +1,6 @@
 # BAS 1.6.2
 
-* replaced deprecated `DOUBLE_EPS` with `DBL_EPSILON` for R 4.2.0 release (in two places)
+* replaced deprecated `DOUBLE_EPS` with `DBL_EPSILON` for R 4.2.0 release (in two places) so restore on CRAN
 
 # BAS 1.6.1
 
@@ -8,7 +8,7 @@
 
 * replaced deprecated `DOUBLE_EPS` with `DBL_EPSILON` for R 4.2.0 release
 
-* fixed warnings at [CRAN](https://cran.r-project.org/web/checks/check_results_BAS.html) under R devel
+* fixed warnings from CRAN checkcs for under R devel  (use of | and  `if` with `class`)
 
 
 * added a function `trCCH` that uses integration to compute the normalizing constant in the 
