@@ -46,7 +46,7 @@ plot(confint(predict(hald.ZS, se.fit=TRUE), parm="mean"))
 \code{\link{coef.bas}}, \code{\link{predict.bas}}, \code{link{bas.lm}}
 
 Other bas methods: 
-\code{\link{BAS}},
+\code{\link{BAS-package}},
 \code{\link{bas.lm}()},
 \code{\link{coef.bas}()},
 \code{\link{confint.coef.bas}()},

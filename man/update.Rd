@@ -50,7 +50,7 @@ Computational Graphics and Statistics.  20:80-101 \cr
 \code{\link{bas}} for available methods and choices of alpha
 
 Other bas methods: 
-\code{\link{BAS}},
+\code{\link{BAS-package}},
 \code{\link{bas.lm}()},
 \code{\link{coef.bas}()},
 \code{\link{confint.coef.bas}()},

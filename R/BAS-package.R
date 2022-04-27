@@ -13,7 +13,7 @@
 #'
 #' Index: \preformatted{ }
 #' @docType package
-#' @name BAS
+#' @name BAS-package
 #'
 #' @useDynLib BAS, .registration=TRUE, .fixes="C_"
 #' @author Merlise Clyde, \cr Maintainer: Merlise Clyde <clyde@@stat.duke.edu>

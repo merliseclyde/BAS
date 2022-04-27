@@ -48,7 +48,7 @@ diagnostics(crime.ZS)
 }
 \seealso{
 Other bas methods: 
-\code{\link{BAS}},
+\code{\link{BAS-package}},
 \code{\link{bas.lm}()},
 \code{\link{coef.bas}()},
 \code{\link{confint.coef.bas}()},

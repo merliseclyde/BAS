@@ -120,7 +120,7 @@ Other predict methods:
 \code{\link{variable.names.pred.bas}()}
 
 Other bas methods: 
-\code{\link{BAS}},
+\code{\link{BAS-package}},
 \code{\link{bas.lm}()},
 \code{\link{coef.bas}()},
 \code{\link{confint.coef.bas}()},

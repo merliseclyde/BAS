@@ -95,7 +95,7 @@ Dawid, J.O. Berger, and A.F.M. Smith eds. Oxford University Press, pages
 \code{\link{bas}}
 
 Other bas methods: 
-\code{\link{BAS}},
+\code{\link{BAS-package}},
 \code{\link{bas.lm}()},
 \code{\link{coef.bas}()},
 \code{\link{confint.coef.bas}()},

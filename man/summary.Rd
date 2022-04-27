@@ -39,7 +39,7 @@ summary(crime.bic)
 \code{\link{coef.bas}}
 
 Other bas methods: 
-\code{\link{BAS}},
+\code{\link{BAS-package}},
 \code{\link{bas.lm}()},
 \code{\link{coef.bas}()},
 \code{\link{confint.coef.bas}()},
