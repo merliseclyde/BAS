@@ -12,7 +12,7 @@ the regression function"><!-- mathjax --><script src="https://cdnjs.cloudflare.c
     
     <a class="navbar-brand me-2" href="../index.html">BAS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,7 +99,7 @@ Carlo draws. <!-- %% ~~ If necessary, more details than the description above ~~
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="predict.bas.html">predict.bas</a></code></p>
 <p>Other bas methods: 
-<code>BAS</code>,
+<code><a href="BAS.html">BAS</a></code>,
 <code><a href="bas.lm.html">bas.lm</a>()</code>,
 <code><a href="coef.html">coef.bas</a>()</code>,
 <code><a href="confint.coef.html">confint.coef.bas</a>()</code>,
@@ -169,19 +169,19 @@ Carlo draws. <!-- %% ~~ If necessary, more details than the description above ~~
 <span class="r-in"><span class="va">hald.pred</span> <span class="op">=</span> <span class="fu"><a href="predict.bas.html">predict</a></span><span class="op">(</span><span class="va">hald.gprior</span>, estimator<span class="op">=</span><span class="st">"BMA"</span>, predict<span class="op">=</span><span class="cn">FALSE</span>, se.fit<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="confint.coef.html">confint</a></span><span class="op">(</span><span class="va">hald.pred</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            2.5%     97.5%      pred</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]  66.63546  90.81537  79.68307</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]  63.59760  86.27683  74.69127</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,]  94.77280 116.51053 105.63258</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  78.99325 101.01557  89.91648</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,]  84.30193 106.71600  95.67480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,]  93.80732 114.97920 104.57616</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  92.09725 114.92018 103.47945</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  65.40475  88.44072  76.96808</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  81.18026 103.07590  92.22184</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 101.62233 127.11911 113.84918</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11,]  71.63015  94.38712  82.59035</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 100.24113 122.21484 110.87673</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] 100.07268 121.94779 110.34001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]  67.75178  91.78009  79.68307</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]  63.62679  85.98165  74.69127</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,]  94.62417 116.62652 105.63258</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  78.76605 101.12082  89.91648</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,]  84.76307 106.87938  95.67480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,]  93.98147 115.18491 104.57616</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  92.26653 115.31724 103.47945</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  64.98980  87.88071  76.96808</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  81.50820 102.95890  92.22184</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 101.51786 126.64193 113.84918</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,]  71.12373  93.69580  82.59035</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 100.37869 122.22439 110.87673</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,]  99.37770 121.58659 110.34001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"Probability")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
@@ -199,7 +199,7 @@ Carlo draws. <!-- %% ~~ If necessary, more details than the description above ~~
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer></div>

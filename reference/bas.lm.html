@@ -12,7 +12,7 @@ Linear Models — bas.lm"><meta property="og:description" content="Sample withou
     
     <a class="navbar-brand me-2" href="../index.html">BAS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -420,7 +420,7 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 <code><a href="plot.html">plot.bas</a></code>, <code><a href="image.bas.html">image.bas</a></code>, <code><a href="eplogprob.html">eplogprob</a></code>,
 <code><a href="update.html">update.bas</a></code></p>
 <p>Other bas methods: 
-<code>BAS</code>,
+<code><a href="BAS.html">BAS</a></code>,
 <code><a href="coef.html">coef.bas</a>()</code>,
 <code><a href="confint.coef.html">confint.coef.bas</a>()</code>,
 <code><a href="confint.pred.html">confint.pred.bas</a>()</code>,
@@ -734,7 +734,7 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12 12 12 12 12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $best</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  9  6 10 11  3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  4 15  3 11  8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bestmodel</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bestmodel[[1]]</span>
@@ -764,19 +764,19 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &gt; confint(predict(hald.gprior, Hald, estimator="BMA", se.fit=TRUE, top=5), parm="mean")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            2.5%     97.5%      mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]  73.40080  86.25676  79.74246</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]  69.45507  79.75961  74.50010</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] 100.95869 109.83161 105.29268</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  85.20523  94.92048  89.88693</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,]  90.50380 100.31886  95.57177</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] 101.28095 107.89236 104.56409</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  97.61290 108.99352 103.40145</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  71.55561  82.63058  77.13668</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  87.67066  96.49949  91.99731</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 106.62885 121.62443 114.21325</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11,]  77.52432  88.38039  82.78446</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 106.55694 115.31172 111.00723</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] 105.41751 115.09495 110.40160</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]  72.95433  85.85234  79.74246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]  69.36761  79.62094  74.50010</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] 100.63054 109.45921 105.29268</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  84.93662  94.73103  89.88693</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,]  90.55314 100.33929  95.57177</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] 101.34439 108.03871 104.56409</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  97.65017 109.04253 103.40145</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  71.59597  82.56813  77.13668</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  87.60688  96.39381  91.99731</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 107.06375 122.25929 114.21325</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,]  77.54540  87.96320  82.78446</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 106.42119 115.16242 111.00723</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] 105.54990 115.02557 110.40160</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"Probability")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
@@ -889,7 +889,7 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer></div>
