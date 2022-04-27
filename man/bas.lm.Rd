@@ -437,7 +437,7 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 \code{\link{update.bas}}
 
 Other bas methods: 
-\code{\link{BAS-package}},
+\code{\link{BAS}},
 \code{\link{coef.bas}()},
 \code{\link{confint.coef.bas}()},
 \code{\link{confint.pred.bas}()},

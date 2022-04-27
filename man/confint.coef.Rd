@@ -59,7 +59,7 @@ Other CI methods:
 \code{\link{plot.confint.bas}()}
 
 Other bas methods: 
-\code{\link{BAS-package}},
+\code{\link{BAS}},
 \code{\link{bas.lm}()},
 \code{\link{coef.bas}()},
 \code{\link{confint.pred.bas}()},

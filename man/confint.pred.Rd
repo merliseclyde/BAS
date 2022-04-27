@@ -50,7 +50,7 @@ confint(hald.pred)
 \code{\link{predict.bas}}
 
 Other bas methods: 
-\code{\link{BAS-package}},
+\code{\link{BAS}},
 \code{\link{bas.lm}()},
 \code{\link{coef.bas}()},
 \code{\link{confint.coef.bas}()},

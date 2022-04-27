@@ -1,6 +1,6 @@
-#' BAS: Bayesian Model Averaging using Bayesian Adaptive Sampling
+#' @title BAS: Bayesian Model Averaging using Bayesian Adaptive Sampling
 #'
-#' Package for Bayesian Model Averaging in linear models using stochastic or
+#' @description Implementation of  Bayesian Model Averaging in linear models using stochastic or
 #' deterministic sampling without replacement from posterior distributions.
 #' Prior distributions on coefficients are of the form of Zellner's g-prior or
 #' mixtures of g-priors. Options include the Zellner-Siow Cauchy Priors, the
@@ -8,16 +8,24 @@
 #' and other default model selection criteria such as AIC and BIC. Sampling
 #' probabilities may be updated based on the sampled models.
 #'
-#' \tabular{ll}{ Package: \tab BAS\cr Depends: \tab R (>= 2.8)\cr License: \tab
-#' GPL-3\cr URL: https://www.stat.duke.edu/~clyde\cr }
-#'
-#' Index: \preformatted{ }
 #' @docType package
-#' @name BAS-package
+#' @name BAS
 #'
-#' @useDynLib BAS, .registration=TRUE, .fixes="C_"
+#' 
 #' @author Merlise Clyde, \cr Maintainer: Merlise Clyde <clyde@@stat.duke.edu>
-#' @seealso \code{\link[BAS]{bas.lm}} \code{\link[BAS]{bas.glm}}
+#' @seealso \code{\link{bas.lm}} \code{\link{bas.glm}}
+#
+#' @examples
+#' data("Hald")
+#' hald.gprior =  bas.lm(Y ~ ., data=Hald, alpha=13, prior="g-prior")
+#'
+#' # more complete demos
+#'
+#' demo(BAS.hald)
+#' \dontrun{
+#' demo(BAS.USCrime)
+#' }
+#' 
 #' @references Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive
 #' Sampling for Variable Selection and Model Averaging. Journal of
 #' Computational Graphics and Statistics.  20:80-101 \cr
@@ -36,22 +44,17 @@
 #' Liang, F., Paulo, R., Molina, G., Clyde, M. and Berger, J.O. (2008) Mixtures
 #' of g-priors for Bayesian Variable Selection. Journal of the American
 #' Statistical Association. 103:410-423.  \cr
+#' 
 #' \doi{10.1198/016214507000001337}
+#' 
 #' @keywords package regression
-#' @family bas methods
-#' @examples
-#' data("Hald")
-#' hald.gprior =  bas.lm(Y ~ ., data=Hald, alpha=13, prior="g-prior")
-#'
-#' # more complete demos
-#'
-#'demo(BAS.hald)
-#' \dontrun{
-#' demo(BAS.USCrime)
-#' }
 #' @import stats
 #' @import graphics
 #' @import grDevices
+#' 
+#' @useDynLib BAS, .registration=TRUE, .fixes="C_"
+#' @family bas methods
+#' 
 NULL
 
 
