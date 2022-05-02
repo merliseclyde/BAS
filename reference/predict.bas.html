@@ -192,7 +192,7 @@ probability models.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"model")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0 1 2 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"best")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"estimator")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "BPM"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -276,7 +276,7 @@ probability models.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $best</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bestmodel</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0 1 2 4</span>
@@ -297,19 +297,19 @@ probability models.</p>
 <span class="r-in"><span class="va">hald.bma</span> <span class="op">=</span> <span class="fu">predict</span><span class="op">(</span><span class="va">hald.gprior</span>, top<span class="op">=</span><span class="fl">5</span>, se.fit<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="confint.coef.html">confint</a></span><span class="op">(</span><span class="va">hald.bma</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            2.5%     97.5%      pred</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]  67.95000  91.40288  79.74246</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]  63.76845  85.48665  74.50010</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,]  95.02329 116.25124 105.29268</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  78.46205 100.69036  89.88693</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,]  84.21936 106.26279  95.57177</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,]  94.65906 115.40280 104.56409</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  92.15576 114.41727 103.40145</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  65.58127  88.50022  77.13668</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  80.96399 102.74959  91.99731</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 101.85966 126.81922 114.21325</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11,]  71.97593  93.98054  82.78446</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 100.20117 121.42655 111.00723</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13,]  99.68902 121.38460 110.40160</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]  67.67831  91.24637  79.74246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]  63.77350  85.73886  74.50010</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,]  94.84797 116.17193 105.29268</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  78.64270 100.79124  89.88693</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,]  84.90817 107.32212  95.57177</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,]  94.04249 114.95453 104.56409</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  92.22646 115.05471 103.40145</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  66.22539  88.58081  77.13668</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  81.30376 102.60163  91.99731</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 102.14729 126.28944 114.21325</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,]  71.69556  94.08645  82.78446</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,]  99.55875 121.88743 111.00723</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,]  99.21428 121.21507 110.40160</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"Probability")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
