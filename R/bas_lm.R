@@ -60,10 +60,6 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 }
 
 
-is.solaris<-function() {
-  grepl('SunOS',Sys.info()['sysname'])
-}
-
 #' Bayesian Adaptive Sampling for Bayesian Model Averaging and Variable Selection in
 #' Linear Models
 #'
@@ -168,7 +164,7 @@ is.solaris<-function() {
 #' = 3 the default.  For the Zellner-Siow prior alpha = 1 by default, but can be used
 #' to modify the rate parameter in the gamma prior on g,  1/g ~ G(1/2, n*alpha/2) so that
 #' beta ~ C(0, sigma^2 alpha (X'X/n)^{-1}).
-#' @param modelprior Family of prior distribution on the models.  Choices
+#' @param modelprior A function for a family of prior distribution on the models.  Choices
 #' include \code{\link{uniform}} \code{\link{Bernoulli}} or
 #' \code{\link{beta.binomial}}, \code{\link{tr.beta.binomial}},
 #' (with truncation) \code{\link{tr.poisson}} (a truncated Poisson), and
@@ -554,6 +550,7 @@ bas.lm <- function(formula,
   X <- cbind(ones, sweep(X[, -1, drop = FALSE], 2, mean.x))
   p <- dim(X)[2] # with intercept
 
+  if (class(modelprior) != "prior")  stop("modelprior should be an object of class prior,  uniform(),  beta.binomial(), etc")
 
   if (n <= p) {
     if (modelprior$family == "Uniform" ||
@@ -658,7 +655,7 @@ bas.lm <- function(formula,
 
   parents <- matrix(1, 1, 1)
   if (method == "MCMC+BAS" |
-    method == "deterministic" | is.solaris()) {
+    method == "deterministic" ) {
     force.heredity <- FALSE
   } # does not work with updating the tree
   if (force.heredity) {

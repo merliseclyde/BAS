@@ -183,6 +183,15 @@ test_that("methods", {
   ))
 })
 
+# issue "Error in bas.lm: $ operator is invalid for atomic vectors" #5
+test_that("model prior string", {
+  data(Hald)
+  expect_error(bas.lm(Y ~ .,
+                      prior = "BIC", modelprior = "uniform",
+                      data = Hald)
+  )
+})
+
 test_that("big model space", {
   data("protein")
   expect_error(bas.lm(prot.act1 ~ (buf + pH + NaCl + con + ra +

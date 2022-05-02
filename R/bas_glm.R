@@ -266,6 +266,9 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   if (missing(data)) {
     data <- environment(formula)
   }
+  
+  if (class(modelprior) != "prior") stop("modelprior should be an object of class prior,  uniform(),  beta.binomial(), etc")
+
 
   # browser()
   mfall <- match.call(expand.dots = FALSE)
@@ -355,7 +358,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   }
 
   parents <- matrix(1, 1, 1)
-  if (method == "deterministic" | method == "MCMC+BAS" | is.solaris()) force.heredity <- FALSE # not working yet
+  if (method == "deterministic" | method == "MCMC+BAS" ) force.heredity <- FALSE # not working yet
   if (force.heredity) {
     parents <- make.parents.of.interactions(mf, data)
 
@@ -428,6 +431,9 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
 
 
   #  check on priors
+  
+  if (class(betaprior) !="prior") stop("prior on coeeficients must be an object of type 'prior'")
+  
   loglik_null <- as.numeric(-0.5 * glm(Y ~ 1,
                                        weights = weights,
                                        offset = offset,
