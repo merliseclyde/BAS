@@ -72,7 +72,6 @@ Copyright 1984, 1987, 1988, 2000 by Stephen L. Moshier
 extern double exp ( double );
 extern double log ( double );
 extern double fabs ( double );
-double gam(double), lgam(double);
 double hyp2f0 ( double, double, double, int, double * );
 static double hy1f1p(double, double, double, double *);
 static double hy1f1a(double, double, double, double *);
@@ -80,7 +79,6 @@ double hyperg (double, double, double);
 #else
 double exp(), log(), gammafn(), lgammafn(),fabs(), 
 double hyp2f0();
-double gam(), lgam();
 static double hy1f1p();
 static double hy1f1a();
 double hyperg();
@@ -238,23 +236,23 @@ u = -temp * a;
 
 if( b > 0 )
 	{
-	temp = lgam(b);
+	temp = lgammafn(b);
 	t += temp;
 	u += temp;
 	}
 
 h1 = hyp2f0( a, a-b+1, -1.0/x, 1, &err1 );
 
-temp = exp(u) / gam(b-a);
+temp = exp(u) / gammafn(b-a);
 h1 *= temp;
 err1 *= temp;
 
 h2 = hyp2f0( b-a, 1.0-a, 1.0/x, 2, &err2 );
 
 if( a < 0 )
-	temp = exp(t) / gam(a);
+	temp = exp(t) / gammafn(a);
 else
-	temp = exp( t - lgam(a) );
+	temp = exp( t - lgammafn(a) );
 
 h2 *= temp;
 err2 *= temp;
@@ -269,7 +267,7 @@ acanc = fabs(err1) + fabs(err2);
 
 if( b < 0 )
 	{
-	temp = gam(b);
+	temp = gammafn(b);
 	asum *= temp;
 	acanc *= fabs(temp);
 	}
