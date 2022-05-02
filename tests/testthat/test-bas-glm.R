@@ -244,6 +244,18 @@ test_that("hyper.g prior for GLM", {
   )
 })
 
+# code coverage with Laplace 
+test_that("hyper.g prior for GLM", {
+  data(Pima.tr, package = "MASS")
+  pima_BAS <- bas.glm(type ~ ., data = Pima.tr, method = "BAS",
+                      betaprior = CCH(alpha=3,beta=1), laplace= TRUE,
+                      family = binomial(),
+                      modelprior = uniform()
+  )
+  expect_equal(0, sum(pima_BAS$shrinkage > 1))
+ 
+})
+
 # FIXED Issue #31
 test_that("g/IC prior for GLM", {
   data(Pima.tr, package = "MASS")
