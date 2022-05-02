@@ -95,12 +95,11 @@ extern double pow ( double, double );
 //extern double round ( double );
 extern double log ( double );
 extern double exp ( double );
-extern double psi ( double );
 static double hyt2f1(double, double, double, double, double *);
 static double hys2f1(double, double, double, double, double *);
 double hyp2f1(double, double, double, double);
 #else
-double fabs(), pow(), gammafn(), lgammafn(), log(), exp(), psi();
+double fabs(), pow(), gammafn(), lgammafn(), log(), exp();
 static double hyt2f1();
 static double hys2f1();
 double hyp2f1();
@@ -358,15 +357,15 @@ else
 	ax = log(s);
 
 	/* sum for t = 0 */
-	y = psi(1.0) + psi(1.0+e) - psi(a+d1) - psi(b+d1) - ax;
+	y = digamma(1.0) + digamma(1.0+e) - digamma(a+d1) - digamma(b+d1) - ax;
 	y /= gammafn(e+1.0);
 
 	p = (a+d1) * (b+d1) * s / gammafn(e+2.0);	/* Poch for t=1 */
 	t = 1.0;
 	do
 		{
-		r = psi(1.0+t) + psi(1.0+t+e) - psi(a+t+d1)
-			- psi(b+t+d1) - ax;
+		r = digamma(1.0+t) + digamma(1.0+t+e) - digamma(a+t+d1)
+			- digamma(b+t+d1) - ax;
 		q = p * r;
 		y += q;
 		p *= s * (a+t+d1) / (t+1.0);
