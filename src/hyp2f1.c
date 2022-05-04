@@ -64,46 +64,23 @@ Cephes Math Library Release 2.8:  June, 2000
 Copyright 1984, 1987, 1992, 2000 by Stephen L. Moshier
 */
 
+/* cleaned up to use with R */
+
 #include "mconf.h"
 #include <R.h>
 #include <Rmath.h>
 
 
-#ifdef DEC
-#define EPS2 1.0e-11
-#endif
-
-#ifdef IBMPC
-#define EPS2 1.0e-10
-#endif
-
-#ifdef MIEEE
-#define EPS2 1.0e-10
-#endif
-
-#ifdef UNK
-#define EPS2 1.0e-10
-#endif
 
 #define ETHRESH 1.0e-12
 
 #define EPS DBL_EPSILON
 
-#ifdef ANSIPROT
-extern double fabs ( double );
-extern double pow ( double, double );
-//extern double round ( double );
-extern double log ( double );
-extern double exp ( double );
+
 static double hyt2f1(double, double, double, double, double *);
 static double hys2f1(double, double, double, double, double *);
 double hyp2f1(double, double, double, double);
-#else
-double fabs(), pow(), gammafn(), lgammafn(), log(), exp();
-static double hyt2f1();
-static double hys2f1();
-double hyp2f1();
-#endif
+
 extern double MAXNUM, MACHEP;
 
 double hyp2f1( a, b, c, x )
