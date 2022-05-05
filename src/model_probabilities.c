@@ -112,9 +112,11 @@ double Bernoulli(int *model, int p, double *hyper) {
     case 1:
       prior *= hyper[j];
       break;
+/*  Can't ever get here
     default:
       prior *= 1.;
-      break;
+      break; 
+ */
       }
   }
   return(prior);
