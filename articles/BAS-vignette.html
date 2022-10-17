@@ -8,8 +8,8 @@
 <meta name="description" content="BAS">
 <title>Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging and Variable Selection • BAS</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging and Variable Selection">
 <meta property="og:description" content="BAS">
@@ -72,11 +72,11 @@
 
 
 <script src="BAS-vignette_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <main id="main"><div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging and Variable Selection</h1>
                         <h4 data-toc-skip class="author">Merlise A Clyde</h4>
             
-            <h4 data-toc-skip class="date">2022-05-05</h4>
+            <h4 data-toc-skip class="date">2022-10-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/merliseclyde/BAS/blob/HEAD/vignettes/BAS-vignette.Rmd" class="external-link"><code>vignettes/BAS-vignette.Rmd</code></a></small>
       <div class="d-none name"><code>BAS-vignette.Rmd</code></div>
@@ -91,10 +91,10 @@
 </h2>
 <p>The stable version can be installed easily in the <code>R</code> console like any other package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BAS"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BAS"</span><span class="op">)</span></span></code></pre></div>
 <p>On the other hand, I welcome everyone to use the most recent version of the package with quick-fixes, new features and probably new bugs. To get the latest development version from <a href="https://github.com/merliseclyde" class="external-link">GitHub</a>, use the <code>devtools</code> package from <a href="https://cran.r-project.org/package=devtools" class="external-link">CRAN</a> and enter in <code>R</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"merliseclyde/BAS"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"merliseclyde/BAS"</span><span class="op">)</span></span></code></pre></div>
 <p>As the package does depend on BLAS and LAPACK, installing from GitHub will require that you have FORTRAN and C compilers on your system.</p>
 </div>
 <div class="section level2">
@@ -102,19 +102,19 @@
 </h2>
 <p>We will use the UScrime data to illustrate some of the commands and functionality.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">UScrime</span>, package <span class="op">=</span> <span class="st">"MASS"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">UScrime</span>, package <span class="op">=</span> <span class="st">"MASS"</span><span class="op">)</span></span></code></pre></div>
 <p>Following other analyses, we will go ahead and log transform all of the variables except column 2, which is the indicator variable of the state being a southern state.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">UScrime</span><span class="op">[</span>, <span class="op">-</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">UScrime</span><span class="op">[</span>, <span class="op">-</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">UScrime</span><span class="op">[</span>, <span class="op">-</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">UScrime</span><span class="op">[</span>, <span class="op">-</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p>To get started, we will use <code>BAS</code> with the Zellner-Siow Cauchy prior on the coefficients.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.r-project.org" class="external-link">BAS</a></span><span class="op">)</span>
-<span class="va">crime.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>,
-  data <span class="op">=</span> <span class="va">UScrime</span>,
-  prior <span class="op">=</span> <span class="st">"ZS-null"</span>,
-  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>, initprobs <span class="op">=</span> <span class="st">"eplogp"</span>,
-  force.heredity <span class="op">=</span> <span class="cn">FALSE</span>, pivot <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.r-project.org" class="external-link">BAS</a></span><span class="op">)</span></span>
+<span><span class="va">crime.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">UScrime</span>,</span>
+<span>  prior <span class="op">=</span> <span class="st">"ZS-null"</span>,</span>
+<span>  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>, initprobs <span class="op">=</span> <span class="st">"eplogp"</span>,</span>
+<span>  force.heredity <span class="op">=</span> <span class="cn">FALSE</span>, pivot <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><code>BAS</code> uses a model formula similar to <code>lm</code> to specify the full model with all of the potential predictors. Here we are using the shorthand <code>.</code> to indicate that all remaining variables in the data frame provided by the <code>data</code> argument. Different prior distributions on the regression coefficients may be specified using the <code>prior</code> argument, and include</p>
 <ul>
 <li>“BIC”</li>
@@ -144,55 +144,55 @@
 </h2>
 <p>Some graphical summaries of the output may be obtained by the <code>plot</code> function</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">crime.ZS</span>, ask <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">crime.ZS</span>, ask <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-1.png" width="700"><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-2.png" width="700"><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-3.png" width="700"><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-4.png" width="700"></p>
 <p>which produces a panel of four plots. The first is a plot of residuals and fitted values under Bayesian Model Averaging. Ideally, if our model assumptions hold, we will not see outliers or non-constant variance. The second plot shows the cumulative probability of the models in the order that they are sampled. This plot indicates that the cumulative probability is leveling off as each additional model adds only a small increment to the cumulative probability, while earlier, there are larger jumps corresponding to discovering a new high probability model. The third plot shows the dimension of each model (the number of regression coefficients including the intercept) versus the log of the marginal likelihood of the model. The last plot shows the marginal posterior inclusion probabilities (pip) for each of the covariates, with marginal pips greater than 0.5 shown in red. The variables with pip &gt; 0.5 correspond to what is known as the median probability model. Variables with high inclusion probabilities are generally important for explaining the data or prediction, but marginal inclusion probabilities may be small if there are predictors that are highly correlated, similar to how p-values may be large in the presence of multicollinearity.</p>
 <p>Individual plots may be obtained using the <code>which</code> option.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">crime.ZS</span>, which <span class="op">=</span> <span class="fl">4</span>, ask <span class="op">=</span> <span class="cn">FALSE</span>, caption <span class="op">=</span> <span class="st">""</span>, sub.caption <span class="op">=</span> <span class="st">""</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">crime.ZS</span>, which <span class="op">=</span> <span class="fl">4</span>, ask <span class="op">=</span> <span class="cn">FALSE</span>, caption <span class="op">=</span> <span class="st">""</span>, sub.caption <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/pip-1.png" width="480"></p>
 <p><code>BAS</code> has <code>print</code> and <code>summary</code> methods defined for objects of class <code>bas</code>. Typing the objects name</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">crime.ZS</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">## Call:</span>
-<span class="co">## bas.lm(formula = y ~ ., data = UScrime, prior = "ZS-null", modelprior = uniform(), </span>
-<span class="co">##     initprobs = "eplogp", force.heredity = FALSE, pivot = TRUE)</span>
-<span class="co">## </span>
-<span class="co">## </span>
-<span class="co">##  Marginal Posterior Inclusion Probabilities: </span>
-<span class="co">## Intercept          M         So         Ed        Po1        Po2         LF  </span>
-<span class="co">##    1.0000     0.8536     0.2737     0.9747     0.6652     0.4490     0.2022  </span>
-<span class="co">##       M.F        Pop         NW         U1         U2        GDP       Ineq  </span>
-<span class="co">##    0.2050     0.3696     0.6944     0.2526     0.6149     0.3601     0.9965  </span>
-<span class="co">##      Prob       Time  </span>
-<span class="co">##    0.8992     0.3718</span></code></pre>
+<code class="sourceCode R"><span><span class="va">crime.ZS</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Call:</span></span>
+<span><span class="co">## bas.lm(formula = y ~ ., data = UScrime, prior = "ZS-null", modelprior = uniform(), </span></span>
+<span><span class="co">##     initprobs = "eplogp", force.heredity = FALSE, pivot = TRUE)</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##  Marginal Posterior Inclusion Probabilities: </span></span>
+<span><span class="co">## Intercept          M         So         Ed        Po1        Po2         LF  </span></span>
+<span><span class="co">##    1.0000     0.8536     0.2737     0.9747     0.6652     0.4490     0.2022  </span></span>
+<span><span class="co">##       M.F        Pop         NW         U1         U2        GDP       Ineq  </span></span>
+<span><span class="co">##    0.2050     0.3696     0.6944     0.2526     0.6149     0.3601     0.9965  </span></span>
+<span><span class="co">##      Prob       Time  </span></span>
+<span><span class="co">##    0.8992     0.3718</span></span></code></pre>
 <p>returns a summary of the marginal inclusion probabilities, while the <code>summary</code> function provides</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">80</span><span class="op">)</span>
-<span class="fu"><a href="../reference/summary.html">summary</a></span><span class="op">(</span><span class="va">crime.ZS</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##           P(B != 0 | Y)  model 1    model 2    model 3   model 4    model 5</span>
-<span class="co">## Intercept     1.0000000  1.00000  1.0000000  1.0000000  1.000000  1.0000000</span>
-<span class="co">## M             0.8535720  1.00000  1.0000000  1.0000000  1.000000  1.0000000</span>
-<span class="co">## So            0.2737083  0.00000  0.0000000  0.0000000  0.000000  0.0000000</span>
-<span class="co">## Ed            0.9746605  1.00000  1.0000000  1.0000000  1.000000  1.0000000</span>
-<span class="co">## Po1           0.6651553  1.00000  1.0000000  0.0000000  1.000000  1.0000000</span>
-<span class="co">## Po2           0.4490097  0.00000  0.0000000  1.0000000  0.000000  0.0000000</span>
-<span class="co">## LF            0.2022374  0.00000  0.0000000  0.0000000  0.000000  0.0000000</span>
-<span class="co">## M.F           0.2049659  0.00000  0.0000000  0.0000000  0.000000  0.0000000</span>
-<span class="co">## Pop           0.3696150  0.00000  0.0000000  0.0000000  1.000000  0.0000000</span>
-<span class="co">## NW            0.6944069  1.00000  1.0000000  1.0000000  1.000000  0.0000000</span>
-<span class="co">## U1            0.2525834  0.00000  0.0000000  0.0000000  0.000000  0.0000000</span>
-<span class="co">## U2            0.6149388  1.00000  1.0000000  1.0000000  1.000000  1.0000000</span>
-<span class="co">## GDP           0.3601179  0.00000  0.0000000  0.0000000  0.000000  0.0000000</span>
-<span class="co">## Ineq          0.9965359  1.00000  1.0000000  1.0000000  1.000000  1.0000000</span>
-<span class="co">## Prob          0.8991841  1.00000  1.0000000  1.0000000  1.000000  1.0000000</span>
-<span class="co">## Time          0.3717976  1.00000  0.0000000  0.0000000  0.000000  0.0000000</span>
-<span class="co">## BF                   NA  1.00000  0.9416178  0.6369712  0.594453  0.5301269</span>
-<span class="co">## PostProbs            NA  0.01820  0.0172000  0.0116000  0.010800  0.0097000</span>
-<span class="co">## R2                   NA  0.84200  0.8265000  0.8229000  0.837500  0.8046000</span>
-<span class="co">## dim                  NA  9.00000  8.0000000  8.0000000  9.000000  7.0000000</span>
-<span class="co">## logmarg              NA 23.65111 23.5909572 23.2000822 23.130999 23.0164741</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">80</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/summary.html">summary</a></span><span class="op">(</span><span class="va">crime.ZS</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##           P(B != 0 | Y)  model 1    model 2    model 3   model 4    model 5</span></span>
+<span><span class="co">## Intercept     1.0000000  1.00000  1.0000000  1.0000000  1.000000  1.0000000</span></span>
+<span><span class="co">## M             0.8535720  1.00000  1.0000000  1.0000000  1.000000  1.0000000</span></span>
+<span><span class="co">## So            0.2737083  0.00000  0.0000000  0.0000000  0.000000  0.0000000</span></span>
+<span><span class="co">## Ed            0.9746605  1.00000  1.0000000  1.0000000  1.000000  1.0000000</span></span>
+<span><span class="co">## Po1           0.6651553  1.00000  1.0000000  0.0000000  1.000000  1.0000000</span></span>
+<span><span class="co">## Po2           0.4490097  0.00000  0.0000000  1.0000000  0.000000  0.0000000</span></span>
+<span><span class="co">## LF            0.2022374  0.00000  0.0000000  0.0000000  0.000000  0.0000000</span></span>
+<span><span class="co">## M.F           0.2049659  0.00000  0.0000000  0.0000000  0.000000  0.0000000</span></span>
+<span><span class="co">## Pop           0.3696150  0.00000  0.0000000  0.0000000  1.000000  0.0000000</span></span>
+<span><span class="co">## NW            0.6944069  1.00000  1.0000000  1.0000000  1.000000  0.0000000</span></span>
+<span><span class="co">## U1            0.2525834  0.00000  0.0000000  0.0000000  0.000000  0.0000000</span></span>
+<span><span class="co">## U2            0.6149388  1.00000  1.0000000  1.0000000  1.000000  1.0000000</span></span>
+<span><span class="co">## GDP           0.3601179  0.00000  0.0000000  0.0000000  0.000000  0.0000000</span></span>
+<span><span class="co">## Ineq          0.9965359  1.00000  1.0000000  1.0000000  1.000000  1.0000000</span></span>
+<span><span class="co">## Prob          0.8991841  1.00000  1.0000000  1.0000000  1.000000  1.0000000</span></span>
+<span><span class="co">## Time          0.3717976  1.00000  0.0000000  0.0000000  0.000000  0.0000000</span></span>
+<span><span class="co">## BF                   NA  1.00000  0.9416178  0.6369712  0.594453  0.5301269</span></span>
+<span><span class="co">## PostProbs            NA  0.01820  0.0172000  0.0116000  0.010800  0.0097000</span></span>
+<span><span class="co">## R2                   NA  0.84200  0.8265000  0.8229000  0.837500  0.8046000</span></span>
+<span><span class="co">## dim                  NA  9.00000  8.0000000  8.0000000  9.000000  7.0000000</span></span>
+<span><span class="co">## logmarg              NA 23.65111 23.5909572 23.2000822 23.130999 23.0164741</span></span></code></pre>
 <p>a list of the top 5 models (in terms of posterior probability) with the zero-one indicators for variable inclusion. The other columns in the summary are the Bayes factor of each model to the highest probability model (hence its Bayes factor is 1), the posterior probabilities of the models, the ordinary <span class="math inline">\(R^2\)</span> of the models, the dimension of the models (number of coefficients including the intercept) and the log marginal likelihood under the selected prior distribution.</p>
 </div>
 <div class="section level2">
@@ -200,8 +200,7 @@
 </h2>
 <p>To see beyond the first five models, we can represent the collection of the models via an <code>image</code> plot. By default this shows the top 20 models.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">crime.ZS</span>, rotate <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Warning in par(par.old): argument 1 does not name a graphical parameter</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">crime.ZS</span>, rotate <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/image-1.png" width="480"></p>
 <p>This image has rows that correspond to each of the variables and intercept, with labels for the variables on the y-axis. The x-axis corresponds to the possible models. These are sorted by their posterior probability from best at the left to worst at the right with the rank on the top x-axis.</p>
 <p>Each column represents one of the 16 models. The variables that are excluded in a model are shown in black for each column, while the variables that are included are colored, with the color related to the log posterior probability. The color of each column is proportional to the log of the posterior probabilities (the lower x-axis) of that model. The log posterior probabilities are actually scaled so that the 0 corresponds to the lowest probability model in the top 20, so that the values on the axis correspond to log Bayes factors for comparing each model the lowest probability model in the top 20 models. Models that are the same color have similar log Bayes factors which allows us to view models that are clustered together that have Bayes Factors where the differences are not “worth a bare mention”.</p>
@@ -211,76 +210,76 @@
 <h2 id="posterior-distributions-of-coefficients">Posterior Distributions of Coefficients<a class="anchor" aria-label="anchor" href="#posterior-distributions-of-coefficients"></a>
 </h2>
 <p>To examine the marginal distributions of the two coefficients for the police expenditures, we can extract the coefficients estimates and standard deviations under BMA.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">coef.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/coef.html">coef</a></span><span class="op">(</span><span class="va">crime.ZS</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">coef.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/coef.html">coef</a></span><span class="op">(</span><span class="va">crime.ZS</span><span class="op">)</span></span></code></pre></div>
 <p>an optional argument, <code>n.models</code> to <code>coef</code> will use only the top <code>n.models</code> for BMA and may be more computationally efficient for large problems.</p>
 <p>Plots of the posterior distributions averaging over all of the models are obtained using the <code>plot</code> method for the <code>bas</code> coefficient object.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">coef.ZS</span>, subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, ask <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">coef.ZS</span>, subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, ask <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/plot-1.png" width="700"><img src="BAS-vignette_files/figure-html/plot-2.png" width="700"></p>
 <p>The vertical bar represents the posterior probability that the coefficient is 0 while the bell shaped curve represents the density of plausible values from all the models where the coefficient is non-zero. This is scaled so that the height of the density for non-zero values is the probability that the coefficient is non-zero. Omitting the <code>subset</code> argument provides all of the marginal distributions.</p>
 <p>To obtain credible intervals for coefficients, <code>BAS</code> includes a <code>confint</code> method to create Highest Posterior Density intervals from the summaries from <code>coef</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="va">coef.ZS</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##                  2.5%        97.5%        beta</span>
-<span class="co">## Intercept  6.66904275 6.7839229670  6.72493620</span>
-<span class="co">## M          0.00000000 2.1717897262  1.14359433</span>
-<span class="co">## So        -0.06799466 0.3032061056  0.03547522</span>
-<span class="co">## Ed         0.53190082 3.1774936776  1.85848834</span>
-<span class="co">## Po1        0.00000000 1.4331511590  0.60067372</span>
-<span class="co">## Po2       -0.19810922 1.4225672793  0.31841766</span>
-<span class="co">## LF        -0.50346872 1.0686402924  0.05933737</span>
-<span class="co">## M.F       -2.21451140 1.9500669191 -0.02702786</span>
-<span class="co">## Pop       -0.13128002 0.0022622533 -0.02248283</span>
-<span class="co">## NW         0.00000000 0.1659469623  0.06668437</span>
-<span class="co">## U1        -0.52582514 0.3673329597 -0.02456854</span>
-<span class="co">## U2         0.00000000 0.6481594177  0.20702927</span>
-<span class="co">## GDP       -0.02538474 1.1913005756  0.20625063</span>
-<span class="co">## Ineq       0.67097592 2.1535178310  1.39012647</span>
-<span class="co">## Prob      -0.41561038 0.0002463369 -0.21536203</span>
-<span class="co">## Time      -0.50461341 0.0686333588 -0.08433479</span>
-<span class="co">## attr(,"Probability")</span>
-<span class="co">## [1] 0.95</span>
-<span class="co">## attr(,"class")</span>
-<span class="co">## [1] "confint.bas"</span></code></pre>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="va">coef.ZS</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##                    2.5%       97.5%        beta</span></span>
+<span><span class="co">## Intercept  6.6695036146 6.783693959  6.72493620</span></span>
+<span><span class="co">## M          0.0000000000 2.180474113  1.14359433</span></span>
+<span><span class="co">## So        -0.0420441427 0.313657907  0.03547522</span></span>
+<span><span class="co">## Ed         0.6275757246 3.197584600  1.85848834</span></span>
+<span><span class="co">## Po1       -0.0002242035 1.424497818  0.60067372</span></span>
+<span><span class="co">## Po2       -0.2594688165 1.368520593  0.31841766</span></span>
+<span><span class="co">## LF        -0.5330911138 1.000118995  0.05933737</span></span>
+<span><span class="co">## M.F       -1.9540906617 2.129571467 -0.02702786</span></span>
+<span><span class="co">## Pop       -0.1251608187 0.004099989 -0.02248283</span></span>
+<span><span class="co">## NW         0.0000000000 0.166623599  0.06668437</span></span>
+<span><span class="co">## U1        -0.5124847124 0.368966457 -0.02456854</span></span>
+<span><span class="co">## U2         0.0000000000 0.672058814  0.20702927</span></span>
+<span><span class="co">## GDP       -0.0325573681 1.197439243  0.20625063</span></span>
+<span><span class="co">## Ineq       0.6710497680 2.126694422  1.39012647</span></span>
+<span><span class="co">## Prob      -0.4078290390 0.000000000 -0.21536203</span></span>
+<span><span class="co">## Time      -0.5434894320 0.028888826 -0.08433479</span></span>
+<span><span class="co">## attr(,"Probability")</span></span>
+<span><span class="co">## [1] 0.95</span></span>
+<span><span class="co">## attr(,"class")</span></span>
+<span><span class="co">## [1] "confint.bas"</span></span></code></pre>
 <p>where the third column is the posterior mean. This uses Monte Carlo sampling to draw from the mixture model over coefficient where models are sampled based on their posterior probabilities.</p>
 <p>We can also plot these via</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="va">coef.ZS</span>, parm <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">16</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="va">coef.ZS</span>, parm <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">16</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/plot-confint-1.png" width="672"></p>
-<pre><code><span class="co">## NULL</span></code></pre>
+<pre><code><span><span class="co">## NULL</span></span></code></pre>
 <p>using the <code>parm</code> argument to select which coefficients to plot (the intercept is <code>parm=1</code>).</p>
 <p>For estimation under selection, <code>BAS</code> supports additional arguments via <code>estimator</code>. The default is <code>estimator="BMA"</code> which uses all models or <code>n.models</code>. Other options include estimation under the highest probability model</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="fu"><a href="../reference/coef.html">coef</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"HPM"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="fu"><a href="../reference/coef.html">coef</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"HPM"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
-<pre><code><span class="co">## NULL</span></code></pre>
+<pre><code><span><span class="co">## NULL</span></span></code></pre>
 <p>or the median probability model</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="fu"><a href="../reference/coef.html">coef</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"MPM"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="fu"><a href="../reference/coef.html">coef</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"MPM"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>where variables that are excluded have distributions that are point masses at zero under selection.</p>
 </div>
 <div class="section level2">
 <h2 id="prediction">Prediction<a class="anchor" aria-label="anchor" href="#prediction"></a>
 </h2>
 <p><code>BAS</code> has methods defined to return fitted values, <code>fitted</code>, using the observed design matrix and predictions at either the observed data or potentially new values, <code>predict</code>, as with <code>lm</code>.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">muhat.BMA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitted.html">fitted</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"BMA"</span><span class="op">)</span>
-<span class="va">BMA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict.bas.html">predict</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"BMA"</span><span class="op">)</span>
-
-<span class="co"># predict has additional slots for fitted values under BMA, predictions under each model</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">BMA</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##  [1] "fit"         "Ybma"        "Ypred"       "postprobs"   "se.fit"     </span>
-<span class="co">##  [6] "se.pred"     "se.bma.fit"  "se.bma.pred" "df"          "best"       </span>
-<span class="co">## [11] "bestmodel"   "best.vars"   "estimator"</span></code></pre>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">muhat.BMA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitted.html">fitted</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"BMA"</span><span class="op">)</span></span>
+<span><span class="va">BMA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict.bas.html">predict</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"BMA"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># predict has additional slots for fitted values under BMA, predictions under each model</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">BMA</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##  [1] "fit"         "Ybma"        "Ypred"       "postprobs"   "se.fit"     </span></span>
+<span><span class="co">##  [6] "se.pred"     "se.bma.fit"  "se.bma.pred" "df"          "best"       </span></span>
+<span><span class="co">## [11] "bestmodel"   "best.vars"   "estimator"</span></span></code></pre>
 <p>Plotting the two sets of fitted values,</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">9</span>, <span class="fl">9</span>, <span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">muhat.BMA</span>, <span class="va">BMA</span><span class="op">$</span><span class="va">fit</span>,
-  pch <span class="op">=</span> <span class="fl">16</span>,
-  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grDevices/plotmath.html" class="external-link">hat</a></span><span class="op">(</span><span class="va">mu</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>, ylab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grDevices/plotmath.html" class="external-link">hat</a></span><span class="op">(</span><span class="va">Y</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
-<span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">9</span>, <span class="fl">9</span>, <span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">muhat.BMA</span>, <span class="va">BMA</span><span class="op">$</span><span class="va">fit</span>,</span>
+<span>  pch <span class="op">=</span> <span class="fl">16</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/influence.measures.html" class="external-link">hat</a></span><span class="op">(</span><span class="va">mu</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>, ylab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/influence.measures.html" class="external-link">hat</a></span><span class="op">(</span><span class="va">Y</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/unnamed-chunk-4-1.png" width="480"></p>
 <p>we see that they are in perfect agreement. That is always the case as the posterior mean for the regression mean function at a point <span class="math inline">\(x\)</span> is the expected posterior predictive value for <span class="math inline">\(Y\)</span> at <span class="math inline">\(x\)</span>. This is true not only for estimators such as BMA, but the expected values under model selection.</p>
 <div class="section level3">
@@ -288,59 +287,59 @@
 </h3>
 <p>In addition to using BMA, we can use the posterior means under model selection. This corresponds to a decision rule that combines estimation and selection. <code>BAS</code> currently implements the following options</p>
 <p><strong>highest probability model:</strong></p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">HPM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict.bas.html">predict</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"HPM"</span><span class="op">)</span>
-
-<span class="co"># show the indices of variables in the best model where 0 is the intercept</span>
-<span class="va">HPM</span><span class="op">$</span><span class="va">bestmodel</span></code></pre></div>
-<pre><code><span class="co">## [1]  0  1  3  4  9 11 13 14 15</span></code></pre>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">HPM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict.bas.html">predict</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"HPM"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># show the indices of variables in the best model where 0 is the intercept</span></span>
+<span><span class="va">HPM</span><span class="op">$</span><span class="va">bestmodel</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1]  0  1  3  4  9 11 13 14 15</span></span></code></pre>
 <p>A little more interpretable version with names:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/variable.names.pred.bas.html">variable.names</a></span><span class="op">(</span><span class="va">HPM</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [1] "Intercept" "M"         "Ed"        "Po1"       "NW"        "U2"       </span>
-<span class="co">## [7] "Ineq"      "Prob"      "Time"</span></code></pre>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/variable.names.pred.bas.html">variable.names</a></span><span class="op">(</span><span class="va">HPM</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "Intercept" "M"         "Ed"        "Po1"       "NW"        "U2"       </span></span>
+<span><span class="co">## [7] "Ineq"      "Prob"      "Time"</span></span></code></pre>
 <p><strong>median probability model:</strong></p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">MPM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict.bas.html">predict</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"MPM"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/variable.names.pred.bas.html">variable.names</a></span><span class="op">(</span><span class="va">MPM</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [1] "Intercept" "M"         "Ed"        "Po1"       "NW"        "U2"       </span>
-<span class="co">## [7] "Ineq"      "Prob"</span></code></pre>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">MPM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict.bas.html">predict</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"MPM"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/variable.names.pred.bas.html">variable.names</a></span><span class="op">(</span><span class="va">MPM</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "Intercept" "M"         "Ed"        "Po1"       "NW"        "U2"       </span></span>
+<span><span class="co">## [7] "Ineq"      "Prob"</span></span></code></pre>
 <p>This is the model where all predictors have an inclusion probability greater than or equal to 0.5. This coincides with the HPM if the predictors are all mutually orthogonal, and in this case is the best predictive model under squared error loss.</p>
 <p>Note that we can also extract the best model from the attribute in the fitted values as well.</p>
 <p><strong>best predictive model:</strong></p>
 <p>In general, the HPM or MPM are not the best predictive models, which from a Bayesian decision theory perspective would be the model that is closest to BMA predictions under squared error loss.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">BPM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict.bas.html">predict</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"BPM"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/variable.names.pred.bas.html">variable.names</a></span><span class="op">(</span><span class="va">BPM</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##  [1] "Intercept" "M"         "So"        "Ed"        "Po1"       "Po2"      </span>
-<span class="co">##  [7] "M.F"       "NW"        "U2"        "Ineq"      "Prob"</span></code></pre>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">BPM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict.bas.html">predict</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"BPM"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/variable.names.pred.bas.html">variable.names</a></span><span class="op">(</span><span class="va">BPM</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##  [1] "Intercept" "M"         "So"        "Ed"        "Po1"       "Po2"      </span></span>
+<span><span class="co">##  [7] "M.F"       "NW"        "U2"        "Ineq"      "Prob"</span></span></code></pre>
 <p>Let’s see how they compare:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">GGally</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/ggally/reference/ggpairs.html" class="external-link">ggpairs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>
-  HPM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">HPM</span><span class="op">$</span><span class="va">fit</span><span class="op">)</span>, <span class="co"># this used predict so we need to extract fitted values</span>
-  MPM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">MPM</span><span class="op">$</span><span class="va">fit</span><span class="op">)</span>, <span class="co"># this used fitted</span>
-  BPM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">BPM</span><span class="op">$</span><span class="va">fit</span><span class="op">)</span>, <span class="co"># this used fitted</span>
-  BMA <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">BMA</span><span class="op">$</span><span class="va">fit</span><span class="op">)</span>
-<span class="op">)</span><span class="op">)</span> <span class="co"># this used predict</span></code></pre></div>
-<pre><code><span class="co">## Registered S3 method overwritten by 'GGally':</span>
-<span class="co">##   method from   </span>
-<span class="co">##   +.gg   ggplot2</span></code></pre>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">GGally</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/ggally/reference/ggpairs.html" class="external-link">ggpairs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  HPM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">HPM</span><span class="op">$</span><span class="va">fit</span><span class="op">)</span>, <span class="co"># this used predict so we need to extract fitted values</span></span>
+<span>  MPM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">MPM</span><span class="op">$</span><span class="va">fit</span><span class="op">)</span>, <span class="co"># this used fitted</span></span>
+<span>  BPM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">BPM</span><span class="op">$</span><span class="va">fit</span><span class="op">)</span>, <span class="co"># this used fitted</span></span>
+<span>  BMA <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">BMA</span><span class="op">$</span><span class="va">fit</span><span class="op">)</span></span>
+<span><span class="op">)</span><span class="op">)</span> <span class="co"># this used predict</span></span></code></pre></div>
+<pre><code><span><span class="co">## Registered S3 method overwritten by 'GGally':</span></span>
+<span><span class="co">##   method from   </span></span>
+<span><span class="co">##   +.gg   ggplot2</span></span></code></pre>
 <p><img src="BAS-vignette_files/figure-html/unnamed-chunk-6-1.png" width="576"></p>
 <p>Using the <code>se.fit = TRUE</code> option with <code>predict</code> we can also calculate standard deviations for prediction or for the mean and use this as input for the <code>confint</code> function for the prediction object.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">BPM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict.bas.html">predict</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"BPM"</span>, se.fit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="va">crime.conf.fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="va">BPM</span>, parm <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span>
-<span class="va">crime.conf.pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="va">BPM</span>, parm <span class="op">=</span> <span class="st">"pred"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">crime.conf.fit</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">BPM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict.bas.html">predict</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"BPM"</span>, se.fit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">crime.conf.fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="va">BPM</span>, parm <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span></span>
+<span><span class="va">crime.conf.pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="va">BPM</span>, parm <span class="op">=</span> <span class="st">"pred"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">crime.conf.fit</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/se-1.png" width="672"></p>
-<pre><code><span class="co">## NULL</span></code></pre>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">crime.conf.pred</span><span class="op">)</span></code></pre></div>
+<pre><code><span><span class="co">## NULL</span></span></code></pre>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">crime.conf.pred</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/se-2.png" width="672"></p>
-<pre><code><span class="co">## NULL</span></code></pre>
+<pre><code><span><span class="co">## NULL</span></span></code></pre>
 <p>For prediction at new points, we can supply a new dataframe to the predict function as in <code>lm</code>.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">new.pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict.bas.html">predict</a></span><span class="op">(</span><span class="va">crime.ZS</span>, newdata <span class="op">=</span> <span class="va">UScrime</span>, estimator <span class="op">=</span> <span class="st">"MPM"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">new.pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict.bas.html">predict</a></span><span class="op">(</span><span class="va">crime.ZS</span>, newdata <span class="op">=</span> <span class="va">UScrime</span>, estimator <span class="op">=</span> <span class="st">"MPM"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -348,65 +347,65 @@
 </h2>
 <p><code>BAS</code> has several options for sampling from the model space with or without enumeration. The (current) default <code>method="BAS"</code> samples models without replacement using estimates of the marginal inclusion probabilities using the algorithm described in <a href="https://dx.doi.org/10.1198/jcgs.2010.09049" class="external-link">Clyde et al (2011)</a>. The initial sampling probabilities provided by <code>initprobs</code> are updated based on the sampled models, every <code>update</code> iterations. This can be more efficient in some cases if a large fraction of the model space has been sampled, however, in cases of high correlation and a large number of predictors, this can lead to biased estimates <a href="https://dx.doi.org/10.1093/biomet/ass040" class="external-link">Clyde and Ghosh (2012)</a>, in which case MCMC is preferred. The <code>method="MCMC"</code> is described below and is better for large <span class="math inline">\(p\)</span>.</p>
 <p>A deterministic sampling scheme is also available for enumeration;</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span>
-  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span>
-    <span class="va">crime.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>,
-      data <span class="op">=</span> <span class="va">UScrime</span>,
-      prior <span class="op">=</span> <span class="st">"ZS-null"</span>, method <span class="op">=</span> <span class="st">"BAS"</span>,
-      modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>, initprobs <span class="op">=</span> <span class="st">"eplogp"</span>
-    <span class="op">)</span>
-  <span class="op">}</span>
-<span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##    user  system elapsed </span>
-<span class="co">##   2.401   0.024   2.425</span></code></pre>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span>
-  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span>
-    <span class="va">crime.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>,
-      data <span class="op">=</span> <span class="va">UScrime</span>,
-      prior <span class="op">=</span> <span class="st">"ZS-null"</span>, method <span class="op">=</span> <span class="st">"deterministic"</span>,
-      modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>, initprobs <span class="op">=</span> <span class="st">"eplogp"</span>
-    <span class="op">)</span>
-  <span class="op">}</span>
-<span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##    user  system elapsed </span>
-<span class="co">##   2.022   0.000   2.022</span></code></pre>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
+<span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">crime.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>,</span>
+<span>      data <span class="op">=</span> <span class="va">UScrime</span>,</span>
+<span>      prior <span class="op">=</span> <span class="st">"ZS-null"</span>, method <span class="op">=</span> <span class="st">"BAS"</span>,</span>
+<span>      modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>, initprobs <span class="op">=</span> <span class="st">"eplogp"</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##    user  system elapsed </span></span>
+<span><span class="co">##   1.851   0.008   1.859</span></span></code></pre>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
+<span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">crime.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>,</span>
+<span>      data <span class="op">=</span> <span class="va">UScrime</span>,</span>
+<span>      prior <span class="op">=</span> <span class="st">"ZS-null"</span>, method <span class="op">=</span> <span class="st">"deterministic"</span>,</span>
+<span>      modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>, initprobs <span class="op">=</span> <span class="st">"eplogp"</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##    user  system elapsed </span></span>
+<span><span class="co">##   1.509   0.004   1.514</span></span></code></pre>
 <p>which is faster for enumeration than the default method=“BAS”.</p>
 </div>
 <div class="section level2">
 <h2 id="beyond-enumeration">Beyond Enumeration<a class="anchor" aria-label="anchor" href="#beyond-enumeration"></a>
 </h2>
 <p>Many problems are too large to enumerate all possible models. In such cases we may use the <code>method="BAS"</code> to sample without replacement or the <code>method="MCMC"</code> option to sample models using Markov Chain Monte Carlo sampling to sample models based on their posterior probabilities. For spaces where the number of models greatly exceeds the number of models to sample, the MCMC option is recommended as it provides estimates with low bias compared to the sampling without replacement of BAS (Clyde and Ghosh 2011).</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">crime.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>,
-  data <span class="op">=</span> <span class="va">UScrime</span>,
-  prior <span class="op">=</span> <span class="st">"ZS-null"</span>,
-  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>,
-  method <span class="op">=</span> <span class="st">"MCMC"</span>
-<span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">crime.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">UScrime</span>,</span>
+<span>  prior <span class="op">=</span> <span class="st">"ZS-null"</span>,</span>
+<span>  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"MCMC"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>This will run the MCMC sampler until the number of unique sampled models exceeds <code>n.models</code> which is <span class="math inline">\(2^p\)</span> (if <span class="math inline">\(p &lt; 19\)</span>) by default or until <code>MCMC.iterations</code> has been exceeded, where <code>MCMC.iterations = n.models*2</code> by default.</p>
 <div class="section level3">
 <h3 id="estimates-of-marginal-posterior-inclusion-probabilities-pip">Estimates of Marginal Posterior Inclusion Probabilities (pip)<a class="anchor" aria-label="anchor" href="#estimates-of-marginal-posterior-inclusion-probabilities-pip"></a>
 </h3>
 <p>With MCMC sampling there are two estimates of the marginal inclusion probabilities: <code>object$probne0</code> which are obtained by using the re-normalized posterior odds from sampled models to estimate probabilities and the estimates based on Monte Carlo frequencies <code>object$probs.MCMC</code>. These should be in close agreement if the MCMC sampler has run for enough iterations.</p>
 <p><code>BAS</code> includes a diagnostic function to compare the two sets of estimates of posterior inclusion probabilities and posterior model probabilities</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/diagnostics.html">diagnostics</a></span><span class="op">(</span><span class="va">crime.ZS</span>, type <span class="op">=</span> <span class="st">"pip"</span>, pch <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/diagnostics.html">diagnostics</a></span><span class="op">(</span><span class="va">crime.ZS</span>, type <span class="op">=</span> <span class="st">"pip"</span>, pch <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/diagnostics-1.png" width="700"></p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/diagnostics.html">diagnostics</a></span><span class="op">(</span><span class="va">crime.ZS</span>, type <span class="op">=</span> <span class="st">"model"</span>, pch <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/diagnostics.html">diagnostics</a></span><span class="op">(</span><span class="va">crime.ZS</span>, type <span class="op">=</span> <span class="st">"model"</span>, pch <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/diagnostics-2.png" width="700"></p>
 <p>In the left hand plot of pips, each point represents one posterior inclusion probability for the 15 variables estimated under the two methods. The two estimators are in pretty close agreement. The plot of the model probabilities suggests that we should use more <code>MCMC.iterations</code> if we want more accurate estimates of the posterior model probabilities.</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">crime.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>,
-  data <span class="op">=</span> <span class="va">UScrime</span>,
-  prior <span class="op">=</span> <span class="st">"ZS-null"</span>,
-  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>,
-  method <span class="op">=</span> <span class="st">"MCMC"</span>, MCMC.iterations <span class="op">=</span> <span class="fl">10</span><span class="op">^</span><span class="fl">6</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="../reference/diagnostics.html">diagnostics</a></span><span class="op">(</span><span class="va">crime.ZS</span>, type<span class="op">=</span><span class="st">"model"</span>, pch<span class="op">=</span><span class="fl">16</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">crime.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">UScrime</span>,</span>
+<span>  prior <span class="op">=</span> <span class="st">"ZS-null"</span>,</span>
+<span>  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"MCMC"</span>, MCMC.iterations <span class="op">=</span> <span class="fl">10</span><span class="op">^</span><span class="fl">6</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/diagnostics.html">diagnostics</a></span><span class="op">(</span><span class="va">crime.ZS</span>, type<span class="op">=</span><span class="st">"model"</span>, pch<span class="op">=</span><span class="fl">16</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -414,20 +413,20 @@
 </h2>
 <p>BAS can also be used for exploring mean shift or variance inflation outliers by adding indicator variables for each case being an outlier (the mean is not given by the regression) or not. This is similar to the MC3.REG function in BMA, although here we are using a g-prior or mixture of g-priors for the coefficients for the outlier means.</p>
 <p>Using the Stackloss data, we can add an identify matrix to the original dataframe, where each column is an indicator that the ith variable is an outlier.</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"stackloss"</span><span class="op">)</span>
-<span class="va">stackloss</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">stackloss</span>, <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">stackloss</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="va">stack.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">stack.loss</span> <span class="op">~</span> <span class="va">.</span>,
-  data <span class="op">=</span> <span class="va">stackloss</span>,
-  method <span class="op">=</span> <span class="st">"MCMC"</span>, initprobs <span class="op">=</span> <span class="st">"marg-eplogp"</span>,
-  prior <span class="op">=</span> <span class="st">"ZS-null"</span>,
-  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/tr.poisson.html">tr.poisson</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">10</span><span class="op">)</span>,
-  MCMC.iterations <span class="op">=</span> <span class="fl">200000</span>
-<span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"stackloss"</span><span class="op">)</span></span>
+<span><span class="va">stackloss</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">stackloss</span>, <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">stackloss</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">stack.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">stack.loss</span> <span class="op">~</span> <span class="va">.</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">stackloss</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"MCMC"</span>, initprobs <span class="op">=</span> <span class="st">"marg-eplogp"</span>,</span>
+<span>  prior <span class="op">=</span> <span class="st">"ZS-null"</span>,</span>
+<span>  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/tr.poisson.html">tr.poisson</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">10</span><span class="op">)</span>,</span>
+<span>  MCMC.iterations <span class="op">=</span> <span class="fl">200000</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>The above call introduces using truncated prior distributions on the model space; in this case the distribution of the number of variables to be included has a Poisson distribution, with mean 4 (under no truncation), and the truncation point is at 10, so that all models with more than 10 (one half of cases rounded down) will have probability zero. This avoids exploration of models that are not full rank.</p>
 <p>Looking at the summaries</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="../reference/summary.html">summary</a></span><span class="op">(</span><span class="va">stack.bas</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="../reference/summary.html">summary</a></span><span class="op">(</span><span class="va">stack.bas</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
@@ -450,7 +449,7 @@
 </tr>
 <tr class="even">
 <td align="left">Air.Flow</td>
-<td align="right">0.999850</td>
+<td align="right">0.999175</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -459,16 +458,16 @@
 </tr>
 <tr class="odd">
 <td align="left">Water.Temp</td>
-<td align="right">0.447990</td>
+<td align="right">0.461120</td>
 <td align="right">1.00000</td>
 <td align="right">0.0000000</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
-<td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
 </tr>
 <tr class="even">
 <td align="left">Acid.Conc.</td>
-<td align="right">0.089210</td>
+<td align="right">0.088405</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -477,7 +476,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>1</code></td>
-<td align="right">0.590755</td>
+<td align="right">0.591475</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -486,16 +485,16 @@
 </tr>
 <tr class="even">
 <td align="left"><code>2</code></td>
-<td align="right">0.159575</td>
+<td align="right">0.167955</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
-<td align="right">0.0000000</td>
-<td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>3</code></td>
-<td align="right">0.621140</td>
+<td align="right">0.616595</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -504,7 +503,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>4</code></td>
-<td align="right">0.959295</td>
+<td align="right">0.950940</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -513,7 +512,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>5</code></td>
-<td align="right">0.070370</td>
+<td align="right">0.065815</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -522,7 +521,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>6</code></td>
-<td align="right">0.075765</td>
+<td align="right">0.075870</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -531,7 +530,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>7</code></td>
-<td align="right">0.066835</td>
+<td align="right">0.065515</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -540,7 +539,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>8</code></td>
-<td align="right">0.065570</td>
+<td align="right">0.066695</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -549,7 +548,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>9</code></td>
-<td align="right">0.067450</td>
+<td align="right">0.067405</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -558,7 +557,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>10</code></td>
-<td align="right">0.064990</td>
+<td align="right">0.063150</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -567,7 +566,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>11</code></td>
-<td align="right">0.062410</td>
+<td align="right">0.066360</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -576,7 +575,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>12</code></td>
-<td align="right">0.079495</td>
+<td align="right">0.083405</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -585,16 +584,16 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>13</code></td>
-<td align="right">0.349585</td>
+<td align="right">0.330175</td>
 <td align="right">0.00000</td>
-<td align="right">1.0000000</td>
+<td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
-<td align="right">0.0000000</td>
+<td align="right">1.0000000</td>
 </tr>
 <tr class="even">
 <td align="left"><code>14</code></td>
-<td align="right">0.190260</td>
+<td align="right">0.176870</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -603,7 +602,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>15</code></td>
-<td align="right">0.076645</td>
+<td align="right">0.069430</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -612,7 +611,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>16</code></td>
-<td align="right">0.056985</td>
+<td align="right">0.061180</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -621,7 +620,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>17</code></td>
-<td align="right">0.063615</td>
+<td align="right">0.062225</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -630,7 +629,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>18</code></td>
-<td align="right">0.064980</td>
+<td align="right">0.065515</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -639,7 +638,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>19</code></td>
-<td align="right">0.092615</td>
+<td align="right">0.085635</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -648,7 +647,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>20</code></td>
-<td align="right">0.123835</td>
+<td align="right">0.133330</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -657,7 +656,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>21</code></td>
-<td align="right">0.988785</td>
+<td align="right">0.986980</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -668,46 +667,46 @@
 <td align="left">BF</td>
 <td align="right">NA</td>
 <td align="right">1.00000</td>
-<td align="right">0.3397571</td>
 <td align="right">0.2016282</td>
-<td align="right">0.5779604</td>
 <td align="right">0.5555328</td>
+<td align="right">0.5779604</td>
+<td align="right">0.3397571</td>
 </tr>
 <tr class="odd">
 <td align="left">PostProbs</td>
 <td align="right">NA</td>
-<td align="right">0.06160</td>
-<td align="right">0.0223000</td>
+<td align="right">0.06520</td>
 <td align="right">0.0217000</td>
 <td align="right">0.0208000</td>
-<td align="right">0.0169000</td>
+<td align="right">0.0206000</td>
+<td align="right">0.0195000</td>
 </tr>
 <tr class="even">
 <td align="left">R2</td>
 <td align="right">NA</td>
 <td align="right">0.98920</td>
-<td align="right">0.9873000</td>
 <td align="right">0.9803000</td>
-<td align="right">0.9923000</td>
 <td align="right">0.9922000</td>
+<td align="right">0.9923000</td>
+<td align="right">0.9873000</td>
 </tr>
 <tr class="odd">
 <td align="left">dim</td>
 <td align="right">NA</td>
 <td align="right">7.00000</td>
-<td align="right">7.0000000</td>
 <td align="right">6.0000000</td>
 <td align="right">8.0000000</td>
 <td align="right">8.0000000</td>
+<td align="right">7.0000000</td>
 </tr>
 <tr class="even">
 <td align="left">logmarg</td>
 <td align="right">NA</td>
 <td align="right">23.82319</td>
-<td align="right">22.7436630</td>
 <td align="right">22.2218573</td>
-<td align="right">23.2749373</td>
 <td align="right">23.2353597</td>
+<td align="right">23.2749373</td>
+<td align="right">22.7436630</td>
 </tr>
 </tbody>
 </table>
@@ -716,38 +715,36 @@
 <h2 id="factors-and-hierarchical-heredity">Factors and Hierarchical Heredity<a class="anchor" aria-label="anchor" href="#factors-and-hierarchical-heredity"></a>
 </h2>
 <p>BAS now includes constraints for factors so that all terms that represent a factor are either included or excluded together. To illustrate, we will use the data set <code>ToothGrowth</code> and convert <code>dose</code> to a factor:</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ToothGrowth</span><span class="op">)</span>
-<span class="va">ToothGrowth</span><span class="op">$</span><span class="va">dose</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">ToothGrowth</span><span class="op">$</span><span class="va">dose</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="va">ToothGrowth</span><span class="op">$</span><span class="va">dose</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Low"</span>, <span class="st">"Medium"</span>, <span class="st">"High"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ToothGrowth</span><span class="op">)</span></span>
+<span><span class="va">ToothGrowth</span><span class="op">$</span><span class="va">dose</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">ToothGrowth</span><span class="op">$</span><span class="va">dose</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="va">ToothGrowth</span><span class="op">$</span><span class="va">dose</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Low"</span>, <span class="st">"Medium"</span>, <span class="st">"High"</span><span class="op">)</span></span></code></pre></div>
 <p>and fit the model of main effects and two way interaction without any constraints:</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">TG.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">len</span> <span class="op">~</span> <span class="va">supp</span><span class="op">*</span><span class="va">dose</span>,
-  data <span class="op">=</span> <span class="va">ToothGrowth</span>,
-  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"BAS"</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">TG.bas</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Warning in par(par.old): argument 1 does not name a graphical parameter</span></code></pre>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">TG.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">len</span> <span class="op">~</span> <span class="va">supp</span><span class="op">*</span><span class="va">dose</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">ToothGrowth</span>,</span>
+<span>  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"BAS"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">TG.bas</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 <p>From the image of the model space, we see that levels of a factor enter or drop from the model independently and that interactions may be included without the main effects. This may lead to more parsimonious models, however, the hypotheses that are being tested about the coefficients that represent the factor depend on the choice for the reference group. To force levels of a factor to enter or leave together we can use <code>force.heredity = TRUE</code>.</p>
 <p>The <code>force.heredity</code> option also forces interactions to be included only if the main effects are also included, or for models with several factors and higher order interactions, the heredity constraint implies that all lower order interactions must be included before adding higher order interactions.</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">TG.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">len</span> <span class="op">~</span> <span class="va">supp</span> <span class="op">*</span> <span class="va">dose</span>,
-  data <span class="op">=</span> <span class="va">ToothGrowth</span>,
-  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"BAS"</span>, force.heredity <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">TG.bas</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Warning in par(par.old): argument 1 does not name a graphical parameter</span></code></pre>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">TG.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">len</span> <span class="op">~</span> <span class="va">supp</span> <span class="op">*</span> <span class="va">dose</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">ToothGrowth</span>,</span>
+<span>  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"BAS"</span>, force.heredity <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">TG.bas</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 <p>The <code>force.heredity</code> is set to FALSE for the sampling methods <code>MCMC+BAS</code> and <code>deterministic</code>. If there are more than 20 predictors and factors, then we recommend using <code>MCMC</code> to enforce the constraints. Alternatively, there is a function, <code>force.heredity.bas</code>, to post-process the output to drop models that violate the hierarchical heredity constraint:</p>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">TG.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">len</span> <span class="op">~</span> <span class="va">supp</span> <span class="op">*</span> <span class="va">dose</span>,
-  data <span class="op">=</span> <span class="va">ToothGrowth</span>,
-  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"BAS"</span>, force.heredity <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span>
-<span class="va">TG.herid.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/force.heredity.bas.html">force.heredity.bas</a></span><span class="op">(</span><span class="va">TG.bas</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">TG.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">len</span> <span class="op">~</span> <span class="va">supp</span> <span class="op">*</span> <span class="va">dose</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">ToothGrowth</span>,</span>
+<span>  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"BAS"</span>, force.heredity <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">TG.herid.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/force.heredity.bas.html">force.heredity.bas</a></span><span class="op">(</span><span class="va">TG.bas</span><span class="op">)</span></span></code></pre></div>
 <p>that can be used with those sampling methods.</p>
 </div>
 <div class="section level2">
@@ -757,65 +754,63 @@
  \sigma^2 g (X_\gamma^T W X_\gamma)^{-1}
 \]</span> where <span class="math inline">\(X_\gamma\)</span> is the design matrix under model <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(W\)</span> is the <span class="math inline">\(n \times n\)</span> diagonal matrix with the weights on the diagonal.</p>
 <p>To illustrate, we will use the climate data, available at the url below</p>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">climate</span>, package<span class="op">=</span><span class="st">"BAS"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">climate</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## 'data.frame':    63 obs. of  5 variables:</span>
-<span class="co">##  $ deltaT  : num  -2.6 -2.6 -2.9 -2.4 -2.8 -1.2 -2.4 -2.6 -2.4 -2.5 ...</span>
-<span class="co">##  $ sdev    : num  0.7 0.8 0.9 0.7 0.7 0.3 1.3 1.3 1.3 0.5 ...</span>
-<span class="co">##  $ proxy   : int  1 1 1 1 1 1 1 1 1 1 ...</span>
-<span class="co">##  $ T.M     : int  1 1 1 1 1 1 1 1 1 1 ...</span>
-<span class="co">##  $ latitude: num  2.5 2.2 0.5 0.3 0.2 -1.1 5.2 11.4 14.6 6.3 ...</span></code></pre>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/summary.html">summary</a></span><span class="op">(</span><span class="va">climate</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##      deltaT            sdev            proxy            T.M        </span>
-<span class="co">##  Min.   :-7.000   Min.   :0.1500   Min.   :1.000   Min.   :0.0000  </span>
-<span class="co">##  1st Qu.:-3.900   1st Qu.:0.5000   1st Qu.:2.000   1st Qu.:1.0000  </span>
-<span class="co">##  Median :-2.900   Median :0.7000   Median :3.000   Median :1.0000  </span>
-<span class="co">##  Mean   :-3.111   Mean   :0.8579   Mean   :3.333   Mean   :0.8254  </span>
-<span class="co">##  3rd Qu.:-2.000   3rd Qu.:1.3000   3rd Qu.:5.000   3rd Qu.:1.0000  </span>
-<span class="co">##  Max.   : 0.200   Max.   :2.5000   Max.   :8.000   Max.   :1.0000  </span>
-<span class="co">##     latitude      </span>
-<span class="co">##  Min.   :-22.500  </span>
-<span class="co">##  1st Qu.: -3.450  </span>
-<span class="co">##  Median :  0.200  </span>
-<span class="co">##  Mean   :  2.187  </span>
-<span class="co">##  3rd Qu.:  9.700  </span>
-<span class="co">##  Max.   : 29.000</span></code></pre>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">climate</span>, package<span class="op">=</span><span class="st">"BAS"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">climate</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## 'data.frame':    63 obs. of  5 variables:</span></span>
+<span><span class="co">##  $ deltaT  : num  -2.6 -2.6 -2.9 -2.4 -2.8 -1.2 -2.4 -2.6 -2.4 -2.5 ...</span></span>
+<span><span class="co">##  $ sdev    : num  0.7 0.8 0.9 0.7 0.7 0.3 1.3 1.3 1.3 0.5 ...</span></span>
+<span><span class="co">##  $ proxy   : int  1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span><span class="co">##  $ T.M     : int  1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span><span class="co">##  $ latitude: num  2.5 2.2 0.5 0.3 0.2 -1.1 5.2 11.4 14.6 6.3 ...</span></span></code></pre>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/summary.html">summary</a></span><span class="op">(</span><span class="va">climate</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##      deltaT            sdev            proxy            T.M        </span></span>
+<span><span class="co">##  Min.   :-7.000   Min.   :0.1500   Min.   :1.000   Min.   :0.0000  </span></span>
+<span><span class="co">##  1st Qu.:-3.900   1st Qu.:0.5000   1st Qu.:2.000   1st Qu.:1.0000  </span></span>
+<span><span class="co">##  Median :-2.900   Median :0.7000   Median :3.000   Median :1.0000  </span></span>
+<span><span class="co">##  Mean   :-3.111   Mean   :0.8579   Mean   :3.333   Mean   :0.8254  </span></span>
+<span><span class="co">##  3rd Qu.:-2.000   3rd Qu.:1.3000   3rd Qu.:5.000   3rd Qu.:1.0000  </span></span>
+<span><span class="co">##  Max.   : 0.200   Max.   :2.5000   Max.   :8.000   Max.   :1.0000  </span></span>
+<span><span class="co">##     latitude      </span></span>
+<span><span class="co">##  Min.   :-22.500  </span></span>
+<span><span class="co">##  1st Qu.: -3.450  </span></span>
+<span><span class="co">##  Median :  0.200  </span></span>
+<span><span class="co">##  Mean   :  2.187  </span></span>
+<span><span class="co">##  3rd Qu.:  9.700  </span></span>
+<span><span class="co">##  Max.   : 29.000</span></span></code></pre>
 <p>which includes measurements of changes in temperature (<code>deltaT</code>) at various <code>latitude</code>s as well as a measure of the accuracy of the measured values <code>sdev</code> for 8 different types <code>proxy</code> of obtaining measurements. We will use this to explore weighted regression and the option to group terms in factors or from <code>poly</code>. For illustration purposes, we will eliminate <code>proxy == 6</code> which has only one level as the interactions are not estimable, and then convert <code>proxy</code> to a factor.</p>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
-<span class="va">climate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">climate</span>, <span class="va">proxy</span> <span class="op">!=</span> <span class="fl">6</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>proxy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">proxy</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="va">climate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">climate</span>, <span class="va">proxy</span> <span class="op">!=</span> <span class="fl">6</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>proxy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">proxy</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>We can fit a weighted regression with <code>weights = 1/sdev^2</code> with the following code</p>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">climate.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">deltaT</span> <span class="op">~</span> <span class="va">proxy</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html" class="external-link">poly</a></span><span class="op">(</span><span class="va">latitude</span>, <span class="fl">2</span><span class="op">)</span>,
-  data <span class="op">=</span> <span class="va">climate</span>,
-  weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">sdev</span><span class="op">^</span><span class="fl">2</span>,
-  prior <span class="op">=</span> <span class="st">"hyper-g-n"</span>, alpha <span class="op">=</span> <span class="fl">3.0</span>,
-  n.models <span class="op">=</span> <span class="fl">2</span><span class="op">^</span><span class="fl">20</span>, 
-  force.heredity<span class="op">=</span><span class="cn">TRUE</span>,
-  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">climate.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">deltaT</span> <span class="op">~</span> <span class="va">proxy</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html" class="external-link">poly</a></span><span class="op">(</span><span class="va">latitude</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">climate</span>,</span>
+<span>  weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">sdev</span><span class="op">^</span><span class="fl">2</span>,</span>
+<span>  prior <span class="op">=</span> <span class="st">"hyper-g-n"</span>, alpha <span class="op">=</span> <span class="fl">3.0</span>,</span>
+<span>  n.models <span class="op">=</span> <span class="fl">2</span><span class="op">^</span><span class="fl">20</span>, </span>
+<span>  force.heredity<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>Examining the image of the top models,</p>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">climate.bas</span>, rotate <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Warning in par(par.old): argument 1 does not name a graphical parameter</span></code></pre>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">climate.bas</span>, rotate <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/climate-image-1.png" width="672"></p>
 <p>we see that all levels of a factor enter or drop from the model together, as well as the vectors in the design matrix to represent the term <code>poly</code>.<br>
 Rerunning without the constraint,</p>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># May take a while to enumerate all 2^20 models</span>
-<span class="va">climate.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">deltaT</span> <span class="op">~</span> <span class="va">proxy</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html" class="external-link">poly</a></span><span class="op">(</span><span class="va">latitude</span>, <span class="fl">2</span><span class="op">)</span>,
-  data <span class="op">=</span> <span class="va">climate</span>,
-  weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">sdev</span><span class="op">^</span><span class="fl">2</span>,
-  prior <span class="op">=</span> <span class="st">"hyper-g-n"</span>, alpha <span class="op">=</span> <span class="fl">3.0</span>,
-  n.models <span class="op">=</span> <span class="fl">2</span><span class="op">^</span><span class="fl">20</span>,
-  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>,
-  force.heredity <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span>
-<span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">climate.bas</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Warning in par(par.old): argument 1 does not name a graphical parameter</span></code></pre>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># May take a while to enumerate all 2^20 models</span></span>
+<span><span class="va">climate.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">deltaT</span> <span class="op">~</span> <span class="va">proxy</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html" class="external-link">poly</a></span><span class="op">(</span><span class="va">latitude</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">climate</span>,</span>
+<span>  weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">sdev</span><span class="op">^</span><span class="fl">2</span>,</span>
+<span>  prior <span class="op">=</span> <span class="st">"hyper-g-n"</span>, alpha <span class="op">=</span> <span class="fl">3.0</span>,</span>
+<span>  n.models <span class="op">=</span> <span class="fl">2</span><span class="op">^</span><span class="fl">20</span>,</span>
+<span>  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  force.heredity <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">climate.bas</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/wtreg-wo-contraint-1.png" width="672"></p>
 <p>allows one to see which factors levels are different from the reference group.</p>
 </div>
@@ -838,7 +833,7 @@ Rerunning without the constraint,</p>
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer>
