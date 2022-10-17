@@ -350,7 +350,7 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' regression hypotheses. In Bayesian Statistics: Proceedings of the First
 #' International Meeting held in Valencia (Spain), pp. 585-603.
 #'
-#' Rouder, J. N., Speckman, P. L., Sun, D., Morey, R. D., \& Iverson, G.
+#' Rouder, J. N., Speckman, P. L., Sun, D., Morey, R. D., and Iverson, G.
 #' (2009). Bayesian t-tests for accepting and rejecting the null hypothesis.
 #' Psychonomic Bulletin & Review, 16, 225-237
 #'
@@ -550,7 +550,7 @@ bas.lm <- function(formula,
   X <- cbind(ones, sweep(X[, -1, drop = FALSE], 2, mean.x))
   p <- dim(X)[2] # with intercept
 
-  if (class(modelprior) != "prior")  stop("modelprior should be an object of class prior,  uniform(),  beta.binomial(), etc")
+  if (!inherits(modelprior, "prior") )  stop("modelprior should be an object of class prior,  uniform(),  beta.binomial(), etc")
 
   if (n <= p) {
     if (modelprior$family == "Uniform" ||

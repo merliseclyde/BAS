@@ -48,3 +48,12 @@ test_that("Always include changes model-prior", {
     expected = c(0.333333333333333, 0.166666666666667, 0.166666666666667, 0.333333333333333)
   )
 })
+
+test_that("Check if model-prior is of class prior", {
+  
+  expect_error(bas.lm(Y ~ ., data = Hald, modelprior = c(.25, .25, .25, .25), 
+                include.always = ~ 1 + X1 + X2))
+  
+  expect_error(bas.glm(Y ~ ., data = Hald, modelprior = c(.25, .25, .25, .25), 
+                      include.always = ~ 1 + X1 + X2, family=poisson()))
+})

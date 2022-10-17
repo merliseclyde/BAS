@@ -147,6 +147,6 @@ image.bas <- function(x, top.models = 20, intensity = TRUE, prob = TRUE, log = T
 
   box()
 
-  par(par.old)
+  par(mar = par.old)
   invisible()
 }

@@ -16,3 +16,4 @@ vignettes/BAS-vignette_files/*
 doc
 Meta
 docs
+tests/testthat/Rplots.pdf

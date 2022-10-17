@@ -144,7 +144,7 @@ double tcch_int(double a, double b, double r, double s, double v,  double k) {
   
   // use R's integrate code from QUADPACK to obtain marginal likelihood
   
-  double offset = 0.0, lower = 0.0, upper,  epsabs, epsrel;
+  double lower = 0.0, upper,  epsabs, epsrel;
   double result, abserr, *work;
   int neval, ier, limit=200, lenw, last, *iwork;
   SEXP Rtheta;
@@ -188,7 +188,7 @@ double tcch_int(double a, double b, double r, double s, double v,  double k) {
 void tcch_density(double *u, int n, SEXP Rtheta) {
   
   double a, b, r, s, v, k, z;
-  int i, j;
+  int i;
   
   PROTECT(Rtheta);
   SEXP Rex = PROTECT(duplicate(Rtheta));

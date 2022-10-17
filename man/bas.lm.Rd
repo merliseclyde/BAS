@@ -422,7 +422,7 @@ Zellner, A. and Siow, A. (1980) Posterior odds ratios for selected
 regression hypotheses. In Bayesian Statistics: Proceedings of the First
 International Meeting held in Valencia (Spain), pp. 585-603.
 
-Rouder, J. N., Speckman, P. L., Sun, D., Morey, R. D., \& Iverson, G.
+Rouder, J. N., Speckman, P. L., Sun, D., Morey, R. D., and Iverson, G.
 (2009). Bayesian t-tests for accepting and rejecting the null hypothesis.
 Psychonomic Bulletin & Review, 16, 225-237
 

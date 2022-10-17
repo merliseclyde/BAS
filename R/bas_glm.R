@@ -267,7 +267,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
     data <- environment(formula)
   }
   
-  if (class(modelprior) != "prior") stop("modelprior should be an object of class prior,  uniform(),  beta.binomial(), etc")
+  if (!inherits(modelprior, "prior")) stop("modelprior should be an object of class prior,  uniform(),  beta.binomial(), etc")
 
 
   # browser()
@@ -432,7 +432,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
 
   #  check on priors
   
-  if (class(betaprior) !="prior") stop("prior on coeeficients must be an object of type 'prior'")
+  if (!inherits(betaprior, "prior")) stop("prior on coeeficients must be an object of type 'prior'")
   
   loglik_null <- as.numeric(-0.5 * glm(Y ~ 1,
                                        weights = weights,

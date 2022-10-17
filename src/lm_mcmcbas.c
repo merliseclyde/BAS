@@ -66,9 +66,9 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
   double *XtX, *XtY, *XtXwork, *XtYwork;
  // double *marg_probs;
  // double *SSgam, *Cov, *priorCov;
-  double  lambda, one=1.0;
+  double  lambda;
 
-  int inc=1;
+  
   int *model, *modelold, bit, *modelwork, old_loc, new_loc;
   //  char uplo[] = "U", trans[]="T";
   struct Var *vars;	/* Info about the model variables. */
