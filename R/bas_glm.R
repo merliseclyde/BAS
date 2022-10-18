@@ -104,7 +104,8 @@ normalize.initprobs.glm <- function(initprobs, glm.obj) {
 #' to always be included in the model.
 #' @param include.always A formula with terms that should always be included
 #' in the model with probability one.  By default this is `~ 1` meaning that the
-#' intercept is always included.  This will also override any of the values in `initprobs`
+#' intercept is always included.  
+#' This will also override any of the values in `initprobs`
 #' above by setting them to 1.
 #' @param method A character variable indicating which sampling method to use:
 #' method="BAS" uses Bayesian Adaptive Sampling (without replacement) using the
@@ -165,25 +166,34 @@ normalize.initprobs.glm <- function(initprobs, glm.obj) {
 #' \item{priorprobs}{the prior probabilities of the models selected}
 #' \item{logmarg}{values of the log of the marginal likelihood for the models}
 #' \item{n.vars}{total number of independent variables in the full model,
-#' including the intercept} \item{size}{the number of independent variables in
-#' each of the models, includes the intercept} \item{which}{a list of lists
+#' including the intercept} 
+#' \item{size}{the number of independent variables in
+#' each of the models, includes the intercept} 
+#' \item{which}{a list of lists
 #' with one list per model with variables that are included in the model}
 #' \item{probne0}{the posterior probability that each variable is non-zero}
-#' \item{coefficients}{list of lists with one list per model giving the GLM
-#' estimate of each (nonzero) coefficient for each model.} \item{se}{list of
+#' \item{mle}{list of lists with one list per model giving the GLM
+#' estimate of each (nonzero) coefficient for each model.} 
+#' \item{mle.se}{list of
 #' lists with one list per model giving the GLM standard error of each
-#' coefficient for each model} \item{deviance}{the GLM deviance for each model}
-#' \item{modelprior}{the prior distribution on models that created the BMA
-#' object} \item{Q}{the Q statistic for each model used in the marginal
-#' likelihood approximation} \item{Y}{response} \item{X}{matrix of predictors}
-#' \item{family}{family object from the original call} \item{betaprior}{family
-#' object for prior on coefficients, including hyperparameters}
+#' coefficient for each model} 
+#' \item{deviance}{the GLM deviance for each model}
+#' \item{modelprior}{the prior distribution on models that created the BMA 
+#' object} 
+#' \item{Q}{the Q statistic for each model used in the marginal
+#' likelihood approximation} 
+#' \item{Y}{response} 
+#' \item{X}{matrix of predictors}
+#' \item{family}{family object from the original call} 
+#' \item{betaprior}{family object for prior on coefficients, including
+#'  hyperparameters}
 #' \item{modelprior}{family object for prior on the models}
 #' \item{include.always}{indices of variables that are forced into the model}
 #' @author Merlise Clyde (\email{clyde@@duke.edu}), Quanli Wang and Yingbo
 #' Li
 #' @references Li, Y. and Clyde, M. (2018) Mixtures of g-priors in Generalized
-#' Linear Models. Journal of the American Statistical Association. 113:1828-1845 \cr
+#' Linear Models. 
+#' Journal of the American Statistical Association. 113:1828-1845 \cr
 #' \doi{10.1080/01621459.2018.1469992} \cr
 #' Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive Sampling for
 #' Variable Selection and Model Averaging. Journal of Computational Graphics
@@ -208,16 +218,17 @@ normalize.initprobs.glm <- function(initprobs, glm.obj) {
 #' summary(pima.cch)
 #' image(pima.cch)
 #'
-#' # Note MCMC.iterations are set to 1000 for illustration purposes
+#' # Note MCMC.iterations are set to 2500 for illustration purposes due to time
+#' # limitations for running examples on CRAN servers.
 #' # Please check convergence diagnostics and run longer in practice
 #'
 #' pima.robust = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
-#'               method="MCMC", MCMC.iterations=5000,
+#'               method="MCMC", MCMC.iterations=2500,
 #'               betaprior=robust(), family=binomial(),
 #'               modelprior=beta.binomial(1,1))
 #'
 #' pima.BIC = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
-#'               method="BAS+MCMC", MCMC.iterations=5000,
+#'               method="BAS+MCMC", MCMC.iterations=2500,
 #'               betaprior=bic.prior(), family=binomial(),
 #'               modelprior=uniform())
 #' # Poisson example
@@ -227,7 +238,7 @@ normalize.initprobs.glm <- function(initprobs, glm.obj) {
 #'   crabs.bas = bas.glm(satell ~ color*spine*width + weight, data=crabs,
 #'                       family=poisson(),
 #'                       betaprior=EB.local(), modelprior=uniform(),
-#'                       method='MCMC', n.models=2^10, MCMC.iterations=5000,
+#'                       method='MCMC', n.models=2^10, MCMC.iterations=2500,
 #'                       prob.rw=.95)
 #' }
 #' @concept BMA

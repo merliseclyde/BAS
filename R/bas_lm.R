@@ -405,12 +405,16 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #'
 #' # exmple with non-full rank case
 #'
-#'  loc <- system.file("testdata", package = "BAS")
-#'  d <- read.csv(paste(loc, "JASP-testdata.csv", sep = "/"))
+#' loc <- system.file("testdata", package = "BAS")
+#' d <- read.csv(paste(loc, "JASP-testdata.csv", sep = "/"))
 #' fullModelFormula <- as.formula("contNormal ~  contGamma * contExpon +
 #'                                 contGamma * contcor1 + contExpon * contcor1")
 #'
-#' # should give warning; use pivot = T to fit non-full rank case (fails on i386)
+#' # don't run the following due to time limits on CRAN 
+#' 
+#' \dontrun{
+#' # will trigger a warning 
+#' 
 #'  out = bas.lm(fullModelFormula,
 #'               data = d,
 #'               alpha = 0.125316,
@@ -426,7 +430,7 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #'               alpha = 0.125316,
 #'               prior = "JZS",
 #'               weights = facFifty, force.heredity = FALSE, pivot = TRUE)
-#'
+#' }
 #' # more complete demo's
 #' demo(BAS.hald)
 #' \dontrun{
