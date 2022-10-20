@@ -361,10 +361,6 @@ test_that("check non-full rank", {
   basObj.up <- update(basObj.eplogp, newprior = "EB-local")
   expect_equal(basObj.EBL$postprobs, basObj.up$postprobs,
                tolerance=.001)
-  # follow up
-  expect_warning(bas.lm(fullModelFormula,
-                                  data = d,
-                                   alpha = 0.125316,
-                                   prior = "JZS",
-                                   weights = facFifty, force.heredity = FALSE, pivot = FALSE))
 })
+
+
