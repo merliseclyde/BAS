@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">BAS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,13 +54,18 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.6.3" id="bas-163">BAS 1.6.3<a class="anchor" aria-label="anchor" href="#bas-163"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.6.4" id="bas-164">BAS 1.6.4<a class="anchor" aria-label="anchor" href="#bas-164"></a></h2>
+<div class="section level3">
+<h3 id="changes-1-6-4">Changes<a class="anchor" aria-label="anchor" href="#changes-1-6-4"></a></h3>
+<ul><li>skipped test on M1mac that fails to show a warning in the non full rank case when <code>pivot=FALSE</code> for <code>bas.lm</code> as default uses pivoting and documentation indicates that <code>pivot=FALSE</code> should only be used in the full rank case so that users should not encounter this issue in practice. Github issue <a href="https://github.com/merliseclyde/BAS/issues/62" class="external-link">#62</a></li></ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.6.3" id="bas-163">BAS 1.6.3<a class="anchor" aria-label="anchor" href="#bas-163"></a></h2><p class="text-muted">CRAN release: 2022-10-19</p>
 <div class="section level3">
 <h3 id="changes-1-6-3">Changes<a class="anchor" aria-label="anchor" href="#changes-1-6-3"></a></h3>
 <ul><li><p>Added checks and unit-tests to see if modelprior is of class ‘prior’ resolving Github Issue <a href="https://github.com/merliseclyde/BAS/issues/57" class="external-link">#57</a></p></li>
 <li><p>Removed <code>polevl.c</code>, <code>psi.c</code> and <code>gamma.c</code> from Cephes as no longer used after switching to <code>R</code>’s internal functions</p></li>
-<li>
-</li></ul></div>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.6.2" id="bas-162">BAS 1.6.2<a class="anchor" aria-label="anchor" href="#bas-162"></a></h2><p class="text-muted">CRAN release: 2022-04-26</p>
