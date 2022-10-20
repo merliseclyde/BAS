@@ -1,10 +1,11 @@
-# BAS 1.6.3 Comments to CRAN
+# BAS 1.6.4 Comments to CRAN
 
-# Submission to address deprecated function definitions without prototyping in legacy C code in linux systems
+# Submission to address Error in CRAN checks for M1mac
 
 ## Test environments
 
-- local OS X install, R 4.2.1
+- mac-builder r-release  macosx-arm64 
+- local OS X install, R 4.2.1 (x86)
 - ubuntu  (github actions CI), R-release R-devel R-oldrelease
 - win-builder (r-release, r-devel)
 - R-hub ubuntu-gcc-release (r-release)
@@ -13,6 +14,8 @@
 
 
 ## R CMD check results for this submission
+
+* Platform Mac OSX R-release, M1mac (arm64)  0 error | 0 warnings | 0 notes
 
 * Platform Mac OSX R-release, clang, gfortan 0 error | 0 warnings | 0 notes 
 

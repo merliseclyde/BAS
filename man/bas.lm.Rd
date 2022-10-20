@@ -316,14 +316,17 @@ and BIC are also included, while a range of priors on the model space are availa
 
 library(MASS)
 data(UScrime)
+
+# pivot=FALSE is faster, but should only be used in full rank case
+# default is pivot = TRUE
 crime.bic <- bas.lm(log(y) ~ log(M) + So + log(Ed) +
   log(Po1) + log(Po2) +
   log(LF) + log(M.F) + log(Pop) + log(NW) +
   log(U1) + log(U2) + log(GDP) + log(Ineq) +
   log(Prob) + log(Time),
-data = UScrime, n.models = 2^15, prior = "BIC",
-modelprior = beta.binomial(1, 1),
-initprobs = "eplogp", pivot = FALSE
+  data = UScrime, n.models = 2^15, prior = "BIC",
+  modelprior = beta.binomial(1, 1),
+  initprobs = "eplogp", pivot = FALSE
 )
 
 
@@ -332,12 +335,12 @@ crime.mcmc <- bas.lm(log(y) ~ log(M) + So + log(Ed) +
   log(Po1) + log(Po2) +
   log(LF) + log(M.F) + log(Pop) + log(NW) +
   log(U1) + log(U2) + log(GDP) + log(Ineq) +
-  log(Prob) + log(Time),
-data = UScrime,
-method = "MCMC",
-MCMC.iterations = 20000, prior = "BIC",
-modelprior = beta.binomial(1, 1),
-initprobs = "eplogp", pivot = FALSE
+ log(Prob) + log(Time),
+  data = UScrime,
+  method = "MCMC",
+  MCMC.iterations = 20000, prior = "BIC",
+  modelprior = beta.binomial(1, 1),
+  initprobs = "eplogp", pivot = FALSE
 )
 
 summary(crime.bic)
@@ -356,14 +359,21 @@ TG.bas <- bas.lm(len ~ supp * dose,
 summary(TG.bas)
 image(TG.bas)
 
+
+# don't run the following due to time limits on CRAN 
+
+\dontrun{
+
 # exmple with non-full rank case
 
- loc <- system.file("testdata", package = "BAS")
- d <- read.csv(paste(loc, "JASP-testdata.csv", sep = "/"))
+loc <- system.file("testdata", package = "BAS")
+d <- read.csv(paste(loc, "JASP-testdata.csv", sep = "/"))
 fullModelFormula <- as.formula("contNormal ~  contGamma * contExpon +
                                 contGamma * contcor1 + contExpon * contcor1")
 
-# should give warning; use pivot = T to fit non-full rank case (fails on i386)
+# should trigger a warning (default is to use pivoting, so use pivot=FALSE 
+# only for full rank case)
+
  out = bas.lm(fullModelFormula,
               data = d,
               alpha = 0.125316,
@@ -379,7 +389,7 @@ out =  bas.lm(fullModelFormula,
               alpha = 0.125316,
               prior = "JZS",
               weights = facFifty, force.heredity = FALSE, pivot = TRUE)
-
+}
 # more complete demo's
 demo(BAS.hald)
 \dontrun{
