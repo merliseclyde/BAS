@@ -183,7 +183,8 @@ to always be included in the model.</p></dd>
 <dt>include.always</dt>
 <dd><p>A formula with terms that should always be included
 in the model with probability one.  By default this is `~ 1` meaning that the
-intercept is always included.  This will also override any of the values in `initprobs`
+intercept is always included.  
+This will also override any of the values in `initprobs`
 above by setting them to 1.</p></dd>
 
 
@@ -292,42 +293,50 @@ components:</p>
 <dt>n.vars</dt>
 <dd><p>total number of independent variables in the full model,
 including the intercept</p></dd>
- <dt>size</dt>
+ 
+<dt>size</dt>
 <dd><p>the number of independent variables in
 each of the models, includes the intercept</p></dd>
- <dt>which</dt>
+ 
+<dt>which</dt>
 <dd><p>a list of lists
 with one list per model with variables that are included in the model</p></dd>
 
 <dt>probne0</dt>
 <dd><p>the posterior probability that each variable is non-zero</p></dd>
 
-<dt>coefficients</dt>
+<dt>mle</dt>
 <dd><p>list of lists with one list per model giving the GLM
 estimate of each (nonzero) coefficient for each model.</p></dd>
- <dt>se</dt>
+ 
+<dt>mle.se</dt>
 <dd><p>list of
 lists with one list per model giving the GLM standard error of each
 coefficient for each model</p></dd>
- <dt>deviance</dt>
+ 
+<dt>deviance</dt>
 <dd><p>the GLM deviance for each model</p></dd>
 
 <dt>modelprior</dt>
-<dd><p>the prior distribution on models that created the BMA
+<dd><p>the prior distribution on models that created the BMA 
 object</p></dd>
- <dt>Q</dt>
+ 
+<dt>Q</dt>
 <dd><p>the Q statistic for each model used in the marginal
 likelihood approximation</p></dd>
- <dt>Y</dt>
+ 
+<dt>Y</dt>
 <dd><p>response</p></dd>
- <dt>X</dt>
+ 
+<dt>X</dt>
 <dd><p>matrix of predictors</p></dd>
 
 <dt>family</dt>
 <dd><p>family object from the original call</p></dd>
- <dt>betaprior</dt>
-<dd><p>family
-object for prior on coefficients, including hyperparameters</p></dd>
+ 
+<dt>betaprior</dt>
+<dd><p>family object for prior on coefficients, including
+ hyperparameters</p></dd>
 
 <dt>modelprior</dt>
 <dd><p>family object for prior on the models</p></dd>
@@ -357,7 +366,8 @@ are mixtures of g-priors that provide approximations to the power prior.</p>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Li, Y. and Clyde, M. (2018) Mixtures of g-priors in Generalized
-Linear Models. Journal of the American Statistical Association. 113:1828-1845 <br><a href="https://doi.org/10.1080/01621459.2018.1469992" class="external-link">doi:10.1080/01621459.2018.1469992</a>
+Linear Models. 
+Journal of the American Statistical Association. 113:1828-1845 <br><a href="https://doi.org/10.1080/01621459.2018.1469992" class="external-link">doi:10.1080/01621459.2018.1469992</a>
  <br>
 Clyde, M. Ghosh, J. and Littman, M. (2010) Bayesian Adaptive Sampling for
 Variable Selection and Model Averaging. Journal of Computational Graphics
@@ -418,16 +428,17 @@ Li</p>
 <span class="r-in"><span><span class="fu"><a href="image.bas.html">image</a></span><span class="op">(</span><span class="va">pima.cch</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="bas.glm-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Note MCMC.iterations are set to 1000 for illustration purposes</span></span></span>
+<span class="r-in"><span><span class="co"># Note MCMC.iterations are set to 2500 for illustration purposes due to time</span></span></span>
+<span class="r-in"><span><span class="co"># limitations for running examples on CRAN servers.</span></span></span>
 <span class="r-in"><span><span class="co"># Please check convergence diagnostics and run longer in practice</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">pima.robust</span> <span class="op">=</span> <span class="fu">bas.glm</span><span class="op">(</span><span class="va">type</span> <span class="op">~</span> <span class="va">.</span>, data<span class="op">=</span><span class="va">Pima.tr</span>, n.models<span class="op">=</span> <span class="fl">2</span><span class="op">^</span><span class="fl">7</span>,</span></span>
-<span class="r-in"><span>              method<span class="op">=</span><span class="st">"MCMC"</span>, MCMC.iterations<span class="op">=</span><span class="fl">5000</span>,</span></span>
+<span class="r-in"><span>              method<span class="op">=</span><span class="st">"MCMC"</span>, MCMC.iterations<span class="op">=</span><span class="fl">2500</span>,</span></span>
 <span class="r-in"><span>              betaprior<span class="op">=</span><span class="fu"><a href="robust.html">robust</a></span><span class="op">(</span><span class="op">)</span>, family<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>              modelprior<span class="op">=</span><span class="fu"><a href="beta.binomial.html">beta.binomial</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">pima.BIC</span> <span class="op">=</span> <span class="fu">bas.glm</span><span class="op">(</span><span class="va">type</span> <span class="op">~</span> <span class="va">.</span>, data<span class="op">=</span><span class="va">Pima.tr</span>, n.models<span class="op">=</span> <span class="fl">2</span><span class="op">^</span><span class="fl">7</span>,</span></span>
-<span class="r-in"><span>              method<span class="op">=</span><span class="st">"BAS+MCMC"</span>, MCMC.iterations<span class="op">=</span><span class="fl">5000</span>,</span></span>
+<span class="r-in"><span>              method<span class="op">=</span><span class="st">"BAS+MCMC"</span>, MCMC.iterations<span class="op">=</span><span class="fl">2500</span>,</span></span>
 <span class="r-in"><span>              betaprior<span class="op">=</span><span class="fu"><a href="IC.prior.html">bic.prior</a></span><span class="op">(</span><span class="op">)</span>, family<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>              modelprior<span class="op">=</span><span class="fu"><a href="uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Poisson example</span></span></span>
@@ -437,7 +448,7 @@ Li</p>
 <span class="r-in"><span>  <span class="va">crabs.bas</span> <span class="op">=</span> <span class="fu">bas.glm</span><span class="op">(</span><span class="va">satell</span> <span class="op">~</span> <span class="va">color</span><span class="op">*</span><span class="va">spine</span><span class="op">*</span><span class="va">width</span> <span class="op">+</span> <span class="va">weight</span>, data<span class="op">=</span><span class="va">crabs</span>,</span></span>
 <span class="r-in"><span>                      family<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                      betaprior<span class="op">=</span><span class="fu"><a href="EB.local.html">EB.local</a></span><span class="op">(</span><span class="op">)</span>, modelprior<span class="op">=</span><span class="fu"><a href="uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                      method<span class="op">=</span><span class="st">'MCMC'</span>, n.models<span class="op">=</span><span class="fl">2</span><span class="op">^</span><span class="fl">10</span>, MCMC.iterations<span class="op">=</span><span class="fl">5000</span>,</span></span>
+<span class="r-in"><span>                      method<span class="op">=</span><span class="st">'MCMC'</span>, n.models<span class="op">=</span><span class="fl">2</span><span class="op">^</span><span class="fl">10</span>, MCMC.iterations<span class="op">=</span><span class="fl">2500</span>,</span></span>
 <span class="r-in"><span>                      prob.rw<span class="op">=</span><span class="fl">.95</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
