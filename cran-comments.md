@@ -2,6 +2,8 @@
 
 # Submission to address Error in CRAN checks for M1mac
 
+output does not produce NA's on M1Mac so warning should not be triggered and test updated
+
 ## Test environments
 
 - mac-builder r-release  macosx-arm64 
@@ -15,9 +17,9 @@
 
 ## R CMD check results for this submission
 
-* Platform Mac OSX R-release, M1mac (arm64)  0 error | 0 warnings | 0 notes
+* Platform Mac OSX R-release, M1mac (arm64) clang, gfortran  0 error | 0 warnings | 0 notes
 
-* Platform Mac OSX R-release, clang, gfortan 0 error | 0 warnings | 0 notes 
+* Platform Mac OSX R-release, (x86) clang, gfortan 0 error | 0 warnings | 0 notes 
 
 * Platform:   Windows via  winbuilder (r-release, r-devel)  0 errors | 0 warnings  | 0 notes   
 
