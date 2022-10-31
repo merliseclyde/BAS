@@ -2,7 +2,7 @@
 
 # Submission to address Error in CRAN checks for M1mac
 
-output does not produce NA's on M1Mac so warning should not be triggered and test updated
+unit tests failed under M1mac, as output does not produce NA's as expected under other platforms. Further testing indicates warning should not be triggered and unit test has been updated.
 
 ## Test environments
 
