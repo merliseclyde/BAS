@@ -73,9 +73,15 @@ normalize.initprobs.glm <- function(initprobs, glm.obj) {
 #' 'n.models' is updated to reflect the unique number of models that have been
 #' sampled.
 #' @param betaprior Prior on coefficients for model coefficients (except
-#' intercept).  Options include \code{\link{g.prior}}, \code{\link{CCH}},
-#' \code{\link{robust}}, \code{\link{intrinsic}}, \code{\link{beta.prime}},
-#' \code{\link{EB.local}}, \code{\link{AIC}}, and \code{\link{BIC}}.
+#' intercept).  Options include 
+#' \code{\link{g.prior}}, 
+#' \code{\link{CCH}},
+#' \code{\link{robust}}, 
+#' \code{\link{intrinsic}}, 
+#' \code{\link{beta.prime}},
+#' \code{\link{EB.local}}, 
+#' \code{\link{AIC}}, and 
+#' \code{\link{BIC}}.
 #' @param modelprior Family of prior distribution on the models.  Choices
 #' include \code{\link{uniform}}, \code{\link{Bernoulli}},
 #' \code{\link{beta.binomial}}, truncated Beta-Binomial,
@@ -567,8 +573,8 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   result$xlevels <- .getXlevels(mt, mf)
   result$model <- mf
 
-  # drop null model
-  if (betaprior$family == "Jeffreys") result <- .drop.null.bas(result)
+  # drop null model if it is present
+  if (betaprior$family == "Jeffreys" & (min(result$size) == 1)) result <- .drop.null.bas(result)
 
   if (method == "MCMC") {
     result$postprobs.MCMC <- result$freq / sum(result$freq)
@@ -588,37 +594,37 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   n.models <- object$n.models
 
 
-  p <- object$size
-  drop <- (1:n.models)[p == 1]
-  logmarg <- object$logmarg[-drop]
-  prior <- object$priorprobs[-drop]
+    p <- object$size
+    drop <- (1:n.models)[p == 1]
+    logmarg <- object$logmarg[-drop]
+    prior <- object$priorprobs[-drop]
 
-  postprobs <- .renormalize.postprobs(logmarg, log(prior))
-  which <- which.matrix(object$which[-drop], object$n.var)
+    postprobs <- .renormalize.postprobs(logmarg, log(prior))
+    which <- which.matrix(object$which[-drop], object$n.var)
 
-  object$probne0 <- as.vector(postprobs %*% which)
-  object$postprobs <- postprobs
+    object$probne0 <- as.vector(postprobs %*% which)
+    object$postprobs <- postprobs
 
-  method <- eval(object$call$method)
-  if (method == "MCMC+BAS" | method == "MCMC") {
-    object$freq <- object$freq[-drop]
-    object$probne0.MCMC <- as.vector(object$freq %*% which)/sum(object$freq)
-  }
+    method <- eval(object$call$method)
+    if (method == "MCMC+BAS" | method == "MCMC") {
+      object$freq <- object$freq[-drop]
+      object$probne0.MCMC <- as.vector(object$freq %*% which)/sum(object$freq)
+    }
 
-  object$priorprobs <- prior
-  if (!is.null(object$sampleprobs)) object$sampleprobs <- object$sampleprobs[-drop]
-  object$which <- object$which[-drop]
-  object$logmarg <- logmarg
-  object$deviance <- object$deviance[-drop]
-  object$intercept <- object$intercept[-drop]
-  object$size <- object$size[-drop]
-  object$Q <- object$Q[-drop]
-  object$R2 <- object$R2[-drop]
-  object$mle <- object$mle[-drop]
-  object$mle.se <- object$mle.se[-drop]
-  object$shrinkage <- object$shrinkage[-drop]
-  object$n.models <- n.models - 1
-  object$df <- object$df[-drop]
+    object$priorprobs <- prior
+    if (!is.null(object$sampleprobs)) object$sampleprobs <- object$sampleprobs[-drop]
+    object$which <- object$which[-drop]
+    object$logmarg <- logmarg
+    object$deviance <- object$deviance[-drop]
+    object$intercept <- object$intercept[-drop]
+    object$size <- object$size[-drop]
+    object$Q <- object$Q[-drop]
+    object$R2 <- object$R2[-drop]
+    object$mle <- object$mle[-drop]
+    object$mle.se <- object$mle.se[-drop]
+    object$shrinkage <- object$shrinkage[-drop]
+    object$n.models <- n.models - 1
+    object$df <- object$df[-drop]
   return(object)
 }
 

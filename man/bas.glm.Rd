@@ -64,9 +64,15 @@ of iterations exceeds the min of 'n.models' or 'MCMC.iterations' and on exit
 sampled.}
 
 \item{betaprior}{Prior on coefficients for model coefficients (except
-intercept).  Options include \code{\link{g.prior}}, \code{\link{CCH}},
-\code{\link{robust}}, \code{\link{intrinsic}}, \code{\link{beta.prime}},
-\code{\link{EB.local}}, \code{\link{AIC}}, and \code{\link{BIC}}.}
+intercept).  Options include 
+\code{\link{g.prior}}, 
+\code{\link{CCH}},
+\code{\link{robust}}, 
+\code{\link{intrinsic}}, 
+\code{\link{beta.prime}},
+\code{\link{EB.local}}, 
+\code{\link{AIC}}, and 
+\code{\link{BIC}}.}
 
 \item{modelprior}{Family of prior distribution on the models.  Choices
 include \code{\link{uniform}}, \code{\link{Bernoulli}},

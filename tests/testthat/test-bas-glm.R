@@ -492,3 +492,20 @@ test_that("phi1 and NAs in bas.glm", {
                 prob.rw=.95)
   expect_equal(TRUE, is.finite(exp(b$logmarg[2] - b$logmarg[1])))
 })
+
+
+# github issue 61
+test_that("Jeffreys prior and include.always", {
+  data(Pima.tr, package="MASS"); 
+  formula <- type ~1 + npreg + glu + bp + bmi + ped; 
+  covariates <- ~1 + npreg; 
+  expect_error(bas.glm(formula = formula, data = Pima.tr, 
+                        family = binomial(), 
+                        laplace = FALSE, 
+                        betaprior = Jeffreys(), 
+                        modelprior = uniform(), 
+                        method = "BAS", 
+                        include.always = covariates ),
+               NA)
+})
+

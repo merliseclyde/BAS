@@ -1,3 +1,10 @@
+# BAS 1.6.5
+
+## Changes 
+
+* Fixed error  when using `Jeffreys` prior in `bas.glm` with the 
+`include.always` option.  Github issue #61
+
 # BAS 1.6.4
 
 ## Changes
@@ -7,7 +14,7 @@ when `pivot=FALSE` for `bas.lm` as default uses pivoting and documentation
 indicates that `pivot=FALSE` should only be used in the full rank case so that
 users should not encounter this issue in practice.  Users will continue to see 
 a warning of NA's are returned, but should be aware that not all platforms may
-produce an warning (such as M1mac).  Github issue #62
+produce a warning (such as M1mac).  Github issue #62
 
 # BAS 1.6.3
 
