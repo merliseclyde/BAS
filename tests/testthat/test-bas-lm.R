@@ -317,29 +317,4 @@ test_that("as.matrix tools", {
 })
 
 
-# GitHub issue #56 and #42 
-
-test_that("formula and env issues with MPM",{
-  data(UScrime, package = "MASS")
-  UScrime <- UScrime[, 1:5]
-  
-  crime.bic1 <- bas.lm(formula = M ~ So + Ed + Po1 + Po2,
-                      data = UScrime,
-                      prior = "JZS",
-                      initprobs = c(1, 0.5, 0.5, 0.5, 0.5),
-                      renormalize = TRUE)
-    coef.mpm1 <- coef(crime.bic1, estimator = "MPM")
-    
-    form <- M ~ So + Ed + Po1 + Po2
-    crime.bic2 <- BAS::bas.lm(formula = form,
-                              data = UScrime,
-                              prior = "JZS",
-                              initprobs = c(1, 0.5, 0.5, 0.5, 0.5),
-                              renormalize = TRUE)
-    
-    expect_error(coef.mpm2 = coef(crime.bic2, estimator = "MPM"))
-   # expect_equal(coef.mpm1, coef.mpm2)
-  }  
-)
-
 

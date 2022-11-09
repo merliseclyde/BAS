@@ -84,10 +84,16 @@ coef.bas <- function(object, n.models, estimator = "BMA", ...) {
     models <- rep(0, nvar + 1)
     models[bestmodel + 1] <- 1
     if (sum(models) > 1) {
+      
+      # fix for issue #39 and #56 
+      modelform = as.formula(eval(object$call$formula, parent.frame()))
+      environment(modelform) = environment()
+      data = eval(object$call$data)
+      weights = eval(object$call$weights)
       object <- bas.lm(
-        eval(object$call$formula),
-        data = eval(object$call$data),
-        weights = eval(object$call$weights),
+        formula=modelform,
+        data = data,
+        weights = weights,
         n.models = 1,
         alpha = object$g,
         initprobs = object$probne0,

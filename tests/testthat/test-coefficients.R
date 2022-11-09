@@ -33,3 +33,57 @@ test_that("plot posterior coefficients", {
   expect_null(plot(crime_coef, ask=FALSE))
 })
 
+# GitHub issue #56 and #39
+
+test_that("formula and env issues with MPM",{
+  data(UScrime, package = "MASS")
+  UScrime <- UScrime[, 1:5]
+  
+  crime.bic1 <- bas.lm(formula = M ~ So + Ed + Po1 + Po2,
+                       data = UScrime,
+                       prior = "JZS",
+                       initprobs = c(1, 0.5, 0.5, 0.5, 0.5),
+                       renormalize = TRUE)
+  coef.mpm1 <- coef(crime.bic1, estimator = "MPM")
+  
+  form <- M ~ So + Ed + Po1 + Po2
+  crime.bic2 <- bas.lm(formula = form,
+                       data = UScrime,
+                       prior = "JZS",
+                       initprobs = c(1, 0.5, 0.5, 0.5, 0.5),
+                       renormalize = TRUE)
+  
+  coef.mpm2 = coef(crime.bic2, estimator = "MPM")
+  expect_equal(coef.mpm1, coef.mpm2)
+}  
+)
+
+
+test_that("env and lm", {
+  data(UScrime, package = "MASS")
+  UScrime <- UScrime[, 1:5]
+  
+  mylm = function(object) {
+    modelform = as.formula(eval(object$call$formula, parent.frame()))
+    environment(modelform) = environment()
+    data = eval(object$call$data)
+    weights = eval(object$call$weights)
+    
+    object = lm(formula = modelform,
+                data = data,
+                weights = weights)
+   return(object) }
+  
+  
+  crime.lm1 <- lm(formula = M ~ So + Ed + Po1 + Po2, data = UScrime)  
+  tmp1 = mylm(crime.lm1)
+  
+  form = M ~ So + Ed + Po1 + Po2
+  crime.lm2 <- lm(formula = form, data = UScrime)  
+  
+  tmp = mylm(crime.lm2)
+  
+  expect_equal(coef(tmp), coef(tmp1))
+  
+})
+
