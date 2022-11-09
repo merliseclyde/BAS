@@ -3,7 +3,13 @@
 ## Changes 
 
 * Fixed error  when using `Jeffreys` prior in `bas.glm` with the 
-`include.always` option.  Github issue #61
+`include.always` option and added unit test in `test-bas-glm.R`.  
+ Github issue #61
+
+* Fixed error for extracting coefficients from the median probability model
+  when a formula is passed as an object rather than a literal, and added
+  a unit test to `test-coefficients.R`  Github issues #39 and #56
+  
 
 # BAS 1.6.4
 

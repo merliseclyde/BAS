@@ -1,8 +1,11 @@
-# BAS 1.6.4 Comments to CRAN
+# BAS 1.6.5 Comments to CRAN
 
-# Submission to address Error in CRAN checks for M1mac
+# Submission to fix bugs 
 
-unit tests failed under M1mac, as output does not produce NA's as expected under other platforms. Further testing indicates warning should not be triggered and unit test has been updated.
+
+Fixed issues #39, #56 and #61 reported on Github
+and unit tests added
+
 
 ## Test environments
 
