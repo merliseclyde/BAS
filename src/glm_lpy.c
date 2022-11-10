@@ -27,6 +27,7 @@ SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
 
     //extract mu and coef and evaluate the function
   SEXP Rmu = PROTECT(duplicate(getListElement(glm_fit, "mu"))); nprotected++;
+  SEXP Rdeviance = PROTECT(duplicate(getListElement(glm_fit, "deviance"))); nprotected++;
   SEXP Rcoef = PROTECT(duplicate(getListElement(glm_fit, "coefficients")));nprotected++;
   SEXP RXnow_noIntercept=PROTECT(allocMatrix(REALSXP, n , pmodel-1)); nprotected++;
   if (pmodel > 1) {
@@ -35,7 +36,7 @@ SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
   }
 
 
-  SEXP Rlpy = PROTECT(gglm_lpy(RXnow_noIntercept, RY, Rcoef, Rmu, Rweights,
+  SEXP Rlpy = PROTECT(gglm_lpy(RXnow_noIntercept, RY, Rcoef, Rmu, Rdeviance, Rweights,
 			       glmfamily, betapriorfamily,  Rlaplace));
   nprotected++;
 
@@ -54,7 +55,7 @@ SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
 }
 
 
-SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, SEXP Rwts, glmstptr * glmfamily, betapriorptr * betapriorfamily, SEXP  Rlaplace) {
+SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, SEXP Rdeviance, SEXP Rwts, glmstptr * glmfamily, betapriorptr * betapriorfamily, SEXP  Rlaplace) {
 	int *xdims = INTEGER(getAttrib(RX,R_DimSymbol));
 	int n=xdims[0], p = xdims[1];
 	int nProtected = 0;
@@ -63,7 +64,7 @@ SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, SEXP Rwts, glmstptr * glmf
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 5)); ++nProtected;
 
 	//input, read only
-	double *X=REAL(RX), *Y=REAL(RY), *coef=REAL(Rcoef), *mu=REAL(Rmu), *weights=REAL(Rwts);
+	double *X=REAL(RX), *Y=REAL(RY), *coef=REAL(Rcoef), *mu=REAL(Rmu), *devb=REAL(Rdeviance), *weights=REAL(Rwts);
 	int laplace = INTEGER(Rlaplace)[0];
 
 	//working variables (do we really need to make them R variables?)
@@ -90,7 +91,7 @@ SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, SEXP Rwts, glmstptr * glmf
 	double sum_Ieta = 0.0, logdet_Iintercept;
 	int i, j, l, base;
 
-	loglik_mle = glmfamily->loglik(Y, mu, weights, n);
+	loglik_mle = glmfamily->loglik(Y, mu, weights, devb[0], n);
 	glmfamily->info_matrix(Y, mu, weights, Ieta, n);
 
 	for (i = 0; i < n; i++) {

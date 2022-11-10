@@ -87,6 +87,7 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
     *variance=REAL(Rvariance), *hyper;
 
   double  one = 1.0,  tol, devold, devnew;
+  double disp;
 
   int   i, j, l, m, rank=1, *pivot=INTEGER(Rpivot), conv=0;
 
@@ -134,6 +135,7 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
     conv = 0.0;
     it = 0;
 
+    
     while ( conv < 1 && it < REAL(getListElement(Rcontrol, "maxit"))[0]) {
 
     glmfamily->mu_eta(eta, mu_eta, n);
@@ -150,6 +152,10 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
 	Xwork[l] = REAL(RX)[l]*w[i];
       }
     }
+    
+    disp = glmfamily->dispersion(residuals, weights, n, rank);
+    
+    
 
     rank = 1;
     for (j=0; j<p; j++) {
@@ -180,6 +186,8 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
     devnew = deviance(residuals, n);
     glmfamily->mu_eta(eta, mu_eta, n);
     glmfamily->variance(mu, variance, n);
+    
+
 
     devnew = deviance(residuals, n);
     //    Rprintf("old %f new %f conv %d\n", devold,devnew, conv);
@@ -191,15 +199,21 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
     it += 1;
   }
 
+
   dev[m] = devnew;
 
 
   if (rank == p)   chol2se(&Xwork[0], &se[0], &R[0], &cov[0], p, n);
       else	{
 	  QR2cov(&Xwork[0], &R[0], &cov[0], rank, n);
-  	for (j=0; j < rank; j++)  se[pivot[j]-1] = sqrt(cov[j*rank + j]);
+  	for (j=0; j < rank; j++)  se[pivot[j]-1] = cov[j*rank + j];
         }
 
+      for (j=0; j < p; j++) {
+        se[j] = sqrt(se[j]*disp);
+      }
+      
+      
   regSS[m] = quadform(coefwork, R, rank);
   g[m] = coefprior->g(dev[m],  regSS[m],  n,  p,  rank, hyper);
   REAL(Rshrinkage)[m]  = coefprior->shrinkage(dev[m],  regSS[m],  n,  p, rank, g[m],  hyper);
