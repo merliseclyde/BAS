@@ -221,23 +221,23 @@
 <p>To obtain credible intervals for coefficients, <code>BAS</code> includes a <code>confint</code> method to create Highest Posterior Density intervals from the summaries from <code>coef</code>.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="va">coef.ZS</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##                  2.5%       97.5%        beta</span></span>
-<span><span class="co">## Intercept  6.66669458 6.780755532  6.72493620</span></span>
-<span><span class="co">## M          0.00000000 2.166157749  1.14359433</span></span>
-<span><span class="co">## So        -0.05869085 0.291857855  0.03547522</span></span>
-<span><span class="co">## Ed         0.63601144 3.219237987  1.85848834</span></span>
-<span><span class="co">## Po1        0.00000000 1.417440906  0.60067372</span></span>
-<span><span class="co">## Po2       -0.13747849 1.414515629  0.31841766</span></span>
-<span><span class="co">## LF        -0.48035389 1.048239976  0.05933737</span></span>
-<span><span class="co">## M.F       -1.93527208 2.107717453 -0.02702786</span></span>
-<span><span class="co">## Pop       -0.13018714 0.001599384 -0.02248283</span></span>
-<span><span class="co">## NW         0.00000000 0.167417749  0.06668437</span></span>
-<span><span class="co">## U1        -0.48763606 0.374974131 -0.02456854</span></span>
-<span><span class="co">## U2        -0.01409115 0.668639476  0.20702927</span></span>
-<span><span class="co">## GDP       -0.04596277 1.171540018  0.20625063</span></span>
-<span><span class="co">## Ineq       0.68568040 2.141353301  1.39012647</span></span>
-<span><span class="co">## Prob      -0.41024388 0.000000000 -0.21536203</span></span>
-<span><span class="co">## Time      -0.51822434 0.060087257 -0.08433479</span></span>
+<pre><code><span><span class="co">##                    2.5%       97.5%        beta</span></span>
+<span><span class="co">## Intercept  6.6688944171 6.783597537  6.72493620</span></span>
+<span><span class="co">## M          0.0000000000 2.185082051  1.14359433</span></span>
+<span><span class="co">## So        -0.0628689820 0.299898075  0.03547522</span></span>
+<span><span class="co">## Ed         0.5530796227 3.123098079  1.85848834</span></span>
+<span><span class="co">## Po1       -0.0017004759 1.457300621  0.60067372</span></span>
+<span><span class="co">## Po2       -0.2491465542 1.432893675  0.31841766</span></span>
+<span><span class="co">## LF        -0.4853966737 1.032831102  0.05933737</span></span>
+<span><span class="co">## M.F       -2.2206703860 1.888284664 -0.02702786</span></span>
+<span><span class="co">## Pop       -0.1313382550 0.003696768 -0.02248283</span></span>
+<span><span class="co">## NW        -0.0002090326 0.166400095  0.06668437</span></span>
+<span><span class="co">## U1        -0.4962703867 0.382472327 -0.02456854</span></span>
+<span><span class="co">## U2        -0.0015430531 0.662769955  0.20702927</span></span>
+<span><span class="co">## GDP       -0.0895324767 1.162810953  0.20625063</span></span>
+<span><span class="co">## Ineq       0.6712337194 2.135388105  1.39012647</span></span>
+<span><span class="co">## Prob      -0.4109671632 0.000000000 -0.21536203</span></span>
+<span><span class="co">## Time      -0.5193218498 0.057540663 -0.08433479</span></span>
 <span><span class="co">## attr(,"Probability")</span></span>
 <span><span class="co">## [1] 0.95</span></span>
 <span><span class="co">## attr(,"class")</span></span>
@@ -358,7 +358,7 @@
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   1.864   0.004   1.868</span></span></code></pre>
+<span><span class="co">##   1.901   0.008   1.909</span></span></code></pre>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
 <span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
@@ -370,7 +370,7 @@
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   1.503   0.000   1.503</span></span></code></pre>
+<span><span class="co">##   1.510   0.004   1.514</span></span></code></pre>
 <p>which is faster for enumeration than the default method=“BAS”.</p>
 </div>
 <div class="section level2">
@@ -449,7 +449,7 @@
 </tr>
 <tr class="even">
 <td align="left">Air.Flow</td>
-<td align="right">0.999320</td>
+<td align="right">0.999715</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -458,16 +458,16 @@
 </tr>
 <tr class="odd">
 <td align="left">Water.Temp</td>
-<td align="right">0.479045</td>
+<td align="right">0.477835</td>
 <td align="right">1.00000</td>
-<td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td align="left">Acid.Conc.</td>
-<td align="right">0.094680</td>
+<td align="right">0.094345</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -476,7 +476,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>1</code></td>
-<td align="right">0.609800</td>
+<td align="right">0.606975</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -485,16 +485,16 @@
 </tr>
 <tr class="even">
 <td align="left"><code>2</code></td>
-<td align="right">0.161405</td>
+<td align="right">0.162135</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
-<td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
+<td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>3</code></td>
-<td align="right">0.638425</td>
+<td align="right">0.642550</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -503,7 +503,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>4</code></td>
-<td align="right">0.953550</td>
+<td align="right">0.952595</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -512,7 +512,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>5</code></td>
-<td align="right">0.066120</td>
+<td align="right">0.064095</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -521,7 +521,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>6</code></td>
-<td align="right">0.077450</td>
+<td align="right">0.078945</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -530,7 +530,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>7</code></td>
-<td align="right">0.061645</td>
+<td align="right">0.061820</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -539,7 +539,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>8</code></td>
-<td align="right">0.062770</td>
+<td align="right">0.065395</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -548,7 +548,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>9</code></td>
-<td align="right">0.066040</td>
+<td align="right">0.065220</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -557,7 +557,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>10</code></td>
-<td align="right">0.063830</td>
+<td align="right">0.064555</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -566,7 +566,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>11</code></td>
-<td align="right">0.062305</td>
+<td align="right">0.067160</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -575,7 +575,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>12</code></td>
-<td align="right">0.087310</td>
+<td align="right">0.087345</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -584,16 +584,16 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>13</code></td>
-<td align="right">0.337440</td>
+<td align="right">0.342690</td>
 <td align="right">0.00000</td>
 <td align="right">1.0000000</td>
-<td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
+<td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td align="left"><code>14</code></td>
-<td align="right">0.184840</td>
+<td align="right">0.177205</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -602,7 +602,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>15</code></td>
-<td align="right">0.069795</td>
+<td align="right">0.075095</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -611,7 +611,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>16</code></td>
-<td align="right">0.057165</td>
+<td align="right">0.060995</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -620,7 +620,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>17</code></td>
-<td align="right">0.062905</td>
+<td align="right">0.062385</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -629,7 +629,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>18</code></td>
-<td align="right">0.063960</td>
+<td align="right">0.063760</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -638,7 +638,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>19</code></td>
-<td align="right">0.088520</td>
+<td align="right">0.086230</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -647,7 +647,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>20</code></td>
-<td align="right">0.130790</td>
+<td align="right">0.129245</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -656,7 +656,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>21</code></td>
-<td align="right">0.987630</td>
+<td align="right">0.988505</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -667,45 +667,45 @@
 <td align="left">BF</td>
 <td align="right">NA</td>
 <td align="right">1.00000</td>
+<td align="right">0.3397571</td>
 <td align="right">0.5779604</td>
 <td align="right">0.5555328</td>
-<td align="right">0.3397571</td>
 <td align="right">0.2016282</td>
 </tr>
 <tr class="odd">
 <td align="left">PostProbs</td>
 <td align="right">NA</td>
-<td align="right">0.06960</td>
-<td align="right">0.0228000</td>
-<td align="right">0.0227000</td>
-<td align="right">0.0193000</td>
-<td align="right">0.0186000</td>
+<td align="right">0.07170</td>
+<td align="right">0.0239000</td>
+<td align="right">0.0231000</td>
+<td align="right">0.0225000</td>
+<td align="right">0.0187000</td>
 </tr>
 <tr class="even">
 <td align="left">R2</td>
 <td align="right">NA</td>
 <td align="right">0.98920</td>
+<td align="right">0.9873000</td>
 <td align="right">0.9923000</td>
 <td align="right">0.9922000</td>
-<td align="right">0.9873000</td>
 <td align="right">0.9803000</td>
 </tr>
 <tr class="odd">
 <td align="left">dim</td>
 <td align="right">NA</td>
 <td align="right">7.00000</td>
-<td align="right">8.0000000</td>
-<td align="right">8.0000000</td>
 <td align="right">7.0000000</td>
+<td align="right">8.0000000</td>
+<td align="right">8.0000000</td>
 <td align="right">6.0000000</td>
 </tr>
 <tr class="even">
 <td align="left">logmarg</td>
 <td align="right">NA</td>
 <td align="right">23.82319</td>
+<td align="right">22.7436630</td>
 <td align="right">23.2749373</td>
 <td align="right">23.2353597</td>
-<td align="right">22.7436630</td>
 <td align="right">22.2218573</td>
 </tr>
 </tbody>
