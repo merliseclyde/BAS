@@ -522,7 +522,8 @@ test_that("gamma regression coef", {
                       betaprior = bic.prior() ,family = Gamma(link = "log"))
   expect_equal(as.numeric(coef(wafer_bas)$postmean), as.numeric(coef(wafer_glm)))
   
-  # expect warning not error  FIXME
+  # expect error  but due to glm not bas as link =logit not possible
+  # add error checking for BAS
   expect_error(wafer_bas = bas.glm(resist~ ., data=wafer, 
                       betaprior = bic.prior() ,family = Gamma(link = "logit")))
   
@@ -530,8 +531,7 @@ test_that("gamma regression coef", {
                                      betaprior = bic.prior() ,family = Gamma(link = "log"))
   
   # do not expect warning FIXME
-  expect_warning(coef(wafer_bas))
   
-
+  expect_warning(coef(wafer_bas))
   
 })
