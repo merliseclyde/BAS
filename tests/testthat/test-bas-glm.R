@@ -511,14 +511,27 @@ test_that("Jeffreys prior and include.always", {
 
 
 # test gamma model
-test_that("gamma regression", {
+test_that("gamma regression coef", {
   
   data(wafer, package="faraway")
   wafer_glm <- glm(formula = resist ~ .,
                    family  = Gamma(link = "log"),
                    data    = wafer)
-  
+  # postmode and MLE under full models should be equal
   wafer_bas = bas.glm(resist~ ., data=wafer,  include.always = ~ .,
                       betaprior = bic.prior() ,family = Gamma(link = "log"))
   expect_equal(as.numeric(coef(wafer_bas)$postmean), as.numeric(coef(wafer_glm)))
+  
+  # expect warning not error  FIXME
+  expect_error(wafer_bas = bas.glm(resist~ ., data=wafer, 
+                      betaprior = bic.prior() ,family = Gamma(link = "logit")))
+  
+  wafer_bas = bas.glm(resist~ ., data=wafer, 
+                                     betaprior = bic.prior() ,family = Gamma(link = "log"))
+  
+  # do not expect warning FIXME
+  expect_warning(coef(wafer_bas))
+  
+
+  
 })
