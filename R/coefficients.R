@@ -123,8 +123,13 @@ coef.bas <- function(object, n.models, estimator = "BMA", ...) {
   )
   postmean <- as.vector(postprobs %*% conditionalmeans)
 
+  # workaround for issue #65
+  if (inherits(object, "basglm")) {
+     object$prior = object$betaprior$class
+  }
+  
   conditionalsd <- list2matrix.bas(object, "mle.se")[topm, , drop = F]
-  if (!(object$prior == "AIC" || object$prior == "BIC")) {
+  if (!(object$prior == "AIC" | object$prior == "BIC" | object$prior == "IC")) {
     conditionalsd[, -1] <- sweep(conditionalsd[, -1, drop = F], 1,
       sqrt(shrinkage),
       FUN = "*"
@@ -137,7 +142,7 @@ coef.bas <- function(object, n.models, estimator = "BMA", ...) {
   postsd <- as.vector(postsd)
   if (is.null(object$df[topm])) {
     df <- rep(object$n, length(postprobs))
-    if (object$prior == "BIC" | object$prior == "AIC") {
+    if (object$prior == "BIC" | object$prior == "AIC" | object$prior == "IC") {
       df <- df - object$rank
     } else {
       df <- df - 1

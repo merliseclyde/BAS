@@ -494,11 +494,12 @@ test_that("phi1 and NAs in bas.glm", {
 })
 
 
-# github issue 61
-test_that("Jeffreys prior and include.always", {
+# github issue 61 
+ test_that("Jeffreys prior and include.always", {
   data(Pima.tr, package="MASS"); 
   formula <- type ~1 + npreg + glu + bp + bmi + ped; 
   covariates <- ~1 + npreg; 
+  # Do not expect error  so second arg is NA
   expect_error(bas.glm(formula = formula, data = Pima.tr, 
                         family = binomial(), 
                         laplace = FALSE, 
@@ -509,6 +510,35 @@ test_that("Jeffreys prior and include.always", {
                NA)
 })
 
+# test BIC priors
+test_that("regression coef and IC priors", {
+  data(Pima.tr, package="MASS"); 
+  formula <- type ~1 + npreg + glu + bp + bmi + ped; 
+  covariates <- ~ 1 + npreg + glu + bp + bmi + ped;
+  pima.bas = bas.glm(formula = formula, data = Pima.tr, 
+                       family = binomial(), 
+                       laplace = FALSE, 
+                       betaprior = bic.prior(), 
+                       modelprior = uniform(), 
+                       include.always = covariates,
+                       method = "BAS")
+
+  pima.glm =  glm(formula = formula, data = Pima.tr, 
+                   family = binomial()) 
+
+  # postmode and MLE under full models should be equal
+  expect_equal(as.numeric(coef(pima.bas)$postmean), as.numeric(coef(pima.glm)))
+  
+  pima.bas = bas.glm(formula = type ~ bp + bmi, data = Pima.tr, 
+                     family = binomial(), 
+                     betaprior = bic.prior(), 
+                     modelprior = uniform(), 
+                     method = "BAS")
+  
+  # github issue
+  expect_warning(coef(pima.bas), NA)
+  
+})
 
 # test gamma model
 test_that("gamma regression coef", {
@@ -532,6 +562,6 @@ test_that("gamma regression coef", {
   
   # do not expect warning FIXME
   
-  expect_warning(coef(wafer_bas))
+  expect_warning(coef(wafer_bas), NA)
   
 })
