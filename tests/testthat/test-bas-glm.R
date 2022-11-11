@@ -509,3 +509,16 @@ test_that("Jeffreys prior and include.always", {
                NA)
 })
 
+
+# test gamma model
+test_that("gamma regression", {
+  
+  data(wafer, package="faraway")
+  wafer_glm <- glm(formula = resist ~ .,
+                   family  = Gamma(link = "log"),
+                   data    = wafer)
+  
+  wafer_bas = bas.glm(resist~ ., data=wafer,  include.always = ~ .,
+                      betaprior = bic.prior() ,family = Gamma(link = "log"))
+  expect_equal(as.numeric(coef(wafer_bas)$postmean), as.numeric(coef(wafer_glm)))
+})
