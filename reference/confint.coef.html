@@ -153,23 +153,23 @@ of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
 <span class="r-in"><span>                            prior<span class="op">=</span><span class="st">"g-prior"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">coef_hald</span> <span class="op">&lt;-</span> <span class="fu"><a href="coef.html">coef</a></span><span class="op">(</span><span class="va">hald_gprior</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">confint</span><span class="op">(</span><span class="va">coef_hald</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   2.5%      97.5%       beta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept 93.871234124 96.9654957 95.4230769</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1        -0.002204086  1.8999672  1.2150202</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2        -1.089429628  0.9734779  0.2756235</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3        -1.510185786  0.6157310 -0.1270575</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4        -1.673726252  0.3395578 -0.3268710</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                2.5%      97.5%       beta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept 93.909043 96.9828241 95.4230769</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1         0.000000  1.8454776  1.2150202</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        -1.113265  0.8832742  0.2756235</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        -1.540345  0.5333369 -0.1270575</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        -1.752202  0.1845357 -0.3268710</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"Probability")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "confint.bas"</span>
 <span class="r-in"><span><span class="fu">confint</span><span class="op">(</span><span class="va">coef_hald</span>, approx<span class="op">=</span><span class="cn">FALSE</span>, nsim<span class="op">=</span><span class="fl">5000</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                2.5%      97.5%       beta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept 93.890995 96.8955500 95.4230769</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1         0.000000  1.9015740  1.2150202</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2        -1.059642  0.9977101  0.2756235</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3        -1.508186  0.6187174 -0.1270575</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4        -1.632041  0.3795440 -0.3268710</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept 93.797550 96.9026453 95.4230769</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1         0.000000  1.8772833  1.2150202</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        -1.181140  0.8346658  0.2756235</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        -1.509487  0.5945600 -0.1270575</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        -1.729968  0.2318371 -0.3268710</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"Probability")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
@@ -177,7 +177,7 @@ of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
 <span class="r-in"><span><span class="co"># extract just the coefficient of X4</span></span></span>
 <span class="r-in"><span><span class="fu">confint</span><span class="op">(</span><span class="va">coef_hald</span>, parm<span class="op">=</span><span class="st">"X4"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         2.5%     97.5%      beta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4 -1.698928 0.2588791 -0.326871</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4 -1.753561 0.2560859 -0.326871</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"Probability")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
