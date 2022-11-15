@@ -39,7 +39,7 @@ each model.}
 
 \item{family}{a description of the error distribution and link function for
 exponential family; currently only `binomial()` with the logistic link and
-`poisson()` with the log link are available.}
+`poisson()` and `Gamma()`with the log link are available.}
 
 \item{data}{data frame}
 

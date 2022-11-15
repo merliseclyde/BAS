@@ -52,7 +52,8 @@ SEXP glm_bas(SEXP RX, SEXP RY, glmstptr *glmfamily, SEXP Roffset, SEXP Rweights,
 		*variance=REAL(Rvariance);
 
 	double  one = 1.0,  tol, devold, devnew;
-
+	double disp;
+	
 	int   i, j, l, rank=1, *pivot=INTEGER(Rpivot), conv=0;
 
   // char  trans[]="N";
@@ -91,6 +92,9 @@ SEXP glm_bas(SEXP RX, SEXP RY, glmstptr *glmfamily, SEXP Roffset, SEXP Rweights,
 			}
 		}
 
+		disp = glmfamily->dispersion(residuals, weights, n, rank);
+		
+		
 		rank = 1;
 		for (j=0; j<p; j++) {
 			pivot[j] = j+1;
@@ -135,9 +139,14 @@ SEXP glm_bas(SEXP RX, SEXP RY, glmstptr *glmfamily, SEXP Roffset, SEXP Rweights,
 		} else {
 			QR2cov(&Xwork[0], &R[0], &cov[0], rank, n);
 			for (j=0; j < rank; j++) {
-				se[pivot[j]-1] = sqrt(cov[j*rank + j]);
+				se[pivot[j]-1] = cov[j*rank + j];
 			}
 		}
+		
+		for (j=0; j < p; j++) {
+		  se[j] = sqrt(se[j]*disp);
+		}
+		
 
 		regSS[0] = quadform(coefwork, R, rank);
 

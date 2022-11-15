@@ -31,7 +31,7 @@ static R_INLINE double x_d_omx(double x) {
 static R_INLINE double x_d_opx(double x) {return x/(1 + x);}
 
 
-double poisson_loglik(double *Y, double*mu, double *wts, int n) {
+double poisson_loglik(double *Y, double*mu, double *wts, double devb, int n) {
   int i;
   double ll = 0.0;
 
@@ -120,9 +120,67 @@ double poisson_dispersion(double *resid,  double *weights, int n, int rank) {
   return(1.0);
 }
 
+
+/* Gamma */
+
+double gamma_loglik(double *Y, double*mu, double *wts, double devb, int n) {
+  int i;
+  double ll = 0.0;
+  double disp, ntemp;
+  
+
+  for (i = 0; i < n; i++) {
+    ntemp += wts[i];
+  }
+  
+  disp = devb/ntemp;
+  
+  for (i = 0; i < n; i++) {
+    ll += wts[i]*dgamma(Y[i],1/disp,1/(mu[i]*disp),1);
+  }
+  return(ll);
+}
+
+
+void gamma_variance(double *mu, double *var, int n) {
+  
+  int i;
+  
+  for (i = 0; i<n; i++) {
+    var[i] = pow (mu[i],2.0);
+  }
+}
+
+
+void gamma_dev_resids(double *ry, double *rmu, double *rwt, double *rans, int n)
+{
+  int i;
+  double mui, yi, wti;
+  
+  for (i = 0; i < n; i++) {
+    mui = rmu[i];
+    yi = ry[i];
+    wti = rwt[i];
+    rans[i] = 2.0 *  wti * (yi - mui)/mui;
+    if (yi > 0) {
+      rans[i] += -2.0 * wti * log(yi/mui) ;
+    }
+  }
+}
+
+
+void gamma_initialize(double *Y, double *mu,  double *weights, int n) {
+  int i;
+  for (i = 0; i < n; i++) {
+    if (Y[i] < 0.0) error("negative values not allowed for Gamma");
+    mu[i] =  Y[i];
+  }
+}
+
+
 /* Binomial */
 
-double binomial_loglik(double *Y, double*mu, double *wts, int n) {
+double binomial_loglik(double *Y, double*mu, double *wts, double devb, int n) {
   int i;
   double ll = 0.0;
 
@@ -241,6 +299,7 @@ double Gaussian_dispersion(double *resid,  double *weights, int n, int rank) {
     if (weights[i] > 0) nwt += 1;
     dispersion += weights[i]*resid[i]*resid[i];
   }
+  
    return(dispersion/(double) (nwt - rank));
 }
 
@@ -287,7 +346,7 @@ void chol2se(double *qr, double *se, double *R, double *covwork, int p, int n) {
   Lapack_chol2inv(R, p, covwork);
 
 for (j=0; j < p; j++) {
-  se[j] = sqrt(covwork[j*p + j]);
+  se[j] = covwork[j*p + j];
 }
 
  return;
@@ -338,6 +397,9 @@ void  Lapack_chol2inv(double *A, int sz, double *ans)
 
 
 
+
+
+
 struct glmfamilystruc * make_glmfamily_structure(SEXP family) {
 
   glmstptr *glmfamily;
@@ -380,9 +442,23 @@ struct glmfamilystruc * make_glmfamily_structure(SEXP family) {
 	  glmfamily->linkinv =  log_linkinv;
 	  glmfamily->info_matrix =  poisson_log_info;
 	}
+	else if  (strcmp(glmfamily->family, "Gamma") == 0) {
+	  glmfamily->dev_resids = gamma_dev_resids;
+	  glmfamily->dispersion = Gaussian_dispersion;
+	  glmfamily->initialize = gamma_initialize;
+	  glmfamily->variance = gamma_variance;
+	  glmfamily->loglik =  gamma_loglik;
+	  if (strcmp(glmfamily->link, "log") != 0) {
+	    warning("no other links implemented yet, using log\n");
+	  }
+	  glmfamily->linkfun = log_link;
+	  glmfamily->mu_eta = log_mu_eta;
+	  glmfamily->linkinv =  log_linkinv;
+	  glmfamily->info_matrix =  poisson_log_info;
+	}
 
 	else {
-	  error("only 'binomial() and 'poisson() families supported now\n");
+	  error("only 'binomial() and 'poisson() and 'gamma() families supported now\n");
 	  //	  stop(1);
 	}
 	return(glmfamily);
