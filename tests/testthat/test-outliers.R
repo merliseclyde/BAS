@@ -12,4 +12,5 @@ test_that("outliers.R", {
   #' # cases where posterior probability exceeds prior probability
   expect_length(which(stack_outliers$prob.outlier >
                         stack_outliers$prior.prob),2)
+  expect_error(stack_outliers <- Bayes.outlier(stack_lm))
 })

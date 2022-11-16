@@ -59,7 +59,7 @@ hypergeometric2F1 <- function(a, b, c, z, method = "Cephes", log = TRUE) {
       }
       else {
         if (ans < 0) {
-          warning("2F1 from Cephes library is negative; try Laplace approximation")
+          warning("2F1 from Cephes library is negative; try Laplace approximation") # nocov
         }
         if (log) ans <- log(ans)
       }

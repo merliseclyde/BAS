@@ -140,13 +140,14 @@ coef.bas <- function(object, n.models, estimator = "BMA", ...) {
     postprobs %*% ((sweep(conditionalmeans, 2, postmean, FUN = "-")
     )^2))
   postsd <- as.vector(postsd)
-  if (is.null(object$df[topm])) {
+  if (is.null(object$df[topm])) { # nocov start
     df <- rep(object$n, length(postprobs))
     if (object$prior == "BIC" | object$prior == "AIC" | object$prior == "IC") {
       df <- df - object$rank
     } else {
       df <- df - 1
-    }
+    } 
+    # nocov end
   } else {
     df <- object$df[topm]
   }
