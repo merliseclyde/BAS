@@ -25,6 +25,9 @@ test_that("predict.bas.lm", {
                            estimator = "HPM",
                            se.fit = TRUE)
   expect_equivalent(hald_pred_new$fit, hald_pred$fit[1])
+  hald_pred_new <- predict(hald_gprior, newdata = Hald, estimator = "BPM",
+                           se.fit = FALSE)
+  expect_warning(confint(hald_pred_new ))
 })
 
 test_that("predict.bas.glm", {
@@ -36,6 +39,7 @@ test_that("predict.bas.glm", {
   pima_pred <- predict(pima_gprior,
                        estimator = "HPM",
                        se.fit = FALSE)
+  expect_warning(confint(pima_pred))
 
   # should not error
   expect_error(predict(pima_gprior,
