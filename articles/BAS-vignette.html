@@ -71,10 +71,12 @@
 
 
 
-<script src="BAS-vignette_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging and Variable Selection</h1>
-                        <h4 data-toc-skip class="author">Merlise A Clyde</h4>
+                        <h4 data-toc-skip class="author">Merlise A
+Clyde</h4>
             
             <h4 data-toc-skip class="date">2022-11-16</h4>
       
@@ -84,29 +86,51 @@
 
     
     
-<p>The <code>BAS</code> package provides easy to use functions to implement Bayesian Model Averaging in linear models and generalized linear models. Prior distributions on coefficients are based on Zellner’s g-prior or mixtures of g-priors, such as the Zellner-Siow Cauchy prior or mixtures of g-priors from <a href="https://dx.doi.org/10.1198/016214507000001337" class="external-link">Liang et al (2008)</a> for linear models, as well as other options including AIC, BIC, RIC and Empirical Bayes methods. Extensions to Generalized Linear Models are based on the mixtures of g-priors in GLMs of <a href="https://dx.doi.org/10.1080/01621459.2018.1469992" class="external-link">Li and Clyde (2019)</a> using an integrated Laplace approximation.</p>
-<p><code>BAS</code> uses an adaptive sampling algorithm to sample without replacement from the space of models or MCMC sampling which is recommended for sampling problems with a large number of predictors. See <a href="https://dx.doi.org/10.1198/jcgs.2010.09049" class="external-link">Clyde, Littman &amp; Ghosh</a> for more details for the sampling algorithms.</p>
+<p>The <code>BAS</code> package provides easy to use functions to
+implement Bayesian Model Averaging in linear models and generalized
+linear models. Prior distributions on coefficients are based on
+Zellner’s g-prior or mixtures of g-priors, such as the Zellner-Siow
+Cauchy prior or mixtures of g-priors from <a href="https://dx.doi.org/10.1198/016214507000001337" class="external-link">Liang et al
+(2008)</a> for linear models, as well as other options including AIC,
+BIC, RIC and Empirical Bayes methods. Extensions to Generalized Linear
+Models are based on the mixtures of g-priors in GLMs of <a href="https://dx.doi.org/10.1080/01621459.2018.1469992" class="external-link">Li and Clyde
+(2019)</a> using an integrated Laplace approximation.</p>
+<p><code>BAS</code> uses an adaptive sampling algorithm to sample
+without replacement from the space of models or MCMC sampling which is
+recommended for sampling problems with a large number of predictors. See
+<a href="https://dx.doi.org/10.1198/jcgs.2010.09049" class="external-link">Clyde, Littman
+&amp; Ghosh</a> for more details for the sampling algorithms.</p>
 <div class="section level2">
 <h2 id="installing-bas">Installing BAS<a class="anchor" aria-label="anchor" href="#installing-bas"></a>
 </h2>
-<p>The stable version can be installed easily in the <code>R</code> console like any other package:</p>
+<p>The stable version can be installed easily in the <code>R</code>
+console like any other package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BAS"</span><span class="op">)</span></span></code></pre></div>
-<p>On the other hand, I welcome everyone to use the most recent version of the package with quick-fixes, new features and probably new bugs. To get the latest development version from <a href="https://github.com/merliseclyde" class="external-link">GitHub</a>, use the <code>devtools</code> package from <a href="https://cran.r-project.org/package=devtools" class="external-link">CRAN</a> and enter in <code>R</code>:</p>
+<p>On the other hand, I welcome everyone to use the most recent version
+of the package with quick-fixes, new features and probably new bugs. To
+get the latest development version from <a href="https://github.com/merliseclyde" class="external-link">GitHub</a>, use the
+<code>devtools</code> package from <a href="https://cran.r-project.org/package=devtools" class="external-link">CRAN</a> and enter in
+<code>R</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"merliseclyde/BAS"</span><span class="op">)</span></span></code></pre></div>
-<p>As the package does depend on BLAS and LAPACK, installing from GitHub will require that you have FORTRAN and C compilers on your system.</p>
+<p>As the package does depend on BLAS and LAPACK, installing from GitHub
+will require that you have FORTRAN and C compilers on your system.</p>
 </div>
 <div class="section level2">
 <h2 id="demo">Demo<a class="anchor" aria-label="anchor" href="#demo"></a>
 </h2>
-<p>We will use the UScrime data to illustrate some of the commands and functionality.</p>
+<p>We will use the UScrime data to illustrate some of the commands and
+functionality.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">UScrime</span>, package <span class="op">=</span> <span class="st">"MASS"</span><span class="op">)</span></span></code></pre></div>
-<p>Following other analyses, we will go ahead and log transform all of the variables except column 2, which is the indicator variable of the state being a southern state.</p>
+<p>Following other analyses, we will go ahead and log transform all of
+the variables except column 2, which is the indicator variable of the
+state being a southern state.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">UScrime</span><span class="op">[</span>, <span class="op">-</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">UScrime</span><span class="op">[</span>, <span class="op">-</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p>To get started, we will use <code>BAS</code> with the Zellner-Siow Cauchy prior on the coefficients.</p>
+<p>To get started, we will use <code>BAS</code> with the Zellner-Siow
+Cauchy prior on the coefficients.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.r-project.org" class="external-link">BAS</a></span><span class="op">)</span></span>
 <span><span class="va">crime.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>,</span>
@@ -115,10 +139,15 @@
 <span>  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>, initprobs <span class="op">=</span> <span class="st">"eplogp"</span>,</span>
 <span>  force.heredity <span class="op">=</span> <span class="cn">FALSE</span>, pivot <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><code>BAS</code> uses a model formula similar to <code>lm</code> to specify the full model with all of the potential predictors. Here we are using the shorthand <code>.</code> to indicate that all remaining variables in the data frame provided by the <code>data</code> argument. Different prior distributions on the regression coefficients may be specified using the <code>prior</code> argument, and include</p>
+<p><code>BAS</code> uses a model formula similar to <code>lm</code> to
+specify the full model with all of the potential predictors. Here we are
+using the shorthand <code>.</code> to indicate that all remaining
+variables in the data frame provided by the <code>data</code> argument.
+Different prior distributions on the regression coefficients may be
+specified using the <code>prior</code> argument, and include</p>
 <ul>
 <li>“BIC”</li>
-<li>"AIC</li>
+<li>“AIC</li>
 <li>“g-prior”</li>
 <li>“hyper-g”</li>
 <li>“hyper-g-laplace”</li>
@@ -129,29 +158,69 @@
 <li>“EB-local”</li>
 <li>“EB-global”</li>
 </ul>
-<p>where the default is the Zellner-Siow prior, ZS-null, where all Bayes factors are compared to the null model. The newest prior option, “JZS”, also corresponds to the Zellner-Siow prior on the coefficients, but uses numerical integration rather than a Laplace approximation to obtain the marginal likelihood of models.</p>
-<p>By default, <code>BAS</code> will try to enumerate all models if <span class="math inline">\(p &lt; 19\)</span> using the default <code>method="BAS"</code>. The prior distribution over the models is a <code><a href="../reference/uniform.html">uniform()</a></code> distribution which assigns equal probabilities to all models. The last optional argument <code>initprobs = eplogp</code> provides a way to initialize the sampling algorithm and order the variables in the tree structure that represents the model space in BAS. The <code>eplogp</code> option uses the Bayes factor calibration of p-values <span class="math inline">\(-e p \log(p)\)</span> to provide an approximation to the marginal inclusion probability that the coefficient of each predictor is zero, using the p-values from the full model. Other options for <code>initprobs</code> include</p>
+<p>where the default is the Zellner-Siow prior, ZS-null, where all Bayes
+factors are compared to the null model. The newest prior option, “JZS”,
+also corresponds to the Zellner-Siow prior on the coefficients, but uses
+numerical integration rather than a Laplace approximation to obtain the
+marginal likelihood of models.</p>
+<p>By default, <code>BAS</code> will try to enumerate all models if
+<span class="math inline">\(p &lt; 19\)</span> using the default
+<code>method="BAS"</code>. The prior distribution over the models is a
+<code><a href="../reference/uniform.html">uniform()</a></code> distribution which assigns equal probabilities to
+all models. The last optional argument <code>initprobs = eplogp</code>
+provides a way to initialize the sampling algorithm and order the
+variables in the tree structure that represents the model space in BAS.
+The <code>eplogp</code> option uses the Bayes factor calibration of
+p-values <span class="math inline">\(-e p \log(p)\)</span> to provide an
+approximation to the marginal inclusion probability that the coefficient
+of each predictor is zero, using the p-values from the full model. Other
+options for <code>initprobs</code> include</p>
 <ul>
-<li>“marg-eplogp”"</li>
+<li>“marg-eplogp””</li>
 <li>“uniform”</li>
 <li>numeric vector of length p</li>
 </ul>
-<p>The option “marg-eplogp” uses p-values from the <span class="math inline">\(p\)</span> simple linear regressions (useful for large p or highly correlated variables).</p>
-<p>Since we are enumerating under all possible models these options are not important and the <code>method="deterministic"</code> may be faster if there are no factors or interactions in the model.</p>
+<p>The option “marg-eplogp” uses p-values from the <span class="math inline">\(p\)</span> simple linear regressions (useful for
+large p or highly correlated variables).</p>
+<p>Since we are enumerating under all possible models these options are
+not important and the <code>method="deterministic"</code> may be faster
+if there are no factors or interactions in the model.</p>
 </div>
 <div class="section level2">
 <h2 id="plots">Plots<a class="anchor" aria-label="anchor" href="#plots"></a>
 </h2>
-<p>Some graphical summaries of the output may be obtained by the <code>plot</code> function</p>
+<p>Some graphical summaries of the output may be obtained by the
+<code>plot</code> function</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">crime.ZS</span>, ask <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-1.png" width="700"><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-2.png" width="700"><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-3.png" width="700"><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-4.png" width="700"></p>
-<p>which produces a panel of four plots. The first is a plot of residuals and fitted values under Bayesian Model Averaging. Ideally, if our model assumptions hold, we will not see outliers or non-constant variance. The second plot shows the cumulative probability of the models in the order that they are sampled. This plot indicates that the cumulative probability is leveling off as each additional model adds only a small increment to the cumulative probability, while earlier, there are larger jumps corresponding to discovering a new high probability model. The third plot shows the dimension of each model (the number of regression coefficients including the intercept) versus the log of the marginal likelihood of the model. The last plot shows the marginal posterior inclusion probabilities (pip) for each of the covariates, with marginal pips greater than 0.5 shown in red. The variables with pip &gt; 0.5 correspond to what is known as the median probability model. Variables with high inclusion probabilities are generally important for explaining the data or prediction, but marginal inclusion probabilities may be small if there are predictors that are highly correlated, similar to how p-values may be large in the presence of multicollinearity.</p>
-<p>Individual plots may be obtained using the <code>which</code> option.</p>
+<p>which produces a panel of four plots. The first is a plot of
+residuals and fitted values under Bayesian Model Averaging. Ideally, if
+our model assumptions hold, we will not see outliers or non-constant
+variance. The second plot shows the cumulative probability of the models
+in the order that they are sampled. This plot indicates that the
+cumulative probability is leveling off as each additional model adds
+only a small increment to the cumulative probability, while earlier,
+there are larger jumps corresponding to discovering a new high
+probability model. The third plot shows the dimension of each model (the
+number of regression coefficients including the intercept) versus the
+log of the marginal likelihood of the model. The last plot shows the
+marginal posterior inclusion probabilities (pip) for each of the
+covariates, with marginal pips greater than 0.5 shown in red. The
+variables with pip &gt; 0.5 correspond to what is known as the median
+probability model. Variables with high inclusion probabilities are
+generally important for explaining the data or prediction, but marginal
+inclusion probabilities may be small if there are predictors that are
+highly correlated, similar to how p-values may be large in the presence
+of multicollinearity.</p>
+<p>Individual plots may be obtained using the <code>which</code>
+option.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">crime.ZS</span>, which <span class="op">=</span> <span class="fl">4</span>, ask <span class="op">=</span> <span class="cn">FALSE</span>, caption <span class="op">=</span> <span class="st">""</span>, sub.caption <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/pip-1.png" width="480"></p>
-<p><code>BAS</code> has <code>print</code> and <code>summary</code> methods defined for objects of class <code>bas</code>. Typing the objects name</p>
+<p><code>BAS</code> has <code>print</code> and <code>summary</code>
+methods defined for objects of class <code>bas</code>. Typing the
+objects name</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">crime.ZS</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
@@ -167,7 +236,8 @@
 <span><span class="co">##    0.2050     0.3696     0.6944     0.2526     0.6149     0.3601     0.9965  </span></span>
 <span><span class="co">##      Prob       Time  </span></span>
 <span><span class="co">##    0.8992     0.3718</span></span></code></pre>
-<p>returns a summary of the marginal inclusion probabilities, while the <code>summary</code> function provides</p>
+<p>returns a summary of the marginal inclusion probabilities, while the
+<code>summary</code> function provides</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">80</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/summary.html">summary</a></span><span class="op">(</span><span class="va">crime.ZS</span><span class="op">)</span></span></code></pre></div>
@@ -193,63 +263,110 @@
 <span><span class="co">## R2                   NA  0.84200  0.8265000  0.8229000  0.837500  0.8046000</span></span>
 <span><span class="co">## dim                  NA  9.00000  8.0000000  8.0000000  9.000000  7.0000000</span></span>
 <span><span class="co">## logmarg              NA 23.65111 23.5909572 23.2000822 23.130999 23.0164741</span></span></code></pre>
-<p>a list of the top 5 models (in terms of posterior probability) with the zero-one indicators for variable inclusion. The other columns in the summary are the Bayes factor of each model to the highest probability model (hence its Bayes factor is 1), the posterior probabilities of the models, the ordinary <span class="math inline">\(R^2\)</span> of the models, the dimension of the models (number of coefficients including the intercept) and the log marginal likelihood under the selected prior distribution.</p>
+<p>a list of the top 5 models (in terms of posterior probability) with
+the zero-one indicators for variable inclusion. The other columns in the
+summary are the Bayes factor of each model to the highest probability
+model (hence its Bayes factor is 1), the posterior probabilities of the
+models, the ordinary <span class="math inline">\(R^2\)</span> of the
+models, the dimension of the models (number of coefficients including
+the intercept) and the log marginal likelihood under the selected prior
+distribution.</p>
 </div>
 <div class="section level2">
 <h2 id="visualization-of-the-model-space">Visualization of the Model Space<a class="anchor" aria-label="anchor" href="#visualization-of-the-model-space"></a>
 </h2>
-<p>To see beyond the first five models, we can represent the collection of the models via an <code>image</code> plot. By default this shows the top 20 models.</p>
+<p>To see beyond the first five models, we can represent the collection
+of the models via an <code>image</code> plot. By default this shows the
+top 20 models.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">crime.ZS</span>, rotate <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/image-1.png" width="480"></p>
-<p>This image has rows that correspond to each of the variables and intercept, with labels for the variables on the y-axis. The x-axis corresponds to the possible models. These are sorted by their posterior probability from best at the left to worst at the right with the rank on the top x-axis.</p>
-<p>Each column represents one of the 16 models. The variables that are excluded in a model are shown in black for each column, while the variables that are included are colored, with the color related to the log posterior probability. The color of each column is proportional to the log of the posterior probabilities (the lower x-axis) of that model. The log posterior probabilities are actually scaled so that the 0 corresponds to the lowest probability model in the top 20, so that the values on the axis correspond to log Bayes factors for comparing each model the lowest probability model in the top 20 models. Models that are the same color have similar log Bayes factors which allows us to view models that are clustered together that have Bayes Factors where the differences are not “worth a bare mention”.</p>
-<p>This plot indicates that the police expenditure in the two years do not enter the model together, and is an indication of the high correlation between the two variables.</p>
+<p>This image has rows that correspond to each of the variables and
+intercept, with labels for the variables on the y-axis. The x-axis
+corresponds to the possible models. These are sorted by their posterior
+probability from best at the left to worst at the right with the rank on
+the top x-axis.</p>
+<p>Each column represents one of the 16 models. The variables that are
+excluded in a model are shown in black for each column, while the
+variables that are included are colored, with the color related to the
+log posterior probability. The color of each column is proportional to
+the log of the posterior probabilities (the lower x-axis) of that model.
+The log posterior probabilities are actually scaled so that the 0
+corresponds to the lowest probability model in the top 20, so that the
+values on the axis correspond to log Bayes factors for comparing each
+model the lowest probability model in the top 20 models. Models that are
+the same color have similar log Bayes factors which allows us to view
+models that are clustered together that have Bayes Factors where the
+differences are not “worth a bare mention”.</p>
+<p>This plot indicates that the police expenditure in the two years do
+not enter the model together, and is an indication of the high
+correlation between the two variables.</p>
 </div>
 <div class="section level2">
 <h2 id="posterior-distributions-of-coefficients">Posterior Distributions of Coefficients<a class="anchor" aria-label="anchor" href="#posterior-distributions-of-coefficients"></a>
 </h2>
-<p>To examine the marginal distributions of the two coefficients for the police expenditures, we can extract the coefficients estimates and standard deviations under BMA.</p>
+<p>To examine the marginal distributions of the two coefficients for the
+police expenditures, we can extract the coefficients estimates and
+standard deviations under BMA.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">coef.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/coef.html">coef</a></span><span class="op">(</span><span class="va">crime.ZS</span><span class="op">)</span></span></code></pre></div>
-<p>an optional argument, <code>n.models</code> to <code>coef</code> will use only the top <code>n.models</code> for BMA and may be more computationally efficient for large problems.</p>
-<p>Plots of the posterior distributions averaging over all of the models are obtained using the <code>plot</code> method for the <code>bas</code> coefficient object.</p>
+<p>an optional argument, <code>n.models</code> to <code>coef</code> will
+use only the top <code>n.models</code> for BMA and may be more
+computationally efficient for large problems.</p>
+<p>Plots of the posterior distributions averaging over all of the models
+are obtained using the <code>plot</code> method for the <code>bas</code>
+coefficient object.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">coef.ZS</span>, subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, ask <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/plot-1.png" width="700"><img src="BAS-vignette_files/figure-html/plot-2.png" width="700"></p>
-<p>The vertical bar represents the posterior probability that the coefficient is 0 while the bell shaped curve represents the density of plausible values from all the models where the coefficient is non-zero. This is scaled so that the height of the density for non-zero values is the probability that the coefficient is non-zero. Omitting the <code>subset</code> argument provides all of the marginal distributions.</p>
-<p>To obtain credible intervals for coefficients, <code>BAS</code> includes a <code>confint</code> method to create Highest Posterior Density intervals from the summaries from <code>coef</code>.</p>
+<p>The vertical bar represents the posterior probability that the
+coefficient is 0 while the bell shaped curve represents the density of
+plausible values from all the models where the coefficient is non-zero.
+This is scaled so that the height of the density for non-zero values is
+the probability that the coefficient is non-zero. Omitting the
+<code>subset</code> argument provides all of the marginal
+distributions.</p>
+<p>To obtain credible intervals for coefficients, <code>BAS</code>
+includes a <code>confint</code> method to create Highest Posterior
+Density intervals from the summaries from <code>coef</code>.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="va">coef.ZS</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                   2.5%       97.5%        beta</span></span>
-<span><span class="co">## Intercept  6.665233330 6.779615085  6.72493620</span></span>
-<span><span class="co">## M          0.000000000 2.178484781  1.14359433</span></span>
-<span><span class="co">## So        -0.045615873 0.307776641  0.03547522</span></span>
-<span><span class="co">## Ed         0.650224612 3.195379157  1.85848834</span></span>
-<span><span class="co">## Po1        0.000000000 1.416734182  0.60067372</span></span>
-<span><span class="co">## Po2       -0.218594673 1.404709547  0.31841766</span></span>
-<span><span class="co">## LF        -0.508141812 0.984827717  0.05933737</span></span>
-<span><span class="co">## M.F       -2.397660865 1.710800005 -0.02702786</span></span>
-<span><span class="co">## Pop       -0.129645877 0.001493164 -0.02248283</span></span>
-<span><span class="co">## NW         0.000000000 0.164351475  0.06668437</span></span>
-<span><span class="co">## U1        -0.504347320 0.358600508 -0.02456854</span></span>
-<span><span class="co">## U2        -0.003512683 0.651169310  0.20702927</span></span>
-<span><span class="co">## GDP       -0.032547868 1.181976038  0.20625063</span></span>
-<span><span class="co">## Ineq       0.662403826 2.122475834  1.39012647</span></span>
-<span><span class="co">## Prob      -0.409208873 0.000000000 -0.21536203</span></span>
-<span><span class="co">## Time      -0.528382547 0.061694097 -0.08433479</span></span>
+<span><span class="co">## Intercept  6.667743492 6.781744368  6.72493620</span></span>
+<span><span class="co">## M          0.000000000 2.186329553  1.14359433</span></span>
+<span><span class="co">## So        -0.076444117 0.302093971  0.03547522</span></span>
+<span><span class="co">## Ed         0.662637405 3.208289351  1.85848834</span></span>
+<span><span class="co">## Po1        0.000000000 1.399157520  0.60067372</span></span>
+<span><span class="co">## Po2       -0.160743076 1.442882347  0.31841766</span></span>
+<span><span class="co">## LF        -0.467569994 1.011898600  0.05933737</span></span>
+<span><span class="co">## M.F       -1.859401496 2.172756888 -0.02702786</span></span>
+<span><span class="co">## Pop       -0.126317889 0.007557731 -0.02248283</span></span>
+<span><span class="co">## NW         0.000000000 0.167654710  0.06668437</span></span>
+<span><span class="co">## U1        -0.523980911 0.359805832 -0.02456854</span></span>
+<span><span class="co">## U2        -0.001970254 0.665590161  0.20702927</span></span>
+<span><span class="co">## GDP       -0.059321203 1.185916097  0.20625063</span></span>
+<span><span class="co">## Ineq       0.693547805 2.137179861  1.39012647</span></span>
+<span><span class="co">## Prob      -0.410394530 0.000000000 -0.21536203</span></span>
+<span><span class="co">## Time      -0.519325755 0.042810602 -0.08433479</span></span>
 <span><span class="co">## attr(,"Probability")</span></span>
 <span><span class="co">## [1] 0.95</span></span>
 <span><span class="co">## attr(,"class")</span></span>
 <span><span class="co">## [1] "confint.bas"</span></span></code></pre>
-<p>where the third column is the posterior mean. This uses Monte Carlo sampling to draw from the mixture model over coefficient where models are sampled based on their posterior probabilities.</p>
+<p>where the third column is the posterior mean. This uses Monte Carlo
+sampling to draw from the mixture model over coefficient where models
+are sampled based on their posterior probabilities.</p>
 <p>We can also plot these via</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="va">coef.ZS</span>, parm <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">16</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/plot-confint-1.png" width="672"></p>
 <pre><code><span><span class="co">## NULL</span></span></code></pre>
-<p>using the <code>parm</code> argument to select which coefficients to plot (the intercept is <code>parm=1</code>).</p>
-<p>For estimation under selection, <code>BAS</code> supports additional arguments via <code>estimator</code>. The default is <code>estimator="BMA"</code> which uses all models or <code>n.models</code>. Other options include estimation under the highest probability model</p>
+<p>using the <code>parm</code> argument to select which coefficients to
+plot (the intercept is <code>parm=1</code>).</p>
+<p>For estimation under selection, <code>BAS</code> supports additional
+arguments via <code>estimator</code>. The default is
+<code>estimator="BMA"</code> which uses all models or
+<code>n.models</code>. Other options include estimation under the
+highest probability model</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="fu"><a href="../reference/coef.html">coef</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"HPM"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
@@ -257,12 +374,16 @@
 <p>or the median probability model</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="fu"><a href="../reference/coef.html">coef</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"MPM"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>where variables that are excluded have distributions that are point masses at zero under selection.</p>
+<p>where variables that are excluded have distributions that are point
+masses at zero under selection.</p>
 </div>
 <div class="section level2">
 <h2 id="prediction">Prediction<a class="anchor" aria-label="anchor" href="#prediction"></a>
 </h2>
-<p><code>BAS</code> has methods defined to return fitted values, <code>fitted</code>, using the observed design matrix and predictions at either the observed data or potentially new values, <code>predict</code>, as with <code>lm</code>.</p>
+<p><code>BAS</code> has methods defined to return fitted values,
+<code>fitted</code>, using the observed design matrix and predictions at
+either the observed data or potentially new values,
+<code>predict</code>, as with <code>lm</code>.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">muhat.BMA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fitted.html">fitted</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"BMA"</span><span class="op">)</span></span>
 <span><span class="va">BMA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict.bas.html">predict</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"BMA"</span><span class="op">)</span></span>
@@ -281,11 +402,17 @@
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/unnamed-chunk-4-1.png" width="480"></p>
-<p>we see that they are in perfect agreement. That is always the case as the posterior mean for the regression mean function at a point <span class="math inline">\(x\)</span> is the expected posterior predictive value for <span class="math inline">\(Y\)</span> at <span class="math inline">\(x\)</span>. This is true not only for estimators such as BMA, but the expected values under model selection.</p>
+<p>we see that they are in perfect agreement. That is always the case as
+the posterior mean for the regression mean function at a point <span class="math inline">\(x\)</span> is the expected posterior predictive
+value for <span class="math inline">\(Y\)</span> at <span class="math inline">\(x\)</span>. This is true not only for estimators
+such as BMA, but the expected values under model selection.</p>
 <div class="section level3">
 <h3 id="inference-with-model-selection">Inference with model selection<a class="anchor" aria-label="anchor" href="#inference-with-model-selection"></a>
 </h3>
-<p>In addition to using BMA, we can use the posterior means under model selection. This corresponds to a decision rule that combines estimation and selection. <code>BAS</code> currently implements the following options</p>
+<p>In addition to using BMA, we can use the posterior means under model
+selection. This corresponds to a decision rule that combines estimation
+and selection. <code>BAS</code> currently implements the following
+options</p>
 <p><strong>highest probability model:</strong></p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">HPM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict.bas.html">predict</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"HPM"</span><span class="op">)</span></span>
@@ -304,10 +431,16 @@
 <span><span class="fu"><a href="../reference/variable.names.pred.bas.html">variable.names</a></span><span class="op">(</span><span class="va">MPM</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "Intercept" "M"         "Ed"        "Po1"       "NW"        "U2"       </span></span>
 <span><span class="co">## [7] "Ineq"      "Prob"</span></span></code></pre>
-<p>This is the model where all predictors have an inclusion probability greater than or equal to 0.5. This coincides with the HPM if the predictors are all mutually orthogonal, and in this case is the best predictive model under squared error loss.</p>
-<p>Note that we can also extract the best model from the attribute in the fitted values as well.</p>
+<p>This is the model where all predictors have an inclusion probability
+greater than or equal to 0.5. This coincides with the HPM if the
+predictors are all mutually orthogonal, and in this case is the best
+predictive model under squared error loss.</p>
+<p>Note that we can also extract the best model from the attribute in
+the fitted values as well.</p>
 <p><strong>best predictive model:</strong></p>
-<p>In general, the HPM or MPM are not the best predictive models, which from a Bayesian decision theory perspective would be the model that is closest to BMA predictions under squared error loss.</p>
+<p>In general, the HPM or MPM are not the best predictive models, which
+from a Bayesian decision theory perspective would be the model that is
+closest to BMA predictions under squared error loss.</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">BPM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict.bas.html">predict</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"BPM"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/variable.names.pred.bas.html">variable.names</a></span><span class="op">(</span><span class="va">BPM</span><span class="op">)</span></span></code></pre></div>
@@ -325,7 +458,10 @@
 <span><span class="co">##   method from   </span></span>
 <span><span class="co">##   +.gg   ggplot2</span></span></code></pre>
 <p><img src="BAS-vignette_files/figure-html/unnamed-chunk-6-1.png" width="576"></p>
-<p>Using the <code>se.fit = TRUE</code> option with <code>predict</code> we can also calculate standard deviations for prediction or for the mean and use this as input for the <code>confint</code> function for the prediction object.</p>
+<p>Using the <code>se.fit = TRUE</code> option with <code>predict</code>
+we can also calculate standard deviations for prediction or for the mean
+and use this as input for the <code>confint</code> function for the
+prediction object.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">BPM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict.bas.html">predict</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"BPM"</span>, se.fit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">crime.conf.fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="va">BPM</span>, parm <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span></span>
@@ -337,7 +473,8 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">crime.conf.pred</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/se-2.png" width="672"></p>
 <pre><code><span><span class="co">## NULL</span></span></code></pre>
-<p>For prediction at new points, we can supply a new dataframe to the predict function as in <code>lm</code>.</p>
+<p>For prediction at new points, we can supply a new dataframe to the
+predict function as in <code>lm</code>.</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">new.pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict.bas.html">predict</a></span><span class="op">(</span><span class="va">crime.ZS</span>, newdata <span class="op">=</span> <span class="va">UScrime</span>, estimator <span class="op">=</span> <span class="st">"MPM"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -345,8 +482,22 @@
 <div class="section level2">
 <h2 id="alternative-algorithms">Alternative algorithms<a class="anchor" aria-label="anchor" href="#alternative-algorithms"></a>
 </h2>
-<p><code>BAS</code> has several options for sampling from the model space with or without enumeration. The (current) default <code>method="BAS"</code> samples models without replacement using estimates of the marginal inclusion probabilities using the algorithm described in <a href="https://dx.doi.org/10.1198/jcgs.2010.09049" class="external-link">Clyde et al (2011)</a>. The initial sampling probabilities provided by <code>initprobs</code> are updated based on the sampled models, every <code>update</code> iterations. This can be more efficient in some cases if a large fraction of the model space has been sampled, however, in cases of high correlation and a large number of predictors, this can lead to biased estimates <a href="https://dx.doi.org/10.1093/biomet/ass040" class="external-link">Clyde and Ghosh (2012)</a>, in which case MCMC is preferred. The <code>method="MCMC"</code> is described below and is better for large <span class="math inline">\(p\)</span>.</p>
-<p>A deterministic sampling scheme is also available for enumeration;</p>
+<p><code>BAS</code> has several options for sampling from the model
+space with or without enumeration. The (current) default
+<code>method="BAS"</code> samples models without replacement using
+estimates of the marginal inclusion probabilities using the algorithm
+described in <a href="https://dx.doi.org/10.1198/jcgs.2010.09049" class="external-link">Clyde
+et al (2011)</a>. The initial sampling probabilities provided by
+<code>initprobs</code> are updated based on the sampled models, every
+<code>update</code> iterations. This can be more efficient in some cases
+if a large fraction of the model space has been sampled, however, in
+cases of high correlation and a large number of predictors, this can
+lead to biased estimates <a href="https://dx.doi.org/10.1093/biomet/ass040" class="external-link">Clyde and Ghosh
+(2012)</a>, in which case MCMC is preferred. The
+<code>method="MCMC"</code> is described below and is better for large
+<span class="math inline">\(p\)</span>.</p>
+<p>A deterministic sampling scheme is also available for
+enumeration;</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
 <span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
@@ -358,7 +509,7 @@
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   1.992   0.016   2.008</span></span></code></pre>
+<span><span class="co">##   1.802   0.004   1.806</span></span></code></pre>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
 <span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
@@ -370,13 +521,20 @@
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   1.579   0.000   1.579</span></span></code></pre>
+<span><span class="co">##   1.538   0.016   1.554</span></span></code></pre>
 <p>which is faster for enumeration than the default method=“BAS”.</p>
 </div>
 <div class="section level2">
 <h2 id="beyond-enumeration">Beyond Enumeration<a class="anchor" aria-label="anchor" href="#beyond-enumeration"></a>
 </h2>
-<p>Many problems are too large to enumerate all possible models. In such cases we may use the <code>method="BAS"</code> to sample without replacement or the <code>method="MCMC"</code> option to sample models using Markov Chain Monte Carlo sampling to sample models based on their posterior probabilities. For spaces where the number of models greatly exceeds the number of models to sample, the MCMC option is recommended as it provides estimates with low bias compared to the sampling without replacement of BAS (Clyde and Ghosh 2011).</p>
+<p>Many problems are too large to enumerate all possible models. In such
+cases we may use the <code>method="BAS"</code> to sample without
+replacement or the <code>method="MCMC"</code> option to sample models
+using Markov Chain Monte Carlo sampling to sample models based on their
+posterior probabilities. For spaces where the number of models greatly
+exceeds the number of models to sample, the MCMC option is recommended
+as it provides estimates with low bias compared to the sampling without
+replacement of BAS (Clyde and Ghosh 2011).</p>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">crime.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">UScrime</span>,</span>
@@ -384,19 +542,35 @@
 <span>  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"MCMC"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>This will run the MCMC sampler until the number of unique sampled models exceeds <code>n.models</code> which is <span class="math inline">\(2^p\)</span> (if <span class="math inline">\(p &lt; 19\)</span>) by default or until <code>MCMC.iterations</code> has been exceeded, where <code>MCMC.iterations = n.models*2</code> by default.</p>
+<p>This will run the MCMC sampler until the number of unique sampled
+models exceeds <code>n.models</code> which is <span class="math inline">\(2^p\)</span> (if <span class="math inline">\(p
+&lt; 19\)</span>) by default or until <code>MCMC.iterations</code> has
+been exceeded, where <code>MCMC.iterations = n.models*2</code> by
+default.</p>
 <div class="section level3">
 <h3 id="estimates-of-marginal-posterior-inclusion-probabilities-pip">Estimates of Marginal Posterior Inclusion Probabilities (pip)<a class="anchor" aria-label="anchor" href="#estimates-of-marginal-posterior-inclusion-probabilities-pip"></a>
 </h3>
-<p>With MCMC sampling there are two estimates of the marginal inclusion probabilities: <code>object$probne0</code> which are obtained by using the re-normalized posterior odds from sampled models to estimate probabilities and the estimates based on Monte Carlo frequencies <code>object$probs.MCMC</code>. These should be in close agreement if the MCMC sampler has run for enough iterations.</p>
-<p><code>BAS</code> includes a diagnostic function to compare the two sets of estimates of posterior inclusion probabilities and posterior model probabilities</p>
+<p>With MCMC sampling there are two estimates of the marginal inclusion
+probabilities: <code>object$probne0</code> which are obtained by using
+the re-normalized posterior odds from sampled models to estimate
+probabilities and the estimates based on Monte Carlo frequencies
+<code>object$probs.MCMC</code>. These should be in close agreement if
+the MCMC sampler has run for enough iterations.</p>
+<p><code>BAS</code> includes a diagnostic function to compare the two
+sets of estimates of posterior inclusion probabilities and posterior
+model probabilities</p>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/diagnostics.html">diagnostics</a></span><span class="op">(</span><span class="va">crime.ZS</span>, type <span class="op">=</span> <span class="st">"pip"</span>, pch <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/diagnostics-1.png" width="700"></p>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/diagnostics.html">diagnostics</a></span><span class="op">(</span><span class="va">crime.ZS</span>, type <span class="op">=</span> <span class="st">"model"</span>, pch <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/diagnostics-2.png" width="700"></p>
-<p>In the left hand plot of pips, each point represents one posterior inclusion probability for the 15 variables estimated under the two methods. The two estimators are in pretty close agreement. The plot of the model probabilities suggests that we should use more <code>MCMC.iterations</code> if we want more accurate estimates of the posterior model probabilities.</p>
+<p>In the left hand plot of pips, each point represents one posterior
+inclusion probability for the 15 variables estimated under the two
+methods. The two estimators are in pretty close agreement. The plot of
+the model probabilities suggests that we should use more
+<code>MCMC.iterations</code> if we want more accurate estimates of the
+posterior model probabilities.</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">crime.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">UScrime</span>,</span>
@@ -411,8 +585,14 @@
 <div class="section level2">
 <h2 id="outliers">Outliers<a class="anchor" aria-label="anchor" href="#outliers"></a>
 </h2>
-<p>BAS can also be used for exploring mean shift or variance inflation outliers by adding indicator variables for each case being an outlier (the mean is not given by the regression) or not. This is similar to the MC3.REG function in BMA, although here we are using a g-prior or mixture of g-priors for the coefficients for the outlier means.</p>
-<p>Using the Stackloss data, we can add an identify matrix to the original dataframe, where each column is an indicator that the ith variable is an outlier.</p>
+<p>BAS can also be used for exploring mean shift or variance inflation
+outliers by adding indicator variables for each case being an outlier
+(the mean is not given by the regression) or not. This is similar to the
+MC3.REG function in BMA, although here we are using a g-prior or mixture
+of g-priors for the coefficients for the outlier means.</p>
+<p>Using the Stackloss data, we can add an identify matrix to the
+original dataframe, where each column is an indicator that the ith
+variable is an outlier.</p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"stackloss"</span><span class="op">)</span></span>
 <span><span class="va">stackloss</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">stackloss</span>, <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">stackloss</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -423,11 +603,25 @@
 <span>  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/tr.poisson.html">tr.poisson</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">10</span><span class="op">)</span>,</span>
 <span>  MCMC.iterations <span class="op">=</span> <span class="fl">200000</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>The above call introduces using truncated prior distributions on the model space; in this case the distribution of the number of variables to be included has a Poisson distribution, with mean 4 (under no truncation), and the truncation point is at 10, so that all models with more than 10 (one half of cases rounded down) will have probability zero. This avoids exploration of models that are not full rank.</p>
+<p>The above call introduces using truncated prior distributions on the
+model space; in this case the distribution of the number of variables to
+be included has a Poisson distribution, with mean 4 (under no
+truncation), and the truncation point is at 10, so that all models with
+more than 10 (one half of cases rounded down) will have probability
+zero. This avoids exploration of models that are not full rank.</p>
 <p>Looking at the summaries</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="../reference/summary.html">summary</a></span><span class="op">(</span><span class="va">stack.bas</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<colgroup>
+<col width="13%">
+<col width="22%">
+<col width="10%">
+<col width="13%">
+<col width="13%">
+<col width="13%">
+<col width="13%">
+</colgroup>
 <thead><tr class="header">
 <th align="left"></th>
 <th align="right">P(B != 0 | Y)</th>
@@ -449,7 +643,7 @@
 </tr>
 <tr class="even">
 <td align="left">Air.Flow</td>
-<td align="right">0.999030</td>
+<td align="right">0.999735</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -458,16 +652,16 @@
 </tr>
 <tr class="odd">
 <td align="left">Water.Temp</td>
-<td align="right">0.464640</td>
+<td align="right">0.447905</td>
 <td align="right">1.00000</td>
-<td align="right">0.0000000</td>
-<td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td align="left">Acid.Conc.</td>
-<td align="right">0.089915</td>
+<td align="right">0.098125</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -476,7 +670,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>1</code></td>
-<td align="right">0.615715</td>
+<td align="right">0.581995</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -485,16 +679,16 @@
 </tr>
 <tr class="even">
 <td align="left"><code>2</code></td>
-<td align="right">0.157840</td>
+<td align="right">0.169195</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
-<td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
+<td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>3</code></td>
-<td align="right">0.639900</td>
+<td align="right">0.611665</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -503,7 +697,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>4</code></td>
-<td align="right">0.964665</td>
+<td align="right">0.951990</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -512,7 +706,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>5</code></td>
-<td align="right">0.067630</td>
+<td align="right">0.074435</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -521,7 +715,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>6</code></td>
-<td align="right">0.074445</td>
+<td align="right">0.076080</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -530,7 +724,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>7</code></td>
-<td align="right">0.061675</td>
+<td align="right">0.068965</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -539,7 +733,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>8</code></td>
-<td align="right">0.063070</td>
+<td align="right">0.065590</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -548,7 +742,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>9</code></td>
-<td align="right">0.065850</td>
+<td align="right">0.063510</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -557,7 +751,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>10</code></td>
-<td align="right">0.066790</td>
+<td align="right">0.068450</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -566,7 +760,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>11</code></td>
-<td align="right">0.063000</td>
+<td align="right">0.063995</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -575,7 +769,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>12</code></td>
-<td align="right">0.086065</td>
+<td align="right">0.084965</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -584,16 +778,16 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>13</code></td>
-<td align="right">0.335600</td>
+<td align="right">0.352000</td>
 <td align="right">0.00000</td>
-<td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
+<td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td align="left"><code>14</code></td>
-<td align="right">0.189605</td>
+<td align="right">0.188835</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -602,7 +796,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>15</code></td>
-<td align="right">0.075335</td>
+<td align="right">0.074600</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -611,7 +805,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>16</code></td>
-<td align="right">0.064080</td>
+<td align="right">0.058525</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -620,7 +814,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>17</code></td>
-<td align="right">0.061025</td>
+<td align="right">0.064435</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -629,7 +823,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>18</code></td>
-<td align="right">0.062165</td>
+<td align="right">0.069085</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -638,7 +832,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>19</code></td>
-<td align="right">0.085105</td>
+<td align="right">0.096745</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -647,7 +841,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>20</code></td>
-<td align="right">0.133335</td>
+<td align="right">0.125265</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -656,7 +850,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>21</code></td>
-<td align="right">0.986175</td>
+<td align="right">0.987390</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -667,46 +861,46 @@
 <td align="left">BF</td>
 <td align="right">NA</td>
 <td align="right">1.00000</td>
-<td align="right">0.2016282</td>
-<td align="right">0.3397571</td>
-<td align="right">0.5555328</td>
 <td align="right">0.5779604</td>
+<td align="right">0.5555328</td>
+<td align="right">0.3397571</td>
+<td align="right">0.2016282</td>
 </tr>
 <tr class="odd">
 <td align="left">PostProbs</td>
 <td align="right">NA</td>
-<td align="right">0.06870</td>
-<td align="right">0.0228000</td>
-<td align="right">0.0224000</td>
-<td align="right">0.0204000</td>
-<td align="right">0.0202000</td>
+<td align="right">0.05590</td>
+<td align="right">0.0211000</td>
+<td align="right">0.0199000</td>
+<td align="right">0.0192000</td>
+<td align="right">0.0187000</td>
 </tr>
 <tr class="even">
 <td align="left">R2</td>
 <td align="right">NA</td>
 <td align="right">0.98920</td>
-<td align="right">0.9803000</td>
-<td align="right">0.9873000</td>
-<td align="right">0.9922000</td>
 <td align="right">0.9923000</td>
+<td align="right">0.9922000</td>
+<td align="right">0.9873000</td>
+<td align="right">0.9803000</td>
 </tr>
 <tr class="odd">
 <td align="left">dim</td>
 <td align="right">NA</td>
 <td align="right">7.00000</td>
-<td align="right">6.0000000</td>
+<td align="right">8.0000000</td>
+<td align="right">8.0000000</td>
 <td align="right">7.0000000</td>
-<td align="right">8.0000000</td>
-<td align="right">8.0000000</td>
+<td align="right">6.0000000</td>
 </tr>
 <tr class="even">
 <td align="left">logmarg</td>
 <td align="right">NA</td>
 <td align="right">23.82319</td>
-<td align="right">22.2218573</td>
-<td align="right">22.7436630</td>
-<td align="right">23.2353597</td>
 <td align="right">23.2749373</td>
+<td align="right">23.2353597</td>
+<td align="right">22.7436630</td>
+<td align="right">22.2218573</td>
 </tr>
 </tbody>
 </table>
@@ -714,12 +908,16 @@
 <div class="section level2">
 <h2 id="factors-and-hierarchical-heredity">Factors and Hierarchical Heredity<a class="anchor" aria-label="anchor" href="#factors-and-hierarchical-heredity"></a>
 </h2>
-<p>BAS now includes constraints for factors so that all terms that represent a factor are either included or excluded together. To illustrate, we will use the data set <code>ToothGrowth</code> and convert <code>dose</code> to a factor:</p>
+<p>BAS now includes constraints for factors so that all terms that
+represent a factor are either included or excluded together. To
+illustrate, we will use the data set <code>ToothGrowth</code> and
+convert <code>dose</code> to a factor:</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ToothGrowth</span><span class="op">)</span></span>
 <span><span class="va">ToothGrowth</span><span class="op">$</span><span class="va">dose</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">ToothGrowth</span><span class="op">$</span><span class="va">dose</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="va">ToothGrowth</span><span class="op">$</span><span class="va">dose</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Low"</span>, <span class="st">"Medium"</span>, <span class="st">"High"</span><span class="op">)</span></span></code></pre></div>
-<p>and fit the model of main effects and two way interaction without any constraints:</p>
+<p>and fit the model of main effects and two way interaction without any
+constraints:</p>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">TG.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">len</span> <span class="op">~</span> <span class="va">supp</span><span class="op">*</span><span class="va">dose</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">ToothGrowth</span>,</span>
@@ -728,8 +926,18 @@
 <span></span>
 <span><span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">TG.bas</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
-<p>From the image of the model space, we see that levels of a factor enter or drop from the model independently and that interactions may be included without the main effects. This may lead to more parsimonious models, however, the hypotheses that are being tested about the coefficients that represent the factor depend on the choice for the reference group. To force levels of a factor to enter or leave together we can use <code>force.heredity = TRUE</code>.</p>
-<p>The <code>force.heredity</code> option also forces interactions to be included only if the main effects are also included, or for models with several factors and higher order interactions, the heredity constraint implies that all lower order interactions must be included before adding higher order interactions.</p>
+<p>From the image of the model space, we see that levels of a factor
+enter or drop from the model independently and that interactions may be
+included without the main effects. This may lead to more parsimonious
+models, however, the hypotheses that are being tested about the
+coefficients that represent the factor depend on the choice for the
+reference group. To force levels of a factor to enter or leave together
+we can use <code>force.heredity = TRUE</code>.</p>
+<p>The <code>force.heredity</code> option also forces interactions to be
+included only if the main effects are also included, or for models with
+several factors and higher order interactions, the heredity constraint
+implies that all lower order interactions must be included before adding
+higher order interactions.</p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">TG.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">len</span> <span class="op">~</span> <span class="va">supp</span> <span class="op">*</span> <span class="va">dose</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">ToothGrowth</span>,</span>
@@ -738,7 +946,12 @@
 <span></span>
 <span><span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">TG.bas</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
-<p>The <code>force.heredity</code> is set to FALSE for the sampling methods <code>MCMC+BAS</code> and <code>deterministic</code>. If there are more than 20 predictors and factors, then we recommend using <code>MCMC</code> to enforce the constraints. Alternatively, there is a function, <code>force.heredity.bas</code>, to post-process the output to drop models that violate the hierarchical heredity constraint:</p>
+<p>The <code>force.heredity</code> is set to FALSE for the sampling
+methods <code>MCMC+BAS</code> and <code>deterministic</code>. If there
+are more than 20 predictors and factors, then we recommend using
+<code>MCMC</code> to enforce the constraints. Alternatively, there is a
+function, <code>force.heredity.bas</code>, to post-process the output to
+drop models that violate the hierarchical heredity constraint:</p>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">TG.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">len</span> <span class="op">~</span> <span class="va">supp</span> <span class="op">*</span> <span class="va">dose</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">ToothGrowth</span>,</span>
@@ -750,10 +963,18 @@
 <div class="section level2">
 <h2 id="weighted-regression">Weighted Regression<a class="anchor" aria-label="anchor" href="#weighted-regression"></a>
 </h2>
-<p><code>BAS</code> can perform weighted regression by supplying an optional weight vector that is of the same length as the response where the assumption is that the variance of the response is proportional to 1/weights. The g-prior incorporates the weights in the prior covariance, <span class="math display">\[
- \sigma^2 g (X_\gamma^T W X_\gamma)^{-1}
-\]</span> where <span class="math inline">\(X_\gamma\)</span> is the design matrix under model <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(W\)</span> is the <span class="math inline">\(n \times n\)</span> diagonal matrix with the weights on the diagonal.</p>
-<p>To illustrate, we will use the climate data, available at the url below</p>
+<p><code>BAS</code> can perform weighted regression by supplying an
+optional weight vector that is of the same length as the response where
+the assumption is that the variance of the response is proportional to
+1/weights. The g-prior incorporates the weights in the prior covariance,
+<span class="math display">\[
+\sigma^2 g (X_\gamma^T W X_\gamma)^{-1}
+\]</span> where <span class="math inline">\(X_\gamma\)</span> is the
+design matrix under model <span class="math inline">\(\gamma\)</span>
+and <span class="math inline">\(W\)</span> is the <span class="math inline">\(n \times n\)</span> diagonal matrix with the
+weights on the diagonal.</p>
+<p>To illustrate, we will use the climate data, available at the url
+below</p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">climate</span>, package<span class="op">=</span><span class="st">"BAS"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">climate</span><span class="op">)</span></span></code></pre></div>
@@ -779,12 +1000,21 @@
 <span><span class="co">##  Mean   :  2.187  </span></span>
 <span><span class="co">##  3rd Qu.:  9.700  </span></span>
 <span><span class="co">##  Max.   : 29.000</span></span></code></pre>
-<p>which includes measurements of changes in temperature (<code>deltaT</code>) at various <code>latitude</code>s as well as a measure of the accuracy of the measured values <code>sdev</code> for 8 different types <code>proxy</code> of obtaining measurements. We will use this to explore weighted regression and the option to group terms in factors or from <code>poly</code>. For illustration purposes, we will eliminate <code>proxy == 6</code> which has only one level as the interactions are not estimable, and then convert <code>proxy</code> to a factor.</p>
+<p>which includes measurements of changes in temperature
+(<code>deltaT</code>) at various <code>latitude</code>s as well as a
+measure of the accuracy of the measured values <code>sdev</code> for 8
+different types <code>proxy</code> of obtaining measurements. We will
+use this to explore weighted regression and the option to group terms in
+factors or from <code>poly</code>. For illustration purposes, we will
+eliminate <code>proxy == 6</code> which has only one level as the
+interactions are not estimable, and then convert <code>proxy</code> to a
+factor.</p>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="va">climate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">climate</span>, <span class="va">proxy</span> <span class="op">!=</span> <span class="fl">6</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>proxy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">proxy</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>We can fit a weighted regression with <code>weights = 1/sdev^2</code> with the following code</p>
+<p>We can fit a weighted regression with <code>weights = 1/sdev^2</code>
+with the following code</p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">climate.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">deltaT</span> <span class="op">~</span> <span class="va">proxy</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html" class="external-link">poly</a></span><span class="op">(</span><span class="va">latitude</span>, <span class="fl">2</span><span class="op">)</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">climate</span>,</span>
@@ -798,7 +1028,9 @@
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">climate.bas</span>, rotate <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/climate-image-1.png" width="672"></p>
-<p>we see that all levels of a factor enter or drop from the model together, as well as the vectors in the design matrix to represent the term <code>poly</code>.<br>
+<p>we see that all levels of a factor enter or drop from the model
+together, as well as the vectors in the design matrix to represent the
+term <code>poly</code>.<br>
 Rerunning without the constraint,</p>
 <div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># May take a while to enumerate all 2^20 models</span></span>
@@ -812,13 +1044,21 @@ Rerunning without the constraint,</p>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">climate.bas</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/wtreg-wo-contraint-1.png" width="672"></p>
-<p>allows one to see which factors levels are different from the reference group.</p>
+<p>allows one to see which factors levels are different from the
+reference group.</p>
 </div>
 <div class="section level2">
 <h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
 </h2>
-<p><code>BAS</code> includes other prior distributions on coefficients and models, as well as <code>bas.glm</code> for fitting Generalized Linear Models. The syntax for <code>bas.glm</code> and <code>bas.lm</code> are not yet the same, particularly for how some of the priors on coefficients are represented, so please see the documentation for more features and details until this is updated or another vignette is added!</p>
-<p>For issues or feature requests please submit via the package’s github page <a href="https://github.com/merliseclyde/BAS" class="external-link">merliseclyde/BAS</a></p>
+<p><code>BAS</code> includes other prior distributions on coefficients
+and models, as well as <code>bas.glm</code> for fitting Generalized
+Linear Models. The syntax for <code>bas.glm</code> and
+<code>bas.lm</code> are not yet the same, particularly for how some of
+the priors on coefficients are represented, so please see the
+documentation for more features and details until this is updated or
+another vignette is added!</p>
+<p>For issues or feature requests please submit via the package’s github
+page <a href="https://github.com/merliseclyde/BAS" class="external-link">merliseclyde/BAS</a></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

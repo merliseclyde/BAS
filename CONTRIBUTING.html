@@ -54,6 +54,7 @@
     </div>
 
 <div id="contributing-to-bas-development" class="section level1">
+
 <p>The goal of this guide is to help you contribute to BAS. The guide is divided into three main pieces:</p>
 <ol style="list-style-type: decimal"><li><p>Filing a <a href="https://github.com/merliseclyde/BAS/issues/new?template=bug_report.md" class="external-link">bug report</a> or <a href="https://github.com/merliseclyde/BAS/issues/new?template=feature_request.md" class="external-link">feature request</a> in an issue on Github.</p></li>
 <li><p>Suggesting a change via a pull request.</p></li>
@@ -77,7 +78,7 @@
 </li>
 <li>
 <p>Spend a little bit of time ensuring that your <strong>code</strong> is easy for others to read:</p>
-<ul><li><p>make sure you’ve used spaces and your variable names are concise, but informative (I am OK with using “.”, camel case or "_" in variable names to improve readibility. For more details see the <a href="STYLE_GUIDE.html">Style Guide</a></p></li>
+<ul><li><p>make sure you’ve used spaces and your variable names are concise, but informative (I am OK with using “.”, camel case or “_” in variable names to improve readibility. For more details see the <a href="STYLE_GUIDE.html">Style Guide</a></p></li>
 <li><p>use comments to indicate where your problem lies</p></li>
 <li><p>do your best to remove everything that is not related to the problem. The shorter your code is, the easier it is to understand.</p></li>
 </ul></li>
@@ -100,9 +101,11 @@
 <p>If you’re not familiar with git or github, please start by reading <a href="http://r-pkgs.had.co.nz/git.html" class="external-link uri">http://r-pkgs.had.co.nz/git.html</a></p>
 <p>Pull requests will be evaluated against the following checklist:</p>
 <ol style="list-style-type: decimal"><li>
-<strong>Motivation</strong>. Your pull request should clearly and concisely motivates the need for change. Please describe the problem and show how your pull request solves it as concisely as possible.</li></ol><p>Also include this motivation in <code>NEWS</code> so that when a new release of <code>BAS</code> comes out it’s easy for users to see what’s changed. Add your item at the top of the file and use markdown for formatting. The news item should end with <code>(@yourGithubUsername, #the_issue_number)</code>.</p>
+<strong>Motivation</strong>. Your pull request should clearly and concisely motivates the need for change. Please describe the problem and show how your pull request solves it as concisely as possible.</li>
+</ol><p>Also include this motivation in <code>NEWS</code> so that when a new release of <code>BAS</code> comes out it’s easy for users to see what’s changed. Add your item at the top of the file and use markdown for formatting. The news item should end with <code>(@yourGithubUsername, #the_issue_number)</code>.</p>
 <ol start="2" style="list-style-type: decimal"><li>
-<strong>Only related changes</strong>. Before you submit your pull request, please check to make sure that you haven’t accidentally included any unrelated changes. These make it harder to see exactly what’s changed, and to evaluate any unexpected side effects.</li></ol><p>Each PR corresponds to a git branch, so if you expect to submit multiple changes make sure to create multiple branches. If you have multiple changes that depend on each other, start with the first one and don’t submit any others until the first one has been processed.</p>
+<strong>Only related changes</strong>. Before you submit your pull request, please check to make sure that you haven’t accidentally included any unrelated changes. These make it harder to see exactly what’s changed, and to evaluate any unexpected side effects.</li>
+</ol><p>Each PR corresponds to a git branch, so if you expect to submit multiple changes make sure to create multiple branches. If you have multiple changes that depend on each other, start with the first one and don’t submit any others until the first one has been processed.</p>
 <ol start="3" style="list-style-type: decimal"><li><p><strong>Document</strong> If you’re adding new parameters or a new function, you’ll also need to document them with <a href="https://github.com/klutometis/roxygen" class="external-link">roxygen</a>. Please add a short example to the appropriate function and optionally in the package vignettes. Make sure to re-run <code>devtools::document()</code> on the code before submitting. (and be sure to include your name in the authors for the function!)</p></li>
 <li><p><strong>Testing</strong> If fixing a bug or adding a new feature, you should add a <a href="https://github.com/hadley/testthat" class="external-link">testthat</a> unit test.</p></li>
 </ol><p>This seems like a lot of work but don’t worry if your pull request isn’t perfect. It’s a learning process and I will be on hand to help you out. A pull request is a process, and unless you’ve submitted a few in the past it’s unlikely that your pull request will be accepted as is.</p>
@@ -111,7 +114,7 @@
 <div class="section level2">
 <h2 id="style-guide-for-contributing-to-bas">Style Guide for Contributing to BAS<a class="anchor" aria-label="anchor" href="#style-guide-for-contributing-to-bas"></a></h2>
 <p>A consistent style improves the readibility of your code. I am not wed to a particular style and generally draw from both <a href="https://google.github.io/styleguide/Rguide.xml" class="external-link">Google Style Guide</a> as well as <a href="http://adv-r.had.co.nz/Style.html" class="external-link">Hadley Wickham’s Style Guide</a> as noted below. Using a package such as <a href="http://styler.r-lib.org" class="external-link">styler</a> to enforce styling based on the TidyVerse is helpful, but is not required.</p>
-<ol style="list-style-type: decimal"><li><p><em>Function and Variable names</em>: Use informative names using “.”, camel case, or "_" to improve readibility, i.e. <code>variable.name</code>, <code>VariableName</code> or <code>variable_name</code>, rather than <code>foo</code> or <code>xxx</code>. I tend to avoid <code>_</code> for historical reasons going back to <code>S</code>.</p></li>
+<ol style="list-style-type: decimal"><li><p><em>Function and Variable names</em>: Use informative names using “.”, camel case, or “_” to improve readibility, i.e. <code>variable.name</code>, <code>VariableName</code> or <code>variable_name</code>, rather than <code>foo</code> or <code>xxx</code>. I tend to avoid <code>_</code> for historical reasons going back to <code>S</code>.</p></li>
 <li><p><em>Assignment</em>: Use either <code>&lt;-</code> or <code>=</code> for assignment but be consistent within your contribution. As many style guides prefer <code>&lt;-</code> I suggest using <code>styler</code> to enforce use of <code>&lt;-</code>, but I am OK with <code>=</code> as it is shorter to type! Just be consistent within the contributed code.</p></li>
 <li><p><em>Spaces</em>: Include spaces around operators <code>=, +, -, &lt;-,  ==</code> etc to improve readibility. Put a space after a comman, but not before it. <code>:</code> or <code>::</code> never have spaces around them. Additional spaces or newlines are fine if they improve readibilty of code (e.g. aligmnent of arguments).</p></li>
 <li><p><em>Comments</em>: Comment your code whenever you can. Explain the why and not the what as that should be clear from your code. Use <code>#</code> to start a comment followed by a space and capitalize the first letter; short inline comments (comments on the same line as code) need two spaces before the <code>#</code></p></li>
@@ -120,7 +123,8 @@
 <li><p><em>Semi-colons</em>: Do not use semi-colons to put more than one statement on a line.</p></li>
 <li><p><em>Line Length</em>: Use up to 80 characters per line of code. RStudio has a setting to display a vertical line at 80 characters to visually assist you. Turn on by going to</p></li>
 </ol><p>Tools -&gt; Global Options… -&gt; Code -&gt; Display -&gt; Show margin</p>
-<ol start="9" style="list-style-type: decimal"><li>File names for <code>R</code> code should be informative and end in <code>.R</code>. Use <code>-</code> to improve readibility. Do not include any spaces in file names!</li></ol><p><em>Contributing was adopted from ggplot2’s</em> <a href="https://github.com/tidyverse/ggplot2/blob/master/CONTRIBUTING.md" class="external-link">CONTRIBUTING.md</a></p>
+<ol start="9" style="list-style-type: decimal"><li>File names for <code>R</code> code should be informative and end in <code>.R</code>. Use <code>-</code> to improve readibility. Do not include any spaces in file names!</li>
+</ol><p><em>Contributing was adopted from ggplot2’s</em> <a href="https://github.com/tidyverse/ggplot2/blob/master/CONTRIBUTING.md" class="external-link">CONTRIBUTING.md</a></p>
 </div>
 </div>
 

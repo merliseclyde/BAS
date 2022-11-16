@@ -57,7 +57,8 @@
 <h2 class="pkg-version" data-toc-text="1.6.5" id="bas-165">BAS 1.6.5<a class="anchor" aria-label="anchor" href="#bas-165"></a></h2>
 <div class="section level3">
 <h3 id="changes-1-6-5">Changes<a class="anchor" aria-label="anchor" href="#changes-1-6-5"></a></h3>
-<ul><li>Added support for <code>Gamma</code> regression for <code>bas.glm</code>, with unit tests and example (Code contributed by <a href="https://github.com/betsyberrson" class="external-link">@betsyberrson</a>)</li></ul></div>
+<ul><li>Added support for <code>Gamma</code> regression for <code>bas.glm</code>, with unit tests and example (Code contributed by <a href="https://github.com/betsyberrson" class="external-link">@betsyberrson</a>)</li>
+</ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-6-5">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-6-5"></a></h3>
 <ul><li><p>Fixed error in <code>coef</code> for <code>bas.glm</code> objects when using a <code>betaprior</code> of class IC, including AIC and BIC Github issue <a href="https://github.com/merliseclyde/BAS/issues/65" class="external-link">#65</a></p></li>
@@ -70,7 +71,8 @@ Github issue <a href="https://github.com/merliseclyde/BAS/issues/61" class="exte
 <h2 class="pkg-version" data-toc-text="1.6.4" id="bas-164">BAS 1.6.4<a class="anchor" aria-label="anchor" href="#bas-164"></a></h2><p class="text-muted">CRAN release: 2022-11-02</p>
 <div class="section level3">
 <h3 id="changes-1-6-4">Changes<a class="anchor" aria-label="anchor" href="#changes-1-6-4"></a></h3>
-<ul><li>skipped test on CRAN that fails to show a warning in the non full rank case when <code>pivot=FALSE</code> for <code>bas.lm</code> as default uses pivoting and documentation indicates that <code>pivot=FALSE</code> should only be used in the full rank case so that users should not encounter this issue in practice. Users will continue to see a warning of NA’s are returned, but should be aware that not all platforms may produce a warning (such as M1mac). Github issue <a href="https://github.com/merliseclyde/BAS/issues/62" class="external-link">#62</a></li></ul></div>
+<ul><li>skipped test on CRAN that fails to show a warning in the non full rank case when <code>pivot=FALSE</code> for <code>bas.lm</code> as default uses pivoting and documentation indicates that <code>pivot=FALSE</code> should only be used in the full rank case so that users should not encounter this issue in practice. Users will continue to see a warning of NA’s are returned, but should be aware that not all platforms may produce a warning (such as M1mac). Github issue <a href="https://github.com/merliseclyde/BAS/issues/62" class="external-link">#62</a></li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.6.3" id="bas-163">BAS 1.6.3<a class="anchor" aria-label="anchor" href="#bas-163"></a></h2><p class="text-muted">CRAN release: 2022-10-19</p>
@@ -82,7 +84,8 @@ Github issue <a href="https://github.com/merliseclyde/BAS/issues/61" class="exte
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.6.2" id="bas-162">BAS 1.6.2<a class="anchor" aria-label="anchor" href="#bas-162"></a></h2><p class="text-muted">CRAN release: 2022-04-26</p>
-<ul><li>replaced deprecated <code>DOUBLE_EPS</code> with <code>DBL_EPSILON</code> for R 4.2.0 release (in two places) so restore on CRAN</li></ul></div>
+<ul><li>replaced deprecated <code>DOUBLE_EPS</code> with <code>DBL_EPSILON</code> for R 4.2.0 release (in two places) so restore on CRAN</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.6.1" id="bas-161">BAS 1.6.1<a class="anchor" aria-label="anchor" href="#bas-161"></a></h2>
 <div class="section level3">
@@ -104,11 +107,13 @@ Github issue <a href="https://github.com/merliseclyde/BAS/issues/61" class="exte
 <h2 class="pkg-version" data-toc-text="1.6.0" id="bas-160">BAS 1.6.0<a class="anchor" aria-label="anchor" href="#bas-160"></a></h2><p class="text-muted">CRAN release: 2021-11-12</p>
 <div class="section level3">
 <h3 id="changes-1-6-0">Changes<a class="anchor" aria-label="anchor" href="#changes-1-6-0"></a></h3>
-<ul><li>update Fortran code to be compliant with <code>USE_FC_LEN_T</code> for character strings</li></ul></div>
+<ul><li>update Fortran code to be compliant with <code>USE_FC_LEN_T</code> for character strings</li>
+</ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-6-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-6-0"></a></h3>
 <ul><li>fixed warning in src code for <code>log_laplace_F21</code> which had an uninitialized variable leading to NaN being returned from <code>R</code> function <code>hypergeometric2F1</code>
-</li></ul></div>
+</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.5.5" id="bas-155">BAS 1.5.5<a class="anchor" aria-label="anchor" href="#bas-155"></a></h2><p class="text-muted">CRAN release: 2020-01-24</p>
@@ -123,7 +128,8 @@ Github issue <a href="https://github.com/merliseclyde/BAS/issues/61" class="exte
 <div class="section level3">
 <h3 id="features-1-5-4">Features<a class="anchor" aria-label="anchor" href="#features-1-5-4"></a></h3>
 <ul><li>Modified prior probabilities to adjust for the number of variables always included when using include.always. <a href="https://github.com/merliseclyde/BAS/pull/41" class="external-link">Pull request </a><a href="https://github.com/merliseclyde/BAS/issues/41" class="external-link">#41</a> by Don van de Bergh. <a href="https://github.com/merliseclyde/BAS/issues/40" class="external-link">Issue </a><a href="https://github.com/merliseclyde/BAS/issues/40" class="external-link">#40</a>
-</li></ul></div>
+</li>
+</ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-5-4">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-5-4"></a></h3>
 <ul><li><p>Fixed valgrind error in src/ZS_approx_null_np.c for invalid write noted in CRAN checks</p></li>
@@ -133,7 +139,8 @@ Github issue <a href="https://github.com/merliseclyde/BAS/issues/61" class="exte
 </ul></div>
 <div class="section level3">
 <h3 id="other-1-5-4">Other<a class="anchor" aria-label="anchor" href="#other-1-5-4"></a></h3>
-<ul><li>Put ORCID in quotes in author list (per R-dev changes)</li></ul></div>
+<ul><li>Put ORCID in quotes in author list (per R-dev changes)</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.5.3" id="bas-153">BAS 1.5.3<a class="anchor" aria-label="anchor" href="#bas-153"></a></h2><p class="text-muted">CRAN release: 2018-10-30</p>
@@ -187,11 +194,13 @@ Github issue <a href="https://github.com/merliseclyde/BAS/issues/61" class="exte
 <h2 class="pkg-version" data-toc-text="1.5.1" id="bas-151-june-6-2018">BAS 1.5.1 June 6, 2018<a class="anchor" aria-label="anchor" href="#bas-151-june-6-2018"></a></h2><p class="text-muted">CRAN release: 2018-06-07</p>
 <div class="section level3">
 <h3 id="features-1-5-1">Features<a class="anchor" aria-label="anchor" href="#features-1-5-1"></a></h3>
-<ul><li>added S3 method <code>variable.names</code> to extract variable names in the highest probability model, median probability model, and best probability model for objects created by <code>predict</code>.</li></ul></div>
+<ul><li>added S3 method <code>variable.names</code> to extract variable names in the highest probability model, median probability model, and best probability model for objects created by <code>predict</code>.</li>
+</ul></div>
 <div class="section level3">
 <h3 id="bugs-1-5-1">Bugs<a class="anchor" aria-label="anchor" href="#bugs-1-5-1"></a></h3>
 <ul><li>Fixed incorrect documentation in <code>predict.basglm</code> which had that <code>type = "link"</code> was the default for prediction <a href="https://github.com/merliseclyde/BAS/issues/18" class="external-link">issue </a><a href="https://github.com/merliseclyde/BAS/issues/18" class="external-link">#18</a>
-</li></ul></div>
+</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.5.0" id="bas-150-may-2-2018">BAS 1.5.0 May 2, 2018<a class="anchor" aria-label="anchor" href="#bas-150-may-2-2018"></a></h2><p class="text-muted">CRAN release: 2018-05-03</p>
@@ -218,7 +227,8 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11" class="external-l
 </ul></div>
 <div class="section level3">
 <h3 id="features-1-4-9">Features<a class="anchor" aria-label="anchor" href="#features-1-4-9"></a></h3>
-<ul><li>added option to determine k for <code>Bayes.outlier</code> if prior probability of no outliers is provided</li></ul></div>
+<ul><li>added option to determine k for <code>Bayes.outlier</code> if prior probability of no outliers is provided</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.4.8" id="bas-148-march-10-2018">BAS 1.4.8 March 10, 2018<a class="anchor" aria-label="anchor" href="#bas-148-march-10-2018"></a></h2><p class="text-muted">CRAN release: 2018-03-12</p>
@@ -240,7 +250,7 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11" class="external-l
 <h2 class="pkg-version" data-toc-text="1.4.7" id="bas-147-october-22-2017">BAS 1.4.7 October 22, 2017<a class="anchor" aria-label="anchor" href="#bas-147-october-22-2017"></a></h2><p class="text-muted">CRAN release: 2017-10-22</p>
 <div class="section level3">
 <h3 id="updates-1-4-7">Updates<a class="anchor" aria-label="anchor" href="#updates-1-4-7"></a></h3>
-<ul><li><p>Added new method for <code>bas.lm</code> to obtain marginal likelihoods with the Zellner-Siow Priors for "prior= ‘JZS’ using QUADMATH routines for numerical integration. The optional hyperparameter alpha may now be used to adjust the scaling of the ZS prior where g ~ G(1/2, alpha*n/2) as in the <code>BayesFactor</code> package of Morey, with a default of alpha=1 corresponding to the ZS prior used in Liang et al (2008). This also uses more stable evaluations of log(1 + x) to prevent underflow/overflow.</p></li>
+<ul><li><p>Added new method for <code>bas.lm</code> to obtain marginal likelihoods with the Zellner-Siow Priors for “prior= ‘JZS’ using QUADMATH routines for numerical integration. The optional hyperparameter alpha may now be used to adjust the scaling of the ZS prior where g ~ G(1/2, alpha*n/2) as in the <code>BayesFactor</code> package of Morey, with a default of alpha=1 corresponding to the ZS prior used in Liang et al (2008). This also uses more stable evaluations of log(1 + x) to prevent underflow/overflow.</p></li>
 <li><p>Priors <code>ZS-full</code> for bas.lm is planned to be deprecated.</p></li>
 <li><p>replaced math functions to use portable C code from Rmath and consolidated header files</p></li>
 </ul></div>
@@ -249,7 +259,8 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11" class="external-l
 <h2 class="pkg-version" data-toc-text="1.4.6" id="bas-146-may-24-2017">BAS 1.4.6 May 24, 2017<a class="anchor" aria-label="anchor" href="#bas-146-may-24-2017"></a></h2><p class="text-muted">CRAN release: 2017-05-26</p>
 <div class="section level3">
 <h3 id="updates-1-4-6">Updates<a class="anchor" aria-label="anchor" href="#updates-1-4-6"></a></h3>
-<ul><li>Added force.heredity.interaction function to allow higher order interactions to be included only if their “parents” or lower order interactions or main effects were included. Currently tested with two way interactions. This is implemented post-sampling; future updates will add this at the sampling stage which will reduce memory usage and sampling times by reducing the number of models under consideration.</li></ul></div>
+<ul><li>Added force.heredity.interaction function to allow higher order interactions to be included only if their “parents” or lower order interactions or main effects were included. Currently tested with two way interactions. This is implemented post-sampling; future updates will add this at the sampling stage which will reduce memory usage and sampling times by reducing the number of models under consideration.</li>
+</ul></div>
 <div class="section level3">
 <h3 id="bugs-1-4-6">Bugs<a class="anchor" aria-label="anchor" href="#bugs-1-4-6"></a></h3>
 <ul><li><p>Fixed unprotected ANS in C code in glm_sampleworep.c and sampleworep.c after call to PutRNGstate and possible stack imbalance in glm_mcmc.</p></li>
@@ -298,20 +309,24 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11" class="external-l
 <h2 class="pkg-version" data-toc-text="1.4.2" id="bas-142-october-12-2016">BAS 1.4.2 October 12, 2016<a class="anchor" aria-label="anchor" href="#bas-142-october-12-2016"></a></h2><p class="text-muted">CRAN release: 2016-10-13</p>
 <div class="section level3">
 <h3 id="updates-1-4-2">Updates<a class="anchor" aria-label="anchor" href="#updates-1-4-2"></a></h3>
-<ul><li>added df to the object returned by bas.glm to simplify <code>coefficients</code> function.</li></ul></div>
+<ul><li>added df to the object returned by bas.glm to simplify <code>coefficients</code> function.</li>
+</ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-4-2">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-4-2"></a></h3>
-<ul><li>corrected expected value of shrinkage for intrinsic, hyper-g/n and TCCH priors for glms</li></ul></div>
+<ul><li>corrected expected value of shrinkage for intrinsic, hyper-g/n and TCCH priors for glms</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.4.1" id="bas-141-september-17-2016">BAS 1.4.1 September 17, 2016<a class="anchor" aria-label="anchor" href="#bas-141-september-17-2016"></a></h2><p class="text-muted">CRAN release: 2016-09-20</p>
 <div class="section level3">
 <h3 id="bug-fixes-1-4-1">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-4-1"></a></h3>
-<ul><li>the modification in 1.4.0 to automatically handle NA’s led to errors if the response was transformed as part of the formula; this is fixed</li></ul></div>
+<ul><li>the modification in 1.4.0 to automatically handle NA’s led to errors if the response was transformed as part of the formula; this is fixed</li>
+</ul></div>
 <div class="section level3">
 <h3 id="features-1-4-1">Features<a class="anchor" aria-label="anchor" href="#features-1-4-1"></a></h3>
 <ul><li>added subset argument to <code>bas.lm</code> and <code>bas.glm</code>
-</li></ul></div>
+</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.4.0" id="bas-140-august-25-2016">BAS 1.4.0 August 25, 2016<a class="anchor" aria-label="anchor" href="#bas-140-august-25-2016"></a></h2><p class="text-muted">CRAN release: 2016-08-27</p>
@@ -351,7 +366,7 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11" class="external-l
 </li>
 <li>added local Empirical Bayes prior and fixed g-prior for <code>bas.glm</code>
 </li>
-<li>added <code>diagnostic()</code> function for checking convergence of <code>bas</code> objects created with <code>method = "MCMC"</code>"</li>
+<li>added <code>diagnostic()</code> function for checking convergence of <code>bas</code> objects created with <code>method = "MCMC"</code>”</li>
 <li>added truncated power prior as in Yang, Wainwright &amp; Jordan (2016)</li>
 </ul></div>
 <div class="section level3">
@@ -380,130 +395,131 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11" class="external-l
 </ul></div>
 <div class="section level3">
 <h3 id="minor-changes-1-1-0">Minor Changes<a class="anchor" aria-label="anchor" href="#minor-changes-1-1-0"></a></h3>
-<ul><li>Changed S3 method for plot and image to use class <code>bas</code> rather than <code>bma</code> to avoid name conflicts with other packages</li></ul></div>
+<ul><li>Changed S3 method for plot and image to use class <code>bas</code> rather than <code>bma</code> to avoid name conflicts with other packages</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.09" id="bas-109">BAS 1.09<a class="anchor" aria-label="anchor" href="#bas-109"></a></h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">-</span><span class="st"> </span>added weights <span class="cf">for</span> linear models</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="op">-</span><span class="st"> </span>switched LINPACK calls <span class="cf">in</span> bayesreg to LAPACK finally should be</span>
-<span id="cb1-3"><a href="#cb1-3"></a>faster</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="op">-</span><span class="st"> </span>fixed bug <span class="cf">in</span> intercept calculation <span class="cf">for</span> glms</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="op">-</span><span class="st"> </span>fixed inclusion probabilities to be a vector <span class="cf">in</span> the global EB</span>
-<span id="cb1-6"><a href="#cb1-6"></a>methods <span class="cf">for</span> linear models</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> added weights <span class="cf">for</span> linear models</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> switched LINPACK calls <span class="cf">in</span> bayesreg to LAPACK finally should be</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>faster</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> fixed bug <span class="cf">in</span> intercept calculation <span class="cf">for</span> glms</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> fixed inclusion probabilities to be a vector <span class="cf">in</span> the global EB</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>methods <span class="cf">for</span> linear models</span></code></pre></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.08" id="bas-108">BAS 1.08<a class="anchor" aria-label="anchor" href="#bas-108"></a></h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">-</span><span class="st"> </span>added intrinsic prior <span class="cf">for</span> GLMs</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="op">-</span><span class="st"> </span>fixed problems <span class="cf">for</span> linear models <span class="cf">for</span> p <span class="op">&gt;</span><span class="st"> </span>n and R2 not correct</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> added intrinsic prior <span class="cf">for</span> GLMs</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> fixed problems <span class="cf">for</span> linear models <span class="cf">for</span> p <span class="sc">&gt;</span> n and R2 not correct</span></code></pre></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.07" id="bas-107">BAS 1.07<a class="anchor" aria-label="anchor" href="#bas-107"></a></h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">-</span><span class="st"> </span>added phi1 <span class="cf">function</span> from <span class="kw">Gordy</span> (<span class="dv">1998</span>)  confluent hypergeometric</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="cf">function</span> of two variables  also known as one of the Horn</span>
-<span id="cb3-3"><a href="#cb3-3"></a>hypergeometric functions or Humbert<span class="st">'s phi1</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="st">- added Jeffrey'</span>s prior on g</span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="op">-</span><span class="st"> </span>added the general tCCH prior and special cases of the hyper<span class="op">-</span>g<span class="op">/</span>n.</span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="op">-</span><span class="st"> </span>TODO check shrinkage functions <span class="cf">for</span> all    </span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> added phi1 <span class="cf">function</span> from <span class="fu">Gordy</span> (<span class="dv">1998</span>)  confluent hypergeometric</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> of two variables  also known as one of the Horn</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>hypergeometric functions or Humbert<span class="st">'s phi1</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="st">- added Jeffrey'</span>s prior on g</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> added the general tCCH prior and special cases of the hyper<span class="sc">-</span>g<span class="sc">/</span>n.</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> TODO check shrinkage functions <span class="cf">for</span> all    </span></code></pre></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.06" id="bas-106">BAS 1.06<a class="anchor" aria-label="anchor" href="#bas-106"></a></h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="op">-</span><span class="st"> </span>new improved Laplace approximation <span class="cf">for</span> hypergeometric1F1</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="op">-</span><span class="st"> </span>added class basglm <span class="cf">for</span> predict</span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="op">-</span><span class="st"> </span>predict <span class="cf">function</span> now handles glm output</span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="op">-</span><span class="st"> </span>added dataframe option <span class="cf">for</span> newdata <span class="cf">in</span> predict.bas and predict.basglm</span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="op">-</span><span class="st"> </span>renamed coefficients <span class="cf">in</span> output to be <span class="st">'mle'</span> <span class="cf">in</span> bas.lm to be consistent across</span>
-<span id="cb4-6"><a href="#cb4-6"></a>lm and glm versions so that predict methods can handle both</span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="kw">cases.</span>  (This may lead to errors <span class="cf">in</span> other external code that</span>
-<span id="cb4-8"><a href="#cb4-8"></a>expects object<span class="op">$</span>ols or object<span class="op">$</span>coefficients)</span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="op">-</span><span class="st"> </span>fixed bug with initprobs that did not include an intercept <span class="cf">for</span> bas.lm</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> new improved Laplace approximation <span class="cf">for</span> hypergeometric1F1</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> added class basglm <span class="cf">for</span> predict</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> predict <span class="cf">function</span> now handles glm output</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> added dataframe option <span class="cf">for</span> newdata <span class="cf">in</span> predict.bas and predict.basglm</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> renamed coefficients <span class="cf">in</span> output to be <span class="st">'mle'</span> <span class="cf">in</span> bas.lm to be consistent across</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>lm and glm versions so that predict methods can handle both</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cases.</span>  (This may lead to errors <span class="cf">in</span> other external code that</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>expects object<span class="sc">$</span>ols or object<span class="sc">$</span>coefficients)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> fixed bug with initprobs that did not include an intercept <span class="cf">for</span> bas.lm</span></code></pre></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.05" id="bas-105">BAS 1.05<a class="anchor" aria-label="anchor" href="#bas-105"></a></h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">-</span><span class="st"> </span>added thinning option <span class="cf">for</span> MCMC method <span class="cf">for</span> bas.lm</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="op">-</span><span class="st"> </span>returned posterior expected shrinkage <span class="cf">for</span> bas.glm</span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="op">-</span><span class="st"> </span>added option <span class="cf">for</span> initprobs =<span class="st"> "marg-eplogp"</span> <span class="cf">for</span> using marginal</span>
-<span id="cb5-4"><a href="#cb5-4"></a>SLR models to create starting probabilities or order variables</span>
-<span id="cb5-5"><a href="#cb5-5"></a>especially <span class="cf">for</span> p <span class="op">&gt;</span><span class="st"> </span>n case</span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="op">-</span><span class="st"> </span>added standalone <span class="cf">function</span> <span class="cf">for</span> hypergeometric1F1 using Cephes</span>
-<span id="cb5-7"><a href="#cb5-7"></a>library and a Laplace approximation</span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="op">-</span>Added class <span class="st">"BAS"</span> so that predict and fitted <span class="kw">functions</span> (S3</span>
-<span id="cb5-9"><a href="#cb5-9"></a>methods) are not masked by functions <span class="cf">in</span> the BVS package<span class="op">:</span><span class="st"> </span>to do</span>
-<span id="cb5-10"><a href="#cb5-10"></a>modify the rest of the S3 methods.</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> added thinning option <span class="cf">for</span> MCMC method <span class="cf">for</span> bas.lm</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> returned posterior expected shrinkage <span class="cf">for</span> bas.glm</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> added option <span class="cf">for</span> initprobs <span class="ot">=</span> <span class="st">"marg-eplogp"</span> <span class="cf">for</span> using marginal</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>SLR models to create starting probabilities or order variables</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>especially <span class="cf">for</span> p <span class="sc">&gt;</span> n case</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> added standalone <span class="cf">function</span> <span class="cf">for</span> hypergeometric1F1 using Cephes</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>library and a Laplace approximation</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span>Added class <span class="st">"BAS"</span> so that predict and fitted <span class="fu">functions</span> (S3</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>methods) are not masked by functions <span class="cf">in</span> the BVS package<span class="sc">:</span> to do</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>modify the rest of the S3 methods.</span></code></pre></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.04" id="bas-104">BAS 1.04<a class="anchor" aria-label="anchor" href="#bas-104"></a></h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="op">-</span><span class="st"> </span>added bas.glm <span class="cf">for</span> model averaging<span class="op">/</span>section using mixture of g<span class="op">-</span>priors <span class="cf">for</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>GLMs.  Currently limited to Logistic Regression</span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="op">-</span><span class="st"> </span>added Poisson family <span class="cf">for</span> glm.fit</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> added bas.glm <span class="cf">for</span> model averaging<span class="sc">/</span>section using mixture of g<span class="sc">-</span>priors <span class="cf">for</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>GLMs.  Currently limited to Logistic Regression</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> added Poisson family <span class="cf">for</span> glm.fit</span></code></pre></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0" id="bas-10">BAS 1.0<a class="anchor" aria-label="anchor" href="#bas-10"></a></h2><p class="text-muted">CRAN release: 2012-06-01</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="op">-</span><span class="st"> </span>cleaned up  MCMC method code</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> cleaned up  MCMC method code</span></code></pre></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.93" id="bas-093">BAS 0.93<a class="anchor" aria-label="anchor" href="#bas-093"></a></h2>
-<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="op">-</span><span class="st"> </span>removed internal print statements <span class="cf">in</span> bayesglm.c</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="op">-</span><span class="st"> </span>Bug fixes <span class="cf">in</span> AMCMC algorithm</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> removed internal print statements <span class="cf">in</span> bayesglm.c</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> Bug fixes <span class="cf">in</span> AMCMC algorithm</span></code></pre></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.92" id="bas-092">BAS 0.92<a class="anchor" aria-label="anchor" href="#bas-092"></a></h2><p class="text-muted">CRAN release: 2010-10-01</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="op">-</span><span class="st"> </span>fixed glm<span class="op">-</span>fit.R  so that hyperparameter <span class="cf">for</span> BIC is numeric</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> fixed glm<span class="sc">-</span>fit.R  so that hyperparameter <span class="cf">for</span> BIC is numeric</span></code></pre></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.91" id="bas-091">BAS 0.91<a class="anchor" aria-label="anchor" href="#bas-091"></a></h2><p class="text-muted">CRAN release: 2010-09-09</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="op">-</span><span class="st"> </span>added new AMCMC algorithm</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> added new AMCMC algorithm</span></code></pre></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.91" id="bas-091-1">BAS 0.91<a class="anchor" aria-label="anchor" href="#bas-091-1"></a></h2><p class="text-muted">CRAN release: 2010-09-09</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="op">-</span><span class="st"> </span>bug fix <span class="cf">in</span> bayes.glm</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> bug fix <span class="cf">in</span> bayes.glm</span></code></pre></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.90" id="bas-090">BAS 0.90<a class="anchor" aria-label="anchor" href="#bas-090"></a></h2><p class="text-muted">CRAN release: 2010-07-24</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="op">-</span><span class="st"> </span>added C routines <span class="cf">for</span> fitting glms</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> added C routines <span class="cf">for</span> fitting glms</span></code></pre></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.85" id="bas-085">BAS 0.85<a class="anchor" aria-label="anchor" href="#bas-085"></a></h2><p class="text-muted">CRAN release: 2010-04-29</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="op">-</span><span class="st"> </span>fixed problem with duplicate models <span class="cf">if</span> n.models was <span class="op">&gt;</span><span class="st"> </span><span class="dv">2</span><span class="op">^</span>(p<span class="dv">-1</span>) by</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> fixed problem with duplicate models <span class="cf">if</span> n.models was <span class="sc">&gt;</span> <span class="dv">2</span><span class="sc">^</span>(p<span class="dv">-1</span>) by</span></code></pre></div>
 <p>restricting n.models</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="op">-</span><span class="st"> </span>save original X as part of object so that fitted.bma gives the</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> save original X as part of object so that fitted.bma gives the</span></code></pre></div>
 <p>correct fitted values (broken in version 0.80)</p>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.80" id="bas-080">BAS 0.80<a class="anchor" aria-label="anchor" href="#bas-080"></a></h2><p class="text-muted">CRAN release: 2010-04-06</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="op">-</span><span class="st"> </span>Added <span class="st">`</span><span class="dt">hypergeometric2F1</span><span class="st">`</span> <span class="cf">function</span> that is callable by R</span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="op">-</span><span class="st"> </span>centered X<span class="st">'s in bas.lm so that the intercept has the correct</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> Added <span class="st">`</span><span class="at">hypergeometric2F1</span><span class="st">`</span> <span class="cf">function</span> that is callable by R</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> centered X<span class="st">'s in bas.lm so that the intercept has the correct</span></span></code></pre></div>
 <p>shrinkage - changed <code>predict.bma</code> to center newdata using the mean(X) - Added new Adaptive MCMC option (method = “AMCMC”) (this is not stable at this point)</p>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7" id="bas-07">BAS 0.7<a class="anchor" aria-label="anchor" href="#bas-07"></a></h2>
-<div class="sourceCode" id="cb16"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="op">-</span>Allowed pruning of model tree to eliminate rejected models</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span>Allowed pruning of model tree to eliminate rejected models</span></code></pre></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.6" id="bas-06">BAS 0.6<a class="anchor" aria-label="anchor" href="#bas-06"></a></h2>
-<div class="sourceCode" id="cb17"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="op">-</span><span class="st"> </span>Added MCMC option to create starting values <span class="cf">for</span> <span class="kw">BAS</span> (<span class="st">`</span><span class="dt">method = "MCMC+BAS"</span><span class="st">`</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> Added MCMC option to create starting values <span class="cf">for</span> <span class="fu">BAS</span> (<span class="st">`</span><span class="at">method = "MCMC+BAS"</span><span class="st">`</span>)</span></code></pre></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5" id="bas-05">BAS 0.5<a class="anchor" aria-label="anchor" href="#bas-05"></a></h2>
-<div class="sourceCode" id="cb18"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="op">-</span>Cleaned up all .Call routines so that all objects are duplicated or</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span>Cleaned up all .Call routines so that all objects are duplicated or</span></code></pre></div>
 <p>allocated within code</p>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.45" id="bas-045">BAS 0.45<a class="anchor" aria-label="anchor" href="#bas-045"></a></h2><p class="text-muted">CRAN release: 2009-12-30</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="op">-</span><span class="st"> </span>fixed ch2inv that prevented building on Windows <span class="cf">in</span> bayes glm_fit</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> fixed ch2inv that prevented building on Windows <span class="cf">in</span> bayes glm_fit</span></code></pre></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4" id="bas-04">BAS 0.4<a class="anchor" aria-label="anchor" href="#bas-04"></a></h2><p class="text-muted">CRAN release: 2009-12-28</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="op">-</span><span class="st"> </span>fixed FORTRAN calls to use F77_NAME macro </span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="op">-</span><span class="st"> </span>changed  allocation of objects <span class="cf">for</span> .Call to prevent some objects from being overwritten.  </span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> fixed FORTRAN calls to use F77_NAME macro </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> changed  allocation of objects <span class="cf">for</span> .Call to prevent some objects from being overwritten.  </span></code></pre></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3" id="bas-03">BAS 0.3<a class="anchor" aria-label="anchor" href="#bas-03"></a></h2><p class="text-muted">CRAN release: 2009-05-29</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="op">-</span><span class="st"> </span>fixed EB.global <span class="cf">function</span> to include prior probabilities on models</span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="op">-</span><span class="st"> </span>fixed update <span class="cf">function</span> </span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> fixed EB.global <span class="cf">function</span> to include prior probabilities on models</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> fixed update <span class="cf">function</span> </span></code></pre></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2" id="bas-02">BAS 0.2<a class="anchor" aria-label="anchor" href="#bas-02"></a></h2>
-<div class="sourceCode" id="cb22"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="op">-</span><span class="st"> </span>fixed predict.bma to allow newdata to be a matrix or vector with the</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> fixed predict.bma to allow newdata to be a matrix or vector with the</span></code></pre></div>
 <p>column of ones for the intercept optionally included. - fixed help file for predict - added modelprior argument to bas.lm so that users may now use the beta-binomial prior distribution on model size in addition to the default uniform distribution - added functions uniform(), beta-binomial() and Bernoulli() to create model prior objects - added a vector of user specified initial probabilities as an option for argument initprobs in bas.lm and removed the separate argument user.prob</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
