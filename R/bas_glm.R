@@ -237,6 +237,7 @@ normalize.initprobs.glm <- function(initprobs, glm.obj) {
 #'               method="BAS+MCMC", MCMC.iterations=2500,
 #'               betaprior=bic.prior(), family=binomial(),
 #'               modelprior=uniform())
+
 #' # Poisson example
 #' if(requireNamespace("glmbb", quietly=TRUE)) {
 #'   data(crabs, package='glmbb')
@@ -246,6 +247,15 @@ normalize.initprobs.glm <- function(initprobs, glm.obj) {
 #'                       betaprior=EB.local(), modelprior=uniform(),
 #'                       method='MCMC', n.models=2^10, MCMC.iterations=2500,
 #'                       prob.rw=.95)
+#'   
+#'  # Gamma example
+#'  if(requireNamespace("faraway", quietly=TRUE)) {
+#'     data(wafer, package='faraway')
+#'                       
+#'     wafer_bas = bas.glm(resist~ ., data=wafer,  include.always = ~ .,
+#'                         betaprior = bic.prior() ,
+#'                         family = Gamma(link = "log"))
+#'   }
 #' }
 #' @concept BMA
 #' @concept variable selection

@@ -1,6 +1,14 @@
 # BAS 1.6.5
 
-## Changes 
+## Changes
+
+* Added support for `Gamma` regression for `bas.glm`, with unit tests and 
+  example  (Code contributed by @betsyberrson)
+
+## Bug Fixes
+
+* Fixed error in `coef` for `bas.glm` objects when using a `betaprior` of class
+  IC, including AIC and BIC Github issue #65
 
 * Fixed error  when using `Jeffreys` prior in `bas.glm` with the 
 `include.always` option and added unit test in `test-bas-glm.R`.  

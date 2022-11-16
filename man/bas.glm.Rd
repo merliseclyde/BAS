@@ -260,6 +260,15 @@ if(requireNamespace("glmbb", quietly=TRUE)) {
                       betaprior=EB.local(), modelprior=uniform(),
                       method='MCMC', n.models=2^10, MCMC.iterations=2500,
                       prob.rw=.95)
+  
+ # Gamma example
+ if(requireNamespace("faraway", quietly=TRUE)) {
+    data(wafer, package='faraway')
+                      
+    wafer_bas = bas.glm(resist~ ., data=wafer,  include.always = ~ .,
+                        betaprior = bic.prior() ,
+                        family = Gamma(link = "log"))
+  }
 }
 }
 \references{
