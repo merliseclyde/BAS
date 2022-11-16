@@ -49,7 +49,7 @@ prior = object$priorprobs
      logmarg[p == 0] = 0
      modelprob <- exp(logmarg -  max(logmarg))
      modelprob <- modelprob*prior/sum(modelprob*prior)
-     if  (any(is.na(modelprob))) warning("NA's in modelprobs") #nocov
+     if  (any(is.na(modelprob))) warning("NA's in modelprobs") # nocov
     return(modelprob)
    }
 
