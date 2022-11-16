@@ -57,7 +57,11 @@
 <h2 class="pkg-version" data-toc-text="1.6.5" id="bas-165">BAS 1.6.5<a class="anchor" aria-label="anchor" href="#bas-165"></a></h2>
 <div class="section level3">
 <h3 id="changes-1-6-5">Changes<a class="anchor" aria-label="anchor" href="#changes-1-6-5"></a></h3>
-<ul><li><p>Fixed error when using <code>Jeffreys</code> prior in <code>bas.glm</code> with the <code>include.always</code> option and added unit test in <code>test-bas-glm.R</code>.<br>
+<ul><li>Added support for <code>Gamma</code> regression for <code>bas.glm</code>, with unit tests and example (Code contributed by <a href="https://github.com/betsyberrson" class="external-link">@betsyberrson</a>)</li></ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-6-5">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-6-5"></a></h3>
+<ul><li><p>Fixed error in <code>coef</code> for <code>bas.glm</code> objects when using a <code>betaprior</code> of class IC, including AIC and BIC Github issue <a href="https://github.com/merliseclyde/BAS/issues/65" class="external-link">#65</a></p></li>
+<li><p>Fixed error when using <code>Jeffreys</code> prior in <code>bas.glm</code> with the <code>include.always</code> option and added unit test in <code>test-bas-glm.R</code>.<br>
 Github issue <a href="https://github.com/merliseclyde/BAS/issues/61" class="external-link">#61</a></p></li>
 <li><p>Fixed error for extracting coefficients from the median probability model when a formula is passed as an object rather than a literal, and added a unit test to <code>test-coefficients.R</code> Github issues <a href="https://github.com/merliseclyde/BAS/issues/39" class="external-link">#39</a> and <a href="https://github.com/merliseclyde/BAS/issues/56" class="external-link">#56</a></p></li>
 </ul></div>
