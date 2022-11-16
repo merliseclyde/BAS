@@ -36,6 +36,7 @@ test_that("predict.bas.glm", {
   pima_pred <- predict(pima_gprior,
                        estimator = "HPM",
                        se.fit = FALSE)
+  expect_warning(confint(pima_pred))
 
   # should not error
   expect_error(predict(pima_gprior,
