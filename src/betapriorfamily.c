@@ -393,12 +393,7 @@ double EB_local_glm_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplac
 
   if (p >= 1.0) {
     ghat = fmax(0.0, W/p - 1);
-    if (ghat > 0) {
-      shrinkage = ghat/(1.0 + ghat);
-    }
-    else {
-      shrinkage = 0.0;
-    }
+    shrinkage = ghat/(1.0 + ghat);
   }
   return(shrinkage);
 }

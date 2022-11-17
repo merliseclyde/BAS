@@ -53,10 +53,10 @@ test_that("GLM logit", {
                        family = "gaussian",
                        modelprior = uniform())
   )
-  newprior = bic.prior(); newprior$family = "homeless"; class(newprior) = "homeless"
+  newprior = bic.prior(); newprior$family = "homeless"; newprior$class  = "homeless"
   expect_error(bas.glm(type ~ .,
                        data = Pima.tr, method = "BAS",
-                       betaprior = newprior(),
+                       betaprior = newprior,
                        family =  binomial(),
                        modelprior = uniform())
   )

@@ -1,4 +1,4 @@
-// nocov start
+// # nocov start
 /*							mtherr.c
  *
  *	Library common error handling routine
@@ -48,7 +48,7 @@
  * mconf.h
  *
  */
-
+
 /*
 Cephes Math Library Release 2.0:  April, 1987
 Copyright 1984, 1987 by Stephen L. Moshier
@@ -103,4 +103,4 @@ warning( "%s error\n", ermsg[code] );
 return( 0 );
 }
 
-// nocov end
+// # nocov end
