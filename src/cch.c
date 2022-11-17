@@ -23,14 +23,14 @@ double hyperg2F1(double a, double b, double c, double z) {
   double w=1.0, F=1.0;
   if (a<0) {
     /* Apply Abramowitz and Stegun 15.3.3 */
-    F=R_pow(1-z,c-a-b)*hyperg2F1(c-a,c-b,c,z);
+    F=R_pow(1-z,c-a-b)*hyperg2F1(c-a,c-b,c,z);   // # nocov
   }
   else if (z<0) {
     /* Apply Abramowitz and Stegun 15.3.4 */
-    F=R_pow(1-z,-a)*hyperg2F1(a,c-b,c,z/(z-1));
+    F=R_pow(1-z,-a)*hyperg2F1(a,c-b,c,z/(z-1));  // # nocov
   }
   else if (z==1) {
-    F=exp(lgammafn(c)+lgammafn(c-a-b)-lgammafn(c-a)-lgammafn(c-b));
+    F=exp(lgammafn(c)+lgammafn(c-a-b)-lgammafn(c-a)-lgammafn(c-b));  // # nocov
   }
   else {
     while ((w/F)>FACCURACY) {
@@ -94,9 +94,11 @@ double phi1_int(double a, double b, double c, double x, double y, int div, doubl
     Rdqags(Cintfn, (void*)&is, &lower,&upper,&epsabs,&epsrel,&result,
            &abserr,&neval,&ier,&limit,&lenw,&last,iwork,work);
    
-     if (!R_FINITE(result)) {
-         Rprintf("phi return: int %lf W=%lf div= %lf scale=%le \n", 
+     if (!R_FINITE(result)) { 
+         // # nocov start
+         warning("phi return: int %lf W=%lf div= %lf scale=%le \n",   
                  log(result), x, (double) div, scale);
+         // # #nocov end
      }
     
     if (scale > 0) offset = (double) div * log(scale);
@@ -130,7 +132,10 @@ for (i=0; i < n; i++) {
     u[i] *= scale*exp(z*x/div);
   }
   if (!R_FINITE(u[i])) {
-    Rprintf("integrate: z= %lf phi1=%lf W=%lf a=%lf b=%lf c=%lf y=%lf scale=%le div=%lf\n", z, u[i], x, a, b, c, y, scale, div);
+    // # nocov start
+    warning("integrate: z= %lf phi1=%lf W=%lf a=%lf b=%lf c=%lf y=%lf scale=%le div=%lf\n",
+            z, u[i], x, a, b, c, y, scale, div);
+    // # nocov end
     }
   
   u[i] *=  exp(lgammafn(c) -lgammafn(a) - lgammafn(c - a));
@@ -178,8 +183,10 @@ double tcch_int(double a, double b, double r, double s, double v,  double k) {
          &abserr,&neval,&ier,&limit,&lenw,&last,iwork,work);
   
   if (!R_FINITE(result)) {
-    Rprintf("ttch return Inf: int %lf s=%lf a=%lf b=%lf r=%lf  v= %lf k=%lf lower=%lf upper=%lf\n", 
+    // # nocov start
+    warning("ttch return Inf: int %lf s=%lf a=%lf b=%lf r=%lf  v= %lf k=%lf lower=%lf upper=%lf\n", 
             log(result), s, a, b, r, v, k, lower, upper);
+    // # nocov end
   }
   UNPROTECT(1);
   return(log(result));
