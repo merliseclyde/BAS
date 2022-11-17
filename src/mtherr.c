@@ -1,3 +1,4 @@
+// nocov start
 /*							mtherr.c
  *
  *	Library common error handling routine
@@ -101,3 +102,5 @@ warning( "%s error\n", ermsg[code] );
  */
 return( 0 );
 }
+
+// nocov end
