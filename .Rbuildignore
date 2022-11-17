@@ -3,6 +3,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 .github
+.covrignore
 .travis.yml
 .build.timestamp
 ^README\.Rmd$

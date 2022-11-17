@@ -53,11 +53,18 @@ test_that("GLM logit", {
                        family = "gaussian",
                        modelprior = uniform())
   )
+  newprior = bic.prior(); newprior$family = "homeless"; class(newprior) = "homeless"
   expect_error(bas.glm(type ~ .,
                        data = Pima.tr, method = "BAS",
-                       betaprior = bic.prior(),
-                       family = "homeless",
+                       betaprior = newprior(),
+                       family =  binomial(),
                        modelprior = uniform())
+  )
+  expect_error(bas.glm(type ~ .,
+                        data = Pima.tr, method = "BAS",
+                        betaprior = bic.prior(),
+                        family = "homeless",
+                        modelprior = uniform())             
   )
   pima_det <- bas.glm(type ~ ., data = Pima.tr,
     method = "deterministic", betaprior = bic.prior(),
