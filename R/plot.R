@@ -89,7 +89,7 @@ plot.bas = function (x,
                      drop.always.included = FALSE)
 {
   if (!inherits(x, "bas"))
-    stop("use only with \"bas\" objects")
+    stop("use only with \"bas\" objects")  # nocov
   if (!is.numeric(which) || any(which < 1) || any(which > 4))
     stop("'which' must be in 1:4")
   show <- rep(FALSE, 4)
