@@ -57,7 +57,7 @@ bayesglm.fit <-
              coefprior = bic.prior(nobs),
              control = glm.control(), intercept = TRUE) {
     x <- as.matrix(x)
-    y <- as.numeric(y)
+    if (!is.numeric(y)) warning("y must be a numeric vector")
     ynames <- if (is.matrix(y)) {
       rownames(y)
     } else {
