@@ -59,8 +59,9 @@ bayesglm.fit <-
     
    
     
-    if (!is.numeric(y)) stop("y must be a numeric vector/matrix")
-    if (!is.numeric(x)) stop("x must be a numeric vector/matrix")
+    if (!is.double(y)) stop("y must be a numeric vector/matrix")
+    
+    if (!is.double(x)) stop("x must be a numeric vector/matrix")
     
     x <- as.matrix(x)
     ynames <- if (is.matrix(y)){
