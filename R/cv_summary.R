@@ -37,7 +37,6 @@
 cv.summary.bas <- function(pred, ytrue, score = "squared-error") {
   if (length(pred) != length(ytrue)) {
     stop("predicted values and observed values are not the same length")
-    return()
   }
 
   if (!(score %in% c("squared-error", "miss-class"))) {

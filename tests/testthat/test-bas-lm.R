@@ -298,7 +298,8 @@ test_that("heredity and bas.lm", {
 })
 
 
-# add more testing for update.bas
+#
+
 #
 test_that("as.matrix tools", {
   data(Hald)
