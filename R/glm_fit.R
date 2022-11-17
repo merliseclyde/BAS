@@ -56,13 +56,17 @@ bayesglm.fit <-
              mustart = NULL, offset = rep(0, nobs), family = binomial(),
              coefprior = bic.prior(nobs),
              control = glm.control(), intercept = TRUE) {
+    
     x <- as.matrix(x)
-    if (!is.numeric(y)) warning("y must be a numeric vector")
-    ynames <- if (is.matrix(y)) {
-      rownames(y)
-    } else {
-      names(y)
-    }
+    
+    if (!is.numeric(y)) stop("y must be a numeric vector/matrix")
+    if (!is.numeric(x)) stop("x must be a numeric vector/matrix")
+    
+    ynames <- if (is.matrix(y)){
+                  rownames(y)}
+              else { names(y)
+              }
+    
     conv <- FALSE
     nobs <- NROW(y)
     nvars <- ncol(x)

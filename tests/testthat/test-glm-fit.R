@@ -8,6 +8,11 @@ test_that("bayesglm.fit", {
   expect_error(bayesglm.fit(y = cbind((Pima.tr$type == "Yes"), 5.0), x = Pima.tr$age, 
                             family=binomial(), coefprior=bic.prior()))
   
+  expect_error(bayesglm.fit(y = Pima.tr$type, x = 1.0*Pima.tr$age, 
+                            family=binomial(), coefprior=bic.prior()))
+  expect_error(bayesglm.fit(y = 1.0*(Pima.tr$type == "Yes"), x = Pima.tr$age, 
+                            family=binomial(), coefprior=bic.prior()))
+  
   #OK below this
   expect_equal(bayesglm.fit(y = cbind((Pima.tr$type == "Yes"), 1.0), 
                             x = 1.0*Pima.tr$age, 

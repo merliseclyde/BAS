@@ -45,10 +45,10 @@
 plot.coef.bas <- function(x, e = 1e-04, subset = 1:x$n.vars, ask = TRUE, ...) {
   plotvar <- function(prob0, mixprobs, df, means, sds, name,
                         e = 1e-04, nsteps = 500, ...) {
-    if (prob0 == 1 | length(means) == 0) {
+    if (prob0 == 1 | length(means) == 0) { # nocov start
       xlower <- -0
       xupper <- 0
-      xmax <- 1
+      xmax <- 1 # nocov end
     }
     else {
       qmin <- min(qnorm(e / 2, means, sds))
