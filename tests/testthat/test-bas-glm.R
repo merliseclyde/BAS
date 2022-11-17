@@ -1,5 +1,6 @@
 context("bas.glm")
 
+
 test_that("bas.glm initprobs" , {
  data(Pima.tr, package="MASS")
  expect_error(bas.glm(type ~ .,
