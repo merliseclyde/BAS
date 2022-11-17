@@ -391,10 +391,12 @@ int get_next(double *subsetsum, int *queue, int *queuesize)
     if (kid2 >= *queuesize) { 	/* Only one child. */
       if (subsetsum[queue[parent]] < subsetsum[queue[kid1]]) big_kid = kid1;
       else return(current);		/* Parent is best. */
-    } else {			/* Two kids. */
+    } else {			/* Two kids. */  
+      // # nocov start
       if ((subsetsum[queue[parent]] > subsetsum[queue[kid1]])&&
-	  (subsetsum[queue[parent]] > subsetsum[queue[kid2]]))
-	return(current);			/* Parent is bigger. */
+	         (subsetsum[queue[parent]] > subsetsum[queue[kid2]]))
+    	return(current);			/* Parent is bigger. */   
+      // # nocov end
       else {
 	if (subsetsum[queue[kid1]] <= subsetsum[queue[kid2]]) big_kid = kid2;
 	else big_kid = kid1;
