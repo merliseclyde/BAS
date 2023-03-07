@@ -67,4 +67,4 @@ NeedsCompilation: yes
 ByteCompile: yes
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3

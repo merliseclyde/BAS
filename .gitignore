@@ -18,3 +18,4 @@ Meta
 docs
 tests/testthat/Rplots.pdf
 R/gordy.R
+inst/doc
