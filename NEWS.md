@@ -7,6 +7,9 @@
 
 ## Bug Fixes
 
+* fixed error in `predict.bas` with `se.fit=TRUE` if there is only one predictor. GitHub issue #68 reported by @AleCarminati
+added unit test to `test-predict.R`
+
 * Fixed error in `coef` for `bas.glm` objects when using a `betaprior` of class
   IC, including AIC and BIC Github issue #65
 

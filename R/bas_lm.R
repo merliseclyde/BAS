@@ -491,7 +491,7 @@ bas.lm <- function(formula,
     "JZS"
   )
 
-  if (!(prior %in% priormethods)) {
+  if (is.null(prior) | !(prior %in% priormethods)) {
     stop(paste(
       "prior ",
       prior,
@@ -658,10 +658,14 @@ bas.lm <- function(formula,
       NULL
     )
   }
-
+  
+  
+  # start  nocov
+  # shouldn't be able to get here
   if (is.null(alpha)) {
-    alpha <- 0.0
+    stop("Error in BAS code, please report on GitHub")
   }
+  # end nocov 
 
   parents <- matrix(1, 1, 1)
   if (method == "MCMC+BAS" |

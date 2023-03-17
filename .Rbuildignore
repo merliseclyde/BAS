@@ -31,3 +31,4 @@ CONTRIBUTING.md
 ^\.github$
 ^pkgdown$
 ^CRAN-SUBMISSION$
+^SECURITY\.md$

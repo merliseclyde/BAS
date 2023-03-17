@@ -51,3 +51,19 @@ test_that("predict.bas.glm", {
                        se.fit = TRUE))
   #expect_null(plot(confint(pima_pred)))
 })
+
+# GitHub issue  #68
+# a model with one predictor variable and se.fit=TRUE 
+test_that("se.fit with 1 variable", {
+  data("Hald")
+  hald.gprior =  bas.lm(Y ~ X2, data=Hald, alpha=13, prior="g-prior")
+  expect_no_error(predict(hald.gprior, 
+                       newdata=Hald, estimator="BPM", se.fit=TRUE))
+  
+  expect_no_error(predict(hald.gprior, 
+                       newdata=Hald, estimator="HPM", se.fit=TRUE))
+  
+  expect_no_error(predict(hald.gprior, 
+                       newdata=Hald, estimator="MPM", se.fit=TRUE))
+  
+})

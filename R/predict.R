@@ -572,7 +572,7 @@ fitted.bas <- function(object,
     xiXTXxiT <- hat(object$X[, model + 1]) - 1 / n
   } else {
     X <- cbind(1, X[, model[-1], drop = FALSE])
-    oldX <- (sweep(object$X[, -1], 2, object$mean.x))[, model[-1]]
+    oldX <- (sweep(object$X[, -1, drop = FALSE], 2, object$mean.x))[, model[-1]]
     #    browser()
     XRinv <- X %*% solve(qr.R(qr(cbind(1, oldX))))
     xiXTXxiT <- apply(XRinv^2, 1, sum) - 1 / n
