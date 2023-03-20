@@ -71,11 +71,14 @@ void Substract_visited_probability_mass(NODEPTR branch, struct Var *vars, int *m
 		if (bit == 1) prone -= pigamma[i];
 		double denom = 1.0 - pigamma[i];
 		if (denom <= 0.0) {
+		  // # nocov start
+		  // should not be feasible
 			if (denom < 0.0) {
 				Rprintf("neg denominator %le %le %le !!!\n", pigamma, denom, prone);
 				if (branch->prob < 0.0 && branch->prob < 1.0) {
 					Rprintf("non extreme %le\n", branch->prob);
 				}
+				// # nocov end
 			}
 			denom = 0.0;
 		}
@@ -88,9 +91,11 @@ void Substract_visited_probability_mass(NODEPTR branch, struct Var *vars, int *m
 			}
 			else prone = prone/denom;
 		}
+		// # nocov start
 		if (prone > 1.0 || prone < 0.0) {
 			Rprintf("%d %d Probability > 1!!! %le %le  %le %le \n",
 			m, i, prone, branch->prob, denom, pigamma);}
+		 // # nocov end
 		branch->prob  = prone;
 		if (bit == 1) branch = branch->one;
 		else  branch = branch->zero;

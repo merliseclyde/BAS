@@ -318,4 +318,27 @@ test_that("as.matrix tools", {
 })
 
 
+test_that("initialize with Full model  MCMC and MCMC+BAS", {
+  data(Hald)
+  best = rep(1, 5)
+  expect_no_error(bas.lm(Y ~ .,
+                     prior = "BIC", 
+                     bestmodel = best,
+                     modelprior = uniform(), data = Hald
+  ))
+  
+  # issue with memory FIXME
+ # expect_error( bas.lm(Y ~ .,
+#                         prior = "BIC", method = "MCMC+BAS", n.models=2^4,
+#                         MCMC.iterations = 1000,
+#                         bestmodel=best,
+#                         modelprior = uniform(), data = Hald))
+  
+  #MCMC.iterations = 1000)
+  expect_no_error(bas.lm(Y ~ .,
+                               prior = "BIC",
+                               method = "MCMC",
+                               bestmodel=best,
+                               modelprior = uniform(), data = Hald))
+})
 
