@@ -8,6 +8,8 @@
  double lik_full(double g, double eps ,int n, int p, int k);
  double info_full(double g, double eps, int n, int p, int k);
 
+ // legacy code not in use currently
+ // start no cov
 void LogBF_ZS_full_vect(double *R2full, double *r2curr, int *n, int *ptotal, int *dim, int *nmodels, double *logmarg) {
   double LogBF_ZS_full(double r2full, double r2curr, int n, int ptotal, int d);
 
@@ -16,7 +18,7 @@ void LogBF_ZS_full_vect(double *R2full, double *r2curr, int *n, int *ptotal, int
         logmarg[i] = LogBF_ZS_full(*R2full , r2curr[i], *n, *ptotal, dim[i]);
      }
 }
-
+// end no cov
 
 double LogBF_ZS_full(double r2full, double r2curr, int n, int ptotal, int d){
 /*
@@ -76,10 +78,11 @@ double LogBF_ZS_full(double r2full, double r2curr, int n, int ptotal, int d){
 
   posroot_full(a,b,c,&root,&status);
 
+  // start no cov
   if(status!=1.){
     if(status==0.) Rprintf("\n No positive roots\n");
     else Rprintf("\n More than one positive root\n");
-  }
+  } // end  no. cov
   else{
     if (k != p) {
       ZSlogmarg = -lik_full(root,eps,n,p,k)+(-log(4.*asin(1.))+ log(-info_full(root,eps,n,p,k)))/2.;

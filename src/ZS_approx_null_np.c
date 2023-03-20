@@ -4,6 +4,8 @@
 #include <R_ext/Applic.h>
 #include "bas.h"
 
+// legacy code not in use currently
+// start no cov
 void LogBF_ZS_null_vect(double *r2curr, int *n, int *dim, int *nmodels, double *logmarg) {
 
   double LogBF_ZS_null(double r2curr, int n, int d);
@@ -15,6 +17,8 @@ void LogBF_ZS_null_vect(double *r2curr, int *n, int *dim, int *nmodels, double *
           logmarg[i] = ZS_logmarg(r2curr[i], *n, dim[i], rscale);
      }
 }
+
+// end no cov
 
 typedef struct C_int_struct
 {
@@ -144,10 +148,12 @@ double log1pExp(double x)
   }
 }
 
+/*. legacy code 
 double logExpXplusExpY( const double x, const double y )
 {
   return x + log1pExp( y - x );
 }
+*/  
 
 void ZS_density(double *x, int n, SEXP Rtheta) {
 // d is p + 1  and includes the intercept
@@ -275,15 +281,17 @@ double LogBF_ZS_null(double R2, int n, int d) {
 
   posroot(a,b,c,&root,&status);
     if (k == 0 || n <= k+1 || R2 >= 1.0) { return(0.0); }
-    else {
-      if(status!=1.){
-	if(status==0.) {
-	  Rprintf("No positive roots R2=%lf n=%d k=%d\n",R2,n,k);}
-	else {
-	  Rprintf("\n More than one positive root  R2=%lf n=%d k=%d\n",R2,n,k);}
-      }
-      //    else{return(lik_null(root,R2,n,k)+(log(4.*asin(1.)) - log(info_null(root,R2,n,k)))/2.);}
-      else{return(lik_null(root,R2,n,k)+ log(sqrt(2.*PI)) - .5*log(info_null(root,R2,n,k)));}
+    else {// start no cov
+      if(status!=1.){ 
+	      if(status==0.) {
+	        Rprintf("No positive roots R2=%lf n=%d k=%d\n",R2,n,k);}
+	      else {
+	        Rprintf("\n More than one positive root  R2=%lf n=%d k=%d\n",R2,n,k);}
+        }
+          //    else{return(lik_null(root,R2,n,k)+(log(4.*asin(1.)) - log(info_null(root,R2,n,k)))/2.);}
+        else{return(lik_null(root,R2,n,k)+ log(sqrt(2.*PI)) - .5*log(info_null(root,R2,n,k)));}
+    // end no cov
+    // theorertically should not occur 
     }
   return(NA_REAL);
 }
