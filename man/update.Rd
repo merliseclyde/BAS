@@ -30,11 +30,11 @@ sampled in current object.
 }
 \examples{
 
-\dontrun{
+\donttest{
 library(MASS)
 data(UScrime)
 UScrime[,-2] <- log(UScrime[,-2])
-crime.bic <-  bas.lm(y ~ ., data=UScrime, n.models=2^15, prior="BIC",initprobs= "eplogp")
+crime.bic <-  bas.lm(y ~ ., data=UScrime, n.models=2^10, prior="BIC",initprobs= "eplogp")
 crime.ebg <- update(crime.bic, newprior="EB-global")
 crime.zs <- update(crime.bic, newprior="ZS-null")
 }

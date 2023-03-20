@@ -138,6 +138,8 @@ void posroot_full(double a, double b, double c, double *root, double *status)
     *root=(A+B)-a/3.;
     if(*root>=0) *status=1.;
   }
+  // start no cov
+  // negative root should not occur
   else{
     A=acos(R/sqrt(Q3));
     aux= 2. * sqrt(Q);
@@ -148,10 +150,11 @@ void posroot_full(double a, double b, double c, double *root, double *status)
     for(i=0;i<3;i++) x[i]=x[i]-aux;
     for(i=0;i<3;i++){
       if (x[i]>=0.){
-	*status=*status+1.;
-	*root=x[i];
+      	*status=*status+1.;
+	      *root=x[i];
       }
     }
   }
+  // end no cov
 }
 
