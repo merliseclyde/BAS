@@ -23,12 +23,23 @@ expect_warning(hypergeometric2F1(1,0,-1, .5))
 expect_warning(hypergeometric2F1(1,1,.5, .5))
 expect_warning(hypergeometric2F1(1,1,1.5, 1.5))
 expect_warning(hypergeometric2F1(1,1,1.5, -1.5))
+expect_warning(hypergeometric1F1(-1, 2, 3, -.5))
+expect_warning(hypergeometric1F1(1, -2, 3, 0.5))
 expect_warning(hypergeometric2F1(10000,1,.5, .99995))
 expect_equal(Inf, hypergeometric2F1(1,1,2, 1.0))
 expect_equal(TRUE, hypergeometric2F1(1,1,5, 1.0,
                                     method="Laplace",
                                     log=FALSE)>0)
 expect_warning(hypergeometric2F1(3,1,1000, .999))
+eps = .Machine$double.eps
+c = 3
+expect_no_error(hypergeometric2F1(1, c - eps, c, .5))
+expect_no_error(hypergeometric2F1(c-eps, 2, c, .5))
+c = -3
+expect_warning(hypergeometric2F1(1, c - eps, c, .5))
+expect_warning(hypergeometric2F1(c-eps, 2, c, .5))
+expect_no_error(hypergeometric2F1(1, 2, 4, .75))
+
 })
 
 
