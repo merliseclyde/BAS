@@ -5,7 +5,7 @@
 #include "bas.h"
 
 // legacy code not in use currently
-// start no cov
+// nocov start
 void LogBF_ZS_null_vect(double *r2curr, int *n, int *dim, int *nmodels, double *logmarg) {
 
   double LogBF_ZS_null(double r2curr, int n, int d);
@@ -18,7 +18,7 @@ void LogBF_ZS_null_vect(double *r2curr, int *n, int *dim, int *nmodels, double *
      }
 }
 
-// end no cov
+// nocov  end
 
 typedef struct C_int_struct
 {
@@ -281,7 +281,7 @@ double LogBF_ZS_null(double R2, int n, int d) {
 
   posroot(a,b,c,&root,&status);
     if (k == 0 || n <= k+1 || R2 >= 1.0) { return(0.0); }
-    else {// start no cov
+    else {// nocov start
       if(status!=1.){ 
 	      if(status==0.) {
 	        Rprintf("No positive roots R2=%lf n=%d k=%d\n",R2,n,k);}
@@ -290,7 +290,7 @@ double LogBF_ZS_null(double R2, int n, int d) {
         }
           //    else{return(lik_null(root,R2,n,k)+(log(4.*asin(1.)) - log(info_null(root,R2,n,k)))/2.);}
         else{return(lik_null(root,R2,n,k)+ log(sqrt(2.*PI)) - .5*log(info_null(root,R2,n,k)));}
-    // end no cov
+    // nocov  end
     // theorertically should not occur 
     }
   return(NA_REAL);
@@ -377,7 +377,7 @@ void posroot(double a, double b, double c, double *root, double *status)
     *root=(A+B)-a/3.;
     if(*root>=0) *status=1.;
   }
-  // start no cov
+  // nocov start
   else{
     A=acos(R/sqrt(Q3));
     aux= 2. * sqrt(Q);
@@ -392,5 +392,5 @@ void posroot(double a, double b, double c, double *root, double *status)
     	*root=x[i];
       }
     }
-  } // end no cov
+  } // nocov  end
 }
