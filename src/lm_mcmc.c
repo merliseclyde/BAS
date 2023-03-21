@@ -316,8 +316,10 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	struct Var *vars = (struct Var *) R_alloc(p, sizeof(struct Var)); // Info about the model variables.
 	probs =  REAL(Rprobs);
 	n = sortvars(vars, probs, p);
+	
 	for (i =n; i <p; i++) REAL(MCMCprobs)[vars[i].index] = probs[vars[i].index];
 	for (i =0; i <n; i++) REAL(MCMCprobs)[vars[i].index] = 0.0;
+	
 	int noInclusionIs1 = no_prior_inclusion_is_1(p, probs);
 
 

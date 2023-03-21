@@ -126,7 +126,7 @@ double poisson_dispersion(double *resid,  double *weights, int n, int rank) {
 double gamma_loglik(double *Y, double*mu, double *wts, double devb, int n) {
   int i;
   double ll = 0.0;
-  double disp, ntemp;
+  double disp, ntemp = 0.0;
   
 
   for (i = 0; i < n; i++) {
