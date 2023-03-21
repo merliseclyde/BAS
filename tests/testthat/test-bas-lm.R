@@ -318,7 +318,8 @@ test_that("as.matrix tools", {
 })
 
 
-test_that("initialize with Full model  MCMC and MCMC+BAS", {
+
+test_that("initialize with Full model  MCMC and BAS", {
   data(Hald)
   best = rep(1, 5)
   expect_no_error(bas.lm(Y ~ .,
@@ -327,14 +328,7 @@ test_that("initialize with Full model  MCMC and MCMC+BAS", {
                      modelprior = uniform(), data = Hald
   ))
   
-  # issue with memory FIXME
- # expect_error( bas.lm(Y ~ .,
-#                         prior = "BIC", method = "MCMC+BAS", n.models=2^4,
-#                         MCMC.iterations = 1000,
-#                         bestmodel=best,
-#                         modelprior = uniform(), data = Hald))
   
-  #MCMC.iterations = 1000)
   expect_no_error(bas.lm(Y ~ .,
                                prior = "BIC",
                                method = "MCMC",
@@ -342,3 +336,79 @@ test_that("initialize with Full model  MCMC and MCMC+BAS", {
                                modelprior = uniform(), data = Hald))
 })
 
+
+test_that("initialize with null model MCMC+BAS", {
+  data(Hald)
+  best = as.integer(c(1, rep(0, 4)))
+  set.seed(42)
+  hald.mcmc = bas.lm(Y ~ .,
+                       prior = "BIC", method = "MCMC+BAS", 
+                       MCMC.iterations = 1000, n.models=2^4,
+  #                    bestmodel=best,  # default is null
+                       modelprior = uniform(), data = Hald)
+  
+  best = as.integer(c(1, rep(0, 4)))
+  
+  
+  set.seed(42)
+  hald.mcmcbest    = bas.lm(Y ~ .,
+                     prior = "BIC", method = "MCMC+BAS", 
+                     MCMC.iterations = 1000, n.models=2^4,
+                     bestmodel=best,
+                     modelprior = uniform(), data = Hald)
+  
+ # should be equal and order  
+ expect_equal(hald.mcmcbest$postprob, hald.mcmc$postprob)
+ 
+ 
+})
+
+test_that("initialize with Full model MCMC+BAS", {
+  data(Hald)
+ # start with Full Model
+  best = as.integer(rep(1, 5))
+  
+  nm = 7
+  it.mcmc = 10000
+  
+  set.seed(42)
+  hald.mcmc    = bas.lm(Y ~ .,
+                        prior = "BIC", method = "MCMC", 
+                        MCMC.iterations = it.mcmc, n.models=nm,
+                        bestmodel=best,
+                        modelprior = uniform(), data = Hald)
+  
+  
+  set.seed(42)
+  hald.mcmcbas    = bas.lm(Y ~ .,
+                           prior = "BIC", method = "MCMC+BAS", 
+                           MCMC.iterations = it.mcmc, n.models=nm,
+                           bestmodel=best, 
+                           modelprior = uniform(), data = Hald)
+# FIXME  
+# expect_equal(hald.mcmcbas$freq, hald.mcmc$freq)
+  expect_equal(hald.mcmcbas$R2, hald.mcmc$R2)
+  expect_equal(hald.mcmcbas$logmarg, hald.mcmc$logmarg)
+  
+  set.seed(42)
+  expect_no_error(bas.lm(Y ~ .,
+                         prior = "BIC", method = "BAS", 
+                         n.models=2^4,
+                         bestmodel=best,
+                         modelprior = uniform(), data = Hald))
+  set.seed(42)
+  
+# FIXME
+# expect_no_error(bas.lm(Y ~ .,
+#                         prior = "BIC", method = "MCMC+BAS", 
+#                         MCMC.iterations = 0, n.models=2^4,
+#                         bestmodel=best,
+#                         modelprior = uniform(), data = Hald))
+  set.seed(42)
+# FIXME
+# expect_no_error(bas.lm(Y ~ .,
+#                           prior = "BIC", method = "MCMC+BAS", 
+#                           MCMC.iterations = it.mcmc, n.models=9,
+#                           bestmodel=best,
+#                           modelprior = uniform(), data = Hald))
+})

@@ -27,15 +27,19 @@ void  update_Cov(double *Cov, double *priorCov, double *SSgam, double *marg_prob
 void insert_model_tree(struct Node *tree, struct Var *vars,  int n, int *model, int num_models);
 
 // [[register]]
-SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP incint, SEXP Ralpha,SEXP method, SEXP modelprior, SEXP Rupdate, SEXP Rbestmodel,  SEXP plocal,
+SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, 
+             SEXP incint, SEXP Ralpha,SEXP method, SEXP modelprior, SEXP Rupdate, 
+             SEXP Rbestmodel,  SEXP plocal,
              SEXP BURNIN_Iterations, SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA,
              SEXP Rparents)
 {
 
-  SEXP   RXwork = PROTECT(duplicate(X)), RYwork = PROTECT(duplicate(Y));
-  int nProtected = 2, nUnique=0, newmodel=0;
+  int nProtected = 0;
+  SEXP RXwork = PROTECT(duplicate(X)); nProtected++; 
+  SEXP RYwork = PROTECT(duplicate(Y));  nProtected++; 
   int nModels=LENGTH(Rmodeldim);
-
+  int nUnique=0, newmodel=0;
+  
   //  Rprintf("Allocating Space for %d Models\n", nModels) ;
   SEXP ANS = PROTECT(allocVector(VECSXP, 15)); ++nProtected;
   SEXP ANS_names = PROTECT(allocVector(STRSXP, 15)); ++nProtected;
@@ -57,42 +61,37 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
   SEXP Rse_m = NULL, Rcoef_m = NULL, Rmodel_m;
 
   double *Xwork, *Ywork, *wts, *coefficients,*probs, shrinkage_m,
-    SSY, yty, mse_m, *se_m, MH=0.0, prior_m=1.0, *real_model,
-    R2_m, RSquareFull, alpha, prone, denom, logmargy, postold, postnew;
-  int nobs, p, k, i, j, m, n, l, pmodel, pmodel_old, *xdims, *model_m, *bestmodel, *varin, *varout;
+         mse_m, *se_m, MH=0.0, prior_m=1.0, *real_model,
+         R2_m, RSquareFull, prone, denom, logmargy, postold, postnew;
+  int  i, j, m, n, l, pmodel_old, *model_m, *bestmodel, *varin, *varout;
   int mcurrent,  update, n_sure;
-  double  mod, rem, problocal, *pigamma,  eps;
+  double  mod, rem, problocal,  eps;
 //  double *hyper_parameters, delta;  //For future use
-  double *XtX, *XtY, *XtXwork, *XtYwork;
- // double *marg_probs;
+  // double *marg_probs;
  // double *SSgam, *Cov, *priorCov;
-  double  lambda;
 
   
-  int *model, *modelold, bit, *modelwork, old_loc, new_loc;
+  int *modelold, bit, *modelwork, old_loc, new_loc;
   //  char uplo[] = "U", trans[]="T";
   struct Var *vars;	/* Info about the model variables. */
   NODEPTR tree, branch;
 
   /* get dimsensions of all variables */
-
-
-  nobs = LENGTH(Y);
-  xdims = INTEGER(getAttrib(X,R_DimSymbol));
-  p = xdims[1];
-  k = LENGTH(modelprobs);
+  int nobs = LENGTH(Y);
+  int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
+  int k = LENGTH(modelprobs);
+ 
+  // double lambda=REAL(LAMBDA)[0];
+  double alpha = REAL(Ralpha)[0];
+  SEXP Rbestmodel_new = PROTECT(duplicate(Rbestmodel)); nProtected++;
+  
+  
   update = INTEGER(Rupdate)[0];
-  lambda=REAL(LAMBDA)[0];
-  //  delta = REAL(DELTA)[0];
-  //  Rprintf("delta %f lambda %f", delta, lambda);
   eps = DBL_EPSILON;
   problocal = REAL(plocal)[0];
-  //  Rprintf("Update %i and prob.switch %f\n", update, problocal);
-  /* Extract prior on models  */
-
+  
  // hyper_parameters = REAL(getListElement(modelprior,"hyper.parameters"));
 
-  /*  Rprintf("n %d p %d \n", nobs, p);  */
 
   Ywork = REAL(RYwork);
   Xwork = REAL(RXwork);
@@ -100,10 +99,10 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
 
 
  /* Allocate other variables.  */
-
+  double *XtX, *XtY, *XtXwork, *XtYwork, yty, SSY;
   PrecomputeData(Xwork, Ywork, wts, &XtXwork, &XtYwork, &XtX, &XtY, &yty, &SSY, p, nobs);
 
-  alpha = REAL(Ralpha)[0];
+  
 
   vars = (struct Var *) R_alloc(p, sizeof(struct Var));
   probs =  REAL(Rprobs);
@@ -114,37 +113,22 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
 
   int noInclusionIs1 = no_prior_inclusion_is_1(p, probs);
 
+  
 
-  pigamma = vecalloc(p);
   real_model = vecalloc(n);
 //  marg_probs = vecalloc(n);
   modelold = ivecalloc(p);
-  model = ivecalloc(p);
   modelwork= ivecalloc(p);
   varin= ivecalloc(p);
   varout= ivecalloc(p);
 
 
-  /* create gamma gamma' matrix */
-/*  SSgam  = (double *) R_alloc(n * n, sizeof(double));
-  Cov  = (double *) R_alloc(n * n, sizeof(double));
-  priorCov  = (double *) R_alloc(n * n, sizeof(double));
-  for (j=0; j < n; j++) {
-    for (i = 0; i < n; i++) {
-      SSgam[j*n + i] = 0.0;
-      Cov[j*n + i] = 0.0;
-      priorCov[j*n + i] = 0.0;
-      if (j == i)  priorCov[j*n + i] = lambda;
-    }
-    marg_probs[i] = 0.0;
-  }
-
-*/
-
-
-
-  RSquareFull = CalculateRSquareFull(XtY, XtX, XtXwork, XtYwork, Rcoef_m, Rse_m, p, nobs, yty, SSY);
-
+  
+  //  allocate working model and fill in the sure things
+  int *model = ivecalloc(p);
+  memset(model, 0, p * sizeof(int));
+  
+  
 
   /* fill in the sure things */
   for (i = n, n_sure = 0; i < p; i++)  {
@@ -152,60 +136,39 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
       if (model[vars[i].index] == 1) ++n_sure;
   }
 
-
+  RSquareFull = CalculateRSquareFull(XtY, XtX, XtXwork, XtYwork, Rcoef_m, Rse_m, p, nobs, yty, SSY);
+   
   GetRNGstate();
   tree = make_node(-1.0);
 
   /*  Rprintf("For m=0, Initialize Tree with initial Model\n");  */
 
   m = 0;
-  bestmodel = INTEGER(Rbestmodel);
-
+  bestmodel = INTEGER(Rbestmodel_new);
   INTEGER(modeldim)[m] = n_sure;
 
   /* Rprintf("Create Tree\n"); */
+
+   double *pigamma = vecalloc(p);
    branch = tree;
+   CreateTree_with_pigamma(branch, vars, bestmodel, model, n, m,
+                           modeldim, pigamma, Rparents);
+   
+   branch=tree;
+   Substract_visited_probability_mass(branch, vars, model, n, m, pigamma,eps);
+   
 
-   for (i = 0; i< n; i++) {
-      bit =  bestmodel[vars[i].index];
-      if (bit == 1) {
-	if (i < n-1 && branch->one == NULL)
-	  branch->one = make_node(-1.0);
-	if (i == n-1 && branch->one == NULL)
-	  branch->one = make_node(0.0);
-	branch = branch->one;
-      }
-      else {
-	if (i < n-1 && branch->zero == NULL)
-	  branch->zero = make_node(-1.0);
-	if (i == n-1 && branch->zero == NULL)
-	  branch->zero = make_node(0.0);
-	branch = branch->zero;
-      }
+  //  Rprintf("Now get model specific calculations \n"); 
 
-      model[vars[i].index] = bit;
-      INTEGER(modeldim)[m]  += bit;
-      branch->where = 0;
-   }
-
-
-
-    /*    Rprintf("Now get model specific calculations \n"); */
-
-    pmodel = INTEGER(modeldim)[m];
+    int pmodel = INTEGER(modeldim)[m];
     PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
-    model_m = INTEGER(Rmodel_m);
-
-      for (j = 0, l=0; j < p; j++) {
-      	if (model[j] == 1) {
-            model_m[l] = j;
-           l +=1;}
-      }
+    PROTECT(Rcoef_m = NEW_NUMERIC(pmodel));
+    PROTECT(Rse_m = NEW_NUMERIC(pmodel));
+    
+    model_m = GetModel_m(Rmodel_m, model, p);
 
     SET_ELEMENT(modelspace, m, Rmodel_m);
 
-    Rcoef_m = NEW_NUMERIC(pmodel); PROTECT(Rcoef_m);
-    Rse_m = NEW_NUMERIC(pmodel);   PROTECT(Rse_m);
     coefficients = REAL(Rcoef_m);
     se_m = REAL(Rse_m);
 
@@ -222,7 +185,8 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
     cholreg(XtYwork, XtXwork, coefficients, se_m, &mse_m, pmodel, nobs);
 
     if (pmodel > 1)   R2_m = 1.0 - (mse_m * (double) ( nobs - pmodel))/SSY;
-
+    
+    
     SET_ELEMENT(beta, m, Rcoef_m);
     SET_ELEMENT(se, m, Rse_m);
 
@@ -239,38 +203,38 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
 
     UNPROTECT(3);
 
-
+    
     old_loc = 0;
     pmodel_old = pmodel;
     nUnique=1;
-    INTEGER(counts)[0] = 0;
+    INTEGER(counts)[0] = 1;
     postold =  REAL(logmarg)[m] + log(REAL(priorprobs)[m]);
     memcpy(modelold, model, sizeof(int)*p);
   /*   Rprintf("model %d max logmarg %lf\n", m, REAL(logmarg)[m]); */
 
-    /*  Rprintf("Now Sample the Rest of the Models \n");  */
+  Rprintf("Now Sample Models with MCMC  \n");  
 
 
   m = 0;
 
   while (nUnique < k && m < INTEGER(BURNIN_Iterations)[0]) {
-
+  // Rprintf("m = %d \n", m);
     memcpy(model, modelold, sizeof(int)*p);
     pmodel =  n_sure;
     MH = 1.0;
 
     if (pmodel_old == n_sure || pmodel_old == n_sure + n){
-	MH =  random_walk(model, vars,  n);
-	MH =  1.0 - problocal;
-    }
+    	MH =  random_walk(model, vars,  n);
+    	MH =  1.0 - problocal;
+      }
     else {
       if (unif_rand() < problocal) {
       // random
-	MH =  random_switch(model, vars, n, pmodel_old, varin, varout );
+      	MH =  random_switch(model, vars, n, pmodel_old, varin, varout );
       }
       else {
       // Randomw walk proposal flip bit//
-	MH =  random_walk(model, vars,  n);
+      	MH =  random_walk(model, vars,  n);
       }
     }
 
@@ -332,23 +296,23 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
     if (unif_rand() < MH) {
 
       if (newmodel == 1)  {
-	new_loc = nUnique;
-	insert_model_tree(tree, vars, n, model, nUnique);
+       	new_loc = nUnique;
+      	insert_model_tree(tree, vars, n, model, nUnique);
 
-	INTEGER(modeldim)[nUnique] = pmodel;
-	SET_ELEMENT(modelspace, nUnique, Rmodel_m);
+    	INTEGER(modeldim)[nUnique] = pmodel;
+    	SET_ELEMENT(modelspace, nUnique, Rmodel_m);
 
-	SET_ELEMENT(beta, nUnique, Rcoef_m);
-	SET_ELEMENT(se, nUnique, Rse_m);
+    	SET_ELEMENT(beta, nUnique, Rcoef_m);
+    	SET_ELEMENT(se, nUnique, Rse_m);
 
-	REAL(R2)[nUnique] = R2_m;
-	REAL(mse)[nUnique] = mse_m;
-	REAL(sampleprobs)[nUnique] = 1.0;
-	REAL(logmarg)[nUnique] = logmargy;
-	REAL(shrinkage)[nUnique] = shrinkage_m;
-	REAL(priorprobs)[nUnique] = prior_m;
-	UNPROTECT(3);
-	++nUnique;
+    	REAL(R2)[nUnique] = R2_m;
+	    REAL(mse)[nUnique] = mse_m;
+    	REAL(sampleprobs)[nUnique] = 1.0;
+	    REAL(logmarg)[nUnique] = logmargy;
+	    REAL(shrinkage)[nUnique] = shrinkage_m;
+	    REAL(priorprobs)[nUnique] = prior_m;
+	    UNPROTECT(3);
+    	++nUnique;
       }
 
       old_loc = new_loc;
@@ -368,15 +332,13 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
      REAL(MCMCprobs)[vars[i].index] += (double) modelold[vars[i].index];
    }
 
-   // Update SSgam = gamma gamma^T + SSgam
- //  F77_NAME(dsyr)("U", &n,  &one, &real_model[0], &inc,  &SSgam[0], &n);
    m++;
   }
 
  for (i = 0; i < n; i++) {
      REAL(MCMCprobs)[vars[i].index] /= (double) m;
  }
-  //  Rprintf("\n%d \n", nUnique);
+  Rprintf("\nNum Unique%d  in %d MCMC iterations \n", nUnique, m);
 
 
 // Compute marginal probabilities
@@ -387,13 +349,16 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
 
 
 //  Now sample W/O Replacement
-// Rprintf("NumUnique Models Accepted %d \n", nUnique);
+ Rprintf("Sample w/out Replacement Now \n", nUnique);
+ 
  INTEGER(NumUnique)[0] = nUnique;
 
 
  if (nUnique < k) {
    update_probs(probs, vars, mcurrent, k, p);
+   Rprintf("updating tree for SWOR\n");
    update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);
+   Rprintf("Done!\n");
   for (m = nUnique;  m < k; m++) {
     for (i = n; i < p; i++)  {
       INTEGER(modeldim)[m]  +=  model[vars[i].index];
@@ -463,45 +428,32 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
       branch->prob  = prone;
       if (bit == 1) branch = branch->one;
       else  branch = branch->zero;
-
-      /*      Rprintf("%d %d \n",  branch->done, n - i); */
-      /*      if (log((double) branch->done) < (n - i)*log(2.0)) {
-	if (bit == 1) branch = branch->one;
-	else  branch = branch->zero;
-      }
-      else {
-	    branch->one = NULL;
-	    branch->zero = NULL;
-	    break; } */
     }
 
     /* Now get model specific calculations */
 
-      PROTECT(Rmodel_m = allocVector(INTSXP, pmodel));
-      model_m = INTEGER(Rmodel_m);
+    PROTECT(Rmodel_m = allocVector(INTSXP, pmodel));
+    PROTECT(Rcoef_m = allocVector(REALSXP,pmodel));
+    PROTECT(Rse_m = allocVector(REALSXP,pmodel));
+    coefficients = REAL(Rcoef_m);
+    se_m = REAL(Rse_m);
+    model_m = INTEGER(Rmodel_m);
 
-      for (j = 0, l=0; j < p; j++) {
-	if (model[j] == 1) {
-           model_m[l] = j;
-           l +=1;}
-      }
-
+  for (j = 0, l=0; j < p; j++) {
+	    if (model[j] == 1) {
+          model_m[l] = j;
+           l +=1;
+           }
+  }
 
      SET_ELEMENT(modelspace, m, Rmodel_m);
 
       for (j=0, l=0; j < pmodel; j++) {
          XtYwork[j] = XtY[model_m[j]];
         for  ( i = 0; i < pmodel; i++) {
-	 XtXwork[j*pmodel + i] = XtX[model_m[j]*p + model_m[i]];
-	}
-
+        	 XtXwork[j*pmodel + i] = XtX[model_m[j]*p + model_m[i]];
+	      }
       }
-
-
-      PROTECT(Rcoef_m = allocVector(REALSXP,pmodel));
-      PROTECT(Rse_m = allocVector(REALSXP,pmodel));
-      coefficients = REAL(Rcoef_m);
-      se_m = REAL(Rse_m);
 
     mse_m = yty;
     memcpy(coefficients, XtYwork, sizeof(double)*pmodel);
@@ -526,16 +478,15 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim, SEXP
     if (m > 1) {
       rem = modf((double) m/(double) update, &mod);
       if (rem  == 0.0) {
-	mcurrent = m;
-	compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
-	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
-	if (update_probs(probs, vars, mcurrent, k, p) == 1) {
-//	  Rprintf("Updating Model Tree %d \n", m);
-	  update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);
-	}
-
+      	mcurrent = m;
+	      compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
+	      compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
+	      if (update_probs(probs, vars, mcurrent, k, p) == 1) {
+        	  Rprintf("Updating Model Tree %d \n", m);
+	           update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);
+	      }
       }}
-    UNPROTECT(3);
+  UNPROTECT(3);
   }
  }
 
