@@ -348,6 +348,7 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 
 	int pmodel = INTEGER(modeldim)[m];
 	PROTECT(Rmodel_m = allocVector(INTSXP,pmodel));
+	memset(INTEGER(Rmodel_m), 0, pmodel * sizeof(int));
 	PROTECT(Rcoef_m = NEW_NUMERIC(pmodel));
 	PROTECT(Rse_m = NEW_NUMERIC(pmodel));
 

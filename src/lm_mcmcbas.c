@@ -1,4 +1,4 @@
-/* version  5/20/2005 */
+
 /* Rsample.c progrma for sampling without replacement in R  MC 11/2002 */
 /* based on sim.c: program for running simulations with random and
    deterministic sampling. ML 6/97. */
@@ -62,14 +62,13 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
   SEXP sampleprobs = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
   SEXP NumUnique = PROTECT(allocVector(INTSXP, 1)); ++nProtected;
 
-  double *Xwork, *Ywork, *wts, *coefficients,*probs, shrinkage_m,
-         mse_m, *se_m, MH=0.0, 
-         R2_m, RSquareFull, prone, denom, logmargy, postold, postnew;
-  int  i, j, m, n, l, pmodel_old, *model_m, *bestmodel, rank_m;
+  double *Xwork, *Ywork, *wts, *probs, shrinkage_m,
+         mse_m,  MH=0.0, 
+         R2_m, RSquareFull, logmargy, postold, postnew;
+  int  i, m, n, pmodel_old, *model_m, *bestmodel, rank_m;
   int mcurrent, n_sure;
   double  mod, rem;
-  int  bit, *modelwork;
-  //  char uplo[] = "U", trans[]="T";
+    //  char uplo[] = "U", trans[]="T";
  
 
   /* get dimsensions of all variables */
@@ -83,6 +82,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
   
   int update = INTEGER(Rupdate)[0];
   double eps = DBL_EPSILON;
+  
   
  // hyper_parameters = REAL(getListElement(modelprior,"hyper.parameters"));
 
@@ -111,6 +111,9 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
    //  allocate working model and fill in the sure things
    int *model = ivecalloc(p);
    memset(model, 0, p * sizeof(int));
+   
+   int   *modelwork = ivecalloc(p);
+   memset(modelwork, 0, p * sizeof(int));
    
    
    /* fill in the sure things */
@@ -175,7 +178,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
   
     SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
     SetModel(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2, m);
-    UNPROTECT(3);
+    
     
     int newmodel=0, nsamples=0;
     double *real_model = vecalloc(n);
@@ -266,9 +269,9 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
           SetModel(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2,nUnique);
           
           ++nUnique;
-        }
+         }
         else UNPROTECT(3);
-      }
+       }
       
       old_loc = new_loc;
       postold = postnew;
