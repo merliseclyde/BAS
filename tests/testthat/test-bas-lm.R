@@ -11,7 +11,7 @@ test_that("initprobs out of range", {
                       include.always=~1 + X3,
                       initprobs =  c(1, -.4, .3, 1.0, .8),
                       data=Hald, prior="BIC")
-  expect_equal(bas_hald2$probne0, bas_hald2$probne0)
+  expect_equal(bas_hald1$probne0, bas_hald2$probne0)
   expect_equal(bas_hald2$probne0, bas_hald3$probne0)
   bas_hald1 <- bas.lm(Y ~ ., data=Hald, prior="BIC",
                       method="MCMC+BAS",
@@ -21,7 +21,7 @@ test_that("initprobs out of range", {
                       include.always=~1 + X3,
                       initprobs =  c(1, -.4, .3, 1.0, .8),
                       data=Hald, prior="BIC")
-  expect_equal(bas_hald2$probne0, bas_hald2$probne0)
+  expect_equal(bas_hald1$probne0, bas_hald2$probne0)
   expect_equal(bas_hald2$probne0, bas_hald3$probne0)
   bas_hald1 <- bas.lm(Y ~ ., data=Hald, prior="BIC",
                       method="deterministic",
@@ -31,7 +31,7 @@ test_that("initprobs out of range", {
                       include.always=~1 + X3,
                       initprobs =  c(1, -.4, .3, 1.0, .8),
                       data=Hald, prior="BIC")
-  expect_equal(bas_hald2$probne0, bas_hald2$probne0)
+  expect_equal(bas_hald1$probne0, bas_hald2$probne0)
   expect_equal(bas_hald2$probne0, bas_hald3$probne0)
 })
 
@@ -318,7 +318,7 @@ test_that("as.matrix tools", {
 })
 
 
-
+#FIXME. 
 test_that("initialize with Full model  MCMC and BAS", {
   data(Hald)
   best = rep(1, 5)
@@ -334,9 +334,15 @@ test_that("initialize with Full model  MCMC and BAS", {
                                method = "MCMC",
                                bestmodel=best,
                                modelprior = uniform(), data = Hald))
+  
+ # expect_no_error(bas.lm(Y ~ .,
+  #                       prior = "BIC",
+  #                       method = "MCMC+BAS",
+  #                       bestmodel=best,
+  #                       modelprior = uniform(), data = Hald))
 })
 
-
+# works now
 test_that("initialize with null model MCMC+BAS", {
   data(Hald)
   best = as.integer(c(1, rep(0, 4)))
@@ -385,8 +391,8 @@ test_that("initialize with Full model MCMC+BAS", {
                            MCMC.iterations = it.mcmc, n.models=nm,
                            bestmodel=best, 
                            modelprior = uniform(), data = Hald)
-# FIXME  
-# expect_equal(hald.mcmcbas$freq, hald.mcmc$freq)
+
+  expect_equal(hald.mcmcbas$freq, hald.mcmc$freq)
   expect_equal(hald.mcmcbas$R2, hald.mcmc$R2)
   expect_equal(hald.mcmcbas$logmarg, hald.mcmc$logmarg)
   
@@ -396,19 +402,21 @@ test_that("initialize with Full model MCMC+BAS", {
                          n.models=2^4,
                          bestmodel=best,
                          modelprior = uniform(), data = Hald))
+  
+  set.seed(42)
+  # FIXME
+  #expect_no_error(bas.lm(Y ~ .,
+  #                       prior = "BIC", method = "MCMC+BAS", 
+  #                       MCMC.iterations = it.mcmc, n.models=9,
+  #                       bestmodel=best,
+  #                       modelprior = uniform(), data = Hald))
   set.seed(42)
   
 # FIXME
-# expect_no_error(bas.lm(Y ~ .,
+#expect_no_error(bas.lm(Y ~ .,
 #                         prior = "BIC", method = "MCMC+BAS", 
 #                         MCMC.iterations = 0, n.models=2^4,
 #                         bestmodel=best,
 #                         modelprior = uniform(), data = Hald))
-  set.seed(42)
-# FIXME
-# expect_no_error(bas.lm(Y ~ .,
-#                           prior = "BIC", method = "MCMC+BAS", 
-#                           MCMC.iterations = it.mcmc, n.models=9,
-#                           bestmodel=best,
-#                           modelprior = uniform(), data = Hald))
+
 })

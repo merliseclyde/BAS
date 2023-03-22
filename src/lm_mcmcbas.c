@@ -324,7 +324,9 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
    Rprintf("updating tree for SWOR\n");
    update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);
    Rprintf("Done!\n");
-  for (m = nUnique;  m < k; m++) {
+   
+  for (m = nUnique;  m < k && lessThanOne(pigamma[0]); m++) {
+    INTEGER(modeldim)[m] = 0;
     for (i = n; i < p; i++)  {
       INTEGER(modeldim)[m]  +=  model[vars[i].index];
     }
