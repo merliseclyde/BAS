@@ -229,7 +229,7 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' @param lambda Parameter in the AMCMC algorithm (deprecated).
 #' @param delta truncation parameter to prevent sampling probabilities to
 #' degenerate to 0 or 1 prior to enumeration for sampling without replacement.
-#' @param thin For "MCMC", thin the MCMC chain every "thin" iterations; default is no
+#' @param thin For "MCMC" or "MCMC+BAS", thin the MCMC chain every "thin" iterations; default is no
 #' thinning.  For large p, thinning can be used to significantly reduce memory
 #' requirements as models and associated summaries are saved only every thin iterations.  For thin = p, the  model and associated output are recorded every p iterations,
 #' similar to the Gibbs sampler in SSVS.
@@ -769,7 +769,10 @@ bas.lm <- function(formula,
       as.integer(MCMC.iterations),
       as.numeric(lambda),
       as.numeric(delta),
-      Rparents = parents
+      Rthin = as.integer(thin),
+      Rparents = parents,
+      Rpivot = pivot,
+      Rtol = tol
     ),
     "MCMC" = .Call(
       C_mcmc_new,
@@ -789,7 +792,7 @@ bas.lm <- function(formula,
       as.integer(MCMC.iterations),
       as.numeric(lambda),
       as.numeric(delta),
-      as.integer(thin),
+      Rthin = as.integer(thin),
       Rparents = parents,
       Rpivot = pivot,
       Rtol = tol

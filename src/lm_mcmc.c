@@ -301,9 +301,6 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	int thin = INTEGER(Rthin)[0];
 
 
-
-	//	Rprintf("delta %f lambda %f", delta, lambda);
-
 	Ywork = REAL(RYwork);
 	Xwork = REAL(RXwork);
 	wts = REAL(Rweights);
@@ -384,6 +381,8 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	int *varin= ivecalloc(p);
 	int *varout= ivecalloc(p);
 	double problocal = REAL(plocal)[0];
+	
+	
 	while (nUnique < k && m < INTEGER(BURNIN_Iterations)[0]) {
 
 	  memcpy(model, modelold, sizeof(int)*p);

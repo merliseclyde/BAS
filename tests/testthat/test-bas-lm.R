@@ -368,7 +368,7 @@ test_that("initialize with Full model MCMC+BAS", {
  # start with Full Model
   best = as.integer(rep(1, 5))
   
-  nm = 7
+  nm = 6
   it.mcmc = 10000
   
   set.seed(42)
