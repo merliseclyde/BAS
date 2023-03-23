@@ -453,4 +453,73 @@ expect_no_error(bas.lm(Y ~ .,
 })
 
 
+test_that("MCMC with initial prior probabilities returning 0", {
+  data(Hald)
+  # start with Full Model
+  best = as.integer(rep(1, 5))
+  
+ 
+  it.mcmc = 100000
+  
+ set.seed(42)
+ expect_error(
+                bas.lm(Y ~ .,
+                        prior = "BIC", method = "MCMC", 
+                        MCMC.iterations = it.mcmc, n.models=2^4,
+                        bestmodel = best,
+                        modelprior = tr.poisson(lambda=4, tr=2), data = Hald)
+      )
+ expect_error(
+              bas.lm(Y ~ .,
+                     prior = "BIC", method = "MCMC+BAS", 
+                     MCMC.iterations = it.mcmc, n.models=2^4,
+                     bestmodel = best,
+                     modelprior = tr.poisson(lambda=4, tr=2), data = Hald)
+ )
+ 
+ 
+ expect_no_error(
+                 bas.lm(Y ~ .,
+                        prior = "BIC", method = "BAS", 
+                        n.models=2^4,
+                        bestmodel = best,
+                        modelprior = tr.poisson(lambda=4, tr=2), data = Hald)
+ )
+ 
+})
+  
+test_that("MCMC with prior probabilities returning 0", {
+  data(Hald)
+  # start with Full Model
+  best = c(1,1,0,0,0)
+  
+  
+  it.mcmc = 100000
+  
+  set.seed(42)
+  expect_no_error(
+    bas.lm(Y ~ .,
+           prior = "BIC", method = "MCMC", 
+           MCMC.iterations = it.mcmc, n.models=2^4,
+           bestmodel = best,
+           modelprior = tr.poisson(lambda=4, tr=2), data = Hald)
+  )
+  expect_no_error(
+    bas.lm(Y ~ .,
+           prior = "BIC", method = "MCMC+BAS", 
+           MCMC.iterations = it.mcmc, n.models=2^4,
+           bestmodel = best,
+           modelprior = tr.poisson(lambda=4, tr=2), data = Hald)
+  )
+  
+  
+  expect_no_error(
+    bas.lm(Y ~ .,
+           prior = "BIC", method = "BAS", 
+           n.models=2^4,
+           bestmodel = best,
+           modelprior = tr.poisson(lambda=4, tr=2), data = Hald)
+  )
+  
+}) 
   

@@ -4,11 +4,12 @@
 
 * Added support for `Gamma` regression for `bas.glm`, with unit tests and 
   example  (Code contributed by @betsyberrson)
+  
+* added error if initial model for the `bas.lm` sampling methods "MCMC" and "MCMC+BAS" had prior probability zero.   
 
 ## Bug Fixes
 
 * fixed indexing error for `bas.lm` and `method = "MCMC+BAS"` as `bas.lm` using `method = "MCMC+BAS"` crashed with a segmentation fault if `bestmodel` is not NULL or the null model.  GitHub issue #69 
-
 
 * fixed error in `predict.bas` with `se.fit=TRUE` if there is only one predictor. GitHub issue #68 reported by @AleCarminati
 added unit test to `test-predict.R`

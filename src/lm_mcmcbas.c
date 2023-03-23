@@ -158,7 +158,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
     
     
     double prior_m  = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
-    if (prior_m == 0.0)  warning("warning initial model has 0 prior probabilty\n");
+    if (prior_m == 0.0)  error("initial model has 0 prior probabilty\n");
   
     SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
     SetModel(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2, m);
