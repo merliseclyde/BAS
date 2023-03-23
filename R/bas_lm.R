@@ -685,12 +685,12 @@ bas.lm <- function(formula,
   prob <- normalize.initprobs.lm(initprobs, p)
 
   if (is.null(bestmodel)) {
-    #bestmodel = as.integer(initprobs)
     bestmodel = as.integer(prob)
-    #bestmodel <- c(1, rep(0, p - 1))
   }
 
   bestmodel[keep] <- 1
+  
+
 
   if (force.heredity) {
     update <- NULL # do not update tree  FIXME LATER
@@ -702,7 +702,7 @@ bas.lm <- function(formula,
   }
 
 
-
+  bestmodel = as.integer(bestmodel)
   n.models <- normalize.n.models(n.models, p, prob,
                                   method, bigmem)
   #  print(n.models)

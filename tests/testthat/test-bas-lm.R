@@ -318,6 +318,57 @@ test_that("as.matrix tools", {
 })
 
 
+test_that("initialize with null model MCMC+BAS", {
+  data(Hald)
+  best = as.integer(c(1, rep(0, 4)))
+  set.seed(42)
+  hald.mcmc = bas.lm(Y ~ .,
+                     prior = "BIC", method = "MCMC+BAS", 
+                     MCMC.iterations = 1000, n.models=2^4,
+                     #                    bestmodel=best,  # default is null
+                     modelprior = uniform(), data = Hald)
+  
+  best = as.integer(c(1, rep(0, 4)))
+  
+  
+  set.seed(42)
+  hald.mcmcbest    = bas.lm(Y ~ .,
+                            prior = "BIC", method = "MCMC+BAS", 
+                            MCMC.iterations = 1000, n.models=2^4,
+                            bestmodel=best,
+                            modelprior = uniform(), data = Hald)
+  
+  # should be equal and order  
+  expect_equal(hald.mcmcbest$postprob, hald.mcmc$postprob)
+  
+  
+})
+
+test_that("MCMC+BAS equiv to BAS w/ MCMC.it = 0", {
+  data(Hald)
+  # start with Full Model
+  
+  best = as.integer(rep(1, 5))
+  
+  set.seed(42)
+  hald.bas    = bas.lm(Y ~ .,
+                       prior = "BIC", method = "BAS", 
+                       MCMC.iterations = 0, n.models=2^4,
+                       bestmodel=best,  update=8,
+                       modelprior = uniform(), data = Hald)
+  
+  set.seed(42)
+  hald.mcmcbas    = bas.lm(Y ~ .,
+                           prior = "BIC", method = "MCMC+BAS", 
+                           MCMC.iterations = 0, n.models=2^4,
+                           bestmodel=best, update=8,
+                           modelprior = uniform(), data = Hald)
+  
+  expect_equal(hald.bas$postprobs, hald.mcmcbas$postprobs)
+  expect_equal(hald.bas$size, hald.mcmcbas$size)
+  
+})
+
 #FIXME. 
 test_that("initialize with Full model  MCMC and BAS", {
   data(Hald)
@@ -335,39 +386,14 @@ test_that("initialize with Full model  MCMC and BAS", {
                                bestmodel=best,
                                modelprior = uniform(), data = Hald))
   
- # expect_no_error(bas.lm(Y ~ .,
-  #                       prior = "BIC",
-  #                       method = "MCMC+BAS",
-  #                       bestmodel=best,
-  #                       modelprior = uniform(), data = Hald))
+ expect_no_error(bas.lm(Y ~ .,
+                         prior = "BIC",
+                         method = "MCMC+BAS",
+                         bestmodel=best,
+                         modelprior = uniform(), data = Hald))
 })
 
-# works now
-test_that("initialize with null model MCMC+BAS", {
-  data(Hald)
-  best = as.integer(c(1, rep(0, 4)))
-  set.seed(42)
-  hald.mcmc = bas.lm(Y ~ .,
-                       prior = "BIC", method = "MCMC+BAS", 
-                       MCMC.iterations = 1000, n.models=2^4,
-  #                    bestmodel=best,  # default is null
-                       modelprior = uniform(), data = Hald)
-  
-  best = as.integer(c(1, rep(0, 4)))
-  
-  
-  set.seed(42)
-  hald.mcmcbest    = bas.lm(Y ~ .,
-                     prior = "BIC", method = "MCMC+BAS", 
-                     MCMC.iterations = 1000, n.models=2^4,
-                     bestmodel=best,
-                     modelprior = uniform(), data = Hald)
-  
- # should be equal and order  
- expect_equal(hald.mcmcbest$postprob, hald.mcmc$postprob)
- 
- 
-})
+# FIXME
 
 test_that("initialize with Full model MCMC+BAS", {
   data(Hald)
@@ -386,6 +412,7 @@ test_that("initialize with Full model MCMC+BAS", {
   
   
   set.seed(42)
+  # OK as it skips SWOR step (by chance)
   hald.mcmcbas    = bas.lm(Y ~ .,
                            prior = "BIC", method = "MCMC+BAS", 
                            MCMC.iterations = it.mcmc, n.models=nm,
@@ -400,23 +427,29 @@ test_that("initialize with Full model MCMC+BAS", {
   expect_no_error(bas.lm(Y ~ .,
                          prior = "BIC", method = "BAS", 
                          n.models=2^4,
-                         bestmodel=best,
+                         bestmodel=best, update=8,
                          modelprior = uniform(), data = Hald))
   
   set.seed(42)
-  # FIXME
-  #expect_no_error(bas.lm(Y ~ .,
-  #                       prior = "BIC", method = "MCMC+BAS", 
-  #                       MCMC.iterations = it.mcmc, n.models=9,
-  #                       bestmodel=best,
-  #                       modelprior = uniform(), data = Hald))
+# FIXME
+# skip("FIXME")  
+expect_no_error(
+                 bas.lm(Y ~ .,
+                        prior = "BIC", method = "MCMC+BAS", 
+                         MCMC.iterations = it.mcmc, n.models=2^4,
+                         bestmodel=best, update=8,
+                       modelprior = uniform(), data = Hald)
+    )
   set.seed(42)
   
-# FIXME
-#expect_no_error(bas.lm(Y ~ .,
-#                         prior = "BIC", method = "MCMC+BAS", 
-#                         MCMC.iterations = 0, n.models=2^4,
-#                         bestmodel=best,
-#                         modelprior = uniform(), data = Hald))
+# OK  as it bypasses updating tree witn no MCMC same as BAS
+expect_no_error(bas.lm(Y ~ .,
+                         prior = "BIC", method = "MCMC+BAS", 
+                         MCMC.iterations = 0, n.models=2^4,
+                         bestmodel=best,
+                         modelprior = uniform(), data = Hald))
 
 })
+
+
+  
