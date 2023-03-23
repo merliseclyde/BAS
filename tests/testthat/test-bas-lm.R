@@ -344,6 +344,7 @@ test_that("initialize with null model MCMC+BAS", {
   
 })
 
+# issue 69
 test_that("MCMC+BAS equiv to BAS w/ MCMC.it = 0", {
   data(Hald)
   # start with Full Model
@@ -369,7 +370,7 @@ test_that("MCMC+BAS equiv to BAS w/ MCMC.it = 0", {
   
 })
 
-#FIXME. 
+# issue #69
 test_that("initialize with Full model  MCMC and BAS", {
   data(Hald)
   best = rep(1, 5)
@@ -393,7 +394,7 @@ test_that("initialize with Full model  MCMC and BAS", {
                          modelprior = uniform(), data = Hald))
 })
 
-# FIXME
+# issue #69
 
 test_that("initialize with Full model MCMC+BAS", {
   data(Hald)
@@ -431,12 +432,12 @@ test_that("initialize with Full model MCMC+BAS", {
                          modelprior = uniform(), data = Hald))
   
   set.seed(42)
-# FIXME
+#  issue #69
 # skip("FIXME")  
 expect_no_error(
                  bas.lm(Y ~ .,
                         prior = "BIC", method = "MCMC+BAS", 
-                         MCMC.iterations = it.mcmc, n.models=2^4,
+                         MCMC.iterations = 1000, n.models=2^4,
                          bestmodel=best, update=8,
                        modelprior = uniform(), data = Hald)
     )
