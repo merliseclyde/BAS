@@ -1,1 +1,3 @@
-mtherr.c
+src/mtherr.c
+src/hyp2f1.c
+src/hyp1F1.c
