@@ -501,14 +501,14 @@ test_that("MCMC with prior probabilities returning 0", {
     bas.lm(Y ~ .,
            prior = "BIC", method = "MCMC", 
            MCMC.iterations = it.mcmc, n.models=2^4,
-           bestmodel = best,
+           bestmodel = best, thin = 2,
            modelprior = tr.poisson(lambda=4, tr=2), data = Hald)
   )
   expect_no_error(
     bas.lm(Y ~ .,
            prior = "BIC", method = "MCMC+BAS", 
            MCMC.iterations = it.mcmc, n.models=2^4,
-           bestmodel = best,
+           bestmodel = best, thin=2,
            modelprior = tr.poisson(lambda=4, tr=2), data = Hald)
   )
   
