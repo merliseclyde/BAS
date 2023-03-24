@@ -384,7 +384,7 @@ test_that("initialize with Full model  MCMC and BAS", {
   expect_no_error(bas.lm(Y ~ .,
                                prior = "BIC",
                                method = "MCMC",
-                               bestmodel=best,
+                               bestmodel=best, thin = 2,
                                modelprior = uniform(), data = Hald))
   
  expect_no_error(bas.lm(Y ~ .,
@@ -408,7 +408,7 @@ test_that("initialize with Full model MCMC+BAS", {
   hald.mcmc    = bas.lm(Y ~ .,
                         prior = "BIC", method = "MCMC", 
                         MCMC.iterations = it.mcmc, n.models=nm,
-                        bestmodel=best,
+                        bestmodel=best, 
                         modelprior = uniform(), data = Hald)
   
   
