@@ -8,10 +8,10 @@ Status  on CRAN check page indicated 1 Note and up to 15 Warnings
 
 - fixed NOTE from checkRd `bas.lm.Rd:109`: Lost braces; missing escapes or markup?
 
-- fixed all WARNINGs related to error format mismatch of type
+- fixed all WARNINGs related to error format mismatch of type in C code
 
 
-Fixed issues #39, #56 and #61 reported on Github
+Fixed issues #39, #56, #61, #68, #69 reported on Github
 and unit tests added
 
 
