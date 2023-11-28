@@ -12,7 +12,7 @@ class inheriting from 'bas'."><!-- mathjax --><script src="https://cdnjs.cloudfl
     
     <a class="navbar-brand me-2" href="../index.html">BAS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -221,7 +221,7 @@ probability models.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"model")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0 1 2 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"best")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"estimator")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "BPM"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -305,7 +305,7 @@ probability models.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $best</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bestmodel</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0 1 2 4</span>
@@ -326,19 +326,19 @@ probability models.</p>
 <span class="r-in"><span><span class="va">hald.bma</span> <span class="op">=</span> <span class="fu">predict</span><span class="op">(</span><span class="va">hald.gprior</span>, top<span class="op">=</span><span class="fl">5</span>, se.fit<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="confint.coef.html">confint</a></span><span class="op">(</span><span class="va">hald.bma</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            2.5%     97.5%      pred</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]  68.13615  91.73475  79.74246</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]  63.73489  85.58516  74.50010</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,]  94.54573 115.93312 105.29268</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  78.92815 100.57213  89.88693</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,]  84.77522 107.25599  95.57177</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,]  93.88975 114.52813 104.56409</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  92.31617 115.15504 103.40145</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  66.05824  88.46812  77.13668</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  81.35131 102.67814  91.99731</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 101.48303 126.38518 114.21325</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11,]  71.37699  93.73436  82.78446</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 100.19762 121.77267 111.00723</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13,]  99.67680 121.52927 110.40160</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]  68.02756  91.47576  79.74246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]  63.27092  85.26188  74.50010</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,]  94.63217 116.12519 105.29268</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  78.35672 100.66365  89.88693</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,]  84.67673 106.77260  95.57177</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,]  93.99581 114.97289 104.56409</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  92.00700 115.03513 103.40145</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  66.38954  88.77590  77.13668</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  80.78905 102.15308  91.99731</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 101.54985 126.76922 114.21325</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,]  71.72912  94.24928  82.78446</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 100.46808 122.11865 111.00723</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,]  99.47066 121.43547 110.40160</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"Probability")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>

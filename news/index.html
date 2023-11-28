@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">BAS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,15 +54,15 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.6.5" id="bas-165">BAS 1.6.5<a class="anchor" aria-label="anchor" href="#bas-165"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.6.6" id="bas-166">BAS 1.6.6<a class="anchor" aria-label="anchor" href="#bas-166"></a></h2>
 <div class="section level3">
-<h3 id="changes-1-6-5">Changes<a class="anchor" aria-label="anchor" href="#changes-1-6-5"></a></h3>
-<ul><li><p>Added support for <code>Gamma</code> regression for <code>bas.glm</code>, with unit tests and example (Code contributed by <a href="https://github.com/betsyberrson" class="external-link">@betsyberrson</a>)</p></li>
-<li><p>added error if initial model for the <code>bas.lm</code> sampling methods “MCMC” and “MCMC+BAS” had prior probability zero.</p></li>
+<h3 id="new-features-1-6-6">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-6-6"></a></h3>
+<ul><li>Added support for <code>Gamma</code> regression for <code>bas.glm</code>, with unit tests and example (Code contributed by <a href="https://github.com/betsyberrson" class="external-link">@betsyberrson</a>)</li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-1-6-5">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-6-5"></a></h3>
-<ul><li><p>fixed printing problems as identified via <a href="https://cran.r-project.org/web/checks/check_results_BAS.html" class="external-link">checks</a></p></li>
+<h3 id="minor-improvements-and-fixes-1-6-6">Minor Improvements and Fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-1-6-6"></a></h3>
+<ul><li><p>added error if supplied initial model for the <code>bas.lm</code> sampling methods “MCMC” and “MCMC+BAS” had prior probability zero.</p></li>
+<li><p>fixed printing problems as identified via <a href="https://cran.r-project.org/web/checks/check_results_BAS.html" class="external-link">checks</a></p></li>
 <li><p>fixed indexing error for <code>bas.lm</code> and <code>method = "MCMC+BAS"</code> as <code>bas.lm</code> using <code>method = "MCMC+BAS"</code> crashed with a segmentation fault if <code>bestmodel</code> is not NULL or the null model. GitHub issue <a href="https://github.com/merliseclyde/BAS/issues/69" class="external-link">#69</a></p></li>
 <li><p>fixed error in <code>predict.bas</code> with <code>se.fit=TRUE</code> if there is only one predictor. GitHub issue <a href="https://github.com/merliseclyde/BAS/issues/68" class="external-link">#68</a> reported by <a href="https://github.com/AleCarminati" class="external-link">@AleCarminati</a> added unit test to <code>test-predict.R</code></p></li>
 <li><p>Fixed error in <code>coef</code> for <code>bas.glm</code> objects when using a <code>betaprior</code> of class IC, including AIC and BIC Github issue <a href="https://github.com/merliseclyde/BAS/issues/65" class="external-link">#65</a></p></li>
