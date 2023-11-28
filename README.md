@@ -51,9 +51,8 @@ from [CRAN](https://cran.r-project.org/package=devtools) and enter in
 devtools::install_github('merliseclyde/BAS')
 ```
 
-You can check out the current build and test coverage status courtesy
-Travis CI:
-[![](https://app.travis-ci.com/merliseclyde/BAS.svg?branch=master)](https://app.travis-ci.com/merliseclyde/BAS/)
+You can check out the current build status
+[![R-CMD-check](https://github.com/merliseclyde/BAS/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/merliseclyde/BAS/actions/workflows/check-standard.yaml)
 before installing.
 
 Installing the package from source does require compilation of C and
@@ -98,11 +97,11 @@ spaces that cannot be enumerated.
 
 ### Generalized Linear Models
 
-`BAS` now includes for support for binomial and binary regression and
-Poisson regression using Laplace approximations to obtain Bayes Factors
-used in calculating posterior probabilities of models or sampling of
-models. Here is an example using the Pima diabetes data set with the
-hyper-g/n prior:
+`BAS` now includes for support for binomial and binary regression,
+Poisson regression, and Gamma regression using Laplace approximations to
+obtain Bayes Factors used in calculating posterior probabilities of
+models or sampling of models. Here is an example using the Pima diabetes
+data set with the hyper-g/n prior:
 
 ``` r
 library(MASS)
