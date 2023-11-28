@@ -138,7 +138,7 @@
 <p>On the other hand, I welcome everyone to use the most recent version of the package with quick-fixes, new features and probably new bugs. It’s currently hosted on <a href="https://github.com/merliseclyde/BAS/" class="external-link">GitHub</a>. To get the latest development version from <a href="https://github.com/merliseclyde/" class="external-link">GitHub</a>, use the <code>devtools</code> package from <a href="https://cran.r-project.org/package=devtools" class="external-link">CRAN</a> and enter in <code>R</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'merliseclyde/BAS'</span><span class="op">)</span></span></code></pre></div>
-<p>You can check out the current build and test coverage status courtesy Travis CI: <a href="https://app.travis-ci.com/merliseclyde/BAS/" class="external-link"><img src="https://app.travis-ci.com/merliseclyde/BAS.svg?branch=master"></a> before installing.</p>
+<p>You can check out the current build status <a href="https://github.com/merliseclyde/BAS/actions/workflows/check-standard.yaml" class="external-link"><img src="https://github.com/merliseclyde/BAS/actions/workflows/check-standard.yaml/badge.svg" alt="R-CMD-check"></a> before installing.</p>
 <p>Installing the package from source does require compilation of C and FORTRAN code as the library makes use of BLAS and LAPACK for efficient model fitting. See <a href="https://cran.r-project.org/doc/manuals/r-devel/R-admin.html" class="external-link">CRAN manuals</a> for installing packages from source under different operating systems.</p>
 </div>
 <div class="section level2">
@@ -159,7 +159,7 @@
 <div class="section level3">
 <h3 id="generalized-linear-models">Generalized Linear Models<a class="anchor" aria-label="anchor" href="#generalized-linear-models"></a>
 </h3>
-<p><code>BAS</code> now includes for support for binomial and binary regression and Poisson regression using Laplace approximations to obtain Bayes Factors used in calculating posterior probabilities of models or sampling of models. Here is an example using the Pima diabetes data set with the hyper-g/n prior:</p>
+<p><code>BAS</code> now includes for support for binomial and binary regression, Poisson regression, and Gamma regression using Laplace approximations to obtain Bayes Factors used in calculating posterior probabilities of models or sampling of models. Here is an example using the Pima diabetes data set with the hyper-g/n prior:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/" class="external-link">MASS</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Pima.tr</span><span class="op">)</span></span>
