@@ -8,8 +8,8 @@
 <meta name="description" content="BAS">
 <title>Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging and Variable Selection • BAS</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model Averaging and Variable Selection">
 <meta property="og:description" content="BAS">
@@ -78,7 +78,7 @@
                         <h4 data-toc-skip class="author">Merlise A
 Clyde</h4>
             
-            <h4 data-toc-skip class="date">2023-03-24</h4>
+            <h4 data-toc-skip class="date">2023-11-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/merliseclyde/BAS/blob/HEAD/vignettes/BAS-vignette.Rmd" class="external-link"><code>vignettes/BAS-vignette.Rmd</code></a></small>
       <div class="d-none name"><code>BAS-vignette.Rmd</code></div>
@@ -332,22 +332,22 @@ Density intervals from the summaries from <code>coef</code>.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="va">coef.ZS</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                    2.5%       97.5%        beta</span></span>
-<span><span class="co">## Intercept  6.6660623141 6.779297336  6.72493620</span></span>
-<span><span class="co">## M          0.0000000000 2.178017409  1.14359433</span></span>
-<span><span class="co">## So        -0.0480206724 0.314947643  0.03547522</span></span>
-<span><span class="co">## Ed         0.5497053564 3.116992775  1.85848834</span></span>
-<span><span class="co">## Po1        0.0000000000 1.440661274  0.60067372</span></span>
-<span><span class="co">## Po2       -0.1957439891 1.430119732  0.31841766</span></span>
-<span><span class="co">## LF        -0.4769439233 1.048270673  0.05933737</span></span>
-<span><span class="co">## M.F       -2.2957500974 1.855831802 -0.02702786</span></span>
-<span><span class="co">## Pop       -0.1314518803 0.003262022 -0.02248283</span></span>
-<span><span class="co">## NW        -0.0009138681 0.167227283  0.06668437</span></span>
-<span><span class="co">## U1        -0.4962554898 0.392664623 -0.02456854</span></span>
-<span><span class="co">## U2        -0.0073579367 0.655435939  0.20702927</span></span>
-<span><span class="co">## GDP       -0.0309244632 1.213920424  0.20625063</span></span>
-<span><span class="co">## Ineq       0.6909269788 2.142266352  1.39012647</span></span>
-<span><span class="co">## Prob      -0.4116324314 0.000000000 -0.21536203</span></span>
-<span><span class="co">## Time      -0.5181414285 0.053262277 -0.08433479</span></span>
+<span><span class="co">## Intercept  6.6672967203 6.782121102  6.72493620</span></span>
+<span><span class="co">## M         -0.0006701095 2.200457667  1.14359433</span></span>
+<span><span class="co">## So        -0.0421963555 0.330146325  0.03547522</span></span>
+<span><span class="co">## Ed         0.6080339903 3.198632844  1.85848834</span></span>
+<span><span class="co">## Po1       -0.0043988957 1.440301848  0.60067372</span></span>
+<span><span class="co">## Po2       -0.2058010313 1.426510294  0.31841766</span></span>
+<span><span class="co">## LF        -0.4727247088 1.017120876  0.05933737</span></span>
+<span><span class="co">## M.F       -2.0898668785 1.903592759 -0.02702786</span></span>
+<span><span class="co">## Pop       -0.1302388046 0.003264123 -0.02248283</span></span>
+<span><span class="co">## NW         0.0000000000 0.166716987  0.06668437</span></span>
+<span><span class="co">## U1        -0.5263785560 0.386132239 -0.02456854</span></span>
+<span><span class="co">## U2        -0.0010779365 0.657207256  0.20702927</span></span>
+<span><span class="co">## GDP       -0.0433835383 1.206035930  0.20625063</span></span>
+<span><span class="co">## Ineq       0.6959965394 2.168196728  1.39012647</span></span>
+<span><span class="co">## Prob      -0.4116255031 0.000000000 -0.21536203</span></span>
+<span><span class="co">## Time      -0.5051828959 0.062669134 -0.08433479</span></span>
 <span><span class="co">## attr(,"Probability")</span></span>
 <span><span class="co">## [1] 0.95</span></span>
 <span><span class="co">## attr(,"class")</span></span>
@@ -454,28 +454,25 @@ closest to BMA predictions under squared error loss.</p>
 <span>  BPM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">BPM</span><span class="op">$</span><span class="va">fit</span><span class="op">)</span>, <span class="co"># this used fitted</span></span>
 <span>  BMA <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">BMA</span><span class="op">$</span><span class="va">fit</span><span class="op">)</span></span>
 <span><span class="op">)</span><span class="op">)</span> <span class="co"># this used predict</span></span></code></pre></div>
-<pre><code><span><span class="co">## Registered S3 method overwritten by 'GGally':</span></span>
-<span><span class="co">##   method from   </span></span>
-<span><span class="co">##   +.gg   ggplot2</span></span></code></pre>
 <p><img src="BAS-vignette_files/figure-html/unnamed-chunk-6-1.png" width="576"></p>
 <p>Using the <code>se.fit = TRUE</code> option with <code>predict</code>
 we can also calculate standard deviations for prediction or for the mean
 and use this as input for the <code>confint</code> function for the
 prediction object.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">BPM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict.bas.html">predict</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"BPM"</span>, se.fit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">crime.conf.fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="va">BPM</span>, parm <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span></span>
 <span><span class="va">crime.conf.pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="va">BPM</span>, parm <span class="op">=</span> <span class="st">"pred"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">crime.conf.fit</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/se-1.png" width="672"></p>
 <pre><code><span><span class="co">## NULL</span></span></code></pre>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">crime.conf.pred</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/se-2.png" width="672"></p>
 <pre><code><span><span class="co">## NULL</span></span></code></pre>
 <p>For prediction at new points, we can supply a new dataframe to the
 predict function as in <code>lm</code>.</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">new.pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict.bas.html">predict</a></span><span class="op">(</span><span class="va">crime.ZS</span>, newdata <span class="op">=</span> <span class="va">UScrime</span>, estimator <span class="op">=</span> <span class="st">"MPM"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
@@ -498,7 +495,7 @@ lead to biased estimates <a href="https://dx.doi.org/10.1093/biomet/ass040" clas
 <span class="math inline">\(p\)</span>.</p>
 <p>A deterministic sampling scheme is also available for
 enumeration;</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
 <span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="va">crime.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>,</span>
@@ -509,8 +506,8 @@ enumeration;</p>
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   2.644   0.012   2.656</span></span></code></pre>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<span><span class="co">##   1.361   0.001   1.363</span></span></code></pre>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
 <span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="va">crime.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>,</span>
@@ -521,7 +518,7 @@ enumeration;</p>
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   2.163   0.000   2.163</span></span></code></pre>
+<span><span class="co">##   1.282   0.000   1.282</span></span></code></pre>
 <p>which is faster for enumeration than the default method=“BAS”.</p>
 </div>
 <div class="section level2">
@@ -535,7 +532,7 @@ posterior probabilities. For spaces where the number of models greatly
 exceeds the number of models to sample, the MCMC option is recommended
 as it provides estimates with low bias compared to the sampling without
 replacement of BAS (Clyde and Ghosh 2011).</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">crime.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">UScrime</span>,</span>
 <span>  prior <span class="op">=</span> <span class="st">"ZS-null"</span>,</span>
@@ -559,10 +556,10 @@ the MCMC sampler has run for enough iterations.</p>
 <p><code>BAS</code> includes a diagnostic function to compare the two
 sets of estimates of posterior inclusion probabilities and posterior
 model probabilities</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/diagnostics.html">diagnostics</a></span><span class="op">(</span><span class="va">crime.ZS</span>, type <span class="op">=</span> <span class="st">"pip"</span>, pch <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/diagnostics-1.png" width="700"></p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/diagnostics.html">diagnostics</a></span><span class="op">(</span><span class="va">crime.ZS</span>, type <span class="op">=</span> <span class="st">"model"</span>, pch <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/diagnostics-2.png" width="700"></p>
 <p>In the left hand plot of pips, each point represents one posterior
@@ -571,7 +568,7 @@ methods. The two estimators are in pretty close agreement. The plot of
 the model probabilities suggests that we should use more
 <code>MCMC.iterations</code> if we want more accurate estimates of the
 posterior model probabilities.</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">crime.ZS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">UScrime</span>,</span>
 <span>  prior <span class="op">=</span> <span class="st">"ZS-null"</span>,</span>
@@ -593,7 +590,7 @@ of g-priors for the coefficients for the outlier means.</p>
 <p>Using the Stackloss data, we can add an identify matrix to the
 original dataframe, where each column is an indicator that the ith
 variable is an outlier.</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"stackloss"</span><span class="op">)</span></span>
 <span><span class="va">stackloss</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">stackloss</span>, <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">stackloss</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">stack.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">stack.loss</span> <span class="op">~</span> <span class="va">.</span>,</span>
@@ -610,7 +607,7 @@ truncation), and the truncation point is at 10, so that all models with
 more than 10 (one half of cases rounded down) will have probability
 zero. This avoids exploration of models that are not full rank.</p>
 <p>Looking at the summaries</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="../reference/summary.html">summary</a></span><span class="op">(</span><span class="va">stack.bas</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
@@ -643,7 +640,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left">Air.Flow</td>
-<td align="right">0.999720</td>
+<td align="right">0.999455</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -652,16 +649,16 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left">Water.Temp</td>
-<td align="right">0.452005</td>
+<td align="right">0.473890</td>
 <td align="right">1.00000</td>
-<td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
+<td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
 <td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td align="left">Acid.Conc.</td>
-<td align="right">0.092995</td>
+<td align="right">0.086880</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -670,7 +667,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>1</code></td>
-<td align="right">0.594235</td>
+<td align="right">0.592970</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -679,7 +676,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>2</code></td>
-<td align="right">0.165265</td>
+<td align="right">0.160470</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -688,7 +685,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>3</code></td>
-<td align="right">0.617080</td>
+<td align="right">0.622910</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -697,7 +694,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>4</code></td>
-<td align="right">0.954780</td>
+<td align="right">0.949460</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -706,7 +703,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>5</code></td>
-<td align="right">0.068150</td>
+<td align="right">0.069865</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -715,7 +712,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>6</code></td>
-<td align="right">0.080285</td>
+<td align="right">0.077925</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -724,7 +721,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>7</code></td>
-<td align="right">0.061200</td>
+<td align="right">0.066045</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -733,7 +730,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>8</code></td>
-<td align="right">0.063640</td>
+<td align="right">0.067370</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -742,7 +739,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>9</code></td>
-<td align="right">0.064245</td>
+<td align="right">0.064240</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -751,7 +748,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>10</code></td>
-<td align="right">0.070535</td>
+<td align="right">0.065190</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -760,7 +757,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>11</code></td>
-<td align="right">0.066400</td>
+<td align="right">0.065060</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -769,7 +766,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>12</code></td>
-<td align="right">0.087625</td>
+<td align="right">0.085685</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -778,7 +775,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>13</code></td>
-<td align="right">0.355975</td>
+<td align="right">0.337190</td>
 <td align="right">0.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -787,7 +784,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>14</code></td>
-<td align="right">0.191215</td>
+<td align="right">0.191920</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -796,7 +793,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>15</code></td>
-<td align="right">0.073485</td>
+<td align="right">0.071005</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -805,7 +802,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>16</code></td>
-<td align="right">0.060320</td>
+<td align="right">0.059025</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -814,7 +811,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>17</code></td>
-<td align="right">0.067335</td>
+<td align="right">0.065390</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -823,7 +820,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>18</code></td>
-<td align="right">0.066060</td>
+<td align="right">0.069975</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -832,7 +829,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>19</code></td>
-<td align="right">0.097780</td>
+<td align="right">0.094370</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -841,7 +838,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>20</code></td>
-<td align="right">0.134195</td>
+<td align="right">0.130030</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -850,7 +847,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>21</code></td>
-<td align="right">0.987140</td>
+<td align="right">0.984255</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -861,26 +858,26 @@ zero. This avoids exploration of models that are not full rank.</p>
 <td align="left">BF</td>
 <td align="right">NA</td>
 <td align="right">1.00000</td>
-<td align="right">0.3397571</td>
 <td align="right">0.5779604</td>
+<td align="right">0.3397571</td>
 <td align="right">0.5555328</td>
 <td align="right">0.2016282</td>
 </tr>
 <tr class="odd">
 <td align="left">PostProbs</td>
 <td align="right">NA</td>
-<td align="right">0.05870</td>
-<td align="right">0.0247000</td>
-<td align="right">0.0225000</td>
-<td align="right">0.0224000</td>
-<td align="right">0.0180000</td>
+<td align="right">0.06640</td>
+<td align="right">0.0216000</td>
+<td align="right">0.0195000</td>
+<td align="right">0.0188000</td>
+<td align="right">0.0176000</td>
 </tr>
 <tr class="even">
 <td align="left">R2</td>
 <td align="right">NA</td>
 <td align="right">0.98920</td>
-<td align="right">0.9873000</td>
 <td align="right">0.9923000</td>
+<td align="right">0.9873000</td>
 <td align="right">0.9922000</td>
 <td align="right">0.9803000</td>
 </tr>
@@ -888,8 +885,8 @@ zero. This avoids exploration of models that are not full rank.</p>
 <td align="left">dim</td>
 <td align="right">NA</td>
 <td align="right">7.00000</td>
-<td align="right">7.0000000</td>
 <td align="right">8.0000000</td>
+<td align="right">7.0000000</td>
 <td align="right">8.0000000</td>
 <td align="right">6.0000000</td>
 </tr>
@@ -897,8 +894,8 @@ zero. This avoids exploration of models that are not full rank.</p>
 <td align="left">logmarg</td>
 <td align="right">NA</td>
 <td align="right">23.82319</td>
-<td align="right">22.7436630</td>
 <td align="right">23.2749373</td>
+<td align="right">22.7436630</td>
 <td align="right">23.2353597</td>
 <td align="right">22.2218573</td>
 </tr>
@@ -912,13 +909,13 @@ zero. This avoids exploration of models that are not full rank.</p>
 represent a factor are either included or excluded together. To
 illustrate, we will use the data set <code>ToothGrowth</code> and
 convert <code>dose</code> to a factor:</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ToothGrowth</span><span class="op">)</span></span>
 <span><span class="va">ToothGrowth</span><span class="op">$</span><span class="va">dose</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">ToothGrowth</span><span class="op">$</span><span class="va">dose</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="va">ToothGrowth</span><span class="op">$</span><span class="va">dose</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Low"</span>, <span class="st">"Medium"</span>, <span class="st">"High"</span><span class="op">)</span></span></code></pre></div>
 <p>and fit the model of main effects and two way interaction without any
 constraints:</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">TG.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">len</span> <span class="op">~</span> <span class="va">supp</span><span class="op">*</span><span class="va">dose</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">ToothGrowth</span>,</span>
 <span>  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"BAS"</span></span>
@@ -938,7 +935,7 @@ included only if the main effects are also included, or for models with
 several factors and higher order interactions, the heredity constraint
 implies that all lower order interactions must be included before adding
 higher order interactions.</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">TG.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">len</span> <span class="op">~</span> <span class="va">supp</span> <span class="op">*</span> <span class="va">dose</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">ToothGrowth</span>,</span>
 <span>  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"BAS"</span>, force.heredity <span class="op">=</span> <span class="cn">TRUE</span></span>
@@ -952,7 +949,7 @@ are more than 20 predictors and factors, then we recommend using
 <code>MCMC</code> to enforce the constraints. Alternatively, there is a
 function, <code>force.heredity.bas</code>, to post-process the output to
 drop models that violate the hierarchical heredity constraint:</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">TG.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">len</span> <span class="op">~</span> <span class="va">supp</span> <span class="op">*</span> <span class="va">dose</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">ToothGrowth</span>,</span>
 <span>  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"BAS"</span>, force.heredity <span class="op">=</span> <span class="cn">FALSE</span></span>
@@ -975,7 +972,7 @@ and <span class="math inline">\(W\)</span> is the <span class="math inline">\(n 
 weights on the diagonal.</p>
 <p>To illustrate, we will use the climate data, available at the url
 below</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">climate</span>, package<span class="op">=</span><span class="st">"BAS"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">climate</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 'data.frame':    63 obs. of  5 variables:</span></span>
@@ -984,7 +981,7 @@ below</p>
 <span><span class="co">##  $ proxy   : int  1 1 1 1 1 1 1 1 1 1 ...</span></span>
 <span><span class="co">##  $ T.M     : int  1 1 1 1 1 1 1 1 1 1 ...</span></span>
 <span><span class="co">##  $ latitude: num  2.5 2.2 0.5 0.3 0.2 -1.1 5.2 11.4 14.6 6.3 ...</span></span></code></pre>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/summary.html">summary</a></span><span class="op">(</span><span class="va">climate</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      deltaT            sdev            proxy            T.M        </span></span>
 <span><span class="co">##  Min.   :-7.000   Min.   :0.1500   Min.   :1.000   Min.   :0.0000  </span></span>
@@ -1009,13 +1006,13 @@ factors or from <code>poly</code>. For illustration purposes, we will
 eliminate <code>proxy == 6</code> which has only one level as the
 interactions are not estimable, and then convert <code>proxy</code> to a
 factor.</p>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="va">climate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">climate</span>, <span class="va">proxy</span> <span class="op">!=</span> <span class="fl">6</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>proxy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">proxy</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>We can fit a weighted regression with <code>weights = 1/sdev^2</code>
 with the following code</p>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">climate.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">deltaT</span> <span class="op">~</span> <span class="va">proxy</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html" class="external-link">poly</a></span><span class="op">(</span><span class="va">latitude</span>, <span class="fl">2</span><span class="op">)</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">climate</span>,</span>
 <span>  weights <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">sdev</span><span class="op">^</span><span class="fl">2</span>,</span>
@@ -1025,14 +1022,14 @@ with the following code</p>
 <span>  modelprior <span class="op">=</span> <span class="fu"><a href="../reference/uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Examining the image of the top models,</p>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">climate.bas</span>, rotate <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 <p><img src="BAS-vignette_files/figure-html/climate-image-1.png" width="672"></p>
 <p>we see that all levels of a factor enter or drop from the model
 together, as well as the vectors in the design matrix to represent the
 term <code>poly</code>.<br>
 Rerunning without the constraint,</p>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># May take a while to enumerate all 2^20 models</span></span>
 <span><span class="va">climate.bas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bas.lm.html">bas.lm</a></span><span class="op">(</span><span class="va">deltaT</span> <span class="op">~</span> <span class="va">proxy</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html" class="external-link">poly</a></span><span class="op">(</span><span class="va">latitude</span>, <span class="fl">2</span><span class="op">)</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">climate</span>,</span>
