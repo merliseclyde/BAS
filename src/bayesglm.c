@@ -169,7 +169,7 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
     //    Rprintf("rank %ld \n", rank);
 
     if (n < rank) {
-      warning("X has rank %d but there are only %d observations");
+      warning("X has rank %d but there are only %d observations", rank, n);
       conv = 1;
     }
 

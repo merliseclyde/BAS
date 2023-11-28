@@ -1,4 +1,4 @@
-# check email fro results
+# check email for results
 devtools::check_win_devel()
 devtools::check_win_release()
 

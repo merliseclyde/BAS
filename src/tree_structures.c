@@ -261,6 +261,7 @@ void Substract_visited_probability_mass(NODEPTR branch, struct Var *vars, int *m
     if (bit == 1) prone -= pigamma[i];
     double denom = 1.0 - pigamma[i];
     if (denom <= 0.0) {
+/*      
       // # nocov start
       // should not be feasible
       if (denom < 0.0) {
@@ -270,6 +271,7 @@ void Substract_visited_probability_mass(NODEPTR branch, struct Var *vars, int *m
         }
         // # nocov end
       }
+ */
       denom = 0.0;
     }
     else {
