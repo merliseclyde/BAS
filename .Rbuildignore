@@ -32,3 +32,4 @@ CONTRIBUTING.md
 ^pkgdown$
 ^CRAN-SUBMISSION$
 ^SECURITY\.md$
+^revdep$

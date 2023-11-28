@@ -1,13 +1,14 @@
-# BAS 1.6.5
+# BAS 1.6.6
 
-## Changes
+## New Features
 
 * Added support for `Gamma` regression for `bas.glm`, with unit tests and 
   example  (Code contributed by @betsyberrson)
   
-* added error if initial model for the `bas.lm` sampling methods "MCMC" and "MCMC+BAS" had prior probability zero.   
 
-## Bug Fixes
+## Minor Improvements and Fixes
+
+* added error if supplied initial model for the `bas.lm` sampling methods "MCMC" and "MCMC+BAS" had prior probability zero.  
 
 * fixed printing problems as identified via [checks](https://cran.r-project.org/web/checks/check_results_BAS.html)
 
