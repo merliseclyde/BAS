@@ -16,6 +16,7 @@ vignette: >
 # require(knitr)
 require(MASS)
 require(dplyr)
+require(GGally)
 ```
 
 The `BAS` package provides easy to use functions to implement Bayesian Model Averaging in linear models and  generalized linear models.

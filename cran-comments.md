@@ -1,6 +1,14 @@
 # BAS 1.6.5 Comments to CRAN
 
-# Submission to fix bugs 
+# Notes to CRAN
+
+## Submission reason 
+
+Status  on CRAN check page indicated 1 Note and up to 15 Warnings
+
+- fixed NOTE from checkRd `bas.lm.Rd:109`: Lost braces; missing escapes or markup?
+
+- fixed all WARNINGs related to error format mismatch of type
 
 
 Fixed issues #39, #56 and #61 reported on Github
@@ -9,8 +17,8 @@ and unit tests added
 
 ## Test environments
 
-- mac-builder r-release  macosx-arm64 
-- local OS X install, R 4.2.1 (x86)
+- mac-builder r-release  r-devel macosx-arm64 
+- local OS X install, R 4.3.2 (x86)
 - ubuntu  (github actions CI), R-release R-devel R-oldrelease
 - win-builder (r-release, r-devel)
 - R-hub ubuntu-gcc-release (r-release)
@@ -20,17 +28,10 @@ and unit tests added
 
 ## R CMD check results for this submission
 
-* Platform Mac OSX R-release, M1mac (arm64) clang, gfortran  0 error | 0 warnings | 0 notes
+* Mmac, Windows,   Ubunto, Debian
+ 0 error | 0 warnings | 0 notes
 
-* Platform Mac OSX R-release, (x86) clang, gfortan 0 error | 0 warnings | 0 notes 
-
-* Platform:   Windows via  winbuilder (r-release, r-devel)  0 errors | 0 warnings  | 0 notes   
-
-* Platform:   Ubuntu Linux, R-release, GCC  0 error | 0 warnings | 0 notes  
-
-* Platform:   Debian Linux, R-devel, GCC ASAN/UBSAN  0 error | 0 warnings | 0 notes  
-
-* Platform:   Fedora Linux, R-devel, clang, gfortran  0 error | 0 warnings | 1 notes  
+*  Platform:   Fedora Linux, R-devel, clang, gfortran  0 error | 0 warnings | 1 notes  
  
   On fedora-clang-devel (r-devel)
   checking HTML version of manual ... NOTE

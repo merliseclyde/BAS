@@ -163,12 +163,13 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
     }
 
     F77_NAME(dqrls)(&Xwork[0], &n, &p, &Ywork[0], &inc, &tol,  &coefwork[0],
-	 &residuals[0], &effects[0], &rank, &pivot[0], &qraux[0], &work[0]);
+	                  &residuals[0], &effects[0], &rank, &pivot[0], &qraux[0],
+                    &work[0]);
 
     //    Rprintf("rank %ld \n", rank);
 
     if (n < rank) {
-      warning("X has rank %ld but there are only %ld observations");
+      warning("X has rank %d but there are only %d observations");
       conv = 1;
     }
 

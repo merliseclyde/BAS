@@ -2,6 +2,9 @@
 devtools::check_win_devel()
 devtools::check_win_release()
 
+# mac_builder M1 mac 
+# https://mac.r-project.org/macbuilder/submit.html
+
 # checks for rhub
 
 ch <- rhub::check_for_cran(".", show_status = FALSE)

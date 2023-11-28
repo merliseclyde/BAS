@@ -47,8 +47,9 @@ double E_ZS_approx_null(double R2, int n, int k){
     posroot(a,b,c,&root1,&status);
   
    if(status!=1.){
-     if(status==0.) error("\n No positive roots for the numerator  R2=%lf n=%d k=%d\n\n");
-     else error("\n More than one positive root for the numerator\n");
+     if(status==0.) error("No positive roots for the numerator  R2=%lf n=%d k=%d\n",
+        R2, n, k);
+     else error("More than one positive root for the numerator\n");
    }
    else{
      numer=h1(root1,eps,n,k)-log(-infoh1(root1,eps,n,k))/2.;
@@ -67,7 +68,8 @@ double E_ZS_approx_null(double R2, int n, int k){
    posroot(a,b,c,&root2,&status);
 
    if(status!=1.){
-     if(status==0.) error("\n No positive roots for the denominator  R2=%lf n=%d k=%d\n\n");
+     if(status==0.) error("\n No positive roots for the denominator  R2=%lf n=%d k=%d\n\n",
+        R2, n, k);
      else error("\n More than one positive root for the denominator\n");
    }
    else{

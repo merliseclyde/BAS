@@ -9,6 +9,8 @@
 
 ## Bug Fixes
 
+* fixed printing problems as identified via [checks](https://cran.r-project.org/web/checks/check_results_BAS.html)
+
 * fixed indexing error for `bas.lm` and `method = "MCMC+BAS"` as `bas.lm` using `method = "MCMC+BAS"` crashed with a segmentation fault if `bestmodel` is not NULL or the null model.  GitHub issue #69 
 
 * fixed error in `predict.bas` with `se.fit=TRUE` if there is only one predictor. GitHub issue #68 reported by @AleCarminati
@@ -284,7 +286,7 @@ Chaloner & Brant for linear models.
 
 ## Updates
 
-* Added new method for `bas.lm` to obtain marginal likelihoods with the Zellner-Siow Priors for "prior= 'JZS' using QUADMATH routines for numerical integration.  The optional hyperparameter alpha may now be used to adjust the scaling of the ZS prior where g ~ G(1/2, alpha*n/2) as in the `BayesFactor` package of Morey, with a default of alpha=1 corresponding to the ZS prior used in Liang et al (2008).  This also uses more stable evaluations of log(1 + x) to prevent underflow/overflow.
+* Added new method for `bas.lm` to obtain marginal likelihoods with the Zellner-Siow Priors for "prior= 'JZS' using QUADPATH routines for numerical integration.  The optional hyperparameter alpha may now be used to adjust the scaling of the ZS prior where g ~ G(1/2, alpha*n/2) as in the `BayesFactor` package of Morey, with a default of alpha=1 corresponding to the ZS prior used in Liang et al (2008).  This also uses more stable evaluations of log(1 + x) to prevent underflow/overflow.
 
 * Priors `ZS-full` for bas.lm is planned to be deprecated.  
 

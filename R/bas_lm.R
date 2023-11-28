@@ -110,7 +110,7 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' used in the fitting process.
 #' @param weights an optional vector of weights to be used in the fitting
 #' process. Should be NULL or a numeric vector. If non-NULL, Bayes estimates
-#' are obtained assuming that Y ~ N(Xb, sigma^2 diag(1/weights)).
+#' are obtained assuming that \eqn{Y_i \sim N(x^T_i\beta, \sigma^2/w_i)}.
 #' @param contrasts an optional list. See the contrasts.arg of `model.matrix.default()`.
 #' @param na.action a function which indicates what should happen when the data
 #' contain NAs. The default is "na.omit".
@@ -162,8 +162,9 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' Zellner's g-prior, alpha = g, for the Liang et al hyper-g or hyper-g-n
 #' method, recommended choice is alpha are between (2 < alpha < 4), with alpha
 #' = 3 the default.  For the Zellner-Siow prior alpha = 1 by default, but can be used
-#' to modify the rate parameter in the gamma prior on g,  1/g ~ G(1/2, n*alpha/2) so that
-#' beta ~ C(0, sigma^2 alpha (X'X/n)^{-1}).
+#' to modify the rate parameter in the gamma prior on g,  
+#' \deqn{1/g \sim G(1/2, n*\alpha/2)} so that
+#' \deqn{\beta \sim C(0, \sigma^2 \alpha (X'X/n)^{-1})}.
 #' @param modelprior A function for a family of prior distribution on the models.  Choices
 #' include \code{\link{uniform}} \code{\link{Bernoulli}} or
 #' \code{\link{beta.binomial}}, \code{\link{tr.beta.binomial}},

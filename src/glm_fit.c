@@ -106,7 +106,7 @@ SEXP glm_bas(SEXP RX, SEXP RY, glmstptr *glmfamily, SEXP Roffset, SEXP Rweights,
 		//    Rprintf("rank %ld \n", rank);
     //    should no get here
 		if (n < rank) { // # nocov start
-			error("X has rank %ld but there are only %ld observations");
+			error("X has rank %d but there are only %d observations");
 			conv = 1;  // # nocov end
 		}
 
