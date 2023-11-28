@@ -17,7 +17,7 @@ and unit tests added
 
 ## Test environments
 
-- mac-builder r-release  r-devel macosx-arm64 
+- mac-builder r-release  macosx-arm64 
 - local OS X install, R 4.3.2 (x86)
 - ubuntu  (github actions CI), R-release R-devel R-oldrelease
 - win-builder (r-release, r-devel)
@@ -31,17 +31,9 @@ and unit tests added
 * Mmac, Windows,   Ubunto, Debian
  0 error | 0 warnings | 0 notes
 
-*  Platform:   Fedora Linux, R-devel, clang, gfortran  0 error | 0 warnings | 1 notes  
- 
-  On fedora-clang-devel (r-devel)
-  checking HTML version of manual ... NOTE
-  Skipping checking HTML validation: no command 'tidy' found
- 
-(spurious Note)
-
 
 ## Reverse Dependencies
 
- 
-None
+* ginormal
+
 
