@@ -288,7 +288,8 @@ void Substract_visited_probability_mass(NODEPTR branch, struct Var *vars, int *m
     if (prone > 1.0 || prone < 0.0) {
       error("line 289: in tree-strutures.c sampling probability greater than 1\n");
     //  Rprintf("%d %d Probability > 1!!! %le %le  %le %le \n",
-    //           m, i, prone, branch->prob, denom, pigamma);}
+    //           m, i, prone, branch->prob, denom, pigamma);
+    }
     // # nocov end
     branch->prob  = prone;
     if (bit == 1) branch = branch->one;
