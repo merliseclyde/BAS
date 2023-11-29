@@ -1,5 +1,9 @@
 # BAS (development version)
 
+## Minor Improvements and Fixes
+
+* fixed issue #67 in bayesglm.fit to coerce `y` and `x` to double
+
 # BAS 1.6.6
 
 ## New Features

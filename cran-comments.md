@@ -1,17 +1,11 @@
-# BAS 1.6.6 Comments to CRAN
+# BAS 1.6.7 Comments to CRAN
 
 # Notes to CRAN
 
 ## Submission reason 
 
-Status  on CRAN check page indicated 1 Note and up to 15 Warnings
 
-- fixed NOTE from checkRd `bas.lm.Rd:109`: Lost braces; missing escapes or markup?
-
-- fixed all WARNINGs related to error format mismatch of type in C code
-
-
-Fixed issues #39, #56, #61, #68, #69 reported on Github
+Fixed issues  #67 reported on Github
 and unit tests added
 
 
