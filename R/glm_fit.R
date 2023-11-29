@@ -59,16 +59,17 @@ bayesglm.fit <-
     
    
     
-    if (!is.double(y)) stop("y must be a numeric vector/matrix")
+#    if (!is.double(y)) stop("y must be a numeric vector/matrix")
     
-    if (!is.double(x)) stop("x must be a numeric vector/matrix")
+#  if (!is.double(x)) stop("x must be a numeric vector/matrix")
     
     x <- as.matrix(x)
+    storage.mode(x) <- "double"
     ynames <- if (is.matrix(y)){
                   rownames(y)}
               else { names(y)
               }
-    
+    if (is.matrix(y)) storage.mode(y) <- "double"
     conv <- FALSE
     nobs <- NROW(y)
     nvars <- ncol(x)
