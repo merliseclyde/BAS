@@ -124,11 +124,11 @@ double poisson_dispersion(double *resid,  double *weights, int n, int rank) {
 /* Gamma */
 
 double gamma_loglik(double *Y, double*mu, double *wts, double devb, int n) {
-  int i;
+  int i=0;
   double ll = 0.0;
-  double disp, ntemp = 0.0;
+  double disp= 0.0, ntemp = 0.0;
   
-
+  
   for (i = 0; i < n; i++) {
     ntemp += wts[i];
   }
@@ -144,7 +144,7 @@ double gamma_loglik(double *Y, double*mu, double *wts, double devb, int n) {
 
 void gamma_variance(double *mu, double *var, int n) {
   
-  int i;
+  int i=0;
   
   for (i = 0; i<n; i++) {
     var[i] = pow (mu[i],2.0);
@@ -154,8 +154,8 @@ void gamma_variance(double *mu, double *var, int n) {
 
 void gamma_dev_resids(double *ry, double *rmu, double *rwt, double *rans, int n)
 {
-  int i;
-  double mui, yi, wti;
+  int i=0;
+  double mui=1.0, yi=0.0, wti=0.0;
   
   for (i = 0; i < n; i++) {
     mui = rmu[i];
