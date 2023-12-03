@@ -57,18 +57,16 @@
 <h2 class="pkg-version" data-toc-text="development version" id="bas-development-version">BAS (development version)<a class="anchor" aria-label="anchor" href="#bas-development-version"></a></h2>
 <div class="section level3">
 <h3 id="minor-improvements-and-fixes-development-version">Minor Improvements and Fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-development-version"></a></h3>
-<ul><li>fixed issue <a href="https://github.com/merliseclyde/BAS/issues/67" class="external-link">#67</a> in bayesglm.fit to coerce <code>y</code> and <code>x</code> to double</li>
+<ul><li><p>addressed problem identified by <code>valgrind</code> with unitialized dispersion parameter in <code>glm_fit.c</code> and <code>se</code> in <code>glim_fit.c</code> introduced in version 1.6.6 with addition of Gamma regression (issue <a href="https://github.com/merliseclyde/BAS/issues/72" class="external-link">#72</a>)</p></li>
+<li><p>Fixed issue <a href="https://github.com/merliseclyde/BAS/issues/67" class="external-link">#67</a> <code>bayesglm.fit</code> does not check arguments <code>x</code> or <code>y</code> for correct type before calling <code>C</code> and unit tests added (issue <a href="https://github.com/merliseclyde/BAS/issues/67" class="external-link">#67</a>)</p></li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.6.6" id="bas-166">BAS 1.6.6<a class="anchor" aria-label="anchor" href="#bas-166"></a></h2><p class="text-muted">CRAN release: 2023-11-28</p>
 <div class="section level3">
 <h3 id="new-features-1-6-6">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-6-6"></a></h3>
-<ul><li>Added support for <code>Gamma</code> regression for <code>bas.glm</code>, with unit tests and example (Code contributed by <a href="https://github.com/betsyberrson" class="external-link">@betsyberrson</a>)</li>
-</ul></div>
-<div class="section level3">
-<h3 id="minor-improvements-and-fixes-1-6-6">Minor Improvements and Fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-1-6-6"></a></h3>
-<ul><li><p>added error if supplied initial model for the <code>bas.lm</code> sampling methods “MCMC” and “MCMC+BAS” had prior probability zero.</p></li>
+<ul><li><p>Added support for <code>Gamma</code> regression for <code>bas.glm</code>, with unit tests and example (Code contributed by <a href="https://github.com/betsyberrson" class="external-link">@betsyberrson</a>)</p></li>
+<li><p>added error if supplied initial model for the <code>bas.lm</code> sampling methods “MCMC” and “MCMC+BAS” had prior probability zero.</p></li>
 <li><p>fixed printing problems as identified via <a href="https://cran.r-project.org/web/checks/check_results_BAS.html" class="external-link">checks</a></p></li>
 <li><p>fixed indexing error for <code>bas.lm</code> and <code>method = "MCMC+BAS"</code> as <code>bas.lm</code> using <code>method = "MCMC+BAS"</code> crashed with a segmentation fault if <code>bestmodel</code> is not NULL or the null model. GitHub issue <a href="https://github.com/merliseclyde/BAS/issues/69" class="external-link">#69</a></p></li>
 <li><p>fixed error in <code>predict.bas</code> with <code>se.fit=TRUE</code> if there is only one predictor. GitHub issue <a href="https://github.com/merliseclyde/BAS/issues/68" class="external-link">#68</a> reported by <a href="https://github.com/AleCarminati" class="external-link">@AleCarminati</a> added unit test to <code>test-predict.R</code></p></li>
