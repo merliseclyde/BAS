@@ -133,7 +133,8 @@ SEXP glm_bas(SEXP RX, SEXP RY, glmstptr *glmfamily, SEXP Roffset, SEXP Rweights,
 		it += 1;
 
 		dev[0] = devnew;
-
+		memset(se, 0.0, p*sizeof(double));
+		
 		if (rank == p)   {
 			chol2se(&Xwork[0], &se[0], &R[0], &cov[0], p, n);
 		} else {
