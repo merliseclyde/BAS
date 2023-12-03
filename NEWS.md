@@ -1,5 +1,15 @@
 # BAS (development version)
 
+## Minor Improvements and Fixes
+
+* addressed problem identified by `valgrind` with unitialized dispersion parameter
+in `glm_fit.c`  and `se` in `glim_fit.c` introduced in version 1.6.6 with addition of Gamma regression (issue #72)
+
+- Fixed issue #67 `bayesglm.fit` does not check arguments `x` or `y` for correct type before calling `C` 
+and unit tests added (issue #67)
+
+
+
 # BAS 1.6.6
 
 ## New Features
@@ -8,7 +18,7 @@
   example  (Code contributed by @betsyberrson)
   
 
-## Minor Improvements and Fixes
+
 
 * added error if supplied initial model for the `bas.lm` sampling methods "MCMC" and "MCMC+BAS" had prior probability zero.  
 
