@@ -4,12 +4,12 @@
 
 ## Submission reason 
 
+
 Status  on CRAN check page indicated errors due to `valgrind` -  Conditional jump or move depends on uninitialised value(s)
 
 - Initialized `se`  via `memset` and `disp` in  `fit_glm.c` (issue #72)
 
 - Fixed issue #67 reported on Github
-and unit tests added
 
 
 ## Test environments
