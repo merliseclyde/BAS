@@ -1,8 +1,8 @@
-# BAS (development version)
+# BAS 1.7.0
 
 ## Minor Improvements and Fixes
 
-* addressed problem identified by `valgrind` with unitialized dispersion parameter
+* addressed problem identified by `valgrind` with uninitialized dispersion parameter
 in `glm_fit.c`  and `se` in `glim_fit.c` introduced in version 1.6.6 with addition of Gamma regression (issue #72)
 
 * Fixed issue #67 `bayesglm.fit` does not check arguments `x` or `y` for correct type before calling `C` 
@@ -70,11 +70,11 @@ produce a warning (such as M1mac).  Github issue #62
 
 * replaced deprecated `DOUBLE_EPS` with `DBL_EPSILON` for R 4.2.0 release
 
-* fixed warnings from CRAN checkcs for under R devel  (use of | and  `if` with `class`)
+* fixed warnings from CRAN checks for under R devel  (use of | and  `if` with `class`)
 
 
 * added a function `trCCH` that uses integration to compute the normalizing constant in the 
-  Truncated Compund Confluent Hypergeometric distribution that provides the
+  Truncated Compound Confluent Hypergeometric distribution that provides the
   correct normalizing constant for Gordy (1998) and is more stable for large values 
   compared to the current `phi1` function.  This is now used in the `TCCH` prior for `bas.glm`.
 
@@ -99,7 +99,7 @@ produce a warning (such as M1mac).  Github issue #62
 
 ## Changes
 
-* update Fortran code to be compliant with `USE_FC_LEN_T`  for character strings
+* update FORTRAN code to be compliant with `USE_FC_LEN_T`  for character strings
 
 ## Bug Fixes 
 
@@ -112,7 +112,7 @@ leading to NaN being returned from `R` function `hypergeometric2F1`
 
 * Fixed WARNING under fedora-clang-devel. Added climate.dat file to package for
 building vignette so that package does not violate CRAN's policy 
-for accessing internet resources and is more permament if file location/url 
+for accessing internet resources and is more permanent if file location/url 
 changes locally.
 
 * Fixed testthat errors under Solaris.  Default settings for `force.heredity` is
@@ -155,7 +155,7 @@ Fixed errors identified on cran checks https://cran.r-project.org/web/checks/che
 
 * switch to default of `pivot = TRUE` in `bas.lm`, adding `tol` as an argument to control tolerance in `cholregpovot` for improved stability across platforms with singular or nearly singular designs.
 
-* valgrind messages: Conditional jump or move depends on uninitialised value(s). Initialize vectors allocated via R_alloc in lm_deterministic.c and glm_deterministic.c.
+* valgrind messages: Conditional jump or move depends on uninitialized value(s). Initialize vectors allocated via R_alloc in lm_deterministic.c and glm_deterministic.c.
 
 # BAS 1.5.2  
 
@@ -191,9 +191,9 @@ and added unit test to "tests/testthat/test-special-functions.R"
 
 * fixed  [issue #31](https://github.com/merliseclyde/BAS/issues/30) to coerce `g` to be a REAL for `g.prior` prior and `IC.prior` in `bas.glm`; added unit-test "tests/testthat/test-bas-glm.R"
 
-* fixed  [issue #30](https://github.com/merliseclyde/BAS/issues/30) added n as hyperparameter if NULL and coerced to be a REAL for `intrinsic` prior in `bas.glm`; added unit-test
+* fixed  [issue #30](https://github.com/merliseclyde/BAS/issues/30) added n as hyper-parameter if NULL and coerced to be a REAL for `intrinsic` prior in `bas.glm`; added unit-test
 
-* fixed  [issue #29](https://github.com/merliseclyde/BAS/issues/29) added n as hyperparameter if NULL and coerced to be a REAL for `beta.prime` prior in `bas.glm`; added unit-test
+* fixed  [issue #29](https://github.com/merliseclyde/BAS/issues/29) added n as hyper-parameter if NULL and coerced to be a REAL for `beta.prime` prior in `bas.glm`; added unit-test
 
 * fixed  [issue #28](https://github.com/merliseclyde/BAS/issues/28)  fixed length of MCMC estimates of marginal inclusion probabilities; added unit-test
 
@@ -217,7 +217,7 @@ and added unit test to "tests/testthat/test-special-functions.R"
 *  suppress `warning` when sampling probabilities are 1 or 0 and the number of models is decremented  
 [Issue #25](https://github.com/merliseclyde/BAS/issues/25)
 
-* changed `force.heredity.bas` to  renormalize the prior probabilities  rather than to use a new prior probability based on heredity constraints.  For future,  add new priors for models based on heredity.  See comment on  [issue #26](https://github.com/merliseclyde/BAS/issues/26).
+* changed `force.heredity.bas` to  re-normalize the prior probabilities  rather than to use a new prior probability based on heredity constraints.  For future,  add new priors for models based on heredity.  See comment on  [issue #26](https://github.com/merliseclyde/BAS/issues/26).
 
 * Changed License to GPL 3.0
 
@@ -298,7 +298,7 @@ Chaloner & Brant for linear models.
 
 ## Updates
 
-* Added new method for `bas.lm` to obtain marginal likelihoods with the Zellner-Siow Priors for "prior= 'JZS' using QUADPATH routines for numerical integration.  The optional hyperparameter alpha may now be used to adjust the scaling of the ZS prior where g ~ G(1/2, alpha*n/2) as in the `BayesFactor` package of Morey, with a default of alpha=1 corresponding to the ZS prior used in Liang et al (2008).  This also uses more stable evaluations of log(1 + x) to prevent underflow/overflow.
+* Added new method for `bas.lm` to obtain marginal likelihoods with the Zellner-Siow Priors for "prior= 'JZS' using QUADPATH routines for numerical integration.  The optional hyper parameter alpha may now be used to adjust the scaling of the ZS prior where g ~ G(1/2, alpha*n/2) as in the `BayesFactor` package of Morey, with a default of alpha=1 corresponding to the ZS prior used in Liang et al (2008).  This also uses more stable evaluations of log(1 + x) to prevent underflow/overflow.
 
 * Priors `ZS-full` for bas.lm is planned to be deprecated.  
 
@@ -502,7 +502,7 @@ A vignette has been added at long last!  This illustrates several of the new fea
 
 # BAS 0.92
 
-	- fixed glm-fit.R  so that hyperparameter for BIC is numeric
+	- fixed glm-fit.R  so that hyper parameter for BIC is numeric
 
 # BAS 0.91
 

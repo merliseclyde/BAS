@@ -1,15 +1,15 @@
-# BAS 1.6.7 Comments to CRAN
+# BAS 1.7.0 Comments to CRAN
 
 # Notes to CRAN
 
 ## Submission reason 
 
+Submission prior to Dec 14 required to maintain package on CRAN.
+Status  on CRAN check page  under `Additional Issues` for `valgrind`  showed warnings  `Conditional jump or move depends on uninitialised value(s)`.  
 
-Status  on CRAN check page indicated errors due to `valgrind` -  Conditional jump or move depends on uninitialised value(s)
+- Initialized vector `se`  via `memset` and `disp = 1.0` in  `fit_glm.c` (issue #72)
 
-- Initialized `se`  via `memset` and `disp` in  `fit_glm.c` (issue #72)
-
-- Fixed issue #67 reported on Github
+- Fixed issue #67 reported on Github and added unit test
 
 
 ## Test environments
@@ -26,9 +26,12 @@ Status  on CRAN check page indicated errors due to `valgrind` -  Conditional jum
 
 ## R CMD check results for this submission
 
-* Mmac, Windows,   Ubunto, Debian
- 0 error | 0 warnings | 0 notes
+* Mmac, Windows, Ubunto, Debian
+ 0 error | 0 warnings | 1 notes
 
+Note: Days since last update: 5
+
+(resubmission requested by CRAN)
 
 ## Reverse Dependencies
 
