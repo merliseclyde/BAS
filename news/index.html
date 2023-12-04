@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">BAS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.6.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,10 +54,10 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="bas-development-version">BAS (development version)<a class="anchor" aria-label="anchor" href="#bas-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.7.0" id="bas-170">BAS 1.7.0<a class="anchor" aria-label="anchor" href="#bas-170"></a></h2>
 <div class="section level3">
-<h3 id="minor-improvements-and-fixes-development-version">Minor Improvements and Fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-development-version"></a></h3>
-<ul><li><p>addressed problem identified by <code>valgrind</code> with unitialized dispersion parameter in <code>glm_fit.c</code> and <code>se</code> in <code>glim_fit.c</code> introduced in version 1.6.6 with addition of Gamma regression (issue <a href="https://github.com/merliseclyde/BAS/issues/72" class="external-link">#72</a>)</p></li>
+<h3 id="minor-improvements-and-fixes-1-7-0">Minor Improvements and Fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-1-7-0"></a></h3>
+<ul><li><p>addressed problem identified by <code>valgrind</code> with uninitialized dispersion parameter in <code>glm_fit.c</code> and <code>se</code> in <code>glim_fit.c</code> introduced in version 1.6.6 with addition of Gamma regression (issue <a href="https://github.com/merliseclyde/BAS/issues/72" class="external-link">#72</a>)</p></li>
 <li><p>Fixed issue <a href="https://github.com/merliseclyde/BAS/issues/67" class="external-link">#67</a> <code>bayesglm.fit</code> does not check arguments <code>x</code> or <code>y</code> for correct type before calling <code>C</code> and unit tests added (issue <a href="https://github.com/merliseclyde/BAS/issues/67" class="external-link">#67</a>)</p></li>
 </ul></div>
 </div>
@@ -100,8 +100,8 @@ Github issue <a href="https://github.com/merliseclyde/BAS/issues/61" class="exte
 <div class="section level3">
 <h3 id="changes-1-6-1">Changes<a class="anchor" aria-label="anchor" href="#changes-1-6-1"></a></h3>
 <ul><li><p>replaced deprecated <code>DOUBLE_EPS</code> with <code>DBL_EPSILON</code> for R 4.2.0 release</p></li>
-<li><p>fixed warnings from CRAN checkcs for under R devel (use of | and <code>if</code> with <code>class</code>)</p></li>
-<li><p>added a function <code>trCCH</code> that uses integration to compute the normalizing constant in the Truncated Compund Confluent Hypergeometric distribution that provides the correct normalizing constant for Gordy (1998) and is more stable for large values compared to the current <code>phi1</code> function. This is now used in the <code>TCCH</code> prior for <code>bas.glm</code>.</p></li>
+<li><p>fixed warnings from CRAN checks for under R devel (use of | and <code>if</code> with <code>class</code>)</p></li>
+<li><p>added a function <code>trCCH</code> that uses integration to compute the normalizing constant in the Truncated Compound Confluent Hypergeometric distribution that provides the correct normalizing constant for Gordy (1998) and is more stable for large values compared to the current <code>phi1</code> function. This is now used in the <code>TCCH</code> prior for <code>bas.glm</code>.</p></li>
 <li><p>Rewrote <code>phi1</code> function to use direct numerical integration (<code>phi1_int</code>) when Wald statistic is large so that marginal likelihoods are not NA as suggested by Daniel Heeman and Alexander Ly (see below). This should improve stability of estimates of Bayes Factors and model probabilities from <code>bas.glm</code> that used the <code>HyperTwo</code> function, including coefficient priors for <code><a href="../reference/hyper.g.n.html">hyper.g.n()</a></code>, <code><a href="../reference/robust.html">robust()</a></code>, and <code><a href="../reference/intrinsic.html">intrinsic()</a></code>. Added additional unit tests.</p></li>
 <li><p>Added <code>thin</code> as an option for <code>bas.glm</code></p></li>
 <li><p>added unit tests and examples to show the connections between the special functions <code>trCCH</code>, <code>phi1</code>, <code>1F1</code> and <code>2F1</code></p></li>
@@ -116,7 +116,7 @@ Github issue <a href="https://github.com/merliseclyde/BAS/issues/61" class="exte
 <h2 class="pkg-version" data-toc-text="1.6.0" id="bas-160">BAS 1.6.0<a class="anchor" aria-label="anchor" href="#bas-160"></a></h2><p class="text-muted">CRAN release: 2021-11-12</p>
 <div class="section level3">
 <h3 id="changes-1-6-0">Changes<a class="anchor" aria-label="anchor" href="#changes-1-6-0"></a></h3>
-<ul><li>update Fortran code to be compliant with <code>USE_FC_LEN_T</code> for character strings</li>
+<ul><li>update FORTRAN code to be compliant with <code>USE_FC_LEN_T</code> for character strings</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-6-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-6-0"></a></h3>
@@ -128,7 +128,7 @@ Github issue <a href="https://github.com/merliseclyde/BAS/issues/61" class="exte
 <h2 class="pkg-version" data-toc-text="1.5.5" id="bas-155">BAS 1.5.5<a class="anchor" aria-label="anchor" href="#bas-155"></a></h2><p class="text-muted">CRAN release: 2020-01-24</p>
 <div class="section level3">
 <h3 id="changes-1-5-5">Changes<a class="anchor" aria-label="anchor" href="#changes-1-5-5"></a></h3>
-<ul><li><p>Fixed WARNING under fedora-clang-devel. Added climate.dat file to package for building vignette so that package does not violate CRAN’s policy for accessing internet resources and is more permament if file location/url changes locally.</p></li>
+<ul><li><p>Fixed WARNING under fedora-clang-devel. Added climate.dat file to package for building vignette so that package does not violate CRAN’s policy for accessing internet resources and is more permanent if file location/url changes locally.</p></li>
 <li><p>Fixed testthat errors under Solaris. Default settings for <code>force.heredity</code> is set back to FALSE in <code>bas.lm</code> and <code>bas.glm</code> so that methods work on all platforms. For Solaris, users who wish to impose the <code>force.heredity</code> constraint may use the post-processing function.</p></li>
 </ul></div>
 </div>
@@ -158,7 +158,7 @@ Github issue <a href="https://github.com/merliseclyde/BAS/issues/61" class="exte
 <p>Fixed errors identified on cran checks <a href="https://cran.r-project.org/web/checks/check_results_BAS.html" class="external-link uri">https://cran.r-project.org/web/checks/check_results_BAS.html</a></p>
 <ul><li><p>initialize R2_m = 0.0 in lm_mcmcbas.c (lead to NA’s with clang on debian and fedora )</p></li>
 <li><p>switch to default of <code>pivot = TRUE</code> in <code>bas.lm</code>, adding <code>tol</code> as an argument to control tolerance in <code>cholregpovot</code> for improved stability across platforms with singular or nearly singular designs.</p></li>
-<li><p>valgrind messages: Conditional jump or move depends on uninitialised value(s). Initialize vectors allocated via R_alloc in lm_deterministic.c and glm_deterministic.c.</p></li>
+<li><p>valgrind messages: Conditional jump or move depends on uninitialized value(s). Initialize vectors allocated via R_alloc in lm_deterministic.c and glm_deterministic.c.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -181,8 +181,8 @@ Github issue <a href="https://github.com/merliseclyde/BAS/issues/61" class="exte
 <li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/33" class="external-link">issue </a><a href="https://github.com/merliseclyde/BAS/issues/33" class="external-link">#33</a> for Jeffreys prior where marginal inclusion probabilities were not renormalized after dropping intercept model</p></li>
 <li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/32" class="external-link">issue </a><a href="https://github.com/merliseclyde/BAS/issues/32" class="external-link">#32</a> to allow vectorization for <code>phi1</code> function in R/cch.R and added unit test to “tests/testthat/test-special-functions.R”</p></li>
 <li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/30" class="external-link">issue </a><a href="https://github.com/merliseclyde/BAS/issues/31" class="external-link">#31</a> to coerce <code>g</code> to be a REAL for <code>g.prior</code> prior and <code>IC.prior</code> in <code>bas.glm</code>; added unit-test “tests/testthat/test-bas-glm.R”</p></li>
-<li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/30" class="external-link">issue </a><a href="https://github.com/merliseclyde/BAS/issues/30" class="external-link">#30</a> added n as hyperparameter if NULL and coerced to be a REAL for <code>intrinsic</code> prior in <code>bas.glm</code>; added unit-test</p></li>
-<li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/29" class="external-link">issue </a><a href="https://github.com/merliseclyde/BAS/issues/29" class="external-link">#29</a> added n as hyperparameter if NULL and coerced to be a REAL for <code>beta.prime</code> prior in <code>bas.glm</code>; added unit-test</p></li>
+<li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/30" class="external-link">issue </a><a href="https://github.com/merliseclyde/BAS/issues/30" class="external-link">#30</a> added n as hyper-parameter if NULL and coerced to be a REAL for <code>intrinsic</code> prior in <code>bas.glm</code>; added unit-test</p></li>
+<li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/29" class="external-link">issue </a><a href="https://github.com/merliseclyde/BAS/issues/29" class="external-link">#29</a> added n as hyper-parameter if NULL and coerced to be a REAL for <code>beta.prime</code> prior in <code>bas.glm</code>; added unit-test</p></li>
 <li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/28" class="external-link">issue </a><a href="https://github.com/merliseclyde/BAS/issues/28" class="external-link">#28</a> fixed length of MCMC estimates of marginal inclusion probabilities; added unit-test</p></li>
 <li><p>fixed <a href="https://github.com/merliseclyde/BAS/issues/27" class="external-link">issue </a><a href="https://github.com/merliseclyde/BAS/issues/27" class="external-link">#27</a> where expected shrinkage with the JZS prior was greater than 1. Added unit test.</p></li>
 <li><p>fixed output <code>include.always</code> to include the intercept <a href="https://github.com/merliseclyde/BAS/issues/26" class="external-link">issue </a><a href="https://github.com/merliseclyde/BAS/issues/26" class="external-link">#26</a> always so that <code>drop.always.included = TRUE</code> drops the intercept and any other variables that are forced in. <code>include.always</code> and <code>force.heredity=TRUE</code> can now be used together with <code>method="BAS"</code>.</p></li>
@@ -195,7 +195,7 @@ Github issue <a href="https://github.com/merliseclyde/BAS/issues/61" class="exte
 <div class="section level3">
 <h3 id="other-1-5-2">Other<a class="anchor" aria-label="anchor" href="#other-1-5-2"></a></h3>
 <ul><li><p>suppress <code>warning</code> when sampling probabilities are 1 or 0 and the number of models is decremented<br><a href="https://github.com/merliseclyde/BAS/issues/25" class="external-link">Issue </a><a href="https://github.com/merliseclyde/BAS/issues/25" class="external-link">#25</a></p></li>
-<li><p>changed <code>force.heredity.bas</code> to renormalize the prior probabilities rather than to use a new prior probability based on heredity constraints. For future, add new priors for models based on heredity. See comment on <a href="https://github.com/merliseclyde/BAS/issues/26" class="external-link">issue </a><a href="https://github.com/merliseclyde/BAS/issues/26" class="external-link">#26</a>.</p></li>
+<li><p>changed <code>force.heredity.bas</code> to re-normalize the prior probabilities rather than to use a new prior probability based on heredity constraints. For future, add new priors for models based on heredity. See comment on <a href="https://github.com/merliseclyde/BAS/issues/26" class="external-link">issue </a><a href="https://github.com/merliseclyde/BAS/issues/26" class="external-link">#26</a>.</p></li>
 <li><p>Changed License to GPL 3.0</p></li>
 </ul></div>
 </div>
@@ -259,7 +259,7 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11" class="external-l
 <h2 class="pkg-version" data-toc-text="1.4.7" id="bas-147-october-22-2017">BAS 1.4.7 October 22, 2017<a class="anchor" aria-label="anchor" href="#bas-147-october-22-2017"></a></h2><p class="text-muted">CRAN release: 2017-10-22</p>
 <div class="section level3">
 <h3 id="updates-1-4-7">Updates<a class="anchor" aria-label="anchor" href="#updates-1-4-7"></a></h3>
-<ul><li><p>Added new method for <code>bas.lm</code> to obtain marginal likelihoods with the Zellner-Siow Priors for “prior= ‘JZS’ using QUADPATH routines for numerical integration. The optional hyperparameter alpha may now be used to adjust the scaling of the ZS prior where g ~ G(1/2, alpha*n/2) as in the <code>BayesFactor</code> package of Morey, with a default of alpha=1 corresponding to the ZS prior used in Liang et al (2008). This also uses more stable evaluations of log(1 + x) to prevent underflow/overflow.</p></li>
+<ul><li><p>Added new method for <code>bas.lm</code> to obtain marginal likelihoods with the Zellner-Siow Priors for “prior= ‘JZS’ using QUADPATH routines for numerical integration. The optional hyper parameter alpha may now be used to adjust the scaling of the ZS prior where g ~ G(1/2, alpha*n/2) as in the <code>BayesFactor</code> package of Morey, with a default of alpha=1 corresponding to the ZS prior used in Liang et al (2008). This also uses more stable evaluations of log(1 + x) to prevent underflow/overflow.</p></li>
 <li><p>Priors <code>ZS-full</code> for bas.lm is planned to be deprecated.</p></li>
 <li><p>replaced math functions to use portable C code from Rmath and consolidated header files</p></li>
 </ul></div>
@@ -472,7 +472,7 @@ github <a href="https://github.com/merliseclyde/BAS/issues/11" class="external-l
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.92" id="bas-092">BAS 0.92<a class="anchor" aria-label="anchor" href="#bas-092"></a></h2><p class="text-muted">CRAN release: 2010-10-01</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> fixed glm<span class="sc">-</span>fit.R  so that hyperparameter <span class="cf">for</span> BIC is numeric</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> fixed glm<span class="sc">-</span>fit.R  so that hyper parameter <span class="cf">for</span> BIC is numeric</span></code></pre></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.91" id="bas-091">BAS 0.91<a class="anchor" aria-label="anchor" href="#bas-091"></a></h2><p class="text-muted">CRAN release: 2010-09-09</p>
