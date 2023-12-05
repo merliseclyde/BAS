@@ -89,6 +89,9 @@ double hyperg( double a, double b, double x)
 {
 double asum, psum, acanc, pcanc, temp;
 
+/* initialize following for compiler - values from code below */  
+pcanc= 1.0; 
+acanc= 30.0;
 /* See if a Kummer transformation will help */
 temp = b - a;
 if( fabs(temp) < 0.001 * fabs(a) )
