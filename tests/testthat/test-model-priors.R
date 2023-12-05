@@ -27,7 +27,7 @@ hald_tr_power <- bas.lm(Y ~ .,
                     data = Hald, prior = "g-prior",
                     modelprior = tr.power.prior(kappa=2, 2))
 expect_equal(1, sum(hald_tr_power$postprobs))
-expect_error(expect_equal(0, sum(hald_tr_power$postprobs <= 0.0)))
+expect_no_error(expect_equal(0, sum(hald_tr_power$postprobs <= 0.0)))
 
 })
 

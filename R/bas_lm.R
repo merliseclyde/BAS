@@ -832,6 +832,27 @@ bas.lm <- function(formula,
   result$probne0.RN <- result$probne0
   result$postprobs.RN <- result$postprobs
   result$include.always <- keep
+  
+# github issue #74. drop models with zero prior probability
+  
+  if (any(result$priorprobs == 0)) {
+    drop.models = result$priorprobs != 0
+    
+    result$mle = result$mle[drop.models]
+    result$mle.se = result$mle.se[drop.models]
+    result$mse = result$mse[drop.models]
+    result$which = result$which[drop.models]
+    result$freq = result$freq[drop.models]
+    result$shrinkage = result$shrinkage[drop.models]
+    result$R2 = result$R2[drop.models]
+    result$logmarg = result$logmarg[drop.models]
+    result$size = result$size[drop.models]
+    result$rank = result$rank[drop.models]
+    result$sampleprobs = result$sampleprobs[drop.models]
+    result$postprobs = result$postprobs[subset = drop.models]
+    result$priorprobs = result$priorprobs[subset = drop.models]
+    result$n.models = length(result$postprobs)
+  }
 
   if (method == "MCMC" || method == "MCMC_new") {
     result$n.models <- result$n.Unique

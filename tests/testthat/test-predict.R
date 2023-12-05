@@ -67,3 +67,58 @@ test_that("se.fit with 1 variable", {
                        newdata=Hald, estimator="MPM", se.fit=TRUE))
   
 })
+
+# GitHub issue  #70 and #74
+test_that("bas.lm using truncated priors includes models with prior prob 0", {
+  data("bodyfat")
+  bas_mod <- bas.lm(Bodyfat ~.,data = bodyfat[1:14,], method = 'BAS', modelprior = tr.poisson(2, 3))
+  
+  expect_no_error(predict(bas_mod,newdata = bodyfat[15:20,], se.fit = T, estimator = 'HPM'))
+  expect_no_error(predict(bas_mod,newdata = bodyfat[15:20,], se.fit = T, estimator = 'BPM'))
+  expect_no_error(predict(bas_mod,newdata = bodyfat[15:20,], se.fit = T, estimator = 'MPM'))
+  expect_no_error(predict(bas_mod,newdata = bodyfat[15:20,], se.fit = T, estimator = 'BMA'))
+  
+  bas_mod <- bas.lm(Bodyfat ~.,data = bodyfat[1:14,], method = 'deterministic', modelprior = tr.poisson(2, 3))
+  
+  expect_no_error(predict(bas_mod,newdata = bodyfat[15:20,], se.fit = T, estimator = 'HPM'))
+  expect_no_error(predict(bas_mod,newdata = bodyfat[15:20,], se.fit = T, estimator = 'BPM'))
+  expect_no_error(predict(bas_mod,newdata = bodyfat[15:20,], se.fit = T, estimator = 'MPM'))
+  expect_no_error(predict(bas_mod,newdata = bodyfat[15:20,], se.fit = T, estimator = 'BMA'))
+  
+  bas_mod <- bas.lm(Bodyfat ~.,data = bodyfat[1:14,], method = 'MCMC', modelprior = tr.poisson(2, 3))
+  
+  expect_no_error(predict(bas_mod,newdata = bodyfat[15:20,], se.fit = T, estimator = 'HPM'))
+  expect_no_error(predict(bas_mod,newdata = bodyfat[15:20,], se.fit = T, estimator = 'BPM'))
+  expect_no_error(predict(bas_mod,newdata = bodyfat[15:20,], se.fit = T, estimator = 'MPM'))
+  expect_no_error(predict(bas_mod,newdata = bodyfat[15:20,], se.fit = T, estimator = 'BMA'))
+  
+  bas_mod <- bas.lm(Bodyfat ~.,data = bodyfat[1:14,], method = 'MCMC+BAS', modelprior = tr.poisson(2, 3))
+  
+  expect_no_error(predict(bas_mod,newdata = bodyfat[15:20,], se.fit = T, estimator = 'HPM'))
+  expect_no_error(predict(bas_mod,newdata = bodyfat[15:20,], se.fit = T, estimator = 'BPM'))
+  expect_no_error(predict(bas_mod,newdata = bodyfat[15:20,], se.fit = T, estimator = 'MPM'))
+  expect_no_error(predict(bas_mod,newdata = bodyfat[15:20,], se.fit = T, estimator = 'BMA'))
+  
+
+
+})
+
+# github issue #74
+test_that("bas.glm using truncated priors includes models with prior prob 0", {
+  data("Pima.tr", package="MASS")
+  data("Pima.te", package="MASS")
+  bas_mod <- bas.glm(type ~ ., data = Pima.tr, subset = 1:5, method = 'BAS',
+                         modelprior = tr.poisson(2,2),
+                         betaprior = g.prior(g=as.numeric(nrow(Pima.tr))),
+                         family=binomial())
+  
+  expect_no_error(sum(bas_mod$postprobs == 1.0))
+  
+# github issue ??
+#  expect_no_error(predict(bas_mod,newdata = Pima.tr[15:20,], se.fit = T, estimator = 'HPM'))
+#  expect_no_error(predict(bas_mod,newdata = Pima.tr[15:20,], se.fit = T, estimator = 'BPM'))
+#  expect_no_error(predict(bas_mod,newdata = Pima.tr[15:20,], se.fit = T, estimator = 'MPM'))
+#  expect_no_error(predict(bas_mod,newdata = Pima.tr[15:20,], se.fit = T, estimator = 'BMA'))
+  
+  #expect_null(plot(confint(pima_pred)))
+})
