@@ -7,7 +7,7 @@ double loghyperg1F1_laplace(double, double, double);
 
 double loghyperg1F1(double a, double b, double x, int laplace)
 {
-  double y;
+  double y = 1.0;
 
   if (laplace == 0) {
     if (x <0) {
