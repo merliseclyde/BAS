@@ -154,22 +154,22 @@ of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
 <span class="r-in"><span><span class="va">coef_hald</span> <span class="op">&lt;-</span> <span class="fu"><a href="coef.html">coef</a></span><span class="op">(</span><span class="va">hald_gprior</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">confint</span><span class="op">(</span><span class="va">coef_hald</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                2.5%      97.5%       beta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept 93.927225 97.0507861 95.4230769</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1         0.000000  1.8800043  1.2150202</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2        -1.158345  0.9025853  0.2756235</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3        -1.528717  0.5967744 -0.1270575</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4        -1.702749  0.3025286 -0.3268710</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept 93.918987 97.0327849 95.4230769</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1         0.000000  1.8896896  1.2150202</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        -1.066594  0.9557238  0.2756235</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        -1.506752  0.5942145 -0.1270575</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        -1.672948  0.3025678 -0.3268710</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"Probability")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "confint.bas"</span>
 <span class="r-in"><span><span class="fu">confint</span><span class="op">(</span><span class="va">coef_hald</span>, approx<span class="op">=</span><span class="cn">FALSE</span>, nsim<span class="op">=</span><span class="fl">5000</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                2.5%      97.5%       beta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept 93.896643 96.8686663 95.4230769</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1         0.000000  1.8763279  1.2150202</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2        -1.160395  0.8544357  0.2756235</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3        -1.512524  0.5866104 -0.1270575</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4        -1.724104  0.2363294 -0.3268710</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept 93.925601 96.9526650 95.4230769</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1         0.000000  1.8824940  1.2150202</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        -1.124349  0.8874584  0.2756235</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        -1.516818  0.5598853 -0.1270575</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        -1.691637  0.2668369 -0.3268710</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"Probability")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
@@ -177,7 +177,7 @@ of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
 <span class="r-in"><span><span class="co"># extract just the coefficient of X4</span></span></span>
 <span class="r-in"><span><span class="fu">confint</span><span class="op">(</span><span class="va">coef_hald</span>, parm<span class="op">=</span><span class="st">"X4"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         2.5%     97.5%      beta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4 -1.673294 0.3366607 -0.326871</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4 -1.678503 0.2953429 -0.326871</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"Probability")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
