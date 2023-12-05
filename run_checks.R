@@ -3,6 +3,8 @@ usethis::use_release_issue()
 # check email for results
 devtools::check_win_devel()
 devtools::check_win_release()
+rhub2::rhub_check(platforms = "valgrind")
+rhub2::rhub_check(platforms = "valgrind", branch="devel")
 
 # mac_builder M1 mac 
 # https://mac.r-project.org/macbuilder/submit.html
