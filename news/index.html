@@ -55,15 +55,12 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="bas-development-version">BAS (development version)<a class="anchor" aria-label="anchor" href="#bas-development-version"></a></h2>
-<ul><li><p>addressed problem identified by <code>valgrind</code> with uninitialized variable in <code>hyp1f1.c</code> (issue <a href="https://github.com/merliseclyde/BAS/issues/75" class="external-link">#75</a>)</p></li>
-<li><p>removed models that have zero prior probability in <code>bas.lm</code> and <code>bas.glm</code> (issue <a href="https://github.com/merliseclyde/BAS/issues/74" class="external-link">#74</a>)</p></li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.7.0" id="bas-170">BAS 1.7.0<a class="anchor" aria-label="anchor" href="#bas-170"></a></h2>
 <div class="section level3">
-<h3 id="minor-improvements-and-fixes-1-7-0">Minor Improvements and Fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-1-7-0"></a></h3>
-<ul><li><p>addressed problem identified by <code>valgrind</code> with uninitialized dispersion parameter in <code>glm_fit.c</code> and <code>se</code> in <code>glim_fit.c</code> introduced in version 1.6.6 with addition of Gamma regression (issue <a href="https://github.com/merliseclyde/BAS/issues/72" class="external-link">#72</a>)</p></li>
-<li><p>Fixed issue <a href="https://github.com/merliseclyde/BAS/issues/67" class="external-link">#67</a> <code>bayesglm.fit</code> does not check arguments <code>x</code> or <code>y</code> for correct type before calling <code>C</code> and unit tests added (issue <a href="https://github.com/merliseclyde/BAS/issues/67" class="external-link">#67</a>)</p></li>
+<h3 id="minor-improvements-and-fixes-development-version">Minor Improvements and Fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-development-version"></a></h3>
+<ul><li><p>Initialized vector <code>se</code> via <code>memset</code> and <code>disp = 1.0</code> in <code>fit_glm.c</code> (issue <a href="https://github.com/merliseclyde/BAS/issues/72" class="external-link">#72</a>)</p></li>
+<li><p>Initialized variables in <code>hyp1f1.c</code> from <code>testthat</code> (issue <a href="https://github.com/merliseclyde/BAS/issues/75" class="external-link">#75</a>)</p></li>
+<li><p>Removed models that have zero prior probability in <code>bas.lm</code> and <code>bas.glm</code> (issue <a href="https://github.com/merliseclyde/BAS/issues/74" class="external-link">#74</a>)</p></li>
+<li><p>Fixed error in <code>bayesglm.fit</code> to check arguments <code>x</code> or <code>y</code> for correct type before calling C and added unit test (issue <a href="https://github.com/merliseclyde/BAS/issues/67" class="external-link">#67</a>)</p></li>
 </ul></div>
 </div>
     <div class="section level2">
