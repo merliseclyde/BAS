@@ -66,8 +66,10 @@ double loghyperg1F1_laplace(double a, double b, double x)
        else mode = mode2;
        //       Rprintf("mode 1 %lf, mode %lf\n", mode1, mode2);
 	if (mode < 0) {
+	  // # nocov start
 	  mode = 0.0;
 	  warning("1F1 Laplace approximation on boundary\n");
+	  // # nocov end
 	}
         else{
 	  /*	  prec = a*mode*(1.0 - mode) + (1.0-mode)*(1.0 - mode)*b +
