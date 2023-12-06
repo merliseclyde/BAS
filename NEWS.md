@@ -1,5 +1,10 @@
 # BAS (development version)
 
+* addressed problem identified by `valgrind` with uninitialized variable
+in `hyp1f1.c`  (issue #75)
+
+* removed models that have zero prior probability in `bas.lm` and `bas.glm` (issue #74)
+
 # BAS 1.7.0
 
 ## Minor Improvements and Fixes

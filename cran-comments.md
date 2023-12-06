@@ -1,20 +1,25 @@
-# BAS 1.7.0 Comments to CRAN
+# BAS 1.7.1 Comments to CRAN
 
 # Notes to CRAN
 
-## Submission reason 
+## ReSubmission reason 
 
 Submission prior to Dec 14 required to maintain package on CRAN.
 Status  on CRAN check page  under `Additional Issues` for `valgrind`  showed warnings  `Conditional jump or move depends on uninitialised value(s)`.  
 
 - Initialized vector `se`  via `memset` and `disp = 1.0` in  `fit_glm.c` (issue #72)
 
-- Fixed issue #67 reported on Github and added unit test
+- Initialized variables in `hyp1f1.c` from `testthat` (issue #75) 
+
+- Removed models that have zero prior probability in `bas.lm` and `bas.glm` (issue #74)
+
+- Fixed error in `bayesglm.fit` to check arguments `x` or `y` for correct type before calling C  and added unit test (issue #67) 
 
 
 ## Test environments
 
 - r-devel with valgrind via docker
+- r-devel with valgrind via rhub github actions
 - mac-builder r-release  macosx-arm64 
 - local OS X install, R 4.3.2 (x86)
 - ubuntu  (github actions CI), R-release R-devel R-oldrelease
