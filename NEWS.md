@@ -1,4 +1,4 @@
-# BAS (development version)
+# BAS 1.7.1
 
 ## Minor Improvements and Fixes
 
