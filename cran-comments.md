@@ -1,5 +1,3 @@
-# BAS 1.7.1 Comments to CRAN
-
 # Notes to CRAN
 
 ## ReSubmission reason 
@@ -34,7 +32,7 @@ Status  on CRAN check page  under `Additional Issues` for `valgrind`  showed war
 * Mmac, Windows, Ubunto, Debian
  0 error | 0 warnings | 1 notes
 
-Note: Days since last update: 5
+Note: Days since last update: 6
 
 (resubmission requested by CRAN)
 

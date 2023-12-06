@@ -1,19 +1,15 @@
 # BAS (development version)
 
-* addressed problem identified by `valgrind` with uninitialized variable
-in `hyp1f1.c`  (issue #75)
-
-* removed models that have zero prior probability in `bas.lm` and `bas.glm` (issue #74)
-
-# BAS 1.7.0
-
 ## Minor Improvements and Fixes
 
-* addressed problem identified by `valgrind` with uninitialized dispersion parameter
-in `glm_fit.c`  and `se` in `glim_fit.c` introduced in version 1.6.6 with addition of Gamma regression (issue #72)
+- Initialized vector `se`  via `memset` and `disp = 1.0` in  `fit_glm.c` (issue #72)
 
-* Fixed issue #67 `bayesglm.fit` does not check arguments `x` or `y` for correct type before calling `C` 
-and unit tests added (issue #67)
+- Initialized variables in `hyp1f1.c` from `testthat` (issue #75) 
+
+- Removed models that have zero prior probability in `bas.lm` and `bas.glm` (issue #74)
+
+- Fixed error in `bayesglm.fit` to check arguments `x` or `y` for correct type before calling C  and added unit test (issue #67) 
+
 
 
 # BAS 1.6.6
