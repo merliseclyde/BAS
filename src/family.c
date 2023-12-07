@@ -389,7 +389,7 @@ void  Lapack_chol2inv(double *A, int sz, double *ans)
 		error(_("element (%d, %d) is zero, so the inverse cannot be computed"),
 		      i, i);
 	    error(_("argument %d of Lapack routine %s had invalid value"),
-		  -i, "dpotri");  //nocov end
+		  -i, "dpotri");  // # nocov end
 	}
 
 	for (j = 0; j < sz; j++) {
