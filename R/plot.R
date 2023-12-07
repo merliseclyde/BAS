@@ -229,7 +229,7 @@ plot.bas = function (x,
         keep = 1 # nocov
       subset = subset[!subset %in% keep]
       if (length(subset) == 0)
-        stop("no models in subset to show; modify subset or drop.always.included")  # nocov
+        stop("no models in subset to show; modify subset or drop.always.included")  
     }
     probne0 = x$probne0[subset]
     nvars = length(subset)
