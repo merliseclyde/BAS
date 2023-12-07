@@ -98,7 +98,7 @@ double phi1_int(double a, double b, double c, double x, double y, int div, doubl
          // # nocov start
          warning("phi return: int %lf W=%lf div= %lf scale=%le \n",   
                  log(result), x, (double) div, scale);
-         // # #nocov end
+         // # nocov end
      }
     
     if (scale > 0) offset = (double) div * log(scale);
