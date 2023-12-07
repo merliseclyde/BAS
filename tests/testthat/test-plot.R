@@ -14,4 +14,8 @@ test_that("test basic BAS plots", {
  
   expect_null(plot(hald.gprior, drop.always.included=TRUE, ask=FALSE))
  
+  hald.gprior <- bas.lm(Y ~ ., include.always =  Y ~ . , data = Hald, prior = "g-prior",
+                        modelprior = beta.binomial(1, 1),
+                        initprobs = "eplogp")
+  expect_error(plot(hald.gprior, drop.always.included=TRUE, ask=FALSE))
 })

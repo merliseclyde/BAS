@@ -146,9 +146,11 @@ plot.bas = function (x,
   }
 
   one.fig <- prod(par("mfcol")) == 1
-  if (ask) {
+  if (ask) { 
+    # nocov start
     op <- par(ask = TRUE)
-    on.exit(par(op))
+    on.exit(par(op))  
+    # nocov end
   }
 
   if (show[1]) {
@@ -224,10 +226,10 @@ plot.bas = function (x,
     if (drop.always.included) {
       keep = x$include.always
       if (is.null(keep))
-        keep = 1
+        keep = 1 # nocov
       subset = subset[!subset %in% keep]
       if (length(subset) == 0)
-        stop("no models in subset to show; modify subset or drop.always.included")
+        stop("no models in subset to show; modify subset or drop.always.included")  # nocov
     }
     probne0 = x$probne0[subset]
     nvars = length(subset)
@@ -266,7 +268,7 @@ plot.bas = function (x,
   }
 
   if (!one.fig && par("oma")[3] >= 1) {
-    mtext(sub.caption, outer = TRUE, cex = 1.25)
+    mtext(sub.caption, outer = TRUE, cex = 1.25) # nocov
   }
   invisible()
 
