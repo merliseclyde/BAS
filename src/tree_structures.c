@@ -14,6 +14,8 @@ NODEPTR make_node(double pr) {
   return(newnode);
 }
 
+// not used now
+// # nocov start
 void deallocate_tree(struct Node *tree);
 
 void deallocate_tree(struct Node *tree) {
@@ -22,7 +24,7 @@ void deallocate_tree(struct Node *tree) {
   deallocate_tree(tree->zero);
   Free(tree);
 }
-
+// # nocov end
 
 
 void insert_model_tree(struct Node *tree, struct Var *vars,  int n, int *model, 
@@ -75,9 +77,11 @@ int sortvars(struct Var *vars, double *prob, int p)
 	for (i = 0; i < p; i++) {
 		if (vars[i].prob < 0.0) {
 //			REprintf("Warning: Probability %d (%lf) less than zero, setting to zero.\n",
-//				i, vars[i].prob);
+//				i, vars[i].prob);  
+// # nocov start
 			vars[i].leaveout = TRUE;
 			vars[i].prob = 0.0;
+// # nocov end			
 		}
 		else if (vars[i].prob == 0.0)
 			vars[i].leaveout = TRUE;	/* Must be out. */
@@ -98,8 +102,10 @@ int sortvars(struct Var *vars, double *prob, int p)
 		else {
 /*			REprintf("Warning: Probability %d (%lf) more than one, setting to one.\n",
 				i, vars[i].prob); */
+// # nocov start
 			vars[i].leaveout = TRUE;
 			vars[i].prob = 1.0;
+// # nocov end			
 		}
 	}
 
@@ -353,7 +359,8 @@ double got_parents(int *model, SEXP Rparents, int level, struct Var *var, int ns
       if ((parents[var[level].index + p*var[j].index]) == 1.0) {
         if (model[var[j].index] == 0) {
           // missing parent so probability of model is 0
-          prob *= 0.0;}
+          prob *= 0.0;  // # nocov
+          }
         if (model[var[j].index] == 1) {
           // got parent so probability of variable is 1
           prob *= 1.0;
@@ -511,6 +518,10 @@ double GetNextModelCandidate(int pmodel_old, int n, int n_sure, int *model, stru
   return MH;
 }
 
+
+// # nocov start
+// code below not being used internally - legacy?
+
 double random_walk(int *model, struct Var *vars, int n) {
   int index;
   index = ftrunc(n*unif_rand());
@@ -547,6 +558,9 @@ double random_switch(int *model, struct Var *vars, int n, int pmodel, int *varin
   
   return(1.0);
 }
+
+
+// # nocov end
 
 double random_walk_heredity(int *model, struct Var *vars, int n, SEXP Rparents) {
   int index,p,j;
