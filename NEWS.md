@@ -1,5 +1,7 @@
 # BAS (development version)
 
+* added unit tests for link functions impemented in `family.c`
+
 # BAS 1.7.1
 
 ## Minor Improvements and Fixes
