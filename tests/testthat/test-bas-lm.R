@@ -244,7 +244,17 @@ test_that("interactions & heredity", {
   bas_hald <- force.heredity.bas(bas_hald)
   expect_equal(sum(bas_hald$postprobs >0),
                bas_hald$n.models)
- })
+  
+  set.seed(42)
+  bas_hald <- bas.lm(Y ~ ., data=Hald, method="MCMC",
+                     MCMC.iterations = 100,
+                     force.heredity = TRUE)
+  set.seed(42)
+  bas_hald_no <- bas.lm(Y ~ ., data=Hald, method="MCMC",
+                     MCMC.iterations = 100,
+                     force.heredity = FALSE)
+  expect_equal(bas_hald$probne0, bas_hald_no$probne0)
+                      })
 
 #  https://github.com/merliseclyde/BAS/issues/37
 test_that("sample size zero", {

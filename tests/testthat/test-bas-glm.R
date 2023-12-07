@@ -29,6 +29,23 @@ test_that("bas.glm initprobs" , {
                        betaprior = bic.prior(), family = binomial(),
                        modelprior = uniform())
   expect_equal(pima_bas1$postprobs, pima_bas2$postprobs)
+  
+  expect_error(bas.glm(type ~ .,
+                       data = Pima.tr, subset = 1:6,
+                       method = "BAS",
+                       initprobs= "eplogp",
+                       betaprior = bic.prior(), family = binomial(),
+                       modelprior = uniform())
+  )
+  
+  Pima.tr$type = NA
+  expect_warning(expect_error(bas.glm(type ~ .,
+                       data = Pima.tr,
+                       method = "BAS",
+                       initprobs= "eplogp",
+                       betaprior = bic.prior(), family = binomial(),
+                       modelprior = uniform()))
+  )
 })
 
 test_that("GLM logit", {
@@ -472,6 +489,20 @@ test_that("herdity and BAS", {
   expect_equal(0L, sum(pima_BAS_no$probne0[-1] > 1.0))
   expect_equal(pima_BAS$probne0, pima_BAS_no$probne0)
   expect_equal(0L, sum(duplicated(pima_BAS$which)))
+  
+  pima_BAS <-  bas.glm(type ~ (bp + glu + npreg),
+                       data = Pima.tr, method = "BAS",
+                       betaprior = bic.prior(),
+                       family = binomial(), update=NULL,
+                       modelprior =uniform(),
+                       force.heredity=TRUE)
+  pima_BAS_no <-  bas.glm(type ~ (bp + glu + npreg),
+                          data = Pima.tr, method = "BAS",
+                          betaprior = bic.prior(),
+                          family = binomial(),  update=NULL,
+                          modelprior =uniform(),
+                          force.heredity=FALSE)
+  expect_equal(pima_BAS$probne0, pima_BAS_no$probne0)
 })
 
 # issue 55 in progress
