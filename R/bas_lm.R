@@ -661,12 +661,12 @@ bas.lm <- function(formula,
   }
   
   
-  # start  nocov
+ 
   # shouldn't be able to get here
   if (is.null(alpha)) {
-    stop("Error in BAS code, please report on GitHub")
+    stop("Error in BAS code, please report on GitHub") # nocov
   }
-  # end nocov 
+  
 
   parents <- matrix(1, 1, 1)
   if (method == "MCMC+BAS" |

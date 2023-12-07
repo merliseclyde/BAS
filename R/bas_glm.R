@@ -1,35 +1,3 @@
-
-normalize.initprobs.glm <- function(initprobs, glm.obj) {
-  p <- dim(glm.obj$x)[2]
-  if (!is.numeric(initprobs)) {
-    initprobs <- switch(initprobs,
-      "eplogp" = eplogprob(glm.obj),
-      "uniform" = c(1.0, rep(.5, p - 1)),
-      "Uniform" = c(1.0, rep(.5, p - 1))
-    )
-  }
-  if (length(initprobs) == (p - 1)) {
-    initprobs <- c(1.0, initprobs)
-  }
-  if (length(initprobs) != p) {
-    stop(paste("length of initprobs is not", p))
-  }
-  if (initprobs[1] < 1.0 | initprobs[1] > 1.0) initprobs[1] <- 1.0
-  # intercept is always included otherwise we get a segmentation
-  # fault (relax later)
-  prob <- as.numeric(initprobs)
-
-  pval <- summary(glm.obj)$coefficients[, 4]
-  if (any(is.na(pval))) {
-    warning(paste("warning full model is rank deficient; use caution when interpreting restults."))
-#   prob[is.na(pval)] <- 0.0
-  }
-
-  return(prob)
-}
-
-
-
 #' Bayesian Adaptive Sampling Without Replacement for Variable Selection in
 #' Generalized Linear Models
 #'
