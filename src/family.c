@@ -16,7 +16,9 @@ static const double INVEPS = 1/DBL_EPSILON;
  */
 static R_INLINE double x_d_omx(double x) {
     if (x < 0 || x > 1)
+  // # nocov start    
 	error(_("Value %lf out of range (0, 1)"), x);
+  // # nocov end  
     return x/(1 - x);
 }
 
@@ -210,7 +212,8 @@ void logit_info(double *y, double *mu, double *weights, double *var, int n) {
   }
 }
 
-
+/*  not used right now
+ 
 void logit_precision(double *mu, double *prec, int n) {
 
   int i;
@@ -219,7 +222,7 @@ void logit_precision(double *mu, double *prec, int n) {
     prec[i] = 1/(mu[i]*(1.0 - mu[i]));
   }
 }
-
+*/
 
 void logit_link(double *rmu, double *rans, int n)
 {
@@ -382,11 +385,11 @@ void  Lapack_chol2inv(double *A, int sz, double *ans)
 
 	F77_CALL(dpotri)("U", &sz, &ans[0], &sz, &i FCONE);
 	if (i != 0) {
-	    if (i > 0)
+	    if (i > 0)  // # nocov start
 		error(_("element (%d, %d) is zero, so the inverse cannot be computed"),
 		      i, i);
 	    error(_("argument %d of Lapack routine %s had invalid value"),
-		  -i, "dpotri");
+		  -i, "dpotri");  //nocov end
 	}
 
 	for (j = 0; j < sz; j++) {
