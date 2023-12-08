@@ -6,7 +6,6 @@
 
 ## Test environments
 
-- r-devel with valgrind via docker
 - r-devel with valgrind via rhub github actions
 - mac-builder r-release  macosx-arm64 
 - local OS X install, R 4.3.2 (x86)

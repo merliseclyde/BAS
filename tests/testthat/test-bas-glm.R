@@ -445,8 +445,8 @@ test_that("include always MCMC", {
 ##  check why method='BAS' does not have 1.0 for keep.
 })
 
-# FIXED issue #35
-test_that("MCMC+BAS: missing MCMC.iterations and n.models arg", {
+# FIXED issue #35  missing MCMC.iterations and n.models arg
+test_that("MCMC+BAS", {
   data(Pima.tr, package = "MASS")
   set.seed(1)
   pima_BAS <- bas.glm(type ~ .,
@@ -472,6 +472,14 @@ test_that("MCMC+BAS: missing MCMC.iterations and n.models arg", {
   expect_equal(pima_BAS$probne0, pima_2$probne0)
   expect_equal(pima_BAS$n.models, pima_1$n.models)
   expect_equal(pima_BAS$n.models, pima_2$n.models)
+  
+  set.seed(42)
+  pima_BAS <- bas.glm(type ~ bp + npreg + bmi,
+                      data = Pima.tr, method = "MCMC+BAS",
+                      betaprior = bic.prior(),
+                      family = binomial(),
+                      modelprior = uniform(), MCMC.iterations = 5,  update = 2 )
+  expect_equal(6, sum(pima_BAS$freq))
 })
 
 # issue 38 (in progress)  check that it works with other prior

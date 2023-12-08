@@ -259,8 +259,9 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		  }
 		else {mcurrent = k;}
 	}
-
- 	if (mcurrent < k) {  // truncate vectors
+	
+// # nocov start
+ 	if (mcurrent < k) {  // truncate vectors; legacy code from MCMC should not get here
 	  SETLENGTH(modelspace, mcurrent);
 	  SETLENGTH(logmarg, mcurrent);
 	  SETLENGTH(modelprobs, mcurrent);
@@ -277,7 +278,7 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	  SETLENGTH(R2, mcurrent);
 	  SETLENGTH(Rintercept, mcurrent);
 	}
-
+// # nocov end
 
 	compute_modelprobs(modelprobs, logmarg, priorprobs, mcurrent);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
