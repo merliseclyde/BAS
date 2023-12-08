@@ -79,7 +79,7 @@ double LogBF_Hg_null(double R2, int n, int d, double alpha, int gpower){
   if (k == 0 || n <= d || R2 >= 1.0) { logmarg = 0.0; }
   else {
     if(status!=1.){
-      logmarg =0.0;
+      logmarg =0.0;  // # nocov
 	//      if(status==0.) Rprintf("\n No positive roots\n");
 	//else Rprintf("\n More than one positive root; this should not happen\n");
     }
@@ -93,6 +93,7 @@ double LogBF_Hg_null(double R2, int n, int d, double alpha, int gpower){
 }
 
 
+// # nocov start
 void LogBF_Hg_null_vect(double *r2curr, int *n, int *dim, int *nmodels, double *logmarg, double *alpha, int *gpower) {
 
 
@@ -101,3 +102,5 @@ void LogBF_Hg_null_vect(double *r2curr, int *n, int *dim, int *nmodels, double *
         logmarg[i] = LogBF_Hg_null(r2curr[i], *n, dim[i], *alpha, *gpower);
      }
 }
+
+// # nocov end

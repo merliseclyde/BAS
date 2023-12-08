@@ -293,7 +293,7 @@ double LogBF_ZS_null(double R2, int n, int d) {
     // # nocov  end
     // theorertically should not occur 
     }
-  return(NA_REAL);
+  return(NA_REAL);  // # nocov
 }
 
 double find_mode_g_JZS(double R2, int n, int d, double *root, double *status) {
