@@ -254,10 +254,10 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		}
 		//Rprintf("Nunique = %d, m = %d, k = %d, mcurrent = %d %lf\n",
     //      nUnique, m, k, mcurrent, pigamma[0]);
-		if (m < k) {
-		  mcurrent = m;
+	if (m < k) {
+		  mcurrent = m;  // #nocov 
 		  }
-		else {mcurrent = k;}
+	else {mcurrent = k;}
 	}
 	
 // # nocov start

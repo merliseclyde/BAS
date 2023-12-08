@@ -474,11 +474,11 @@ test_that("MCMC+BAS", {
   expect_equal(pima_BAS$n.models, pima_2$n.models)
   
   set.seed(42)
-  pima_BAS <- bas.glm(type ~ bp + npreg + bmi,
+  pima_BAS <- bas.glm(type ~ .,
                       data = Pima.tr, method = "MCMC+BAS",
                       betaprior = bic.prior(),
                       family = binomial(),
-                      modelprior = uniform(), MCMC.iterations = 5,  update = 2 )
+                      modelprior = uniform(), MCMC.iterations = 5,  update =  50)
   expect_equal(6, sum(pima_BAS$freq))
 })
 
