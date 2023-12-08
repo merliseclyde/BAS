@@ -422,11 +422,19 @@ test_that("include always MCMC", {
   data("Pima.tr", package="MASS")
   pima_BAS = bas.glm(type ~ .,
                        data = Pima.tr, method = "MCMC",
-                       include.always = ~ bp,
+                       include.always = type ~ bp, 
                        betaprior = g.prior(g=100), family = binomial(),
                        modelprior = beta.binomial(1, 1))
   x = pima_BAS$probne0[match(c("Intercept", "bp") ,pima_BAS$namesx)]
   expect_equal(2, sum(x), tolerance=.002)
+  
+  expect_equal(0, sum(pima_BAS$R2 < 0))
+  
+ expect_warning(bas.glm(type ~ poly(bp,2),
+                     data = Pima.tr, method = "BAS",
+                     force.heredity = TRUE, bestmodel = c(1,0,1),
+                     betaprior = g.prior(g=100), family = binomial(),
+                     modelprior = beta.binomial(1, 1)))
 
 #  pima_BAS = bas.glm(type ~ .,
 #                     data = Pima.tr, method = "BAS",
