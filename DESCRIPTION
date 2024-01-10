@@ -60,7 +60,7 @@ Description: Package for Bayesian Variable Selection and  Model Averaging
     the author(s) and do not necessarily reflect the views of the
     National Science Foundation.
 License: GPL (>= 3)
-URL: https://www.r-project.org, https://github.com/merliseclyde/BAS
+URL: https://merliseclyde.github.io/BAS/, https://github.com/merliseclyde/BAS
 BugReports: https://github.com/merliseclyde/BAS/issues
 Repository: CRAN
 NeedsCompilation: yes
