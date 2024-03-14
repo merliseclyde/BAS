@@ -173,10 +173,7 @@ test_that("prediction versus fitted", {
 
 test_that("methods", {
   data(Hald)
-  expect_error(bas.lm(Y ~ .,
-    prior = "ZS-null", modelprior = uniform(),
-    data = Hald, method = "AMCMC"
-  ))
+  set.seed(42)
   expect_error(bas.lm(Y ~ .,
     prior = "hyperg/n", modelprior = uniform(),
     data = Hald

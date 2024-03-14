@@ -501,10 +501,11 @@ bas.lm <- function(formula,
     ))
   }
 
-  if (!(method %in% c("BAS", "deterministic", "MCMC", "MCMC+BAS"))) {
+  if (!(method %in% c("BAS", "deterministic", "MCMC", "MCMC+BAS", "AMCMC"))) {
     stop(paste("No available sampling method:", method))
   }
-
+ 
+  
   # from lm
   mfall <- match.call(expand.dots = FALSE)
   m <- match(
@@ -670,7 +671,8 @@ bas.lm <- function(formula,
 
   parents <- matrix(1, 1, 1)
   if (method == "MCMC+BAS" |
-    method == "deterministic" ) {
+      method == "deterministic" |
+      method == "AMCMC") {
     force.heredity <- FALSE
   } # does not work with updating the tree
   if (force.heredity) {
@@ -798,6 +800,29 @@ bas.lm <- function(formula,
       Rpivot = pivot,
       Rtol = tol
     ),
+    "AMCMC" = .Call(
+      C_amcmc,
+      Yvec,
+      X,
+      sqrt(weights),
+      prob,
+      modeldim,
+      incint = as.integer(int),
+      alpha = as.numeric(alpha),
+      method = as.integer(method.num),
+      modelprior = modelprior,
+      update = as.integer(update),
+      Rbestmodel = as.integer(bestmodel),
+      plocal = as.numeric(1.0 - prob.rw),
+      as.integer(Burnin.iterations),
+      as.integer(MCMC.iterations),
+      as.numeric(lambda),
+      as.numeric(delta),
+      Rthin = as.integer(thin),
+      Rparents = parents,
+      Rpivot = pivot,
+      Rtol = tol
+    ),
     "deterministic" = .Call(
       C_deterministic,
       Yvec,
@@ -811,7 +836,8 @@ bas.lm <- function(formula,
       modelprior = modelprior,
       Rpivot = pivot,
       Rtol = tol
-    )
+    ),
+    print("oops")
   )
   result$rank_deficient <- FALSE
   if (any(is.na(result$logmarg))) {
@@ -854,7 +880,7 @@ bas.lm <- function(formula,
     result$n.models = length(result$postprobs)
   }
 
-  if (method == "MCMC" || method == "MCMC_new") {
+  if (method == "MCMC" || method == "AMCMC") {
     result$n.models <- result$n.Unique
     result$postprobs.MCMC <- result$freq / sum(result$freq)
 

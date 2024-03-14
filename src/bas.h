@@ -298,6 +298,9 @@ void chol2se(double *qr, double *se, double *cov, double *covwork, int p, int n)
 void QR2cov(double *qr, double *cov, double *covwork, int p, int n);
 #endif
 
+void  update_Cov(double *Cov, double *priorCov, double *SSgam, double *marg_probs, int n, int m, int print);
+double cond_prob(double *model, int j, int n, double *mean, double *beta_matrix , double delta) ;
+
 void insert_model_tree(struct Node *tree, struct Var *vars,  int n, int *model, int num_models);
 
 int *GetModel_m(SEXP Rmodel_m, int *model, int p);
@@ -335,6 +338,7 @@ SEXP glm_bas(SEXP RX, SEXP RY, glmstptr * family, SEXP Roffset, SEXP Rweights, S
 
 SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Rcoef, SEXP Rmu, SEXP Rdeviance, SEXP Rweights, glmstptr * glmfamily, betapriorptr * betapriorfamily, SEXP Rlaplace);
 
+  
 
 // issue 38
 static inline int lessThanOne(double a)
