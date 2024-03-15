@@ -253,6 +253,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 		  }
 		  
 		  // Update SSgam = gamma gamma^T + SSgam 
+		  // use Upper Triangular
 		  F77_NAME(dsyr)("U", &n,  &one, &real_model[0], &inc,  &SSgam[0], &n FCONE);
 		  nsamples++;
 		}
@@ -267,7 +268,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	  marg_probs[i] = wt*(REAL(MCMCprobs)[vars[i].index]/ (double) m) + 
 	    (1.0 - wt)* probs[vars[i].index];
 	}	
-	print=1;
+	print=0;
 	update_Cov(Cov, priorCov, SSgam, marg_probs, n, m, print);
 	
 	// Global-Proposal

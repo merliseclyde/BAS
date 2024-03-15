@@ -836,8 +836,7 @@ bas.lm <- function(formula,
       modelprior = modelprior,
       Rpivot = pivot,
       Rtol = tol
-    ),
-    print("oops")
+    )
   )
   result$rank_deficient <- FALSE
   if (any(is.na(result$logmarg))) {

@@ -17,6 +17,7 @@ BAS-Ex.Rout.fail
 BAS-Ex.R
 run_checks.R
 R/gordy.R
+R/amc-cholreg-check.R
 _pkgdown.yml
 LICENSE
 CODE_OF_CONDUCT.md

@@ -35,9 +35,11 @@ void  update_Cov(double *Cov, double *priorCov, double *SSgam, double *marg_prob
       Rprintf("\n");
     }
   }
+  // compute the cholesky of Cov = U^T U
   F77_NAME(dpotrf)("U", &n,  &Cov[0], &n, &info FCONE);
+  // compute the inverse of Cholesky factor U.inv. 
   F77_NAME(dtrtri)("U","N", &n, &Cov[0], &n, &info FCONE FCONE);
-  
+  // verified correct 3/15/2024
   if (print == 1) {
     Rprintf("inverse of Chol(Cov(SSgam)):\n");
     for (j=0; j < n; j++ ){
@@ -49,18 +51,21 @@ void  update_Cov(double *Cov, double *priorCov, double *SSgam, double *marg_prob
 }
 
 
-double cond_prob(double *model, int j, int n, double *mean, double *beta_matrix , double delta) {
+double cond_prob(double *model, int j, int n, double *mean, double *u_inv , double delta) {
   double  prob;
   int i;
   
+  // betas =  I - diag(U^{-1}) U^-T  
+  // Note that elements of u_inv is U^{-T} due to FORTRAN column order
+  // E[Y] = betas (Ybar)
+  // E[Y_j | Y_<j ]   =  Ybar_j + betas(Y<j - Ybar<j)
   prob = mean[j]; 
   //  Rprintf("%f\n", prob);
   for (i = 0; i < j; i++) {
-  // old code had a - beta ??? should be +
-    prob += beta_matrix[j*n + i]*(model[i] - mean[i])/beta_matrix[j*n+j];
-    //    Rprintf("model %f beta %f mean %f ", model[i], beta_matrix[i*n + j], mean[i]);
+    prob += - u_inv[j*n + i]*(model[i] - mean[i])/u_inv[j*n+j];
+   // Rprintf("j %d model %f beta %f mean %f \n", j, model[i], -u_inv[j*n + i]/u_inv[j*n + j], mean[i]);
   }
-  //  Rprintf("\n%f ", prob);
+  // Rprintf("\n%f ", prob);
   if (prob <= 0.0) prob = delta;
   if (prob >= 1.0) prob = 1.0 -  delta;
   //    Rprintf("%f \n", prob);

@@ -15,7 +15,7 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	int pivot = LOGICAL(Rpivot)[0];
 	double tol = REAL(Rtol)[0];
 
-  Rprintf("Allocating Space for %d Models\n", nModels) ;
+  // Rprintf("Allocating Space for %d Models\n", nModels) ;
 	SEXP ANS = PROTECT(allocVector(VECSXP, 16)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 16)); ++nProtected;
 	SEXP Rprobs = PROTECT(duplicate(Rprobinit)); ++nProtected;

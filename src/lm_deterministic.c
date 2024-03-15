@@ -37,7 +37,7 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
   int rank_m;
   struct Var *vars;	/* Info about the model variables. */
 
-  Rprintf("deterministic\n");
+  
   /* get dimsensions of all variables */
 
   nobs = LENGTH(Y);
