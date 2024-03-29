@@ -180,7 +180,8 @@ to propose swap a variable that is excluded with a variable in the model.}
 \item{MCMC.iterations}{Number of iterations for the MCMC sampler; the
 default is n.models*10 if not set by the user.}
 
-\item{lambda}{Parameter in the AMCMC algorithm (deprecated).}
+\item{lambda}{Parameter in the AMCMC algorithm to insure positive definite 
+covariance of gammas for adaptive conditional probabilities.}
 
 \item{delta}{truncation parameter to prevent sampling probabilities to
 degenerate to 0 or 1 prior to enumeration for sampling without replacement.}

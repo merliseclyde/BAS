@@ -155,3 +155,9 @@ double random_switch_heredity(int *model, struct Var *vars, int n,
   return(1.0);
 }
 
+double GetNextModelCandidate_AMC(int pmodel_old, int n, int n_sure, int *model, struct Var *vars, double problocal,
+                             int *varin, int *varout, SEXP Rparents, double *marg_probs, double *U_inv) {
+  double MH = 1.0;
+  
+  return MH;
+}

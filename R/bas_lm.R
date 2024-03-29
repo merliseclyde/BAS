@@ -227,7 +227,8 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' to propose swap a variable that is excluded with a variable in the model.
 #' @param MCMC.iterations Number of iterations for the MCMC sampler; the
 #' default is n.models*10 if not set by the user.
-#' @param lambda Parameter in the AMCMC algorithm (deprecated).
+#' @param lambda Parameter in the AMCMC algorithm to insure positive definite 
+#' covariance of gammas for adaptive conditional probabilities.
 #' @param delta truncation parameter to prevent sampling probabilities to
 #' degenerate to 0 or 1 prior to enumeration for sampling without replacement.
 #' @param thin For "MCMC" or "MCMC+BAS", thin the MCMC chain every "thin" iterations; default is no
