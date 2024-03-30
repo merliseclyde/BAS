@@ -331,23 +331,23 @@ includes a <code>confint</code> method to create Highest Posterior
 Density intervals from the summaries from <code>coef</code>.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="va">coef.ZS</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##                    2.5%       97.5%        beta</span></span>
-<span><span class="co">## Intercept  6.666605e+00 6.780476294  6.72493620</span></span>
-<span><span class="co">## M         -1.206267e-03 2.163933898  1.14359433</span></span>
-<span><span class="co">## So        -5.830268e-02 0.306753091  0.03547522</span></span>
-<span><span class="co">## Ed         5.578925e-01 3.107169976  1.85848834</span></span>
-<span><span class="co">## Po1        0.000000e+00 1.443627734  0.60067372</span></span>
-<span><span class="co">## Po2       -7.562799e-02 1.476699866  0.31841766</span></span>
-<span><span class="co">## LF        -4.330386e-01 1.113585347  0.05933737</span></span>
-<span><span class="co">## M.F       -2.099673e+00 1.885398820 -0.02702786</span></span>
-<span><span class="co">## Pop       -1.255982e-01 0.006179825 -0.02248283</span></span>
-<span><span class="co">## NW        -1.108672e-05 0.166589909  0.06668437</span></span>
-<span><span class="co">## U1        -4.684904e-01 0.402105224 -0.02456854</span></span>
-<span><span class="co">## U2        -1.131477e-02 0.648917132  0.20702927</span></span>
-<span><span class="co">## GDP       -6.171786e-02 1.161168686  0.20625063</span></span>
-<span><span class="co">## Ineq       6.973847e-01 2.145803613  1.39012647</span></span>
-<span><span class="co">## Prob      -4.154054e-01 0.000000000 -0.21536203</span></span>
-<span><span class="co">## Time      -4.992947e-01 0.075976670 -0.08433479</span></span>
+<pre><code><span><span class="co">##                  2.5%       97.5%        beta</span></span>
+<span><span class="co">## Intercept  6.66770273 6.781702951  6.72493620</span></span>
+<span><span class="co">## M          0.00000000 2.177381010  1.14359433</span></span>
+<span><span class="co">## So        -0.05485621 0.307111466  0.03547522</span></span>
+<span><span class="co">## Ed         0.56732766 3.136097257  1.85848834</span></span>
+<span><span class="co">## Po1        0.00000000 1.455247021  0.60067372</span></span>
+<span><span class="co">## Po2       -0.25023581 1.433650732  0.31841766</span></span>
+<span><span class="co">## LF        -0.48970270 1.071017370  0.05933737</span></span>
+<span><span class="co">## M.F       -2.25829665 1.784670735 -0.02702786</span></span>
+<span><span class="co">## Pop       -0.12285039 0.008864886 -0.02248283</span></span>
+<span><span class="co">## NW         0.00000000 0.166754621  0.06668437</span></span>
+<span><span class="co">## U1        -0.52224407 0.353015104 -0.02456854</span></span>
+<span><span class="co">## U2         0.00000000 0.665710068  0.20702927</span></span>
+<span><span class="co">## GDP       -0.04790262 1.171018509  0.20625063</span></span>
+<span><span class="co">## Ineq       0.65578748 2.107592475  1.39012647</span></span>
+<span><span class="co">## Prob      -0.41394961 0.000000000 -0.21536203</span></span>
+<span><span class="co">## Time      -0.51467783 0.060187459 -0.08433479</span></span>
 <span><span class="co">## attr(,"Probability")</span></span>
 <span><span class="co">## [1] 0.95</span></span>
 <span><span class="co">## attr(,"class")</span></span>
@@ -505,7 +505,7 @@ enumeration;</p>
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   1.375   0.001   1.376</span></span></code></pre>
+<span><span class="co">##   1.391   0.000   1.390</span></span></code></pre>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
 <span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
@@ -517,7 +517,7 @@ enumeration;</p>
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   1.195   0.004   1.199</span></span></code></pre>
+<span><span class="co">##   1.215   0.000   1.215</span></span></code></pre>
 <p>which is faster for enumeration than the default method=“BAS”.</p>
 </div>
 <div class="section level2">
@@ -639,7 +639,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left">Air.Flow</td>
-<td align="right">0.999190</td>
+<td align="right">0.998745</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -648,16 +648,16 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left">Water.Temp</td>
-<td align="right">0.443780</td>
+<td align="right">0.477550</td>
 <td align="right">1.00000</td>
-<td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
+<td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
 <td align="right">1.0000000</td>
 </tr>
 <tr class="even">
 <td align="left">Acid.Conc.</td>
-<td align="right">0.095890</td>
+<td align="right">0.087530</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -666,7 +666,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>1</code></td>
-<td align="right">0.569035</td>
+<td align="right">0.610125</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -675,7 +675,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>2</code></td>
-<td align="right">0.151975</td>
+<td align="right">0.165970</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -684,7 +684,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>3</code></td>
-<td align="right">0.600350</td>
+<td align="right">0.641605</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -693,7 +693,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>4</code></td>
-<td align="right">0.952810</td>
+<td align="right">0.945095</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -702,7 +702,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>5</code></td>
-<td align="right">0.068995</td>
+<td align="right">0.065675</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -711,7 +711,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>6</code></td>
-<td align="right">0.079570</td>
+<td align="right">0.083865</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -720,7 +720,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>7</code></td>
-<td align="right">0.063875</td>
+<td align="right">0.064475</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -729,7 +729,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>8</code></td>
-<td align="right">0.060505</td>
+<td align="right">0.072510</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -738,7 +738,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>9</code></td>
-<td align="right">0.068120</td>
+<td align="right">0.066955</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -747,7 +747,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>10</code></td>
-<td align="right">0.062665</td>
+<td align="right">0.062450</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -756,7 +756,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>11</code></td>
-<td align="right">0.062515</td>
+<td align="right">0.064540</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -765,7 +765,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>12</code></td>
-<td align="right">0.088540</td>
+<td align="right">0.083845</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -774,7 +774,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>13</code></td>
-<td align="right">0.347550</td>
+<td align="right">0.342110</td>
 <td align="right">0.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -783,7 +783,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>14</code></td>
-<td align="right">0.182855</td>
+<td align="right">0.187165</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -792,7 +792,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>15</code></td>
-<td align="right">0.073295</td>
+<td align="right">0.071065</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -801,7 +801,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>16</code></td>
-<td align="right">0.055340</td>
+<td align="right">0.057130</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -810,7 +810,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>17</code></td>
-<td align="right">0.064400</td>
+<td align="right">0.057900</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -819,7 +819,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>18</code></td>
-<td align="right">0.063760</td>
+<td align="right">0.063780</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -828,7 +828,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>19</code></td>
-<td align="right">0.091775</td>
+<td align="right">0.087175</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -837,7 +837,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="even">
 <td align="left"><code>20</code></td>
-<td align="right">0.124905</td>
+<td align="right">0.136480</td>
 <td align="right">0.00000</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
@@ -846,7 +846,7 @@ zero. This avoids exploration of models that are not full rank.</p>
 </tr>
 <tr class="odd">
 <td align="left"><code>21</code></td>
-<td align="right">0.985850</td>
+<td align="right">0.981505</td>
 <td align="right">1.00000</td>
 <td align="right">1.0000000</td>
 <td align="right">1.0000000</td>
@@ -857,26 +857,26 @@ zero. This avoids exploration of models that are not full rank.</p>
 <td align="left">BF</td>
 <td align="right">NA</td>
 <td align="right">1.00000</td>
-<td align="right">0.3397571</td>
 <td align="right">0.5779604</td>
+<td align="right">0.3397571</td>
 <td align="right">0.2016282</td>
 <td align="right">0.5555328</td>
 </tr>
 <tr class="odd">
 <td align="left">PostProbs</td>
 <td align="right">NA</td>
-<td align="right">0.05800</td>
-<td align="right">0.0234000</td>
-<td align="right">0.0217000</td>
-<td align="right">0.0208000</td>
-<td align="right">0.0185000</td>
+<td align="right">0.06980</td>
+<td align="right">0.0233000</td>
+<td align="right">0.0216000</td>
+<td align="right">0.0210000</td>
+<td align="right">0.0187000</td>
 </tr>
 <tr class="even">
 <td align="left">R2</td>
 <td align="right">NA</td>
 <td align="right">0.98920</td>
-<td align="right">0.9873000</td>
 <td align="right">0.9923000</td>
+<td align="right">0.9873000</td>
 <td align="right">0.9803000</td>
 <td align="right">0.9922000</td>
 </tr>
@@ -884,8 +884,8 @@ zero. This avoids exploration of models that are not full rank.</p>
 <td align="left">dim</td>
 <td align="right">NA</td>
 <td align="right">7.00000</td>
-<td align="right">7.0000000</td>
 <td align="right">8.0000000</td>
+<td align="right">7.0000000</td>
 <td align="right">6.0000000</td>
 <td align="right">8.0000000</td>
 </tr>
@@ -893,8 +893,8 @@ zero. This avoids exploration of models that are not full rank.</p>
 <td align="left">logmarg</td>
 <td align="right">NA</td>
 <td align="right">23.82319</td>
-<td align="right">22.7436630</td>
 <td align="right">23.2749373</td>
+<td align="right">22.7436630</td>
 <td align="right">22.2218573</td>
 <td align="right">23.2353597</td>
 </tr>
