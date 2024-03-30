@@ -1,4 +1,4 @@
-test_that("coef in logig glm", {
+test_that("coef in logistic glm", {
   Nrep = 1000
   
   # We load dataset
