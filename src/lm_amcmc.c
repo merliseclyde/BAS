@@ -246,8 +246,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 		  INTEGER(counts)[old_loc] += 1;
 
 		  for (i = 0; i < n; i++) {
-		    // store in opposite order so nth variable is first
-//		    real_model[n-1-i] = (double) modelold[vars[i].index];
+		    // store in tree order //
         real_model[i] = (double) modelold[vars[i].index];
 		    REAL(MCMCprobs)[vars[i].index] += (double) modelold[vars[i].index];
 		  }
@@ -285,6 +284,8 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	  }
 	}
 	
+	update_tree_AMC(modelspace, tree, modeldim, vars, k,p,n,mcurrent, model, real_model, 
+	                marg_probs, Cov, delta);
   // now use AMCMC
   
   Rprintf("Now start AMCMC\n");

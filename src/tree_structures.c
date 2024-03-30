@@ -225,6 +225,63 @@ void update_tree(SEXP modelspace, struct Node *tree, SEXP modeldim,
   }
 }
 
+void update_tree_AMC(SEXP modelspace, struct Node *tree, SEXP modeldim, 
+                 struct Var *vars, int k, int p, int n, int kt, int *model, double *real_model, double *marg_probs, double *Cov, double delta)
+{
+  int i,m, bit;
+  double prone, pigamma, przero;
+  SEXP model_m;
+  struct Node *branch;
+  
+  memset(model, 0, n*sizeof(int));
+  memset(real_model, 0.0, n*sizeof(double));
+  for (m = 0;  m <= kt; m++) {
+    branch = tree;
+    PROTECT(model_m = VECTOR_ELT(modelspace, m));
+    
+    for (i = 0; i < INTEGER(modeldim)[m]; i++)
+      model[INTEGER(model_m)[i]] = 1;
+    
+    pigamma = 0.0;
+    for (i = 0; i < n; i++) {
+      real_model[i] = (double) model[vars[i].index];
+      if (branch->update != kt) {
+        branch->prob = cond_prob(real_model,i, n, marg_probs,Cov, delta);
+        branch->update = kt;
+      }
+      bit = model[vars[i].index];
+      if (bit ==  1)  {
+        pigamma += log(branch->prob);
+        branch = branch->one;
+      } else {
+        pigamma += log(1.0 - branch->prob);
+        branch = branch->zero;
+      }
+    }
+    
+    branch = tree;
+    for (i = 0; i < n; i++) {
+      bit = model[vars[i].index];
+      if (bit == 1) {
+        prone = (branch->prob - exp(pigamma));
+        przero = 1.0 - branch->prob;
+        pigamma -= log(branch->prob);
+      } else {
+        prone = branch->prob;
+        przero = 1.0 - branch->prob  - exp(pigamma);
+        pigamma -= log(1.0 - branch->prob);
+      }
+      if  (prone <= 0.0 )  prone = 0.;
+      if  (przero <= 0.0 )  przero = 0.;
+      branch->prob  = prone/(prone + przero);
+      if (prone <= 0.0) branch->prob = 0.;
+      
+      if (bit == 1) branch = branch->one;
+      else branch = branch->zero;
+    }
+    UNPROTECT(1);
+  }
+}
 
 void CreateTree_with_pigamma(NODEPTR branch, struct Var *vars,
                              int *bestmodel, int *model, int n,
@@ -300,6 +357,48 @@ void Substract_visited_probability_mass(NODEPTR branch, struct Var *vars, int *m
     branch->prob  = prone;
     if (bit == 1) branch = branch->one;
     else  branch = branch->zero;
+  }
+}
+
+void GetNextModel_AMC(NODEPTR branch, struct Var *vars,
+                       int *model, int n, int m,  double *pigamma,
+                       double problocal, SEXP modeldim, int *bestmodel,
+                       SEXP Rparents, double *real_model, double*marg_probs, double *Cov, double delta) {
+  double prob_parents = 1.0;
+  int bit;
+  
+  for (int i = 0; i< n; i++) {
+    pigamma[i] = 1.0;
+    
+    double prob = cond_prob(real_model,i, n, marg_probs,Cov, delta);
+    bit = withprob(prob);
+    model[vars[i].index] = bit;
+    real_model[i] = (double) model[vars[i].index];
+    INTEGER(modeldim)[m]  += bit;
+    
+    if (bit == 1) {
+      for (int j=0; j<=i; j++) {
+        pigamma[j] *= branch->prob; } // calculate probabilty of model
+      if (i < n-1 && branch->one == NULL) {
+        //  add new branch
+        //  check if parents
+        prob_parents =  got_parents(model, Rparents, i+1, vars,n);
+        branch->one = make_node(prob_parents);
+      }
+      if (i == n-1 && branch->one == NULL) branch->one = make_node(0.0);
+      branch = branch->one;
+    } else {
+      for (int j=0; j<=i; j++)  pigamma[j] *= (1.0 - branch->prob);
+      if (i < n-1 && branch->zero == NULL)
+      {
+        //  add new branch
+        //  check if parents
+        prob_parents =  got_parents(model, Rparents, i+1, vars, n);
+        branch->zero = make_node(prob_parents);
+      }
+      if (i == n-1 && branch->zero == NULL) branch->zero = make_node(0.0);
+      branch = branch->zero;
+    }
   }
 }
 void GetNextModel_swop(NODEPTR branch, struct Var *vars,
@@ -397,9 +496,6 @@ double got_parents(int *model, SEXP Rparents, int level, struct Var *var, int ns
   return(prob);
 }
 
-
-
-void insert_model_tree(struct Node *tree, struct Var *vars,  int n, int *model, int num_models);
 
 int *GetModel_m(SEXP Rmodel_m, int *model, int p) {
   int *model_m = INTEGER(Rmodel_m);

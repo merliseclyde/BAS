@@ -82,7 +82,12 @@ int compare(struct Var *i, struct Var *j);
 	/* For sim. */
 double *makeprob(double *prob, double *y, double c, double w, double
 		 sigma2, int p, int inc_int);
-void update_tree(SEXP modelspace, struct Node *tree, SEXP modeldim, struct Var *vars, int k, int p, int n, int kt, int *model);
+void update_tree(SEXP modelspace, struct Node *tree, SEXP modeldim, 
+                 struct Var *vars, int k, int p, int n, int kt, int *model);
+void update_tree_AMC(SEXP modelspace, struct Node *tree, SEXP modeldim, 
+                 struct Var *vars, int k, int p, int n, int kt, int *model, 
+                 double *real_model, double *marg_probs, double *Cov, double delta);
+  
 void update_tree_file(struct Node *tree, SEXP modeldim, struct Var *vars, int k, int p, int n, int kt, FILE *file);
 double random_switch_heredity(int *model, struct Var *vars, int n, int pmodel, int *varin, int *varout, SEXP Rparents);
 double random_walk_heredity(int *model, struct Var *vars, int n, SEXP Rparents);
