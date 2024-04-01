@@ -135,7 +135,7 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	double problocal = REAL(plocal)[0];
 	
 	
-	while (nUnique < k && m < INTEGER(BURNIN_Iterations)[0]) {
+	while (nUnique < k && m < (INTEGER(MCMC_Iterations)[0] + INTEGER(BURNIN_Iterations)[0])) {
 
 	  memcpy(model, modelold, sizeof(int)*p);
 		pmodel =  n_sure;
@@ -190,7 +190,7 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 		//    Rprintf("MH new %lf old %lf\n", postnew, postold);
 		if (unif_rand() < MH) {
 		  if (newmodel == 1) {
-		    if ((m % thin) == 0 )  {
+		    if (m % thin == 0 )  {
 
 		    new_loc = nUnique;
 		    insert_model_tree(tree, vars, n, model, nUnique);

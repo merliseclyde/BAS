@@ -361,9 +361,9 @@ void Substract_visited_probability_mass(NODEPTR branch, struct Var *vars, int *m
 }
 
 void GetNextModel_AMC(NODEPTR branch, struct Var *vars,
-                       int *model, int n, int m,  double *pigamma,
-                       double problocal, SEXP modeldim, int *bestmodel,
-                       SEXP Rparents, double *real_model, double*marg_probs, double *Cov, double delta) {
+                       int *model, int n, int m, SEXP modeldim, double *pigamma,
+                       SEXP Rparents, double *real_model, double*marg_probs, 
+                       double *Cov, double delta) {
   double prob_parents = 1.0;
   int bit;
   
@@ -401,6 +401,7 @@ void GetNextModel_AMC(NODEPTR branch, struct Var *vars,
     }
   }
 }
+
 void GetNextModel_swop(NODEPTR branch, struct Var *vars,
                        int *model, int n, int m,  double *pigamma,
                        double problocal, SEXP modeldim, int *bestmodel,
@@ -477,7 +478,7 @@ double got_parents(int *model, SEXP Rparents, int level, struct Var *var, int ns
             // missing parent so probability of model is 0
             prob *= 0.0;}
           if (model[var[j].index] == 1) {
-            // got parent so probability of variable is 1
+            // got parent so probability doesn't change
             prob *= 1.0;
             nsibs += parents[var[j].index + p*var[level].index];
           }

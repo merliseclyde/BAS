@@ -24,6 +24,7 @@ bas.lm(
   bestmodel = NULL,
   prob.local = 0,
   prob.rw = 0.5,
+  burnin.iterations = NULL,
   MCMC.iterations = NULL,
   lambda = NULL,
   delta = 0.025,
@@ -176,6 +177,9 @@ median probability model.  Not used at this time.}
 \item{prob.rw}{For any of the MCMC methods, probability of using the
 random-walk Metropolis proposal; otherwise use a random "flip" move
 to propose swap a variable that is excluded with a variable in the model.}
+
+\item{burnin.iterations}{Number of burnin iterations for the MCMC sampler; the
+default is n.models*10 if not set by the user.}
 
 \item{MCMC.iterations}{Number of iterations for the MCMC sampler; the
 default is n.models*10 if not set by the user.}

@@ -46,7 +46,6 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	int mcurrent, n_sure, inc=1;
 	int print = 1;
 
-	Rprintf("Allocating Space for %d Models 2 \n", nModels) ;
 	Rprintf("AMCMC\n") ;
 	
 	//get dimsensions of all variables
@@ -159,7 +158,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	int *varout= ivecalloc(p);
 	double problocal = REAL(plocal)[0];
 	
-	Rprintf("using AMCMC sampling - initialize\n");
+	Rprintf("using MCMC sampling - initialize\n");
 	
 	while (nUnique < k && m < INTEGER(BURNIN_Iterations)[0]) {
 
@@ -288,16 +287,18 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	                marg_probs, Cov, delta);
   // now use AMCMC
   
-  Rprintf("Now start AMCMC\n");
+  Rprintf("Now start AMCMC with %d nUnique models\n", nUnique);
   
+  double *pigamma = vecalloc(p);
+  memset(pigamma, 0.0 ,p*sizeof(double)); 
   
   while (nUnique < k && m < INTEGER(MCMC_Iterations)[0]) {
     
     memcpy(model, modelold, sizeof(int)*p);
     pmodel =  n_sure;
     
-    MH = GetNextModelCandidate(pmodel_old, n, n_sure, model, vars, problocal,
-                               varin, varout, Rparents);
+    GetNextModel_AMC(branch, vars, model, n, m, modeldim, pigamma, Rparents, 
+                     real_model, marg_probs, Cov, delta);
     
     branch = tree;
     newmodel= 0;

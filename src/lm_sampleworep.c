@@ -102,6 +102,7 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 		INTEGER(modeldim)[m]  +=  bestmodel[vars[i].index];
 	}
 	double *pigamma = vecalloc(p);
+	memset(pigamma, 0.0 ,p*sizeof(double)); 
 	branch = tree;
 	CreateTree_with_pigamma(branch, vars, bestmodel, model, n, m,
                          modeldim, pigamma, Rparents);

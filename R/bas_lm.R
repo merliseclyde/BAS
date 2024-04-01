@@ -225,6 +225,8 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' @param prob.rw For any of the MCMC methods, probability of using the
 #' random-walk Metropolis proposal; otherwise use a random "flip" move
 #' to propose swap a variable that is excluded with a variable in the model.
+#' @param burnin.iterations Number of burnin iterations for the MCMC sampler; the
+#' default is n.models*10 if not set by the user.
 #' @param MCMC.iterations Number of iterations for the MCMC sampler; the
 #' default is n.models*10 if not set by the user.
 #' @param lambda Parameter in the AMCMC algorithm to insure positive definite 
@@ -468,6 +470,7 @@ bas.lm <- function(formula,
                    bestmodel = NULL,
                    prob.local = 0.0,
                    prob.rw = 0.5,
+                   burnin.iterations = NULL,
                    MCMC.iterations = NULL,
                    lambda = NULL,
                    delta = 0.025,
@@ -618,7 +621,9 @@ bas.lm <- function(formula,
   if (is.null(MCMC.iterations)) {
     MCMC.iterations <- as.integer(n.models * 10)
   }
-  Burnin.iterations <- as.integer(MCMC.iterations)
+  if (is.null(burnin.iterations)){
+    burnin.iterations <- as.integer(n.models * 10)
+    }
 
   if (is.null(lambda)) {
     lambda <- 1.0
@@ -769,7 +774,7 @@ bas.lm <- function(formula,
       update = as.integer(update),
       Rbestmodel = as.integer(bestmodel),
       plocal = as.numeric(1.0 - prob.rw),
-      as.integer(Burnin.iterations),
+      as.integer(burnin.iterations),
       as.integer(MCMC.iterations),
       as.numeric(lambda),
       as.numeric(delta),
@@ -792,7 +797,7 @@ bas.lm <- function(formula,
       update = as.integer(update),
       Rbestmodel = as.integer(bestmodel),
       plocal = as.numeric(1.0 - prob.rw),
-      as.integer(Burnin.iterations),
+      as.integer(burnin.iterations),
       as.integer(MCMC.iterations),
       as.numeric(lambda),
       as.numeric(delta),
@@ -815,7 +820,7 @@ bas.lm <- function(formula,
       update = as.integer(update),
       Rbestmodel = as.integer(bestmodel),
       plocal = as.numeric(1.0 - prob.rw),
-      as.integer(Burnin.iterations),
+      as.integer(burnin.iterations),
       as.integer(MCMC.iterations),
       as.numeric(lambda),
       as.numeric(delta),

@@ -352,7 +352,7 @@ test_that("initialize with null model MCMC+BAS", {
 })
 
 # issue 69
-test_that("MCMC+BAS equiv to BAS w/ MCMC.it = 0", {
+test_that("MCMC+BAS equiv to BAS w/ MCMC.it = 0 and burnin.it = 0", {
   data(Hald)
   # start with Full Model
   
@@ -360,14 +360,14 @@ test_that("MCMC+BAS equiv to BAS w/ MCMC.it = 0", {
   
   set.seed(42)
   hald.bas    = bas.lm(Y ~ .,
-                       prior = "BIC", method = "BAS", 
+                       prior = "BIC", method = "BAS", burnin.iterations = 0,
                        MCMC.iterations = 0, n.models=2^4,
                        bestmodel=best,  update=8,
                        modelprior = uniform(), data = Hald)
   
   set.seed(42)
   hald.mcmcbas    = bas.lm(Y ~ .,
-                           prior = "BIC", method = "MCMC+BAS", 
+                           prior = "BIC", method = "MCMC+BAS", burnin.iterations = 0,
                            MCMC.iterations = 0, n.models=2^4,
                            bestmodel=best, update=8,
                            modelprior = uniform(), data = Hald)
@@ -413,7 +413,7 @@ test_that("initialize with Full model MCMC+BAS", {
   
   set.seed(42)
   hald.mcmc    = bas.lm(Y ~ .,
-                        prior = "BIC", method = "MCMC", 
+                        prior = "BIC", method = "MCMC", burnin.iterations = it.mcmc,
                         MCMC.iterations = it.mcmc, n.models=nm,
                         bestmodel=best, 
                         modelprior = uniform(), data = Hald)
@@ -422,7 +422,7 @@ test_that("initialize with Full model MCMC+BAS", {
   set.seed(42)
   # OK as it skips SWOR step (by chance)
   hald.mcmcbas    = bas.lm(Y ~ .,
-                           prior = "BIC", method = "MCMC+BAS", 
+                           prior = "BIC", method = "MCMC+BAS", burnin.iterations = it.mcmc,
                            MCMC.iterations = it.mcmc, n.models=nm,
                            bestmodel=best, 
                            modelprior = uniform(), data = Hald)
