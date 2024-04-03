@@ -221,7 +221,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 		    insert_model_tree(tree, vars, n, model, nUnique);
 		    INTEGER(modeldim)[nUnique] = pmodel;
 		    INTEGER(rank)[nUnique] = rank_m;
-
+        
 		    //record model data
 		    SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
 		    SetModel(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2,nUnique);
@@ -271,7 +271,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	
 	// Global-Proposal
 	// Initialize post old proposal
-	double pigammaold = 0.0;
+	double pigammaold = 0.0, pigammanew= 0.0;
 	for (i = 0; i < n; i++) {
 	  if (modelold[vars[i].index] == 1 ){	
 	    real_model[i] = 1.0;
@@ -282,24 +282,24 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	    pigammaold += log(1.0 - cond_prob(real_model,i, n, marg_probs,Cov, delta));
 	  }
 	}
+	pigammaold = exp(pigammaold);
 	
-	update_tree_AMC(modelspace, tree, modeldim, vars, k,p,n,mcurrent, model, real_model, 
+	/* update_tree_AMC(modelspace, tree, modeldim, vars, k,p,n,mcurrent, model, real_model, 
 	                marg_probs, Cov, delta);
+	*/
   // now use AMCMC
   
-  Rprintf("Now start AMCMC with %d nUnique models\n", nUnique);
+  Rprintf("Now start AMCMC with %d nUnique models out of %f at it %d\n", nUnique, k, m);
   
-  double *pigamma = vecalloc(p);
-  memset(pigamma, 0.0 ,p*sizeof(double)); 
-  
-  while (nUnique < k && m < INTEGER(MCMC_Iterations)[0]) {
+  while (nUnique < k && m < (INTEGER(BURNIN_Iterations)[0] + INTEGER(MCMC_Iterations)[0])) {
     
     memcpy(model, modelold, sizeof(int)*p);
     pmodel =  n_sure;
+    branch = tree;
     
-    GetNextModel_AMC(branch, vars, model, n, m, modeldim, pigamma, Rparents, 
+    pigammanew = GetNextModel_AMC(vars, model, n, m, modeldim, Rparents, 
                      real_model, marg_probs, Cov, delta);
-    
+    Rprintf("pigammanew %lf\n", pigammanew);
     branch = tree;
     newmodel= 0;
     for (i = 0; i< n; i++) {
@@ -314,14 +314,11 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
       pmodel  += bit;
     }
     
-    if (pmodel  == n_sure || pmodel == n + n_sure) {
-      MH = 1.0/(1.0 - problocal);
-    }
     
     if (newmodel == 1) {
       prior_m = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
-      if (prior_m == 0.0) {
-        MH *= 0.0;
+      if (prior_m == 0.0 || pigammanew == 0.0) {
+        MH = 0.0;
       }
       else {
         new_loc = nUnique;
@@ -335,16 +332,16 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
         gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
         
         postnew = logmargy + log(prior_m);
-        MH *= exp(postnew - postold);
+        MH = exp(postnew - postold + log(pigammaold) - log(pigammanew));
       }}
     else {
       new_loc = branch->where;
       postnew =  REAL(logmarg)[new_loc] +
         log(REAL(priorprobs)[new_loc]);
-      MH *=  exp(postnew - postold);
+      MH =  exp(postnew - postold + log(pigammaold) - log(pigammanew));
     }
     
-    //    Rprintf("MH new %lf old %lf\n", postnew, postold);
+    Rprintf("MH new %lf old %lf\n", postnew, postold);
     if (unif_rand() < MH) {
       if (newmodel == 1) {
         if ((m % thin) == 0 )  {
@@ -365,20 +362,20 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
       
       old_loc = new_loc;
       postold = postnew;
+      pigammaold = pigammanew;
       pmodel_old = pmodel;
       memcpy(modelold, model, sizeof(int)*p);
       
     } else  {
-      if (newmodel == 1 && prior_m > 0) UNPROTECT(3);
+      if (newmodel == 1 && prior_m > 0.0 && pigammanew > 0.0 ) UNPROTECT(3);
     }
     
     if ( (m % thin) == 0) {
       
       INTEGER(counts)[old_loc] += 1;
-      
+      REAL(sampleprobs)[old_loc] = pigammaold;
       for (i = 0; i < n; i++) {
-        // store in opposite order so nth variable is first
-        real_model[n-1-i] = (double) modelold[vars[i].index];
+        real_model[i] = (double) modelold[vars[i].index];
         REAL(MCMCprobs)[vars[i].index] += (double) modelold[vars[i].index];
       }
       nsamples++;

@@ -360,46 +360,33 @@ void Substract_visited_probability_mass(NODEPTR branch, struct Var *vars, int *m
   }
 }
 
-void GetNextModel_AMC(NODEPTR branch, struct Var *vars,
-                       int *model, int n, int m, SEXP modeldim, double *pigamma,
+double GetNextModel_AMC(struct Var *vars,
+                       int *model, int n, int m, SEXP modeldim,
                        SEXP Rparents, double *real_model, double*marg_probs, 
                        double *Cov, double delta) {
-  double prob_parents = 1.0;
+  double prob_parents = 1.0, pigamma = 1.0, prob = 0;
   int bit;
   
   for (int i = 0; i< n; i++) {
-    pigamma[i] = 1.0;
     
-    double prob = cond_prob(real_model,i, n, marg_probs,Cov, delta);
+    prob = cond_prob(real_model,i, n, marg_probs,Cov, delta);
     bit = withprob(prob);
     model[vars[i].index] = bit;
     real_model[i] = (double) model[vars[i].index];
-    INTEGER(modeldim)[m]  += bit;
     
     if (bit == 1) {
-      for (int j=0; j<=i; j++) {
-        pigamma[j] *= branch->prob; } // calculate probabilty of model
-      if (i < n-1 && branch->one == NULL) {
-        //  add new branch
-        //  check if parents
-        prob_parents =  got_parents(model, Rparents, i+1, vars,n);
-        branch->one = make_node(prob_parents);
-      }
-      if (i == n-1 && branch->one == NULL) branch->one = make_node(0.0);
-      branch = branch->one;
-    } else {
-      for (int j=0; j<=i; j++)  pigamma[j] *= (1.0 - branch->prob);
-      if (i < n-1 && branch->zero == NULL)
-      {
-        //  add new branch
-        //  check if parents
-        prob_parents =  got_parents(model, Rparents, i+1, vars, n);
-        branch->zero = make_node(prob_parents);
-      }
-      if (i == n-1 && branch->zero == NULL) branch->zero = make_node(0.0);
-      branch = branch->zero;
+        pigamma *= prob;  // calculate log probabilty of model
+     }
+    else {
+      pigamma *= 1.0 - prob;
     }
+   if (i < n-1) {
+        //  check if parents
+        prob_parents *=  got_parents(model, Rparents, i+1, vars, n);
+      }
   }
+  if (prob_parents <= 0) pigamma = 0;
+  return(pigamma);
 }
 
 void GetNextModel_swop(NODEPTR branch, struct Var *vars,

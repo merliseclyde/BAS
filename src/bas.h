@@ -323,8 +323,8 @@ double got_parents(int *model, SEXP Rparents, int level, struct Var *var, int ns
 void GetNextModel_swop(NODEPTR branch, struct Var *vars, int *model, int n, int m,  double *pigamma,
                        double problocal, SEXP modeldim,int *bestmodel,
                        SEXP Rparents);
-void GetNextModel_AMC(NODEPTR branch, struct Var *vars,
-                      int *model, int n, int m, SEXP modeldim, double *pigamma,
+double GetNextModel_AMC(struct Var *vars,
+                      int *model, int n, int m, SEXP modeldim,
                       SEXP Rparents, double *real_model, double*marg_probs, 
                       double *Cov, double delta);
 void Substract_visited_probability_mass(NODEPTR branch, struct Var *vars, int *model, int n, int m, double *pigamma, double eps);
