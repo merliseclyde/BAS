@@ -28,6 +28,35 @@ void compute_modelprobs(SEXP Rmodelprobs,  SEXP Rlogmarg, SEXP Rpriorprobs, int 
 	}
 }
 
+void compute_modelprobs_HT(SEXP Rmodelprobs,  SEXP Rlogmarg, SEXP Rpriorprobs, SEXP Rsampleprobs, int k, int MC)
+{
+  int m;
+  double nc, bestmarg, *modelprobs, *logmarg, *priorprobs, *sampleprobs;
+  
+  logmarg = REAL(Rlogmarg);
+  modelprobs = REAL(Rmodelprobs);
+  priorprobs = REAL(Rpriorprobs);
+  sampleprobs = REAL(Rsampleprobs); 
+  bestmarg = logmarg[0];
+  nc = 0.0;
+  
+  for (m = 0; m < k; m++) {
+    if (logmarg[m] > bestmarg) bestmarg = logmarg[m];
+    if (sampleprobs[m] > 0.0) modelprobs[m]  =  -log(1.0 - (pow(1.0 - sampleprobs[m], (double) MC)));
+  }
+  
+  for (m = 0; m < k; m++) {
+    if (sampleprobs[m] > 0.0) {
+      modelprobs[m] += logmarg[m] - bestmarg;
+      nc += exp(modelprobs[m])*priorprobs[m];
+    }
+  }
+  
+  for (m = 0; m < k; m++) {
+    if (sampleprobs[m] > 0.0) modelprobs[m] = exp(modelprobs[m] - log(nc))*priorprobs[m];
+  }
+}
+
 
 void compute_margprobs(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, double *margprobs, int k, int p)
 {

@@ -6,7 +6,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
               SEXP incint, SEXP Ralpha, SEXP method, SEXP modelprior, SEXP Rupdate,
               SEXP Rbestmodel, SEXP plocal, SEXP BURNIN_Iterations,
               SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA,
-              SEXP Rthin, SEXP Rparents, SEXP Rpivot, SEXP Rtol)
+              SEXP Rthin, SEXP Rparents, SEXP Rpivot, SEXP Rtol, SEXP RIS)
 {
 	int nProtected = 0;
 	SEXP RXwork = PROTECT(duplicate(X)); nProtected++;
@@ -45,7 +45,8 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	int i,j, m, n, pmodel_old, *model_m, *bestmodel, rank_m;
 	int mcurrent, n_sure, inc=1;
 	int print = 1;
-
+  bool IS = LOGICAL(RIS)[0];
+  
 	Rprintf("AMCMC\n") ;
 	
 	//get dimsensions of all variables
@@ -57,7 +58,8 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	double alpha = REAL(Ralpha)[0];
 	int thin = INTEGER(Rthin)[0];
 
-
+  
+  
 	Ywork = REAL(RYwork);
 	Xwork = REAL(RXwork);
 	wts = REAL(Rweights);
@@ -76,6 +78,9 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	
 	int noInclusionIs1 = no_prior_inclusion_is_1(p, probs);
 
+	if (lambda == 0.0) {
+	  lambda = (double) n + 2.0; // default vague df see Hoff page 110 
+	}
 
 	//  allocate working model and fill in the sure things
 	int *model = ivecalloc(p);
@@ -103,7 +108,9 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	
 	for (j=0; j < n; j++) {
 	  for (i = 0; i < n; i++) {
-	    if (j == i)  priorCov[j*n + i] = lambda;
+	    // set SS_0 = .5 * .5 * (lambda - n - 1) as prior SS under Wishart
+	    // vague lambda = n + 2. Hoff p. 110
+	    if (j == i)  priorCov[j*n + i] = 0.25*(lambda - (double) n - 1.0);   
 	  }
 	}
 	
@@ -267,7 +274,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	    (1.0 - wt)* probs[vars[i].index];
 	}	
 	print=0;
-	update_Cov(Cov, priorCov, SSgam, marg_probs, n, m, print);
+	update_Cov(Cov, priorCov, SSgam, marg_probs, lambda, n, m, print);
 	
 	// Global-Proposal
 	// Initialize post old proposal
@@ -289,7 +296,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	*/
   // now use AMCMC
   
-  Rprintf("Now start AMCMC with %d nUnique models out of %f at it %d\n", nUnique, k, m);
+  Rprintf("Now start AMCMC with %d nUnique models out of %d at it %d\n", nUnique, k, m);
   
   while (nUnique < k && m < (INTEGER(BURNIN_Iterations)[0] + INTEGER(MCMC_Iterations)[0])) {
     
@@ -299,7 +306,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
     
     pigammanew = GetNextModel_AMC(vars, model, n, m, modeldim, Rparents, 
                      real_model, marg_probs, Cov, delta);
-    Rprintf("pigammanew %lf\n", pigammanew);
+    if (print == 1) Rprintf("pigammanew %lf\n", pigammanew);
     branch = tree;
     newmodel= 0;
     for (i = 0; i< n; i++) {
@@ -314,7 +321,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
       pmodel  += bit;
     }
     
-    
+    MH = 1.0;   // if using IS set MH to 1 to alwas accept
     if (newmodel == 1) {
       prior_m = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
       if (prior_m == 0.0 || pigammanew == 0.0) {
@@ -332,16 +339,16 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
         gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
         
         postnew = logmargy + log(prior_m);
-        MH = exp(postnew - postold + log(pigammaold) - log(pigammanew));
+        if (!IS) MH = exp(postnew - postold + log(pigammaold) - log(pigammanew));
       }}
     else {
       new_loc = branch->where;
       postnew =  REAL(logmarg)[new_loc] +
         log(REAL(priorprobs)[new_loc]);
-      MH =  exp(postnew - postold + log(pigammaold) - log(pigammanew));
+      if (!IS) MH =  exp(postnew - postold + log(pigammaold) - log(pigammanew));
     }
     
-    Rprintf("MH new %lf old %lf\n", postnew, postold);
+    if (print == 1) Rprintf("MH new %lf old %lf\n", postnew, postold);
     if (unif_rand() < MH) {
       if (newmodel == 1) {
         if ((m % thin) == 0 )  {
@@ -391,7 +398,11 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 
 	// Compute marginal probabilities
 	mcurrent = nUnique;
-	compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
+  if (IS && (INTEGER(MCMC_Iterations)[0] > 0)) {
+    compute_modelprobs_HT(modelprobs, logmarg, priorprobs, sampleprobs,
+                          mcurrent, INTEGER(MCMC_Iterations)[0]);
+                  }
+	else compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
 
 	INTEGER(NumUnique)[0] = nUnique;

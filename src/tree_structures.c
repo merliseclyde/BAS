@@ -552,7 +552,7 @@ double FitModel(SEXP Rcoef_m, SEXP Rse_m, double *XtY, double *XtX, int *model_m
 
 void SetModel2(double logmargy, double shrinkage_m, double prior_m,
                SEXP sampleprobs, SEXP logmarg, SEXP shrinkage, SEXP priorprobs, int m) {
-  REAL(sampleprobs)[m] = 1.0;
+  REAL(sampleprobs)[m] = 0.0;
   REAL(logmarg)[m] = logmargy;
   REAL(shrinkage)[m] = shrinkage_m;
   REAL(priorprobs)[m] = prior_m;

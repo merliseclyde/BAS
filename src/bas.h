@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "mconf.h"
 #include <math.h>
 #include <string.h>
@@ -77,6 +78,8 @@ int no_prior_inclusion_is_1(int p, double *probs);
 double compute_prior_probs(int *model, int modeldim, int p, SEXP modelprior, int noInclusionIs1);
 void compute_margprobs_old(Bit **models, SEXP Rmodelprobs, double *margprobs, int k, int p);
 void compute_modelprobs(SEXP modelprobs, SEXP logmarg, SEXP priorprobs,  int k);
+void compute_modelprobs_HT(SEXP Rmodelprobs,  SEXP Rlogmarg, SEXP Rpriorprobs, SEXP Rsampleprobs, 
+                           int k, int MC);
 void set_bits(char *bits, int subset, int *pattern, int *position, int n);
 int compare(struct Var *i, struct Var *j);
 	/* For sim. */
@@ -303,7 +306,7 @@ void chol2se(double *qr, double *se, double *cov, double *covwork, int p, int n)
 void QR2cov(double *qr, double *cov, double *covwork, int p, int n);
 #endif
 
-void  update_Cov(double *Cov, double *priorCov, double *SSgam, double *marg_probs, int n, int m, int print);
+void  update_Cov(double *Cov, double *priorCov, double *SSgam, double *marg_probs, double lambda, int n, int m, int print);
 double cond_prob(double *model, int j, int n, double *mean, double *beta_matrix , double delta) ;
 
 void insert_model_tree(struct Node *tree, struct Var *vars,  int n, int *model, int num_models);

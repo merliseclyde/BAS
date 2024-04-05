@@ -4,11 +4,9 @@
 #include "bas.h"
 
 void   update_MCMC_freq(double *MCMC_probs, int *model, int p, int m);
-double cond_prob(double *model, int j, int n, double *mean, double *beta_matrix , double eps);
 
 void update_cond_tree(SEXP modelspace, struct Node *tree, SEXP modeldim, struct Var *vars, int p, int n, int kt, int *model, double *real_model, double *marg_probs, double *beta_matrix, double eps);
 
-void  update_Cov(double *Cov, double *priorCov, double *SSgam, double *marg_probs, int n, int m, int print);
 
 void insert_model_tree(struct Node *tree, struct Var *vars,  int n, int *model, int num_models);
 

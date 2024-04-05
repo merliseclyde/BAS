@@ -2,7 +2,7 @@
 
 #include "bas.h"
 
-void  update_Cov(double *Cov, double *priorCov, double *SSgam, double *marg_probs, int n, int m, int print) {
+void  update_Cov(double *Cov, double *priorCov, double *SSgam, double *marg_probs, double lambda, int n, int m, int print) {
   double alpha, one=1.0;
   int matsize=n*n, inc=1, i,j,info=1;
   
@@ -18,13 +18,14 @@ void  update_Cov(double *Cov, double *priorCov, double *SSgam, double *marg_prob
     }
   }
   alpha  = -(double) m;
-  // Compute SSgam - m prob prob^T 
+  // Compute SSgam - m prob prob^T  = SS_n
   F77_NAME(dsyr)("U", &n,  &alpha, &marg_probs[0], &inc,  &Cov[0], &n FCONE);
-  alpha = 1.0/(double) m;
-  // divide SSgam - m prob prob^T by m -> Cov
-  F77_NAME(dscal)(&matsize,  &alpha,  &Cov[0], &inc);
-  // Add priorCov to Cov
+  // Add priorSS to observed SS = SS_0 + SS_n
   F77_NAME(daxpy)(&matsize, &one, &priorCov[0], &inc, &Cov[0], &inc);
+  
+  alpha = 1.0/((double) m + lambda - (double) n - 1.0);
+  // divide SS_0 + SS by (m + lambda - n - 1) to get posterior expectation of Sigma
+  F77_NAME(dscal)(&matsize,  &alpha,  &Cov[0], &inc);
   
   if (print == 1) {
     Rprintf("Cov:\n");

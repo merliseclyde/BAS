@@ -212,6 +212,14 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' calculate marginal inclusion probabilities and then samples without
 #' replacement as in BAS.  For BAS, the sampling probabilities can be updated
 #' as more models are sampled. (see update below).
+#' \item  "AMCMC" uses an adaptive proposal 
+#' based on factoring the proposal distribution as a product 
+#' \deqn{prod_j \pi(\gamma_j \mid \gamma_{< j})} learned from the past draws. If 
+#' `importance.sampling = FALSE` this uses an adaptive independent Metropolis-Hasting
+#' algorithm, with if `importance.sampling = TRUE`  uses importance sampline 
+#' combined with Horiwitz-Thompson estimates of posterior model and inclusion
+#' probabilities.
+#' can be 
 #' }
 #' @param update number of iterations between potential updates of the sampling
 #' probabilities for method "BAS" or "MCMC+BAS". If NULL do not update, otherwise the
@@ -230,7 +238,8 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' @param MCMC.iterations Number of iterations for the MCMC sampler; the
 #' default is n.models*10 if not set by the user.
 #' @param lambda Parameter in the AMCMC algorithm to insure positive definite 
-#' covariance of gammas for adaptive conditional probabilities.
+#' covariance of gammas for adaptive conditional probabilities prior based on prior degrees of freedom pseudo
+#' in Inverse-Wishart.  Default is set to p + 2.
 #' @param delta truncation parameter to prevent sampling probabilities to
 #' degenerate to 0 or 1 prior to enumeration for sampling without replacement.
 #' @param thin For "MCMC" or "MCMC+BAS", thin the MCMC chain every "thin" iterations; default is no
@@ -243,6 +252,8 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' while the former may have less variability.  May be compared via the
 #' diagnostic plot function \code{\link{diagnostics}}.
 #' See details in Clyde and Ghosh (2012).
+#' @param importance.sampling whether to use importance sampling or an independent
+#'  Metropolis-Hastings algorithm with sampling method="AMCMC" (see above).
 #' @param force.heredity  Logical variable to force all levels of a factor to be
 #' included together and to include higher order interactions only if lower
 #' order terms are included.  Currently supported with `method='MCMC'`
@@ -475,7 +486,8 @@ bas.lm <- function(formula,
                    lambda = NULL,
                    delta = 0.025,
                    thin = 1,
-                   renormalize = FALSE,
+                   renormalize = FALSE, 
+                   importance.sampling = FALSE,
                    force.heredity = FALSE,
                    pivot = TRUE,
                    tol = 1e-7,
@@ -625,9 +637,7 @@ bas.lm <- function(formula,
     burnin.iterations <- as.integer(n.models * 10)
     }
 
-  if (is.null(lambda)) {
-    lambda <- 1.0
-  }
+  
 
 
 
@@ -734,9 +744,7 @@ bas.lm <- function(formula,
   modeldim <- as.integer(rep(0, n.models))
   n.models <- as.integer(n.models)
 
-
-
-
+  if (is.null(lambda)) lambda = 0.0  # set default in C code
 
   #  sampleprobs = as.double(rep(0.0, n.models))
   result <- switch(
@@ -827,7 +835,8 @@ bas.lm <- function(formula,
       Rthin = as.integer(thin),
       Rparents = parents,
       Rpivot = pivot,
-      Rtol = tol
+      Rtol = tol,
+      RIS = importance.sampling
     ),
     "deterministic" = .Call(
       C_deterministic,
