@@ -2,7 +2,8 @@
 
 #include "bas.h"
 
-void  update_Cov(double *Cov, double *priorCov, double *SSgam, double *marg_probs, double lambda, int n, int m, int print) {
+void  update_Cov(double *Cov, double *priorCov, double *SSgam, double *marg_probs, 
+                 double lambda, int n, int m, int print) {
   double alpha, one=1.0;
   int matsize=n*n, inc=1, i,j,info=1;
   

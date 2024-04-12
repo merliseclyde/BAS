@@ -893,7 +893,8 @@ bas.lm <- function(formula,
     result$priorprobs = result$priorprobs[subset = drop.models]
     result$n.models = length(result$postprobs)
   }
-
+  
+  if (importance.sampling) renormalize = TRUE # do not use MCMC probs and use HT
   if (method == "MCMC" || method == "AMCMC") {
     result$n.models <- result$n.Unique
     result$postprobs.MCMC <- result$freq / sum(result$freq)

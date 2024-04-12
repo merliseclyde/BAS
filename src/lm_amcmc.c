@@ -270,11 +270,11 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);        
 	for (i = 0; i < n; i++) {
-	  marg_probs[i] = wt*(REAL(MCMCprobs)[vars[i].index]/ (double) m) + 
+	  marg_probs[i] = wt*(REAL(MCMCprobs)[vars[i].index]/ (double) nsamples) + 
 	    (1.0 - wt)* probs[vars[i].index];
 	}	
 	print=0;
-	update_Cov(Cov, priorCov, SSgam, marg_probs, lambda, n, m, print);
+	update_Cov(Cov, priorCov, SSgam, marg_probs, lambda, n, nsamples, print);
 	
 	// Global-Proposal
 	// Initialize post old proposal
@@ -297,6 +297,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
   // now use AMCMC
   
   Rprintf("Now start AMCMC with %d nUnique models out of %d at it %d\n", nUnique, k, m);
+  if (IS) thin = 1; // no need to thin
   
   while (nUnique < k && m < (INTEGER(BURNIN_Iterations)[0] + INTEGER(MCMC_Iterations)[0])) {
     
