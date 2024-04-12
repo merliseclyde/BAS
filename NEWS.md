@@ -1,5 +1,8 @@
 # BAS (development version)
 
+* added `method="AMCMC"` for `bas.lm` to use adaptive independent Metropolis Hastings for sampling
+models.  With option `importance.sampling = TRUE` the adaptive independet proposal and be used for importance sampling with improved estimation of model probabilities and inclusion probabilities based on the Horivitz-Thompsom / Hajek estimator.
+
 * added unit tests for link functions implemented in `family.c`
 
 # BAS 1.7.1
