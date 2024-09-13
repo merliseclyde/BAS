@@ -9,7 +9,9 @@ on:
     types: [published]
   workflow_dispatch:
 
-name: pkgdown
+name: pkgdown.yml
+
+permissions: read-all
 
 jobs:
   pkgdown:
@@ -19,8 +21,10 @@ jobs:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -32,7 +36,9 @@ jobs:
         with:
           extra-packages: any::pkgdown, local::.
           needs: website
-
+          
+      - uses: r-lib/actions/setup-tinytex@v2
+      
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
         shell: Rscript {0}
