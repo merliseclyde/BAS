@@ -419,7 +419,7 @@ double logBF_hyperGprior_laplace(double R2, int n, int p, double alpha)
     if (sigmahat <= 0 ) Rprintf("ERROR in LAPLACE APPROXIMATION to logmarg sigmhat = %f, ghat =  %f  R2 = %f p = %d  n = %d\n", sigmahat, ghat, R2, p,n);
     lognc = log(alpha/2.0 - 1.0);
     logmarg = lognc +
-              .5*( log(2.0*PI)
+              .5*( log(2.0*M_PI)
                      - (dp + alpha)*log(1.0 + ghat)
 	             -  dn*log(1.0-(ghat/(1.0 + ghat))*R2)
 	             + log(sigmahat)) + log(ghat);
@@ -458,7 +458,7 @@ double shrinkage_laplace(double R2, int n, int p, double alpha)
 
        if (sigmahat <= 0 ) Rprintf("ERROR in LAPLACE APPROXIMATION to E[g/(1 + g)] sigmahat = %f %f %f %d %d\n", sigmahat, ghat, R2, p,n);
 
-       lognum= .5*( log(2.0*PI) + 2.0*log(ghat)
+       lognum= .5*( log(2.0*M_PI) + 2.0*log(ghat)
 		- (dp + alpha + 2.0 - dn)*log(1.0 + ghat)
 		- dn*log(1.0 + ghat*(1. -R2))
 		+ log(sigmahat))  +  lognc + log(ghat);
@@ -527,7 +527,7 @@ double log_laplace_2F1(double a, double b, double c, double z)
 
     if (sigmahat <= 0 ) Rprintf("ERROR in LAPLACE APPROXIMATION to in 2F1 sigmhat = %f, ghat =  %f  z = %f \n", sigmahat, ghat, z);
     logint = logint
-                   + .5*( log(2.0*PI) +  log(sigmahat)) +
+                   + .5*( log(2.0*M_PI) +  log(sigmahat)) +
 		      b*log(ghat) + (a - c)*log(1.0 + ghat)
                    -  a*log(1.0 + ghat*(1. - z));
    }

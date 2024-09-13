@@ -55,6 +55,7 @@ void compute_modelprobs_HT(SEXP Rmodelprobs,  SEXP Rlogmarg, SEXP Rpriorprobs,
   
   for (m = 0; m < k; m++) {
     if (sampleprobs[m] > 0.0) modelprobs[m] = exp(modelprobs[m] - log(nc))*priorprobs[m];
+    else {modelprobs[m] = 0.0;}
   }
 }
 

@@ -1,3 +1,6 @@
+#' _PACKAGE
+#' @name BAS
+#'
 #' @title BAS: Bayesian Model Averaging using Bayesian Adaptive Sampling
 #'
 #' @description Implementation of  Bayesian Model Averaging in linear models using stochastic or
@@ -7,10 +10,7 @@
 #' Liang et al hyper-g priors, Local and Global Empirical Bayes estimates of g,
 #' and other default model selection criteria such as AIC and BIC. Sampling
 #' probabilities may be updated based on the sampled models.
-#'
-#' @docType package
-#' @name BAS
-#'
+#' 
 #' 
 #' @author Merlise Clyde, \cr Maintainer: Merlise Clyde <clyde@@stat.duke.edu>
 #' @seealso \code{\link{bas.lm}} \code{\link{bas.glm}}
