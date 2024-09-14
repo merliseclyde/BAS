@@ -1,204 +1,70 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/404.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/SECURITY.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/articles/BAS-vignette.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/authors.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/index.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/news/index.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/BAS.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/Bayes.outlier.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/Bernoulli.heredity.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/Bernoulli.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/CCH.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/EB.global.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/EB.local.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/Hald.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/IC.prior.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/Jeffreys.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/TG.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/bas.glm.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/bas.lm.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/bayesglm.fit.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/beta.binomial.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/beta.prime.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/bodyfat.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/climate.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/coef.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/confint.coef.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/confint.pred.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/cv.summary.bas.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/diagnostics.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/eplogprob.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/eplogprob.marg.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/fitted.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/force.heredity.bas.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/g.prior.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/hyper.g.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/hyper.g.n.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/hypergeometric1F1.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/hypergeometric2F1.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/image.bas.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/intrinsic.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/list2matrix.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/list2matrix.which.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/phi1.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/plot.coef.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/plot.confint.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/plot.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/predict.bas.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/predict.basglm.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/print.bas.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/protein.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/robust.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/summary.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/tCCH.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/testBF.prior.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/tr.beta.binomial.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/tr.poisson.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/tr.power.prior.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/trCCH.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/uniform.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/update.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/variable.names.pred.bas.html</loc>
-  </url>
-  <url>
-    <loc>http://merliseclyde.github.io/BAS/reference/which.matrix.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>http://merliseclyde.github.io/BAS/404.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/CONTRIBUTING.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/LICENSE-text.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/SECURITY.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/articles/BAS-vignette.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/articles/index.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/authors.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/index.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/news/index.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/BAS.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/Bayes.outlier.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/Bernoulli.heredity.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/Bernoulli.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/CCH.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/EB.global.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/EB.local.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/Hald.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/IC.prior.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/Jeffreys.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/TG.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/bas.glm.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/bas.lm.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/bayesglm.fit.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/beta.binomial.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/beta.prime.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/bodyfat.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/climate.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/coef.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/confint.coef.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/confint.pred.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/cv.summary.bas.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/diagnostics.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/eplogprob.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/eplogprob.marg.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/fitted.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/force.heredity.bas.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/g.prior.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/hyper.g.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/hyper.g.n.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/hypergeometric1F1.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/hypergeometric2F1.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/image.bas.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/index.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/intrinsic.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/list2matrix.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/list2matrix.which.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/phi1.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/plot.coef.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/plot.confint.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/plot.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/predict.bas.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/predict.basglm.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/print.bas.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/protein.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/robust.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/summary.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/tCCH.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/testBF.prior.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/tr.beta.binomial.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/tr.poisson.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/tr.power.prior.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/trCCH.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/uniform.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/update.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/variable.names.pred.bas.html</loc></url>
+<url><loc>http://merliseclyde.github.io/BAS/reference/which.matrix.html</loc></url>
 </urlset>
+
