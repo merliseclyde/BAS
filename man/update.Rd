@@ -60,8 +60,8 @@ Other bas methods:
 \code{\link{force.heredity.bas}()},
 \code{\link{image.bas}()},
 \code{\link{plot.confint.bas}()},
-\code{\link{predict.basglm}()},
 \code{\link{predict.bas}()},
+\code{\link{predict.basglm}()},
 \code{\link{summary.bas}()},
 \code{\link{variable.names.pred.bas}()}
 }

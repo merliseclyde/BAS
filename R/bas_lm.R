@@ -213,8 +213,8 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' replacement as in BAS.  For BAS, the sampling probabilities can be updated
 #' as more models are sampled. (see update below).
 #' \item  "AMCMC" uses an adaptive proposal 
-#' based on factoring the proposal distribution as a product 
-#' \deqn{prod_j \pi(\gamma_j \mid \gamma_{< j})} learned from the past draws. If 
+#' based on factoring the proposal distribution as a product conditional probabilities
+#' estimated from the past draws. If 
 #' `importance.sampling = FALSE` this uses an adaptive independent Metropolis-Hasting
 #' algorithm, with if `importance.sampling = TRUE`  uses importance sampline 
 #' combined with Horiwitz-Thompson estimates of posterior model and inclusion

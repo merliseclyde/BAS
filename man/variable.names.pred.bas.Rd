@@ -38,8 +38,8 @@ variable.names(hald.bpm)
 
 Other predict methods: 
 \code{\link{fitted.bas}()},
-\code{\link{predict.basglm}()},
-\code{\link{predict.bas}()}
+\code{\link{predict.bas}()},
+\code{\link{predict.basglm}()}
 
 Other bas methods: 
 \code{\link{BAS}},
@@ -52,8 +52,8 @@ Other bas methods:
 \code{\link{force.heredity.bas}()},
 \code{\link{image.bas}()},
 \code{\link{plot.confint.bas}()},
-\code{\link{predict.basglm}()},
 \code{\link{predict.bas}()},
+\code{\link{predict.basglm}()},
 \code{\link{summary.bas}()},
 \code{\link{update.bas}()}
 }

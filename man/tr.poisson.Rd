@@ -36,8 +36,8 @@ tr.poisson(10, 50)
 \code{\link{bas.lm}}, \code{\link{Bernoulli}},\code{\link{uniform}}
 
 Other priors modelpriors: 
-\code{\link{Bernoulli.heredity}()},
 \code{\link{Bernoulli}()},
+\code{\link{Bernoulli.heredity}()},
 \code{\link{beta.binomial}()},
 \code{\link{tr.beta.binomial}()},
 \code{\link{tr.power.prior}()},

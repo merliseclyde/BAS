@@ -26,8 +26,8 @@ uniform()
 \code{\link{beta.binomial}},\code{\link{Bernoulli}},
 
 Other priors modelpriors: 
-\code{\link{Bernoulli.heredity}()},
 \code{\link{Bernoulli}()},
+\code{\link{Bernoulli.heredity}()},
 \code{\link{beta.binomial}()},
 \code{\link{tr.beta.binomial}()},
 \code{\link{tr.poisson}()},

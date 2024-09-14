@@ -55,8 +55,8 @@ Other bas methods:
 \code{\link{fitted.bas}()},
 \code{\link{force.heredity.bas}()},
 \code{\link{image.bas}()},
-\code{\link{predict.basglm}()},
 \code{\link{predict.bas}()},
+\code{\link{predict.basglm}()},
 \code{\link{summary.bas}()},
 \code{\link{update.bas}()},
 \code{\link{variable.names.pred.bas}()}

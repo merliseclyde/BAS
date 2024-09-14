@@ -45,8 +45,8 @@ Other beta priors:
 \code{\link{TG}()},
 \code{\link{beta.prime}()},
 \code{\link{g.prior}()},
-\code{\link{hyper.g.n}()},
 \code{\link{hyper.g}()},
+\code{\link{hyper.g.n}()},
 \code{\link{intrinsic}()},
 \code{\link{robust}()},
 \code{\link{tCCH}()}
