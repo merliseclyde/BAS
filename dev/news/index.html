@@ -36,6 +36,7 @@
 <h2 class="pkg-version" data-toc-text="development version" id="bas-development-version">BAS (development version)<a class="anchor" aria-label="anchor" href="#bas-development-version"></a></h2>
 <ul><li><p>added <code>method="AMCMC"</code> for <code>bas.lm</code> to use adaptive independent Metropolis Hastings for sampling models. With option <code>importance.sampling = TRUE</code> the adaptive independet proposal and be used for importance sampling with improved estimation of model probabilities and inclusion probabilities based on the Horivitz-Thompsom / Hajek estimator.</p></li>
 <li><p>added unit tests for link functions implemented in <code>family.c</code></p></li>
+<li><p>fixed (issue <a href="https://github.com/merliseclyde/BAS/issues/81" class="external-link">#81</a>) Removed legacy definitions of ‘PI’ and ‘Free’ and replaced with‘M_PI’ and ‘R_Free’ to comply with ‘STRICT_R_HEADERS’ prevent package removal on 9/23/2024</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.7.1" id="bas-171">BAS 1.7.1<a class="anchor" aria-label="anchor" href="#bas-171"></a></h2><p class="text-muted">CRAN release: 2023-12-06</p>
