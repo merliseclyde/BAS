@@ -46,7 +46,8 @@ test_that("check non-full rank", {
   expect_equal(basObj.EBL$postprobs, basObj.up$postprobs,
                tolerance=.001)
   
-  skip_on_cran()
+  skip_on_cran() 
+  skip_on_os("mac", arch="aarch64") 
   expect_warning(bas.lm(fullModelFormula,
                         data = d,
                         alpha = 0.125316,

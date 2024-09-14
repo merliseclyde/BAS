@@ -22,7 +22,7 @@ void deallocate_tree(struct Node *tree) {
   if (!tree) return;
   deallocate_tree(tree->one);
   deallocate_tree(tree->zero);
-  Free(tree);
+  R_Free(tree);
 }
 // # nocov end
 
