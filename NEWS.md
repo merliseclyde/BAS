@@ -5,6 +5,9 @@ models.  With option `importance.sampling = TRUE` the adaptive independet propos
 
 * added unit tests for link functions implemented in `family.c`
 
+* fixed (issue #81) Removed legacy definitions of ‘PI’ and ‘Free’ and replaced with‘M_PI’ and ‘R_Free’ to comply with ‘STRICT_R_HEADERS’ prevent package removal on 9/23/2024
+
+
 # BAS 1.7.1
 
 ## Minor Improvements and Fixes
