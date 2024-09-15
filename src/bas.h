@@ -53,7 +53,6 @@ struct Node {
 };
 
 
-
 /* Subroutines. */
 
 double CalculateRSquareFull(double *XtY, double *XtX, double *XtXwork, double *XtYwork,
@@ -349,7 +348,6 @@ SEXP glm_bas(SEXP RX, SEXP RY, glmstptr * family, SEXP Roffset, SEXP Rweights, S
 
 SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Rcoef, SEXP Rmu, SEXP Rdeviance, SEXP Rweights, glmstptr * glmfamily, betapriorptr * betapriorfamily, SEXP Rlaplace);
 
-  
 
 // issue 38
 static inline int lessThanOne(double a)

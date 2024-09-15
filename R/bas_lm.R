@@ -628,7 +628,7 @@ bas.lm <- function(formula,
   }
 
   if (is.null(n.models)) {
-    n.models <- min(2^p, 2^19)
+    n.models <- min(2^p, 2^16)
   }
   if (is.null(MCMC.iterations)) {
     MCMC.iterations <- as.integer(n.models * 10)
