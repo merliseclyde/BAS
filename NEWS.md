@@ -7,6 +7,7 @@ models.  With option `importance.sampling = TRUE` the adaptive independet propos
 
 * fixed (issue #81) Removed legacy definitions of ‘PI’ and ‘Free’ and replaced with‘M_PI’ and ‘R_Free’ to comply with ‘STRICT_R_HEADERS’ prevent package removal on 9/23/2024
 
+* fixed (issue #82) avoid SETLENGTH as non-API function when truncating vectors
 
 # BAS 1.7.1
 
