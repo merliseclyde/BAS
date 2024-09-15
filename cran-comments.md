@@ -2,7 +2,9 @@
 
 ## Submission reason 
 
-- Removed legacy definitions of ‘PI’ and ‘Free’ and replaced with‘M_PI’ and ‘R_Free’ to comply with ‘STRICT_R_HEADERS’ so that package not removed 9/23/2024
+- Removed legacy definitions of ‘PI’ and ‘Free’ and replaced with‘M_PI’ and ‘R_Free’ to comply with ‘STRICT_R_HEADERS’ (issue #81) to prevent package  removal after 9/23/2024
+
+- Removed non-API calls to SETLENGTH (issue #82)
 
 ## Test environments
 
@@ -18,21 +20,8 @@
 ## R CMD check results for this submission
 
 * Mmac, Windows, Ubunto, Debian
- 0 error | 0 warnings | 1 notes
+ 0 error | 0 warnings | 0 notes
 
-  Found non-API call to R: 'SETLENGTH'
-
-  Compiled code should not call non-API entry points in R.
-  
-Work in progress (issue #82) as it requires additional memory management, writing objects to dis or memory mapped data kto allow creation of temporary objects with a shorter length  before copying the copying the contents to the new location and inserting in the return list object and freeing the rest of the memory at function return.
-
-files in src: 
-  - lm_mcmc.c
-  - lm_amcmc.c
-  - glm_mcmc.c
-  - glm_amcmc.c
-
-(Object length of unique elements from MCMC is random and  )
 
 ## Reverse Dependencies
 

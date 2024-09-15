@@ -32,6 +32,38 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	SEXP NumUnique = PROTECT(allocVector(INTSXP, 1)); ++nProtected;
 
+	PROTECT_INDEX counts_idx;
+	PROTECT_WITH_INDEX(counts, &counts_idx);
+	PROTECT_INDEX R2_idx;
+	PROTECT_WITH_INDEX(R2, &R2_idx);
+	PROTECT_INDEX shrinkage_idx;
+	PROTECT_WITH_INDEX(shrinkage, &shrinkage_idx);
+	PROTECT_INDEX modelspace_idx;
+	PROTECT_WITH_INDEX(modelspace, &modelspace_idx);
+	PROTECT_INDEX modeldim_idx;
+	PROTECT_WITH_INDEX(modeldim, &modeldim_idx);
+	//	PROTECT_INDEX rank_idx;
+	//	PROTECT_WITH_INDEX(rank, &rank_idx);
+	PROTECT_INDEX beta_idx;
+	PROTECT_WITH_INDEX(beta, &beta_idx);
+	PROTECT_INDEX se_idx;
+	PROTECT_WITH_INDEX(se, &se_idx);
+	PROTECT_INDEX deviance_idx;
+	PROTECT_WITH_INDEX(deviance, &deviance_idx);
+	PROTECT_INDEX modelprobs_idx;
+	PROTECT_WITH_INDEX(modelprobs, &modelprobs_idx);
+	PROTECT_INDEX priorprobs_idx;
+	PROTECT_WITH_INDEX(priorprobs, &priorprobs_idx);
+	PROTECT_INDEX logmarg_idx;
+	PROTECT_WITH_INDEX(logmarg, &logmarg_idx);
+	PROTECT_INDEX sampleprobs_idx;
+	PROTECT_WITH_INDEX(sampleprobs, &sampleprobs_idx);
+	PROTECT_INDEX Q_idx;
+	PROTECT_WITH_INDEX(R2, &Q_idx);
+	PROTECT_INDEX Rintercept_idx;
+	PROTECT_WITH_INDEX(Rintercept, &Rintercept_idx);
+	
+	
 	double *probs, MH=0.0, prior_m=1.0, shrinkage_m, logmargy, postold, postnew;
 	int i, m, n, pmodel_old, *bestmodel;
 	int mcurrent, n_sure;
@@ -198,20 +230,24 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_STRING_ELT(ANS_names, 0, mkChar("probne0"));
 
 	if (nUnique < nModels) {
-	  SETLENGTH(modelspace, nUnique);
-	  SETLENGTH(logmarg, nUnique);
-	  SETLENGTH(modelprobs, nUnique);
-	  SETLENGTH(priorprobs, nUnique);
-	  SETLENGTH(sampleprobs, nUnique);
-	  SETLENGTH(counts, nUnique);
-	  SETLENGTH(beta, nUnique);
-	  SETLENGTH(se, nUnique);
-	  SETLENGTH(deviance, nUnique);
-	  SETLENGTH(Q, nUnique);
-	  SETLENGTH(shrinkage, nUnique);
-	  SETLENGTH(modeldim, nUnique);
-	  SETLENGTH(R2, nUnique);
-	  SETLENGTH(Rintercept, nUnique);
+	  nModels = nUnique;
+	  REPROTECT(logmarg= Rf_lengthgets(logmarg, nUnique), logmarg_idx);
+	  REPROTECT(modelprobs= Rf_lengthgets(modelprobs, nUnique), modelprobs_idx);
+	  REPROTECT(priorprobs= Rf_lengthgets(priorprobs, nUnique), priorprobs_idx);
+	  REPROTECT(sampleprobs= Rf_lengthgets(sampleprobs, nUnique), sampleprobs_idx);
+	  REPROTECT(deviance = Rf_lengthgets(deviance, nUnique), deviance_idx);
+	  REPROTECT(shrinkage = Rf_lengthgets(shrinkage, nUnique), shrinkage_idx);
+	  REPROTECT(modeldim= Rf_lengthgets(modeldim, nUnique), modeldim_idx);
+	  REPROTECT(R2= Rf_lengthgets(R2, nUnique), R2_idx);
+	  REPROTECT(se= Rf_lengthgets(se, nUnique), se_idx);
+	  //	  REPROTECT(rank = Rf_lengthgets(rank, nUnique), rank_idx);
+	  REPROTECT(modelspace = Rf_lengthgets(modelspace, nUnique), modelspace_idx);
+	  REPROTECT(beta = Rf_lengthgets(beta, nUnique), beta_idx);
+	  REPROTECT(se= Rf_lengthgets(se, nUnique), se_idx);
+	  REPROTECT(Q= Rf_lengthgets(Q, nUnique), Q_idx);
+	  REPROTECT(Rintercept= Rf_lengthgets(Rintercept, nUnique), Rintercept_idx);
+	  REPROTECT(counts= Rf_lengthgets(counts, nUnique), counts_idx);
+	  
 	}
 
 	SET_VECTOR_ELT(ANS, 1, modelspace);
