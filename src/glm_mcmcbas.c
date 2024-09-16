@@ -32,6 +32,38 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	SEXP NumUnique = PROTECT(allocVector(INTSXP, 1)); ++nProtected;
 
+	
+	PROTECT_INDEX counts_idx;
+	PROTECT_WITH_INDEX(counts, &counts_idx);
+	PROTECT_INDEX R2_idx;
+	PROTECT_WITH_INDEX(R2, &R2_idx);
+	PROTECT_INDEX shrinkage_idx;
+	PROTECT_WITH_INDEX(shrinkage, &shrinkage_idx);
+	PROTECT_INDEX modelspace_idx;
+	PROTECT_WITH_INDEX(modelspace, &modelspace_idx);
+	PROTECT_INDEX modeldim_idx;
+	PROTECT_WITH_INDEX(modeldim, &modeldim_idx);
+	//	PROTECT_INDEX rank_idx;
+	//	PROTECT_WITH_INDEX(rank, &rank_idx);
+	PROTECT_INDEX beta_idx;
+	PROTECT_WITH_INDEX(beta, &beta_idx);
+	PROTECT_INDEX se_idx;
+	PROTECT_WITH_INDEX(se, &se_idx);
+	PROTECT_INDEX deviance_idx;
+	PROTECT_WITH_INDEX(deviance, &deviance_idx);
+	PROTECT_INDEX modelprobs_idx;
+	PROTECT_WITH_INDEX(modelprobs, &modelprobs_idx);
+	PROTECT_INDEX priorprobs_idx;
+	PROTECT_WITH_INDEX(priorprobs, &priorprobs_idx);
+	PROTECT_INDEX logmarg_idx;
+	PROTECT_WITH_INDEX(logmarg, &logmarg_idx);
+	PROTECT_INDEX sampleprobs_idx;
+	PROTECT_WITH_INDEX(sampleprobs, &sampleprobs_idx);
+	PROTECT_INDEX Q_idx;
+	PROTECT_WITH_INDEX(R2, &Q_idx);
+	PROTECT_INDEX Rintercept_idx;
+	PROTECT_WITH_INDEX(Rintercept, &Rintercept_idx);
+	
 	double *probs, MH=0.0, prior_m=1.0,shrinkage_m, logmargy, postold, postnew;
 	int i, m, n, pmodel_old, *bestmodel;
 	int mcurrent, n_sure;
@@ -260,23 +292,29 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	else {mcurrent = k;}
 	}
 	
-// # nocov start
+	// truncate vectors; legacy code from MCMC should not get to following but 
+	// keep in case other prior choices create  models with zero probabilities that 
+	// need to be dropped and mcurrent < k;  
+	// # nocov start
  	if (mcurrent < k) {  // truncate vectors; legacy code from MCMC should not get here
-	  SETLENGTH(modelspace, mcurrent);
-	  SETLENGTH(logmarg, mcurrent);
-	  SETLENGTH(modelprobs, mcurrent);
-	  SETLENGTH(priorprobs, mcurrent);
-	  SETLENGTH(sampleprobs, mcurrent);
-	  SETLENGTH(counts, mcurrent);
-	  SETLENGTH(MCMCprobs, mcurrent);
-	  SETLENGTH(beta, mcurrent);
-	  SETLENGTH(se, mcurrent);
-	  SETLENGTH(deviance, mcurrent);
-	  SETLENGTH(Q, mcurrent);
-	  SETLENGTH(shrinkage, mcurrent);
-	  SETLENGTH(modeldim, mcurrent);
-	  SETLENGTH(R2, mcurrent);
-	  SETLENGTH(Rintercept, mcurrent);
+	  k = mcurrent;
+	  REPROTECT(logmarg= Rf_lengthgets(logmarg, mcurrent), logmarg_idx);
+	  REPROTECT(modelprobs= Rf_lengthgets(modelprobs, mcurrent), modelprobs_idx);
+	  REPROTECT(priorprobs= Rf_lengthgets(priorprobs, mcurrent), priorprobs_idx);
+	  REPROTECT(sampleprobs= Rf_lengthgets(sampleprobs, mcurrent), sampleprobs_idx);
+	  REPROTECT(deviance = Rf_lengthgets(deviance, mcurrent), deviance_idx);
+	  REPROTECT(shrinkage = Rf_lengthgets(shrinkage, mcurrent), shrinkage_idx);
+	  REPROTECT(modeldim= Rf_lengthgets(modeldim, mcurrent), modeldim_idx);
+	  REPROTECT(R2= Rf_lengthgets(R2, mcurrent), R2_idx);
+	  REPROTECT(se= Rf_lengthgets(se, mcurrent), se_idx);
+	  //	  REPROTECT(rank = Rf_lengthgets(rank, mcurrent), rank_idx);
+	  REPROTECT(modelspace = Rf_lengthgets(modelspace, mcurrent), modelspace_idx);
+	  REPROTECT(beta = Rf_lengthgets(beta, mcurrent), beta_idx);
+	  REPROTECT(se= Rf_lengthgets(se, mcurrent), se_idx);
+	  REPROTECT(Q= Rf_lengthgets(Q, mcurrent), Q_idx);
+	  REPROTECT(Rintercept= Rf_lengthgets(Rintercept, mcurrent), Rintercept_idx);
+	  REPROTECT(counts= Rf_lengthgets(counts, mcurrent), counts_idx);
+	  
 	}
 // # nocov end
 

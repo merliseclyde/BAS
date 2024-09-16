@@ -276,7 +276,6 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 
 	if (nUnique < nModels) {
 	  nModels = nUnique;
-	  SETLENGTH(counts, nUnique);
 	  REPROTECT(counts= Rf_lengthgets(counts, nUnique), counts_idx);
 	  REPROTECT(logmarg= Rf_lengthgets(logmarg, nUnique), logmarg_idx);
 	  REPROTECT(modelprobs= Rf_lengthgets(modelprobs, nUnique), modelprobs_idx);
