@@ -25,14 +25,10 @@ revdepcheck::revdep_report_cran()
 devtools::check_win_devel()
 
 
-# check rhub
-rhub2::rhub_check(platforms = "valgrind")
-rhub2::rhub_check(platforms = "valgrind", branch="devel")
-# checks for rhub
+# check rhub. (see github actions to trigger rhub workflow
+# rhub2::rhub_check(platforms = "valgrind")
+# rhub2::rhub_check(platforms = "valgrind", branch="devel")
 
-ch <- rhub::check_for_cran(".", show_status = FALSE)
-ch$cran_summary()
-ch$update() 
 
 
 # to submit to CRAN

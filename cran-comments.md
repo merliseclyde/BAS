@@ -2,6 +2,8 @@
 
 ## Submission reason 
 
+Addressed Strict and Notes for Rdevel on the [Checks page at CRAN] (https://cran.r-project.org/web/checks/check_results_BAS.html):
+
 - Removed legacy definitions of ‘PI’ and ‘Free’ and replaced with‘M_PI’ and ‘R_Free’ to comply with ‘STRICT_R_HEADERS’ (issue #81) to prevent package  removal after 9/23/2024
 
 - Removed non-API calls to SETLENGTH (issue #82)
@@ -12,14 +14,10 @@
 - local OS X install, R 4.4.1 (x86, arm64)
 - ubuntu  (github actions CI), R-release R-devel R-oldrelease
 - win-builder (r-release, r-devel)
-- R-hub ubuntu-gcc-release (r-release)
-- R-hub fedora-clang-devel (r-devel)
-- R-hub linux-x86_64-rocker-gcc-san (r-devel)
-
 
 ## R CMD check results for this submission
 
-* Mmac, Windows, Ubunto, Debian
+* Mac, Windows, Ubunto
  0 error | 0 warnings | 0 notes
 
 
