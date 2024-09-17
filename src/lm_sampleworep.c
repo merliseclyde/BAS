@@ -49,31 +49,6 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 	SEXP logmarg = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP sampleprobs = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 
-	PROTECT_INDEX R2_idx;
-	PROTECT_WITH_INDEX(R2, &R2_idx);
-	PROTECT_INDEX shrinkage_idx;
-	PROTECT_WITH_INDEX(shrinkage, &shrinkage_idx);
-	PROTECT_INDEX modelspace_idx;
-	PROTECT_WITH_INDEX(modelspace, &modelspace_idx);
-	PROTECT_INDEX modeldim_idx;
-	PROTECT_WITH_INDEX(modeldim, &modeldim_idx);
-	PROTECT_INDEX rank_idx;
-	PROTECT_WITH_INDEX(rank, &rank_idx);
-	PROTECT_INDEX beta_idx;
-	PROTECT_WITH_INDEX(beta, &beta_idx);
-	PROTECT_INDEX se_idx;
-	PROTECT_WITH_INDEX(se, &se_idx);
-	PROTECT_INDEX mse_idx;
-	PROTECT_WITH_INDEX(mse, &mse_idx);
-	PROTECT_INDEX modelprobs_idx;
-	PROTECT_WITH_INDEX(modelprobs, &modelprobs_idx);
-	PROTECT_INDEX priorprobs_idx;
-	PROTECT_WITH_INDEX(priorprobs, &priorprobs_idx);
-	PROTECT_INDEX logmarg_idx;
-	PROTECT_WITH_INDEX(logmarg, &logmarg_idx);
-	PROTECT_INDEX sampleprobs_idx;
-	PROTECT_WITH_INDEX(sampleprobs, &sampleprobs_idx);
-	
 	double *Xwork, *Ywork, *wts, *probs, shrinkage_m, mse_m, R2_m, RSquareFull, Rbestmarg, logmargy;
 	int i, *model_m, *bestmodel, rank_m;
 
@@ -246,20 +221,18 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
   if (m < k) {  // resize
     k = m;
 
-    REPROTECT(logmarg= Rf_lengthgets(logmarg, m), logmarg_idx);
-    REPROTECT(modelprobs= Rf_lengthgets(modelprobs, m), modelprobs_idx);
-    REPROTECT(priorprobs= Rf_lengthgets(priorprobs, m), priorprobs_idx);
-    REPROTECT(sampleprobs= Rf_lengthgets(sampleprobs, m), sampleprobs_idx);
-    REPROTECT(mse = Rf_lengthgets(mse, m), mse_idx);
-    REPROTECT(shrinkage = Rf_lengthgets(shrinkage, m), shrinkage_idx);
-    REPROTECT(modeldim= Rf_lengthgets(modeldim, m), modeldim_idx);
-    REPROTECT(R2= Rf_lengthgets(R2, m), R2_idx);
-    REPROTECT(se= Rf_lengthgets(se, m), se_idx);
-    REPROTECT(rank = Rf_lengthgets(rank, m), rank_idx);
-    REPROTECT(modelspace = Rf_lengthgets(modelspace, m), modelspace_idx);
-    REPROTECT(beta = Rf_lengthgets(beta, m), beta_idx);
-    REPROTECT(se= Rf_lengthgets(se, m), se_idx);
-    
+    SETLENGTH(modelspace, m);
+    SETLENGTH(logmarg, m);
+    SETLENGTH(modelprobs, m);
+    SETLENGTH(priorprobs, m);
+    SETLENGTH(sampleprobs, m);
+    SETLENGTH(beta, m);
+    SETLENGTH(se, m);
+    SETLENGTH(mse, m);
+    SETLENGTH(shrinkage, m);
+    SETLENGTH(modeldim, m);
+    SETLENGTH(R2, m);
+    SETLENGTH(rank, m);
   }
 
 
