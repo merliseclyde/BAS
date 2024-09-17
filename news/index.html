@@ -33,6 +33,10 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.7.3" id="bas-173">BAS 1.7.3<a class="anchor" aria-label="anchor" href="#bas-173"></a></h2>
+<ul><li>reverted back to code using <code>SETLENGTH</code> (issue <a href="https://github.com/merliseclyde/BAS/issues/82" class="external-link">#82</a>) to address stack imbalance issues seen in interactive checks and not flagged in <code>R CMD check</code>.</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.7.2" id="bas-172">BAS 1.7.2<a class="anchor" aria-label="anchor" href="#bas-172"></a></h2><p class="text-muted">CRAN release: 2024-09-16</p>
 <ul><li><p>added <code>method="AMCMC"</code> for <code>bas.lm</code> to use adaptive independent Metropolis Hastings for sampling models. With option <code>importance.sampling = TRUE</code> the adaptive independet proposal and be used for importance sampling with improved estimation of model probabilities and inclusion probabilities based on the Horivitz-Thompsom / Hajek estimator.</p></li>
 <li><p>added unit tests for link functions implemented in <code>family.c</code></p></li>
