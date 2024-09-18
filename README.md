@@ -13,7 +13,7 @@ Practices](https://bestpractices.coreinfrastructure.org/projects/2055/badge)](ht
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/merliseclyde/BAS/master.svg)](https://app.codecov.io/github/merliseclyde/BAS?branch=master)
 [![Rdoc](https://api.rdocumentation.org/badges/version/BAS)](https://www.rdocumentation.org/packages/BAS/)
-[![DOI](https://zenodo.org/badge/25048366.svg)](https://zenodo.org/doi/10.5281/zenodo.595639)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13770520.svg)](https://doi.org/10.5281/zenodo.13770520)
 
 The `BAS` [R](https://www.r-project.org/) package is designed to provide
 an easy to use package and fast code for implementing Bayesian Model
