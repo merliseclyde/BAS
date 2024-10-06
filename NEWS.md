@@ -1,3 +1,7 @@
+## BAS 1.7.4
+
+
+
 # BAS 1.7.3
 
 * reverted back to code using `SETLENGTH` (issue #82) to address stack imbalance issues seen in interactive checks and not flagged in `R CMD check`.

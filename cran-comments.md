@@ -31,7 +31,9 @@ File 'BAS/libs/x64/BAS.dll':
 
 Compiled code should not call non-API entry points in R.
 
-This is under development and I ask that CRAN allow this update despite the NOTE to allow the package to be retained on CRAN. The non-API calls identified by `Strict` have been fixed.
+This is under development and I ask that CRAN allow this update 
+despite the NOTE to allow the package to be retained on CRAN. 
+The non-API calls identified by `Strict` have been fixed.
 
 ## Reverse Dependencies
 

@@ -9,7 +9,7 @@ template:
     index_name: bas
 authors:
   Merlise Clyde:
-    href: http://stat.duke.edu/~clyde
+    href: https://merliseclyde.github.io/personal-website/
 navbar:
   title: "BAS"
   left:
