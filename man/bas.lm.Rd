@@ -168,7 +168,6 @@ estimated from the past draws. If
 algorithm, with if `importance.sampling = TRUE`  uses importance sampline 
 combined with Horiwitz-Thompson estimates of posterior model and inclusion
 probabilities.
-can be 
 }}
 
 \item{update}{number of iterations between potential updates of the sampling
