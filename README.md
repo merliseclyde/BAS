@@ -1,7 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# [BAS: Bayesian Variable Selection and Model Averaging using Bayesian Adaptive Sampling](https://github.com/merliseclyde/BAS/)
+# BAS <a href="http://merliseclyde.github.io/BAS/"><img src="man/figures/logo.png" align="right" height="139" alt="BAS website" /></a>
+
+## BAS: Bayesian Variable Selection and Model Averaging using Bayesian Adaptive Sampling \](<https://github.com/merliseclyde/BAS/>)
 
 [![CII Best
 Practices](https://bestpractices.coreinfrastructure.org/projects/2055/badge)](https://bestpractices.coreinfrastructure.org/projects/2055)
