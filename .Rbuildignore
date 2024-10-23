@@ -25,6 +25,9 @@ cran-comments.md
 ^CRAN-RELEASE$
 ^codecov\.yml$
 CONTRIBUTING.md
+.htaccess
+R/copyright.txt
+src/copyright.txt
 
 ^cran-comments\.md$
 ^doc$
