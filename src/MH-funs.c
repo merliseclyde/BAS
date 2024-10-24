@@ -1,3 +1,8 @@
+// Copyright (c) 2024 Merlise Clyde and contributors to BAS. All rights reserved.
+// This work is licensed under a GNU GENERAL PUBLIC LICENSE Version 3.0
+// License text is available at https://www.gnu.org/licenses/gpl-3.0.html
+// SPDX-License-Identifier: GPL-3.0
+//
 #include "bas.h"
 
 double GetNextModelCandidate(int pmodel_old, int n, int n_sure, int *model, struct Var *vars, double problocal,
