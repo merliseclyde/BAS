@@ -5,8 +5,8 @@
 
 ## [BAS: Bayesian Variable Selection and Model Averaging using Bayesian Adaptive Sampling](https://github.com/merliseclyde/BAS/)
 
-[![CII Best
-Practices](https://bestpractices.coreinfrastructure.org/projects/2055/badge)](https://bestpractices.coreinfrastructure.org/projects/2055)
+[![OpenSSF Best
+Practices](https://www.bestpractices.dev/projects/2055/badge)](https://www.bestpractices.dev/projects/2055)
 [![](https://app.travis-ci.com/merliseclyde/BAS.svg?branch=master)](https://app.travis-ci.com/merliseclyde/BAS)
 [![R-CMD-check](https://github.com/merliseclyde/BAS/workflows/R-CMD-check/badge.svg)](https://github.com/merliseclyde/BAS/actions)
 [![](https://www.r-pkg.org/badges/version/BAS)](https://cran.r-project.org/package=BAS/)
