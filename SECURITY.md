@@ -11,13 +11,13 @@ Supported with security updates.
 
 ## Reporting a Vulnerability
 
-Please submit any vulnerability reports under [Github Issues](https://github.com/merliseclyde/bark/issues) and maintainers will address as soon as possibl
+Please submit any vulnerability reports under [Github Issues](https://github.com/merliseclyde/BAS/issues) and maintainers will address as soon as possibl
 
 ## Expectations
 
-This package utilizes C code for efficiency and allocates/frees memory. 
+This package utilizes C/FORTRAN code for efficiency and allocates/frees memory using standard C library routines. 
 The package is checked for memory leaks prior to releases to CRAN using 
-ASAN/UBSBAN. The package is distributed via CRAN   https://CRAN.R-project.org/package=bark which reports additional checks. The development version may be installed from GitHub https://github.com/merliseclyde/bark which is checked via github actions 
+ASAN/UBSBAN. The package is distributed via CRAN   https://CRAN.R-project.org/package=BAS which reports additional checks. The development version may be installed from GitHub https://github.com/merliseclyde/BAS which is checked via github actions 
 (users may check that the current version has a passing badge before installing)
 Bugs are reported via the Issue tracker and handled as soon as possible.  
 (See link above)

@@ -1,3 +1,7 @@
+# Copyright (c) 2024 Merlise Clyde and contributors to BAS. All rights reserved.
+# This work is licensed under a GNU GENERAL PUBLIC LICENSE Version 3.0
+# License text is available at https://www.gnu.org/licenses/gpl-3.0.html
+#
 #' Gaussian hypergeometric2F1 function
 #'
 #' Compute the Gaussian Hypergeometric2F1 function: 2F1(a,b,c,z) = Gamma(b-c)

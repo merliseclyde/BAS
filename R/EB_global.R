@@ -1,3 +1,7 @@
+# Copyright (c) 2024 Merlise Clyde and contributors to BAS. All rights reserved.
+# This work is licensed under a GNU GENERAL PUBLIC LICENSE Version 3.0
+# License text is available at https://www.gnu.org/licenses/gpl-3.0.html
+#
 #' Find the global Empirical Bayes estimates for BMA
 #'
 #' Finds the global Empirical Bayes estimates of g in Zellner's g-prior and

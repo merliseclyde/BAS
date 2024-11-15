@@ -1,3 +1,7 @@
+# Copyright (c) 2024 Merlise Clyde and contributors to BAS. All rights reserved.
+# This work is licensed under a GNU GENERAL PUBLIC LICENSE Version 3.0
+# License text is available at https://www.gnu.org/licenses/gpl-3.0.html
+#
 normalize.initprobs.lm <- function(initprobs, p) {
   if (length(initprobs) != p) {
     stop(paste(
@@ -165,6 +169,23 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' to modify the rate parameter in the gamma prior on g,  
 #' \deqn{1/g \sim G(1/2, n*\alpha/2)} so that
 #' \deqn{\beta \sim C(0, \sigma^2 \alpha (X'X/n)^{-1})}.
+#' If alpha = NULL, then the following defaults are used currently:
+#' \itemize{
+#' \item  "g-prior" = n,
+#' \item "hyper-g" = 3,
+#' \item "EB-local" = 2,
+#' \item "BIC" = n,
+#' \item "ZS-null" = 1,
+#' \item "ZS-full" = n,
+#' \item "hyper-g-laplace" = 3,
+#' \item "AIC" = 0,
+#' \item "EB-global" = 2,
+#' \item "hyper-g-n" = 3,
+#' \item "JZS" = 1,
+#' }
+#' Note that Porwal & Raftery (2022) recommend alpha = sqrt(n) for the g-prior
+#' based on extensive range of simulations and examples for comparing BMA.
+#' This will become the default in the future.
 #' @param modelprior A function for a family of prior distribution on the models.  Choices
 #' include \code{\link{uniform}} \code{\link{Bernoulli}} or
 #' \code{\link{beta.binomial}}, \code{\link{tr.beta.binomial}},
@@ -219,7 +240,6 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' algorithm, with if `importance.sampling = TRUE`  uses importance sampline 
 #' combined with Horiwitz-Thompson estimates of posterior model and inclusion
 #' probabilities.
-#' can be 
 #' }
 #' @param update number of iterations between potential updates of the sampling
 #' probabilities for method "BAS" or "MCMC+BAS". If NULL do not update, otherwise the
@@ -355,6 +375,10 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' of g-priors for Bayesian Variable Selection. Journal of the American
 #' Statistical Association.  103:410-423.  \cr
 #' \doi{10.1198/016214507000001337}
+#' 
+#' Porwal, A. and Raftery, A. E. (2022) Comparing methods for statistical inference with model uncertainty
+#' PNAS 119 (16) e2120737119
+#' \doi{10.1073/pnas.2120737119} 
 #'
 #' Zellner, A. (1986) On assessing prior distributions and Bayesian regression
 #' analysis with g-prior distributions. In Bayesian Inference and Decision

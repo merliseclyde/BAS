@@ -1,0 +1,7 @@
+# Extra Security Headers
+<IfModule mod_headers.c>
+    Header set X-XSS-Protection "1; mode=block"
+    Header always append X-Frame-Options SAMEORIGIN
+    Header set X-Content-Type-Options "nosniff"
+    Header set Set-Cookie sess=123; path=/; SameSite=Strict
+</IfModule>

@@ -19,3 +19,6 @@ docs
 tests/testthat/Rplots.pdf
 R/gordy.R
 inst/doc
+R/copyright.txt
+src/copyright.txt
+
