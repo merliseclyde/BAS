@@ -77,7 +77,27 @@ fit3 <- bas.lm(
 
 expect_equal(compute_prior_inclusion_probs(fit1), compute_prior_inclusion_probs(fit2))
 
+hyp = c(1,.5, 1, .5, 1, .5, .5)
+
+fit4 <- bas.lm(
+  formula         = y ~ .,
+  data            = data,
+  prior           = "hyper-g-laplace",
+  alpha           = 3,
+  modelprior      = Bernoulli(hyp),
+  n.models        = NULL,
+  method          = "BAS",
+  MCMC.iterations = NULL,
+  #  initprobs       = c(1, seq(.5, 0.1, length=5)),
+  weights         = NULL,
+  renormalize     = TRUE
+) 
+
+expect_equal(hyp, as.numeric(compute_prior_inclusion_probs(fit4)))
+
 # issue #87 should be equal
-# expect_equal(compute_prior_inclusion_probs(fit2), compute_prior_inclusion_probs(fit3))
+expect_equal(compute_prior_inclusion_probs(fit2), compute_prior_inclusion_probs(fit3))
 }
 )
+
+
