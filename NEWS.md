@@ -1,6 +1,11 @@
 # BAS 1.7.4
 
+* fixed (issue #87) prior inclusion probabilities using a Bernoulli prior other than 0.5
+were incorrect if `include.always` was used to include some variables always.  
+Added unit test in `test-priorprobs.R`
+
 * added hexagon sticker
+
 * add copyright to source files to satisfy OpenSSF Best Practice
 
 
