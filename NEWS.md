@@ -1,12 +1,7 @@
-<<<<<<< HEAD
-## BAS 1.7.4
-
-=======
 # BAS 1.7.4
 
 * added hexagon sticker
-* add copyright to source files to satistfy OpenSSF Best Practices
->>>>>>> main
+* add copyright to source files to satisfy OpenSSF Best Practice
 
 
 # BAS 1.7.3
