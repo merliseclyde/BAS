@@ -37,4 +37,4 @@ src/copyright.txt
 ^CRAN-SUBMISSION$
 ^SECURITY\.md$
 ^revdep$
-
+R/counting_models_hereditary_constraint.R

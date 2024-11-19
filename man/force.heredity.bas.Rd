@@ -19,7 +19,7 @@ This function takes the output of a bas object and allows higher
 order interactions to be included only if their parent
 lower order interactions terms are in the model, by
 assigning zero prior probability, and hence posterior
-probability, to models that do include their respective
+probability, to models that do not include their respective
 parents.
 }
 \note{

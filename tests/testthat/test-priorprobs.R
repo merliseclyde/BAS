@@ -24,7 +24,7 @@ y <- x %*% beta + rnorm(n)
 data <- data.frame(y, x)
 colnames(data) <- c("y", letters[1:p])
 
-# wrong 
+
 fit1 <- bas.lm(
   formula         = y ~ .,
   data            = data,
@@ -40,9 +40,6 @@ fit1 <- bas.lm(
   renormalize     = TRUE
 ) 
 
-
-
-# wrong still
 fit2 <- bas.lm(
   formula         = y ~ .,
   data            = data,
@@ -58,7 +55,6 @@ fit2 <- bas.lm(
   renormalize     = TRUE
 ) 
 
-# as expected 
 
 fit3 <- bas.lm(
   formula         = y ~ .,
@@ -75,6 +71,11 @@ fit3 <- bas.lm(
   renormalize     = TRUE
 ) 
 
+compute_prior_inclusion_probs(fit1)
+compute_prior_inclusion_probs(fit2)
+compute_prior_inclusion_probs(fit3)
+
+# issue #87 should be equal
 expect_equal(compute_prior_inclusion_probs(fit1), compute_prior_inclusion_probs(fit2))
 
 hyp = c(1,.5, 1, .5, 1, .5, .5)

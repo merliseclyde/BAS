@@ -234,8 +234,16 @@ Metropolis-Hastings algorithm with sampling method="AMCMC" (see above).}
 \item{force.heredity}{Logical variable to force all levels of a factor to be
 included together and to include higher order interactions only if lower
 order terms are included.  Currently supported with `method='MCMC'`
-and experimentally with `method='BAS'` on non-Solaris platforms.
-Default is FALSE.}
+and experimentally with `method='BAS'` on non-Solaris platforms. This is not
+compatible currently for enforcing hierachical constraints with orthogonal 
+polynomials, poly(x, degree = 3). Without hereditary constraints the number of 
+possible models with all possible interactions is 2^2^k where k is the number 
+of factors with more than 2 levels.  With hereditary constraints the number of
+models is much less, but computing this for k can be quite expensive 
+for large k. For the model y ~ x1*x2*x3*x4*x5*x6) there are 7828353 models, 
+which is more than 2^22.  With n.models given, this will limit the number of
+models to the min(n.models, # models under the heredity constraints)
+Default is FALSE currently.}
 
 \item{pivot}{Logical variable to allow pivoting of columns when obtaining the
 OLS estimates of a model so that models that are not full rank can be fit.
@@ -247,9 +255,8 @@ interpreting BMA estimates of parameters.}
 
 \item{bigmem}{Logical variable to indicate that there is access to
 large amounts of memory (physical or virtual) for enumeration
-with large model spaces, e.g. > 2^25. default; used in determining rank of X^TX in cholesky
-decomposition
-with pivoting.}
+with large model spaces, e.g. > 2^25. default; used in determining rank of 
+X^TX in cholesky decomposition with pivoting.}
 }
 \value{
 \code{bas} returns an object of class \code{bas}

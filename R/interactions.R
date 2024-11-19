@@ -44,10 +44,9 @@ make.parents.of.interactions <-
 
 
 # model.matrix(mf, data)
-# attr( , "assign") has where terms are located
+# attr( , "assign") has where terms are locay ~ ted
 
 # mp = BAS:::make.parents.of.interactions(mf, df)
-
 
 
 prob.heredity <- function(model, parents, prob = .5) {
@@ -83,7 +82,7 @@ check.heredity <- function(model, parents, prob = .5) {
 #' order interactions to be included only if their parent
 #' lower order interactions terms are in the model, by
 #' assigning zero prior probability, and hence posterior
-#' probability, to models that do include their respective
+#' probability, to models that do not include their respective
 #' parents.
 #'
 #' @param object a bas linear model or generalized linear model object
@@ -182,3 +181,85 @@ force.heredity.bas <- function(object, prior.prob = .5) {
 
 # .prob.heredity(hald.models[1,], par.Hald$parents)
 # force_heredity.bas(bas.hald)
+
+# basd on Don van den Bergh's code for function analytic
+# Dedekind numbers, see https://oeis.org/A014466
+
+count.heredity.models <- function(f, max_models = NULL) {75
+  t           <- terms(f)
+  all_factors <- attr(t, "factors")[-1, , drop = FALSE]
+  o           <- attr(t, "order")
+  
+  # base case 1: all main effects
+  if (all(o == 1)) {
+    if (!is.null(max_models))
+      return(min(2^length(o), max_models))
+    else
+      return(2^length(o))
+  }
+  else {
+    
+    adj_mat <- crossprod(all_factors != 0)
+    for (i in seq_len(nrow(adj_mat))) {
+      adj_mat[i, ] <- adj_mat[i, ] == o
+    }
+    tb_o <- tabulate(o)
+    
+    # m contains the number of models for each order
+    m    <- numeric(length(tb_o))
+    m[1] <- 2^tb_o[1] # no. models with only main effects
+    
+    
+    Total_Num_Models = m[1]
+    # loop upward over higher order interactions
+    for (i in 2:length(tb_o)) {
+      
+      no_lower_order <- sum(tb_o[seq_len(i - 1)])
+      
+      for (j in seq_len(tb_o[i])) {
+        
+        # enumerate all combinations of interactions
+        combs <- utils::combn(tb_o[i], j)
+        for (k in seq_len(ncol(combs))) {
+          
+          # the subset of the adjacency matrix that corresponds to the current combination
+          subset <- adj_mat[no_lower_order + combs[, k], 1:no_lower_order, drop = FALSE]
+          
+          # all edges imply a parent which must be included (i.e., a constraint)
+          constraints <- .colSums(subset, m = j, n = no_lower_order) > 0
+          
+          # if there are missing constraints, we need to check if they involve
+          # interactions of various levels. If they do we need to recurse
+          missing <- which(constraints == 0)
+          if (any(o[missing] > 1) && length(unique(o[missing])) > 1) {
+            
+            # recursive case : construct the formula corresponding to the constraint and
+            # call analytic again
+            # this can probably be sped up by only passing (subsets) of the adjacency matrix around
+            cnms <- colnames(adj_mat)[1:no_lower_order]
+            new_f_str <- paste("y ~", paste(cnms[missing], collapse = " + "))
+            # print(paste(deparse(f), "->", new_f_str))
+            new_f <- as.formula(paste("y ~", paste(cnms[missing], collapse = " + ")))
+            no_models <- Recall(new_f)
+            
+          } else {
+            
+            # base case 2: all free variables are effects of the same order (e.g,. all main effects, all 2-way interactions, etc.)
+            no_constraints <- sum(constraints)
+            no_models <- 2^(no_lower_order - no_constraints)
+            
+          }
+          
+          m[i] <- m[i] + no_models
+         
+        }
+      }
+      Total_Num_Models = Total_Num_Models + m[i]
+      if (!is.null(max_models) && Total_Num_Models > max_models) {
+        browser()
+        return(max_models)
+      }
+    }
+    return(sum(m))
+  }
+}

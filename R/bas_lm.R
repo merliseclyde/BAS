@@ -45,7 +45,7 @@ normalize.modelprior <- function(modelprior, p) {
 normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 
   if (is.null(n.models)) {
-    p = max(30, p)
+    p = max(25, p)
     n.models <- 2^(p - 1)
   }
   if (n.models > 2^(p - 1)) n.models <- 2^(p - 1)
@@ -277,8 +277,16 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' @param force.heredity  Logical variable to force all levels of a factor to be
 #' included together and to include higher order interactions only if lower
 #' order terms are included.  Currently supported with `method='MCMC'`
-#' and experimentally with `method='BAS'` on non-Solaris platforms.
-#' Default is FALSE.
+#' and experimentally with `method='BAS'` on non-Solaris platforms. This is not
+#' compatible currently for enforcing hierachical constraints with orthogonal 
+#' polynomials, poly(x, degree = 3). Without hereditary constraints the number of 
+#' possible models with all possible interactions is 2^2^k where k is the number 
+#' of factors with more than 2 levels.  With hereditary constraints the number of
+#' models is much less, but computing this for k can be quite expensive 
+#' for large k. For the model y ~ x1*x2*x3*x4*x5*x6) there are 7828353 models, 
+#' which is more than 2^22.  With n.models given, this will limit the number of
+#' models to the min(n.models, # models under the heredity constraints)
+#' Default is FALSE currently.
 #' @param pivot Logical variable to allow pivoting of columns when obtaining the
 #' OLS estimates of a model so that models that are not full rank can be fit.
 #' Defaults to TRUE.
@@ -287,9 +295,8 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' @param tol 1e-7 as
 #' @param bigmem Logical variable to indicate that there is access to
 #' large amounts of memory (physical or virtual) for enumeration
-#' with large model spaces, e.g. > 2^25. default; used in determining rank of X^TX in cholesky
-#' decomposition
-#' with pivoting.
+#' with large model spaces, e.g. > 2^25. default; used in determining rank of 
+#' X^TX in cholesky decomposition with pivoting.
 #'
 #' @return \code{bas} returns an object of class \code{bas}
 #'
@@ -608,14 +615,18 @@ bas.lm <- function(formula,
     if (modelprior$family == "Uniform" ||
       modelprior$family == "Bernoulli") {
       warning(
-        "Uniform prior (Bernoulli)  distribution on the Model Space are not recommended for p > n; please consider using tr.beta.binomial or power.prior instead"
+        "Uniform prior (Bernoulli)  distribution on the Model Space are not 
+        recommended for p > n; please consider using tr.beta.binomial or power.prior instead"
       )
     }
+    if (!is.null(n.models)) n.models = min(2^n, n.models)
   }
   if (!is.numeric(initprobs)) {
     if (n <= p && initprobs == "eplogp") {
       stop(
-        "Full model is not full rank so cannot use the eplogp bound to create starting sampling probabilities, perhpas use 'marg-eplogp' for fiting marginal models\n"
+        "Full model is not full rank so cannot use the eplogp bound to create 
+        starting sampling probabilities, use 'marg-eplogp' 
+        for fitting marginal models or specify directly\n"
       )
     }
     initprobs <- switch(
@@ -724,6 +735,12 @@ bas.lm <- function(formula,
       force.heredity <- FALSE
     }
   }
+  
+  if (force.heredity) {
+    # limit the number of models to be enumerated based on Dedekind numbers
+    n.models = count.heredity.models(mf, n.models)
+    }
+
 
   prob <- normalize.initprobs.lm(initprobs, p)
 

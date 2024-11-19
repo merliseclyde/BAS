@@ -223,7 +223,8 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 		}
 	}
 
-  if (m < k) {  // resize
+  if (m < k) { 
+    warning("too many models allocated; using SETLENGTH to resize\n"); // resize
     k = m;
 
     SETLENGTH(modelspace, m);
