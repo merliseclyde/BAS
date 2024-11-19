@@ -2,6 +2,7 @@
 
 ## Submission reason 
 
+Bugs: Fixed Issue #87: Prior inclusions probabilities appear incorrect for a Bernoulli(.2) prior when always including one other predictor bug
 
 ## Test environments
 
