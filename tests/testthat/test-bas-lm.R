@@ -217,10 +217,10 @@ test_that("force.heredity", {
   set.seed(1)
   basObj.old <- bas.lm(simpleFormula,
     data = d,
-    alpha = 0.125316,
-    prior = "JZS",
+    alpha = 0.125316, 
+    prior = "JZS", method="deterministic",
     include.always = as.formula("contNormal ~ contcor1"),
-    modelprior = beta.binomial(),
+    modelprior = beta.binomial(1,1),
     weights = d$facFifty, force.heredity = FALSE
   )
   basObj.old <- force.heredity.bas(basObj.old)
