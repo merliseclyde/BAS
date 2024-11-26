@@ -224,7 +224,8 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 	}
 
   if (m < k) { 
- // warning("too many models allocated; using SETLENGTH to resize\n"); // resize
+ // warning("allocated %d models but only %d sampled; using SETLENGTH to resize\n", k, m); 
+ // resize
  // consider using force.heredity
     k = m;
 
