@@ -96,6 +96,16 @@ double hyperg (double, double, double);
 // extern double MAXNUM, MACHEP;
 #define MAXNUM DBL_MAX
 #define MACHEP DBL_EPSILON
+#define DOMAIN		1	/* argument domain error */
+#define SING		2	/* argument singularity */
+#define OVERFLOW	3	/* overflow range error */
+#define UNDERFLOW	4	/* underflow range error */
+#define TLOSS		5	/* total loss of precision */
+#define PLOSS		6	/* partial loss of precision */
+
+#define EDOM		33
+#define ERANGE		34
+
 
 double hyperg( double a, double b, double x)
 {
