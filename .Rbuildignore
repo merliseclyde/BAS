@@ -38,3 +38,5 @@ src/copyright.txt
 ^SECURITY\.md$
 ^revdep$
 R/counting_models_hereditary_constraint.R
+src/const.c
+src/mconf.h

@@ -66,7 +66,7 @@ Copyright 1984, 1987, 1992, 2000 by Stephen L. Moshier
 
 /* cleaned up to use with R */
 
-#include "mconf.h"
+// #include "mconf.h"
 #include <R.h>
 #include <Rmath.h>
 
@@ -80,8 +80,12 @@ Copyright 1984, 1987, 1992, 2000 by Stephen L. Moshier
 static double hyt2f1(double, double, double, double, double *);
 static double hys2f1(double, double, double, double, double *);
 double hyp2f1(double, double, double, double);
+int mtherr ( char *, int );
 
-extern double MAXNUM, MACHEP;
+// redefine to be compatible with CRAN  R_Exts/Constants.h
+// extern double MAXNUM, MACHEP;
+#define MAXNUM DBL_MAX
+#define MACHEP DBL_EPSILON
 
 double hyp2f1( double a, double b, double c,  double x )
 {

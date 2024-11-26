@@ -65,25 +65,37 @@ Cephes Math Library Release 2.8:  June, 2000
 Copyright 1984, 1987, 1988, 2000 by Stephen L. Moshier
 */
 
-#include "mconf.h"
+// #include "mconf.h"
 #include <Rmath.h>
+#include <R.h>
 
-#ifdef ANSIPROT
-extern double exp ( double );
-extern double log ( double );
-extern double fabs ( double );
+int mtherr ( char *, int );
 double hyp2f0 ( double, double, double, int, double * );
 static double hy1f1p(double, double, double, double *);
 static double hy1f1a(double, double, double, double *);
 double hyperg (double, double, double);
-#else
-double exp(), log(), gammafn(), lgammafn(),fabs(), 
-double hyp2f0();
-static double hy1f1p();
-static double hy1f1a();
-double hyperg();
-#endif
-extern double MAXNUM, MACHEP;
+
+
+//#ifdef ANSIPROT
+//extern double exp ( double );
+//extern double log ( double );
+//extern double fabs ( double );
+//double hyp2f0 ( double, double, double, int, double * );
+//static double hy1f1p(double, double, double, double *);
+//static double hy1f1a(double, double, double, double *);
+//double hyperg (double, double, double);
+//#else
+// double exp(), log(), gammafn(), lgammafn(),fabs(), 
+//double hyp2f0();
+// static double hy1f1p();
+//static double hy1f1a();
+//double hyperg();
+// #endif
+// extern double MAXNUM, MACHEP;
+// redefine to be compatible with CRAN  R_Exts/Constants.h
+// extern double MAXNUM, MACHEP;
+#define MAXNUM DBL_MAX
+#define MACHEP DBL_EPSILON
 
 double hyperg( double a, double b, double x)
 {
