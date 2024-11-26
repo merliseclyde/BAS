@@ -2,7 +2,13 @@
 
 ## Submission reason 
 
-Bugs: Fixed Issue #87: Prior inclusions probabilities appear incorrect for a Bernoulli(.2) prior when always including one other predictor bug
+Bugs: 
+
+- fixed issue #89: ERROR noted under Additional Issues: C23 (Checks of compiling
+C code in C23 mode) on CRAN check page for compiling C code with
+clang19 reported 11/16/24. Removed legacy code that was causing the error.
+
+- Fixed Issue #87: Prior inclusions probabilities appear incorrect for a Bernoulli(.2) prior when always including one other predictor bug
 
 ## Test environments
 

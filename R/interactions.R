@@ -256,7 +256,6 @@ count.heredity.models <- function(f, max_models = NULL) {75
       }
       Total_Num_Models = Total_Num_Models + m[i]
       if (!is.null(max_models) && Total_Num_Models > max_models) {
-        browser()
         return(max_models)
       }
     }

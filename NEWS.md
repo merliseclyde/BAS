@@ -1,8 +1,17 @@
 # BAS 1.7.4
 
+## Bug Fixes
+
+* fixed (issue #89) reported as Error on CRAN Check page for compiling BAS under R-devel
+with clang19.  Removed legacy definitions of `MACHEPS` and `MAXNUM` from Cephes
+and replaced with `DLB_EPSILON` and `DBL_MAX` in `R`. Files in `src/`  `mconf.h` and `const.c` are no longer
+used and will be reomved from in the future.
+
 * fixed (issue #87) prior inclusion probabilities using a Bernoulli prior other than 0.5
 were incorrect if `include.always` was used to include some variables always.  
 Added unit test in `test-priorprobs.R`
+
+## Features
 
 * added hexagon sticker
 
