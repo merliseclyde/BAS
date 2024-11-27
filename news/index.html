@@ -34,15 +34,16 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.7.5" id="bas-175">BAS 1.7.5<a class="anchor" aria-label="anchor" href="#bas-175"></a></h2>
 <div class="section level3">
+<h3 id="features-1-7-5">Features<a class="anchor" aria-label="anchor" href="#features-1-7-5"></a></h3>
+<p>Version 1.7.5 of the <code>BAS</code> package adds an internal function to count the number of models that satisfy “hereditary” constraints. This is used in the <code>force.heredity</code> option in <code>bas.lm</code> to reduce the number of models considered in the sampling process and should reduce the memory requirements and speed up the sampling process. This currently works only for factors included in the model formula, but not with factors always included in the model orwith other hereditaty constraints such as with polynomials. (the<code>force.heredity</code> option does work with these other constraints). This is a first step in reducing the number of models aallocated in the sampling process. Future updates will include other hereditary constraints.</p>
+<ul><li><p>added hexagon sticker</p></li>
+<li><p>add copyright to source files to satisfy OpenSSF Best Practice</p></li>
+</ul></div>
+<div class="section level3">
 <h3 id="bug-fixes-1-7-5">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-7-5"></a></h3>
 <ul><li><p>fixed (issue <a href="https://github.com/merliseclyde/BAS/issues/89" class="external-link">#89</a>) reported as Error on CRAN Check page for compiling BAS under R-devel with clang19. Removed legacy definitions of <code>MACHEPS</code> and <code>MAXNUM</code> from Cephes and replaced with <code>DLB_EPSILON</code> and <code>DBL_MAX</code> in <code>R</code>. Files in <code>src/</code> <code>mconf.h</code> and <code>const.c</code> are no longer used and will be reomved from in the future.</p></li>
 <li><p>fixed (issue <a href="https://github.com/merliseclyde/BAS/issues/87" class="external-link">#87</a>) prior inclusion probabilities using a Bernoulli prior other than 0.5 were incorrect if <code>include.always</code> was used to include some variables always.<br>
 Added unit test in <code>test-priorprobs.R</code></p></li>
-</ul></div>
-<div class="section level3">
-<h3 id="features-1-7-5">Features<a class="anchor" aria-label="anchor" href="#features-1-7-5"></a></h3>
-<ul><li><p>added hexagon sticker</p></li>
-<li><p>add copyright to source files to satisfy OpenSSF Best Practice</p></li>
 </ul></div>
 </div>
     <div class="section level2">
