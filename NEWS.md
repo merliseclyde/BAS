@@ -1,5 +1,21 @@
 # BAS 1.7.5
 
+## Features
+
+Version 1.7.5 of the `BAS` package adds an internal function to count the number of models
+that satisfy "hereditary" constraints.  This is used in the `force.heredity` option 
+in `bas.lm` to reduce the number of models considered in the sampling process and should
+reduce the memory requirements and speed up the sampling process.  This currently works only
+for factors included in the model formula, but not with factors always included in the model
+orwith other hereditaty constraints such as with polynomials. (the`force.heredity` option
+does work with these other constraints).  This is a first step in reducing the number of models
+aallocated in the sampling process.  Future updates will include other hereditary constraints.
+
+* added hexagon sticker
+
+* add copyright to source files to satisfy OpenSSF Best Practice
+
+
 ## Bug Fixes
 
 * fixed (issue #89) reported as Error on CRAN Check page for compiling BAS under R-devel
@@ -11,11 +27,6 @@ used and will be reomved from in the future.
 were incorrect if `include.always` was used to include some variables always.  
 Added unit test in `test-priorprobs.R`
 
-## Features
-
-* added hexagon sticker
-
-* add copyright to source files to satisfy OpenSSF Best Practice
 
 
 # BAS 1.7.3
