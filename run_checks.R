@@ -35,3 +35,5 @@ devtools::check_win_devel()
 usethis::use_version('patch')
 
 devtools::submit_cran()
+
+usethis::use_dev_version(push = TRUE)
