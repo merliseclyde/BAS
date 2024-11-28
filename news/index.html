@@ -32,7 +32,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.7.5" id="bas-175">BAS 1.7.5<a class="anchor" aria-label="anchor" href="#bas-175"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.7.5" id="bas-175">BAS 1.7.5<a class="anchor" aria-label="anchor" href="#bas-175"></a></h2><p class="text-muted">CRAN release: 2024-11-28</p>
 <div class="section level3">
 <h3 id="features-1-7-5">Features<a class="anchor" aria-label="anchor" href="#features-1-7-5"></a></h3>
 <p>Version 1.7.5 of the <code>BAS</code> package adds an internal function to count the number of models that satisfy “hereditary” constraints. This is used in the <code>force.heredity</code> option in <code>bas.lm</code> to reduce the number of models considered in the sampling process and should reduce the memory requirements and speed up the sampling process. This currently works only for factors included in the model formula, but not with factors always included in the model orwith other hereditaty constraints such as with polynomials. (the<code>force.heredity</code> option does work with these other constraints). This is a first step in reducing the number of models aallocated in the sampling process. Future updates will include other hereditary constraints.</p>
