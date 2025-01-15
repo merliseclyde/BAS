@@ -253,19 +253,32 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	SET_STRING_ELT(ANS_names, 0, mkChar("probne0"));
 
 	if (nUnique < nModels) {
-	  SETLENGTH(modelspace, nUnique);
-	  SETLENGTH(logmarg, nUnique);
-	  SETLENGTH(modelprobs, nUnique);
-	  SETLENGTH(priorprobs, nUnique);
-	  SETLENGTH(sampleprobs, nUnique);
-	  SETLENGTH(counts, nUnique);
-	  SETLENGTH(beta, nUnique);
-	  SETLENGTH(se, nUnique);
-	  SETLENGTH(mse, nUnique);
-	  SETLENGTH(shrinkage, nUnique);
-	  SETLENGTH(modeldim, nUnique);
-	  SETLENGTH(R2, nUnique);
-	  SETLENGTH(rank, nUnique);
+//	  SET_LENGTH(modelspace, nUnique);
+	  modelspace = Rf_lengthgets(modelspace, nUnique);
+//	  SETLENGTH(logmarg, nUnique);
+	  logmarg = Rf_lengthgets(logmarg, nUnique);
+//	  SETLENGTH(modelprobs, nUnique);
+	  modelprobs = Rf_lengthgets(modelprobs, nUnique);
+//	  SETLENGTH(priorprobs, nUnique);
+	  priorprobs = Rf_lengthgets(priorprobs, nUnique);
+//	  SETLENGTH(sampleprobs, nUnique);
+	  sampleprobs = Rf_lengthgets(sampleprobs, nUnique);
+//	  SETLENGTH(counts, nUnique);
+	  counts = Rf_lengthgets(counts, nUnique);
+//	  SETLENGTH(beta, nUnique);
+	  beta = Rf_lengthgets(beta, nUnique);
+//	  SETLENGTH(se, nUnique);
+	  se = Rf_lengthgets(se, nUnique);
+//	  SETLENGTH(mse, nUnique);
+	  mse = Rf_lengthgets(mse, nUnique);
+//	  SETLENGTH(shrinkage, nUnique);
+	  shrinkage = Rf_lengthgets(shrinkage, nUnique);
+//	  SETLENGTH(modeldim, nUnique);
+	  modeldim = Rf_lengthgets(modeldim, nUnique);
+//	  SETLENGTH(R2, nUnique);
+	  R2 = Rf_lengthgets(R2, nUnique);
+//	  SETLENGTH(rank, nUnique);
+	  rank = Rf_lengthgets(rank, nUnique);
 	  }
 	
 	SET_VECTOR_ELT(ANS, 1, modelspace);
