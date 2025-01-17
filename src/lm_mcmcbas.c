@@ -26,7 +26,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
   int nProtected = 0;
   SEXP RXwork = PROTECT(duplicate(X)); nProtected++; 
   SEXP RYwork = PROTECT(duplicate(Y));  nProtected++; 
-  int nModels=LENGTH(Rmodeldim);
+  int nModels = LENGTH(Rmodeldim);
   int pivot = LOGICAL(Rpivot)[0];
   double tol = REAL(Rtol)[0];
   int nUnique=0;
@@ -63,7 +63,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
   /* get dimsensions of all variables */
   int nobs = LENGTH(Y);
   int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
-  int k = LENGTH(modelprobs);
+
   double alpha = REAL(Ralpha)[0];
   int thin = INTEGER(Rthin)[0];
   SEXP Rbestmodel_new = PROTECT(duplicate(Rbestmodel)); nProtected++;
@@ -196,7 +196,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 
   m = 0;
   
-  while ( m < INTEGER(BURNIN_Iterations)[0] && nUnique < k) {
+  while ( m < INTEGER(BURNIN_Iterations)[0] && nUnique < nModels) {
     
     memcpy(model, modelold, sizeof(int)*p);
     pmodel =  n_sure;
@@ -316,14 +316,14 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 
  m = mcurrent; 
  
- if (m < k && INTEGER(MCMC_Iterations)[0] > 0) {
-  if (update_probs(probs, vars, mcurrent, k, p) == 1) {
+ if (m < nModels && INTEGER(MCMC_Iterations)[0] > 0) {
+  if (update_probs(probs, vars, mcurrent, nModels, p) == 1) {
      // Rprintf("updating tree for SWOR\n");
-     update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);
+     update_tree(modelspace, tree, modeldim, vars, nModels, p, n, mcurrent, modelwork);
      // Rprintf("Done!\n");
   }}
  
-  for (m = nUnique;  m < k && lessThanOne(pigamma[0]); m++) {
+  for (m = nUnique;  m < nModels && lessThanOne(pigamma[0]); m++) {
     INTEGER(modeldim)[m] = n_sure;
 
     branch = tree;
@@ -374,9 +374,9 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
       	mcurrent = m;
 	      compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 	      compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
-	      if (update_probs(probs, vars, mcurrent, k, p) == 1) {
+	      if (update_probs(probs, vars, mcurrent,nModels, p) == 1) {
         	  // Rprintf("Updating Model Tree %d \n", m);
-	           update_tree(modelspace, tree, modeldim, vars, k, p, n ,mcurrent,
+	           update_tree(modelspace, tree, modeldim, vars,nModels, p, n ,mcurrent,
                          modelwork);
 	          // Rprintf("Done with update\n");
 	        }
@@ -388,9 +388,9 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
   }
  
  
- /*. for when add heridity 
- if (m < k) {  
-   k = m;
+ /*. for when add heredity 
+ if (m < nModels) {  
+  nModels  = m;
   SETLENGTH(modelspace, nUnique);
   SETLENGTH(logmarg, nUnique);
   SETLENGTH(modelprobs, nUnique);
@@ -408,9 +408,9 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 */  
  
 
-  // Rprintf("Done with sampling - summaries m = %ld k = %ld \n", m, k);
-  compute_modelprobs(modelprobs, logmarg, priorprobs,k);
-  compute_margprobs(modelspace, modeldim, modelprobs, probs, k, p);
+  // Rprintf("Done with sampling - summaries m = %ld nModels = %ld \n", m, nModels);
+  compute_modelprobs(modelprobs, logmarg, priorprobs,nModels);
+  compute_margprobs(modelspace, modeldim, modelprobs, probs, nModels, p);
 
   SET_VECTOR_ELT(ANS, 0, Rprobs);
   SET_STRING_ELT(ANS_names, 0, mkChar("probne0"));
