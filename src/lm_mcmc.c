@@ -49,6 +49,7 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 
 
 	//get dimsensions of all variables
+
 	int nobs = LENGTH(Y);
 	int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
 	int k = LENGTH(modelprobs);
@@ -141,7 +142,7 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	double problocal = REAL(plocal)[0];
 	
 	
-	while (m < (INTEGER(MCMC_Iterations)[0] + INTEGER(BURNIN_Iterations)[0])) {
+	while (nUnique < nModels && m < (INTEGER(MCMC_Iterations)[0] + INTEGER(BURNIN_Iterations)[0])) {
 
 	  memcpy(model, modelold, sizeof(int)*p);
 		pmodel =  n_sure;

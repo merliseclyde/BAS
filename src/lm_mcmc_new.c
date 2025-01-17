@@ -23,8 +23,8 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 	
 	// allocate return objects
 	
-	SEXP ANS = PROTECT(allocVector(VECSXP, nProtected+1)); ++nProtected;
-	SEXP ANS_names = PROTECT(allocVector(STRSXP, nProtected)); ++nProtected;
+	SEXP ANS = PROTECT(allocVector(VECSXP, 16)); ++nProtected;
+	SEXP ANS_names = PROTECT(allocVector(STRSXP, 16)); ++nProtected;
 
 	SEXP Rprobs = duplicate(Rprobinit); 
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
@@ -104,7 +104,7 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 	
 	double *Xwork, *Ywork,*wts, *probs, shrinkage_m,
 		mse_m, MH=0.0, prior_m=1.0,
-		R2_m, RSquareFull, logmargy, postold, postnew;
+		R2_m, RSquareFull, logmarg_m, postold, postnew;
 	int i, m, n, pmodel_old, *model_m, *bestmodel, rank_m;
 	int mcurrent, n_sure;
 
@@ -172,28 +172,28 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 	PROTECT(Rse_m = NEW_NUMERIC(pmodel));
 
 	model_m = GetModel_m(Rmodel_m, model, p);
-	//evaluate logmargy and shrinkage
+	//evaluate logmarg_m and shrinkage
 
 	R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel,
                  p, nobs, m, &mse_m, &rank_m, pivot, tol);
 	INTEGER(rank)[0] = rank_m;
 
-	gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy,
+	gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmarg_m,
                &shrinkage_m);
 
 
 	prior_m  = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
 	if (prior_m == 0.0)  error("initial model has 0 prior probabilty\n");
-	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
+	SetModel2(logmarg_m, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
 	SetModel(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2, m);
 
-	int nUnique=0, newmodel=0, nsamples=0;
+	int nUnique=1, newmodel=0, nsamples=0;
 	double *real_model = vecalloc(n);
 	int *modelold = ivecalloc(p);
 	int old_loc = 0;
 	int new_loc;
 	pmodel_old = pmodel;
-	nUnique=1;
+	
 	INTEGER(counts)[0] = 1;
 	postold =  REAL(logmarg)[m] + log(REAL(priorprobs)[m]);
 	memcpy(modelold, model, sizeof(int)*p);
@@ -203,7 +203,7 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 	double problocal = REAL(plocal)[0];
 	
 	
-	while (nUnique < k && m < (INTEGER(MCMC_Iterations)[0] + INTEGER(BURNIN_Iterations)[0])) {
+	while (m < (INTEGER(MCMC_Iterations)[0] + INTEGER(BURNIN_Iterations)[0])) {
 
 	  memcpy(model, modelold, sizeof(int)*p);
 		pmodel =  n_sure;
@@ -243,9 +243,9 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 
 		    R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m,
                       &rank_m, pivot, tol);
-		    gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
+		    gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmarg_m, &shrinkage_m);
 
-		    postnew = logmargy + log(prior_m);
+		    postnew = logmarg_m + log(prior_m);
 		    MH *= exp(postnew - postold);
 		  }}
 		else {
@@ -266,7 +266,7 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 		    INTEGER(rank)[nUnique] = rank_m;
 
 		    //record model data
-		    SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
+		    SetModel2(logmarg_m, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
 		    SetModel(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2,nUnique);
 
 		    ++nUnique;
@@ -293,6 +293,9 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 		    REAL(MCMCprobs)[vars[i].index] += (double) modelold[vars[i].index];
 		  }
 		  nsamples++;
+		}
+		if (nUnique == nModels) {
+		  error("Number of unique models %d exceeds nModels %d\nGrowable vectors not implemented yet\n", nUnique, nModels); // Need to use growable vector here
 		}
 		m++;
 	}
