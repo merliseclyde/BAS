@@ -548,7 +548,7 @@ bas.lm <- function(formula,
     ))
   }
 
-  if (!(method %in% c("BAS", "deterministic", "MCMC", "MCMC+BAS", "AMCMC"))) {
+  if (!(method %in% c("BAS", "deterministic", "MCMC", "MCMC_GROWABLE", "MCMC+BAS", "AMCMC"))) {
     stop(paste("No available sampling method:", method))
   }
  
@@ -664,12 +664,14 @@ bas.lm <- function(formula,
 
   if (is.null(n.models)) {
     n.models <- min(2^p, 2^16)
+    if (method == "MCMC_GROWABLE<")  n.models = min(n.models, 2000) 
+    # FIXME add n.models.init as argument rather than specify here
   }
   if (is.null(MCMC.iterations)) {
-    MCMC.iterations <- as.integer(n.models * 10)
+    MCMC.iterations <- as.integer(p * 1000)
   }
   if (is.null(burnin.iterations)){
-    burnin.iterations <- as.integer(n.models * 10)
+    burnin.iterations <- as.integer(p * 25)
     }
 
   
@@ -833,12 +835,35 @@ bas.lm <- function(formula,
       Rtol = tol
     ),
     "MCMC" = .Call(
-      C_mcmc_new,
+      C_mcmc,
       Yvec,
       X,
       sqrt(weights),
       prob,
       modeldim,
+      incint = as.integer(int),
+      alpha = as.numeric(alpha),
+      method = as.integer(method.num),
+      modelprior = modelprior,
+      update = as.integer(update),
+      Rbestmodel = as.integer(bestmodel),
+      plocal = as.numeric(1.0 - prob.rw),
+      as.integer(burnin.iterations),
+      as.integer(MCMC.iterations),
+      as.numeric(lambda),
+      as.numeric(delta),
+      Rthin = as.integer(thin),
+      Rparents = parents,
+      Rpivot = pivot,
+      Rtol = tol
+    ),
+    "MCMC_GROWABLE" = .Call(
+      C_mcmc_grow,
+      Yvec,
+      X,
+      sqrt(weights),
+      prob,
+      nModels = as.integer(n.models),
       incint = as.integer(int),
       alpha = as.numeric(alpha),
       method = as.integer(method.num),

@@ -414,20 +414,19 @@ test_that("initialize with Full model MCMC+BAS", {
   set.seed(42)
   hald.mcmc    = bas.lm(Y ~ .,
                         prior = "BIC", method = "MCMC", burnin.iterations = it.mcmc,
-                        MCMC.iterations = it.mcmc, n.models=nm,
+                        MCMC.iterations = it.mcmc,
                         bestmodel=best, 
                         modelprior = uniform(), data = Hald)
   
   
   set.seed(42)
-  # OK as it skips SWOR step (by chance)
   hald.mcmcbas    = bas.lm(Y ~ .,
                            prior = "BIC", method = "MCMC+BAS", burnin.iterations = it.mcmc,
-                           MCMC.iterations = it.mcmc, n.models=nm,
+                           MCMC.iterations = it.mcmc,  n.models = hald.mcmc$n.models,
                            bestmodel=best, 
                            modelprior = uniform(), data = Hald)
 
-  expect_equal(hald.mcmcbas$freq, hald.mcmc$freq)
+  # compare only quantities that do not depend on MC frequencies
   expect_equal(hald.mcmcbas$R2, hald.mcmc$R2)
   expect_equal(hald.mcmcbas$logmarg, hald.mcmc$logmarg)
   
