@@ -16,11 +16,12 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 
   int nModels0 = INTEGER(RnModels)[0];  // initial guess on number of models to return
   int nModels = nModels0;
+  
   int nProtected = 0;
   
-   
+  double expand = 1.05; // increase to grow vectors;  add option to function call rather than hard code 
   
-	
+	int *counts;
 	// allocate return objects
 	
 	SEXP ANS = PROTECT(allocVector(VECSXP, 16)); ++nProtected;
@@ -78,8 +79,10 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
   SET_VECTOR_ELT(ANS, 12, rank);
   SET_STRING_ELT(ANS_names, 12, mkChar("rank"));
 
-  SEXP counts =  allocVector(INTSXP, nModels); 
-  SET_VECTOR_ELT(ANS, 13, counts);
+  SEXP Rcounts =  allocVector(INTSXP, nModels); 
+  counts = INTEGER(Rcounts);
+  memset(counts, 0, nModels * sizeof(int));
+  SET_VECTOR_ELT(ANS, 13, Rcounts);
   SET_STRING_ELT(ANS_names, 13, mkChar("freq"));
   
   SEXP MCMCprobs= duplicate(Rprobinit);
@@ -112,7 +115,7 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 	//get dimsensions of all variables
 	int nobs = LENGTH(Y);
 	int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
-	int k = LENGTH(modelprobs);
+  //	int k = LENGTH(modelprobs);
 	//	double lambda=REAL(LAMBDA)[0];
 	//	double delta = REAL(DELTA)[0];
 	double alpha = REAL(Ralpha)[0];
@@ -194,7 +197,7 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 	int new_loc;
 	pmodel_old = pmodel;
 	
-	INTEGER(counts)[0] = 1;
+	INTEGER(Rcounts)[0] = 1;
 	postold =  REAL(logmarg)[m] + log(REAL(priorprobs)[m]);
 	memcpy(modelold, model, sizeof(int)*p);
 	m = 0;
@@ -255,7 +258,7 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 		  MH *=  exp(postnew - postold);
 		}
 
-		//    Rprintf("MH new %lf old %lf\n", postnew, postold);
+//    Rprintf("MH new %lf old %lf\n", postnew, postold);
 		if (unif_rand() < MH) {
 		  if (newmodel == 1) {
 		    if (m % thin == 0 )  {
@@ -285,7 +288,7 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 
 		if ( (m % thin) == 0) {
 
-		  INTEGER(counts)[old_loc] += 1;
+		  INTEGER(Rcounts)[old_loc] += 1;
 
 		  for (i = 0; i < n; i++) {
 		    // store in opposite order so nth variable is first
@@ -294,8 +297,50 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 		  }
 		  nsamples++;
 		}
-		if (nUnique == nModels) {
-		  error("Number of unique models %d exceeds nModels %d\nGrowable vectors not implemented yet\n", nUnique, nModels); // Need to use growable vector here
+		if (nUnique >= nModels && m < (INTEGER(MCMC_Iterations)[0] + INTEGER(BURNIN_Iterations)[0] + 1)){
+		  // expand nModels and grow result vectors
+		  nModels = (int) (expand*nModels); //add checks to ensure it is not above max int (or support long vectors)
+
+		  Rprintf("Grow vectors:  Number of unique models %d; nModels is now %d\n", nUnique, nModels); // Need to use growable vector here
+
+		  modelspace = xlengthgets(modelspace, nModels);
+		  SET_VECTOR_ELT(ANS, 1, modelspace);
+
+		  logmarg = xlengthgets(logmarg, nModels);
+		  SET_VECTOR_ELT(ANS, 2, logmarg);
+
+		  modelprobs = xlengthgets(modelprobs, nModels);
+		  SET_VECTOR_ELT(ANS, 3, modelprobs);
+
+      priorprobs = 	xlengthgets(priorprobs, nModels);
+      SET_VECTOR_ELT(ANS, 4, priorprobs);
+      
+      sampleprobs = xlengthgets(sampleprobs, nModels);
+		  SET_VECTOR_ELT(ANS, 5, sampleprobs);
+		  
+		  mse = xlengthgets(mse, nModels);
+		  SET_VECTOR_ELT(ANS, 6, mse);
+		  
+		  beta = xlengthgets(beta, nModels);
+		  SET_VECTOR_ELT(ANS, 7, beta);
+		  
+		  se = xlengthgets(se, nModels);
+		  SET_VECTOR_ELT(ANS, 8, se);
+		  
+		  shrinkage = xlengthgets(shrinkage, nModels);
+		  SET_VECTOR_ELT(ANS, 9, shrinkage);
+		  
+		  modeldim = xlengthgets(modeldim, nModels);
+		  SET_VECTOR_ELT(ANS, 10, modeldim);
+		  
+		  R2 = xlengthgets(R2, nModels);
+		  SET_VECTOR_ELT(ANS, 11, R2);
+		  
+		  rank = xlengthgets(rank, nModels);
+		  SET_VECTOR_ELT(ANS, 12, rank);
+		  
+		  Rcounts = xgrowvector(Rcounts, nModels);
+		  SET_VECTOR_ELT(ANS, 13, Rcounts);
 		}
 		m++;
 	}
@@ -309,14 +354,13 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 
 	// Compute marginal probabilities
 	mcurrent = nUnique;
-	compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
+	compute_modelprobs(modelprobs, logmarg, priorprobs, mcurrent);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
 
 	INTEGER(NumUnique)[0] = nUnique;
-
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
-	SET_STRING_ELT(ANS_names, 0, mkChar("probne0"));
 
+	Rprintf("Decreasing nModels %d to number of unique models accepted %d \n", nModels, nUnique);
 	if (nUnique < nModels) {
 	  SET_VECTOR_ELT(ANS, 1, xlengthgets(modelspace, nUnique));
 	  SET_VECTOR_ELT(ANS, 2, xlengthgets(logmarg, nUnique));
@@ -330,9 +374,9 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 	  SET_VECTOR_ELT(ANS, 10, xlengthgets(modeldim, nUnique));
 	  SET_VECTOR_ELT(ANS, 11, xlengthgets(R2, nUnique));
 	  SET_VECTOR_ELT(ANS, 12, xlengthgets(rank, nUnique));
-	  SET_VECTOR_ELT(ANS, 13, xlengthgets(counts, nUnique));
-	  SET_VECTOR_ELT(ANS, 14, xlengthgets(MCMCprobs, nUnique));
-	  SET_VECTOR_ELT(ANS, 15, xlengthgets(NumUnique, 1));
+	  SET_VECTOR_ELT(ANS, 13, xlengthgets(Rcounts, nUnique));
+//	  SET_VECTOR_ELT(ANS, 14, xlengthgets(MCMCprobs, nUnique));
+//	  SET_VECTOR_ELT(ANS, 15, xlengthgets(NumUnique, 1));
 	}	  
 /*    SETLENGTH(modelspace, nUnique);
 	  modelspace = Rf_lengthgets(modelspace, nUnique);
@@ -344,8 +388,8 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 	  priorprobs = Rf_lengthgets(priorprobs, nUnique);
 	  SETLENGTH(sampleprobs, nUnique);
 	  sampleprobs = Rf_lengthgets(sampleprobs, nUnique);
-	  SETLENGTH(counts, nUnique);
-	  counts = Rf_lengthgets(counts, nUnique);
+	  SETLENGTH(Rcounts, nUnique);
+	  Rcounts = Rf_lengthgets(Rcounts, nUnique);
     SETLENGTH(beta, nUnique);
 	  beta = Rf_lengthgets(beta, nUnique);
 	  SETLENGTH(se, nUnique);
@@ -398,7 +442,7 @@ SET_STRING_ELT(ANS_names, 11, mkChar("R2"));
 SET_VECTOR_ELT(ANS, 12, rank);
 SET_STRING_ELT(ANS_names, 12, mkChar("rank"));
 
-SET_VECTOR_ELT(ANS, 13, counts);
+SET_VECTOR_ELT(ANS, 13, Rcounts);
 SET_STRING_ELT(ANS_names, 13, mkChar("freq"));
 
 SET_VECTOR_ELT(ANS, 14, MCMCprobs);
@@ -410,7 +454,7 @@ SET_STRING_ELT(ANS_names, 15, mkChar("n.Unique"));
 setAttrib(ANS, R_NamesSymbol, ANS_names);
 */
 	PutRNGstate();
-    UNPROTECT(nProtected);
+  UNPROTECT(nProtected);
     //	Rprintf("Return\n");
 	return(ANS);
 }

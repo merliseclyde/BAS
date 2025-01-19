@@ -664,7 +664,7 @@ bas.lm <- function(formula,
 
   if (is.null(n.models)) {
     n.models <- min(2^p, 2^16)
-    if (method == "MCMC_GROWABLE<")  n.models = min(n.models, 2000) 
+    if (method == "MCMC_GROWABLE")  n.models = min(n.models, 2000) 
     # FIXME add n.models.init as argument rather than specify here
   }
   if (is.null(MCMC.iterations)) {
@@ -969,7 +969,7 @@ bas.lm <- function(formula,
   }
   
   if (importance.sampling) renormalize = TRUE # do not use MCMC probs and use HT
-  if (method == "MCMC" || method == "AMCMC") {
+  if (method == "MCMC" || method == "AMCMC" || method == "MCMC_GROWABLE") {
     result$n.models <- result$n.Unique
     result$postprobs.MCMC <- result$freq / sum(result$freq)
 

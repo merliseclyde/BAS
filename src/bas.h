@@ -22,6 +22,7 @@
 #include <Rdefines.h>
 #include <Rmath.h>
 #include <Rinternals.h>
+// #include <Defn.h>
 #include <R_ext/Constants.h>
 #include <R_ext/Applic.h>
 #include <R_ext/Rdynload.h>
@@ -29,6 +30,9 @@
 #include <R_ext/Lapack.h>
 #include <R_ext/Linpack.h>
 
+/* Defines from R/include/Defn.h */
+NORET void UNIMPLEMENTED_TYPE(const char *s, SEXP x);
+NORET void UNIMPLEMENTED_TYPEt(const char *s, SEXPTYPE t);
 
 /* Defines. */
 #define TRUE 1
@@ -353,6 +357,7 @@ SEXP glm_bas(SEXP RX, SEXP RY, glmstptr * family, SEXP Roffset, SEXP Rweights, S
 
 SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Rcoef, SEXP Rmu, SEXP Rdeviance, SEXP Rweights, glmstptr * glmfamily, betapriorptr * betapriorfamily, SEXP Rlaplace);
 
+SEXP xgrowvector(SEXP x, R_xlen_t len);
 
 // issue 38
 static inline int lessThanOne(double a)

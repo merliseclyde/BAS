@@ -14,17 +14,27 @@ test_that("Test MCMC with Growable Vectors when not needed", {
                          method="MCMC",  MCMC.it = 10000, burnin = 1000,
                          initprobs = c(1, -.4, .3, 1.0, .8))
   expect_equal(bas_hald_grow$logmarg, bas_hald_old$logmarg)
+  expect_equal(bas_hald_grow$freq, bas_hald_old$freq)
+  expect_equal(bas_hald_grow$size, bas_hald_old$size)
+  expect_equal(bas_hald_grow$probne0, bas_hald_old$probne0)
 })
 
 test_that("Test MCMC with Growable Vectors when needed", {
-  data(Hald)
-  expect_no_error(bas.lm(Y ~ ., data=Hald, prior="BIC",
-                         method="MCMC", n.models = 2, 
-                         MCMC.it = 10000, burnin = 1000,
-                         initprobs = c(1, -.4, .3, 1.0, .8)))
   # issue #91 implement growable vectors in MCMC_GROWABLE
-  expect_error(bas.lm(Y ~ ., data=Hald, prior="BIC",
-                          method="MCMC_GROWABLE", n.models=2,
-                          MCMC.it = 10000, burnin = 1000,
-                          initprobs = c(-.4, .3, 1.5, .8)))
+  data(UScrime, package="MASS")
+  UScrime[,-2] <- log(UScrime[,-2])
+  
+  set.seed(42)
+  crime.mcmc <-  bas.lm(y ~ ., data=UScrime, n.models=2^16, prior="BIC",
+                        method="MCMC", MCMC.it = 100000, burnin = 1000)
+  
+  set.seed(42)
+  crime.grow = bas.lm(y ~ ., data=UScrime, prior="BIC", n.models = crime.mcmc$n.models - 100,
+                         method="MCMC_GROWABLE",  
+                         MCMC.it = 100000, burnin = 1000)
+  
+  expect_equal(crime.grow$logmarg, crime.mcmc$logmarg)
+  expect_equal(crime.grow$freq, crime.mcmc$freq)
+  expect_equal(crime.grow$size, crime.mcmc$size)
+  expect_equal(crime.grow$probne0, crime.mcmc$probne0)
 })
