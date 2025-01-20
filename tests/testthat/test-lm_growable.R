@@ -29,9 +29,10 @@ test_that("Test MCMC with Growable Vectors when needed", {
                         method="MCMC", MCMC.it = 100000, burnin = 1000)
   
   set.seed(42)
-  crime.grow = bas.lm(y ~ ., data=UScrime, prior="BIC", n.models = crime.mcmc$n.models - 100,
-                         method="MCMC_GROWABLE",  
-                         MCMC.it = 100000, burnin = 1000)
+  crime.grow = bas.lm(y ~ ., data=UScrime, prior="BIC", 
+                      n.models = crime.mcmc$n.models - 100,
+                      method="MCMC_GROWABLE",  
+                      MCMC.it = 100000, burnin = 1000)
   
   expect_equal(crime.grow$logmarg, crime.mcmc$logmarg)
   expect_equal(crime.grow$freq, crime.mcmc$freq)

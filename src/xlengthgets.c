@@ -49,28 +49,23 @@ SEXP xgrowvector(SEXP x, R_xlen_t len)
     if (xnames != R_NilValue)
       names = allocVector(STRSXP, len);
     else names = R_NilValue;	/*- just for -Wall --- should we do this ? */
+int *ival;
+double *dval;
+
 switch (TYPEOF(x)) {
 case NILSXP:
   break;
 case LGLSXP:
 case INTSXP:
-  for (i = 0; i < len; i++)
-    if (i < lenx) {
-      INTEGER(rval)[i] = INTEGER(x)[i];
-    }
-    else
-      INTEGER(rval)[i] = 0;
-    break;
+   ival = INTEGER(rval);
+   memset(ival, NA_INTEGER, len * sizeof(int));
+   memcpy(ival, INTEGER(x), lenx * sizeof(int));
+   break;
 case REALSXP:
-  for (i = 0; i < len; i++)
-    if (i < lenx) {
-      REAL(rval)[i] = REAL(x)[i];
-      if (xnames != R_NilValue)
-        SET_STRING_ELT(names, i, STRING_ELT(xnames, i));
-    }
-    else
-      REAL(rval)[i] = NA_REAL;
-    break;
+   dval = REAL(rval);
+   memset(dval, NA_REAL, len * sizeof(double));
+   memcpy(dval, REAL(x), lenx * sizeof(double));
+   break;
 case CPLXSXP:
   for (i = 0; i < len; i++)
     if (i < lenx) {
@@ -118,7 +113,8 @@ case RAWSXP:
       RAW(rval)[i] = (Rbyte) 0;
     break;
 default:
-  UNIMPLEMENTED_TYPE("length<-", x);
+  error(_("cannot set length of object of type '%s'"),
+        type2char(TYPEOF(x)));
 }
 if (isVector(x) && xnames != R_NilValue)
   setAttrib(rval, R_NamesSymbol, names);
