@@ -300,47 +300,47 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 		}
 		if (nUnique >= nModels && m < (INTEGER(MCMC_Iterations)[0] + INTEGER(BURNIN_Iterations)[0] + 1)){
 		  // expand nModels and grow result vectors
-		  nModels = (int) (expand*nModels); //add checks to ensure it is not above max int (or support long vectors)
+		  nModels = (int) (expand*nModels); //add checks to ensure it is not above max int
 
-		  Rprintf("Grow vectors:  Number of unique models %d; nModels is now %d\n", nUnique, nModels); // Need to use growable vector here
+//	  Rprintf("Grow vectors:  Number of unique models %d; nModels is now %d\n", nUnique, nModels); // Need to use growable vector here
 
-		  modelspace = xlengthgets(modelspace, nModels);
+		  modelspace = resizeVector(modelspace, nModels);
 		  SET_VECTOR_ELT(ANS, 1, modelspace);
 
-		  logmarg = xlengthgets(logmarg, nModels);
+		  logmarg = resizeVector(logmarg, nModels);
 		  SET_VECTOR_ELT(ANS, 2, logmarg);
 
-		  modelprobs = xlengthgets(modelprobs, nModels);
+		  modelprobs = resizeVector(modelprobs, nModels);
 		  SET_VECTOR_ELT(ANS, 3, modelprobs);
 
-      priorprobs = 	xlengthgets(priorprobs, nModels);
+      priorprobs = 	resizeVector(priorprobs, nModels);
       SET_VECTOR_ELT(ANS, 4, priorprobs);
       
-      sampleprobs = xlengthgets(sampleprobs, nModels);
+      sampleprobs = resizeVector(sampleprobs, nModels);
 		  SET_VECTOR_ELT(ANS, 5, sampleprobs);
 		  
-		  mse = xlengthgets(mse, nModels);
+		  mse = resizeVector(mse, nModels);
 		  SET_VECTOR_ELT(ANS, 6, mse);
 		  
-		  beta = xlengthgets(beta, nModels);
+		  beta = resizeVector(beta, nModels);
 		  SET_VECTOR_ELT(ANS, 7, beta);
 		  
-		  se = xlengthgets(se, nModels);
+		  se = resizeVector(se, nModels);
 		  SET_VECTOR_ELT(ANS, 8, se);
 		  
-		  shrinkage = xlengthgets(shrinkage, nModels);
+		  shrinkage = resizeVector(shrinkage, nModels);
 		  SET_VECTOR_ELT(ANS, 9, shrinkage);
 		  
-		  modeldim = xlengthgets(modeldim, nModels);
+		  modeldim = resizeVector(modeldim, nModels);
 		  SET_VECTOR_ELT(ANS, 10, modeldim);
 		  
-		  R2 = xlengthgets(R2, nModels);
+		  R2 = resizeVector(R2, nModels);
 		  SET_VECTOR_ELT(ANS, 11, R2);
 		  
-		  rank = xlengthgets(rank, nModels);
+		  rank = resizeVector(rank, nModels);
 		  SET_VECTOR_ELT(ANS, 12, rank);
 		  
-		  Rcounts = xgrowvector(Rcounts, nModels);
+		  Rcounts = resizeVector(Rcounts, nModels);
 		  SET_VECTOR_ELT(ANS, 13, Rcounts);
 		}
 		m++;
@@ -361,99 +361,23 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 	INTEGER(NumUnique)[0] = nUnique;
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
 
-	Rprintf("Decreasing nModels %d to number of unique models accepted %d \n", nModels, nUnique);
+//	Rprintf("Decreasing nModels %d to number of unique models accepted %d \n", nModels, nUnique);
 	if (nUnique < nModels) {
-	  SET_VECTOR_ELT(ANS, 1, xlengthgets(modelspace, nUnique));
-	  SET_VECTOR_ELT(ANS, 2, xlengthgets(logmarg, nUnique));
-	  SET_VECTOR_ELT(ANS, 3, xlengthgets(modelprobs, nUnique));
-	  SET_VECTOR_ELT(ANS, 4, xlengthgets(priorprobs, nUnique));
-	  SET_VECTOR_ELT(ANS, 5, xlengthgets(sampleprobs, nUnique));
-	  SET_VECTOR_ELT(ANS, 6, xlengthgets(mse, nUnique));
-	  SET_VECTOR_ELT(ANS, 7, xlengthgets(beta, nUnique));
-	  SET_VECTOR_ELT(ANS, 8, xlengthgets(se, nUnique));
-	  SET_VECTOR_ELT(ANS, 9, xlengthgets(shrinkage, nUnique));
-	  SET_VECTOR_ELT(ANS, 10, xlengthgets(modeldim, nUnique));
-	  SET_VECTOR_ELT(ANS, 11, xlengthgets(R2, nUnique));
-	  SET_VECTOR_ELT(ANS, 12, xlengthgets(rank, nUnique));
-	  SET_VECTOR_ELT(ANS, 13, xlengthgets(Rcounts, nUnique));
-//	  SET_VECTOR_ELT(ANS, 14, xlengthgets(MCMCprobs, nUnique));
-//	  SET_VECTOR_ELT(ANS, 15, xlengthgets(NumUnique, 1));
+	  SET_VECTOR_ELT(ANS, 1, resizeVector(modelspace, nUnique));
+	  SET_VECTOR_ELT(ANS, 2, resizeVector(logmarg, nUnique));
+	  SET_VECTOR_ELT(ANS, 3, resizeVector(modelprobs, nUnique));
+	  SET_VECTOR_ELT(ANS, 4, resizeVector(priorprobs, nUnique));
+	  SET_VECTOR_ELT(ANS, 5, resizeVector(sampleprobs, nUnique));
+	  SET_VECTOR_ELT(ANS, 6, resizeVector(mse, nUnique));
+	  SET_VECTOR_ELT(ANS, 7, resizeVector(beta, nUnique));
+	  SET_VECTOR_ELT(ANS, 8, resizeVector(se, nUnique));
+	  SET_VECTOR_ELT(ANS, 9, resizeVector(shrinkage, nUnique));
+	  SET_VECTOR_ELT(ANS, 10, resizeVector(modeldim, nUnique));
+	  SET_VECTOR_ELT(ANS, 11, resizeVector(R2, nUnique));
+	  SET_VECTOR_ELT(ANS, 12, resizeVector(rank, nUnique));
+	  SET_VECTOR_ELT(ANS, 13, resizeVector(Rcounts, nUnique));
 	}	  
-/*    SETLENGTH(modelspace, nUnique);
-	  modelspace = Rf_lengthgets(modelspace, nUnique);
-	  SETLENGTH(logmarg, nUnique);
-	  logmarg = Rf_lengthgets(logmarg, nUnique);
-	  SETLENGTH(modelprobs, nUnique);
-	  modelprobs = Rf_lengthgets(modelprobs, nUnique);
-	  SETLENGTH(priorprobs, nUnique);
-	  priorprobs = Rf_lengthgets(priorprobs, nUnique);
-	  SETLENGTH(sampleprobs, nUnique);
-	  sampleprobs = Rf_lengthgets(sampleprobs, nUnique);
-	  SETLENGTH(Rcounts, nUnique);
-	  Rcounts = Rf_lengthgets(Rcounts, nUnique);
-    SETLENGTH(beta, nUnique);
-	  beta = Rf_lengthgets(beta, nUnique);
-	  SETLENGTH(se, nUnique);
-	  se = Rf_lengthgets(se, nUnique);
-	  SETLENGTH(mse, nUnique);
-	  mse = Rf_lengthgets(mse, nUnique);
-	  SETLENGTH(shrinkage, nUnique);
-	  shrinkage = Rf_lengthgets(shrinkage, nUnique);
-	  SETLENGTH(modeldim, nUnique);
-	  modeldim = Rf_lengthgets(modeldim, nUnique);
-	  SETLENGTH(R2, nUnique);
-	  R2 = Rf_lengthgets(R2, nUnique);
-	  SETLENGTH(rank, nUnique);
-	  rank = Rf_lengthgets(rank, nUnique);
-	  }
-	
-SET_VECTOR_ELT(ANS, 1, modelspace);
-SET_STRING_ELT(ANS_names, 1, mkChar("which"));
 
-SET_VECTOR_ELT(ANS, 2, logmarg);
-SET_STRING_ELT(ANS_names, 2, mkChar("logmarg"));
-
-SET_VECTOR_ELT(ANS, 3, modelprobs);
-SET_STRING_ELT(ANS_names, 3, mkChar("postprobs"));
-
-SET_VECTOR_ELT(ANS, 4, priorprobs);
-SET_STRING_ELT(ANS_names, 4, mkChar("priorprobs"));
-
-SET_VECTOR_ELT(ANS, 5, sampleprobs);
-SET_STRING_ELT(ANS_names, 5, mkChar("sampleprobs"));
-
-SET_VECTOR_ELT(ANS, 6, mse);
-SET_STRING_ELT(ANS_names, 6, mkChar("mse"));
-
-SET_VECTOR_ELT(ANS, 7, beta);
-SET_STRING_ELT(ANS_names, 7, mkChar("mle"));
-
-SET_VECTOR_ELT(ANS, 8, se);
-SET_STRING_ELT(ANS_names, 8, mkChar("mle.se"));
-
-SET_VECTOR_ELT(ANS, 9, shrinkage);
-SET_STRING_ELT(ANS_names, 9, mkChar("shrinkage"));
-
-SET_VECTOR_ELT(ANS, 10, modeldim);
-SET_STRING_ELT(ANS_names, 10, mkChar("size"));
-
-SET_VECTOR_ELT(ANS, 11, R2);
-SET_STRING_ELT(ANS_names, 11, mkChar("R2"));
-
-SET_VECTOR_ELT(ANS, 12, rank);
-SET_STRING_ELT(ANS_names, 12, mkChar("rank"));
-
-SET_VECTOR_ELT(ANS, 13, Rcounts);
-SET_STRING_ELT(ANS_names, 13, mkChar("freq"));
-
-SET_VECTOR_ELT(ANS, 14, MCMCprobs);
-SET_STRING_ELT(ANS_names, 14, mkChar("probne0.MCMC"));
-
-SET_VECTOR_ELT(ANS, 15, NumUnique);
-SET_STRING_ELT(ANS_names, 15, mkChar("n.Unique"));
-
-setAttrib(ANS, R_NamesSymbol, ANS_names);
-*/
 	PutRNGstate();
   UNPROTECT(nProtected);
     //	Rprintf("Return\n");

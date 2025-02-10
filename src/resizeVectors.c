@@ -31,8 +31,9 @@
 */
 #include "bas.h"
 
-SEXP xgrowvector(SEXP x, R_xlen_t len)
+SEXP resizeVector(SEXP x, R_xlen_t len)
 //  SEXP xlengthgets(SEXP x, R_xlen_t len)
+
   {
     R_xlen_t lenx, i;
     SEXP rval, names, xnames, t;
@@ -59,19 +60,17 @@ case LGLSXP:
 case INTSXP:
    ival = INTEGER(rval);
    memset(ival, NA_INTEGER, len * sizeof(int));
-   memcpy(ival, INTEGER(x), lenx * sizeof(int));
+   memcpy(ival, INTEGER(x), fmin2(len,lenx) * sizeof(int));
    break;
 case REALSXP:
    dval = REAL(rval);
    memset(dval, NA_REAL, len * sizeof(double));
-   memcpy(dval, REAL(x), lenx * sizeof(double));
+   memcpy(dval, REAL(x), fmin2(len,lenx) * sizeof(double));
    break;
 case CPLXSXP:
   for (i = 0; i < len; i++)
     if (i < lenx) {
       COMPLEX(rval)[i] = COMPLEX(x)[i];
-      if (xnames != R_NilValue)
-        SET_STRING_ELT(names, i, STRING_ELT(xnames, i));
     }
     else {
       COMPLEX(rval)[i].r = NA_REAL;
@@ -82,8 +81,6 @@ case STRSXP:
   for (i = 0; i < len; i++)
     if (i < lenx) {
       SET_STRING_ELT(rval, i, STRING_ELT(x, i));
-      if (xnames != R_NilValue)
-        SET_STRING_ELT(names, i, STRING_ELT(xnames, i));
     }
     else
       SET_STRING_ELT(rval, i, NA_STRING);
@@ -98,16 +95,12 @@ case VECSXP:
   for (i = 0; i < len; i++)
     if (i < lenx) {
       SET_VECTOR_ELT(rval, i, VECTOR_ELT(x, i));
-      if (xnames != R_NilValue)
-        SET_STRING_ELT(names, i, STRING_ELT(xnames, i));
     }
     break;
 case RAWSXP:
   for (i = 0; i < len; i++)
     if (i < lenx) {
       RAW(rval)[i] = RAW(x)[i];
-      if (xnames != R_NilValue)
-        SET_STRING_ELT(names, i, STRING_ELT(xnames, i));
     }
     else
       RAW(rval)[i] = (Rbyte) 0;
@@ -116,6 +109,18 @@ default:
   error(_("cannot set length of object of type '%s'"),
         type2char(TYPEOF(x)));
 }
+
+if (xnames != R_NilValue) {
+  for (i = 0; i < fmin2(len,lenx); i++) {
+    SET_STRING_ELT(names, i, STRING_ELT(xnames, i));
+  }
+  if (len > lenx) {
+    for (i = lenx; i < len; i++) {
+      SET_STRING_ELT(names, i, NA_STRING);
+    }
+  }
+}
+  
 if (isVector(x) && xnames != R_NilValue)
   setAttrib(rval, R_NamesSymbol, names);
 // *not* keeping "class": in line with  x[1:k]
