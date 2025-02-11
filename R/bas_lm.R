@@ -293,6 +293,7 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' Currently coefficients that are not estimable are set to zero.  Use caution with
 #' interpreting BMA estimates of parameters.
 #' @param tol 1e-7 as
+#' @param expand variable to control how much to grow vectors with 
 #' @param bigmem Logical variable to indicate that there is access to
 #' large amounts of memory (physical or virtual) for enumeration
 #' with large model spaces, e.g. > 2^25. default; used in determining rank of 
@@ -522,6 +523,7 @@ bas.lm <- function(formula,
                    force.heredity = FALSE,
                    pivot = TRUE,
                    tol = 1e-7,
+                   expand = 1.05,
                    bigmem = FALSE) {
   num.updates <- 10
   call <- match.call()
@@ -878,7 +880,8 @@ bas.lm <- function(formula,
       Rthin = as.integer(thin),
       Rparents = parents,
       Rpivot = pivot,
-      Rtol = tol
+      Rtol = tol,
+      Rexpand = as.numeric(expand)
     ),
     "AMCMC" = .Call(
       C_amcmc,

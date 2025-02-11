@@ -11,7 +11,7 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
               SEXP incint, SEXP Ralpha, SEXP method, SEXP modelprior, SEXP Rupdate,
               SEXP Rbestmodel, SEXP plocal, SEXP BURNIN_Iterations,
               SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA,
-              SEXP Rthin, SEXP Rparents, SEXP Rpivot, SEXP Rtol)
+              SEXP Rthin, SEXP Rparents, SEXP Rpivot, SEXP Rtol, SEXP Rexpand)
 {
 
   int nModels0 = INTEGER(RnModels)[0];  // initial guess on number of models to return
@@ -19,7 +19,7 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
   
   int nProtected = 0;
   
-  double expand = 1.05; // increase to grow vectors;  add option to function call rather than hard code 
+  double expand = REAL(Rexpand)[0]; // increase to grow vectors 
   
 	int *counts;
 	// allocate return objects

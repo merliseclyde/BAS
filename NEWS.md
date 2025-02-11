@@ -1,5 +1,13 @@
 # BAS (development version)
 
+## Features
+
+Replace use of non-API call to `SETLENGTH` for MCMC sampling with new option to `resizeVectors`
+to expand size as needed and truncate when overallocated. This should reduce memory allocation
+for large problems when `n.models` was too large.   MCMC sampling now stops after `MCMC.iterations`,
+even of `n.models` is reached, improving MCMC frequencies.  Used with `method = "MCMC_GROWABLE"` 
+in `bas.lm` now.  (issues #81 and #91)
+
 # BAS 1.7.5
 
 ## Features
@@ -23,7 +31,7 @@ aallocated in the sampling process.  Future updates will include other hereditar
 * fixed (issue #89) reported as Error on CRAN Check page for compiling BAS under R-devel
 with clang19.  Removed legacy definitions of `MACHEPS` and `MAXNUM` from Cephes
 and replaced with `DLB_EPSILON` and `DBL_MAX` in `R`. Files in `src/`  `mconf.h` and `const.c` are no longer
-used and will be reomved from in the future.
+used and will be removed from in the future.
 
 * fixed (issue #87) prior inclusion probabilities using a Bernoulli prior other than 0.5
 were incorrect if `include.always` was used to include some variables always.  

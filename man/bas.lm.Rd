@@ -34,6 +34,7 @@ bas.lm(
   force.heredity = FALSE,
   pivot = TRUE,
   tol = 1e-07,
+  expand = 1.05,
   bigmem = FALSE
 )
 }
@@ -252,6 +253,8 @@ Currently coefficients that are not estimable are set to zero.  Use caution with
 interpreting BMA estimates of parameters.}
 
 \item{tol}{1e-7 as}
+
+\item{expand}{variable to control how much to grow vectors with}
 
 \item{bigmem}{Logical variable to indicate that there is access to
 large amounts of memory (physical or virtual) for enumeration
