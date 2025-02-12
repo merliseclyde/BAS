@@ -31,7 +31,7 @@
 */
 #include "bas.h"
 
-SEXP resizeVector(SEXP x, R_xlen_t len)
+SEXP resizeVector(SEXP x, R_xlen_t len_new)
 //  SEXP xlengthgets(SEXP x, R_xlen_t len)
 
   {
@@ -39,16 +39,16 @@ SEXP resizeVector(SEXP x, R_xlen_t len)
     SEXP rval, names, xnames, t;
     if (!isVector(x) && !isList(x))
       error(_("cannot set length of non-(vector or list)"));
-    if (len < 0) error(_("invalid value")); // e.g. -999 from asVecSize()
-    if (isNull(x) && len > 0)
+    if (len_new < 0) error(_("invalid value")); // e.g. -999 from asVecSize()
+    if (isNull(x) && len_new > 0)
       warning(_("length of NULL cannot be changed"));
     lenx = xlength(x);
-    if (lenx == len)
+    if (lenx == len_new)
       return (x);
-    PROTECT(rval = allocVector(TYPEOF(x), len));
+    PROTECT(rval = allocVector(TYPEOF(x), len_new));
     PROTECT(xnames = getAttrib(x, R_NamesSymbol));
     if (xnames != R_NilValue)
-      names = allocVector(STRSXP, len);
+      names = allocVector(STRSXP, len_new);
     else names = R_NilValue;	/*- just for -Wall --- should we do this ? */
 int *ival;
 double *dval;
@@ -59,16 +59,22 @@ case NILSXP:
 case LGLSXP:
 case INTSXP:
    ival = INTEGER(rval);
-   memset(ival, NA_INTEGER, len * sizeof(int));
-   memcpy(ival, INTEGER(x), fmin2(len,lenx) * sizeof(int));
+   if (lenx < len_new) // fill rest with NAs
+     for (i = lenx; i < len_new; i++) {
+       INTEGER(rval)[i] = NA_INTEGER;
+       }
+   memcpy(ival, INTEGER(x), fmin2(len_new,lenx) * sizeof(int));
    break;
 case REALSXP:
    dval = REAL(rval);
-   memset(dval, NA_REAL, len * sizeof(double));
-   memcpy(dval, REAL(x), fmin2(len,lenx) * sizeof(double));
+   if (lenx < len_new) // fill rest with NAs
+     for (i = len_new; i < lenx; i++) {
+       REAL(rval)[i] = NA_REAL;
+       }
+   memcpy(dval, REAL(x), fmin2(len_new,lenx) * sizeof(double));
    break;
 case CPLXSXP:
-  for (i = 0; i < len; i++)
+  for (i = 0; i < len_new; i++)
     if (i < lenx) {
       COMPLEX(rval)[i] = COMPLEX(x)[i];
     }
@@ -78,7 +84,7 @@ case CPLXSXP:
     }
     break;
 case STRSXP:
-  for (i = 0; i < len; i++)
+  for (i = 0; i < len_new; i++)
     if (i < lenx) {
       SET_STRING_ELT(rval, i, STRING_ELT(x, i));
     }
@@ -92,13 +98,13 @@ case LISTSXP:
   }
   break;
 case VECSXP:
-  for (i = 0; i < len; i++)
+  for (i = 0; i < len_new; i++)
     if (i < lenx) {
       SET_VECTOR_ELT(rval, i, VECTOR_ELT(x, i));
     }
     break;
 case RAWSXP:
-  for (i = 0; i < len; i++)
+  for (i = 0; i < len_new; i++)
     if (i < lenx) {
       RAW(rval)[i] = RAW(x)[i];
     }
@@ -111,11 +117,11 @@ default:
 }
 
 if (xnames != R_NilValue) {
-  for (i = 0; i < fmin2(len,lenx); i++) {
+  for (i = 0; i < fmin2(len_new,lenx); i++) {
     SET_STRING_ELT(names, i, STRING_ELT(xnames, i));
   }
-  if (len > lenx) {
-    for (i = lenx; i < len; i++) {
+  if (lenx < len_new) {
+    for (i = lenx; i < len_new; i++) {
       SET_STRING_ELT(names, i, NA_STRING);
     }
   }
