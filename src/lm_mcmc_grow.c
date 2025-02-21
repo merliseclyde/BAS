@@ -16,13 +16,15 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 
   int nModels0 = INTEGER(RnModels)[0];  // initial guess on number of models to return
   int nModels = nModels0;
+  int *counts;
   
-  int nProtected = 0;
+
   
   double expand = REAL(Rexpand)[0]; // increase to grow vectors 
   
-	int *counts;
+
 	// allocate return objects
+	int nProtected = 0;
 	
 	SEXP ANS = PROTECT(allocVector(VECSXP, 16)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 16)); ++nProtected;
@@ -104,6 +106,7 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 	
 	int pivot = LOGICAL(Rpivot)[0];
 	double tol = REAL(Rtol)[0];
+
 	
 	double *Xwork, *Ywork,*wts, *probs, shrinkage_m,
 		mse_m, MH=0.0, prior_m=1.0,
@@ -135,8 +138,8 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 	probs =  REAL(Rprobs);
 	n = sortvars(vars, probs, p);
 	
-	for (i =n; i <p; i++) REAL(MCMCprobs)[vars[i].index] = probs[vars[i].index];
-	for (i =0; i <n; i++) REAL(MCMCprobs)[vars[i].index] = 0.0;
+	for (i=n; i<p; i++) REAL(MCMCprobs)[vars[i].index] = probs[vars[i].index];
+	for (i=0; i<n; i++) REAL(MCMCprobs)[vars[i].index] = 0.0;
 	
 	int noInclusionIs1 = no_prior_inclusion_is_1(p, probs);
 

@@ -254,12 +254,14 @@ interpreting BMA estimates of parameters.}
 
 \item{tol}{1e-7 as}
 
-\item{expand}{variable to control how much to grow vectors with}
+\item{expand}{variable to control how much to grow vectors with MCMC_GROWABLE 
+if number of unique models exceeds the current size of the vectors. 
+The default is 1.05, which allows vectors to grow by 5 percent.}
 
 \item{bigmem}{Logical variable to indicate that there is access to
 large amounts of memory (physical or virtual) for enumeration
 with large model spaces, e.g. > 2^25. default; used in determining rank of 
-X^TX in cholesky decomposition with pivoting.}
+X^TX in Cholesky decomposition with pivoting.}
 }
 \value{
 \code{bas} returns an object of class \code{bas}

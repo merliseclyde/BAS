@@ -110,11 +110,13 @@
 #' @param prob.rw For any of the MCMC methods, probability of using the
 #' random-walk proposal; otherwise use a random "flip" move to propose a new
 #' model.
-#' @param MCMC.iterations Number of models to sample when using any of the MCMC
-#' options; should be greater than 'n.models'. By default 10*n.models.
-#' @param thin oFr "MCMC", thin the MCMC chain every "thin" iterations; default 
-#' is no
-#' thinning.  For large p, thinning can be used to significantly reduce memory
+#' @param burnin.iterations Number of iterations to discard as part of burnin
+#' when using any of the MCMC
+#' options; should be greater than 'n.models'. By default 10*p.
+#' @param MCMC.iterations Number of MCMC iterations for sampling using any of the MCMC
+#' options; should be greater than 'n.models'. By default 1000*p.
+#' @param thin For "MCMC", thin the MCMC chain every "thin" iterations; default 
+#' is no thinning.  For large p, thinning can be used to significantly reduce memory
 #' requirements as models and associated summaries are saved only every thin 
 #' iterations.  For thin = p, the  model and associated output are recorded 
 #' every p iterations,similar to the Gibbs sampler in SSVS.
@@ -132,6 +134,9 @@
 #' order terms are included.  Currently only supported with `method='MCMC'`
 #' and `method='BAS'` (experimental) on non-Solaris platforms.
 #' Default is FALSE.
+#' @param expand variable to control how much to grow vectors with MCMC_GROWABLE 
+#' if number of unique models exceeds the current size of the vectors. 
+#' The default is 1.05, which allows vectors to grow by 5 percent.
 #' @param bigmem Logical variable to indicate that there is access to
 #' large amounts of memory (physical or virtual) for enumeration
 #' with large model spaces, e.g. > 2^25.
@@ -206,7 +211,7 @@
 #'               modelprior=beta.binomial(1,1))
 #'
 #' pima.BIC = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
-#'               method="BAS+MCMC", MCMC.iterations=2500,
+#'               method="MCMC+BAS", MCMC.iterations=2500,
 #'               betaprior=bic.prior(), family=binomial(),
 #'               modelprior=uniform())
 
@@ -217,7 +222,7 @@
 #'   crabs.bas = bas.glm(satell ~ color*spine*width + weight, data=crabs,
 #'                       family=poisson(),
 #'                       betaprior=EB.local(), modelprior=uniform(),
-#'                       method='MCMC', n.models=2^10, MCMC.iterations=2500,
+#'                       method="MCMC", n.models=2^10, MCMC.iterations=2500,
 #'                       prob.rw=.95)
 #'   
 #'  # Gamma example
@@ -245,9 +250,9 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
                     update = NULL,
                     bestmodel = NULL,
                     prob.rw = 0.5,
-                    MCMC.iterations = NULL, thin = 1,
+                    burnin.iterations = NULL, MCMC.iterations = NULL, thin = 1,
                     control = glm.control(), laplace = FALSE, renormalize = FALSE,
-                    force.heredity = FALSE,
+                    force.heredity = FALSE, expand = 1.05, 
                     bigmem = FALSE) {
   num.updates <- 10
   call <- match.call()
@@ -269,7 +274,10 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   
   if (!inherits(modelprior, "prior")) stop("modelprior should be an object of class prior,  uniform(),  beta.binomial(), etc")
 
-
+  if (!(method %in% c("BAS", "deterministic", "MCMC", "MCMC_GROWABLE", "MCMC+BAS", "AMCMC"))) {
+    stop(paste("No available sampling method:", method))
+  }
+  
   # browser()
   mfall <- match.call(expand.dots = FALSE)
   m <- match(c(
@@ -389,9 +397,18 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
 
 
   if (is.null(n.models)) {
-    n.models <- as.integer(min(2^p, 2^19))
+    n.models <- min(2^p, 2^16)
+    if (method == "MCMC_GROWABLE")  n.models = min(n.models, 2000) 
+    # FIXME add n.models.init as argument rather than specify here
   }
-
+  if (is.null(MCMC.iterations)) {
+    MCMC.iterations <- as.integer(p * 1000)
+  }
+  if (is.null(burnin.iterations)){
+    burnin.iterations <- as.integer(p * 25)
+  }
+  
+  
   n.models <- as.integer(normalize.n.models(n.models, p, prob, method, bigmem))
 
   modelprior <- normalize.modelprior(modelprior, p)
@@ -480,6 +497,23 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
       Rlaplace = as.integer(laplace),
       Rparents = parents
     ),
+    "MCMC_GROWABLE" = .Call(C_glm_mcmc_grow,
+                   Y = Yvec, X = X,
+                   Roffset = as.numeric(offset),
+                   Rweights = as.numeric(weights),
+                   Rprobinit = prob,
+                   RnModels = as.integer(n.models),
+                   modelprior = modelprior,
+                   betaprior = betaprior,
+                   Rbestmodel = bestmodel,
+                   plocal = as.numeric(1.0 - prob.rw),
+                   BURNIN_Iterations = as.integer(burnin.iterations),
+                   MCMC_Iteration = as.integer(MCMC.iterations),
+                   Rthin = as.integer(thin),
+                   family = family, Rcontrol = control,
+                   Rlaplace = as.integer(laplace),
+                   Rparents = parents, Rexpand = expand
+    ),
     "BAS" = .Call(C_glm_sampleworep,
       Y = Yvec, X = X,
       Roffset = as.numeric(offset),
@@ -539,7 +573,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   result$n.models <- length(result$postprobs)
   result$include.always <- keep
 
-  # 	if (method == "MCMC") result$n.models = result$n.Unique
+  # 	if (method == "MCMC" | method == "MCMC_GROWABE") result$n.models = result$n.Unique
 
 
   df <- rep(nobs - 1, result$n.models)
