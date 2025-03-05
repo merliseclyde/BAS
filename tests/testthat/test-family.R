@@ -16,14 +16,14 @@ test_that("family links", {
                                        betaprior = EB.local(), modelprior = uniform(),
                                        method = "MCMC", n.models = 1024, MCMC.iterations = 1000
                   ))
-  expect_warning(crabs.bas <- bas.glm(satell ~ color * spine * width + weight,
+  expect_error(crabs.bas <- bas.glm(satell ~ color * spine * width + weight,
                                     data = crabs,
                                     family = poisson(link="identity"),
                                     betaprior = EB.local(), modelprior = uniform(),
                                     method = "MCMC", n.models = 1024, MCMC.iterations = 1000
   ))
   data(wafer, package="faraway")
-  expect_warning(bas.glm(formula = resist ~ ., include.always = ~ .,
+  expect_error(bas.glm(formula = resist ~ ., include.always = ~ .,
                          betaprior = bic.prior() ,
                          family  = Gamma(link = "identity"),
                          data    = wafer))
