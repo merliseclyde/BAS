@@ -9,17 +9,23 @@
 SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		             SEXP Rprobinit, SEXP Rmodeldim,
 		             SEXP modelprior, SEXP betaprior, SEXP Rbestmodel, SEXP plocal,
-		             SEXP BURNIN_Iterations,
+		             SEXP BURNIN_Iterations, SEXP MCMC_Iterations,
 		             SEXP family, SEXP Rcontrol,
 		             SEXP Rupdate, SEXP Rlaplace, SEXP Rparents)
 {
+  
+  Rprintf("Starting MCMC +BAS\n");
 	int nProtected = 0;
 	int nModels=LENGTH(Rmodeldim);
 
+	Rprintf("Allocating Space for %d Models\n", nModels) ;
+	
 	SEXP ANS = PROTECT(allocVector(VECSXP, 17)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 17)); ++nProtected;
+	
 	SEXP Rprobs = PROTECT(duplicate(Rprobinit)); ++nProtected;
 	SEXP MCMCprobs= PROTECT(duplicate(Rprobinit)); ++nProtected;
+	
 	SEXP R2 = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP shrinkage = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP modelspace = PROTECT(allocVector(VECSXP, nModels)); ++nProtected;
@@ -52,7 +58,6 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	//get dimsensions of all variables
 	int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
-	int k = LENGTH(modelprobs);
 	int update = INTEGER(Rupdate)[0];
 	double eps = DBL_EPSILON;
 
@@ -114,9 +119,10 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	int *varin= ivecalloc(p);
 	int *varout= ivecalloc(p);
 	double problocal = REAL(plocal)[0];
-	int n_iterations =  INTEGER(BURNIN_Iterations)[0];
 
- 	while (nUnique < k && m < n_iterations) {
+
+	Rprintf("Starting MCMC with %d iterations\n", INTEGER(BURNIN_Iterations)[0]);
+ 	while (nUnique <  nModels && m < INTEGER(BURNIN_Iterations)[0]) {
 		memcpy(model, modelold, sizeof(int)*p);
 		pmodel =  n_sure;
 
@@ -193,26 +199,26 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	}
 
 	// Compute marginal probabilities
-	mcurrent = nUnique;
-	// ("NumUnique Models Accepted %d \n", nUnique);
+	mcurrent = nUnique - 1;
+	Rprintf("NumUnique Models Accepted %d \n", nUnique);
 
 	compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
 
-	//  Now sample W/O Replacement
+	Rprintf("Now sample W/O Replacement\n");
 	INTEGER(NumUnique)[0] = nUnique;
 
-	if (nUnique < k) {
+	if (nUnique < nModels && INTEGER(MCMC_Iterations)[0] > 0) {
 		int *modelwork= ivecalloc(p);
 		double *pigamma = vecalloc(p);
 		memset(pigamma, 0.0, p*sizeof(double));
 
-		update_probs(probs, vars, mcurrent, k, p);
-		update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);
+		update_probs(probs, vars, mcurrent, nModels, p);
+		update_tree(modelspace, tree, modeldim, vars, nModels,p,n,mcurrent, modelwork);
 
  // now sample
 
-		for (m = nUnique;  (m < k) && (pigamma[0] < 1.0); m++) {
+		for (m = nUnique;  (m < nModels) && (pigamma[0] < 1.0); m++) {
 			for (i = n; i < p; i++)  {
 				INTEGER(modeldim)[m]  +=  model[vars[i].index];
 			}
@@ -252,27 +258,26 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	        mcurrent = m;
 	        compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 	        compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
-	        if (update_probs(probs, vars, mcurrent, k, p) == 1) {
+	        if (update_probs(probs, vars, mcurrent, nModels, p) == 1) {
 	      // ("Updating Model Tree %d \n", m);
-	            update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);
+	            update_tree(modelspace, tree, modeldim, vars, nModels,p,n,mcurrent, modelwork);
 	        }
 	      }
 	    }
 		}
-		//Rprintf("Nunique = %d, m = %d, k = %d, mcurrent = %d %lf\n",
-    //      nUnique, m, k, mcurrent, pigamma[0]);
-	if (m < k) {
+		Rprintf("Nunique = %d, m = %d, k = %d, mcurrent = %d %lf\n",
+          nUnique, m, nModels, mcurrent, pigamma[0]);
+	if (m < nModels) {
 		  mcurrent = m;  // #nocov 
 		  }
-	else {mcurrent = k;}
+	else {mcurrent = nModels;}
 	}
 	
 	// truncate vectors; legacy code from MCMC should not get to following but 
 	// keep in case other prior choices create  models with zero probabilities that 
 	// need to be dropped and mcurrent < k;  
 	// # nocov start
- 	if (mcurrent < k) {  // truncate vectors; legacy code from MCMC should not get here
-	  k = mcurrent;
+ 	if (mcurrent < nModels) {  // truncate vectors; legacy code from MCMC should not get here
  	  SETLENGTH(modelspace, mcurrent);
  	  SETLENGTH(logmarg, mcurrent);
  	  SETLENGTH(modelprobs, mcurrent);

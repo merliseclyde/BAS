@@ -160,15 +160,48 @@ test_that("missing data arg", {
 
 test_that("poisson regression", {
   data(crabs, package = "glmbb")
-  crabs.bas <- bas.glm(satell ~ color * spine * width + weight,
+  set.seed(1)
+  crabs.MCMCbas <- bas.glm(satell ~ color * spine * width + weight,
     data = crabs,
     family = poisson(),
     betaprior = EB.local(), modelprior = uniform(),
-    method = "MCMC", n.models = 1024, MCMC.iterations = 10000,
+    method = "MCMC+BAS", 
+    n.models = 1024, burnin = 1000, MCMC.iterations = 10000,
     prob.rw = .95
   )
+  
+  set.seed(1)
+  crabs.MCMC <- bas.glm(satell>0 ~ color * spine * width + weight,
+                        data = crabs,
+                        family = binomial(),
+                        betaprior = EB.local(), modelprior = uniform(),
+                        method = "MCMC", 
+                        n.models = , burnin = 1000, MCMC.iterations = 10000,
+                        prob.rw = .95
+  )
+  
+  set.seed(1)
+  crabs.MCMC <- bas.glm(satell ~ color * spine * width + weight,
+                           data = crabs,
+                           family = poisson(),
+                           betaprior = EB.local(), modelprior = uniform(),
+                           method = "MCMC", 
+                           n.models = 1024, burnin = 1000, MCMC.iterations = 10000,
+                           prob.rw = .95
+  )
+  
+  set.seed(1)
+  crabs.MCMCGrow <- bas.glm(satell ~ color * spine * width + weight,
+                       data = crabs,
+                       family = poisson(),
+                       betaprior = EB.local(), modelprior = uniform(),
+                       method = "MCMC_GROWABLE", 
+                       n.models = 1999, burnin = 1000, MCMC.iterations = 10000
+  )
+  
   expect_null(plot(crabs.bas))
-  expect_equal(0, sum(crabs.bas$shrinkage > 1))
+  expect_equal(0, sum(crabs.MCMCbas$shrinkage > 1))
+  expect_equal(0, sum(crabs.MCMCGrow$shrinkage > 1))
 })
 
 test_that("glm_fit", {
@@ -478,7 +511,7 @@ test_that("MCMC+BAS", {
                       data = Pima.tr, method = "MCMC+BAS",
                       betaprior = bic.prior(),
                       family = binomial(),
-                      modelprior = uniform(), MCMC.iterations = 5,  update =  50)
+                      modelprior = uniform(), burnin.it = 5, MCMC.iterations = 5,  update =  50)
   expect_equal(6, sum(pima_BAS$freq))
 })
 

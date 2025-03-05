@@ -10,7 +10,7 @@
 SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	      SEXP Rprobinit, SEXP Rmodeldim,
 	      SEXP modelprior,  SEXP betaprior, SEXP Rbestmodel,  SEXP plocal,
-	      SEXP BURNIN_Iterations, SEXP Rthin, 
+	      SEXP BURNIN_Iterations, SEXP MCMC_Iterations, SEXP Rthin, 
 	      SEXP family, SEXP Rcontrol, SEXP Rlaplace, SEXP Rparents
 			  )
 {
@@ -52,7 +52,6 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	//get dimsensions of all variables
 	int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
-	int k = LENGTH(modelprobs);
 	
 	int thin = INTEGER(Rthin)[0];
 
@@ -113,7 +112,8 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	int *varin= ivecalloc(p);
 	int *varout= ivecalloc(p);
 	double problocal = REAL(plocal)[0];
-	while (nUnique < k && m < INTEGER(BURNIN_Iterations)[0]) {
+	
+	while (nUnique < nModels && m < (INTEGER(MCMC_Iterations)[0] + INTEGER(BURNIN_Iterations)[0])) {
 		memcpy(model, modelold, sizeof(int)*p);
 		pmodel =  n_sure;
 
@@ -196,7 +196,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	// Compute marginal probabilities
 	mcurrent = nUnique;
-	//	Rprintf("NumUnique Models Accepted %d \n", nUnique);
+//	Rprintf("NumUnique Models Accepted %d \n", nUnique);
 	compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
 
@@ -204,7 +204,9 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
 	SET_STRING_ELT(ANS_names, 0, mkChar("probne0"));
 
+	
 	if (nUnique < nModels) {
+//	  Rprintf("MCMC Resizing\n");
 	  SETLENGTH(modelspace, nUnique);
 	  SETLENGTH(logmarg, nUnique);
 	  SETLENGTH(modelprobs, nUnique);

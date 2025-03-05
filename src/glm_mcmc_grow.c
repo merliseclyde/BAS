@@ -17,13 +17,17 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	int nModels0 = INTEGER(RnModels)[0];  // initial guess on number of models to return
 	int nModels = nModels0;
+	
+	Rprintf("MCMC GROW nModels is %d\n", nModels);
+	
 	int nProtected = 0;
 	int *counts;
 	
 	double expand = REAL(Rexpand)[0]; // increase to grow vectors  
-
-	SEXP ANS = PROTECT(allocVector(VECSXP, 16)); ++nProtected;
-	SEXP ANS_names = PROTECT(allocVector(STRSXP, 16)); ++nProtected;
+  Rprintf("expand is %f\n", expand);
+  
+	SEXP ANS = PROTECT(allocVector(VECSXP, 17)); ++nProtected;
+	SEXP ANS_names = PROTECT(allocVector(STRSXP, 17)); ++nProtected;
 	
 	SEXP Rprobs = duplicate(Rprobinit); 
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
@@ -100,7 +104,6 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	setAttrib(ANS, R_NamesSymbol, ANS_names);
 	
 	
-	
 	double *probs, MH=0.0, prior_m=1.0, shrinkage_m, logmargy, postold, postnew;
 	int i, m, n, pmodel_old, *bestmodel;
 	int mcurrent, n_sure;
@@ -118,6 +121,7 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	int thin = INTEGER(Rthin)[0];
 
 	struct Var *vars = (struct Var *) R_alloc(p, sizeof(struct Var)); // Info about the model variables.
+	
 	probs =  REAL(Rprobs);
 	n = sortvars(vars, probs, p);
 	for (i =n; i <p; i++) REAL(MCMCprobs)[vars[i].index] = probs[vars[i].index];
@@ -175,7 +179,8 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	int *varout= ivecalloc(p);
 	double problocal = REAL(plocal)[0];
 	
-	while (nUnique < nModels && m < INTEGER(BURNIN_Iterations)[0]) {
+	while (m < (INTEGER(MCMC_Iterations)[0] + INTEGER(BURNIN_Iterations)[0]))
+	  {
 		memcpy(model, modelold, sizeof(int)*p);
 		pmodel =  n_sure;
 
@@ -251,7 +256,7 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		  // expand nModels and grow result vectors
 		  nModels = (int) (expand*nModels); //add checks to ensure it is not above max int
 		  
-		  //	  Rprintf("Grow vectors:  Number of unique models %d; nModels is now %d\n", nUnique, nModels); // Need to use growable vector here
+		  Rprintf("Grow vectors:  Number of unique models %d; nModels is now %d\n", nUnique, nModels); // Need to use growable vector here
 		  
 		  modelspace = resizeVector(modelspace, nModels);
 		  SET_VECTOR_ELT(ANS, 1, modelspace);
@@ -302,6 +307,7 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	m++;
 	}
 
+	Rprintf("Compute MCMC Probabilities\n");
 	for (i = 0; i < n; i++) {
 		REAL(MCMCprobs)[vars[i].index] /= (double) m;
 	}
@@ -310,14 +316,14 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	// Compute marginal probabilities
 	mcurrent = nUnique;
-	//	Rprintf("NumUnique Models Accepted %d \n", nUnique);
+		Rprintf("NumUnique Models Accepted %d \n", nUnique);
 	compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
 
 	INTEGER(NumUnique)[0] = nUnique;
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
 	
-	//	Rprintf("Decreasing nModels %d to number of unique models accepted %d \n", nModels, nUnique);
+	Rprintf("Decreasing nModels %d to number of unique models accepted %d \n", nModels, nUnique);
 	if (nUnique < nModels) {
 	  SET_VECTOR_ELT(ANS, 1, resizeVector(modelspace, nUnique));
 	  SET_VECTOR_ELT(ANS, 2, resizeVector(logmarg, nUnique));

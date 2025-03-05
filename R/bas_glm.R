@@ -414,14 +414,6 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   modelprior <- normalize.modelprior(modelprior, p)
 
 
-  if (is.null(MCMC.iterations)) {
-    MCMC.iterations <- max(10000, (n.models * 10))
-  }
-
-  MCMC.iterations = as.integer(MCMC.iterations)
-  Burnin.iterations <- as.integer(MCMC.iterations)
-
-
   modeldim <- as.integer(rep(0, n.models))
 
 
@@ -491,7 +483,8 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
       betaprior = betaprior,
       Rbestmodel = bestmodel,
       plocal = as.numeric(1.0 - prob.rw),
-      BURNIN_Iterations = as.integer(MCMC.iterations),
+      BURNIN_Iterations = as.integer(burnin.iterations),
+      MCMC_Iteration = as.integer(MCMC.iterations),
       Rthin = as.integer(thin),
       family = family, Rcontrol = control,
       Rlaplace = as.integer(laplace),
@@ -512,7 +505,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
                    Rthin = as.integer(thin),
                    family = family, Rcontrol = control,
                    Rlaplace = as.integer(laplace),
-                   Rparents = parents, Rexpand = expand
+                   Rparents = parents, Rexpand = as.numeric(expand)
     ),
     "BAS" = .Call(C_glm_sampleworep,
       Y = Yvec, X = X,
@@ -540,7 +533,8 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
       betaprior = betaprior,
       Rbestmodel = bestmodel,
       plocal = as.numeric(1.0 - prob.rw),
-      BURNIN_Iterations = as.integer(MCMC.iterations),
+      BURNIN_Iterations = as.integer(burnin.iterations),
+      MCMC_Iteration = as.integer(MCMC.iterations),
       family = family, Rcontrol = control,
       Rupdate = as.integer(update), Rlaplace = as.integer(laplace),
       Rparents = parents
@@ -616,7 +610,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
     result$n.models = length(result$postprobs)
   }
 
-  if (method == "MCMC") {
+  if (method == "MCMC" | method == "MCMC_GROWABLE") {
     result$postprobs.MCMC <- result$freq / sum(result$freq)
     if (!renormalize) {
       result$probne0 <- result$probne0.MCMC
@@ -646,7 +640,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
     object$postprobs <- postprobs
 
     method <- eval(object$call$method)
-    if (method == "MCMC+BAS" | method == "MCMC") {
+    if (method == "MCMC+BAS" | method == "MCMC" | method == "MCMC_GROWABLE") {
       object$freq <- object$freq[-drop]
       object$probne0.MCMC <- as.vector(object$freq %*% which)/sum(object$freq)
     }
