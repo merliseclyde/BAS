@@ -268,6 +268,25 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   if (!(family$family %in% c("binomial", "poisson", "Gamma"))) {
     stop(paste("family ", family$family, "not implemented"))
   }
+  else {
+    if (family$family == "binomial") {
+      if (family$link != "logit") {
+        stop("Only logit link is implemented for binomial family currently")
+      }
+    }
+    if (family$family == "Gamma") {
+      if (family$link != "log") {
+        stop("Only log link is implemented for Gamma family currently")
+      }
+    }
+    if (family$family == "poisson") {
+      if (family$link != "log") {
+        stop("Only log link is implemented for poisson family currently")
+      }
+  }
+  }
+  
+  
   if (missing(data)) {
     data <- environment(formula)
   }
