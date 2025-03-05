@@ -1,8 +1,10 @@
 context("bas.glm")
 
+# issue #92 
+# 
 test_that("family links", {
   data(Pima.tr, package="MASS")
-  expect_warning(bas.glm(type ~ .,
+  expect_error(bas.glm(type ~ .,
                        data = Pima.tr, method = "BAS",
                        betaprior = bic.prior(), family = binomial(link = "inverse"),
                        modelprior = uniform())
