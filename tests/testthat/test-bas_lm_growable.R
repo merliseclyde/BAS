@@ -17,6 +17,7 @@ test_that("Test MCMC with Growable Vectors when not needed", {
   expect_equal(bas_hald_grow$freq, bas_hald_old$freq)
   expect_equal(bas_hald_grow$size, bas_hald_old$size)
   expect_equal(bas_hald_grow$probne0, bas_hald_old$probne0)
+  expect_equal(bas_hald_grow$probne0.MCMC, bas_hald_old$probne0.MCMC)
 })
 
 test_that("Test MCMC with Growable Vectors when needed", {

@@ -230,6 +230,7 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		 if (newmodel == 1)  {
 			if ((m % thin) == 0 )  {
 			  new_loc = nUnique;
+			  INTEGER(Rcounts)[new_loc] = 0; 
 			  insert_model_tree(tree, vars, n, model, nUnique);
 			  INTEGER(modeldim)[nUnique] = pmodel;
 				//Rprintf("model %d: %d variables\n", m, pmodel);
@@ -252,7 +253,7 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 			real_model[n-1-i] = (double) modelold[vars[i].index];
 			REAL(MCMCprobs)[vars[i].index] += (double) modelold[vars[i].index];
 		}
-		if (nUnique >= nModels && m < (INTEGER(MCMC_Iterations)[0] + INTEGER(BURNIN_Iterations)[0] + 1)){
+		if (nUnique >= nModels && m < (INTEGER(MCMC_Iterations)[0] + INTEGER(BURNIN_Iterations)[0])){
 		  // expand nModels and grow result vectors
 		  nModels = (int) (expand*nModels); //add checks to ensure it is not above max int
 		  
@@ -291,11 +292,8 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		  R2 = resizeVector(R2, nModels);
 		  SET_VECTOR_ELT(ANS, 11, R2);
 		  
-		  deviance = resizeVector(deviance, nModels);
-		  SET_VECTOR_ELT(ANS, 12, deviance);
-		  
 		  Rcounts = resizeVector(Rcounts, nModels);
-		  SET_VECTOR_ELT(ANS, 13, Rcounts);
+		  SET_VECTOR_ELT(ANS, 12, Rcounts);
 		  
 		  Q = resizeVector(Q, nModels);
 		  SET_VECTOR_ELT(ANS, 15, Q);
@@ -322,6 +320,7 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	INTEGER(NumUnique)[0] = nUnique;
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
+	SET_VECTOR_ELT(ANS, 13, MCMCprobs);
 	
 	Rprintf("Decreasing nModels %d to number of unique models accepted %d \n", nModels, nUnique);
 	if (nUnique < nModels) {

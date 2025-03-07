@@ -388,22 +388,10 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
   }
  
  
- /*. for when add heredity 
+ /*. for when add heredity will need to use resizevector() as with Growable MCMC
  if (m < nModels) {  
   nModels  = m;
-  SETLENGTH(modelspace, nUnique);
-  SETLENGTH(logmarg, nUnique);
-  SETLENGTH(modelprobs, nUnique);
-  SETLENGTH(priorprobs, nUnique);
-  SETLENGTH(sampleprobs, nUnique);
-  SETLENGTH(counts, nUnique);
-  SETLENGTH(beta, nUnique);
-  SETLENGTH(se, nUnique);
-  SETLENGTH(mse, nUnique);
-  SETLENGTH(shrinkage, nUnique);
-  SETLENGTH(modeldim, nUnique);
-  SETLENGTH(R2, nUnique);
-  SETLENGTH(rank, nUnique);
+
  }
 */  
  

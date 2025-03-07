@@ -199,7 +199,7 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	}
 
 	// Compute marginal probabilities
-	mcurrent = nUnique - 1;
+	mcurrent = nUnique;
 	Rprintf("NumUnique Models Accepted %d \n", nUnique);
 
 	compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
@@ -208,7 +208,7 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	Rprintf("Now sample W/O Replacement\n");
 	INTEGER(NumUnique)[0] = nUnique;
 
-	if (nUnique < nModels && INTEGER(MCMC_Iterations)[0] > 0) {
+	if (nUnique < nModels) {
 		int *modelwork= ivecalloc(p);
 		double *pigamma = vecalloc(p);
 		memset(pigamma, 0.0, p*sizeof(double));
@@ -265,8 +265,8 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	      }
 	    }
 		}
-		Rprintf("Nunique = %d, m = %d, k = %d, mcurrent = %d %lf\n",
-          nUnique, m, nModels, mcurrent, pigamma[0]);
+//		Rprintf("Nunique = %d, m = %d, k = %d, mcurrent = %d %lf\n",
+//          nUnique, m, nModels, mcurrent, pigamma[0]);
 	if (m < nModels) {
 		  mcurrent = m;  // #nocov 
 		  }
@@ -277,22 +277,9 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	// keep in case other prior choices create  models with zero probabilities that 
 	// need to be dropped and mcurrent < k;  
 	// # nocov start
- 	if (mcurrent < nModels) {  // truncate vectors; legacy code from MCMC should not get here
- 	  SETLENGTH(modelspace, mcurrent);
- 	  SETLENGTH(logmarg, mcurrent);
- 	  SETLENGTH(modelprobs, mcurrent);
- 	  SETLENGTH(priorprobs, mcurrent);
- 	  SETLENGTH(sampleprobs, mcurrent);
- 	  SETLENGTH(counts, mcurrent);
- 	  SETLENGTH(MCMCprobs, mcurrent);
- 	  SETLENGTH(beta, mcurrent);
- 	  SETLENGTH(se, mcurrent);
- 	  SETLENGTH(deviance, mcurrent);
- 	  SETLENGTH(Q, mcurrent);
- 	  SETLENGTH(shrinkage, mcurrent);
- 	  SETLENGTH(modeldim, mcurrent);
- 	  SETLENGTH(R2, mcurrent);
- 	  SETLENGTH(Rintercept, mcurrent); 
+ 	if (mcurrent < nModels) {  // legacy code from MCMC should not get here
+     error("BAS finished sampling at %d models but expected to reach %d models.\n  Please report an issue on Github\n", 
+           mcurrent, nModels) ; 
 	}
 // # nocov end
 

@@ -17,7 +17,7 @@ test_that("Test MCMC with Growable Vectors when not needed", {
                        MCMC.it = 10000, burnin = 1000,  n.models = pima_bas2$n.models,
                        initprobs=rep(.4, ncol(Pima.tr)-1),
                        betaprior = bic.prior(), family = binomial(),
-                       modelprior = uniform())
+                       modelprior = uniform(), renormalize = FALSE)
   
   expect_equal(pima_bas1$n.models, pima_bas2$n.models)
   expect_equal(pima_bas1$postprobs, pima_bas2$postprobs)
