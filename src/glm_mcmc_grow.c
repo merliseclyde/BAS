@@ -18,13 +18,13 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	int nModels0 = INTEGER(RnModels)[0];  // initial guess on number of models to return
 	int nModels = nModels0;
 	
-	Rprintf("MCMC GROW nModels is %d\n", nModels);
+//	Rprintf("MCMC GROW nModels is %d\n", nModels);
 	
 	int nProtected = 0;
 	int *counts;
 	
 	double expand = REAL(Rexpand)[0]; // increase to grow vectors  
-  Rprintf("expand is %f\n", expand);
+//  Rprintf("expand is %f\n", expand);
   
 	SEXP ANS = PROTECT(allocVector(VECSXP, 17)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 17)); ++nProtected;
@@ -104,7 +104,7 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	setAttrib(ANS, R_NamesSymbol, ANS_names);
 	
 	
-	double *probs, MH=0.0, prior_m=1.0, shrinkage_m, logmargy, postold, postnew;
+	double *probs, MH=0.0, prior_m=1.0, shrinkage_m, logmarg_m, postold, postnew;
 	int i, m, n, pmodel_old, *bestmodel;
 	int mcurrent, n_sure;
 
@@ -151,18 +151,19 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	int pmodel = INTEGER(modeldim)[m];
 	SEXP Rmodel_m =	PROTECT(allocVector(INTSXP,pmodel));
 	GetModel_m(Rmodel_m, model, p);
-	//evaluate logmargy and shrinkage
+	//evaluate logmarg_m and shrinkage
 	SEXP glm_fit = PROTECT(glm_FitModel(X, Y, Rmodel_m, Roffset, Rweights,
 					    glmfamily, Rcontrol, Rlaplace,
 					    betapriorfamily));
 	prior_m  = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
 
-	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
-	shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
-					"shrinkage"))[0];
-	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
-	SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, m);
-	UNPROTECT(2);
+	logmarg_m = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
+	shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),"shrinkage"))[0];
+//	SetModel2(logmarg_m, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
+//	SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, m);
+  	SetModel_glm(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept,
+             prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
+//  	UNPROTECT(2);
 
 	int nUnique=0, newmodel=0;
 	double *real_model = vecalloc(n);
@@ -214,11 +215,11 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 						 betapriorfamily));
 		  prior_m = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
 
-		  logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
+		  logmarg_m = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
 		  shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
 						  "shrinkage"))[0];
 
-		  postnew = logmargy + log(prior_m);
+		  postnew = logmarg_m + log(prior_m);
 		} else {
 		  new_loc = branch->where;
 		  postnew =  REAL(logmarg)[new_loc] + log(REAL(priorprobs)[new_loc]);
@@ -234,11 +235,13 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 			  insert_model_tree(tree, vars, n, model, nUnique);
 			  INTEGER(modeldim)[nUnique] = pmodel;
 				//Rprintf("model %d: %d variables\n", m, pmodel);
-			  SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
-			  SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept, nUnique);
+//			  SetModel2(logmarg_m, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
+//			  SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept, nUnique);
+    	  SetModel_glm(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept,
+                     prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
 			  ++nUnique;
 			}
-			UNPROTECT(2);
+			else UNPROTECT(2);
 		 }
 			old_loc = new_loc;
 			postold = postnew;
@@ -257,7 +260,7 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		  // expand nModels and grow result vectors
 		  nModels = (int) (expand*nModels); //add checks to ensure it is not above max int
 		  
-		  Rprintf("Grow vectors:  Number of unique models %d; nModels is now %d\n", nUnique, nModels); // Need to use growable vector here
+//		  Rprintf("Grow vectors:  Number of unique models %d; nModels is now %d\n", nUnique, nModels); // Need to use growable vector here
 		  
 		  modelspace = resizeVector(modelspace, nModels);
 		  SET_VECTOR_ELT(ANS, 1, modelspace);
@@ -305,7 +308,7 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	m++;
 	}
 
-	Rprintf("Compute MCMC Probabilities\n");
+//	Rprintf("Compute MCMC Probabilities\n");
 	for (i = 0; i < n; i++) {
 		REAL(MCMCprobs)[vars[i].index] /= (double) m;
 	}
@@ -314,7 +317,7 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	// Compute marginal probabilities
 	mcurrent = nUnique;
-		Rprintf("NumUnique Models Accepted %d \n", nUnique);
+//		Rprintf("NumUnique Models Accepted %d \n", nUnique);
 	compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
 
@@ -322,7 +325,7 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
 	SET_VECTOR_ELT(ANS, 13, MCMCprobs);
 	
-	Rprintf("Decreasing nModels %d to number of unique models accepted %d \n", nModels, nUnique);
+//	Rprintf("Decreasing nModels %d to number of unique models accepted %d \n", nModels, nUnique);
 	if (nUnique < nModels) {
 	  SET_VECTOR_ELT(ANS, 1, resizeVector(modelspace, nUnique));
 	  SET_VECTOR_ELT(ANS, 2, resizeVector(logmarg, nUnique));

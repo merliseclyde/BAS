@@ -161,19 +161,6 @@ int update_probs(double *probs, struct Var *vars, int m, int k, int p) {
 }
 
 
-// used with glm_*.c
-void SetModel1(SEXP Rfit, SEXP Rmodel_m,
-	       SEXP beta, SEXP se, SEXP modelspace,
-	       SEXP deviance, SEXP R2, SEXP Q, SEXP Rintercept, int m) {
-	SET_ELEMENT(beta, m, getListElement(getListElement(Rfit, "fit"),"coefficients"));
-	SET_ELEMENT(se, m, getListElement(getListElement(Rfit, "fit"),"se"));
-	SET_ELEMENT(modelspace, m, Rmodel_m);
-
-	REAL(R2)[m] = NA_REAL;
-	REAL(deviance)[m] = REAL(getListElement(getListElement(Rfit, "fit"),"deviance"))[0];
-	REAL(Q)[m] = REAL(getListElement(getListElement(Rfit, "lpy"),"Q"))[0];
-	REAL(Rintercept)[m] = REAL(getListElement(getListElement(Rfit, "lpy"),"intercept"))[0];
-}
 
 void update_tree(SEXP modelspace, struct Node *tree, SEXP modeldim, 
                  struct Var *vars, int k, int p, int n, int kt, int *model)
@@ -564,18 +551,42 @@ void SetModel2(double logmargy, double shrinkage_m, double prior_m,
   REAL(priorprobs)[m] = prior_m;
 }
 
-// no longer used
-void SetModel(SEXP Rcoef_m, SEXP Rse_m, SEXP Rmodel_m, double mse_m, double R2_m,
-              SEXP beta, SEXP se, SEXP modelspace, SEXP mse, SEXP R2, int m) {
+// used with glm_*.c
+void SetModel1(SEXP Rfit, SEXP Rmodel_m, SEXP beta, SEXP se, SEXP modelspace,
+               SEXP deviance, SEXP R2, SEXP Q, SEXP Rintercept, int m) {
   
-  SET_ELEMENT(beta, m, Rcoef_m);
-  SET_ELEMENT(se, m, Rse_m);
+  SET_ELEMENT(beta, m, getListElement(getListElement(Rfit, "fit"),"coefficients"));
+  SET_ELEMENT(se, m, getListElement(getListElement(Rfit, "fit"),"se"));
   SET_ELEMENT(modelspace, m, Rmodel_m);
   
-  REAL(R2)[m] = R2_m;
-  REAL(mse)[m] = mse_m;
+  REAL(R2)[m] = NA_REAL;
+  REAL(deviance)[m] = REAL(getListElement(getListElement(Rfit, "fit"),"deviance"))[0];
+  REAL(Q)[m] = REAL(getListElement(getListElement(Rfit, "lpy"),"Q"))[0];
+  REAL(Rintercept)[m] = REAL(getListElement(getListElement(Rfit, "lpy"),"intercept"))[0];
+}
+
+// used with glm_*.c
+void SetModel_glm(SEXP glm_fit, SEXP Rmodel_m, SEXP beta, SEXP se, SEXP modelspace,
+                  SEXP deviance, SEXP R2, SEXP Q, SEXP Rintercept, 
+                  double prior_m, SEXP sampleprobs, SEXP logmarg, SEXP shrinkage, SEXP priorprobs,
+                  int m) {
   
-  UNPROTECT(3);
+  REAL(logmarg)[m] = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
+  REAL(shrinkage)[m] = REAL(getListElement(getListElement(glm_fit, "lpy"),
+                                    "shrinkage"))[0];
+  
+  REAL(sampleprobs)[m] = 0.0;
+  REAL(priorprobs)[m] = prior_m;
+  
+  SET_ELEMENT(beta, m, getListElement(getListElement(glm_fit, "fit"),"coefficients"));
+  SET_ELEMENT(se, m, getListElement(getListElement(glm_fit, "fit"),"se"));
+  SET_ELEMENT(modelspace, m, Rmodel_m);
+  
+  REAL(R2)[m] = NA_REAL;
+  REAL(deviance)[m] = REAL(getListElement(getListElement(glm_fit, "fit"),"deviance"))[0];
+  REAL(Q)[m] = REAL(getListElement(getListElement(glm_fit, "lpy"),"Q"))[0];
+  REAL(Rintercept)[m] = REAL(getListElement(getListElement(glm_fit, "lpy"),"intercept"))[0];
+  UNPROTECT(2);
 }
 
 
