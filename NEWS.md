@@ -2,11 +2,11 @@
 
 ## Features
 
-Replace use of non-API call to `SETLENGTH` for MCMC sampling with new option to `resizeVectors`
+Replace use of non-API call to `SETLENGTH` for MCMC sampling with new C function `resizeVectors`
 to expand size as needed and truncate when overallocated. This should reduce memory allocation
 for large problems when `n.models` was too large.   MCMC sampling now stops after `MCMC.iterations`,
 even of `n.models` is reached, improving MCMC frequencies.  Used with `method = "MCMC_GROWABLE"` 
-in `bas.lm` now.  (issues #81 and #91)
+in `bas.lm` and `bas.glm` now.  (issues #81 and #91)
 
 # BAS 1.7.5
 

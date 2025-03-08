@@ -37,8 +37,8 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
   SET_VECTOR_ELT(ANS, 1, modelspace);
   SET_STRING_ELT(ANS_names, 1, mkChar("which"));
   
-  SEXP logmarg = allocVector(REALSXP, nModels); 
-  SET_VECTOR_ELT(ANS, 2, logmarg);
+  SEXP Rlogmarg = allocVector(REALSXP, nModels); 
+  SET_VECTOR_ELT(ANS, 2, Rlogmarg);
   SET_STRING_ELT(ANS_names, 2, mkChar("logmarg"));
 
   SEXP modelprobs = allocVector(REALSXP, nModels);  
@@ -190,8 +190,9 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 
 	prior_m  = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
 	if (prior_m == 0.0)  error("initial model has 0 prior probabilty\n");
-	SetModel2(logmarg_m, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
-	SetModel(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2, m);
+//	SetModel2(logmarg_m, shrinkage_m, prior_m, sampleprobs, Rlogmarg, shrinkage, priorprobs, m);
+  SetModel_lm(logmarg_m, shrinkage_m, prior_m, sampleprobs, Rlogmarg, shrinkage, priorprobs,
+              Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2, m);
 
 	int nUnique=1, newmodel=0, nsamples=0;
 	double *real_model = vecalloc(n);
@@ -201,7 +202,7 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 	pmodel_old = pmodel;
 	
 	INTEGER(Rcounts)[0] = 1;
-	postold =  REAL(logmarg)[m] + log(REAL(priorprobs)[m]);
+	postold =  REAL(Rlogmarg)[m] + log(REAL(priorprobs)[m]);
 	memcpy(modelold, model, sizeof(int)*p);
 	m = 0;
 	int *varin= ivecalloc(p);
@@ -256,7 +257,7 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 		  }}
 		else {
 		  new_loc = branch->where;
-		  postnew =  REAL(logmarg)[new_loc] +
+		  postnew =  REAL(Rlogmarg)[new_loc] +
 		             log(REAL(priorprobs)[new_loc]);
 		  MH *=  exp(postnew - postold);
 		}
@@ -273,8 +274,9 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 		    INTEGER(Rcounts)[nUnique] = 0;  // initialize 
 		    
 		    //record model data
-		    SetModel2(logmarg_m, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
-		    SetModel(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2,nUnique);
+//		    SetModel2(logmarg_m, shrinkage_m, prior_m, sampleprobs, Rlogmarg, shrinkage, priorprobs, nUnique);
+		    SetModel_lm(logmarg_m, shrinkage_m, prior_m, sampleprobs, Rlogmarg, shrinkage, priorprobs,
+                    Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2,nUnique);
 
 		    ++nUnique;
 		    }
@@ -310,8 +312,8 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 		  modelspace = resizeVector(modelspace, nModels);
 		  SET_VECTOR_ELT(ANS, 1, modelspace);
 
-		  logmarg = resizeVector(logmarg, nModels);
-		  SET_VECTOR_ELT(ANS, 2, logmarg);
+		  Rlogmarg = resizeVector(Rlogmarg, nModels);
+		  SET_VECTOR_ELT(ANS, 2, Rlogmarg);
 
 		  modelprobs = resizeVector(modelprobs, nModels);
 		  SET_VECTOR_ELT(ANS, 3, modelprobs);
@@ -358,7 +360,7 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 
 	// Compute marginal probabilities
 	mcurrent = nUnique;
-	compute_modelprobs(modelprobs, logmarg, priorprobs, mcurrent);
+	compute_modelprobs(modelprobs, Rlogmarg, priorprobs, mcurrent);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
 
 	INTEGER(NumUnique)[0] = nUnique;
@@ -367,7 +369,7 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 //	Rprintf("Decreasing nModels %d to number of unique models accepted %d \n", nModels, nUnique);
 	if (nUnique < nModels) {
 	  SET_VECTOR_ELT(ANS, 1, resizeVector(modelspace, nUnique));
-	  SET_VECTOR_ELT(ANS, 2, resizeVector(logmarg, nUnique));
+	  SET_VECTOR_ELT(ANS, 2, resizeVector(Rlogmarg, nUnique));
 	  SET_VECTOR_ELT(ANS, 3, resizeVector(modelprobs, nUnique));
 	  SET_VECTOR_ELT(ANS, 4, resizeVector(priorprobs, nUnique));
 	  SET_VECTOR_ELT(ANS, 5, resizeVector(sampleprobs, nUnique));

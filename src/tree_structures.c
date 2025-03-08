@@ -555,6 +555,7 @@ double FitModel(SEXP Rcoef_m, SEXP Rse_m, double *XtY, double *XtX, int *model_m
   return R2_m;
 }
 
+// used with glm*
 void SetModel2(double logmargy, double shrinkage_m, double prior_m,
                SEXP sampleprobs, SEXP logmarg, SEXP shrinkage, SEXP priorprobs, int m) {
   REAL(sampleprobs)[m] = 0.0;
@@ -563,6 +564,7 @@ void SetModel2(double logmargy, double shrinkage_m, double prior_m,
   REAL(priorprobs)[m] = prior_m;
 }
 
+// no longer used
 void SetModel(SEXP Rcoef_m, SEXP Rse_m, SEXP Rmodel_m, double mse_m, double R2_m,
               SEXP beta, SEXP se, SEXP modelspace, SEXP mse, SEXP R2, int m) {
   
@@ -576,16 +578,25 @@ void SetModel(SEXP Rcoef_m, SEXP Rse_m, SEXP Rmodel_m, double mse_m, double R2_m
   UNPROTECT(3);
 }
 
-void SetModel_lm(SEXP Rcoef_m, SEXP Rse_m, SEXP Rmodel_m, double mse_m, double R2_m,
-                 SEXP beta, SEXP se, SEXP modelspace, SEXP mse, SEXP R2, int m) {
+
+void SetModel_lm(double logmarg_m, double shrinkage_m, double prior_m, 
+                 SEXP sampleprobs, SEXP Rlogmarg, SEXP shrinkage, SEXP priorprobs,
+                 SEXP Rcoef_m, SEXP Rse_m, SEXP Rmodel_m, double mse_m, double R2_m,
+                 SEXP beta, SEXP se, SEXP modelspace, SEXP Rmse, SEXP R2, int m) {
+
+  REAL(sampleprobs)[m] = 0.0;
+  REAL(Rlogmarg)[m] = logmarg_m;
+  REAL(shrinkage)[m] = shrinkage_m;
+  REAL(priorprobs)[m] = prior_m;
   
   SET_ELEMENT(beta, m, Rcoef_m);
   SET_ELEMENT(se, m, Rse_m);
   SET_ELEMENT(modelspace, m, Rmodel_m);
   
   REAL(R2)[m] = R2_m;
-  REAL(mse)[m] = mse_m;
+  REAL(Rmse)[m] = mse_m;
   
+  UNPROTECT(3);
 }
 
 
