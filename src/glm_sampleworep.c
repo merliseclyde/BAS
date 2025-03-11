@@ -99,10 +99,11 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
 					"shrinkage"))[0];
 
-	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
-	SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, m);
-
-	UNPROTECT(2);
+//	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
+//	SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, m);
+	SetModel_glm(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, 
+              prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
+//	UNPROTECT(2);
 
 	int *modelwork= ivecalloc(p);
 
@@ -135,9 +136,11 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
 					"shrinkage"))[0];
 
-		SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
-		SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2,Q,Rintercept, m);
-		UNPROTECT(2);
+//		SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
+//		SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2,Q,Rintercept, m);
+    SetModel_glm(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, 
+                 prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
+//		UNPROTECT(2);
 
 		REAL(sampleprobs)[m] = pigamma[0];
 
