@@ -97,13 +97,14 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 					    betapriorfamily));
 	prior_m  = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
 
-	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
-	shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
-						  "shrinkage"))[0];
-	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
-	SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2,
-		  Q, Rintercept, m);
-	UNPROTECT(2);
+//	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
+//	shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),  "shrinkage"))[0];
+//	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
+//	SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept, m);
+	SetModel_glm(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, 
+              prior_m, sampleprobs, logmarg, shrinkage, priorprobs,m);
+	
+//	UNPROTECT(2);
 
 	int nUnique=0, newmodel=0;
 	double *real_model = vecalloc(n);
@@ -173,9 +174,11 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		    insert_model_tree(tree, vars, n, model, nUnique);
 		    INTEGER(modeldim)[nUnique] = pmodel;
 
-		    SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
-		    SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept, nUnique);
-		    UNPROTECT(2);
+//		    SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
+//		    SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept, nUnique);
+		    SetModel_glm(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, 
+                   prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
+//		    UNPROTECT(2);
 		    ++nUnique;
 		  }
 		  old_loc = new_loc;
@@ -243,9 +246,11 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	    logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
 	    shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
 			    			  "shrinkage"))[0];
-	    SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
-	    SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept, m);
-	    UNPROTECT(2);
+//	    SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
+//	    SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept, m);
+	    SetModel_glm(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, 
+                   prior_m, sampleprobs, logmarg, shrinkage, priorprobs,m);
+//	    UNPROTECT(2);
 
     	REAL(sampleprobs)[m] = pigamma[0];
 
