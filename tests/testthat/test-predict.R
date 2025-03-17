@@ -122,3 +122,17 @@ test_that("bas.glm using truncated priors includes models with prior prob 0", {
   
   #expect_null(plot(confint(pima_pred)))
 })
+
+# related to github issue #93 for default options listed in help
+test_that("predict.bas.lm links", {
+  data("Hald")
+  hald_gprior <- bas.lm(Y ~ ., data = Hald, alpha = 13,
+                        prior = "g-prior")
+  hald_pred_link <- predict(hald_gprior, newdata = Hald, type = "link",
+                           se.fit = TRUE)
+  
+  hald_pred_response <- predict(hald_gprior, newdata = Hald, type = "response",
+                                se.fit = TRUE)
+  expect_equal(hald_pred_link$fit, hald_pred_response$fit)
+})
+  
