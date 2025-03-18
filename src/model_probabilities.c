@@ -64,6 +64,39 @@ void compute_modelprobs_HT(SEXP Rmodelprobs,  SEXP Rlogmarg, SEXP Rpriorprobs,
   }
 }
 
+void compute_modelprobs_Bayes_HT(SEXP Rmodelprobs,  SEXP Rlogmarg, SEXP Rpriorprobs, 
+                           SEXP Rsampleprobs, int M)
+{
+  int m;
+  double nc, bestmarg, *modelprobs, *logmarg, *priorprobs, *sampleprobs, 
+         HT = 0.0, probinS = 0.0;
+  
+  logmarg = REAL(Rlogmarg);
+  modelprobs = REAL(Rmodelprobs);
+  priorprobs = REAL(Rpriorprobs);
+  sampleprobs = REAL(Rsampleprobs); 
+  bestmarg = logmarg[0];
+  nc = 0.0;
+  
+  for (m = 0; m < M; m++) {
+    if (logmarg[m] > bestmarg) bestmarg = logmarg[m];
+  }
+  
+  for (m = 0; m < M; m++) {
+    if (sampleprobs[m] > 0.0) {
+      modelprobs[m] += logmarg[m] - bestmarg + log(priorprobs[m]);
+      HT += exp(modelprobs[m] - log(sampleprobs[m]));  
+      probinS += sampleprobs[m];
+      nc += exp(modelprobs[m]);
+    }
+  }
+  
+  nc += (1.0 - probinS)*HT/ (double) M;
+  for (m = 0; m < M; m++) {
+    if (sampleprobs[m] > 0.0) modelprobs[m] = exp(modelprobs[m] - log(nc));
+    else {modelprobs[m] = 0.0;}
+  }
+}
 
 void compute_margprobs(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, double *margprobs, 
                        int k, int p)
@@ -107,6 +140,16 @@ int no_prior_inclusion_is_1(int p, double *probs) {
   	}
   }
   return noInclusionIs1;
+}
+
+double compute_sample_probs_bernoulli(double *probs, int *model, int p) {
+  int j;
+  double pigamma = 0.0;
+  for (j = 0; j < p; j++) {
+    pigamma *= ((double) model[j])*probs[j] + (1.0 - ((double) model[j]))*(1.0 -  probs[j]);
+  }
+  
+return(pigamma);
 }
 
 double compute_prior_probs(int *model, int modeldim, int p, SEXP modelprior, int noInclusionIs1) {

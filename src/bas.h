@@ -83,6 +83,7 @@ void SetModel_lm(double logmarg_m, double shrinkage_m, double prior_m,
 double hyp2f1(double a, double b, double c, double x);
 void compute_margprobs(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, double *margprobs, int k, int p);
 void compute_margprobs_file(SEXP modeldim, SEXP Rmodelprobs, double *margprobs, int k, int p, FILE *file, int *model);
+double compute_sample_probs_bernoulli(double *probs, int *model, int p);
 double beta_binomial(int modeldim, int p, double *hyper);
 double trunc_beta_binomial(int modeldim, int p, double *hyper);
 double trunc_poisson(int modeldim, int p, double *hyper);
@@ -92,6 +93,8 @@ int no_prior_inclusion_is_1(int p, double *probs);
 double compute_prior_probs(int *model, int modeldim, int p, SEXP modelprior, int noInclusionIs1);
 void compute_margprobs_old(Bit **models, SEXP Rmodelprobs, double *margprobs, int k, int p);
 void compute_modelprobs(SEXP modelprobs, SEXP logmarg, SEXP priorprobs,  int k);
+void compute_modelprobs_Bayes_HT(SEXP Rmodelprobs,  SEXP Rlogmarg, SEXP Rpriorprobs, 
+                                 SEXP Rsampleprobs, int M);
 void compute_modelprobs_HT(SEXP Rmodelprobs,  SEXP Rlogmarg, SEXP Rpriorprobs, SEXP Rsampleprobs, 
                            int k, int MC);
 void set_bits(char *bits, int subset, int *pattern, int *position, int n);

@@ -20,7 +20,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
              SEXP incint, SEXP Ralpha,SEXP method, SEXP modelprior, SEXP Rupdate, 
              SEXP Rbestmodel,  SEXP plocal,
              SEXP BURNIN_Iterations, SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA,
-             SEXP Rthin, SEXP Rparents, SEXP Rpivot, SEXP Rtol)
+             SEXP Rthin, SEXP Rparents, SEXP Rpivot, SEXP Rtol, SEXP RFPS)
 {
 
   int nProtected = 0;
@@ -260,11 +260,11 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
           INTEGER(modeldim)[nUnique] = pmodel;
           INTEGER(rank)[nUnique] = rank_m;
           
+          
           //record model data
 //          SetModel2(logmarg_m, shrinkage_m, prior_m, sampleprobs, Rlogmarg, shrinkage, priorprobs, nUnique);
           SetModel_lm(logmarg_m, shrinkage_m, prior_m, sampleprobs, Rlogmarg, shrinkage, priorprobs,
                       Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2,nUnique);
-          
           ++nUnique;
         }
         else UNPROTECT(3);
@@ -323,7 +323,8 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
      // Rprintf("updating tree for SWOR\n");
      update_tree(modelspace, tree, modeldim, vars, nModels, p, n, mcurrent, modelwork);
      // Rprintf("Done!\n");
-  }}
+    }
+  }
  
   for (m = nUnique;  m < nModels && lessThanOne(pigamma[0]); m++) {
     INTEGER(modeldim)[m] = n_sure;
@@ -361,7 +362,8 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
                 Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2,m);
  
     
-    REAL(sampleprobs)[m] = pigamma[0];
+//    REAL(sampleprobs)[m] = pigamma[0];
+      REAL(sampleprobs)[m] = compute_sample_probs_bernoulli(probs, model, p);
     
     //update best model
     if (REAL(Rlogmarg)[m] > Rbestmarg) {
@@ -400,7 +402,16 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
  
 
   // Rprintf("Done with sampling - summaries m = %ld nModels = %ld \n", m, nModels);
-  compute_modelprobs(modelprobs, Rlogmarg, priorprobs,nModels);
+  switch (INTEGER(RFPS)[0]) {
+  case 1:
+    compute_modelprobs_Bayes_HT(modelprobs, Rlogmarg, priorprobs, sampleprobs, nModels);
+    break;
+  default:
+    compute_modelprobs(modelprobs, Rlogmarg, priorprobs,nModels);
+    break;
+  }
+  
+ 
   compute_margprobs(modelspace, modeldim, modelprobs, probs, nModels, p);
 
   SET_VECTOR_ELT(ANS, 0, Rprobs);

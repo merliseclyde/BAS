@@ -31,6 +31,7 @@ bas.lm(
   thin = 1,
   renormalize = FALSE,
   importance.sampling = FALSE,
+  FPS = "none",
   force.heredity = FALSE,
   pivot = TRUE,
   tol = 1e-07,
@@ -231,6 +232,12 @@ See details in Clyde and Ghosh (2012).}
 
 \item{importance.sampling}{whether to use importance sampling or an independent
 Metropolis-Hastings algorithm with sampling method="AMCMC" (see above).}
+
+\item{FPS}{Finite Population Sampling estimator for use with method="MCMC+BAS". Options include
+"none" (default) which uses the sum of marginal likelihoods times priors for sampled models
+to estimate the normalizing constant, or "Bayes_HT" 
+which uses an additional correction to the normalizing constant to account for unsampled models
+using sampling probabilities.}
 
 \item{force.heredity}{Logical variable to force all levels of a factor to be
 included together and to include higher order interactions only if lower

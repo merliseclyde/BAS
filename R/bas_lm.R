@@ -274,6 +274,11 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' See details in Clyde and Ghosh (2012).
 #' @param importance.sampling whether to use importance sampling or an independent
 #'  Metropolis-Hastings algorithm with sampling method="AMCMC" (see above).
+#' @param FPS Finite Population Sampling estimator for use with method="MCMC+BAS". Options include
+#' "none" (default) which uses the sum of marginal likelihoods times priors for sampled models
+#' to estimate the normalizing constant, or "Bayes_HT" 
+#' which uses an additional correction to the normalizing constant to account for unsampled models
+#' using sampling probabilities.  
 #' @param force.heredity  Logical variable to force all levels of a factor to be
 #' included together and to include higher order interactions only if lower
 #' order terms are included.  Currently supported with `method='MCMC'`
@@ -522,6 +527,7 @@ bas.lm <- function(formula,
                    thin = 1,
                    renormalize = FALSE, 
                    importance.sampling = FALSE,
+                   FPS = "none",
                    force.heredity = FALSE,
                    pivot = TRUE,
                    tol = 1e-7,
@@ -774,6 +780,12 @@ bas.lm <- function(formula,
   #  print(n.models)
   modelprior <- normalize.modelprior(modelprior, p)
 
+  if (method == "MCMC+BAS") {
+    FPS = as.integer(switch(FPS, 
+                            "none" = 0, 
+                            "Bayes_HT" = 1)
+                     )
+  }
 
   if (is.null(update)) {
     if (force.heredity) {  # do not update tree for BAS
@@ -836,7 +848,8 @@ bas.lm <- function(formula,
       Rthin = as.integer(thin),
       Rparents = parents,
       Rpivot = pivot,
-      Rtol = tol
+      Rtol = tol,
+      RFPS = FPS
     ),
     "MCMC" = .Call(
       C_mcmc,
