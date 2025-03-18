@@ -83,18 +83,18 @@ void compute_modelprobs_Bayes_HT(SEXP Rmodelprobs,  SEXP Rlogmarg, SEXP Rpriorpr
   }
   
   for (m = 0; m < M; m++) {
-    if (sampleprobs[m] > 0.0) {
-      modelprobs[m] += logmarg[m] - bestmarg + log(priorprobs[m]);
-      HT += exp(modelprobs[m] - log(sampleprobs[m]));  
+      modelprobs[m] = logmarg[m] - bestmarg + log(priorprobs[m]);
+      if (sampleprobs[m] > 0.0) {
+        HT += exp(modelprobs[m] - log(sampleprobs[m]));  }
       probinS += sampleprobs[m];
       nc += exp(modelprobs[m]);
-    }
   }
   
   nc += (1.0 - probinS)*HT/ (double) M;
   for (m = 0; m < M; m++) {
-    if (sampleprobs[m] > 0.0) modelprobs[m] = exp(modelprobs[m] - log(nc));
-    else {modelprobs[m] = 0.0;}
+    modelprobs[m] = exp(modelprobs[m] - log(nc));
+//    if (sampleprobs[m] < 0.0) modelprobs[m] = 0.0;
+
   }
 }
 
@@ -113,6 +113,24 @@ void compute_margprobs(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, double 
 	}
 }
 
+void compute_sampleprobs_modelspace_Bernoulli(SEXP modelspace, SEXP modeldim, SEXP Rsampleprobs, SEXP Rprobs, 
+                       int nModels, int p)
+{
+  int m, j, *model; 
+  int *modelVec;
+  modelVec = ivecalloc(p);
+  memset(modelVec, 0, p * sizeof(int));
+  
+    for(m=0; m < nModels; m++) {
+    memset(modelVec, 0, p * sizeof(int));
+    model = INTEGER(VECTOR_ELT(modelspace,m));
+    for (j = 0; j < INTEGER(modeldim)[m]; j ++) {
+      modelVec[model[j]] = 1.0;
+    }
+    REAL(Rsampleprobs)[m] = compute_sample_probs_bernoulli(Rprobs, modelVec, p);
+
+  }
+}
 
 
 void compute_margprobs_old(Bit **models, SEXP Rmodelprobs, double *margprobs, int k, int p)
@@ -142,13 +160,14 @@ int no_prior_inclusion_is_1(int p, double *probs) {
   return noInclusionIs1;
 }
 
-double compute_sample_probs_bernoulli(double *probs, int *model, int p) {
+double compute_sample_probs_bernoulli(SEXP Rprobs, int *model, int p) {
   int j;
-  double pigamma = 0.0;
+  double pigamma = 1.0;
   for (j = 0; j < p; j++) {
-    pigamma *= ((double) model[j])*probs[j] + (1.0 - ((double) model[j]))*(1.0 -  probs[j]);
+    Rprintf("j= %d, %d %lf ", j, model[j], REAL(Rprobs)[j]);
+    pigamma *= ((double) model[j])*REAL(Rprobs)[j] + (1.0 - ((double) model[j]))*(1.0 -  REAL(Rprobs)[j]);
   }
-  
+Rprintf("sample prob = %lf\n", pigamma); 
 return(pigamma);
 }
 

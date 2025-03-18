@@ -83,7 +83,9 @@ void SetModel_lm(double logmarg_m, double shrinkage_m, double prior_m,
 double hyp2f1(double a, double b, double c, double x);
 void compute_margprobs(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, double *margprobs, int k, int p);
 void compute_margprobs_file(SEXP modeldim, SEXP Rmodelprobs, double *margprobs, int k, int p, FILE *file, int *model);
-double compute_sample_probs_bernoulli(double *probs, int *model, int p);
+double compute_sample_probs_bernoulli(SEXP Rprobs, int *model, int p);
+void compute_sampleprobs_modelspace_Bernoulli(SEXP modelspace, SEXP modeldim, SEXP Rsampleprobs, SEXP Rprobs, 
+                                              int nModels, int p);
 double beta_binomial(int modeldim, int p, double *hyper);
 double trunc_beta_binomial(int modeldim, int p, double *hyper);
 double trunc_poisson(int modeldim, int p, double *hyper);

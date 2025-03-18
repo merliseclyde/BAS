@@ -17,5 +17,5 @@ test_that("FPS enumerate", {
                   modelprior = uniform(), data = Hald,
                   FPS = "Bayes_HT")
 
-  expect_equal(hald.bas$modelprobs, hald.bas.bayes$modelprobs)
+  expect_equal(hald.bas$postprobs, hald.bas.bayes$postprobs)
 })
