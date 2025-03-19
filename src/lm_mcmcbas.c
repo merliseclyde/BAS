@@ -309,12 +309,6 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
   compute_modelprobs(modelprobs, Rlogmarg, priorprobs,mcurrent);
   compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
   
-  int j;
-  for (j = 0; j < p; j++) Rprintf("j= %d prob = %lf, %lf", j, REAL(Rprobs)[j], probs[j]);
-  Rprintf("\n");
-  
-  compute_sampleprobs_modelspace_Bernoulli(modelspace, modeldim, sampleprobs, 
-                                           Rprobs, nUnique, p);   
     
 
 //  Now sample W/O Replacement
@@ -327,16 +321,12 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
  // if (m < nModels && INTEGER(MCMC_Iterations)[0] > 0) {
   if (m < nModels ) {
   if (update_probs(probs, vars, mcurrent, nModels, p) == 1) {
-     Rprintf("updating tree for SWOR\n");
+ //    Rprintf("updating tree for SWOR\n");
      update_tree(modelspace, tree, modeldim, vars, nModels, p, n, mcurrent, modelwork);
      // Rprintf("Done!\n");
     }
   }
  
- 
-  for (j = 0; j < p; j++) Rprintf("j= %d prob = %lf, %lf", j, REAL(Rprobs)[j], probs[j]);
-  Rprintf("\n");
-  
   for (m = nUnique;  m < nModels && lessThanOne(pigamma[0]); m++) {
     INTEGER(modeldim)[m] = n_sure;
 
@@ -374,7 +364,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
  
     
 //    REAL(sampleprobs)[m] = pigamma[0];
-      REAL(sampleprobs)[m] = compute_sample_probs_bernoulli(Rprobs, model, p);
+//      REAL(sampleprobs)[m] = compute_sample_probs_bernoulli(Rprobs, model, p);
 //      Rprintf("model %d sampleprob  %lf", m, REAL(sampleprobs)[m]);
     //update best model
     if (REAL(Rlogmarg)[m] > Rbestmarg) {
@@ -410,7 +400,9 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 
  }
 */  
- 
+  compute_sampleprobs_modelspace_Bernoulli(modelspace, modeldim, sampleprobs, 
+                                          Rprobs, nModels, p);   
+  
 
   // Rprintf("Done with sampling - summaries m = %ld nModels = %ld \n", m, nModels);
   switch (INTEGER(RFPS)[0]) {

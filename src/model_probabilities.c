@@ -164,10 +164,9 @@ double compute_sample_probs_bernoulli(SEXP Rprobs, int *model, int p) {
   int j;
   double pigamma = 1.0;
   for (j = 0; j < p; j++) {
-    Rprintf("j= %d, %d %lf ", j, model[j], REAL(Rprobs)[j]);
     pigamma *= ((double) model[j])*REAL(Rprobs)[j] + (1.0 - ((double) model[j]))*(1.0 -  REAL(Rprobs)[j]);
   }
-Rprintf("sample prob = %lf\n", pigamma); 
+
 return(pigamma);
 }
 

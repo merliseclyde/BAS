@@ -174,7 +174,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	int *varout= ivecalloc(p);
 	double problocal = REAL(plocal)[0];
 	
-	Rprintf("using MCMC sampling - initialize\n");
+//	Rprintf("using MCMC sampling - initialize\n");
 	
 	while (nUnique < k && m < INTEGER(BURNIN_Iterations)[0]) {
 
@@ -306,7 +306,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	*/
   // now use AMCMC
   
-  Rprintf("Now start AMCMC with %d nUnique models out of %d at it %d\n", nUnique, k, m);
+  // Rprintf("Now start AMCMC with %d nUnique models out of %d at it %d\n", nUnique, k, m);
   if (IS) thin = 1; // no need to thin
   
   while (nUnique < k && m < (INTEGER(BURNIN_Iterations)[0] + INTEGER(MCMC_Iterations)[0])) {
