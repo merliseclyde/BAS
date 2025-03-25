@@ -40,3 +40,4 @@ src/copyright.txt
 R/counting_models_hereditary_constraint.R
 src/const.c
 src/mconf.h
+src/mcmc.c
