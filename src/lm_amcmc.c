@@ -44,7 +44,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	
 
 	
-	Rprintf("Allocating Space for %d Models AMCMC\n", nModels) ;
+	// Rprintf("Allocating Space for %d Models AMCMC\n", nModels) ;
 	double *Xwork, *Ywork,*wts, *probs, shrinkage_m,
 		mse_m, MH=0.0, prior_m=1.0,
 		R2_m, RSquareFull, logmarg_m, postold, postnew;
@@ -55,7 +55,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	int print = 1;
   bool IS = LOGICAL(RIS)[0];
   
-	Rprintf("AMCMC\n") ;
+//	Rprintf("AMCMC\n") ;
 	
 	//get dimsensions of all variables
 	int nobs = LENGTH(Y);
