@@ -60,14 +60,16 @@ are obtained assuming that \eqn{Y_i \sim N(x^T_i\beta, \sigma^2/w_i)}.}
 contain NAs. The default is "na.omit".}
 
 \item{n.models}{number of models to sample either without replacement
-(method="BAS" or "MCMC+BAS") or with replacement (method="MCMC"). If NULL,
-BAS with method="BAS" will try to enumerate all 2^p models. If enumeration
-is not possible (memory or time) then a value should be supplied which
-controls the number of sampled models using 'n.models'.  With method="MCMC",
-sampling will stop once the min(n.models, MCMC.iterations) occurs so
-MCMC.iterations be significantly larger than n.models in order to explore the model space.
-On exit for method= "MCMC" this is the number of unique models that have
-been sampled with counts stored in the output as "freq".}
+(method="BAS" or "MCMC+BAS") or initial number of models to sample with replacement (method="MCMC" or "AMCMC"). 
+If NULL,BAS with method="BAS" will try to enumerate/sample
+the min(2^p, 2^16). If 'n.models' > 2^25, the user should use 'bigmem = TRUE' to sample/enumerate
+'n.models'.  With method="MCMC" or "AMCMC", 'n.models' controls the initial number of models with 
+the default for n.models = min(2000, 2^p).
+Sampling will stop once burnin.iterations + MCMC.iterations are exceeded 
+and n.models will be increased/decreased as needed to store the unique models sampled.
+On exit 'n.models' is the number of unique models that have
+been sampled.  For sampling with replacement (MCMC or AMCMC) the counts for 
+the number of times a models is sampled is stored in the output as "freq".}
 
 \item{prior}{prior distribution for regression coefficients.  Choices
 include
@@ -127,8 +129,7 @@ If alpha = NULL, then the following defaults are used currently:
 \item "JZS" = 1,
 }
 Note that Porwal & Raftery (2022) recommend alpha = sqrt(n) for the g-prior
-based on extensive range of simulations and examples for comparing BMA.
-This will become the default in the future.}
+based on extensive range of simulations and examples for comparing BMA.}
 
 \item{modelprior}{A function for a family of prior distribution on the models.  Choices
 include \code{\link{uniform}} \code{\link{Bernoulli}} or
@@ -184,8 +185,8 @@ as more models are sampled. (see update below).
 based on factoring the proposal distribution as a product conditional probabilities
 estimated from the past draws. If 
 `importance.sampling = FALSE` this uses an adaptive independent Metropolis-Hasting
-algorithm, with if `importance.sampling = TRUE`  uses importance sampline 
-combined with Horiwitz-Thompson estimates of posterior model and inclusion
+algorithm, with if `importance.sampling = TRUE`  uses importance sampling 
+combined with Horwitz-Thompson estimates of posterior model and inclusion
 probabilities.
 }}
 
@@ -206,10 +207,10 @@ random-walk Metropolis proposal; otherwise use a random "flip" move
 to propose swap a variable that is excluded with a variable in the model.}
 
 \item{burnin.iterations}{Number of burnin iterations for the MCMC sampler; the
-default is n.models*10 if not set by the user.}
+default is p*25 if not set by the user.}
 
 \item{MCMC.iterations}{Number of iterations for the MCMC sampler; the
-default is n.models*10 if not set by the user.}
+default is p*1000 if not set by the user.}
 
 \item{lambda}{Parameter in the AMCMC algorithm to insure positive definite 
 covariance of gammas for adaptive conditional probabilities prior based on prior degrees of freedom pseudo
@@ -261,8 +262,8 @@ interpreting BMA estimates of parameters.}
 
 \item{tol}{1e-7 as}
 
-\item{expand}{variable to control how much to grow vectors with MCMC_GROWABLE 
-if number of unique models exceeds the current size of the vectors. 
+\item{expand}{variable to control how much to grow vectors with MCMC sampling 
+if the number of unique models exceeds the current size of the vectors. 
 The default is 1.05, which allows vectors to grow by 5 percent.}
 
 \item{bigmem}{Logical variable to indicate that there is access to

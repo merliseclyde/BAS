@@ -119,14 +119,16 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' @param na.action a function which indicates what should happen when the data
 #' contain NAs. The default is "na.omit".
 #' @param n.models number of models to sample either without replacement
-#' (method="BAS" or "MCMC+BAS") or with replacement (method="MCMC"). If NULL,
-#' BAS with method="BAS" will try to enumerate all 2^p models. If enumeration
-#' is not possible (memory or time) then a value should be supplied which
-#' controls the number of sampled models using 'n.models'.  With method="MCMC",
-#' sampling will stop once the min(n.models, MCMC.iterations) occurs so
-#' MCMC.iterations be significantly larger than n.models in order to explore the model space.
-#' On exit for method= "MCMC" this is the number of unique models that have
-#' been sampled with counts stored in the output as "freq".
+#' (method="BAS" or "MCMC+BAS") or initial number of models to sample with replacement (method="MCMC" or "AMCMC"). 
+#' If NULL,BAS with method="BAS" will try to enumerate/sample
+#' the min(2^p, 2^16). If 'n.models' > 2^25, the user should use 'bigmem = TRUE' to sample/enumerate
+#' 'n.models'.  With method="MCMC" or "AMCMC", 'n.models' controls the initial number of models with 
+#' the default for n.models = min(2000, 2^p).
+#' Sampling will stop once burnin.iterations + MCMC.iterations are exceeded 
+#' and n.models will be increased/decreased as needed to store the unique models sampled.
+#' On exit 'n.models' is the number of unique models that have
+#' been sampled.  For sampling with replacement (MCMC or AMCMC) the counts for 
+#' the number of times a models is sampled is stored in the output as "freq".
 #' @param prior prior distribution for regression coefficients.  Choices
 #' include
 #' \itemize{
@@ -185,7 +187,6 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' }
 #' Note that Porwal & Raftery (2022) recommend alpha = sqrt(n) for the g-prior
 #' based on extensive range of simulations and examples for comparing BMA.
-#' This will become the default in the future.
 #' @param modelprior A function for a family of prior distribution on the models.  Choices
 #' include \code{\link{uniform}} \code{\link{Bernoulli}} or
 #' \code{\link{beta.binomial}}, \code{\link{tr.beta.binomial}},
@@ -237,8 +238,8 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' based on factoring the proposal distribution as a product conditional probabilities
 #' estimated from the past draws. If 
 #' `importance.sampling = FALSE` this uses an adaptive independent Metropolis-Hasting
-#' algorithm, with if `importance.sampling = TRUE`  uses importance sampline 
-#' combined with Horiwitz-Thompson estimates of posterior model and inclusion
+#' algorithm, with if `importance.sampling = TRUE`  uses importance sampling 
+#' combined with Horwitz-Thompson estimates of posterior model and inclusion
 #' probabilities.
 #' }
 #' @param update number of iterations between potential updates of the sampling
@@ -254,9 +255,9 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' random-walk Metropolis proposal; otherwise use a random "flip" move
 #' to propose swap a variable that is excluded with a variable in the model.
 #' @param burnin.iterations Number of burnin iterations for the MCMC sampler; the
-#' default is n.models*10 if not set by the user.
+#' default is p*25 if not set by the user.
 #' @param MCMC.iterations Number of iterations for the MCMC sampler; the
-#' default is n.models*10 if not set by the user.
+#' default is p*1000 if not set by the user.
 #' @param lambda Parameter in the AMCMC algorithm to insure positive definite 
 #' covariance of gammas for adaptive conditional probabilities prior based on prior degrees of freedom pseudo
 #' in Inverse-Wishart.  Default is set to p + 2.
@@ -298,8 +299,8 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' Currently coefficients that are not estimable are set to zero.  Use caution with
 #' interpreting BMA estimates of parameters.
 #' @param tol 1e-7 as
-#' @param expand variable to control how much to grow vectors with MCMC_GROWABLE 
-#' if number of unique models exceeds the current size of the vectors. 
+#' @param expand variable to control how much to grow vectors with MCMC sampling 
+#' if the number of unique models exceeds the current size of the vectors. 
 #' The default is 1.05, which allows vectors to grow by 5 percent.
 #' @param bigmem Logical variable to indicate that there is access to
 #' large amounts of memory (physical or virtual) for enumeration
@@ -674,7 +675,7 @@ bas.lm <- function(formula,
 
   if (is.null(n.models)) {
     n.models <- min(2^p, 2^16)
-    if (method == "MCMC_GROWABLE")  n.models = min(n.models, 2000) 
+    if (method == "MCMC")  n.models = min(n.models, 2000) 
     # FIXME add n.models.init as argument rather than specify here
   }
   if (is.null(MCMC.iterations)) {
@@ -683,10 +684,6 @@ bas.lm <- function(formula,
   if (is.null(burnin.iterations)){
     burnin.iterations <- as.integer(p * 25)
     }
-
-  
-
-
 
 
   int <- TRUE # assume that an intercept is always included
@@ -852,29 +849,6 @@ bas.lm <- function(formula,
       RFPS = FPS
     ),
     "MCMC" = .Call(
-      C_mcmc,
-      Yvec,
-      X,
-      sqrt(weights),
-      prob,
-      modeldim,
-      incint = as.integer(int),
-      alpha = as.numeric(alpha),
-      method = as.integer(method.num),
-      modelprior = modelprior,
-      update = as.integer(update),
-      Rbestmodel = as.integer(bestmodel),
-      plocal = as.numeric(1.0 - prob.rw),
-      as.integer(burnin.iterations),
-      as.integer(MCMC.iterations),
-      as.numeric(lambda),
-      as.numeric(delta),
-      Rthin = as.integer(thin),
-      Rparents = parents,
-      Rpivot = pivot,
-      Rtol = tol
-    ),
-    "MCMC_GROWABLE" = .Call(
       C_mcmc_grow,
       Yvec,
       X,

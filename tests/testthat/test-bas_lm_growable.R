@@ -6,7 +6,7 @@ test_that("Test MCMC with Growable Vectors when not needed", {
 
   set.seed(42)
   bas_hald_grow <- bas.lm(Y ~ ., data=Hald, prior="BIC", n.models = 10,
-                          method="MCMC_GROWABLE",  MCMC.it = 10000, burnin = 1000,
+                          method="MCMC",  MCMC.it = 10000, burnin = 1000,
                           initprobs = c(-.4, .3, 1.5, .8))
   
   set.seed(42)
@@ -32,7 +32,7 @@ test_that("Test MCMC with Growable Vectors when needed", {
   set.seed(42)
   crime.grow = bas.lm(y ~ ., data=UScrime, prior="BIC", 
                       n.models = crime.mcmc$n.models - 100,
-                      method="MCMC_GROWABLE",  
+                      method="MCMC",  
                       MCMC.it = 100000, burnin = 1000)
   
   expect_equal(crime.grow$logmarg, crime.mcmc$logmarg)

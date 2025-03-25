@@ -29,21 +29,5 @@ test_that("Test MCMC with Growable Vectors when not needed", {
 
 test_that("Test MCMC with Growable Vectors when needed", {
   # issue #91 implement growable vectors in MCMC_GROWABLE
-  data(UScrime, package="MASS")
-  UScrime[,-2] <- log(UScrime[,-2])
-  
-  set.seed(42)
-  crime.mcmc <-  bas.lm(y ~ ., data=UScrime, n.models=2^16, prior="BIC",
-                        method="MCMC", MCMC.it = 100000, burnin = 1000)
-  
-  set.seed(42)
-  crime.grow = bas.lm(y ~ ., data=UScrime, prior="BIC", 
-                      n.models = crime.mcmc$n.models - 100,
-                      method="MCMC_GROWABLE",  
-                      MCMC.it = 100000, burnin = 1000)
-  
-  expect_equal(crime.grow$logmarg, crime.mcmc$logmarg)
-  expect_equal(crime.grow$freq, crime.mcmc$freq)
-  expect_equal(crime.grow$size, crime.mcmc$size)
-  expect_equal(crime.grow$probne0, crime.mcmc$probne0)
+
 })
