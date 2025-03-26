@@ -35,6 +35,7 @@ bas.lm(
   force.heredity = FALSE,
   pivot = TRUE,
   tol = 1e-07,
+  GROW = FALSE,
   expand = 1.05,
   bigmem = FALSE
 )
@@ -261,6 +262,9 @@ Currently coefficients that are not estimable are set to zero.  Use caution with
 interpreting BMA estimates of parameters.}
 
 \item{tol}{1e-7 as}
+
+\item{GROW}{logical variable allow vectors to grow with sampling if the number of unique models
+exceeds `n.models`.  Default is TRUE}
 
 \item{expand}{variable to control how much to grow vectors with MCMC sampling 
 if the number of unique models exceeds the current size of the vectors. 

@@ -299,6 +299,8 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' Currently coefficients that are not estimable are set to zero.  Use caution with
 #' interpreting BMA estimates of parameters.
 #' @param tol 1e-7 as
+#' @param GROW  logical variable allow vectors to grow with sampling if the number of unique models
+#' exceeds `n.models`.  Default is TRUE
 #' @param expand variable to control how much to grow vectors with MCMC sampling 
 #' if the number of unique models exceeds the current size of the vectors. 
 #' The default is 1.05, which allows vectors to grow by 5 percent.
@@ -532,6 +534,7 @@ bas.lm <- function(formula,
                    force.heredity = FALSE,
                    pivot = TRUE,
                    tol = 1e-7,
+                   GROW = FALSE,
                    expand = 1.05,
                    bigmem = FALSE) {
   num.updates <- 10
@@ -563,7 +566,11 @@ bas.lm <- function(formula,
     stop(paste("No available sampling method:", method))
   }
  
+  if (method == "BAS" & !GROW) {
+    method = "BAS_OLD"
+  }
   
+  print(paste("using method", method))
   # from lm
   mfall <- match.call(expand.dots = FALSE)
   m <- match(
@@ -676,7 +683,7 @@ bas.lm <- function(formula,
   if (is.null(n.models)) {
     n.models <- min(2^p, 2^16)
     if (method == "MCMC")  n.models = min(n.models, 2000) 
-    # FIXME add n.models.init as argument rather than specify here
+
   }
   if (is.null(MCMC.iterations)) {
     MCMC.iterations <- as.integer(p * 1000)
@@ -802,16 +809,36 @@ bas.lm <- function(formula,
 
   if (is.null(lambda)) lambda = 0.0  # set default in C code
 
+  print(n.models)
   #  sampleprobs = as.double(rep(0.0, n.models))
   result <- switch(
     method,
-    "BAS" = .Call(
+    "BAS_OLD" = .Call(
       C_sampleworep_new,
       Yvec,
       X,
       sqrt(weights),
       prob,
       modeldim,
+      incint = as.integer(int),
+      alpha = as.numeric(alpha),
+      method = as.integer(method.num),
+      modelprior = modelprior,
+      update = as.integer(update),
+      Rbestmodel = as.integer(bestmodel),
+      plocal = as.numeric(prob.local),
+      Rparents = parents,
+      Rpivot = pivot,
+      Rtol = tol,
+      PACKAGE = "BAS"
+    ),
+    "BAS" = .Call(
+      C_sampleworep_grow,
+      Yvec,
+      X,
+      sqrt(weights),
+      prob,
+      n.models = as.integer(n.models),
       incint = as.integer(int),
       alpha = as.numeric(alpha),
       method = as.integer(method.num),

@@ -31,6 +31,7 @@ extern SEXP mcmc_grow(SEXP,SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP,
 extern SEXP amcmc(SEXP, SEXP,SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP mcmcbas(SEXP,SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP sampleworep_new(SEXP,SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP sampleworep_grow(SEXP,SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 
 
 
@@ -57,6 +58,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"deterministic",     (DL_FUNC) &deterministic,     11},
   {"mcmcbas",           (DL_FUNC) &mcmcbas,           21},
   {"sampleworep_new",   (DL_FUNC) &sampleworep_new,   15},
+  {"sampleworep_grow",   (DL_FUNC) &sampleworep_grow,   15},
   {NULL, NULL, 0}
 };
 

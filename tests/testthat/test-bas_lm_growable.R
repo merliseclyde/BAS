@@ -20,6 +20,26 @@ test_that("Test MCMC with Growable Vectors when not needed", {
   expect_equal(bas_hald_grow$probne0.MCMC, bas_hald_old$probne0.MCMC)
 })
 
+test_that("Test BAS with Growable Vectors when not needed", {
+  data(Hald)
+  
+  
+  set.seed(42)
+  bas_hald_grow <- bas.lm(Y ~ ., data=Hald, prior="BIC",
+                          method="BAS", GROW = TRUE,
+                          initprobs = c(-.4, .3, 1.5, .8))
+  
+  set.seed(42)
+  bas_hald_old <- bas.lm(Y ~ ., data=Hald, prior="BIC", 
+                         method="BAS",  GROW = FALSE,
+                         initprobs = c(1, -.4, .3, 1.0, .8))
+  expect_equal(bas_hald_grow$n.models, bas_hald_old$n.models)
+  expect_equal(bas_hald_grow$logmarg, bas_hald_old$logmarg)
+  expect_equal(bas_hald_grow$size, bas_hald_old$size)
+  expect_equal(bas_hald_grow$probne0, bas_hald_old$probne0)
+  expect_equal(bas_hald_grow$probne0.MCMC, bas_hald_old$probne0.MCMC)
+})
+
 test_that("Test MCMC with Growable Vectors when needed", {
   # issue #91 implement growable vectors in MCMC_GROWABLE
   data(UScrime, package="MASS")
