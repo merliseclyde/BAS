@@ -16,7 +16,7 @@ SEXP glm_sampleworep_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
   int nModels0 = INTEGER(RnModels)[0];  // initial guess on number of models to return
   int nModels = nModels0;
 
-	//  Rprintf("Allocating Space for %d Models\n", nModels) ;
+	Rprintf("Allocating Space for %d Models\n", nModels) ;
 
 	int nProtected = 0;
 	
@@ -227,14 +227,17 @@ SEXP glm_sampleworep_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	  SET_VECTOR_ELT(ANS, 11, resizeVector(R2, nModels));
 	  SET_VECTOR_ELT(ANS, 13, resizeVector(Q, nModels));
 	  SET_VECTOR_ELT(ANS, 14, resizeVector(Rintercept, nModels));
-	  
+	  Rprintf("resizing to %d models\n", nModels);
 	}
 
 	compute_modelprobs(modelprobs, logmarg, priorprobs,nModels);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, nModels, p);
 
+	Rprintf("computed model probs\n");
 	INTEGER(NumUnique)[0] = nModels;
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
+	
+	Rprintf("returning\n");
 	
 	PutRNGstate();
 
