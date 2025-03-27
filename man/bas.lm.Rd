@@ -35,7 +35,7 @@ bas.lm(
   force.heredity = FALSE,
   pivot = TRUE,
   tol = 1e-07,
-  GROW = FALSE,
+  GROW = TRUE,
   expand = 1.05,
   bigmem = FALSE
 )

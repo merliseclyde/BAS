@@ -534,7 +534,7 @@ bas.lm <- function(formula,
                    force.heredity = FALSE,
                    pivot = TRUE,
                    tol = 1e-7,
-                   GROW = FALSE,
+                   GROW = TRUE,
                    expand = 1.05,
                    bigmem = FALSE) {
   num.updates <- 10
@@ -562,7 +562,7 @@ bas.lm <- function(formula,
     ))
   }
 
-  if (!(method %in% c("BAS", "deterministic", "MCMC", "MCMC_GROWABLE", "MCMC+BAS", "AMCMC"))) {
+  if (!(method %in% c("BAS", "deterministic", "MCMC", "MCMC+BAS", "AMCMC"))) {
     stop(paste("No available sampling method:", method))
   }
  
