@@ -404,7 +404,6 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
                                           Rprobs, nModels, p);   
   
 
-  // Rprintf("Done with sampling - summaries m = %ld nModels = %ld \n", m, nModels);
   switch (INTEGER(RFPS)[0]) {
     case 1:
       compute_modelprobs_Bayes_HT(modelprobs, Rlogmarg, priorprobs, sampleprobs, nModels);

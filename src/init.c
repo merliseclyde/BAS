@@ -25,6 +25,7 @@ extern SEXP glm_mcmc(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP,
 extern SEXP glm_mcmc_grow(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP glm_mcmcbas(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP glm_sampleworep(SEXP,SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP glm_sampleworep_grow(SEXP,SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP deterministic(SEXP,SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 // extern SEXP mcmc(SEXP,SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP mcmc_grow(SEXP,SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
@@ -52,6 +53,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"glm_mcmc_grow",     (DL_FUNC) &glm_mcmc_grow,     18}, 
   {"glm_mcmcbas",       (DL_FUNC) &glm_mcmcbas,       17},
   {"glm_sampleworep",   (DL_FUNC) &glm_sampleworep,   15},
+  {"glm_sampleworep_grow",(DL_FUNC) &glm_sampleworep_grow,   15},
 //  {"mcmc",              (DL_FUNC) &mcmc,              20},
   {"mcmc_grow",         (DL_FUNC) &mcmc_grow,         21},
   {"amcmc",             (DL_FUNC) &amcmc,             21},

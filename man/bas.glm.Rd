@@ -31,7 +31,8 @@ bas.glm(
   renormalize = FALSE,
   force.heredity = FALSE,
   expand = 1.05,
-  bigmem = FALSE
+  bigmem = FALSE,
+  GROW = FALSE
 )
 }
 \arguments{
@@ -177,6 +178,8 @@ The default is 1.05, which allows vectors to grow by 5 percent.}
 \item{bigmem}{Logical variable to indicate that there is access to
 large amounts of memory (physical or virtual) for enumeration
 with large model spaces, e.g. > 2^25.}
+
+\item{GROW}{Logical variable to indicate that the vectors are growable}
 }
 \value{
 \code{bas.glm} returns an object of class \code{basglm}

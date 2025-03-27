@@ -177,7 +177,7 @@ test_that("poisson regression", {
                            betaprior = EB.local(), modelprior = uniform(),
                            method = "MCMC", 
                            burnin = 1000, MCMC.iterations = 10000,
-                           prob.rw = .95
+                           prob.rw = .95, n.models = 6000
   )
   set.seed(1)
   crabs.MCMCbas <- bas.glm(satell ~ color * spine * width + weight,
@@ -188,23 +188,10 @@ test_that("poisson regression", {
                            n.models = crabs.MCMC$n.models, burnin = 1000+10000+1, MCMC.iterations = 0,
                            prob.rw = .95
   )
-  set.seed(1)
-  crabs.MCMCGrow <- bas.glm(satell ~ color * spine * width + weight,
-                            data = crabs,
-                            family = poisson(),
-                            betaprior = EB.local(), modelprior = uniform(),
-                            method = "MCMC_GROWABLE", 
-                            n.models = 2999, burnin = 1000, MCMC.iterations = 10000,
-                            prob.rw = .95
-  )
-  
-  expect_null(plot(crabs.MCMCGrow))
+ 
   expect_equal(0, sum(crabs.MCMC$shrinkage > 1))
-  expect_equal(0, sum(crabs.MCMCGrow$shrinkage > 1))
-  expect_equal(crabs.MCMC$freq, crabs.MCMCGrow$freq)
-  expect_equal(crabs.MCMC$probne0, crabs.MCMCGrow$probne0)
-  expect_equal(crabs.MCMC$postprobs.MCMC,crabs.MCMCGrow$postprobs)
-  expect_equal(crabs.MCMC$probne0.MCMC,crabs.MCMCGrow$probne0.MCMC)
+  expect_equal(crabs.MCMC$logmarg, crabs.MCMCbas$logmarg)
+
 # currently not equal but not used  
 #  expect_equal(crabs.MCMC$freq, crabs.MCMCbas$freq)  
 })

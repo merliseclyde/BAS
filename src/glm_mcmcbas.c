@@ -14,12 +14,10 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		             SEXP Rupdate, SEXP Rlaplace, SEXP Rparents)
 {
   
-  Rprintf("Starting MCMC +BAS\n");
+ // Rprintf("Starting MCMC +BAS\n");
 	int nProtected = 0;
 	int nModels=LENGTH(Rmodeldim);
 
-	Rprintf("Allocating Space for %d Models\n", nModels) ;
-	
 	SEXP ANS = PROTECT(allocVector(VECSXP, 17)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 17)); ++nProtected;
 	
@@ -122,7 +120,6 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	double problocal = REAL(plocal)[0];
 
 
-	Rprintf("Starting MCMC with %d iterations\n", INTEGER(BURNIN_Iterations)[0]);
  	while (nUnique <  nModels && m < INTEGER(BURNIN_Iterations)[0]) {
 		memcpy(model, modelold, sizeof(int)*p);
 		pmodel =  n_sure;
@@ -203,12 +200,12 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	// Compute marginal probabilities
 	mcurrent = nUnique;
-	Rprintf("NumUnique Models Accepted %d \n", nUnique);
+//	Rprintf("NumUnique Models Accepted %d \n", nUnique);
 
 	compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
 
-	Rprintf("Now sample W/O Replacement\n");
+
 	INTEGER(NumUnique)[0] = nUnique;
 
 	if (nUnique < nModels) {
@@ -270,8 +267,7 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	      }
 	    }
 		}
-//		Rprintf("Nunique = %d, m = %d, k = %d, mcurrent = %d %lf\n",
-//          nUnique, m, nModels, mcurrent, pigamma[0]);
+
 	if (m < nModels) {
 		  mcurrent = m;  // #nocov 
 		  }

@@ -140,6 +140,7 @@
 #' @param bigmem Logical variable to indicate that there is access to
 #' large amounts of memory (physical or virtual) for enumeration
 #' with large model spaces, e.g. > 2^25.
+#' @param GROW Logical variable to indicate that the vectors are growable
 #' @return \code{bas.glm} returns an object of class \code{basglm}
 #'
 #' An object of class \code{basglm} is a list containing at least the following
@@ -253,7 +254,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
                     burnin.iterations = NULL, MCMC.iterations = NULL, thin = 1,
                     control = glm.control(), laplace = FALSE, renormalize = FALSE,
                     force.heredity = FALSE, expand = 1.05, 
-                    bigmem = FALSE) {
+                    bigmem = FALSE, GROW = FALSE) {
   num.updates <- 10
   call <- match.call()
 
@@ -293,7 +294,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   
   if (!inherits(modelprior, "prior")) stop("modelprior should be an object of class prior,  uniform(),  beta.binomial(), etc")
 
-  if (!(method %in% c("BAS", "deterministic", "MCMC", "MCMC_GROWABLE", "MCMC+BAS", "AMCMC"))) {
+  if (!(method %in% c("BAS", "deterministic", "MCMC", "MCMC+BAS", "AMCMC"))) {
     stop(paste("No available sampling method:", method))
   }
   
@@ -415,9 +416,12 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   bestmodel <- as.integer(bestmodel)
 
 
+  if (!GROW & method == "MCMC") method <- "MCMC_OLD"
+  if (!GROW & method == "BAS") method <- "BAS_OLD"
+  
   if (is.null(n.models)) {
     n.models <- min(2^p, 2^16)
-    if (method == "MCMC_GROWABLE")  n.models = min(n.models, 2000) 
+    if (method == "MCMC")  n.models = min(n.models, 2000) 
     # FIXME add n.models.init as argument rather than specify here
   }
   if (is.null(MCMC.iterations)) {
@@ -492,7 +496,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
 
   #print(MCMC.iterations)
   result <- switch(method,
-    "MCMC" = .Call(C_glm_mcmc,
+    "MCMC_OLD" = .Call(C_glm_mcmc,
       Y = Yvec, X = X,
       Roffset = as.numeric(offset),
       Rweights = as.numeric(weights),
@@ -509,7 +513,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
       Rlaplace = as.integer(laplace),
       Rparents = parents
     ),
-    "MCMC_GROWABLE" = .Call(C_glm_mcmc_grow,
+    "MCMC" = .Call(C_glm_mcmc_grow,
                    Y = Yvec, X = X,
                    Roffset = as.numeric(offset),
                    Rweights = as.numeric(weights),
@@ -526,12 +530,12 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
                    Rlaplace = as.integer(laplace),
                    Rparents = parents, Rexpand = as.numeric(expand)
     ),
-    "BAS" = .Call(C_glm_sampleworep,
+    "BAS" = .Call(C_glm_sampleworep_grow,
       Y = Yvec, X = X,
       Roffset = as.numeric(offset),
       Rweights = as.numeric(weights),
       Rprobinit = prob,
-      Rmodeldim = modeldim,
+      RnModels = n.models,
       modelprior = modelprior,
       betaprior = betaprior,
       Rbestmodel = bestmodel,
@@ -540,6 +544,21 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
       Rupdate = as.integer(update),
       Rlaplace = as.integer(laplace),
       Rparents = parents
+    ),
+    "BAS_OLD" = .Call(C_glm_sampleworep,
+                  Y = Yvec, X = X,
+                  Roffset = as.numeric(offset),
+                  Rweights = as.numeric(weights),
+                  Rprobinit = prob,
+                  Rmodeldim = modeldim,
+                  modelprior = modelprior,
+                  betaprior = betaprior,
+                  Rbestmodel = bestmodel,
+                  plocal = as.numeric(1.0 - prob.rw),
+                  family = family, Rcontrol = control,
+                  Rupdate = as.integer(update),
+                  Rlaplace = as.integer(laplace),
+                  Rparents = parents
     ),
     "MCMC+BAS" = .Call(C_glm_mcmcbas,
       Y = Yvec,
@@ -586,8 +605,6 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   result$n.models <- length(result$postprobs)
   result$include.always <- keep
 
-  # 	if (method == "MCMC" | method == "MCMC_GROWABE") result$n.models = result$n.Unique
-
 
   df <- rep(nobs - 1, result$n.models)
 
@@ -629,7 +646,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
     result$n.models = length(result$postprobs)
   }
 
-  if (method == "MCMC" | method == "MCMC_GROWABLE") {
+  if (method == "MCMC" | method == "MCMC_OLD") {
     result$postprobs.MCMC <- result$freq / sum(result$freq)
     if (!renormalize) {
       result$probne0 <- result$probne0.MCMC
@@ -659,7 +676,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
     object$postprobs <- postprobs
 
     method <- eval(object$call$method)
-    if (method == "MCMC+BAS" | method == "MCMC" | method == "MCMC_GROWABLE") {
+    if (method == "MCMC+BAS" | method == "MCMC" | method == "MCMC_OLD") {
       object$freq <- object$freq[-drop]
       object$probne0.MCMC <- as.vector(object$freq %*% which)/sum(object$freq)
     }

@@ -570,7 +570,7 @@ bas.lm <- function(formula,
     method = "BAS_OLD"
   }
   
-  print(paste("using method", method))
+ 
   # from lm
   mfall <- match.call(expand.dots = FALSE)
   m <- match(
@@ -781,7 +781,7 @@ bas.lm <- function(formula,
   bestmodel = as.integer(bestmodel)
   n.models <- normalize.n.models(n.models, p, prob,
                                   method, bigmem)
-  #  print(n.models)
+
   modelprior <- normalize.modelprior(modelprior, p)
 
   if (method == "MCMC+BAS") {
@@ -809,7 +809,7 @@ bas.lm <- function(formula,
 
   if (is.null(lambda)) lambda = 0.0  # set default in C code
 
-  print(n.models)
+ 
   #  sampleprobs = as.double(rep(0.0, n.models))
   result <- switch(
     method,
