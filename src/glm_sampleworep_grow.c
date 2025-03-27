@@ -211,7 +211,7 @@ SEXP glm_sampleworep_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	
 	if (m < nUnique) {
-	  Rprintf("resize if constraints have reduced the number of models\n);
+	  Rprintf("resize if constraints have reduced the number of models\n");
 	  nUnique = m;
 	  
 	  SET_VECTOR_ELT(ANS, 1, resizeVector(modelspace, nUnique));
