@@ -27,7 +27,7 @@ test_that("Test MCMC with Growable Vectors when not needed", {
 
 })
 
-skip("skip test of bas.glm with Growable Vectors when not needed")
+# skip("skip test of bas.glm with Growable Vectors when not needed")
 test_that("Test BAS with Growable Vectors when not needed", {
   data(Pima.tr, package="MASS")
   # issue #91 implement growable vectors in MCMC_GROWABLE
