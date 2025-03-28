@@ -254,7 +254,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
                     burnin.iterations = NULL, MCMC.iterations = NULL, thin = 1,
                     control = glm.control(), laplace = FALSE, renormalize = FALSE,
                     force.heredity = FALSE, expand = 1.05, 
-                    bigmem = FALSE, GROW = FALSE) {
+                    bigmem = FALSE, GROW = TRUE) {
   num.updates <- 10
   call <- match.call()
 

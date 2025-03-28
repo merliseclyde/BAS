@@ -32,7 +32,7 @@ bas.glm(
   force.heredity = FALSE,
   expand = 1.05,
   bigmem = FALSE,
-  GROW = FALSE
+  GROW = TRUE
 )
 }
 \arguments{

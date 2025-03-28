@@ -16,7 +16,7 @@ SEXP glm_sampleworep_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
   int nModels0 = INTEGER(RnModels)[0];  // initial guess on number of models to return
   int nUnique = nModels0;
 
-	Rprintf("Allocating Space for %d Models\n", nModels0) ;
+//	Rprintf("Allocating Space for %d Models\n", nModels0) ;
 
 	int nProtected = 0;
 	
@@ -85,7 +85,7 @@ SEXP glm_sampleworep_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	
 	setAttrib(ANS, R_NamesSymbol, ANS_names);
 	
-	Rprintf("Start Computing\n");
+//	Rprintf("Start Computing\n");
 	double *probs,logmargy, shrinkage_m;
 	int i;
 
@@ -118,7 +118,7 @@ SEXP glm_sampleworep_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	NODEPTR tree, branch;
 	tree = make_node(vars[0].prob);
-	Rprintf("For m=0, Initialize Tree with initial Model\n");
+//	Rprintf("For m=0, Initialize Tree with initial Model\n");
 
 	int m = 0;
 	int *bestmodel = INTEGER(Rbestmodel);
@@ -147,7 +147,7 @@ SEXP glm_sampleworep_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
 	shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
 					"shrinkage"))[0];
-   Rprintf("SetModel_glm for initial model\n");
+//   Rprintf("SetModel_glm for initial model\n");
 //	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
 //	SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, m);
 	SetModel_glm(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, 
@@ -156,7 +156,7 @@ SEXP glm_sampleworep_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	int *modelwork= ivecalloc(p);
 
-	Rprintf("sample models\n");
+//	Rprintf("sample models\n");
 	for (m = 1;  m < nUnique  && lessThanOne(pigamma[0]); m++) {
 	  INTEGER(modeldim)[m] = 0.0;
 		for (i = n; i < p; i++)  {
@@ -213,7 +213,7 @@ SEXP glm_sampleworep_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	
 	if (m < nUnique) {
-	  Rprintf("resize if constraints have reduced the number of models\n");
+//	  Rprintf("resize if constraints have reduced the number of models\n");
 	  nUnique = m;
 	  
 	  SET_VECTOR_ELT(ANS, 1, resizeVector(modelspace, nUnique));
@@ -229,17 +229,17 @@ SEXP glm_sampleworep_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	  SET_VECTOR_ELT(ANS, 11, resizeVector(R2, nUnique));
 	  SET_VECTOR_ELT(ANS, 13, resizeVector(Q, nUnique));
 	  SET_VECTOR_ELT(ANS, 14, resizeVector(Rintercept, nUnique));
-	  Rprintf("resizing to %d models\n", nUnique);
+//	  Rprintf("resizing to %d models\n", nUnique);
 	}
 
 	compute_modelprobs(modelprobs, logmarg, priorprobs,nUnique);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, nUnique, p);
 
-	Rprintf("computed model probs\n");
+//	Rprintf("computed model probs\n");
 	INTEGER(NumUnique)[0] = nUnique;
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
 	
-	Rprintf("returning\n");
+//	Rprintf("returning\n");
 	
 	PutRNGstate();
 
