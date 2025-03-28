@@ -1,5 +1,31 @@
 context("bas.glm Growable vectors")
 
+# skip("skip test of bas.glm with Growable Vectors when not needed")
+test_that("Test BAS with Growable Vectors when not needed", {
+  data(Pima.tr, package="MASS")
+  # issue #91 implement growable vectors in MCMC_GROWABLE
+  # 
+  set.seed(1)
+  pima_bas2 <- bas.glm(type ~ .,
+                       data = Pima.tr, 
+                       method="BAS",  
+                       initprobs=c(1,rep(.4, ncol(Pima.tr)-1)),
+                       betaprior = bic.prior(), family = binomial(),
+                       modelprior = uniform(), GROW = TRUE)
+  set.seed(1)
+  pima_bas1 <- bas.glm(type ~ .,
+                       data = Pima.tr, method="BAS",  
+                       initprobs=rep(.4, ncol(Pima.tr)-1),
+                       betaprior = bic.prior(), family = binomial(),
+                       modelprior = uniform(),  GROW = FALSE)
+  
+  expect_equal(pima_bas1$n.models, pima_bas2$n.models)
+  expect_equal(pima_bas1$postprobs, pima_bas2$postprobs)
+  expect_equal(pima_bas1$logmarg, pima_bas2$logmarg)
+  expect_equal(pima_bas1$probne0, pima_bas2$probne0)
+  
+})
+
 test_that("Test MCMC with Growable Vectors when not needed", {
   data(Pima.tr, package="MASS")
   # issue #91 implement growable vectors in MCMC_GROWABLE
@@ -27,31 +53,6 @@ test_that("Test MCMC with Growable Vectors when not needed", {
 
 })
 
-# skip("skip test of bas.glm with Growable Vectors when not needed")
-test_that("Test BAS with Growable Vectors when not needed", {
-  data(Pima.tr, package="MASS")
-  # issue #91 implement growable vectors in MCMC_GROWABLE
-  # 
-  set.seed(1)
-  pima_bas2 <- bas.glm(type ~ .,
-                       data = Pima.tr, 
-                       method="BAS",  
-                       initprobs=c(1,rep(.4, ncol(Pima.tr)-1)),
-                       betaprior = bic.prior(), family = binomial(),
-                       modelprior = uniform(), GROW = FALSE)
-  set.seed(1)
-  pima_bas1 <- bas.glm(type ~ .,
-                       data = Pima.tr, method="BAS",  
-                       initprobs=rep(.4, ncol(Pima.tr)-1),
-                       betaprior = bic.prior(), family = binomial(),
-                       modelprior = uniform(),  GROW = TRUE)
-  
-  expect_equal(pima_bas1$n.models, pima_bas2$n.models)
-  expect_equal(pima_bas1$postprobs, pima_bas2$postprobs)
-  expect_equal(pima_bas1$logmarg, pima_bas2$logmarg)
-  expect_equal(pima_bas1$probne0, pima_bas2$probne0)
-  
-})
 
 test_that("Test MCMC with Growable Vectors when needed", {
   # issue #91 implement growable vectors in MCMC_GROWABLE
