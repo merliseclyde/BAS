@@ -122,6 +122,8 @@ SEXP glm_sampleworep_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	int m = 0;
 	int *bestmodel = INTEGER(Rbestmodel);
+	
+	INTEGER(modeldim)[m] = 0;
 	for (i = n; i < p; i++)  {
 		model[vars[i].index] = bestmodel[vars[i].index];
 		INTEGER(modeldim)[m]  +=  bestmodel[vars[i].index];
