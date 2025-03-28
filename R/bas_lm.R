@@ -569,6 +569,9 @@ bas.lm <- function(formula,
   if (method == "BAS" & !GROW) {
     method = "BAS_OLD"
   }
+  if (method == "AMCMC" & !GROW) {
+    method = "AMCMC_OLD"
+  }
   
  
   # from lm
@@ -682,7 +685,8 @@ bas.lm <- function(formula,
 
   if (is.null(n.models)) {
     n.models <- min(2^p, 2^16)
-    if (method == "MCMC")  n.models = min(n.models, 2000) 
+    if (method == "MCMC")   n.models = min(n.models, 2000) 
+    if (method == "AMCMC" & !importance.sampling)  n.models = min(n.models, 2000) 
 
   }
   if (is.null(MCMC.iterations)) {
@@ -900,6 +904,31 @@ bas.lm <- function(formula,
       Rexpand = as.numeric(expand)
     ),
     "AMCMC" = .Call(
+      C_amcmc_grow,
+      Yvec,
+      X,
+      sqrt(weights),
+      prob,
+      modeldim,
+      incint = as.integer(int),
+      alpha = as.numeric(alpha),
+      method = as.integer(method.num),
+      modelprior = modelprior,
+      update = as.integer(update),
+      Rbestmodel = as.integer(bestmodel),
+      plocal = as.numeric(1.0 - prob.rw),
+      as.integer(burnin.iterations),
+      as.integer(MCMC.iterations),
+      as.numeric(lambda),
+      as.numeric(delta),
+      Rthin = as.integer(thin),
+      Rparents = parents,
+      Rpivot = pivot,
+      Rtol = tol,
+      RIS = importance.sampling,
+      Rexpand = expand
+    ),
+    "AMCMC_OLD" = .Call(
       C_amcmc,
       Yvec,
       X,
@@ -988,7 +1017,7 @@ bas.lm <- function(formula,
   }
   
   if (importance.sampling) renormalize = TRUE # do not use MCMC probs and use HT
-  if (method == "MCMC" || method == "AMCMC" || method == "MCMC_GROWABLE") {
+  if (method == "MCMC" || method == "AMCMC" || method == "AMCMC_OLD") {
     result$n.models <- result$n.Unique
     result$postprobs.MCMC <- result$freq / sum(result$freq)
 
