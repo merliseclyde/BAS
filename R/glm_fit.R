@@ -74,6 +74,11 @@ bayesglm.fit <-
               else { names(y)
               }
     if (is.matrix(y)) storage.mode(y) <- "double"
+   
+    if (any(is.character(y))) y <- factor(y)
+    if (is.factor(y)) y <- as.numeric(y) - 1
+    storage.mode(y) <- "double"
+    
     conv <- FALSE
     nobs <- NROW(y)
     nvars <- ncol(x)
@@ -86,7 +91,7 @@ bayesglm.fit <-
     newfit <- .Call(C_glm_fit,
       RX = x, RY = y,
       family = family, Roffset = offset,
-      Rweights = weights,
+      Rweights = as.numeric(weights),
       Rpriorcoef = coefprior, Rcontrol = control
     )
 

@@ -86,4 +86,52 @@ test_that("bayesglm.fit", {
                        x = 1.0*c(Pima.tr$age, Pima.tr$age),
                        family=binomial())$coef
                )
+  data(crabs, package = "glmbb")
+  crabs.bas <- bas.glm(satell ~ color + spine + width + weight,
+                           data = crabs,
+                           family = poisson(),
+                           betaprior = bic.prior(), modelprior = uniform(),
+                           method = "BAS", 
+                           n.models = 1, 
+                           include.always = ~ color + spine + width + weight
+                          )
+  
+  crabs.bayesglmfit = bayesglm.fit(crabs$satell, x = model.matrix( ~ color + spine + width + weight, data = crabs),
+                                   family = poisson(), coefprior = bic.prior())
+  crabs.glmfit = glm.fit(crabs$satell, x = model.matrix( ~ color + spine + width + weight, data = crabs),
+                                   family = poisson())
+  
+  expect_equal(crabs.bayesglmfit$coef, as.numeric(crabs.glmfit$coef))
+  expect_equal(crabs.bayesglmfit$coef, unlist(crabs.bas$mle))
+  
+ 
+  expect_no_error(bayesglm.fit(crabs$satell, x = model.matrix( ~ color + spine + width + weight, data = crabs),
+                            family = poisson(), coefprior = bic.prior()))
+  expect_error(bayesglm.fit(as.numeric(crabs$satell), x = model.matrix( ~ color + spine + width + weight, data = crabs),
+                            family = poisson(), coefprior = EB.local()))
+  
+  
+})
+
+test_that("bayesglm.fit for Binomial Data", {
+ 
+Gegevens <- data.frame(
+  Jaar      = seq(from=2020,to=2024),
+  Totaal = c(29,18,19,15,15),
+  FeitenBeoordeling = c(14,12,13,7,7),
+  Beoordeling = c(13,8,10,5,5),
+  MentionFB = cbind(c(14,12,13,7,7), c(15,6,6,8,8)),
+  MentionB  = cbind(c(13,8,10,5,5), c(16,10,9,10,10))
+)
+
+bin.mod <- glm(cbind(Gegevens$MentionFB.1,Gegevens$MentionFB.2) ~
+                 Jaar, data=Gegevens,
+               family=binomial(link = "logit"))
+bin.fit = glm.fit(y = cbind(Gegevens$MentionFB.1,Gegevens$MentionFB.2),
+                  x = cbind(1.0, Gegevens$Jaar), 
+                  family=binomial(link = "logit"))
+bayesglm.fit = bayesglm.fit(y = cbind(Gegevens$MentionFB.1,Gegevens$MentionFB.2),
+                       x = cbind(1.0, Gegevens$Jaar), 
+                       family=binomial(link = "logit"))
+expect_equal(as.numeric(bin.mod$coefficients), bayesglm.fit$coefficients) #no names in bas.fit
 })
