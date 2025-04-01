@@ -460,3 +460,32 @@ double g_prior_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace ) {
 
   return(shrinkage);
 }
+
+double no_shrinkage(double dev,  double regSS, int n, int p, int pgamma, double g,  double *hyper) {
+  return 1.0;
+}
+
+double shrinkage_gprior(double dev,  double regSS, int n, int p, int pgamma,  double g, double *hyper) {
+  return g/(1.0 + g) ;
+}
+
+double g_EB_local(double dev,  double regSS, int n, int p, int pgamma, double *hyper) {
+  double g = regSS/pgamma - 1.0;
+  return g > 0.0 ? g : 0.0;
+}
+
+double g_gprior(double dev,  double regSS, int n, int p, int pgamma, double *hyper) {
+  return hyper[0];
+}
+
+double no_g(double dev,  double regSS, int n, int p, int pgamma, double *hyper) {
+  return 1.0;
+}
+
+double log_marginal_likelihood_IC(double dev, double regSS, int n, int p, int pgamma, double g, double *hyper) {
+  return -.5*(dev +  pgamma*hyper[0]);
+}
+double log_marginal_likelihood_gprior(double dev, double regSS, int n, int p, int pgamma, double g, double *hyper) {
+  return -.5*(dev  + pgamma*log(g + 1.0) + regSS/(g + 1.0));
+}
+

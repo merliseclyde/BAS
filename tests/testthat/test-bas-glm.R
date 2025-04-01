@@ -645,3 +645,32 @@ test_that("gamma regression coef", {
   expect_warning(coef(wafer_bas), NA)
   
 })
+
+# test Binomial Model with Successes and Failures. Issue #94
+
+test_that("Binomial Model with Successes/Failures", { 
+Gegevens <- data.frame(
+  Jaar      = seq(from=2020,to=2024),
+  Totaal = c(29,18,19,15,15),
+  FeitenBeoordeling = c(14,12,13,7,7),
+  Beoordeling = c(13,8,10,5,5),
+  MentionFB = cbind(c(14,12,13,7,7), c(15,6,6,8,8)),
+  MentionB  = cbind(c(13,8,10,5,5), c(16,10,9,10,10))
+)
+
+bin.mod <- glm(cbind(Gegevens$MentionFB.1,Gegevens$MentionFB.2) ~
+                 Jaar, data=Gegevens,
+               family=binomial(link = "logit"))
+bin.fit = glm.fit(y = cbind(Gegevens$MentionFB.1,Gegevens$MentionFB.2),
+                  x = cbind(1.0, Gegevens$Jaar), 
+                  family=binomial(link = "logit"))
+bas.fit = bayesglm.fit(y = cbind(Gegevens$MentionFB.1,Gegevens$MentionFB.2),
+                  x = cbind(1.0, Gegevens$Jaar), 
+                  family=binomial(link = "logit"))
+expect_equal(as.numeric(bin.mod$coefficients), bas.fit$coefficients) #no names in bas.fit
+# ISSUE #94
+expect_error(
+  bin.mod.bas <- bas.glm(cbind(Gegevens$MentionFB.1,Gegevens$MentionFB.2) ~
+                 Jaar, data=Gegevens,
+                 family=binomial(link = "logit"), betaprior = bic.prior()))
+})

@@ -26,9 +26,8 @@ devtools::check_win_devel()
 
 
 # check rhub. (see github actions to trigger rhub workflow
-# rhub2::rhub_check(platforms = "valgrind")
-# rhub2::rhub_check(platforms = "valgrind", branch="devel")
 
+rhub::rhub_check(branch="devel", platforms = ubuntu-gcc12)
 
 
 # to submit to CRAN

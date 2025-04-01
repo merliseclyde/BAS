@@ -61,6 +61,27 @@ struct Node {
   NODEPTR one;
 };
 
+typedef struct coefpriorstruc {
+  const char *family;
+  const char *class;
+  double *hyper;
+  double (*log_marginal_likelihood)(double dev, double regSS, int n, int p, int pgamma, double g, double *hyper);
+  double (*shrinkage)(double dev,  double regSS, int n, int p, int pgamma, double g, double *hyper);
+  double (*g)(double dev,  double regSS, int n, int p, int pgamma, double *hyper);
+} coefdistptr;
+
+//struct glmsfamily * make_glm_family(SEXP family);
+
+typedef struct betapriorfamilystruc {
+  const char *priorfamily;
+  const char *samplingmodel;
+  const char *priorclass;
+  SEXP hyperparams;
+  double (*logmarglik_fun)(SEXP hyperparams, int pmodel, double W, double loglik_mle, double logdet_Iintercept, int Laplace);
+  double (*shrinkage_fun)(SEXP hyperparams, int pmodel, double W, int Laplace);
+} betapriorptr;
+
+betapriorptr * make_betaprior_structure(SEXP betaprior, SEXP glmfamily);
 
 /* Subroutines. */
 
@@ -208,18 +229,7 @@ void PrecomputeData(double *Xwork, double *Ywork, double *wts, double **pXtXwork
 double CalculateRSquareFull(double *XtY, double *XtX, double *XtXwork, double *XtYwork, SEXP Rcoef_m, SEXP Rse_m, int p, int nobs, double yty, double SSY);
 
 
-//struct glmsfamily * make_glm_family(SEXP family);
 
-typedef struct betapriorfamilystruc {
-  const char *priorfamily;
-  const char *samplingmodel;
-  const char *priorclass;
-  SEXP hyperparams;
-  double (*logmarglik_fun)(SEXP hyperparams, int pmodel, double W, double loglik_mle, double logdet_Iintercept, int Laplace);
-  double (*shrinkage_fun)(SEXP hyperparams, int pmodel, double W, int Laplace);
-} betapriorptr;
-
-betapriorptr * make_betaprior_structure(SEXP betaprior, SEXP glmfamily);
 
 // CCH family
 double CCH_glm_logmarg(SEXP hyperparams, int pmodel, double W, double loglike_mle, double logdet_Iintercept, int Laplace);
@@ -255,6 +265,15 @@ double g_prior_shrinkage(SEXP hyperparams, int pmodel, double W, int Laplace);
 double testBF_prior_glm_logmarg(SEXP hyperparams, int pmodel, double W,
                                 double loglik_mle, double logdet_Iintercept,
                                 int Laplace );
+
+double no_shrinkage(double dev,  double regSS, int n, int p, int pgamma, double g,  double *hyper);
+double shrinkage_gprior(double dev,  double regSS, int n, int p, int pgamma,  double g, double *hyper);
+double g_EB_local(double dev,  double regSS, int n, int p, int pgamma, double *hyper);
+double g_gprior(double dev,  double regSS, int n, int p, int pgamma, double *hyper);
+double no_g(double dev,  double regSS, int n, int p, int pgamma, double *hyper);
+double log_marginal_likelihood_IC(double dev, double regSS, int n, int p, int pgamma, double g, double *hyper) ;
+double log_marginal_likelihood_gprior(double dev, double regSS, int n, int p, int pgamma, double g, double *hyper);
+
 
 extern double loghyperg1F1(double, double, double, int);
 extern double shrinkage_chg(double a, double b, double Q, int laplace);

@@ -5,47 +5,6 @@
 //
 #include "bas.h"
 
-typedef struct coefpriorstruc {
-  const char *family;
-  const char *class;
-  double *hyper;
-  double (*log_marginal_likelihood)(double dev, double regSS, int n, int p, int pgamma, double g, double *hyper);
-  double (*shrinkage)(double dev,  double regSS, int n, int p, int pgamma, double g, double *hyper);
-  double (*g)(double dev,  double regSS, int n, int p, int pgamma, double *hyper);
-} coefdistptr;
-
-
-
-
- double no_shrinkage(double dev,  double regSS, int n, int p, int pgamma, double g,  double *hyper) {
-  return 1.0;
-}
-
- double shrinkage_gprior(double dev,  double regSS, int n, int p, int pgamma,  double g, double *hyper) {
-  return g/(1.0 + g) ;
-}
-
- double g_EB_local(double dev,  double regSS, int n, int p, int pgamma, double *hyper) {
-  double g = regSS/pgamma - 1.0;
-  return g > 0.0 ? g : 0.0;
-}
-
- double g_gprior(double dev,  double regSS, int n, int p, int pgamma, double *hyper) {
-  return hyper[0];
-}
-
- double no_g(double dev,  double regSS, int n, int p, int pgamma, double *hyper) {
-  return 1.0;
-}
-
-double log_marginal_likelihood_IC(double dev, double regSS, int n, int p, int pgamma, double g, double *hyper) {
-  return -.5*(dev +  pgamma*hyper[0]);
-}
-double log_marginal_likelihood_gprior(double dev, double regSS, int n, int p, int pgamma, double g, double *hyper) {
-  return -.5*(dev  + pgamma*log(g + 1.0) + regSS/(g + 1.0));
-}
-
-
 /* Version of glm.fit that can be called directly from R or C*/
 
 // [[register]]
@@ -98,6 +57,9 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
 
   glmstptr *glmfamily;
   coefdistptr *coefprior;
+  betapriorptr *betapriorfamily;
+  
+  betapriorfamily = make_betaprior_structure(Rpriorcoef, family);
 //  char  trans[]="N";
 
   tol = fmin(1e-07, REAL(getListElement(Rcontrol,"epsilon"))[0]/1000);

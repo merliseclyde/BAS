@@ -298,7 +298,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
     stop(paste("No available sampling method:", method))
   }
   
-  # browser()
+
   mfall <- match.call(expand.dots = FALSE)
   m <- match(c(
     "formula", "data", "subset", "weights", "na.action",
@@ -318,6 +318,8 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   }
 
   Y <- model.response(mf, type = "any")
+ if (is.matrix(Y)) storage.mode(Y) <- "double"
+ 
   mt <- attr(mf, "terms")
   X <- model.matrix(mt, mf, contrasts)
   # X = model.matrix(formula, mf)
@@ -339,9 +341,15 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   offset <- model.offset(mf)
   if (is.null(offset)) offset <- rep(0, nobs)
 
-
-  Y <-  glm(Y ~ 1, family = family, weights = weights,
-            offset = offset, y = T)$y
+  null.model = glm(Y ~ 1,
+                      offset = offset,
+                      family = eval(call$family))
+  Yvec = null.model$y
+  if (!is.matrix(Y)) Y = as.numeric(Yvec)
+  
+  null.deviance = null.model$null.deviance
+  loglik_null <- as.numeric(-0.5 * null.deviance)
+  
 
 
   if (!is.numeric(initprobs)) {
@@ -458,7 +466,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   }
 
 
-  Yvec <- as.numeric(Y)
+  # Yvec <- as.numeric(Y)
 
 
 
@@ -466,11 +474,6 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   
   if (!inherits(betaprior, "prior")) stop("prior on coeeficients must be an object of type 'prior'")
   
-  null.deviance = glm(Y ~ 1,
-                      weights = weights,
-                      offset = offset,
-                      family = eval(call$family))$null.deviance
-  loglik_null <- as.numeric(-0.5 * null.deviance)
 
   betaprior$hyper.parameters$loglik_null <- loglik_null
   #  	browser()
@@ -494,10 +497,11 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
     betaprior$hyper.parameters$n <- as.numeric(nobs)
   }
 
+  ## browser() 
   #print(MCMC.iterations)
   result <- switch(method,
     "MCMC_OLD" = .Call(C_glm_mcmc,
-      Y = Yvec, X = X,
+      RY = Y, X = X,
       Roffset = as.numeric(offset),
       Rweights = as.numeric(weights),
       Rprobinit = prob,
@@ -514,7 +518,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
       Rparents = parents
     ),
     "MCMC" = .Call(C_glm_mcmc_grow,
-                   Y = Yvec, X = X,
+                   RY = Y, X = X,
                    Roffset = as.numeric(offset),
                    Rweights = as.numeric(weights),
                    Rprobinit = prob,
@@ -531,7 +535,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
                    Rparents = parents, Rexpand = as.numeric(expand)
     ),
     "BAS" = .Call(C_glm_sampleworep_grow,
-      Y = Yvec, X = X,
+      RY = Y, X = X,
       Roffset = as.numeric(offset),
       Rweights = as.numeric(weights),
       Rprobinit = prob,
@@ -546,7 +550,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
       Rparents = parents
     ),
     "BAS_OLD" = .Call(C_glm_sampleworep,
-                  Y = Yvec, X = X,
+                  RY = Y, X = X,
                   Roffset = as.numeric(offset),
                   Rweights = as.numeric(weights),
                   Rprobinit = prob,
@@ -561,7 +565,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
                   Rparents = parents
     ),
     "MCMC+BAS" = .Call(C_glm_mcmcbas,
-      Y = Yvec,
+      RY = Y,
       X = X,
       Roffset = as.numeric(offset),
       Rweights = as.numeric(weights),
@@ -578,7 +582,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
       Rparents = parents
     ),
     "deterministic" = .Call(C_glm_deterministic,
-      Y = Yvec, X = X,
+      RY = Y, X = X,
       Roffset = as.numeric(offset),
       Rweights = as.numeric(weights),
       Rprobinit = prob,
@@ -593,7 +597,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
 
 
   result$namesx <- namesx
-  result$n <- length(Yvec)
+  result$n <- nrow(X)
   result$modelprior <- modelprior
   result$probne0[keep]  <- 1.0
   result$probne0.RN <- result$probne0
@@ -609,6 +613,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   df <- rep(nobs - 1, result$n.models)
 
   if (betaprior$class == "IC") df <- df - result$size + 1
+  
   result$df <- df
   result$R2 <- 1.0 - result$deviance/null.deviance
   result$n.vars <- p
