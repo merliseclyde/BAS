@@ -56,10 +56,12 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
   int   i, j, l, m, rank=1, *pivot=INTEGER(Rpivot), conv=0;
 
   glmstptr *glmfamily;
+  glmfamily = make_glmfamily_structure(family);
+  
   coefdistptr *coefprior;
   betapriorptr *betapriorfamily;
-  
   betapriorfamily = make_betaprior_structure(Rpriorcoef, family);
+  
 //  char  trans[]="N";
 
   tol = fmin(1e-07, REAL(getListElement(Rcontrol,"epsilon"))[0]/1000);
@@ -88,7 +90,7 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
 
 
 
-  glmfamily = make_glmfamily_structure(family);
+  
 
 
 
