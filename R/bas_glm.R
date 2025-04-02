@@ -318,8 +318,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   }
 
   Y <- model.response(mf, type = "any")
- if (is.matrix(Y)) storage.mode(Y) <- "double"
- 
+
   mt <- attr(mf, "terms")
   X <- model.matrix(mt, mf, contrasts)
   # X = model.matrix(formula, mf)
@@ -344,12 +343,11 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   null.model = glm(Y ~ 1,
                       offset = offset,
                       family = eval(call$family))
-  Yvec = null.model$y
-  if (!is.matrix(Y)) Y = as.numeric(Yvec)
-  
+
   null.deviance = null.model$null.deviance
   loglik_null <- as.numeric(-0.5 * null.deviance)
-  
+ 
+
 
 
   if (!is.numeric(initprobs)) {
@@ -466,7 +464,6 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   }
 
 
-  # Yvec <- as.numeric(Y)
 
 
 
@@ -497,11 +494,15 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
     betaprior$hyper.parameters$n <- as.numeric(nobs)
   }
 
-  ## browser() 
-  #print(MCMC.iterations)
+  # call this to coerce response as needed for glm
+ 
+  y = Y
+  eval(family$initialize)
+  storage.mode(y) <- "double"
+  
   result <- switch(method,
     "MCMC_OLD" = .Call(C_glm_mcmc,
-      RY = Y, X = X,
+      RY = y, X = X,
       Roffset = as.numeric(offset),
       Rweights = as.numeric(weights),
       Rprobinit = prob,
@@ -518,7 +519,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
       Rparents = parents
     ),
     "MCMC" = .Call(C_glm_mcmc_grow,
-                   RY = Y, X = X,
+                   RY = y, X = X,
                    Roffset = as.numeric(offset),
                    Rweights = as.numeric(weights),
                    Rprobinit = prob,
@@ -535,7 +536,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
                    Rparents = parents, Rexpand = as.numeric(expand)
     ),
     "BAS" = .Call(C_glm_sampleworep_grow,
-      RY = Y, X = X,
+      RY = y, X = X,
       Roffset = as.numeric(offset),
       Rweights = as.numeric(weights),
       Rprobinit = prob,
@@ -550,7 +551,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
       Rparents = parents
     ),
     "BAS_OLD" = .Call(C_glm_sampleworep,
-                  RY = Y, X = X,
+                  RY = y, X = X,
                   Roffset = as.numeric(offset),
                   Rweights = as.numeric(weights),
                   Rprobinit = prob,
@@ -565,7 +566,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
                   Rparents = parents
     ),
     "MCMC+BAS" = .Call(C_glm_mcmcbas,
-      RY = Y,
+      RY = y,
       X = X,
       Roffset = as.numeric(offset),
       Rweights = as.numeric(weights),
@@ -582,7 +583,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
       Rparents = parents
     ),
     "deterministic" = .Call(C_glm_deterministic,
-      RY = Y, X = X,
+      RY = y, X = X,
       Roffset = as.numeric(offset),
       Rweights = as.numeric(weights),
       Rprobinit = prob,
@@ -617,8 +618,9 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   result$df <- df
   result$R2 <- 1.0 - result$deviance/null.deviance
   result$n.vars <- p
-  result$Y <- Yvec
+  result$Y <- y
   result$X <- X
+  result$weights = weights
   result$call <- call
   result$terms <- mt
   result$contrasts <- attr(X, "contrasts")

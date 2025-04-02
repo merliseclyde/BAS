@@ -87,7 +87,6 @@ bayesglm.fit <-
     if (is.null(offset)) offset <- rep.int(0, nobs)
     eval(family$initialize)
     if (coefprior$family == "BIC" & is.null(coefprior$hyper)) coefprior$hyper = as.numeric(nobs)
-
     newfit <- .Call(C_glm_fit,
       RX = x, RY = y,
       family = family, Roffset = offset,

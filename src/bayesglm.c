@@ -53,7 +53,7 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
   double  one = 1.0,  tol, devold, devnew;
   double disp;
 
-  int   i, j, l, m, rank=1, *pivot=INTEGER(Rpivot), conv=0;
+  int   i, j, l, rank=1, *pivot=INTEGER(Rpivot), conv=0;
 
   glmstptr *glmfamily;
   glmfamily = make_glmfamily_structure(family);
@@ -89,12 +89,6 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
 }
 
 
-
-  
-
-
-
-  for (m=0; m< nmodels; m++){
     glmfamily->initialize(Y, mu, weights, n);
     glmfamily->linkfun(mu, eta, n);
     glmfamily->linkinv(eta, mu, n);
@@ -118,7 +112,7 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
     for (j=0, l=0; j<p; j++) {
       pivot[j] = j+1;
       for (i=0; i<n; i++, l++) {
-	Xwork[l] = REAL(RX)[l]*w[i];
+        	Xwork[l] = REAL(RX)[l]*w[i];
       }
     }
     
@@ -167,10 +161,11 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
 	  }
     else { devold=devnew;}
     it += 1;
+
+
   }
-
-
-  dev[m] = devnew;
+    
+  dev[0] = devnew;
 
 
   if (rank == p)   chol2se(&Xwork[0], &se[0], &R[0], &cov[0], p, n);
@@ -184,13 +179,13 @@ SEXP glm_fit(SEXP RX, SEXP RY,SEXP family, SEXP Roffset, SEXP Rweights, SEXP Rpr
       }
       
       
-  regSS[m] = quadform(coefwork, R, rank);
-  g[m] = coefprior->g(dev[m],  regSS[m],  n,  p,  rank, hyper);
-  REAL(Rshrinkage)[m]  = coefprior->shrinkage(dev[m],  regSS[m],  n,  p, rank, g[m],  hyper);
-  REAL(Rlog_marg_lik)[m]  = coefprior->log_marginal_likelihood(dev[m],  regSS[m],  n,  p, rank, g[m],  hyper);
+  regSS[0] = quadform(coefwork, R, rank);
+  g[0] = coefprior->g(dev[0],  regSS[0],  n,  p,  rank, hyper);
+  REAL(Rshrinkage)[0]  = coefprior->shrinkage(dev[0],  regSS[0],  n,  p, rank, g[0],  hyper);
+  REAL(Rlog_marg_lik)[0]  = coefprior->log_marginal_likelihood(dev[0],  regSS[0],  n,  p, rank, g[0],  hyper);
 
-  INTEGER(Rrank)[m] = rank;
-  }
+  INTEGER(Rrank)[0] = rank;
+  
 
   SET_VECTOR_ELT(ANS, 0, Rcoef);
   SET_VECTOR_ELT(ANS, 1, Rse);

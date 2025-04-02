@@ -192,7 +192,8 @@ double binomial_loglik(double *Y, double*mu, double *wts, double devb, int n) {
   double ll = 0.0;
 
   for (i = 0; i < n; i++) {
-    ll += wts[i]*dbinom(Y[i],1.0,mu[i],1);
+//    ll += wts[i]*dbinom(Y[i],1.0,mu[i],1);
+     ll += wts[i]*(Y[i]*log(x_d_omx(mu[i])) + log(1.0 - mu[i]));
   }
   return(ll);
 }
@@ -291,7 +292,7 @@ double binomial_dispersion(double *resid,  double *weights, int n, int rank) {
 void binomial_initialize(double *Y, double *mu,  double *weights, int n) {
   int i;
   for (i = 0; i < n; i++) {
-    if (weights[1] == 0) Y[i] = 0.0;
+    if (weights[i] == 0) Y[i] = 0.0;
     mu[i] = (weights[i] * Y[i] + 0.5)/(weights[i] + 1.0) ;
   }
 }

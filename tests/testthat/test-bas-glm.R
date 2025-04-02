@@ -669,8 +669,12 @@ bas.fit = bayesglm.fit(y = cbind(Gegevens$MentionFB.1,Gegevens$MentionFB.2),
                   family=binomial(link = "logit"))
 expect_equal(as.numeric(bin.mod$coefficients), bas.fit$coefficients) #no names in bas.fit
 # ISSUE #94
-expect_error(
+expect_no_error(bas.glm(cbind(Gegevens$MentionFB.1,Gegevens$MentionFB.2) ~
+                          Jaar, data=Gegevens,
+                        family=binomial(link = "logit"), betaprior = bic.prior()))
   bin.mod.bas <- bas.glm(cbind(Gegevens$MentionFB.1,Gegevens$MentionFB.2) ~
-                 Jaar, data=Gegevens,
-                 family=binomial(link = "logit"), betaprior = bic.prior()))
+                 Jaar, data=Gegevens, include.always = ~ Jaar,
+                 family=binomial(link = "logit"), betaprior = bic.prior())
+  expect_equal(as.numeric(bin.mod$coefficients), unlist(bin.mod.bas$mle))
+
 })

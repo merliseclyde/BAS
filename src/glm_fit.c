@@ -11,6 +11,7 @@
 SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
                   SEXP Roffset, SEXP Rweights, glmstptr * glmfamily, SEXP Rcontrol,
                   SEXP Rlaplace,  betapriorptr * betapriorfamily) { //parameters
+  
   int nprotected = 0;
   int *model_m = INTEGER(Rmodel_m);
   int pmodel = LENGTH(Rmodel_m);
@@ -26,20 +27,20 @@ SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
     memcpy(Xwork + j * n, X + model_m_j*n, sizeof(double)*n);
   }
  
- 
-  SEXP glm_fit = PROTECT(glm_bas(RXmodel, RY, glmfamily, Roffset, Rweights, Rcontrol));
+  SEXP glm_MLEs = PROTECT(glm_bas(RXmodel, RY, glmfamily, Roffset, Rweights, Rcontrol));
   nprotected++;
   
   SEXP RXmodel_noIntercept=PROTECT(allocMatrix(REALSXP, n , pmodel-1)); nprotected++;
+  
   if (pmodel > 1) {
     double *Xwork_noIntercept = REAL(RXmodel_noIntercept);
     memcpy(Xwork_noIntercept, Xwork + n, sizeof(double)*n*(pmodel-1));
   }
   
   //extract mu and coef and evaluate the function
-  SEXP Rmu = PROTECT(duplicate(getListElement(glm_fit, "mu"))); nprotected++;
-  SEXP Rdeviance = PROTECT(duplicate(getListElement(glm_fit, "deviance"))); nprotected++;
-  SEXP Rcoef = PROTECT(duplicate(getListElement(glm_fit, "coefficients")));nprotected++;
+  SEXP Rmu = PROTECT(duplicate(getListElement(glm_MLEs, "mu"))); nprotected++;
+  SEXP Rdeviance = PROTECT(duplicate(getListElement(glm_MLEs, "deviance"))); nprotected++;
+  SEXP Rcoef = PROTECT(duplicate(getListElement(glm_MLEs, "coefficients")));nprotected++;
   
   SEXP Rlpy = PROTECT(gglm_lpy(RXmodel_noIntercept, RY, Rcoef, Rmu, Rdeviance, Rweights,
                                glmfamily, betapriorfamily,  Rlaplace));
@@ -48,7 +49,7 @@ SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
   SEXP ANS = PROTECT(allocVector(VECSXP, 2)); nprotected++;
   SEXP ANS_names = PROTECT(allocVector(STRSXP, 2)); nprotected++;
   
-  SET_VECTOR_ELT(ANS, 0, glm_fit);
+  SET_VECTOR_ELT(ANS, 0, glm_MLEs);
   SET_VECTOR_ELT(ANS, 1, Rlpy);
   SET_STRING_ELT(ANS_names, 0, mkChar("fit"));
   SET_STRING_ELT(ANS_names, 1, mkChar("lpy"));
@@ -60,7 +61,8 @@ SEXP glm_FitModel(SEXP RX, SEXP RY, SEXP Rmodel_m,  //input data
 }
 
 
-SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, SEXP Rdeviance, SEXP Rwts, glmstptr * glmfamily, betapriorptr * betapriorfamily, SEXP  Rlaplace) {
+SEXP gglm_lpy(SEXP RX, SEXP RY, SEXP Rcoef, SEXP Rmu, SEXP Rdeviance, SEXP Rwts, 
+              glmstptr * glmfamily, betapriorptr * betapriorfamily, SEXP  Rlaplace) {
   int *xdims = INTEGER(getAttrib(RX,R_DimSymbol));
   int n=xdims[0], p = xdims[1];
   int nProtected = 0;
