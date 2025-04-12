@@ -5,16 +5,17 @@
 
 ## [BAS: Bayesian Variable Selection and Model Averaging using Bayesian Adaptive Sampling](https://github.com/merliseclyde/BAS/)
 
-[![OpenSSF Best
-Practices](https://www.bestpractices.dev/projects/2055/badge)](https://www.bestpractices.dev/projects/2055)
-[![](https://app.travis-ci.com/merliseclyde/BAS.svg?branch=master)](https://app.travis-ci.com/merliseclyde/BAS)
-[![R-CMD-check](https://github.com/merliseclyde/BAS/workflows/R-CMD-check/badge.svg)](https://github.com/merliseclyde/BAS/actions)
 [![](https://www.r-pkg.org/badges/version/BAS)](https://cran.r-project.org/package=BAS/)
+[![Rdoc](https://api.rdocumentation.org/badges/version/BAS)](https://www.rdocumentation.org/packages/BAS/)
+[![CRAN
+checks](https://badges.cranchecks.info/worst/BAS.svg)](https://cran.r-project.org/web/checks/check_results_BAS.html)
 [![](https://cranlogs.r-pkg.org/badges/BAS)](https://cran.r-project.org/package=BAS/)
 [![](https://cranlogs.r-pkg.org/badges/grand-total/BAS)](https://cran.r-project.org/package=BAS/)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/merliseclyde/BAS/master.svg)](https://app.codecov.io/github/merliseclyde/BAS?branch=master)
-[![Rdoc](https://api.rdocumentation.org/badges/version/BAS)](https://www.rdocumentation.org/packages/BAS/)
+[![R-CMD-check](https://github.com/merliseclyde/BAS/workflows/R-CMD-check/badge.svg)](https://github.com/merliseclyde/BAS/actions)
+[![OpenSSF Best
+Practices](https://www.bestpractices.dev/projects/2055/badge)](https://www.bestpractices.dev/projects/2055)
 [![DOI](https://zenodo.org/badge/25048366.svg)](https://doi.org/10.5281/zenodo.595639)
 
 The `BAS` [R](https://www.r-project.org/) package is designed to provide
@@ -81,6 +82,7 @@ Zellner-Siow Cauchy prior via
 ``` r
 data(Hald)
 hald.ZS = bas.lm(Y ~ ., data=Hald, prior="ZS-null", modelprior=uniform(), method="BAS")
+#> return
 ```
 
 `BAS` has `summary`, `plot` `coef`, `predict` and `fitted` functions

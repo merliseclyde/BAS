@@ -31,7 +31,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	SEXP modelspace = PROTECT(allocVector(VECSXP, nModels)); ++nProtected;
 	SEXP rank = PROTECT(allocVector(INTSXP, nModels)); ++nProtected;
 	SEXP modeldim =  PROTECT(duplicate(Rmodeldim)); ++nProtected;
-	SEXP counts =  PROTECT(duplicate(Rmodeldim)); ++nProtected;
+	SEXP counts =  PROTECT(allocVector(INTSXP, nModels)); ++nProtected;
 	SEXP beta = PROTECT(allocVector(VECSXP, nModels)); ++nProtected;
 	SEXP se = PROTECT(allocVector(VECSXP, nModels)); ++nProtected;
 	SEXP mse = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
@@ -237,6 +237,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 		    insert_model_tree(tree, vars, n, model, nUnique);
 		    INTEGER(modeldim)[nUnique] = pmodel;
 		    INTEGER(rank)[nUnique] = rank_m;
+		    INTEGER(counts)[nUnique] = 0;
         
 		    //record model data
 //		    SetModel2(logmarg_m, shrinkage_m, prior_m, sampleprobs, Rlogmarg, shrinkage, priorprobs, nUnique);
@@ -332,7 +333,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
       pmodel  += bit;
     }
     
-    MH = 1.0;   // if using IS set MH to 1 to alwas accept
+    MH = 1.0;   // if using IS set MH to 1 to always accept
     if (newmodel == 1) {
       prior_m = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
       if (prior_m == 0.0 || pigammanew == 0.0) {
@@ -368,7 +369,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
           insert_model_tree(tree, vars, n, model, nUnique);
           INTEGER(modeldim)[nUnique] = pmodel;
           INTEGER(rank)[nUnique] = rank_m;
-          
+          INTEGER(counts)[nUnique] = 0;
           //record model data
 //          SetModel2(logmarg_m, shrinkage_m, prior_m, sampleprobs, Rlogmarg, shrinkage, priorprobs, nUnique);
           SetModel_lm(logmarg_m, shrinkage_m, prior_m, sampleprobs, Rlogmarg, shrinkage, priorprobs,

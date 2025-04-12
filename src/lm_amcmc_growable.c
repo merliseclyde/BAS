@@ -295,6 +295,7 @@ SEXP amcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 		    insert_model_tree(tree, vars, n, model, nUnique);
 		    INTEGER(modeldim)[nUnique] = pmodel;
 		    INTEGER(rank)[nUnique] = rank_m;
+		    INTEGER(Rcounts)[nUnique] = 0;
         
 		    //record model data
 //		    SetModel2(logmarg_m, shrinkage_m, prior_m, sampleprobs, Rlogmarg, shrinkage, priorprobs, nUnique);
@@ -472,6 +473,7 @@ SEXP amcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
           insert_model_tree(tree, vars, n, model, nUnique);
           INTEGER(modeldim)[nUnique] = pmodel;
           INTEGER(rank)[nUnique] = rank_m;
+          INTEGER(Rcounts)[nUnique] = 0;
           
           SetModel_lm(logmarg_m, shrinkage_m, prior_m, sampleprobs, Rlogmarg, shrinkage, priorprobs,
                       Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2,nUnique);
