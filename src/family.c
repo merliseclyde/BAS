@@ -22,7 +22,7 @@ static const double INVEPS = 1/DBL_EPSILON;
 static R_INLINE double x_d_omx(double x) {
     if (x < 0 || x > 1)
   // # nocov start    
-	error(_("Value %lf out of range (0, 1)"), x);
+	error("Value %lf out of range (0, 1)", x);
   // # nocov end  
     return x/(1 - x);
 }
@@ -392,9 +392,9 @@ void  Lapack_chol2inv(double *A, int sz, double *ans)
 	F77_CALL(dpotri)("U", &sz, &ans[0], &sz, &i FCONE);
 	if (i != 0) {
 	    if (i > 0)  // # nocov start
-		error(_("element (%d, %d) is zero, so the inverse cannot be computed"),
+		error("element (%d, %d) is zero, so the inverse cannot be computed",
 		      i, i);
-	    error(_("argument %d of Lapack routine %s had invalid value"),
+	    error("argument %d of Lapack routine %s had invalid value",
 		  -i, "dpotri");  // # nocov end
 	}
 

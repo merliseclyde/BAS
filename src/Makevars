@@ -1,3 +1,4 @@
 # CXXFLAGS = -g -O0
-PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
+# PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
+PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS)
 VALGRIND_OPTS = --tool=memcheck --leak-check=full --dsymutil=yes

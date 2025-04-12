@@ -284,6 +284,7 @@ extern double shrinkage_chg(double a, double b, double Q, int laplace);
 
 // from r-source/src/statsErr.h
 
+/*
 #undef _
 #ifdef ENABLE_NLS
 #include <libintl.h>
@@ -291,7 +292,7 @@ extern double shrinkage_chg(double a, double b, double Q, int laplace);
 #else
 #define _(String) (String)
 #endif
-
+*/
 
 //struct glmsfamily * make_glm_family(SEXP family);
 

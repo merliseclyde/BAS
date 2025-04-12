@@ -38,10 +38,10 @@ SEXP resizeVector(SEXP x, R_xlen_t len_new)
     R_xlen_t lenx, i;
     SEXP rval, names, xnames, t;
     if (!isVector(x) && !isList(x))
-      error(_("cannot set length of non-(vector or list)"));
-    if (len_new < 0) error(_("invalid value")); // e.g. -999 from asVecSize()
+      error("cannot set length of non-(vector or list)");
+    if (len_new < 0) error("invalid value"); // e.g. -999 from asVecSize()
     if (isNull(x) && len_new > 0)
-      warning(_("length of NULL cannot be changed"));
+      warning("length of NULL cannot be changed");
     lenx = xlength(x);
     if (lenx == len_new)
       return (x);
@@ -112,7 +112,7 @@ case RAWSXP:
       RAW(rval)[i] = (Rbyte) 0;
     break;
 default:
-  error(_("cannot set length of object of type '%s'"),
+  error("cannot set length of object of type '%s'",
         type2char(TYPEOF(x)));
 }
 
