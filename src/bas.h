@@ -102,7 +102,9 @@ void SetModel_lm(double logmarg_m, double shrinkage_m, double prior_m,
                  SEXP beta, SEXP se, SEXP modelspace, SEXP mse, SEXP R2, int m);
 
 double hyp2f1(double a, double b, double c, double x);
-void compute_margprobs(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, double *margprobs, int k, int p);
+void compute_margprobs(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, double *margprobs, int M, int p);
+void compute_margprobs_Bayes_BAS_MCMC(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, double *margprobs, SEXP Rsampleprobs, 
+                                      int M, int p);
 void compute_margprobs_file(SEXP modeldim, SEXP Rmodelprobs, double *margprobs, int k, int p, FILE *file, int *model);
 double compute_sample_probs_bernoulli(SEXP Rprobs, int *model, int p);
 void compute_sampleprobs_modelspace_Bernoulli(SEXP modelspace, SEXP modeldim, SEXP Rsampleprobs, SEXP Rprobs, 

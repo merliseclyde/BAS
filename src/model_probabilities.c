@@ -93,8 +93,6 @@ void compute_modelprobs_Bayes_HT(SEXP Rmodelprobs,  SEXP Rlogmarg, SEXP Rpriorpr
   nc += (1.0 - probinS)*HT/ (double) M;
   for (m = 0; m < M; m++) {
     modelprobs[m] = exp(modelprobs[m] - log(nc));
-//    if (sampleprobs[m] < 0.0) modelprobs[m] = 0.0;
-
   }
 }
 
@@ -111,6 +109,36 @@ void compute_margprobs(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, double 
 			margprobs[model[j]] += modelprobs[m];
 		}
 	}
+}
+
+void compute_margprobs_Bayes_BAS_MCMC(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, double *margprobs, SEXP Rsampleprobs, 
+                       int M, int p)
+{
+  int m, j, *model;
+  double *modelprobs;
+  double *correction_probs, *probNotInS_j;
+  
+  correction_probs = (double *) R_alloc(p, sizeof(double));;
+  probNotInS_j = (double *) R_alloc(p, sizeof(double));
+  memset(correction_probs, 0, p * sizeof(double));
+  memset(probNotInS_j, 0, p * sizeof(double));
+  modelprobs = REAL(Rmodelprobs);
+  
+  for (j=0; j< p; j++)  {
+    probNotInS_j[j] = margprobs[j];  // on entry margprobs[j] is the marginal sampling probability
+    margprobs[j] = 0.0;
+    
+  }
+  for(m=0; m< M; m++) {
+    model = INTEGER(VECTOR_ELT(modelspace,m));
+    
+    for (j = 0; j < INTEGER(modeldim)[m]; j ++) {
+      margprobs[model[j]] += modelprobs[m];
+      probNotInS_j[model[j]] -= REAL(Rsampleprobs)[m];
+      correction_probs[model[j]] += modelprobs[m]/REAL(Rsampleprobs)[m];
+    }
+  }
+  for (j=0; j< p; j++)  margprobs[j] += correction_probs[j]*(probNotInS_j[j])/((double) M);
 }
 
 void compute_sampleprobs_modelspace_Bernoulli(SEXP modelspace, SEXP modeldim, SEXP Rsampleprobs, SEXP Rprobs, 

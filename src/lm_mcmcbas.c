@@ -318,12 +318,13 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 
  m = mcurrent; 
  
- // if (m < nModels && INTEGER(MCMC_Iterations)[0] > 0) {
+ //    Rprintf("updating tree for SWOR\n");
   if (m < nModels ) {
   if (update_probs(probs, vars, mcurrent, nModels, p) == 1) {
- //    Rprintf("updating tree for SWOR\n");
      update_tree(modelspace, tree, modeldim, vars, nModels, p, n, mcurrent, modelwork);
-     // Rprintf("Done!\n");
+    // retroactively compute the probability of a model if it had been sampled via 
+   compute_sampleprobs_modelspace_Bernoulli(modelspace, modeldim, sampleprobs, 
+                                             Rprobs, nUnique, p);
     }
   }
  
@@ -412,9 +413,16 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
       compute_modelprobs(modelprobs, Rlogmarg, priorprobs,nModels);
     break;
   }
-  
+  switch (INTEGER(RFPS)[0]) {
+  case 1:
+    compute_margprobs_Bayes_BAS_MCMC(modelspace, modeldim, modelprobs, probs, sampleprobs,nModels, p);
+    break;
+  default:
+    compute_margprobs(modelspace, modeldim, modelprobs, probs, nModels, p);
+  break;
+  }
  
-  compute_margprobs(modelspace, modeldim, modelprobs, probs, nModels, p);
+  
 
   SET_VECTOR_ELT(ANS, 0, Rprobs);
   SET_STRING_ELT(ANS_names, 0, mkChar("probne0"));
