@@ -8,6 +8,12 @@ for large problems when `n.models` was too large.   MCMC sampling now stops afte
 even if `n.models` is reached, improving MCMC frequencies.  Used with `method = "MCMC"` 
 in `bas.lm` and `method = "MCMC_GROWABLE"` in `bas.glm` now.  (issues #81 and #91)
 
+## Bug Fixes
+
+Addressed (issue #96)  reported by A. Womack where `R2` was computed incorrectly for models that were full rank, but number of columns 
+in the design matrix exceeded $n$
+
+
 # BAS 1.7.5
 
 ## Features

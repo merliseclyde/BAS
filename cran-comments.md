@@ -2,14 +2,14 @@
 
 ## Submission reason 
 
+This submission addresses CRAN Notes and a bug fix.
+
+CRAN Notes: replaced use of  non-API call to `SETLENGTH` for over allocated vectors and objects in `C` code for sampling without enumeration.
+
 Bugs: 
 
-- Corrected Additional Issues: C23 (Checks of compiling
-C code in C23 mode) on CRAN check page for compiling C code with
-clang19 reported 11/16/24. Removed legacy code that was causing the error and if left
-would trigger archival of package on CRAN. Github Issue #89
-
-- Fixed Issue #87: Prior inclusions probabilities appear incorrect for a Bernoulli(.2) prior when always including one other predictor bug
+- Fixed Issue #96: where `R2` was incorrect for models where the number of columns in the design matrix exceeded `n`, but
+the model was full rank. 
 
 ## Test environments
 
