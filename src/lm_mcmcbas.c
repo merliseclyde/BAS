@@ -299,7 +299,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
   // Compute MCMC inclusion probabilities
 
   for (i = 0; i < n; i++) {
-     REAL(MCMCprobs)[vars[i].index] /= (double) m;
+     REAL(MCMCprobs)[vars[i].index] /= (double) nsamples;
   }
   // Rprintf("\n Num Unique models %d  in %d MCMC iterations \n", nUnique, m);
 
@@ -307,9 +307,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 // Compute marginal probabilities
   mcurrent = nUnique - 1;
   compute_modelprobs(modelprobs, Rlogmarg, priorprobs,mcurrent);
-  compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
-  
-    
+  compute_margprobs(modelspace, modeldim, modelprobs, probs, nUnique, p);
 
 //  Now sample W/O Replacement
 // Rprintf("Sample w/out Replacement Now \n", nUnique);
@@ -322,9 +320,6 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
   if (m < nModels ) {
   if (update_probs(probs, vars, mcurrent, nModels, p) == 1) {
      update_tree(modelspace, tree, modeldim, vars, nModels, p, n, mcurrent, modelwork);
-    // retroactively compute the probability of a model if it had been sampled via 
-   compute_sampleprobs_modelspace_Bernoulli(modelspace, modeldim, sampleprobs, 
-                                             Rprobs, nUnique, p);
     }
   }
  
@@ -362,12 +357,9 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 //    SetModel2(logmarg_m, shrinkage_m, prior_m, sampleprobs, Rlogmarg, shrinkage, priorprobs, m);
     SetModel_lm(logmarg_m, shrinkage_m, prior_m, sampleprobs, Rlogmarg, shrinkage, priorprobs,
                 Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2,m);
- 
+
+//   REAL(sampleprobs)[m] = compute_sample_probs_bernoulli(Rprobs, model, p);
     
-//    REAL(sampleprobs)[m] = pigamma[0];
-//      REAL(sampleprobs)[m] = compute_sample_probs_bernoulli(Rprobs, model, p);
-//      Rprintf("model %d sampleprob  %lf", m, REAL(sampleprobs)[m]);
-    //update best model
     if (REAL(Rlogmarg)[m] > Rbestmarg) {
       for (i=0; i < p; i++) {
         bestmodel[i] = model[i];
@@ -401,13 +393,16 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 
  }
 */  
+
   compute_sampleprobs_modelspace_Bernoulli(modelspace, modeldim, sampleprobs, 
-                                          Rprobs, nModels, p);   
+                                           Rprobs, nModels, p);   
   
 
+ double eta = 1.0, NC = 0.0;
+ 
   switch (INTEGER(RFPS)[0]) {
     case 1:
-      compute_modelprobs_Bayes_HT(modelprobs, Rlogmarg, priorprobs, sampleprobs, nModels);
+      compute_modelprobs_Bayes_HT(modelprobs, Rlogmarg, priorprobs, sampleprobs, nModels, &eta, &NC);
     break;
     default:
       compute_modelprobs(modelprobs, Rlogmarg, priorprobs,nModels);
@@ -415,7 +410,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
   }
   switch (INTEGER(RFPS)[0]) {
   case 1:
-    compute_margprobs_Bayes_BAS_MCMC(modelspace, modeldim, modelprobs, probs, sampleprobs,nModels, p);
+    compute_margprobs_Bayes_BAS_MCMC(modelspace, modeldim, modelprobs, Rprobs, sampleprobs,nModels, p, eta,  NC);
     break;
   default:
     compute_margprobs(modelspace, modeldim, modelprobs, probs, nModels, p);

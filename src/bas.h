@@ -100,11 +100,11 @@ void SetModel_lm(double logmarg_m, double shrinkage_m, double prior_m,
                  SEXP sampleprobs, SEXP Rlogmarg, SEXP shrinkage, SEXP priorprobs, 
                  SEXP Rcoef_m, SEXP Rse_m, SEXP Rmodel_m, double mse_m, double R2_m,
                  SEXP beta, SEXP se, SEXP modelspace, SEXP mse, SEXP R2, int m);
-
+void model_to_vec(int *model, int p, SEXP Rmodel);
 double hyp2f1(double a, double b, double c, double x);
 void compute_margprobs(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, double *margprobs, int M, int p);
-void compute_margprobs_Bayes_BAS_MCMC(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, double *margprobs, SEXP Rsampleprobs, 
-                                      int M, int p);
+void compute_margprobs_Bayes_BAS_MCMC(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, SEXP Rprobs, SEXP Rsampleprobs, 
+                                      int M, int p, double eta, double NC);
 void compute_margprobs_file(SEXP modeldim, SEXP Rmodelprobs, double *margprobs, int k, int p, FILE *file, int *model);
 double compute_sample_probs_bernoulli(SEXP Rprobs, int *model, int p);
 void compute_sampleprobs_modelspace_Bernoulli(SEXP modelspace, SEXP modeldim, SEXP Rsampleprobs, SEXP Rprobs, 
@@ -119,7 +119,7 @@ double compute_prior_probs(int *model, int modeldim, int p, SEXP modelprior, int
 void compute_margprobs_old(Bit **models, SEXP Rmodelprobs, double *margprobs, int k, int p);
 void compute_modelprobs(SEXP modelprobs, SEXP logmarg, SEXP priorprobs,  int k);
 void compute_modelprobs_Bayes_HT(SEXP Rmodelprobs,  SEXP Rlogmarg, SEXP Rpriorprobs, 
-                                 SEXP Rsampleprobs, int M);
+                                 SEXP Rsampleprobs, int M, double *eta, double *NC);
 void compute_modelprobs_HT(SEXP Rmodelprobs,  SEXP Rlogmarg, SEXP Rpriorprobs, SEXP Rsampleprobs, 
                            int k, int MC);
 void set_bits(char *bits, int subset, int *pattern, int *position, int n);
