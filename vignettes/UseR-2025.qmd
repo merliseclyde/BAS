@@ -1,0 +1,36 @@
+---
+title: "Bayesian Variable Selection and Model Averaging in R with BAS"
+author: "Merlise Clyde"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+subtitle: |
+ | UseR 2025
+ 
+institute: "Duke University"
+format: 
+  revealjs:
+    theme: [simple, custom.scss]
+    slide-number: true
+    incremental: true
+    scrollable: false
+    controls: true
+    fragments: true
+    preview-links: auto
+    smaller: true
+    logo: Dukelogo.jpg
+    embed-resources: true
+  html-math-method:
+    method: mathjax
+    url: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js   
+editor: 
+  markdown: 
+    wrap: 72
+execute: 
+  echo: false
+number-sections: false
+pdf-separate-fragments: false
+preview-links: true
+---
+
+
+
+
