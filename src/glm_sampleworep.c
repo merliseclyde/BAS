@@ -162,20 +162,20 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	if (m < k) {
 	  // resize if constraints have reduced the number of models
 	  k = m;
-	  
-	  SETLENGTH(modelspace, m);
-	  SETLENGTH(logmarg, m);
-	  SETLENGTH(modelprobs, m);
-	  SETLENGTH(priorprobs, m);
-	  SETLENGTH(sampleprobs, m);
-	  SETLENGTH(beta, m);
-	  SETLENGTH(se, m);
-	  SETLENGTH(deviance, m);
-	  SETLENGTH(Q, m);
-	  SETLENGTH(shrinkage, m);
-	  SETLENGTH(modeldim, m);
-	  SETLENGTH(R2, m);
-	  SETLENGTH(Rintercept, m);
+
+	  resize_sexp(&modelspace, m, &nProtected);
+	  resize_sexp(&logmarg, m, &nProtected);
+	  resize_sexp(&modelprobs, m, &nProtected);
+	  resize_sexp(&priorprobs, m, &nProtected);
+	  resize_sexp(&sampleprobs, m, &nProtected);
+	  resize_sexp(&beta, m, &nProtected);
+	  resize_sexp(&se, m, &nProtected);
+	  resize_sexp(&deviance, m, &nProtected);
+	  resize_sexp(&Q, m, &nProtected);
+	  resize_sexp(&shrinkage, m, &nProtected);
+	  resize_sexp(&modeldim, m, &nProtected);
+	  resize_sexp(&R2, m, &nProtected);
+	  resize_sexp(&Rintercept, m, &nProtected);
 	}
 
 	compute_modelprobs(modelprobs, logmarg, priorprobs,k);

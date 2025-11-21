@@ -362,3 +362,9 @@ static inline int lessThanOne(double a)
   return (1.0 - a) >= (LOCAL_DBL_EPSILON);
 }
 
+static inline void resize_sexp(SEXP *x, R_xlen_t len, int *p_nprot) {
+    SEXP tmp = Rf_lengthgets(*x, len);
+    PROTECT(tmp);
+    (*p_nprot)++;
+    *x = tmp;
+}

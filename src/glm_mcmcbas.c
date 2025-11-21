@@ -273,21 +273,21 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	// # nocov start
  	if (mcurrent < k) {  // truncate vectors; legacy code from MCMC should not get here
 	  k = mcurrent;
- 	  SETLENGTH(modelspace, mcurrent);
- 	  SETLENGTH(logmarg, mcurrent);
- 	  SETLENGTH(modelprobs, mcurrent);
- 	  SETLENGTH(priorprobs, mcurrent);
- 	  SETLENGTH(sampleprobs, mcurrent);
- 	  SETLENGTH(counts, mcurrent);
- 	  SETLENGTH(MCMCprobs, mcurrent);
- 	  SETLENGTH(beta, mcurrent);
- 	  SETLENGTH(se, mcurrent);
- 	  SETLENGTH(deviance, mcurrent);
- 	  SETLENGTH(Q, mcurrent);
- 	  SETLENGTH(shrinkage, mcurrent);
- 	  SETLENGTH(modeldim, mcurrent);
- 	  SETLENGTH(R2, mcurrent);
- 	  SETLENGTH(Rintercept, mcurrent); 
+ 	  resize_sexp(&modelspace, mcurrent, &nProtected);
+ 	  resize_sexp(&logmarg, mcurrent, &nProtected);
+ 	  resize_sexp(&modelprobs, mcurrent, &nProtected);
+ 	  resize_sexp(&priorprobs, mcurrent, &nProtected);
+ 	  resize_sexp(&sampleprobs, mcurrent, &nProtected);
+ 	  resize_sexp(&counts, mcurrent, &nProtected);
+ 	  resize_sexp(&MCMCprobs, mcurrent, &nProtected);
+ 	  resize_sexp(&beta, mcurrent, &nProtected);
+ 	  resize_sexp(&se, mcurrent, &nProtected);
+ 	  resize_sexp(&deviance, mcurrent, &nProtected);
+ 	  resize_sexp(&Q, mcurrent, &nProtected);
+ 	  resize_sexp(&shrinkage, mcurrent, &nProtected);
+ 	  resize_sexp(&modeldim, mcurrent, &nProtected);
+ 	  resize_sexp(&R2, mcurrent, &nProtected);
+ 	  resize_sexp(&Rintercept, mcurrent, &nProtected);
 	}
 // # nocov end
 

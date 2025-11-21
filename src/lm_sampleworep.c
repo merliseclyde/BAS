@@ -229,18 +229,18 @@ extern SEXP sampleworep_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
  // consider using force.heredity
     k = m;
 
-    SETLENGTH(modelspace, m);
-    SETLENGTH(logmarg, m);
-    SETLENGTH(modelprobs, m);
-    SETLENGTH(priorprobs, m);
-    SETLENGTH(sampleprobs, m);
-    SETLENGTH(beta, m);
-    SETLENGTH(se, m);
-    SETLENGTH(mse, m);
-    SETLENGTH(shrinkage, m);
-    SETLENGTH(modeldim, m);
-    SETLENGTH(R2, m);
-    SETLENGTH(rank, m);
+    resize_sexp(&modelspace, m, &nProtected);
+    resize_sexp(&logmarg, m, &nProtected);
+    resize_sexp(&modelprobs, m, &nProtected);
+    resize_sexp(&priorprobs, m, &nProtected);
+    resize_sexp(&sampleprobs, m, &nProtected);
+    resize_sexp(&beta, m, &nProtected);
+    resize_sexp(&se, m, &nProtected);
+    resize_sexp(&mse, m, &nProtected);
+    resize_sexp(&shrinkage, m, &nProtected);
+    resize_sexp(&modeldim, m, &nProtected);
+    resize_sexp(&R2, m, &nProtected);
+    resize_sexp(&rank, m, &nProtected);
   }
 
 

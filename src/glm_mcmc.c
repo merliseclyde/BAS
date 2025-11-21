@@ -205,20 +205,20 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_STRING_ELT(ANS_names, 0, mkChar("probne0"));
 
 	if (nUnique < nModels) {
-	  SETLENGTH(modelspace, nUnique);
-	  SETLENGTH(logmarg, nUnique);
-	  SETLENGTH(modelprobs, nUnique);
-	  SETLENGTH(priorprobs, nUnique);
-	  SETLENGTH(sampleprobs, nUnique);
-	  SETLENGTH(counts, nUnique);
-	  SETLENGTH(beta, nUnique);
-	  SETLENGTH(se, nUnique);
-	  SETLENGTH(deviance, nUnique);
-	  SETLENGTH(Q, nUnique);
-	  SETLENGTH(shrinkage, nUnique);
-	  SETLENGTH(modeldim, nUnique);
-	  SETLENGTH(R2, nUnique);
-	  SETLENGTH(Rintercept, nUnique); 
+	  resize_sexp(&modelspace, nUnique, &nProtected);
+	  resize_sexp(&logmarg, nUnique, &nProtected);
+	  resize_sexp(&modelprobs, nUnique, &nProtected);
+	  resize_sexp(&priorprobs, nUnique, &nProtected);
+	  resize_sexp(&sampleprobs, nUnique, &nProtected);
+	  resize_sexp(&counts, nUnique, &nProtected);
+	  resize_sexp(&beta, nUnique, &nProtected);
+	  resize_sexp(&se, nUnique, &nProtected);
+	  resize_sexp(&deviance, nUnique, &nProtected);
+	  resize_sexp(&Q, nUnique, &nProtected);
+	  resize_sexp(&shrinkage, nUnique, &nProtected);
+	  resize_sexp(&modeldim, nUnique, &nProtected);
+	  resize_sexp(&R2, nUnique, &nProtected);
+	  resize_sexp(&Rintercept, nUnique, &nProtected);
 	}
 
 	SET_VECTOR_ELT(ANS, 1, modelspace);

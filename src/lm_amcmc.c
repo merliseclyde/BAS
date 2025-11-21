@@ -421,19 +421,19 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 
 //	Rprintf("truncate vectors/n");
 	if (nUnique < nModels) {
-	  SETLENGTH(modelspace, nUnique);
-	  SETLENGTH(logmarg, nUnique);
-	  SETLENGTH(modelprobs, nUnique);
-	  SETLENGTH(priorprobs, nUnique);
-	  SETLENGTH(sampleprobs, nUnique);
-	  SETLENGTH(counts, nUnique);
-	  SETLENGTH(beta, nUnique);
-	  SETLENGTH(se, nUnique);
-	  SETLENGTH(mse, nUnique);
-	  SETLENGTH(shrinkage, nUnique);
-	  SETLENGTH(modeldim, nUnique);
-	  SETLENGTH(R2, nUnique);
-	  SETLENGTH(rank, nUnique);	  
+	  resize_sexp(&modelspace, nUnique, &nProtected);
+	  resize_sexp(&logmarg, nUnique, &nProtected);
+	  resize_sexp(&modelprobs, nUnique, &nProtected);
+	  resize_sexp(&priorprobs, nUnique, &nProtected);
+	  resize_sexp(&sampleprobs, nUnique, &nProtected);
+	  resize_sexp(&counts, nUnique, &nProtected);
+	  resize_sexp(&beta, nUnique, &nProtected);
+	  resize_sexp(&se, nUnique, &nProtected);
+	  resize_sexp(&mse, nUnique, &nProtected);
+	  resize_sexp(&shrinkage, nUnique, &nProtected);
+	  resize_sexp(&modeldim, nUnique, &nProtected);
+	  resize_sexp(&R2, nUnique, &nProtected);
+	  resize_sexp(&rank, nUnique, &nProtected);
 	}
 	SET_VECTOR_ELT(ANS, 1, modelspace);
 	SET_STRING_ELT(ANS_names, 1, mkChar("which"));
