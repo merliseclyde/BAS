@@ -1,7 +1,7 @@
 context("bas.lm")
 
-skip_on_os("mac")  # FPS tests are flaky on macOS GH actions
-skip_on_arch("aarch64")  # FPS tests are flaky on aarch64 GH actions
+skip_on_os("mac", arch = "x86_64")  # FPS tests are flaky on macOS GH actions
+
 # FIXME: Remove the skips above when the underlying issue is resolved
 test_that("FPS enumerate", {
   data("Hald")
