@@ -96,7 +96,7 @@ SEXP amcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
   
   setAttrib(ANS, R_NamesSymbol, ANS_names);
   
-  Rprintf("Done Allocating Space for %d Models AMCMC\n", nModels) ;
+ // Rprintf("Done Allocating Space for %d Models AMCMC\n", nModels) ;
   
   int pivot = LOGICAL(Rpivot)[0];
   double tol = REAL(Rtol)[0];
@@ -503,6 +503,7 @@ SEXP amcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
       }
       nsamples++;
     }
+    
     if (nUnique >= nModels && m < (INTEGER(MCMC_Iterations)[0] + INTEGER(BURNIN_Iterations)[0] + 1)){
       // expand nModels and grow result vectors
       nModels = (int) (expand*nModels); //add checks to ensure it is not above max int
@@ -570,7 +571,7 @@ SEXP amcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 	INTEGER(NumUnique)[0] = nUnique;
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
 	
-	Rprintf("Decreasing nModels %d to number of unique models accepted %d \n", nModels, nUnique);
+//	Rprintf("Decreasing nModels %d to number of unique models accepted %d \n", nModels, nUnique);
 	if (nUnique < nModels) {
 	  SET_VECTOR_ELT(ANS, 1, resizeVector(modelspace, nUnique));
 	  SET_VECTOR_ELT(ANS, 2, resizeVector(Rlogmarg, nUnique));

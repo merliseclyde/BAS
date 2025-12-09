@@ -37,6 +37,9 @@ SEXP resizeVector(SEXP x, R_xlen_t len_new)
   {
     R_xlen_t lenx, i;
     SEXP rval, names, xnames, t;
+    int *ival;
+    double *dval;
+    
     if (!isVector(x) && !isList(x))
       error("cannot set length of non-(vector or list)");
     if (len_new < 0) error("invalid value"); // e.g. -999 from asVecSize()
@@ -50,8 +53,6 @@ SEXP resizeVector(SEXP x, R_xlen_t len_new)
     if (xnames != R_NilValue)
       names = allocVector(STRSXP, len_new);
     else names = R_NilValue;	/*- just for -Wall --- should we do this ? */
-int *ival;
-double *dval;
 
 switch (TYPEOF(x)) {
 case NILSXP:

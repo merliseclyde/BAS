@@ -285,7 +285,7 @@ extern SEXP sampleworep_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
     compute_margprobs(modelspace, modeldim, modelprobs, probs, nUnique, p);
   }
 
-  Rprintf("return\n");
+  // Rprintf("return\n");
   INTEGER(NumUnique)[0] = nUnique;
 
 	PutRNGstate();

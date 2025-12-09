@@ -14,8 +14,20 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	      SEXP family, SEXP Rcontrol, SEXP Rlaplace, SEXP Rparents
 			  )
 {
+  double *probs, MH=0.0, prior_m=1.0, shrinkage_m, logmargy, postold, postnew;
+  int i, m, n, pmodel_old, *bestmodel;
+  int mcurrent, n_sure;
+  int *counts;
+  
+  glmstptr *glmfamily;
+  glmfamily = make_glmfamily_structure(family);
+  
+  betapriorptr *betapriorfamily;
+  betapriorfamily = make_betaprior_structure(betaprior, family);
+  
 	int nProtected = 0;
 	int nModels=LENGTH(Rmodeldim);
+	/*
 	SEXP ANS = PROTECT(allocVector(VECSXP, 17)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 17)); ++nProtected;
 	SEXP Rprobs = PROTECT(duplicate(Rprobinit)); ++nProtected;
@@ -36,18 +48,86 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SEXP Rintercept = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 
 	SEXP NumUnique = PROTECT(allocVector(INTSXP, 1)); ++nProtected;
-
-
+*/
 	
-	double *probs, MH=0.0, prior_m=1.0, shrinkage_m, logmargy, postold, postnew;
-	int i, m, n, pmodel_old, *bestmodel;
-	int mcurrent, n_sure;
-
-	glmstptr *glmfamily;
-	glmfamily = make_glmfamily_structure(family);
-
-	betapriorptr *betapriorfamily;
-	betapriorfamily = make_betaprior_structure(betaprior, family);
+	SEXP ANS = PROTECT(allocVector(VECSXP, 17)); ++nProtected;
+	SEXP ANS_names = PROTECT(allocVector(STRSXP, 17)); ++nProtected;
+	
+	SEXP Rprobs = duplicate(Rprobinit); 
+	SET_VECTOR_ELT(ANS, 0, Rprobs);
+	SET_STRING_ELT(ANS_names, 0, mkChar("probne0"));
+	
+	SEXP modelspace = allocVector(VECSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 1, modelspace);
+	SET_STRING_ELT(ANS_names, 1, mkChar("which"));
+	
+	SEXP logmarg = allocVector(REALSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 2, logmarg);
+	SET_STRING_ELT(ANS_names, 2, mkChar("logmarg"));
+	
+	SEXP modelprobs = allocVector(REALSXP, nModels);  
+	SET_VECTOR_ELT(ANS, 3, modelprobs);
+	SET_STRING_ELT(ANS_names, 3, mkChar("postprobs"));
+	
+	SEXP priorprobs = allocVector(REALSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 4, priorprobs);
+	SET_STRING_ELT(ANS_names, 4, mkChar("priorprobs"));
+	
+	SEXP sampleprobs = allocVector(REALSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 5, sampleprobs);
+	SET_STRING_ELT(ANS_names, 5, mkChar("sampleprobs"));
+	
+	SEXP deviance = allocVector(REALSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 6, deviance);
+	SET_STRING_ELT(ANS_names, 6, mkChar("deviance"));
+	
+	SEXP beta = allocVector(VECSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 7, beta);
+	SET_STRING_ELT(ANS_names, 7, mkChar("mle"));
+	
+	SEXP se = allocVector(VECSXP, nModels);
+	SET_VECTOR_ELT(ANS, 8, se);
+	SET_STRING_ELT(ANS_names, 8, mkChar("mle.se"));
+	
+	SEXP shrinkage = allocVector(REALSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 9, shrinkage);
+	SET_STRING_ELT(ANS_names, 9, mkChar("shrinkage"));
+	
+	SEXP modeldim =  allocVector(INTSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 10, modeldim);
+	SET_STRING_ELT(ANS_names, 10, mkChar("size"));
+	
+	SEXP R2 = allocVector(REALSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 11, R2);
+	SET_STRING_ELT(ANS_names, 11, mkChar("R2"));
+	
+	SEXP Rcounts =  allocVector(INTSXP, nModels); 
+	counts = INTEGER(Rcounts);
+	memset(counts, 0, nModels * sizeof(int));
+	SET_VECTOR_ELT(ANS, 12, Rcounts);
+	SET_STRING_ELT(ANS_names, 12, mkChar("freq"));
+	
+	SEXP MCMCprobs= duplicate(Rprobinit);
+	SET_VECTOR_ELT(ANS, 13, MCMCprobs);
+	SET_STRING_ELT(ANS_names, 13, mkChar("probne0.MCMC"));
+	
+	SEXP NumUnique = allocVector(INTSXP, 1); 
+	SET_VECTOR_ELT(ANS, 14, NumUnique);
+	SET_STRING_ELT(ANS_names, 14, mkChar("n.Unique"));
+	
+	SEXP Q = allocVector(REALSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 15, Q);
+	SET_STRING_ELT(ANS_names, 15, mkChar("Q"));
+	
+	SEXP Rintercept = allocVector(REALSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 16, Rintercept);
+	SET_STRING_ELT(ANS_names, 16, mkChar("intercept"));
+	
+	
+	
+	setAttrib(ANS, R_NamesSymbol, ANS_names);
+	
+	
 
 
 	//get dimsensions of all variables
@@ -106,7 +186,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	int new_loc;
 	pmodel_old = pmodel;
 	nUnique=1;
-	INTEGER(counts)[0] = 1;
+	INTEGER(Rcounts)[0] = 1;
 	postold =  REAL(logmarg)[m] + log(REAL(priorprobs)[m]);
 	memcpy(modelold, model, sizeof(int)*p);
 	m = 0;
@@ -182,7 +262,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		 } else  {
 			if (newmodel == 1) UNPROTECT(2);
 		}
-		INTEGER(counts)[old_loc] += 1;
+		INTEGER(Rcounts)[old_loc] += 1;
 		for (i = 0; i < n; i++) {
 			// store in opposite order so nth variable is first
 			real_model[n-1-i] = (double) modelold[vars[i].index];
@@ -195,8 +275,36 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		REAL(MCMCprobs)[vars[i].index] /= (double) m;
 	}
 
-
-
+	// Compute marginal probabilities
+	mcurrent = nUnique;
+	//		Rprintf("NumUnique Models Accepted %d \n", nUnique);
+	compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
+	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
+	
+	INTEGER(NumUnique)[0] = nUnique;
+	SET_VECTOR_ELT(ANS, 0, Rprobs);
+	SET_VECTOR_ELT(ANS, 13, MCMCprobs);
+	
+	//	Rprintf("Decreasing nModels %d to number of unique models accepted %d \n", nModels, nUnique);
+	if (nUnique < nModels) {
+	  SET_VECTOR_ELT(ANS, 1, resizeVector(modelspace, nUnique));
+	  SET_VECTOR_ELT(ANS, 2, resizeVector(logmarg, nUnique));
+	  SET_VECTOR_ELT(ANS, 3, resizeVector(modelprobs, nUnique));
+	  SET_VECTOR_ELT(ANS, 4, resizeVector(priorprobs, nUnique));
+	  SET_VECTOR_ELT(ANS, 5, resizeVector(sampleprobs, nUnique));
+	  SET_VECTOR_ELT(ANS, 6, resizeVector(deviance, nUnique));
+	  SET_VECTOR_ELT(ANS, 7, resizeVector(beta, nUnique));
+	  SET_VECTOR_ELT(ANS, 8, resizeVector(se, nUnique));
+	  SET_VECTOR_ELT(ANS, 9, resizeVector(shrinkage, nUnique));
+	  SET_VECTOR_ELT(ANS, 10, resizeVector(modeldim, nUnique));
+	  SET_VECTOR_ELT(ANS, 11, resizeVector(R2, nUnique));
+	  SET_VECTOR_ELT(ANS, 12, resizeVector(Rcounts, nUnique));
+	  SET_VECTOR_ELT(ANS, 15, resizeVector(Q, nUnique));
+	  SET_VECTOR_ELT(ANS, 16, resizeVector(Rintercept, nUnique));
+	}	  
+	
+	
+/*
 	// Compute marginal probabilities
 	mcurrent = nUnique;
 //	Rprintf("NumUnique Models Accepted %d \n", nUnique);
@@ -275,6 +383,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_STRING_ELT(ANS_names, 16, mkChar("intercept"));
 
 	setAttrib(ANS, R_NamesSymbol, ANS_names);
+*/
 
 	PutRNGstate();
 	UNPROTECT(nProtected);
