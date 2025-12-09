@@ -134,7 +134,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	//get dimsensions of all variables
 	int nobs = LENGTH(Y);
 	int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
-	int k = LENGTH(modelprobs);
+//	int k = LENGTH(modelprobs);
 	double lambda=REAL(LAMBDA)[0];
 	double delta = REAL(DELTA)[0];
 	double alpha = REAL(Ralpha)[0];
@@ -250,7 +250,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	
 //	Rprintf("using MCMC sampling - initialize\n");
 	
-	while (nUnique < k && m < INTEGER(BURNIN_Iterations)[0]) {
+	while (nUnique < nModels && m < INTEGER(BURNIN_Iterations)[0]) {
 
 	  memcpy(model, modelold, sizeof(int)*p);
 		pmodel =  n_sure;
@@ -384,7 +384,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
   // Rprintf("Now start AMCMC with %d nUnique models out of %d at it %d\n", nUnique, k, m);
   if (IS) thin = 1; // no need to thin
   
-  while (nUnique < k && m < (INTEGER(BURNIN_Iterations)[0] + INTEGER(MCMC_Iterations)[0])) {
+  while (nUnique < nModels && m < (INTEGER(BURNIN_Iterations)[0] + INTEGER(MCMC_Iterations)[0])) {
     
     memcpy(model, modelold, sizeof(int)*p);
     pmodel =  n_sure;
@@ -495,7 +495,7 @@ SEXP amcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	INTEGER(NumUnique)[0] = nUnique;
 
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
-
+  
 	if (nUnique < nModels) {
 	  SET_VECTOR_ELT(ANS, 1, resizeVector(modelspace, nUnique));
 	  SET_VECTOR_ELT(ANS, 2, resizeVector(Rlogmarg, nUnique));
