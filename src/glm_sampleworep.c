@@ -17,7 +17,8 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
   int nModels = INTEGER(RnModels)[0];  // initial guess on number of models to return
   int nUnique = nModels;
 
-  Rprintf("Allocating Space for %d Models\n", nModels) ;
+  if (nModels <=0) Rf_error("Number of Models to sample must be positive\n");
+  // Rprintf("Allocating Space for %d Models\n", nModels) ;
 
 	SEXP ANS = PROTECT(allocVector(VECSXP, 15)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 15)); ++nProtected;
