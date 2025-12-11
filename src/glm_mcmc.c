@@ -27,6 +27,9 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
   
 	int nProtected = 0;
 	int nModels=LENGTH(Rmodeldim);
+	
+	Rprintf("nModels to sample is %d\n", nModels);
+	
 	/*
 	SEXP ANS = PROTECT(allocVector(VECSXP, 17)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 17)); ++nProtected;
@@ -285,7 +288,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
 	SET_VECTOR_ELT(ANS, 13, MCMCprobs);
 	
-  //	Rprintf("Decreasing nModels %d to number of unique models accepted %d \n", nModels, nUnique);
+  Rprintf("Decreasing nModels %d to number of unique models accepted %d \n", nModels, nUnique);
 	if (nUnique < nModels) {
 	  SET_VECTOR_ELT(ANS, 1, resizeVector(modelspace, nUnique));
 	  SET_VECTOR_ELT(ANS, 2, resizeVector(logmarg, nUnique));
