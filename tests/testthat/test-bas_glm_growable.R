@@ -13,12 +13,11 @@ test_that("Test BAS with Growable Vectors when not needed", {
                        betaprior = bic.prior(), family = binomial(),
                        modelprior = uniform(), GROW = TRUE)
   set.seed(1)
-  pima_bas1 <- bas.glm(type ~ .,
+ pima_bas1 <- bas.glm(type ~ .,
                        data = Pima.tr, method="BAS",  
                        initprobs=rep(.4, ncol(Pima.tr)-1),
                        betaprior = bic.prior(), family = binomial(),
-                       modelprior = uniform(),  GROW = FALSE)
-  
+                       modelprior = uniform(), GROW = FALSE)
   expect_equal(pima_bas1$n.models, pima_bas2$n.models)
   expect_equal(pima_bas1$postprobs, pima_bas2$postprobs)
   expect_equal(pima_bas1$logmarg, pima_bas2$logmarg)

@@ -115,7 +115,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	//get dimsensions of all variables
 	int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
-	int nUnique = LENGTH(modelprobs);
+	int nUnique = nModels;
 
 	int update = INTEGER(Rupdate)[0];
 	double eps = DBL_EPSILON;
@@ -229,7 +229,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	
 	if (m < nUnique) {
-	  //	  Rprintf("resize if constraints have reduced the number of models\n");
+	  Rprintf("resize if constraints have reduced the number of models %d to %d\n", nUnique, m);
 	  nUnique = m;
 	  
 	  SET_VECTOR_ELT(ANS, 1, resizeVector(modelspace, nUnique));
