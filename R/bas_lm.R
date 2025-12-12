@@ -299,11 +299,11 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' Currently coefficients that are not estimable are set to zero.  Use caution with
 #' interpreting BMA estimates of parameters.
 #' @param tol 1e-7 as
-#' @param GROW  logical variable allow vectors to grow with sampling if the number of unique models
-#' exceeds `n.models`.  Default is TRUE
+#' @param GROW  logical variable allow vectors to grow with MCMC sampling if the number of unique models
+#' exceeds `n.models`before reaching `MCMC.iterations`.  Default is TRUE
 #' @param expand variable to control how much to grow vectors with MCMC sampling 
 #' if the number of unique models exceeds the current size of the vectors. 
-#' The default is 1.05, which allows vectors to grow by 5 percent.
+#' The default is 1.25, which allows vectors to grow by 25 percent.
 #' @param bigmem Logical variable to indicate that there is access to
 #' large amounts of memory (physical or virtual) for enumeration
 #' with large model spaces, e.g. > 2^25. default; used in determining rank of 

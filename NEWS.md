@@ -3,9 +3,16 @@
 ## Features
 
 Replace use of non-API call to `SETLENGTH` for MCMC sampling with new C function `resizeVectors`
-to expand size as needed and truncate when overallocated. This should reduce memory allocation
-for large problems when `n.models` was too large.   MCMC sampling now stops after `MCMC.iterations`,
-even if `n.models` is reached, improving MCMC frequencies.  Used with `method = "MCMC"` 
+to truncate when overallocated. This should reduce memory allocation
+for large problems when `n.models` was too large, as the longer vectors are available for garbage collection, 
+although there may be a slight increase in memory usage while copying the to the new vector.  `resizeVectors` is based on
+`xlenghtgets` in R internals, but uses `memcpy` to copy the data to the new vector for efficiency in the case
+of real and integer SEXP vectors.
+
+MCMC sampling now stops after `MCMC.iterations`, even if `n.models` is reached, improving estimation based on
+MCMC frequencies.  
+
+For `method = "MCMC"` 
 in `bas.lm` and `method = "MCMC_GROWABLE"` in `bas.glm` now.  (issues #81 and #91)
 
 ## Bug Fixes

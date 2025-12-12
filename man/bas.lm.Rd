@@ -263,12 +263,12 @@ interpreting BMA estimates of parameters.}
 
 \item{tol}{1e-7 as}
 
-\item{GROW}{logical variable allow vectors to grow with sampling if the number of unique models
-exceeds `n.models`.  Default is TRUE}
+\item{GROW}{logical variable allow vectors to grow with MCMC sampling if the number of unique models
+exceeds `n.models`before reaching `MCMC.iterations`.  Default is TRUE}
 
 \item{expand}{variable to control how much to grow vectors with MCMC sampling 
 if the number of unique models exceeds the current size of the vectors. 
-The default is 1.05, which allows vectors to grow by 5 percent.}
+The default is 1.25, which allows vectors to grow by 25 percent.}
 
 \item{bigmem}{Logical variable to indicate that there is access to
 large amounts of memory (physical or virtual) for enumeration
