@@ -1,7 +1,10 @@
 # check on additional sites
 # 
 devtools::check_win_devel()
-rhub::rhub_check(branch="devel", platforms = "gcc14")
+
+rhub::rhub_check(branch="devel", platforms = "gcc15")
+rhub::rhub_check(branch="devel", platforms = "valgrind") # if needed
+
 
 
 

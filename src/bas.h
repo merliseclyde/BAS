@@ -22,6 +22,7 @@
 #include <Rdefines.h>
 #include <Rmath.h>
 #include <Rinternals.h>
+// #include <Defn.h>
 #include <R_ext/Constants.h>
 #include <R_ext/Applic.h>
 #include <R_ext/Rdynload.h>
@@ -29,6 +30,9 @@
 #include <R_ext/Lapack.h>
 #include <R_ext/Linpack.h>
 
+/* Defines from R/include/Defn.h */
+NORET void UNIMPLEMENTED_TYPE(const char *s, SEXP x);
+NORET void UNIMPLEMENTED_TYPEt(const char *s, SEXPTYPE t);
 
 /* Defines. */
 #define TRUE 1
@@ -57,6 +61,27 @@ struct Node {
   NODEPTR one;
 };
 
+typedef struct coefpriorstruc {
+  const char *family;
+  const char *class;
+  double *hyper;
+  double (*log_marginal_likelihood)(double dev, double regSS, int n, int p, int pgamma, double g, double *hyper);
+  double (*shrinkage)(double dev,  double regSS, int n, int p, int pgamma, double g, double *hyper);
+  double (*g)(double dev,  double regSS, int n, int p, int pgamma, double *hyper);
+} coefdistptr;
+
+//struct glmsfamily * make_glm_family(SEXP family);
+
+typedef struct betapriorfamilystruc {
+  const char *priorfamily;
+  const char *samplingmodel;
+  const char *priorclass;
+  SEXP hyperparams;
+  double (*logmarglik_fun)(SEXP hyperparams, int pmodel, double W, double loglik_mle, double logdet_Iintercept, int Laplace);
+  double (*shrinkage_fun)(SEXP hyperparams, int pmodel, double W, int Laplace);
+} betapriorptr;
+
+betapriorptr * make_betaprior_structure(SEXP betaprior, SEXP glmfamily);
 
 /* Subroutines. */
 
@@ -65,14 +90,25 @@ double CalculateRSquareFull(double *XtY, double *XtX, double *XtXwork, double *X
 int *GetModel_m(SEXP Rmodel_m, int *model, int p);
 void SetModel2(double logmargy, double shrinkage_m, double prior_m,
                SEXP sampleprobs, SEXP logmarg, SEXP shrinkage, SEXP priorprobs, int m);
-void SetModel(SEXP Rcoef_m, SEXP Rse_m, SEXP Rmodel_m, double mse_m, double R2_m,
-              SEXP beta, SEXP se, SEXP modelspace, SEXP mse, SEXP R2, int m);
-void SetModel_lm(SEXP Rcoef_m, SEXP Rse_m, SEXP Rmodel_m, double mse_m, double R2_m,
-                 SEXP beta, SEXP se, SEXP modelspace, SEXP mse, SEXP R2, int m);
 
+void SetModel_glm(SEXP glm_fit, SEXP Rmodel_m, SEXP beta, SEXP se, SEXP modelspace,
+                  SEXP deviance, SEXP R2, SEXP Q, SEXP Rintercept, 
+                  double prior_m, SEXP sampleprobs, SEXP logmarg, SEXP shrinkage, SEXP priorprobs,
+                  int m);
+
+void SetModel_lm(double logmarg_m, double shrinkage_m, double prior_m,
+                 SEXP sampleprobs, SEXP Rlogmarg, SEXP shrinkage, SEXP priorprobs, 
+                 SEXP Rcoef_m, SEXP Rse_m, SEXP Rmodel_m, double mse_m, double R2_m,
+                 SEXP beta, SEXP se, SEXP modelspace, SEXP mse, SEXP R2, int m);
+void model_to_vec(int *model, int p, SEXP Rmodel);
 double hyp2f1(double a, double b, double c, double x);
-void compute_margprobs(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, double *margprobs, int k, int p);
+void compute_margprobs(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, double *margprobs, int M, int p);
+void compute_margprobs_Bayes_BAS_MCMC(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, SEXP Rprobs, SEXP Rsampleprobs, 
+                                      int M, int p, double eta, double NC);
 void compute_margprobs_file(SEXP modeldim, SEXP Rmodelprobs, double *margprobs, int k, int p, FILE *file, int *model);
+double compute_sample_probs_bernoulli(SEXP Rprobs, int *model, int p);
+void compute_sampleprobs_modelspace_Bernoulli(SEXP modelspace, SEXP modeldim, SEXP Rsampleprobs, SEXP Rprobs, 
+                                              int nModels, int p);
 double beta_binomial(int modeldim, int p, double *hyper);
 double trunc_beta_binomial(int modeldim, int p, double *hyper);
 double trunc_poisson(int modeldim, int p, double *hyper);
@@ -82,6 +118,8 @@ int no_prior_inclusion_is_1(int p, double *probs);
 double compute_prior_probs(int *model, int modeldim, int p, SEXP modelprior, int noInclusionIs1);
 void compute_margprobs_old(Bit **models, SEXP Rmodelprobs, double *margprobs, int k, int p);
 void compute_modelprobs(SEXP modelprobs, SEXP logmarg, SEXP priorprobs,  int k);
+void compute_modelprobs_Bayes_HT(SEXP Rmodelprobs,  SEXP Rlogmarg, SEXP Rpriorprobs, 
+                                 SEXP Rsampleprobs, int M, double *eta, double *NC);
 void compute_modelprobs_HT(SEXP Rmodelprobs,  SEXP Rlogmarg, SEXP Rpriorprobs, SEXP Rsampleprobs, 
                            int k, int MC);
 void set_bits(char *bits, int subset, int *pattern, int *position, int n);
@@ -193,18 +231,7 @@ void PrecomputeData(double *Xwork, double *Ywork, double *wts, double **pXtXwork
 double CalculateRSquareFull(double *XtY, double *XtX, double *XtXwork, double *XtYwork, SEXP Rcoef_m, SEXP Rse_m, int p, int nobs, double yty, double SSY);
 
 
-//struct glmsfamily * make_glm_family(SEXP family);
 
-typedef struct betapriorfamilystruc {
-  const char *priorfamily;
-  const char *samplingmodel;
-  const char *priorclass;
-  SEXP hyperparams;
-  double (*logmarglik_fun)(SEXP hyperparams, int pmodel, double W, double loglik_mle, double logdet_Iintercept, int Laplace);
-  double (*shrinkage_fun)(SEXP hyperparams, int pmodel, double W, int Laplace);
-} betapriorptr;
-
-betapriorptr * make_betaprior_structure(SEXP betaprior, SEXP glmfamily);
 
 // CCH family
 double CCH_glm_logmarg(SEXP hyperparams, int pmodel, double W, double loglike_mle, double logdet_Iintercept, int Laplace);
@@ -241,18 +268,33 @@ double testBF_prior_glm_logmarg(SEXP hyperparams, int pmodel, double W,
                                 double loglik_mle, double logdet_Iintercept,
                                 int Laplace );
 
+double no_shrinkage(double dev,  double regSS, int n, int p, int pgamma, double g,  double *hyper);
+double shrinkage_gprior(double dev,  double regSS, int n, int p, int pgamma,  double g, double *hyper);
+double g_EB_local(double dev,  double regSS, int n, int p, int pgamma, double *hyper);
+double g_gprior(double dev,  double regSS, int n, int p, int pgamma, double *hyper);
+double no_g(double dev,  double regSS, int n, int p, int pgamma, double *hyper);
+double log_marginal_likelihood_IC(double dev, double regSS, int n, int p, int pgamma, double g, double *hyper) ;
+double log_marginal_likelihood_gprior(double dev, double regSS, int n, int p, int pgamma, double g, double *hyper);
+
+
 extern double loghyperg1F1(double, double, double, int);
 extern double shrinkage_chg(double a, double b, double Q, int laplace);
 
 #ifndef R_STATS_FAMILY_H
 #define R_STATS_FAMILY_H
 
+
+// from r-source/src/statsErr.h
+
+/*
+#undef _
 #ifdef ENABLE_NLS
 #include <libintl.h>
 #define _(String) dgettext ("stats", String)
 #else
 #define _(String) (String)
 #endif
+*/
 
 //struct glmsfamily * make_glm_family(SEXP family);
 
@@ -353,6 +395,8 @@ SEXP glm_bas(SEXP RX, SEXP RY, glmstptr * family, SEXP Roffset, SEXP Rweights, S
 
 SEXP gglm_lpy(SEXP RX, SEXP RY,SEXP Rcoef, SEXP Rmu, SEXP Rdeviance, SEXP Rweights, glmstptr * glmfamily, betapriorptr * betapriorfamily, SEXP Rlaplace);
 
+SEXP resizeVector(SEXP x, R_xlen_t len);
+SEXP xlengthgets(SEXP x, R_xlen_t len);
 
 // issue 38
 static inline int lessThanOne(double a)

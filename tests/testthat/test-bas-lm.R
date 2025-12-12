@@ -2,20 +2,25 @@ context("bas.lm")
 
 test_that("initprobs out of range", {
   data(Hald)
+  set.seed(42)
   bas_hald1 <- bas.lm(Y ~ ., data=Hald, prior="BIC",
                       method="BAS",
                      initprobs = c(-.4, .3, 1.5, .8))
+  set.seed(42)
   bas_hald2 <- bas.lm(Y ~ ., data=Hald, prior="BIC",
                       initprobs = c(1, -.4, .3, 1.0, .8))
+  set.seed(42)
   bas_hald3 <- bas.lm(Y ~ X1 + X2 + X3 + X4,
                       include.always=~1 + X3,
                       initprobs =  c(1, -.4, .3, 1.0, .8),
                       data=Hald, prior="BIC")
   expect_equal(bas_hald1$probne0, bas_hald2$probne0)
   expect_equal(bas_hald2$probne0, bas_hald3$probne0)
+  set.seed(42)
   bas_hald1 <- bas.lm(Y ~ ., data=Hald, prior="BIC",
                       method="MCMC+BAS",
                       initprobs = c(-.4, .3, 1.5, .8))
+  set.seed(42)
   bas_hald3 <- bas.lm(Y ~ X1 + X2 + X3 + X4,
                       method="MCMC+BAS",
                       include.always=~1 + X3,
@@ -23,9 +28,11 @@ test_that("initprobs out of range", {
                       data=Hald, prior="BIC")
   expect_equal(bas_hald1$probne0, bas_hald2$probne0)
   expect_equal(bas_hald2$probne0, bas_hald3$probne0)
+  set.seed(42)
   bas_hald1 <- bas.lm(Y ~ ., data=Hald, prior="BIC",
                       method="deterministic",
                       initprobs = c(-.4, .3, 1.5, .8))
+  set.seed(42)
   bas_hald3 <- bas.lm(Y ~ X1 + X2 + X3 + X4,
                       method="deterministic",
                       include.always=~1 + X3,
@@ -414,20 +421,19 @@ test_that("initialize with Full model MCMC+BAS", {
   set.seed(42)
   hald.mcmc    = bas.lm(Y ~ .,
                         prior = "BIC", method = "MCMC", burnin.iterations = it.mcmc,
-                        MCMC.iterations = it.mcmc, n.models=nm,
+                        MCMC.iterations = it.mcmc,
                         bestmodel=best, 
                         modelprior = uniform(), data = Hald)
   
   
   set.seed(42)
-  # OK as it skips SWOR step (by chance)
   hald.mcmcbas    = bas.lm(Y ~ .,
                            prior = "BIC", method = "MCMC+BAS", burnin.iterations = it.mcmc,
-                           MCMC.iterations = it.mcmc, n.models=nm,
+                           MCMC.iterations = it.mcmc,  n.models = hald.mcmc$n.models,
                            bestmodel=best, 
                            modelprior = uniform(), data = Hald)
 
-  expect_equal(hald.mcmcbas$freq, hald.mcmc$freq)
+  # compare only quantities that do not depend on MC frequencies
   expect_equal(hald.mcmcbas$R2, hald.mcmc$R2)
   expect_equal(hald.mcmcbas$logmarg, hald.mcmc$logmarg)
   

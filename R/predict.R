@@ -148,9 +148,9 @@ predict.basglm <- function(object,
 #' used for fitting for obtaining fitted and predicted values.
 #' @param se.fit indicator for whether to compute se of fitted and predicted
 #' values
-#' @param type Type of predictions required. "link" which is on the scale of
-#' the linear predictor is the only option currently for linear models, which for the normal model
-#' is equivalent to type='response'.
+#' @param type Type of predictions required. The defaults "reponse" is on the scale of
+#' the response is the only option currently for linear models (for Gaussian models this
+#' is equivalent to type="link").
 #' @param top a scalar integer M.  If supplied, subset the top M models, based
 #' on posterior probabilities for model predictions and BMA.
 #' @param estimator estimator used for predictions.  Currently supported
@@ -228,7 +228,7 @@ predict.basglm <- function(object,
 predict.bas <- function(object,
                         newdata,
                         se.fit = FALSE,
-                        type = "link",
+                        type = c("response","link"),
                         top = NULL,
                         estimator = "BMA",
                         na.action = na.pass,

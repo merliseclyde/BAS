@@ -222,7 +222,9 @@ ete = 0.0;
 		ete = F77_NAME(ddot)(&p, &coefficients[0], &inc, &XtY[0], &inc);
 
 //	Rprintf("YtY= %lf ete = %lf rank = %d,  p = %d", *mse, ete, rank, p);
-	if ( n <= p ) {
+
+//	Issue #96
+	if ( n <= rank ) {
 	  *mse = 0.0;
 	}
 	else {

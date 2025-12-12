@@ -89,14 +89,10 @@ SEXP glm_deterministic(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 						    glmfamily, Rcontrol, Rlaplace,
 						    betapriorfamily));
 		double prior_m  = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
-		logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
-		shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
-						  "shrinkage"))[0];
-		SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
+
+		SetModel_glm(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept,
+                 prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
 		REAL(sampleprobs)[m] = pigamma;
-		SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance,
-			  R2, Q, Rintercept, m);
-		UNPROTECT(2);
 	}
 
 	compute_modelprobs(modelprobs, logmarg, priorprobs, k);

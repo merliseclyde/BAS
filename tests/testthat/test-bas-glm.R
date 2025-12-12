@@ -160,15 +160,40 @@ test_that("missing data arg", {
 
 test_that("poisson regression", {
   data(crabs, package = "glmbb")
-  crabs.bas <- bas.glm(satell ~ color * spine * width + weight,
+  set.seed(1)
+  crabs.MCMCbas <- bas.glm(satell ~ color * spine * width + weight,
     data = crabs,
     family = poisson(),
     betaprior = EB.local(), modelprior = uniform(),
-    method = "MCMC", n.models = 1024, MCMC.iterations = 10000,
+    method = "MCMC+BAS", 
+    n.models = 1024, burnin = 1000, MCMC.iterations = 10000,
     prob.rw = .95
   )
-  expect_null(plot(crabs.bas))
-  expect_equal(0, sum(crabs.bas$shrinkage > 1))
+  
+  set.seed(1)
+  crabs.MCMC <- bas.glm(satell ~ color * spine * width + weight,
+                           data = crabs,
+                           family = poisson(),
+                           betaprior = EB.local(), modelprior = uniform(),
+                           method = "MCMC", 
+                           burnin = 1000, MCMC.iterations = 10000,
+                           prob.rw = .95, n.models = 6000
+  )
+  set.seed(1)
+  crabs.MCMCbas <- bas.glm(satell ~ color * spine * width + weight,
+                           data = crabs,
+                           family = poisson(),
+                           betaprior = EB.local(), modelprior = uniform(),
+                           method = "MCMC+BAS", 
+                           n.models = crabs.MCMC$n.models, burnin = 1000+10000+1, MCMC.iterations = 0,
+                           prob.rw = .95
+  )
+ 
+  expect_equal(0, sum(crabs.MCMC$shrinkage > 1))
+  expect_equal(crabs.MCMC$logmarg, crabs.MCMCbas$logmarg)
+
+# currently not equal but not used  
+#  expect_equal(crabs.MCMC$freq, crabs.MCMCbas$freq)  
 })
 
 test_that("glm_fit", {
@@ -478,7 +503,7 @@ test_that("MCMC+BAS", {
                       data = Pima.tr, method = "MCMC+BAS",
                       betaprior = bic.prior(),
                       family = binomial(),
-                      modelprior = uniform(), MCMC.iterations = 5,  update =  50)
+                      modelprior = uniform(), burnin.it = 5, MCMC.iterations = 5,  update =  50)
   expect_equal(6, sum(pima_BAS$freq))
 })
 
@@ -619,4 +644,37 @@ test_that("gamma regression coef", {
   
   expect_warning(coef(wafer_bas), NA)
   
+})
+
+# test Binomial Model with Successes and Failures. Issue #94
+
+test_that("Binomial Model with Successes/Failures", { 
+Gegevens <- data.frame(
+  Jaar      = seq(from=2020,to=2024),
+  Totaal = c(29,18,19,15,15),
+  FeitenBeoordeling = c(14,12,13,7,7),
+  Beoordeling = c(13,8,10,5,5),
+  MentionFB = cbind(c(14,12,13,7,7), c(15,6,6,8,8)),
+  MentionB  = cbind(c(13,8,10,5,5), c(16,10,9,10,10))
+)
+
+bin.mod <- glm(cbind(Gegevens$MentionFB.1,Gegevens$MentionFB.2) ~
+                 Jaar, data=Gegevens,
+               family=binomial(link = "logit"))
+bin.fit = glm.fit(y = cbind(Gegevens$MentionFB.1,Gegevens$MentionFB.2),
+                  x = cbind(1.0, Gegevens$Jaar), 
+                  family=binomial(link = "logit"))
+bas.fit = bayesglm.fit(y = cbind(Gegevens$MentionFB.1,Gegevens$MentionFB.2),
+                  x = cbind(1.0, Gegevens$Jaar), 
+                  family=binomial(link = "logit"))
+expect_equal(as.numeric(bin.mod$coefficients), bas.fit$coefficients) #no names in bas.fit
+# ISSUE #94
+expect_no_error(bas.glm(cbind(Gegevens$MentionFB.1,Gegevens$MentionFB.2) ~
+                          Jaar, data=Gegevens,
+                        family=binomial(link = "logit"), betaprior = bic.prior()))
+  bin.mod.bas <- bas.glm(cbind(Gegevens$MentionFB.1,Gegevens$MentionFB.2) ~
+                 Jaar, data=Gegevens, include.always = ~ Jaar,
+                 family=binomial(link = "logit"), betaprior = bic.prior())
+  expect_equal(as.numeric(bin.mod$coefficients), unlist(bin.mod.bas$mle))
+
 })

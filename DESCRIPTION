@@ -1,6 +1,6 @@
 Package: BAS
+Date: 12-11-2025
 Version: 1.7.5.9000
-Date: 2024-11-26
 Title: Bayesian Variable Selection and Model Averaging using Bayesian Adaptive Sampling
 Authors@R: c(person("Merlise", "Clyde", email="clyde@duke.edu",
 	   		       role=c("aut","cre", "cph"),
@@ -67,4 +67,4 @@ NeedsCompilation: yes
 ByteCompile: yes
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3

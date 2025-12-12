@@ -64,10 +64,51 @@ void compute_modelprobs_HT(SEXP Rmodelprobs,  SEXP Rlogmarg, SEXP Rpriorprobs,
   }
 }
 
+void compute_modelprobs_Bayes_HT(SEXP Rmodelprobs,  SEXP Rlogmarg, SEXP Rpriorprobs, 
+                           SEXP Rsampleprobs, int M, double *eta, double *nc)
+{
+  int m;
+  double bestmarg, *modelprobs, *logmarg, *priorprobs, *sampleprobs, 
+         HT = 0.0, probinS = 0.0, correction = 0.0, nmodels = 0.0;
+  
+  logmarg = REAL(Rlogmarg);
+  modelprobs = REAL(Rmodelprobs);
+  priorprobs = REAL(Rpriorprobs);
+  sampleprobs = REAL(Rsampleprobs); 
+  bestmarg = logmarg[0];
+
+  
+  for (m = 0; m < M; m++) {
+    if (logmarg[m] > bestmarg) bestmarg = logmarg[m];
+  }
+  
+  for (m = 0; m < M; m++) {
+    if (sampleprobs[m] > 0.0) {
+      modelprobs[m] = logmarg[m] - bestmarg + log(priorprobs[m]);
+      probinS += sampleprobs[m];
+      HT += exp(modelprobs[m] - log(sampleprobs[m]));  
+      *nc += exp(modelprobs[m]);
+      nmodels += 1.0;
+    }
+  }  
+    
+  *eta = HT/nmodels;
+  correction = *eta*(1.0 - probinS);
+  Rprintf("eta = %lf probinS = %lf  NC = %lf  correction = %lf", *eta, probinS, *nc, correction);
+  *nc += (1.0 - probinS)* *eta;
+  Rprintf(" corrected NC = %lf \n", *nc);
+  
+  for (m = 0; m < M; m++) {
+    if (sampleprobs[m] > 0.0) {
+      modelprobs[m] = exp(modelprobs[m] - log(*nc));
+    }
+    else {modelprobs[m] = 0.0;}
+    
+  }
+}
 
 void compute_margprobs(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, double *margprobs, 
-                       int k, int p)
-{
+                       int k, int p) {
 	int m, j, *model;
 	double *modelprobs;
 	modelprobs = REAL(Rmodelprobs);
@@ -80,6 +121,55 @@ void compute_margprobs(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, double 
 	}
 }
 
+void compute_margprobs_Bayes_BAS_MCMC(SEXP modelspace, SEXP modeldim, SEXP Rmodelprobs, SEXP Rprobs, SEXP Rsampleprobs, 
+                       int M, int p, double eta, double NC)
+{
+  int m, j, *model, *n;
+  double *modelprobs;
+  double *beta, probNotInS = 1.0;
+  SEXP samplemargs = duplicate(Rprobs); 
+  modelprobs = REAL(Rmodelprobs);
+  
+  for (j=0; j< p; j++) {
+    Rprintf("j = %d uncorrected pip = %lf \n", j, REAL(Rprobs)[j]);
+    REAL(Rprobs)[j] = 0.0;
+
+  }
+  modelprobs = REAL(Rmodelprobs);
+  for(m=0; m < M; m++) {
+    model = INTEGER(VECTOR_ELT(modelspace,m));
+    for (j = 0; j < INTEGER(modeldim)[m]; j ++) {
+      REAL(Rprobs)[model[j]] += modelprobs[m];
+    }
+  }
+  
+  for (j = 0; j < p; j ++) {
+    REAL(Rprobs)[j] += (1.0 - REAL(samplemargs)[j])* eta/NC;
+    if (REAL(Rprobs)[j] > 1.0) REAL(Rprobs)[j] = 1.0;
+    Rprintf("j = %d sample pip %lf corrected pip = %lf \n", j, REAL(samplemargs)[j], REAL(Rprobs)[j]);
+    }
+}
+
+
+
+void compute_sampleprobs_modelspace_Bernoulli(SEXP modelspace, SEXP modeldim, SEXP Rsampleprobs, SEXP Rprobs, 
+                       int nModels, int p)
+{
+  int m, j, *model; 
+  int *modelVec;
+  modelVec = ivecalloc(p);
+  memset(modelVec, 0, p * sizeof(int));
+  
+    for(m=0; m < nModels; m++) {
+    memset(modelVec, 0, p * sizeof(int));
+    model = INTEGER(VECTOR_ELT(modelspace,m));
+    for (j = 0; j < INTEGER(modeldim)[m]; j ++) {
+      modelVec[model[j]] = 1.0;
+    }
+    REAL(Rsampleprobs)[m] = compute_sample_probs_bernoulli(Rprobs, modelVec, p);
+
+  }
+}
 
 
 void compute_margprobs_old(Bit **models, SEXP Rmodelprobs, double *margprobs, int k, int p)
@@ -107,6 +197,25 @@ int no_prior_inclusion_is_1(int p, double *probs) {
   	}
   }
   return noInclusionIs1;
+}
+
+void model_to_vec(int *model, int p, SEXP Rmodel) {
+  int j;
+  memset(model, 0, p * sizeof(int));
+  
+  for (j = 0; j < LENGTH(Rmodel); j++) {
+   model[INTEGER(Rmodel)[j]] = 1;
+  }
+}
+
+double compute_sample_probs_bernoulli(SEXP Rprobs, int *model, int p) {
+  int j;
+  double pigamma = 1.0;
+  for (j = 0; j < p; j++) {
+    pigamma *= ((double) model[j])*REAL(Rprobs)[j] + (1.0 - ((double) model[j]))*(1.0 -  REAL(Rprobs)[j]);
+  }
+
+return(pigamma);
 }
 
 double compute_prior_probs(int *model, int modeldim, int p, SEXP modelprior, int noInclusionIs1) {

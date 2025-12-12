@@ -9,17 +9,21 @@
 SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		             SEXP Rprobinit, SEXP Rmodeldim,
 		             SEXP modelprior, SEXP betaprior, SEXP Rbestmodel, SEXP plocal,
-		             SEXP BURNIN_Iterations,
+		             SEXP BURNIN_Iterations, SEXP MCMC_Iterations,
 		             SEXP family, SEXP Rcontrol,
 		             SEXP Rupdate, SEXP Rlaplace, SEXP Rparents)
 {
+  
+ // Rprintf("Starting MCMC +BAS\n");
 	int nProtected = 0;
 	int nModels=LENGTH(Rmodeldim);
 
 	SEXP ANS = PROTECT(allocVector(VECSXP, 17)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 17)); ++nProtected;
+	
 	SEXP Rprobs = PROTECT(duplicate(Rprobinit)); ++nProtected;
 	SEXP MCMCprobs= PROTECT(duplicate(Rprobinit)); ++nProtected;
+	
 	SEXP R2 = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP shrinkage = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP modelspace = PROTECT(allocVector(VECSXP, nModels)); ++nProtected;
@@ -52,7 +56,6 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	//get dimsensions of all variables
 	int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
-	int k = LENGTH(modelprobs);
 	int update = INTEGER(Rupdate)[0];
 	double eps = DBL_EPSILON;
 
@@ -92,13 +95,14 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 					    betapriorfamily));
 	prior_m  = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
 
-	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
-	shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
-						  "shrinkage"))[0];
-	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
-	SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2,
-		  Q, Rintercept, m);
-	UNPROTECT(2);
+//	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
+//	shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),  "shrinkage"))[0];
+//	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
+//	SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept, m);
+	SetModel_glm(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, 
+              prior_m, sampleprobs, logmarg, shrinkage, priorprobs,m);
+	
+//	UNPROTECT(2);
 
 	int nUnique=0, newmodel=0;
 	double *real_model = vecalloc(n);
@@ -114,9 +118,9 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	int *varin= ivecalloc(p);
 	int *varout= ivecalloc(p);
 	double problocal = REAL(plocal)[0];
-	int n_iterations =  INTEGER(BURNIN_Iterations)[0];
 
- 	while (nUnique < k && m < n_iterations) {
+
+ 	while (nUnique <  nModels && m < INTEGER(BURNIN_Iterations)[0]) {
 		memcpy(model, modelold, sizeof(int)*p);
 		pmodel =  n_sure;
 
@@ -167,9 +171,11 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		    insert_model_tree(tree, vars, n, model, nUnique);
 		    INTEGER(modeldim)[nUnique] = pmodel;
 
-		    SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
-		    SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept, nUnique);
-		    UNPROTECT(2);
+//		    SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
+//		    SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept, nUnique);
+		    SetModel_glm(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, 
+                   prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
+//		    UNPROTECT(2);
 		    ++nUnique;
 		  }
 		  old_loc = new_loc;
@@ -194,25 +200,25 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	// Compute marginal probabilities
 	mcurrent = nUnique;
-	// ("NumUnique Models Accepted %d \n", nUnique);
+//	Rprintf("NumUnique Models Accepted %d \n", nUnique);
 
 	compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
 
-	//  Now sample W/O Replacement
+
 	INTEGER(NumUnique)[0] = nUnique;
 
-	if (nUnique < k) {
+	if (nUnique < nModels) {
 		int *modelwork= ivecalloc(p);
 		double *pigamma = vecalloc(p);
 		memset(pigamma, 0.0, p*sizeof(double));
 
-		update_probs(probs, vars, mcurrent, k, p);
-		update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);
+		update_probs(probs, vars, mcurrent, nModels, p);
+		update_tree(modelspace, tree, modeldim, vars, nModels,p,n,mcurrent, modelwork);
 
  // now sample
 
-		for (m = nUnique;  (m < k) && (pigamma[0] < 1.0); m++) {
+		for (m = nUnique;  (m < nModels) && (pigamma[0] < 1.0); m++) {
 			for (i = n; i < p; i++)  {
 				INTEGER(modeldim)[m]  +=  model[vars[i].index];
 			}
@@ -237,9 +243,11 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	    logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
 	    shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
 			    			  "shrinkage"))[0];
-	    SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
-	    SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept, m);
-	    UNPROTECT(2);
+//	    SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
+//	    SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q, Rintercept, m);
+	    SetModel_glm(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, 
+                   prior_m, sampleprobs, logmarg, shrinkage, priorprobs,m);
+//	    UNPROTECT(2);
 
     	REAL(sampleprobs)[m] = pigamma[0];
 
@@ -252,42 +260,27 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	        mcurrent = m;
 	        compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 	        compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
-	        if (update_probs(probs, vars, mcurrent, k, p) == 1) {
+	        if (update_probs(probs, vars, mcurrent, nModels, p) == 1) {
 	      // ("Updating Model Tree %d \n", m);
-	            update_tree(modelspace, tree, modeldim, vars, k,p,n,mcurrent, modelwork);
+	            update_tree(modelspace, tree, modeldim, vars, nModels,p,n,mcurrent, modelwork);
 	        }
 	      }
 	    }
 		}
-		//Rprintf("Nunique = %d, m = %d, k = %d, mcurrent = %d %lf\n",
-    //      nUnique, m, k, mcurrent, pigamma[0]);
-	if (m < k) {
+
+	if (m < nModels) {
 		  mcurrent = m;  // #nocov 
 		  }
-	else {mcurrent = k;}
+	else {mcurrent = nModels;}
 	}
 	
 	// truncate vectors; legacy code from MCMC should not get to following but 
 	// keep in case other prior choices create  models with zero probabilities that 
 	// need to be dropped and mcurrent < k;  
 	// # nocov start
- 	if (mcurrent < k) {  // truncate vectors; legacy code from MCMC should not get here
-	  k = mcurrent;
- 	  SETLENGTH(modelspace, mcurrent);
- 	  SETLENGTH(logmarg, mcurrent);
- 	  SETLENGTH(modelprobs, mcurrent);
- 	  SETLENGTH(priorprobs, mcurrent);
- 	  SETLENGTH(sampleprobs, mcurrent);
- 	  SETLENGTH(counts, mcurrent);
- 	  SETLENGTH(MCMCprobs, mcurrent);
- 	  SETLENGTH(beta, mcurrent);
- 	  SETLENGTH(se, mcurrent);
- 	  SETLENGTH(deviance, mcurrent);
- 	  SETLENGTH(Q, mcurrent);
- 	  SETLENGTH(shrinkage, mcurrent);
- 	  SETLENGTH(modeldim, mcurrent);
- 	  SETLENGTH(R2, mcurrent);
- 	  SETLENGTH(Rintercept, mcurrent); 
+ 	if (mcurrent < nModels) {  // legacy code from MCMC should not get here
+     error("BAS finished sampling at %d models but expected to reach %d models.\n  Please report an issue on Github\n", 
+           mcurrent, nModels) ; 
 	}
 // # nocov end
 

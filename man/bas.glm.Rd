@@ -23,12 +23,15 @@ bas.glm(
   update = NULL,
   bestmodel = NULL,
   prob.rw = 0.5,
+  burnin.iterations = NULL,
   MCMC.iterations = NULL,
   thin = 1,
   control = glm.control(),
   laplace = FALSE,
   renormalize = FALSE,
   force.heredity = FALSE,
+  GROW = TRUE,
+  expand = 1.25,
   bigmem = FALSE
 )
 }
@@ -137,12 +140,15 @@ the sampling. If NULL sampling starts with the null model}
 random-walk proposal; otherwise use a random "flip" move to propose a new
 model.}
 
-\item{MCMC.iterations}{Number of models to sample when using any of the MCMC
-options; should be greater than 'n.models'. By default 10*n.models.}
+\item{burnin.iterations}{Number of iterations to discard as part of burnin
+when using any of the MCMC
+options; should be greater than 'n.models'. By default 10*p.}
 
-\item{thin}{oFr "MCMC", thin the MCMC chain every "thin" iterations; default 
-is no
-thinning.  For large p, thinning can be used to significantly reduce memory
+\item{MCMC.iterations}{Number of MCMC iterations for sampling using any of the MCMC
+options; should be greater than 'n.models'. By default 1000*p.}
+
+\item{thin}{For "MCMC", thin the MCMC chain every "thin" iterations; default 
+is no thinning.  For large p, thinning can be used to significantly reduce memory
 requirements as models and associated summaries are saved only every thin 
 iterations.  For thin = p, the  model and associated output are recorded 
 every p iterations,similar to the Gibbs sampler in SSVS.}
@@ -162,8 +168,17 @@ probabilities or use Monte Carlo frequencies. Applies only to MCMC sampling.}
 \item{force.heredity}{Logical variable to force all levels of a factor to be
 included together and to include higher order interactions only if lower
 order terms are included.  Currently only supported with `method='MCMC'`
-and `method='BAS'` (experimental) on non-Solaris platforms.
+and `method='BAS'` (experimental).
 Default is FALSE.}
+
+\item{GROW}{Logical variable to indicate that the output vectors in MCMC are growable.  Rather than allocate space
+based on `n.models`, the vectors will grow as needed
+if the number of unique models sampled exceeds the initial size of the allocated output vectors
+before reaching 'MCMC.iterations'.  Default is TRUE.}
+
+\item{expand}{variable to control how much to grow vectors with GROW = TRUE 
+if number of unique models exceeds the current size of the vectors. 
+The default is 1.25 times, which allows vectors to grow by 25 percent.}
 
 \item{bigmem}{Logical variable to indicate that there is access to
 large amounts of memory (physical or virtual) for enumeration
@@ -248,7 +263,7 @@ pima.robust = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
               modelprior=beta.binomial(1,1))
 
 pima.BIC = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7,
-              method="BAS+MCMC", MCMC.iterations=2500,
+              method="MCMC+BAS", MCMC.iterations=2500,
               betaprior=bic.prior(), family=binomial(),
               modelprior=uniform())
 # Poisson example
@@ -258,7 +273,7 @@ if(requireNamespace("glmbb", quietly=TRUE)) {
   crabs.bas = bas.glm(satell ~ color*spine*width + weight, data=crabs,
                       family=poisson(),
                       betaprior=EB.local(), modelprior=uniform(),
-                      method='MCMC', n.models=2^10, MCMC.iterations=2500,
+                      method="MCMC", n.models=2^10, MCMC.iterations=2500,
                       prob.rw=.95)
   
  # Gamma example

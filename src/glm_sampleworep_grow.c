@@ -6,20 +6,20 @@
 #include "bas.h"
 
 
-
-SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
+SEXP glm_sampleworep_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		     SEXP Rprobinit, SEXP RnModels,
 		     SEXP modelprior, SEXP betaprior,SEXP Rbestmodel,  SEXP plocal,
 		     SEXP family, SEXP Rcontrol,
 		     SEXP Rupdate, SEXP Rlaplace, SEXP Rparents) {
 
-  int nProtected = 0;
-  int nModels = INTEGER(RnModels)[0];  // initial guess on number of models to return
-  int nUnique = nModels;
 
-  if (nModels <=0) Rf_error("Number of Models to sample must be positive\n");
-  // Rprintf("Allocating Space for %d Models\n", nModels) ;
+  int nModels0 = INTEGER(RnModels)[0];  // initial guess on number of models to return
+  int nUnique = nModels0;
 
+//	Rprintf("Allocating Space for %d Models\n", nModels0) ;
+
+	int nProtected = 0;
+	
 	SEXP ANS = PROTECT(allocVector(VECSXP, 15)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 15)); ++nProtected;
 	
@@ -27,48 +27,48 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
 	SET_STRING_ELT(ANS_names, 0, mkChar("probne0"));
 	
-	SEXP modelspace = allocVector(VECSXP, nModels); 
+	SEXP modelspace = allocVector(VECSXP, nModels0); 
 	SET_VECTOR_ELT(ANS, 1, modelspace);
 	SET_STRING_ELT(ANS_names, 1, mkChar("which"));
 	
-	SEXP logmarg = allocVector(REALSXP, nModels); 
+	SEXP logmarg = allocVector(REALSXP, nModels0); 
 	SET_VECTOR_ELT(ANS, 2, logmarg);
 	SET_STRING_ELT(ANS_names, 2, mkChar("logmarg"));
 	
-	SEXP modelprobs = allocVector(REALSXP, nModels);  
+	SEXP modelprobs = allocVector(REALSXP, nModels0);  
 	SET_VECTOR_ELT(ANS, 3, modelprobs);
 	SET_STRING_ELT(ANS_names, 3, mkChar("postprobs"));
 	
-	SEXP priorprobs = allocVector(REALSXP, nModels); 
+	SEXP priorprobs = allocVector(REALSXP, nModels0); 
 	SET_VECTOR_ELT(ANS, 4, priorprobs);
 	SET_STRING_ELT(ANS_names, 4, mkChar("priorprobs"));
 	
-	SEXP sampleprobs = allocVector(REALSXP, nModels); 
+	SEXP sampleprobs = allocVector(REALSXP, nModels0); 
 	SET_VECTOR_ELT(ANS, 5, sampleprobs);
 	SET_STRING_ELT(ANS_names, 5, mkChar("sampleprobs"));
 	
-	SEXP deviance = allocVector(REALSXP, nModels); 
+	SEXP deviance = allocVector(REALSXP, nModels0); 
 	SET_VECTOR_ELT(ANS, 6, deviance);
 	SET_STRING_ELT(ANS_names, 6, mkChar("deviance"));
 	
-	SEXP beta = allocVector(VECSXP, nModels); 
+	SEXP beta = allocVector(VECSXP, nModels0); 
 	SET_VECTOR_ELT(ANS, 7, beta);
 	SET_STRING_ELT(ANS_names, 7, mkChar("mle"));
 	
-	SEXP se = allocVector(VECSXP, nModels);
+	SEXP se = allocVector(VECSXP, nModels0);
 	SET_VECTOR_ELT(ANS, 8, se);
 	SET_STRING_ELT(ANS_names, 8, mkChar("mle.se"));
 	
-	SEXP shrinkage = allocVector(REALSXP, nModels); 
+	SEXP shrinkage = allocVector(REALSXP, nModels0); 
 	SET_VECTOR_ELT(ANS, 9, shrinkage);
 	SET_STRING_ELT(ANS_names, 9, mkChar("shrinkage"));
 	
-	SEXP modeldim =  allocVector(INTSXP, nModels); 
-	memset(INTEGER(modeldim), 0, nModels * sizeof(int));
+	SEXP modeldim =  allocVector(INTSXP, nModels0); 
+	memset(INTEGER(modeldim), 0, nModels0 * sizeof(int));
 	SET_VECTOR_ELT(ANS, 10, modeldim);
 	SET_STRING_ELT(ANS_names, 10, mkChar("size"));
 	
-	SEXP R2 = allocVector(REALSXP, nModels); 
+	SEXP R2 = allocVector(REALSXP, nModels0); 
 	SET_VECTOR_ELT(ANS, 11, R2);
 	SET_STRING_ELT(ANS_names, 11, mkChar("R2"));
 	
@@ -76,36 +76,17 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_VECTOR_ELT(ANS, 12, NumUnique);
 	SET_STRING_ELT(ANS_names, 12, mkChar("n.Unique"));
 	
-	SEXP Q = allocVector(REALSXP, nModels); 
+	SEXP Q = allocVector(REALSXP, nModels0); 
 	SET_VECTOR_ELT(ANS, 13, Q);
 	SET_STRING_ELT(ANS_names, 13, mkChar("Q"));
 	
-	SEXP Rintercept = allocVector(REALSXP, nModels); 
+	SEXP Rintercept = allocVector(REALSXP, nModels0); 
 	SET_VECTOR_ELT(ANS, 14, Rintercept);
 	SET_STRING_ELT(ANS_names, 14, mkChar("intercept"));
 	
 	setAttrib(ANS, R_NamesSymbol, ANS_names);
 	
-/*
-	SEXP ANS = PROTECT(allocVector(VECSXP, 14)); ++nProtected;
-	SEXP ANS_names = PROTECT(allocVector(STRSXP, 14)); ++nProtected;
-	SEXP Rprobs = PROTECT(duplicate(Rprobinit)); ++nProtected;
-	SEXP R2 = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
-	SEXP shrinkage = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
-	SEXP modelspace = PROTECT(allocVector(VECSXP, nModels)); ++nProtected;
-	SEXP modeldim =  PROTECT(duplicate(Rmodeldim)); ++nProtected;
-	SEXP beta = PROTECT(allocVector(VECSXP, nModels)); ++nProtected;
-	SEXP se = PROTECT(allocVector(VECSXP, nModels)); ++nProtected;
-	SEXP deviance = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
-	SEXP modelprobs = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
-	SEXP priorprobs = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
-	SEXP logmarg = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
-	SEXP sampleprobs = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
-	SEXP Q = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
-	SEXP Rintercept = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
-
-*/	
-	
+//	Rprintf("Start Computing\n");
 	double *probs,logmargy, shrinkage_m;
 	int i;
 
@@ -138,10 +119,12 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	NODEPTR tree, branch;
 	tree = make_node(vars[0].prob);
-	//	Rprintf("For m=0, Initialize Tree with initial Model\n");
+//	Rprintf("For m=0, Initialize Tree with initial Model\n");
 
 	int m = 0;
 	int *bestmodel = INTEGER(Rbestmodel);
+	
+	INTEGER(modeldim)[m] = 0;
 	for (i = n; i < p; i++)  {
 		model[vars[i].index] = bestmodel[vars[i].index];
 		INTEGER(modeldim)[m]  +=  bestmodel[vars[i].index];
@@ -165,7 +148,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	logmargy = REAL(getListElement(getListElement(glm_fit, "lpy"),"lpY"))[0];
 	shrinkage_m = REAL(getListElement(getListElement(glm_fit, "lpy"),
 					"shrinkage"))[0];
-
+//   Rprintf("SetModel_glm for initial model\n");
 //	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
 //	SetModel1(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, m);
 	SetModel_glm(glm_fit, Rmodel_m, beta, se, modelspace, deviance, R2, Q,Rintercept, 
@@ -174,7 +157,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	int *modelwork= ivecalloc(p);
 
-	// sample models
+//	Rprintf("sample models\n");
 	for (m = 1;  m < nUnique  && lessThanOne(pigamma[0]); m++) {
 	  INTEGER(modeldim)[m] = 0.0;
 		for (i = n; i < p; i++)  {
@@ -221,9 +204,9 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 				int mcurrent = m;
 				compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
 				compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
-				if (update_probs(probs, vars, mcurrent,nUnique, p) == 1) {
+				if (update_probs(probs, vars, mcurrent, nUnique, p) == 1) {
 				  //					Rprintf("Updating Model Tree %d \n", m);
-					update_tree(modelspace, tree, modeldim, vars,nUnique,p,n,mcurrent, modelwork);
+					update_tree(modelspace, tree, modeldim, vars, nUnique, p, n, mcurrent, modelwork);
 				}
 			}
 		}
@@ -231,7 +214,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	
 	if (m < nUnique) {
-	  Rprintf("resize if constraints have reduced the number of models %d to %d\n", nUnique, m);
+//	  Rprintf("resize if constraints have reduced the number of models\n");
 	  nUnique = m;
 	  
 	  SET_VECTOR_ELT(ANS, 1, resizeVector(modelspace, nUnique));
@@ -247,84 +230,17 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	  SET_VECTOR_ELT(ANS, 11, resizeVector(R2, nUnique));
 	  SET_VECTOR_ELT(ANS, 13, resizeVector(Q, nUnique));
 	  SET_VECTOR_ELT(ANS, 14, resizeVector(Rintercept, nUnique));
-	  //	  Rprintf("resizing to %d models\n", nUnique);
+//	  Rprintf("resizing to %d models\n", nUnique);
 	}
-	
+
 	compute_modelprobs(modelprobs, logmarg, priorprobs,nUnique);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, nUnique, p);
-	
-	//	Rprintf("computed model probs\n");
+
+//	Rprintf("computed model probs\n");
 	INTEGER(NumUnique)[0] = nUnique;
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
-
-	/*	
-	if (m < k) {
-	  // resize if constraints have reduced the number of models
-	  k = m;
-	  
-	  SETLENGTH(modelspace, m);
-	  SETLENGTH(logmarg, m);
-	  SETLENGTH(modelprobs, m);
-	  SETLENGTH(priorprobs, m);
-	  SETLENGTH(sampleprobs, m);
-	  SETLENGTH(beta, m);
-	  SETLENGTH(se, m);
-	  SETLENGTH(deviance, m);
-	  SETLENGTH(Q, m);
-	  SETLENGTH(shrinkage, m);
-	  SETLENGTH(modeldim, m);
-	  SETLENGTH(R2, m);
-	  SETLENGTH(Rintercept, m);
-	}
-
-	compute_modelprobs(modelprobs, logmarg, priorprobs,k);
-	compute_margprobs(modelspace, modeldim, modelprobs, probs, k, p);
-
-	SET_VECTOR_ELT(ANS, 0, Rprobs);
-	SET_STRING_ELT(ANS_names, 0, mkChar("probne0"));
-
-	SET_VECTOR_ELT(ANS, 1, modelspace);
-	SET_STRING_ELT(ANS_names, 1, mkChar("which"));
-
-	SET_VECTOR_ELT(ANS, 2, logmarg);
-	SET_STRING_ELT(ANS_names, 2, mkChar("logmarg"));
-
-	SET_VECTOR_ELT(ANS, 3, modelprobs);
-	SET_STRING_ELT(ANS_names, 3, mkChar("postprobs"));
-
-	SET_VECTOR_ELT(ANS, 4, priorprobs);
-	SET_STRING_ELT(ANS_names, 4, mkChar("priorprobs"));
-
-	SET_VECTOR_ELT(ANS, 5,sampleprobs);
-	SET_STRING_ELT(ANS_names, 5, mkChar("sampleprobs"));
-
-	SET_VECTOR_ELT(ANS, 6, deviance);
-	SET_STRING_ELT(ANS_names, 6, mkChar("deviance"));
-
-	SET_VECTOR_ELT(ANS, 7, beta);
-	SET_STRING_ELT(ANS_names, 7, mkChar("mle"));
-
-	SET_VECTOR_ELT(ANS, 8, se);
-	SET_STRING_ELT(ANS_names, 8, mkChar("mle.se"));
-
-	SET_VECTOR_ELT(ANS, 9, shrinkage);
-	SET_STRING_ELT(ANS_names, 9, mkChar("shrinkage"));
-
-	SET_VECTOR_ELT(ANS, 10, modeldim);
-	SET_STRING_ELT(ANS_names, 10, mkChar("size"));
-
-	SET_VECTOR_ELT(ANS, 11, R2);
-	SET_STRING_ELT(ANS_names, 11, mkChar("R2"));
-
-	SET_VECTOR_ELT(ANS, 12, Q);
-	SET_STRING_ELT(ANS_names, 12, mkChar("Q"));
-
-	SET_VECTOR_ELT(ANS, 13, Rintercept);
-	SET_STRING_ELT(ANS_names, 13, mkChar("intercept"));
-
-	setAttrib(ANS, R_NamesSymbol, ANS_names);
-	 
-	*/
+	
+//	Rprintf("returning\n");
 	
 	PutRNGstate();
 

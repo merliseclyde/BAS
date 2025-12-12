@@ -7,7 +7,7 @@
 
 
 // [[register]]
-SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
+SEXP mcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
               SEXP incint, SEXP Ralpha, SEXP method, SEXP modelprior, SEXP Rupdate,
               SEXP Rbestmodel, SEXP plocal, SEXP BURNIN_Iterations,
               SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA,
@@ -19,10 +19,13 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	int nModels=LENGTH(Rmodeldim);
 	int pivot = LOGICAL(Rpivot)[0];
 	double tol = REAL(Rtol)[0];
+	int *counts;
 
   // Rprintf("Allocating Space for %d Models\n", nModels) ;
 	SEXP ANS = PROTECT(allocVector(VECSXP, 16)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 16)); ++nProtected;
+	
+	/*		
 	SEXP Rprobs = PROTECT(duplicate(Rprobinit)); ++nProtected;
 	SEXP MCMCprobs= PROTECT(duplicate(Rprobinit)); ++nProtected;
 	SEXP R2 = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
@@ -36,19 +39,89 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	SEXP mse = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP modelprobs = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP priorprobs = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
-	SEXP logmarg = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
+	SEXP Rlogmarg = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP sampleprobs = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
 	SEXP NumUnique = PROTECT(allocVector(INTSXP, 1)); ++nProtected;
-
+*/
+	
+	SEXP Rprobs = PROTECT(duplicate(Rprobinit)); 
+	SET_VECTOR_ELT(ANS, 0, Rprobs);
+	SET_STRING_ELT(ANS_names, 0, mkChar("probne0"));
+	
+	SEXP modelspace = allocVector(VECSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 1, modelspace);
+	SET_STRING_ELT(ANS_names, 1, mkChar("which"));
+	
+	SEXP Rlogmarg = allocVector(REALSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 2, Rlogmarg);
+	SET_STRING_ELT(ANS_names, 2, mkChar("logmarg"));
+	
+	SEXP modelprobs = allocVector(REALSXP, nModels);  
+	SET_VECTOR_ELT(ANS, 3, modelprobs);
+	SET_STRING_ELT(ANS_names, 3, mkChar("postprobs"));
+	
+	SEXP priorprobs = allocVector(REALSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 4, priorprobs);
+	SET_STRING_ELT(ANS_names, 4, mkChar("priorprobs"));
+	
+	SEXP sampleprobs = allocVector(REALSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 5, sampleprobs);
+	SET_STRING_ELT(ANS_names, 5, mkChar("sampleprobs"));
+	
+	SEXP mse = allocVector(REALSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 6, mse);
+	SET_STRING_ELT(ANS_names, 6, mkChar("mse"));
+	
+	SEXP beta = allocVector(VECSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 7, beta);
+	SET_STRING_ELT(ANS_names, 7, mkChar("mle"));
+	
+	SEXP se = allocVector(VECSXP, nModels);
+	SET_VECTOR_ELT(ANS, 8, se);
+	SET_STRING_ELT(ANS_names, 8, mkChar("mle.se"));
+	
+	SEXP shrinkage = allocVector(REALSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 9, shrinkage);
+	SET_STRING_ELT(ANS_names, 9, mkChar("shrinkage"));
+	
+	SEXP modeldim =  allocVector(INTSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 10, modeldim);
+	SET_STRING_ELT(ANS_names, 10, mkChar("size"));
+	
+	SEXP R2 = allocVector(REALSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 11, R2);
+	SET_STRING_ELT(ANS_names, 11, mkChar("R2"));
+	
+	SEXP rank = allocVector(INTSXP, nModels); 
+	SET_VECTOR_ELT(ANS, 12, rank);
+	SET_STRING_ELT(ANS_names, 12, mkChar("rank"));
+	
+	SEXP Rcounts =  allocVector(INTSXP, nModels); 
+	counts = INTEGER(Rcounts);
+	memset(counts, 0, nModels * sizeof(int));
+	SET_VECTOR_ELT(ANS, 13, Rcounts);
+	SET_STRING_ELT(ANS_names, 13, mkChar("freq"));
+	
+	SEXP MCMCprobs= duplicate(Rprobinit);
+	SET_VECTOR_ELT(ANS, 14, MCMCprobs);
+	SET_STRING_ELT(ANS_names, 14, mkChar("probne0.MCMC"));
+	
+	SEXP NumUnique = allocVector(INTSXP, 1); 
+	SET_VECTOR_ELT(ANS, 15, NumUnique);
+	SET_STRING_ELT(ANS_names, 15, mkChar("n.Unique"));
+	
+	setAttrib(ANS, R_NamesSymbol, ANS_names);
+	
 
 	double *Xwork, *Ywork,*wts, *probs, shrinkage_m,
 		mse_m, MH=0.0, prior_m=1.0,
-		R2_m, RSquareFull, logmargy, postold, postnew;
+		R2_m, RSquareFull, logmarg_m, postold, postnew;
 	int i, m, n, pmodel_old, *model_m, *bestmodel, rank_m;
 	int mcurrent, n_sure;
 
 
 	//get dimsensions of all variables
+
 	int nobs = LENGTH(Y);
 	int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
 	int k = LENGTH(modelprobs);
@@ -110,20 +183,21 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	PROTECT(Rse_m = NEW_NUMERIC(pmodel));
 
 	model_m = GetModel_m(Rmodel_m, model, p);
-	//evaluate logmargy and shrinkage
+	//evaluate logmarg_m and shrinkage
 
 	R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel,
                  p, nobs, m, &mse_m, &rank_m, pivot, tol);
 	INTEGER(rank)[0] = rank_m;
 
-	gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy,
+	gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmarg_m,
                &shrinkage_m);
 
 
 	prior_m  = compute_prior_probs(model,pmodel,p, modelprior, noInclusionIs1);
 	if (prior_m == 0.0)  error("initial model has 0 prior probabilty\n");
-	SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, m);
-	SetModel(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2, m);
+//	SetModel2(logmarg_m, shrinkage_m, prior_m, sampleprobs, Rlogmarg, shrinkage, priorprobs, m);
+	SetModel_lm(logmarg_m, shrinkage_m, prior_m, sampleprobs, Rlogmarg, shrinkage, priorprobs,
+              Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2, m);
 
 	int nUnique=0, newmodel=0, nsamples=0;
 	double *real_model = vecalloc(n);
@@ -132,8 +206,8 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	int new_loc;
 	pmodel_old = pmodel;
 	nUnique=1;
-	INTEGER(counts)[0] = 1;
-	postold =  REAL(logmarg)[m] + log(REAL(priorprobs)[m]);
+	INTEGER(Rcounts)[0] = 1;
+	postold =  REAL(Rlogmarg)[m] + log(REAL(priorprobs)[m]);
 	memcpy(modelold, model, sizeof(int)*p);
 	m = 0;
 	int *varin= ivecalloc(p);
@@ -141,7 +215,7 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	double problocal = REAL(plocal)[0];
 	
 	
-	while (nUnique < k && m < (INTEGER(MCMC_Iterations)[0] + INTEGER(BURNIN_Iterations)[0])) {
+	while (nUnique <= nModels && m < (INTEGER(MCMC_Iterations)[0] + INTEGER(BURNIN_Iterations)[0])) {
 
 	  memcpy(model, modelold, sizeof(int)*p);
 		pmodel =  n_sure;
@@ -181,14 +255,14 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 
 		    R2_m = FitModel(Rcoef_m, Rse_m, XtY, XtX, model_m, XtYwork, XtXwork, yty, SSY, pmodel, p, nobs, m, &mse_m,
                       &rank_m, pivot, tol);
-		    gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmargy, &shrinkage_m);
+		    gexpectations(p, rank_m, nobs, R2_m, alpha, INTEGER(method)[0], RSquareFull, SSY, &logmarg_m, &shrinkage_m);
 
-		    postnew = logmargy + log(prior_m);
+		    postnew = logmarg_m + log(prior_m);
 		    MH *= exp(postnew - postold);
 		  }}
 		else {
 		  new_loc = branch->where;
-		  postnew =  REAL(logmarg)[new_loc] +
+		  postnew =  REAL(Rlogmarg)[new_loc] +
 		             log(REAL(priorprobs)[new_loc]);
 		  MH *=  exp(postnew - postold);
 		}
@@ -202,10 +276,12 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 		    insert_model_tree(tree, vars, n, model, nUnique);
 		    INTEGER(modeldim)[nUnique] = pmodel;
 		    INTEGER(rank)[nUnique] = rank_m;
-
+		    INTEGER(Rcounts)[nUnique] = 0;
+		    
 		    //record model data
-		    SetModel2(logmargy, shrinkage_m, prior_m, sampleprobs, logmarg, shrinkage, priorprobs, nUnique);
-		    SetModel(Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2,nUnique);
+//		    SetModel2(logmarg_m, shrinkage_m, prior_m, sampleprobs, Rlogmarg, shrinkage, priorprobs, nUnique);
+		    SetModel_lm(logmarg_m, shrinkage_m, prior_m, sampleprobs, Rlogmarg, shrinkage, priorprobs,
+                    Rcoef_m, Rse_m, Rmodel_m, mse_m, R2_m,	beta, se, modelspace, mse, R2,nUnique);
 
 		    ++nUnique;
 		    }
@@ -223,7 +299,7 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 
 		if ( (m % thin) == 0) {
 
-		  INTEGER(counts)[old_loc] += 1;
+		  INTEGER(Rcounts)[old_loc] += 1;
 
 		  for (i = 0; i < n; i++) {
 		    // store in opposite order so nth variable is first
@@ -244,34 +320,63 @@ SEXP mcmc_new(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 
 	// Compute marginal probabilities
 	mcurrent = nUnique;
-	compute_modelprobs(modelprobs, logmarg, priorprobs,mcurrent);
+	compute_modelprobs(modelprobs, Rlogmarg, priorprobs, mcurrent);
 	compute_margprobs(modelspace, modeldim, modelprobs, probs, mcurrent, p);
-
+	
 	INTEGER(NumUnique)[0] = nUnique;
-
 	SET_VECTOR_ELT(ANS, 0, Rprobs);
-	SET_STRING_ELT(ANS_names, 0, mkChar("probne0"));
-
+	
+	//	Rprintf("Decreasing nModels %d to number of unique models accepted %d \n", nModels, nUnique);
 	if (nUnique < nModels) {
-	  SETLENGTH(modelspace, nUnique);
-	  SETLENGTH(logmarg, nUnique);
+	SET_VECTOR_ELT(ANS, 1, resizeVector(modelspace, nUnique));
+	SET_VECTOR_ELT(ANS, 2, resizeVector(Rlogmarg, nUnique));
+	SET_VECTOR_ELT(ANS, 3, resizeVector(modelprobs, nUnique));
+	SET_VECTOR_ELT(ANS, 4, resizeVector(priorprobs, nUnique));
+	SET_VECTOR_ELT(ANS, 5, resizeVector(sampleprobs, nUnique));
+	SET_VECTOR_ELT(ANS, 6, resizeVector(mse, nUnique));
+	SET_VECTOR_ELT(ANS, 7, resizeVector(beta, nUnique));
+	SET_VECTOR_ELT(ANS, 8, resizeVector(se, nUnique));
+	SET_VECTOR_ELT(ANS, 9, resizeVector(shrinkage, nUnique));
+	SET_VECTOR_ELT(ANS, 10, resizeVector(modeldim, nUnique));
+	SET_VECTOR_ELT(ANS, 11, resizeVector(R2, nUnique));
+	SET_VECTOR_ELT(ANS, 12, resizeVector(rank, nUnique));
+	SET_VECTOR_ELT(ANS, 13, resizeVector(Rcounts, nUnique));
+}	  
+
+ /*
+	if (nUnique < nModels) {
+    SET_LENGTH(modelspace, nUnique);
+//	  modelspace = Rf_lengthgets(modelspace, nUnique);
+	  SETLENGTH(Rlogmarg, nUnique);
+//	  logmarg = Rf_lengthgets(Rlogmarg, nUnique);
 	  SETLENGTH(modelprobs, nUnique);
+//	  modelprobs = Rf_lengthgets(modelprobs, nUnique);
 	  SETLENGTH(priorprobs, nUnique);
+//	  priorprobs = Rf_lengthgets(priorprobs, nUnique);
 	  SETLENGTH(sampleprobs, nUnique);
+//	  sampleprobs = Rf_lengthgets(sampleprobs, nUnique);
 	  SETLENGTH(counts, nUnique);
-	  SETLENGTH(beta, nUnique);
+//	  counts = Rf_lengthgets(counts, nUnique);
+    SETLENGTH(beta, nUnique);
+//	  beta = Rf_lengthgets(beta, nUnique);
 	  SETLENGTH(se, nUnique);
+//	  se = Rf_lengthgets(se, nUnique);
 	  SETLENGTH(mse, nUnique);
+//	  mse = Rf_lengthgets(mse, nUnique);
 	  SETLENGTH(shrinkage, nUnique);
+//	  shrinkage = Rf_lengthgets(shrinkage, nUnique);
 	  SETLENGTH(modeldim, nUnique);
+//	  modeldim = Rf_lengthgets(modeldim, nUnique);
 	  SETLENGTH(R2, nUnique);
-	  SETLENGTH(rank, nUnique);
+	  R2 = Rf_lengthgets(R2, nUnique);
+//	  SETLENGTH(rank, nUnique);
+	  rank = Rf_lengthgets(rank, nUnique);
 	  }
 	
 	SET_VECTOR_ELT(ANS, 1, modelspace);
 	SET_STRING_ELT(ANS_names, 1, mkChar("which"));
 
-	SET_VECTOR_ELT(ANS, 2, logmarg);
+	SET_VECTOR_ELT(ANS, 2, Rlogmarg);
 	SET_STRING_ELT(ANS_names, 2, mkChar("logmarg"));
 
 	SET_VECTOR_ELT(ANS, 3, modelprobs);
@@ -315,6 +420,8 @@ SET_STRING_ELT(ANS_names, 15, mkChar("n.Unique"));
 
 setAttrib(ANS, R_NamesSymbol, ANS_names);
 
+*/
+ 
 	PutRNGstate();
     UNPROTECT(nProtected);
     //	Rprintf("Return\n");
