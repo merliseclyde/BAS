@@ -1,3 +1,10 @@
+# check on additional sites
+# 
+devtools::check_win_devel()
+rhub::rhub_check(branch="devel", platforms = "gcc14")
+
+
+
 # first merge main devel in terminal
 # on devel
 git merge main
@@ -26,9 +33,8 @@ devtools::check_win_devel()
 
 
 # check rhub. (see github actions to trigger rhub workflow
-# rhub2::rhub_check(platforms = "valgrind")
-# rhub2::rhub_check(platforms = "valgrind", branch="devel")
 
+rhub::rhub_check(branch="devel", platforms = ubuntu)
 
 
 # to submit to CRAN
