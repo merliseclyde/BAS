@@ -53,7 +53,7 @@
                         <h4 data-toc-skip class="author">Merlise A
 Clyde</h4>
             
-            <h4 data-toc-skip class="date">2024-11-28</h4>
+            <h4 data-toc-skip class="date">2025-12-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/merliseclyde/BAS/blob/main/vignettes/BAS-vignette.Rmd" class="external-link"><code>vignettes/BAS-vignette.Rmd</code></a></small>
       <div class="d-none name"><code>BAS-vignette.Rmd</code></div>
@@ -171,7 +171,7 @@ if there are no factors or interactions in the model.</p>
 <code>plot</code> function</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">crime.ZS</span>, ask <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
-<p><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-1.png" width="700"><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-2.png" width="700"><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-3.png" width="700"><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-4.png" width="700"></p>
+<p><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-1.png" class="r-plt" width="700"><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-2.png" class="r-plt" width="700"><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-3.png" class="r-plt" width="700"><img src="BAS-vignette_files/figure-html/unnamed-chunk-1-4.png" class="r-plt" width="700"></p>
 <p>which produces a panel of four plots. The first is a plot of
 residuals and fitted values under Bayesian Model Averaging. Ideally, if
 our model assumptions hold, we will not see outliers or non-constant
@@ -195,7 +195,7 @@ of multicollinearity.</p>
 option.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">crime.ZS</span>, which <span class="op">=</span> <span class="fl">4</span>, ask <span class="op">=</span> <span class="cn">FALSE</span>, caption <span class="op">=</span> <span class="st">""</span>, sub.caption <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
-<p><img src="BAS-vignette_files/figure-html/pip-1.png" width="480"></p>
+<p><img src="BAS-vignette_files/figure-html/pip-1.png" class="r-plt" width="480"></p>
 <p><code>BAS</code> has <code>print</code> and <code>summary</code>
 methods defined for objects of class <code>bas</code>. Typing the
 objects name</p>
@@ -259,7 +259,7 @@ of the models via an <code>image</code> plot. By default this shows the
 top 20 models.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">crime.ZS</span>, rotate <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
-<p><img src="BAS-vignette_files/figure-html/image-1.png" width="480"></p>
+<p><img src="BAS-vignette_files/figure-html/image-1.png" class="r-plt" width="480"></p>
 <p>This image has rows that correspond to each of the variables and
 intercept, with labels for the variables on the y-axis. The x-axis
 corresponds to the possible models. These are sorted by their posterior
@@ -297,7 +297,7 @@ are obtained using the <code>plot</code> method for the <code>bas</code>
 coefficient object.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">coef.ZS</span>, subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, ask <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
-<p><img src="BAS-vignette_files/figure-html/plot-1.png" width="700"><img src="BAS-vignette_files/figure-html/plot-2.png" width="700"></p>
+<p><img src="BAS-vignette_files/figure-html/plot-1.png" class="r-plt" width="700"><img src="BAS-vignette_files/figure-html/plot-2.png" class="r-plt" width="700"></p>
 <p>The vertical bar represents the posterior probability that the
 coefficient is 0 while the bell shaped curve represents the density of
 plausible values from all the models where the coefficient is non-zero.
@@ -337,7 +337,7 @@ are sampled based on their posterior probabilities.</p>
 <p>We can also plot these via</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="va">coef.ZS</span>, parm <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">16</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="BAS-vignette_files/figure-html/plot-confint-1.png" width="672"></p>
+<p><img src="BAS-vignette_files/figure-html/plot-confint-1.png" class="r-plt" width="672"></p>
 <pre><code><span><span class="co">## NULL</span></span></code></pre>
 <p>using the <code>parm</code> argument to select which coefficients to
 plot (the intercept is <code>parm=1</code>).</p>
@@ -348,7 +348,7 @@ arguments via <code>estimator</code>. The default is
 highest probability model</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="fu"><a href="../reference/coef.html">coef</a></span><span class="op">(</span><span class="va">crime.ZS</span>, estimator <span class="op">=</span> <span class="st">"HPM"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="BAS-vignette_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
+<p><img src="BAS-vignette_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" width="672"></p>
 <pre><code><span><span class="co">## NULL</span></span></code></pre>
 <p>or the median probability model</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
@@ -380,7 +380,7 @@ either the observed data or potentially new values,
 <span>  xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/influence.measures.html" class="external-link">hat</a></span><span class="op">(</span><span class="va">mu</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>, ylab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/influence.measures.html" class="external-link">hat</a></span><span class="op">(</span><span class="va">Y</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="BAS-vignette_files/figure-html/unnamed-chunk-4-1.png" width="480"></p>
+<p><img src="BAS-vignette_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" width="480"></p>
 <p>we see that they are in perfect agreement. That is always the case as
 the posterior mean for the regression mean function at a point
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
@@ -438,7 +438,7 @@ closest to BMA predictions under squared error loss.</p>
 <span>  BPM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">BPM</span><span class="op">$</span><span class="va">fit</span><span class="op">)</span>, <span class="co"># this used fitted</span></span>
 <span>  BMA <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">BMA</span><span class="op">$</span><span class="va">fit</span><span class="op">)</span></span>
 <span><span class="op">)</span><span class="op">)</span> <span class="co"># this used predict</span></span></code></pre></div>
-<p><img src="BAS-vignette_files/figure-html/unnamed-chunk-6-1.png" width="576"></p>
+<p><img src="BAS-vignette_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" width="576"></p>
 <p>Using the <code>se.fit = TRUE</code> option with <code>predict</code>
 we can also calculate standard deviations for prediction or for the mean
 and use this as input for the <code>confint</code> function for the
@@ -448,11 +448,11 @@ prediction object.</p>
 <span><span class="va">crime.conf.fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="va">BPM</span>, parm <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span></span>
 <span><span class="va">crime.conf.pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/confint.coef.html">confint</a></span><span class="op">(</span><span class="va">BPM</span>, parm <span class="op">=</span> <span class="st">"pred"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">crime.conf.fit</span><span class="op">)</span></span></code></pre></div>
-<p><img src="BAS-vignette_files/figure-html/se-1.png" width="672"></p>
+<p><img src="BAS-vignette_files/figure-html/se-1.png" class="r-plt" width="672"></p>
 <pre><code><span><span class="co">## NULL</span></span></code></pre>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">crime.conf.pred</span><span class="op">)</span></span></code></pre></div>
-<p><img src="BAS-vignette_files/figure-html/se-2.png" width="672"></p>
+<p><img src="BAS-vignette_files/figure-html/se-2.png" class="r-plt" width="672"></p>
 <pre><code><span><span class="co">## NULL</span></span></code></pre>
 <p>For prediction at new points, we can supply a new dataframe to the
 predict function as in <code>lm</code>.</p>
@@ -490,7 +490,7 @@ enumeration;</p>
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   1.421   0.004   1.425</span></span></code></pre>
+<span><span class="co">##   1.296   0.026   1.323</span></span></code></pre>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
 <span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
@@ -502,7 +502,7 @@ enumeration;</p>
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   1.240   0.000   1.241</span></span></code></pre>
+<span><span class="co">##   1.145   0.000   1.144</span></span></code></pre>
 <p>which is faster for enumeration than the default method=“BAS”.</p>
 </div>
 <div class="section level2">
@@ -544,10 +544,10 @@ sets of estimates of posterior inclusion probabilities and posterior
 model probabilities</p>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/diagnostics.html">diagnostics</a></span><span class="op">(</span><span class="va">crime.ZS</span>, type <span class="op">=</span> <span class="st">"pip"</span>, pch <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></code></pre></div>
-<p><img src="BAS-vignette_files/figure-html/diagnostics-1.png" width="700"></p>
+<p><img src="BAS-vignette_files/figure-html/diagnostics-1.png" class="r-plt" width="700"></p>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/diagnostics.html">diagnostics</a></span><span class="op">(</span><span class="va">crime.ZS</span>, type <span class="op">=</span> <span class="st">"model"</span>, pch <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></code></pre></div>
-<p><img src="BAS-vignette_files/figure-html/diagnostics-2.png" width="700"></p>
+<p><img src="BAS-vignette_files/figure-html/diagnostics-2.png" class="r-plt" width="700"></p>
 <p>In the left hand plot of pips, each point represents one posterior
 inclusion probability for the 15 variables estimated under the two
 methods. The two estimators are in pretty close agreement. The plot of
@@ -908,7 +908,7 @@ constraints:</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">TG.bas</span><span class="op">)</span></span></code></pre></div>
-<p><img src="BAS-vignette_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
+<p><img src="BAS-vignette_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" width="672"></p>
 <p>From the image of the model space, we see that levels of a factor
 enter or drop from the model independently and that interactions may be
 included without the main effects. This may lead to more parsimonious
@@ -928,7 +928,7 @@ higher order interactions.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">TG.bas</span><span class="op">)</span></span></code></pre></div>
-<p><img src="BAS-vignette_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
+<p><img src="BAS-vignette_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" width="672"></p>
 <p>The <code>force.heredity</code> is set to FALSE for the sampling
 methods <code>MCMC+BAS</code> and <code>deterministic</code>. If there
 are more than 20 predictors and factors, then we recommend using
@@ -1015,7 +1015,7 @@ with the following code</p>
 <p>Examining the image of the top models,</p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">climate.bas</span>, rotate <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
-<p><img src="BAS-vignette_files/figure-html/climate-image-1.png" width="672"></p>
+<p><img src="BAS-vignette_files/figure-html/climate-image-1.png" class="r-plt" width="672"></p>
 <p>we see that all levels of a factor enter or drop from the model
 together, as well as the vectors in the design matrix to represent the
 term <code>poly</code>.<br>
@@ -1031,7 +1031,7 @@ Rerunning without the constraint,</p>
 <span>  force.heredity <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/image.bas.html">image</a></span><span class="op">(</span><span class="va">climate.bas</span><span class="op">)</span></span></code></pre></div>
-<p><img src="BAS-vignette_files/figure-html/wtreg-wo-contraint-1.png" width="672"></p>
+<p><img src="BAS-vignette_files/figure-html/wtreg-wo-contraint-1.png" class="r-plt" width="672"></p>
 <p>allows one to see which factors levels are different from the
 reference group.</p>
 </div>
@@ -1059,7 +1059,7 @@ page <a href="https://github.com/merliseclyde/BAS" class="external-link">merlise
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
