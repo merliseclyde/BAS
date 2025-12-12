@@ -37,6 +37,7 @@ bas.lm(
   tol = 1e-07,
   GROW = TRUE,
   expand = 1.05,
+  n.models.init = 2500,
   bigmem = FALSE
 )
 }
@@ -263,12 +264,18 @@ interpreting BMA estimates of parameters.}
 
 \item{tol}{1e-7 as}
 
-\item{GROW}{logical variable allow vectors to grow with MCMC sampling if the number of unique models
-exceeds `n.models`before reaching `MCMC.iterations`.  Default is TRUE}
+\item{GROW}{Logical variable to indicate that the output vectors in MCMC are growable.
+Rather than allocate space based on `n.models`, the vectors will grow as needed
+if the number of unique models sampled exceeds the initial size of the allocated output vectors controlled by 
+`n.models.init`.  This is useful when `n.models` is unknown
+before reaching 'MCMC.iterations'.  Default is TRUE.}
 
-\item{expand}{variable to control how much to grow vectors with MCMC sampling 
-if the number of unique models exceeds the current size of the vectors. 
-The default is 1.25, which allows vectors to grow by 25 percent.}
+\item{expand}{variable to control how much to grow vectors with GROW = TRUE 
+if number of unique models exceeds the current size of the vectors. 
+The default is 1.25 times, which allows vectors to grow by 25 percent.}
+
+\item{n.models.init}{Initial size of output vectors if GROW = TRUE. The 
+default is `n.models = 2500`.}
 
 \item{bigmem}{Logical variable to indicate that there is access to
 large amounts of memory (physical or virtual) for enumeration

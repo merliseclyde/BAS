@@ -299,11 +299,16 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' Currently coefficients that are not estimable are set to zero.  Use caution with
 #' interpreting BMA estimates of parameters.
 #' @param tol 1e-7 as
-#' @param GROW  logical variable allow vectors to grow with MCMC sampling if the number of unique models
-#' exceeds `n.models`before reaching `MCMC.iterations`.  Default is TRUE
-#' @param expand variable to control how much to grow vectors with MCMC sampling 
-#' if the number of unique models exceeds the current size of the vectors. 
-#' The default is 1.25, which allows vectors to grow by 25 percent.
+#' @param GROW Logical variable to indicate that the output vectors in MCMC are growable.  
+#' Rather than allocate space based on `n.models`, the vectors will grow as needed
+#' if the number of unique models sampled exceeds the initial size of the allocated output vectors controlled by 
+#' `n.models.init`.  This is useful when `n.models` is unknown
+#' before reaching 'MCMC.iterations'.  Default is TRUE.
+#' @param expand variable to control how much to grow vectors with GROW = TRUE 
+#' if number of unique models exceeds the current size of the vectors. 
+#' The default is 1.25 times, which allows vectors to grow by 25 percent.
+#' @param n.models.init Initial size of output vectors if GROW = TRUE. The 
+#' default is `n.models = 2500`.
 #' @param bigmem Logical variable to indicate that there is access to
 #' large amounts of memory (physical or virtual) for enumeration
 #' with large model spaces, e.g. > 2^25. default; used in determining rank of 
@@ -536,6 +541,7 @@ bas.lm <- function(formula,
                    tol = 1e-7,
                    GROW = TRUE,
                    expand = 1.05,
+                   n.models.init = 2500,
                    bigmem = FALSE) {
   num.updates <- 10
   call <- match.call()
@@ -685,8 +691,8 @@ bas.lm <- function(formula,
 
   if (is.null(n.models)) {
     n.models <- min(2^p, 2^16)
-    if (method == "MCMC")   n.models = min(n.models, 2000) 
-    if (method == "AMCMC" & !importance.sampling)  n.models = min(n.models, 2000) 
+    if (method == "MCMC")   n.models = min(n.models, n.models.init) 
+    if (method == "AMCMC" & !importance.sampling)  n.models = min(n.models, n.models.init) 
 
   }
   if (is.null(MCMC.iterations)) {

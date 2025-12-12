@@ -27,6 +27,7 @@ cran-comments.md
 CONTRIBUTING.md
 .htaccess
 R/copyright.txt
+R/grow-comparison.R
 src/copyright.txt
 
 ^cran-comments\.md$
