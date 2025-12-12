@@ -30,9 +30,13 @@ bas.lm(
   thin = 1,
   renormalize = FALSE,
   importance.sampling = FALSE,
+  FPS = "none",
   force.heredity = FALSE,
   pivot = TRUE,
   tol = 1e-07,
+  GROW = TRUE,
+  expand = 1.05,
+  n.models.init = 2500,
   bigmem = FALSE
 )
 ```
@@ -73,15 +77,18 @@ bas.lm(
 - n.models:
 
   number of models to sample either without replacement (method="BAS" or
-  "MCMC+BAS") or with replacement (method="MCMC"). If NULL, BAS with
-  method="BAS" will try to enumerate all 2^p models. If enumeration is
-  not possible (memory or time) then a value should be supplied which
-  controls the number of sampled models using 'n.models'. With
-  method="MCMC", sampling will stop once the min(n.models,
-  MCMC.iterations) occurs so MCMC.iterations be significantly larger
-  than n.models in order to explore the model space. On exit for method=
-  "MCMC" this is the number of unique models that have been sampled with
-  counts stored in the output as "freq".
+  "MCMC+BAS") or initial number of models to sample with replacement
+  (method="MCMC" or "AMCMC"). If NULL,BAS with method="BAS" will try to
+  enumerate/sample the min(2^p, 2^16). If 'n.models' \> 2^25, the user
+  should use 'bigmem = TRUE' to sample/enumerate 'n.models'. With
+  method="MCMC" or "AMCMC", 'n.models' controls the initial number of
+  models with the default for n.models = min(2000, 2^p). Sampling will
+  stop once burnin.iterations + MCMC.iterations are exceeded and
+  n.models will be increased/decreased as needed to store the unique
+  models sampled. On exit 'n.models' is the number of unique models that
+  have been sampled. For sampling with replacement (MCMC or AMCMC) the
+  counts for the number of times a models is sampled is stored in the
+  output as "freq".
 
 - prior:
 
@@ -163,7 +170,7 @@ bas.lm(
 
   Note that Porwal & Raftery (2022) recommend alpha = sqrt(n) for the
   g-prior based on extensive range of simulations and examples for
-  comparing BMA. This will become the default in the future.
+  comparing BMA.
 
 - modelprior:
 
@@ -241,8 +248,8 @@ bas.lm(
     distribution as a product conditional probabilities estimated from
     the past draws. If \`importance.sampling = FALSE\` this uses an
     adaptive independent Metropolis-Hasting algorithm, with if
-    \`importance.sampling = TRUE\` uses importance sampline combined
-    with Horiwitz-Thompson estimates of posterior model and inclusion
+    \`importance.sampling = TRUE\` uses importance sampling combined
+    with Horwitz-Thompson estimates of posterior model and inclusion
     probabilities.
 
 - update:
@@ -272,13 +279,13 @@ bas.lm(
 
 - burnin.iterations:
 
-  Number of burnin iterations for the MCMC sampler; the default is
-  n.models\*10 if not set by the user.
+  Number of burnin iterations for the MCMC sampler; the default is p\*25
+  if not set by the user.
 
 - MCMC.iterations:
 
-  Number of iterations for the MCMC sampler; the default is n.models\*10
-  if not set by the user.
+  Number of iterations for the MCMC sampler; the default is p\*1000 if
+  not set by the user.
 
 - lambda:
 
@@ -317,6 +324,15 @@ bas.lm(
   Metropolis-Hastings algorithm with sampling method="AMCMC" (see
   above).
 
+- FPS:
+
+  Finite Population Sampling estimator for use with method="MCMC+BAS".
+  Options include "none" (default) which uses the sum of marginal
+  likelihoods times priors for sampled models to estimate the
+  normalizing constant, or "Bayes_HT" which uses an additional
+  correction to the normalizing constant to account for unsampled models
+  using sampling probabilities.
+
 - force.heredity:
 
   Logical variable to force all levels of a factor to be included
@@ -346,11 +362,31 @@ bas.lm(
 
   1e-7 as
 
+- GROW:
+
+  Logical variable to indicate that the output vectors in MCMC are
+  growable. Rather than allocate space based on \`n.models\`, the
+  vectors will grow as needed if the number of unique models sampled
+  exceeds the initial size of the allocated output vectors controlled by
+  \`n.models.init\`. This is useful when \`n.models\` is unknown before
+  reaching 'MCMC.iterations'. Default is TRUE.
+
+- expand:
+
+  variable to control how much to grow vectors with GROW = TRUE if
+  number of unique models exceeds the current size of the vectors. The
+  default is 1.25 times, which allows vectors to grow by 25 percent.
+
+- n.models.init:
+
+  Initial size of output vectors if GROW = TRUE. The default is
+  \`n.models = 2500\`.
+
 - bigmem:
 
   Logical variable to indicate that there is access to large amounts of
   memory (physical or virtual) for enumeration with large model spaces,
-  e.g. \> 2^25. default; used in determining rank of X^TX in cholesky
+  e.g. \> 2^25. default; used in determining rank of X^TX in Cholesky
   decomposition with pivoting.
 
 ## Value
@@ -895,7 +931,7 @@ demo(BAS.hald)
 #> [1] 12 12 12 12 12
 #> 
 #> $best
-#> [1] 12  9  7  3  8
+#> [1] 12  4  8  9  5
 #> 
 #> $bestmodel
 #> $bestmodel[[1]]
@@ -925,19 +961,19 @@ demo(BAS.hald)
 #> 
 #> > confint(predict(hald.gprior, Hald, estimator="BMA", se.fit=TRUE, top=5), parm="mean")
 #>            2.5%     97.5%      mean
-#>  [1,]  73.02909  85.80614  79.74246
-#>  [2,]  69.20510  79.44046  74.50010
-#>  [3,] 101.04119 109.63466 105.29268
-#>  [4,]  85.21926  94.74513  89.88693
-#>  [5,]  90.79450 100.63639  95.57177
-#>  [6,] 101.05601 107.77356 104.56409
-#>  [7,]  97.41859 108.97750 103.40145
-#>  [8,]  71.33406  82.47197  77.13668
-#>  [9,]  87.66903  96.48884  91.99731
-#> [10,] 106.40099 121.77519 114.21325
-#> [11,]  77.44936  88.14062  82.78446
-#> [12,] 106.76105 115.38975 111.00723
-#> [13,] 105.59721 115.14373 110.40160
+#>  [1,]  73.04460  85.99670  79.74246
+#>  [2,]  69.08615  79.45953  74.50010
+#>  [3,] 100.86586 109.45991 105.29268
+#>  [4,]  85.00337  94.63284  89.88693
+#>  [5,]  90.49220 100.57608  95.57177
+#>  [6,] 101.17646 107.81954 104.56409
+#>  [7,]  97.63097 109.15498 103.40145
+#>  [8,]  71.68036  82.81063  77.13668
+#>  [9,]  87.34153  96.32155  91.99731
+#> [10,] 106.67199 122.05730 114.21325
+#> [11,]  77.41298  88.04204  82.78446
+#> [12,] 106.75325 115.55596 111.00723
+#> [13,] 105.46200 115.14501 110.40160
 #> attr(,"Probability")
 #> [1] 0.95
 #> attr(,"class")

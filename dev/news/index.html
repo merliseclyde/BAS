@@ -33,6 +33,17 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="bas-development-version">BAS (development version)<a class="anchor" aria-label="anchor" href="#bas-development-version"></a></h2>
+<div class="section level3">
+<h3 id="features-development-version">Features<a class="anchor" aria-label="anchor" href="#features-development-version"></a></h3>
+<ul><li><p>in function <code><a href="../reference/bas.lm.html">bas.lm()</a></code> and <code><a href="../reference/bas.glm.html">bas.glm()</a></code> replace use of non-API call to <code>SETLENGTH</code> for MCMC sampling with new C function <code>resizeVectors</code> to truncate when overallocated (closes issue <a href="https://github.com/merliseclyde/BAS/issues/82" class="external-link">#82</a>). This should reduce memory allocation for large problems when <code>n.models</code> was much larger than needed, as the longer vectors are available for garbage collection, although there may be a slight increase in memory usage while copying the to the new vector. This uses the <code>C</code> function <code>resizeVectors</code> based on the <code>R</code> internal function <code>xlenghtgets</code>, but uses <code>memcpy</code> to copy the data to the new vector for efficiency in the case of real and integer SEXP vectors.</p></li>
+<li><p>in <code><a href="../reference/bas.lm.html">bas.lm()</a></code> and <code>bas.glm</code>, added logical option <code>GROW"</code> for <code>method = "MCMC", to allow output vectors to grow as needed (closes issue <a href="https://github.com/merliseclyde/BAS/issues/91" class="external-link">#91</a>) rather than over-allocating based on</code>n.models<code>and truncating.  This should reduce memory usage when the number of unique models visited is much smaller than the default for</code>n.models<code>.   Additional options</code>expand<code>and</code>n.models.init<code>control the growth rate and initial size of the output vectors.  By default,</code>GROW = TRUE<code>,</code>expand = 1.25<code>and</code>n.models.init = 2500`. See documentation for more details.</p></li>
+<li><p>in <code>bas.lm</code> and <code>bas.glm</code>, MCMC sampling now stops after <code>MCMC.iterations</code>, even if <code>n.models</code> is reached, improving estimation based on MCMC frequencies.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<ul><li>
+<code>R2</code> is calculated correctly in models where the number of columns in the design matrix was greater than <code>n</code>, but the model was full rank. Closes issue <a href="https://github.com/merliseclyde/BAS/issues/96" class="external-link">#96</a> reported by A. Womack.</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.7.5" id="bas-175">BAS 1.7.5<a class="anchor" aria-label="anchor" href="#bas-175"></a></h2><p class="text-muted">CRAN release: 2024-11-28</p>
@@ -44,7 +55,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-7-5">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-7-5"></a></h3>
-<ul><li><p>fixed (issue <a href="https://github.com/merliseclyde/BAS/issues/89" class="external-link">#89</a>) reported as Error on CRAN Check page for compiling BAS under R-devel with clang19. Removed legacy definitions of <code>MACHEPS</code> and <code>MAXNUM</code> from Cephes and replaced with <code>DLB_EPSILON</code> and <code>DBL_MAX</code> in <code>R</code>. Files in <code>src/</code> <code>mconf.h</code> and <code>const.c</code> are no longer used and will be reomved from in the future.</p></li>
+<ul><li><p>fixed (issue <a href="https://github.com/merliseclyde/BAS/issues/89" class="external-link">#89</a>) reported as Error on CRAN Check page for compiling BAS under R-devel with clang19. Removed legacy definitions of <code>MACHEPS</code> and <code>MAXNUM</code> from Cephes and replaced with <code>DLB_EPSILON</code> and <code>DBL_MAX</code> in <code>R</code>. Files in <code>src/</code> <code>mconf.h</code> and <code>const.c</code> are no longer used and will be removed from in the future.</p></li>
 <li><p>fixed (issue <a href="https://github.com/merliseclyde/BAS/issues/87" class="external-link">#87</a>) prior inclusion probabilities using a Bernoulli prior other than 0.5 were incorrect if <code>include.always</code> was used to include some variables always.<br>
 Added unit test in <code>test-priorprobs.R</code></p></li>
 </ul></div>

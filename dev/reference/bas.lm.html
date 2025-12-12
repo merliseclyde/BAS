@@ -63,9 +63,13 @@
 <span>  thin <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  renormalize <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  importance.sampling <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  FPS <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  force.heredity <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  pivot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  tol <span class="op">=</span> <span class="fl">1e-07</span>,</span>
+<span>  GROW <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  expand <span class="op">=</span> <span class="fl">1.05</span>,</span>
+<span>  n.models.init <span class="op">=</span> <span class="fl">2500</span>,</span>
 <span>  bigmem <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -107,14 +111,16 @@ contain NAs. The default is "na.omit".</p></dd>
 
 <dt id="arg-n-models">n.models<a class="anchor" aria-label="anchor" href="#arg-n-models"></a></dt>
 <dd><p>number of models to sample either without replacement
-(method="BAS" or "MCMC+BAS") or with replacement (method="MCMC"). If NULL,
-BAS with method="BAS" will try to enumerate all 2^p models. If enumeration
-is not possible (memory or time) then a value should be supplied which
-controls the number of sampled models using 'n.models'.  With method="MCMC",
-sampling will stop once the min(n.models, MCMC.iterations) occurs so
-MCMC.iterations be significantly larger than n.models in order to explore the model space.
-On exit for method= "MCMC" this is the number of unique models that have
-been sampled with counts stored in the output as "freq".</p></dd>
+(method="BAS" or "MCMC+BAS") or initial number of models to sample with replacement (method="MCMC" or "AMCMC").
+If NULL,BAS with method="BAS" will try to enumerate/sample
+the min(2^p, 2^16). If 'n.models' &gt; 2^25, the user should use 'bigmem = TRUE' to sample/enumerate
+'n.models'.  With method="MCMC" or "AMCMC", 'n.models' controls the initial number of models with
+the default for n.models = min(2000, 2^p).
+Sampling will stop once burnin.iterations + MCMC.iterations are exceeded
+and n.models will be increased/decreased as needed to store the unique models sampled.
+On exit 'n.models' is the number of unique models that have
+been sampled.  For sampling with replacement (MCMC or AMCMC) the counts for
+the number of times a models is sampled is stored in the output as "freq".</p></dd>
 
 
 <dt id="arg-prior">prior<a class="anchor" aria-label="anchor" href="#arg-prior"></a></dt>
@@ -173,8 +179,7 @@ If alpha = NULL, then the following defaults are used currently:</p><ul><li><p>"
 <li><p>"hyper-g-n" = 3,</p></li>
 <li><p>"JZS" = 1,</p></li>
 </ul><p>Note that Porwal &amp; Raftery (2022) recommend alpha = sqrt(n) for the g-prior
-based on extensive range of simulations and examples for comparing BMA.
-This will become the default in the future.</p></dd>
+based on extensive range of simulations and examples for comparing BMA.</p></dd>
 
 
 <dt id="arg-modelprior">modelprior<a class="anchor" aria-label="anchor" href="#arg-modelprior"></a></dt>
@@ -236,8 +241,8 @@ as more models are sampled. (see update below).</p></li>
 based on factoring the proposal distribution as a product conditional probabilities
 estimated from the past draws. If
 `importance.sampling = FALSE` this uses an adaptive independent Metropolis-Hasting
-algorithm, with if `importance.sampling = TRUE`  uses importance sampline
-combined with Horiwitz-Thompson estimates of posterior model and inclusion
+algorithm, with if `importance.sampling = TRUE`  uses importance sampling
+combined with Horwitz-Thompson estimates of posterior model and inclusion
 probabilities.</p></li>
 </ul></dd>
 
@@ -268,12 +273,12 @@ to propose swap a variable that is excluded with a variable in the model.</p></d
 
 <dt id="arg-burnin-iterations">burnin.iterations<a class="anchor" aria-label="anchor" href="#arg-burnin-iterations"></a></dt>
 <dd><p>Number of burnin iterations for the MCMC sampler; the
-default is n.models*10 if not set by the user.</p></dd>
+default is p*25 if not set by the user.</p></dd>
 
 
 <dt id="arg-mcmc-iterations">MCMC.iterations<a class="anchor" aria-label="anchor" href="#arg-mcmc-iterations"></a></dt>
 <dd><p>Number of iterations for the MCMC sampler; the
-default is n.models*10 if not set by the user.</p></dd>
+default is p*1000 if not set by the user.</p></dd>
 
 
 <dt id="arg-lambda">lambda<a class="anchor" aria-label="anchor" href="#arg-lambda"></a></dt>
@@ -308,6 +313,14 @@ See details in Clyde and Ghosh (2012).</p></dd>
 Metropolis-Hastings algorithm with sampling method="AMCMC" (see above).</p></dd>
 
 
+<dt id="arg-fps">FPS<a class="anchor" aria-label="anchor" href="#arg-fps"></a></dt>
+<dd><p>Finite Population Sampling estimator for use with method="MCMC+BAS". Options include
+"none" (default) which uses the sum of marginal likelihoods times priors for sampled models
+to estimate the normalizing constant, or "Bayes_HT"
+which uses an additional correction to the normalizing constant to account for unsampled models
+using sampling probabilities.</p></dd>
+
+
 <dt id="arg-force-heredity">force.heredity<a class="anchor" aria-label="anchor" href="#arg-force-heredity"></a></dt>
 <dd><p>Logical variable to force all levels of a factor to be
 included together and to include higher order interactions only if lower
@@ -336,11 +349,30 @@ interpreting BMA estimates of parameters.</p></dd>
 <dd><p>1e-7 as</p></dd>
 
 
+<dt id="arg-grow">GROW<a class="anchor" aria-label="anchor" href="#arg-grow"></a></dt>
+<dd><p>Logical variable to indicate that the output vectors in MCMC are growable.
+Rather than allocate space based on `n.models`, the vectors will grow as needed
+if the number of unique models sampled exceeds the initial size of the allocated output vectors controlled by
+`n.models.init`.  This is useful when `n.models` is unknown
+before reaching 'MCMC.iterations'.  Default is TRUE.</p></dd>
+
+
+<dt id="arg-expand">expand<a class="anchor" aria-label="anchor" href="#arg-expand"></a></dt>
+<dd><p>variable to control how much to grow vectors with GROW = TRUE
+if number of unique models exceeds the current size of the vectors.
+The default is 1.25 times, which allows vectors to grow by 25 percent.</p></dd>
+
+
+<dt id="arg-n-models-init">n.models.init<a class="anchor" aria-label="anchor" href="#arg-n-models-init"></a></dt>
+<dd><p>Initial size of output vectors if GROW = TRUE. The
+default is `n.models = 2500`.</p></dd>
+
+
 <dt id="arg-bigmem">bigmem<a class="anchor" aria-label="anchor" href="#arg-bigmem"></a></dt>
 <dd><p>Logical variable to indicate that there is access to
 large amounts of memory (physical or virtual) for enumeration
 with large model spaces, e.g. &gt; 2^25. default; used in determining rank of
-X^TX in cholesky decomposition with pivoting.</p></dd>
+X^TX in Cholesky decomposition with pivoting.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -836,7 +868,7 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12 12 12 12 12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $best</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12  9  7  3  8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12  4  8  9  5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bestmodel</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bestmodel[[1]]</span>
@@ -866,19 +898,19 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &gt; confint(predict(hald.gprior, Hald, estimator="BMA", se.fit=TRUE, top=5), parm="mean")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            2.5%     97.5%      mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]  73.02909  85.80614  79.74246</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]  69.20510  79.44046  74.50010</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] 101.04119 109.63466 105.29268</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  85.21926  94.74513  89.88693</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,]  90.79450 100.63639  95.57177</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] 101.05601 107.77356 104.56409</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  97.41859 108.97750 103.40145</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  71.33406  82.47197  77.13668</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  87.66903  96.48884  91.99731</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 106.40099 121.77519 114.21325</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11,]  77.44936  88.14062  82.78446</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 106.76105 115.38975 111.00723</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] 105.59721 115.14373 110.40160</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]  73.04460  85.99670  79.74246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]  69.08615  79.45953  74.50010</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] 100.86586 109.45991 105.29268</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  85.00337  94.63284  89.88693</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,]  90.49220 100.57608  95.57177</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] 101.17646 107.81954 104.56409</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  97.63097 109.15498 103.40145</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  71.68036  82.81063  77.13668</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  87.34153  96.32155  91.99731</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 106.67199 122.05730 114.21325</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,]  77.41298  88.04204  82.78446</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 106.75325 115.55596 111.00723</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] 105.46200 115.14501 110.40160</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"Probability")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>

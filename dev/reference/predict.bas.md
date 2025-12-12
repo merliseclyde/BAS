@@ -11,7 +11,7 @@ predict(
   object,
   newdata,
   se.fit = FALSE,
-  type = "link",
+  type = c("response", "link"),
   top = NULL,
   estimator = "BMA",
   na.action = na.pass,
@@ -36,9 +36,9 @@ predict(
 
 - type:
 
-  Type of predictions required. "link" which is on the scale of the
-  linear predictor is the only option currently for linear models, which
-  for the normal model is equivalent to type='response'.
+  Type of predictions required. The defaults "reponse" is on the scale
+  of the response is the only option currently for linear models (for
+  Gaussian models this is equivalent to type="link").
 
 - top:
 
@@ -169,7 +169,7 @@ predict(hald.gprior, newdata=Hald, estimator="BPM", se.fit=TRUE)
 #> attr(,"model")
 #> [1] 0 1 2 4
 #> attr(,"best")
-#> [1] 15
+#> [1] 5
 #> attr(,"estimator")
 #> [1] "BPM"
 #> 
@@ -253,7 +253,7 @@ predict(hald.gprior, newdata=Hald, estimator="BPM", se.fit=TRUE)
 #> [1] 12
 #> 
 #> $best
-#> [1] 15
+#> [1] 5
 #> 
 #> $bestmodel
 #> [1] 0 1 2 4
@@ -274,19 +274,19 @@ fitted(hald.gprior,estimator="BPM")
 hald.bma = predict(hald.gprior, top=5, se.fit=TRUE)
 confint(hald.bma)
 #>            2.5%     97.5%      pred
-#>  [1,]  68.20854  91.72820  79.74246
-#>  [2,]  63.38966  85.50968  74.50010
-#>  [3,]  94.80131 116.27615 105.29268
-#>  [4,]  78.41142 100.65127  89.88693
-#>  [5,]  84.09470 106.39212  95.57177
-#>  [6,]  94.30994 115.06736 104.56409
-#>  [7,]  92.21567 114.72781 103.40145
-#>  [8,]  65.76518  88.84854  77.13668
-#>  [9,]  80.74084 102.27048  91.99731
-#> [10,] 101.00723 125.97680 114.21325
-#> [11,]  71.19696  93.69919  82.78446
-#> [12,] 100.16052 122.12124 111.00723
-#> [13,]  99.33223 121.06357 110.40160
+#>  [1,]  67.77668  91.33017  79.74246
+#>  [2,]  63.52617  85.49661  74.50010
+#>  [3,]  94.41069 116.15679 105.29268
+#>  [4,]  78.50269 100.35412  89.88693
+#>  [5,]  84.98258 106.82052  95.57177
+#>  [6,]  94.31184 115.16532 104.56409
+#>  [7,]  92.13675 115.20298 103.40145
+#>  [8,]  65.78011  88.46760  77.13668
+#>  [9,]  81.23604 102.85231  91.99731
+#> [10,] 102.07473 127.29765 114.21325
+#> [11,]  71.22090  93.42523  82.78446
+#> [12,] 100.52408 121.81017 111.00723
+#> [13,]  99.33528 121.82604 110.40160
 #> attr(,"Probability")
 #> [1] 0.95
 #> attr(,"class")
