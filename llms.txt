@@ -1,0 +1,416 @@
+# BAS
+
+## [BAS: Bayesian Variable Selection and Model Averaging using Bayesian Adaptive Sampling](https://github.com/merliseclyde/BAS/)
+
+[![](https://www.r-pkg.org/badges/version/BAS)](https://cran.r-project.org/package=BAS/)
+[![Rdoc](https://api.rdocumentation.org/badges/version/BAS)](https://www.rdocumentation.org/packages/BAS/)
+[![CRAN
+checks](https://badges.cranchecks.info/worst/BAS.svg)](https://cran.r-project.org/web/checks/check_results_BAS.html)
+[![](https://cranlogs.r-pkg.org/badges/BAS)](https://cran.r-project.org/package=BAS/)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/BAS)](https://cran.r-project.org/package=BAS/)
+[![Coverage
+Status](https://img.shields.io/codecov/c/github/merliseclyde/BAS/master.svg)](https://app.codecov.io/github/merliseclyde/BAS?branch=master)
+[![R-CMD-check](https://github.com/merliseclyde/BAS/workflows/R-CMD-check/badge.svg)](https://github.com/merliseclyde/BAS/actions)
+[![OpenSSF Best
+Practices](https://www.bestpractices.dev/projects/2055/badge)](https://www.bestpractices.dev/projects/2055)
+
+The `BAS` [R](https://www.r-project.org/) package is designed to provide
+an easy to use package and fast code for implementing Bayesian Model
+Averaging and Model Selection in `R` using state of the art prior
+distributions for linear and generalized linear models. The prior
+distributions in `BAS` are based on Zellner’s g-prior or mixtures of
+g-priors for linear and generalized linear models. These have been shown
+to be consistent asymptotically for model selection and inference and
+have a number of computational advantages. `BAS` implements three main
+algorithms for sampling from the space of potential models: a
+deterministic algorithm for efficient enumeration, adaptive sampling
+without replacement algorithm for modest problems, and a MCMC algorithm
+that utilizes swapping to escape from local modes with standard
+Metropolis-Hastings proposals.
+
+## Installation
+
+The stable version
+[![](https://www.r-pkg.org/badges/version/BAS)](https://cran.r-project.org/package=BAS)
+can be installed easily in the `R` console like any other package:
+
+``` r
+install.packages('BAS')
+```
+
+On the other hand, I welcome everyone to use the most recent version of
+the package with quick-fixes, new features and probably new bugs. It’s
+currently hosted on [GitHub](https://github.com/merliseclyde/BAS/). To
+get the latest development version from
+[GitHub](https://github.com/merliseclyde/), use the `devtools` package
+from [CRAN](https://cran.r-project.org/package=devtools) and enter in
+`R`:
+
+``` r
+devtools::install_github('merliseclyde/BAS')
+```
+
+You can check out the current build status
+[![R-CMD-check](https://github.com/merliseclyde/BAS/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/merliseclyde/BAS/actions/workflows/check-standard.yaml)
+before installing.
+
+Installing the package from source does require compilation of C and
+FORTRAN code as the library makes use of BLAS and LAPACK for efficient
+model fitting. See [CRAN
+manuals](https://cran.r-project.org/doc/manuals/r-devel/R-admin.html)
+for installing packages from source under different operating systems.
+
+## Usage
+
+To begin load the package:
+
+``` r
+library(BAS)
+```
+
+The two main function in `BAS` are `bas.lm` and `bas.glm` for
+implementing Bayesian Model Averaging and Variable Selection using
+Zellner’s g-prior and mixtures of g priors. Both functions have a syntax
+similar to the `lm` and `glm` functions respectively. We illustrate
+using `BAS` on a simple example with the famous Hald data set using the
+Zellner-Siow Cauchy prior via
+
+``` r
+data(Hald)
+hald.ZS = bas.lm(Y ~ ., data=Hald, prior="ZS-null", modelprior=uniform(), method="BAS")
+```
+
+`BAS` has `summary`, `plot` `coef`, `predict` and `fitted` functions
+like the `lm`/`glm` functions. Images of the model space highlighting
+which variable are important may be obtained via
+
+``` r
+image(hald.ZS)
+```
+
+![](reference/figures/unnamed-chunk-3-1.png)
+
+Run `demo("BAS.hald")` or `demo("BAS.USCrime")` or see the package
+vignette for more examples and options such as using MCMC for model
+spaces that cannot be enumerated.
+
+### Generalized Linear Models
+
+`BAS` now includes for support for binomial and binary regression,
+Poisson regression, and Gamma regression using Laplace approximations to
+obtain Bayes Factors used in calculating posterior probabilities of
+models or sampling of models. Here is an example using the Pima diabetes
+data set with the hyper-g/n prior:
+
+``` r
+library(MASS)
+data(Pima.tr)
+Pima.hgn = bas.glm(type ~ ., data=Pima.tr, method="BAS", family=binomial(),
+                  betaprior=hyper.g.n(), modelprior=uniform())
+```
+
+Note, the syntax for specifying priors on the coefficients in `bas.glm`
+uses a function with arguments to specify the hyper-parameters, rather
+than a text string to specify the prior name and a separate argument for
+the hyper-parameters. `bas.lm` will be moving to this format sometime in
+the future.
+
+## Feature Requests and Issues
+
+Feel free to report any issues or request features to be added via the
+[github issues page](https://github.com/merliseclyde/BAS/issues/).
+
+For current documentation and vignettes see the [BAS
+website](https://merliseclyde.github.io/BAS/)
+
+### Support
+
+This material is based upon work supported by the National Science
+Foundation under Grant DMS-1106891. Any opinions, findings, and
+conclusions or recommendations expressed in this material are those of
+the author(s) and do not necessarily reflect the views of the National
+Science Foundation.
+
+# Package index
+
+## model fitting
+
+Functions associated with inference and selection for Bayesian Linear
+and Generalized Linear Models
+
+- [`bas.glm()`](http://merliseclyde.github.io/BAS/reference/bas.glm.md)
+  : Bayesian Adaptive Sampling Without Replacement for Variable
+  Selection in Generalized Linear Models
+- [`bas.lm()`](http://merliseclyde.github.io/BAS/reference/bas.lm.md) :
+  Bayesian Adaptive Sampling for Bayesian Model Averaging and Variable
+  Selection in Linear Models
+- [`bayesglm.fit()`](http://merliseclyde.github.io/BAS/reference/bayesglm.fit.md)
+  : Fitting Generalized Linear Models and Bayesian marginal likelihood
+  evaluation
+- [`coef(`*`<bas>`*`)`](http://merliseclyde.github.io/BAS/reference/coef.md)
+  [`print(`*`<coef.bas>`*`)`](http://merliseclyde.github.io/BAS/reference/coef.md)
+  : Coefficients of a Bayesian Model Average object
+- [`confint(`*`<coef.bas>`*`)`](http://merliseclyde.github.io/BAS/reference/confint.coef.md)
+  : Compute Credible Intervals for BAS regression coefficients from BAS
+  objects
+- [`confint(`*`<pred.bas>`*`)`](http://merliseclyde.github.io/BAS/reference/confint.pred.md)
+  : Compute Credible (Bayesian Confidence) Intervals for a BAS predict
+  object
+- [`cv.summary.bas()`](http://merliseclyde.github.io/BAS/reference/cv.summary.bas.md)
+  : Summaries for Out of Sample Prediction
+- [`diagnostics()`](http://merliseclyde.github.io/BAS/reference/diagnostics.md)
+  : BAS MCMC diagnostic plot
+- [`eplogprob()`](http://merliseclyde.github.io/BAS/reference/eplogprob.md)
+  : eplogprob - Compute approximate marginal inclusion probabilities
+  from pvalues
+- [`eplogprob.marg()`](http://merliseclyde.github.io/BAS/reference/eplogprob.marg.md)
+  : eplogprob.marg - Compute approximate marginal inclusion
+  probabilities from pvalues
+- [`fitted(`*`<bas>`*`)`](http://merliseclyde.github.io/BAS/reference/fitted.md)
+  : Fitted values for a BAS BMA objects
+- [`force.heredity.bas()`](http://merliseclyde.github.io/BAS/reference/force.heredity.bas.md)
+  : Post processing function to force constraints on interaction
+  inclusion bas BMA objects
+- [`image(`*`<bas>`*`)`](http://merliseclyde.github.io/BAS/reference/image.bas.md)
+  : Images of models used in Bayesian model averaging
+- [`plot(`*`<bas>`*`)`](http://merliseclyde.github.io/BAS/reference/plot.md)
+  : Plot Diagnostics for an BAS Object
+- [`plot(`*`<coef.bas>`*`)`](http://merliseclyde.github.io/BAS/reference/plot.coef.md)
+  : Plots the posterior distributions of coefficients derived from
+  Bayesian model averaging
+- [`plot(`*`<confint.bas>`*`)`](http://merliseclyde.github.io/BAS/reference/plot.confint.md)
+  : Plot Bayesian Confidence Intervals
+- [`predict(`*`<bas>`*`)`](http://merliseclyde.github.io/BAS/reference/predict.bas.md)
+  : Prediction Method for an object of class BAS
+- [`predict(`*`<basglm>`*`)`](http://merliseclyde.github.io/BAS/reference/predict.basglm.md)
+  : Prediction Method for an Object of Class basglm
+- [`print(`*`<bas>`*`)`](http://merliseclyde.github.io/BAS/reference/print.bas.md)
+  : Print a Summary of Bayesian Model Averaging objects from BAS
+- [`summary(`*`<bas>`*`)`](http://merliseclyde.github.io/BAS/reference/summary.md)
+  : Summaries of Bayesian Model Averaging objects from BAS
+- [`update(`*`<bas>`*`)`](http://merliseclyde.github.io/BAS/reference/update.md)
+  : Update BAS object using a new prior
+- [`variable.names(`*`<pred.bas>`*`)`](http://merliseclyde.github.io/BAS/reference/variable.names.pred.bas.md)
+  : Extract the variable names for a model from a BAS prediction object
+
+## coefficient priors
+
+- [`beta.prime()`](http://merliseclyde.github.io/BAS/reference/beta.prime.md)
+  : Beta-Prime Prior Distribution for Coefficients in BMA Model
+- [`CCH()`](http://merliseclyde.github.io/BAS/reference/CCH.md) :
+  Generalized g-Prior Distribution for Coefficients in BMA Models
+- [`EB.global()`](http://merliseclyde.github.io/BAS/reference/EB.global.md)
+  : Find the global Empirical Bayes estimates for BMA
+- [`EB.local()`](http://merliseclyde.github.io/BAS/reference/EB.local.md)
+  : Empirical Bayes Prior Distribution for Coefficients in BMA Model
+- [`g.prior()`](http://merliseclyde.github.io/BAS/reference/g.prior.md)
+  : Families of G-Prior Distribution for Coefficients in BMA Models
+- [`hyper.g()`](http://merliseclyde.github.io/BAS/reference/hyper.g.md)
+  : Hyper-g-Prior Distribution for Coefficients in BMA Models
+- [`hyper.g.n()`](http://merliseclyde.github.io/BAS/reference/hyper.g.n.md)
+  : Generalized hyper-g/n Prior Distribution for g for mixtures of
+  g-priors on Coefficients in BMA Models
+- [`IC.prior()`](http://merliseclyde.github.io/BAS/reference/IC.prior.md)
+  : Information Criterion Families of Prior Distribution for
+  Coefficients in BMA Models
+- [`intrinsic()`](http://merliseclyde.github.io/BAS/reference/intrinsic.md)
+  : Intrinsic Prior Distribution for Coefficients in BMA Models
+- [`Jeffreys()`](http://merliseclyde.github.io/BAS/reference/Jeffreys.md)
+  : Jeffreys Prior Distribution for \$g\$ for Mixtures of g-Priors for
+  Coefficients in BMA Models
+- [`robust()`](http://merliseclyde.github.io/BAS/reference/robust.md) :
+  Robust-Prior Distribution for Coefficients in BMA Model
+- [`tCCH()`](http://merliseclyde.github.io/BAS/reference/tCCH.md) :
+  Generalized tCCH g-Prior Distribution for Coefficients in BMA Models
+- [`TG()`](http://merliseclyde.github.io/BAS/reference/TG.md) :
+  Generalized g-Prior Distribution for Coefficients in BMA Models
+- [`testBF.prior()`](http://merliseclyde.github.io/BAS/reference/testBF.prior.md)
+  : Test based Bayes Factors for BMA Models
+
+## model priors
+
+- [`Bernoulli()`](http://merliseclyde.github.io/BAS/reference/Bernoulli.md)
+  : Independent Bernoulli Prior Distribution for Models
+- [`Bernoulli.heredity()`](http://merliseclyde.github.io/BAS/reference/Bernoulli.heredity.md)
+  : Independent Bernoulli prior on models that with constraints for
+  model hierarchy induced by interactions
+- [`beta.binomial()`](http://merliseclyde.github.io/BAS/reference/beta.binomial.md)
+  : Beta-Binomial Prior Distribution for Models
+- [`tr.beta.binomial()`](http://merliseclyde.github.io/BAS/reference/tr.beta.binomial.md)
+  : Truncated Beta-Binomial Prior Distribution for Models
+- [`tr.poisson()`](http://merliseclyde.github.io/BAS/reference/tr.poisson.md)
+  : Truncated Poisson Prior Distribution for Models
+- [`tr.power.prior()`](http://merliseclyde.github.io/BAS/reference/tr.power.prior.md)
+  : Truncated Power Prior Distribution for Models
+- [`uniform()`](http://merliseclyde.github.io/BAS/reference/uniform.md)
+  : Uniform Prior Distribution for Models
+
+## special functions
+
+- [`hypergeometric1F1()`](http://merliseclyde.github.io/BAS/reference/hypergeometric1F1.md)
+  : Confluent hypergeometric1F1 function
+- [`hypergeometric2F1()`](http://merliseclyde.github.io/BAS/reference/hypergeometric2F1.md)
+  : Gaussian hypergeometric2F1 function
+- [`phi1()`](http://merliseclyde.github.io/BAS/reference/phi1.md) :
+  Compound Confluent hypergeometric function of two variables
+
+## utility functions
+
+- [`Bayes.outlier()`](http://merliseclyde.github.io/BAS/reference/Bayes.outlier.md)
+  : Bayesian Outlier Detection
+- [`list2matrix.bas()`](http://merliseclyde.github.io/BAS/reference/list2matrix.md)
+  : Coerce a BAS list object into a matrix.
+- [`list2matrix.which()`](http://merliseclyde.github.io/BAS/reference/list2matrix.which.md)
+  : Coerce a BAS list object into a matrix.
+- [`which.matrix()`](http://merliseclyde.github.io/BAS/reference/which.matrix.md)
+  : Coerce a BAS list object of models into a matrix.
+
+## data sets
+
+- [`Hald`](http://merliseclyde.github.io/BAS/reference/Hald.md)
+  [`hald`](http://merliseclyde.github.io/BAS/reference/Hald.md) : Hald
+  Data
+- [`bodyfat`](http://merliseclyde.github.io/BAS/reference/bodyfat.md)
+  [`Bodyfat`](http://merliseclyde.github.io/BAS/reference/bodyfat.md) :
+  Bodyfat Data
+- [`protein`](http://merliseclyde.github.io/BAS/reference/protein.md) :
+  Protein Activity Data
+
+## all functions
+
+- [`BAS`](http://merliseclyde.github.io/BAS/reference/BAS.md) : BAS:
+  Bayesian Model Averaging using Bayesian Adaptive Sampling
+- [`Bayes.outlier()`](http://merliseclyde.github.io/BAS/reference/Bayes.outlier.md)
+  : Bayesian Outlier Detection
+- [`Bernoulli()`](http://merliseclyde.github.io/BAS/reference/Bernoulli.md)
+  : Independent Bernoulli Prior Distribution for Models
+- [`Bernoulli.heredity()`](http://merliseclyde.github.io/BAS/reference/Bernoulli.heredity.md)
+  : Independent Bernoulli prior on models that with constraints for
+  model hierarchy induced by interactions
+- [`CCH()`](http://merliseclyde.github.io/BAS/reference/CCH.md) :
+  Generalized g-Prior Distribution for Coefficients in BMA Models
+- [`EB.global()`](http://merliseclyde.github.io/BAS/reference/EB.global.md)
+  : Find the global Empirical Bayes estimates for BMA
+- [`EB.local()`](http://merliseclyde.github.io/BAS/reference/EB.local.md)
+  : Empirical Bayes Prior Distribution for Coefficients in BMA Model
+- [`Hald`](http://merliseclyde.github.io/BAS/reference/Hald.md)
+  [`hald`](http://merliseclyde.github.io/BAS/reference/Hald.md) : Hald
+  Data
+- [`IC.prior()`](http://merliseclyde.github.io/BAS/reference/IC.prior.md)
+  : Information Criterion Families of Prior Distribution for
+  Coefficients in BMA Models
+- [`Jeffreys()`](http://merliseclyde.github.io/BAS/reference/Jeffreys.md)
+  : Jeffreys Prior Distribution for \$g\$ for Mixtures of g-Priors for
+  Coefficients in BMA Models
+- [`TG()`](http://merliseclyde.github.io/BAS/reference/TG.md) :
+  Generalized g-Prior Distribution for Coefficients in BMA Models
+- [`bas.glm()`](http://merliseclyde.github.io/BAS/reference/bas.glm.md)
+  : Bayesian Adaptive Sampling Without Replacement for Variable
+  Selection in Generalized Linear Models
+- [`bas.lm()`](http://merliseclyde.github.io/BAS/reference/bas.lm.md) :
+  Bayesian Adaptive Sampling for Bayesian Model Averaging and Variable
+  Selection in Linear Models
+- [`bayesglm.fit()`](http://merliseclyde.github.io/BAS/reference/bayesglm.fit.md)
+  : Fitting Generalized Linear Models and Bayesian marginal likelihood
+  evaluation
+- [`beta.binomial()`](http://merliseclyde.github.io/BAS/reference/beta.binomial.md)
+  : Beta-Binomial Prior Distribution for Models
+- [`beta.prime()`](http://merliseclyde.github.io/BAS/reference/beta.prime.md)
+  : Beta-Prime Prior Distribution for Coefficients in BMA Model
+- [`bodyfat`](http://merliseclyde.github.io/BAS/reference/bodyfat.md)
+  [`Bodyfat`](http://merliseclyde.github.io/BAS/reference/bodyfat.md) :
+  Bodyfat Data
+- [`climate`](http://merliseclyde.github.io/BAS/reference/climate.md) :
+  Climate Data
+- [`coef(`*`<bas>`*`)`](http://merliseclyde.github.io/BAS/reference/coef.md)
+  [`print(`*`<coef.bas>`*`)`](http://merliseclyde.github.io/BAS/reference/coef.md)
+  : Coefficients of a Bayesian Model Average object
+- [`confint(`*`<coef.bas>`*`)`](http://merliseclyde.github.io/BAS/reference/confint.coef.md)
+  : Compute Credible Intervals for BAS regression coefficients from BAS
+  objects
+- [`confint(`*`<pred.bas>`*`)`](http://merliseclyde.github.io/BAS/reference/confint.pred.md)
+  : Compute Credible (Bayesian Confidence) Intervals for a BAS predict
+  object
+- [`cv.summary.bas()`](http://merliseclyde.github.io/BAS/reference/cv.summary.bas.md)
+  : Summaries for Out of Sample Prediction
+- [`diagnostics()`](http://merliseclyde.github.io/BAS/reference/diagnostics.md)
+  : BAS MCMC diagnostic plot
+- [`eplogprob()`](http://merliseclyde.github.io/BAS/reference/eplogprob.md)
+  : eplogprob - Compute approximate marginal inclusion probabilities
+  from pvalues
+- [`eplogprob.marg()`](http://merliseclyde.github.io/BAS/reference/eplogprob.marg.md)
+  : eplogprob.marg - Compute approximate marginal inclusion
+  probabilities from pvalues
+- [`fitted(`*`<bas>`*`)`](http://merliseclyde.github.io/BAS/reference/fitted.md)
+  : Fitted values for a BAS BMA objects
+- [`force.heredity.bas()`](http://merliseclyde.github.io/BAS/reference/force.heredity.bas.md)
+  : Post processing function to force constraints on interaction
+  inclusion bas BMA objects
+- [`g.prior()`](http://merliseclyde.github.io/BAS/reference/g.prior.md)
+  : Families of G-Prior Distribution for Coefficients in BMA Models
+- [`hyper.g()`](http://merliseclyde.github.io/BAS/reference/hyper.g.md)
+  : Hyper-g-Prior Distribution for Coefficients in BMA Models
+- [`hyper.g.n()`](http://merliseclyde.github.io/BAS/reference/hyper.g.n.md)
+  : Generalized hyper-g/n Prior Distribution for g for mixtures of
+  g-priors on Coefficients in BMA Models
+- [`hypergeometric1F1()`](http://merliseclyde.github.io/BAS/reference/hypergeometric1F1.md)
+  : Confluent hypergeometric1F1 function
+- [`hypergeometric2F1()`](http://merliseclyde.github.io/BAS/reference/hypergeometric2F1.md)
+  : Gaussian hypergeometric2F1 function
+- [`image(`*`<bas>`*`)`](http://merliseclyde.github.io/BAS/reference/image.bas.md)
+  : Images of models used in Bayesian model averaging
+- [`intrinsic()`](http://merliseclyde.github.io/BAS/reference/intrinsic.md)
+  : Intrinsic Prior Distribution for Coefficients in BMA Models
+- [`list2matrix.bas()`](http://merliseclyde.github.io/BAS/reference/list2matrix.md)
+  : Coerce a BAS list object into a matrix.
+- [`list2matrix.which()`](http://merliseclyde.github.io/BAS/reference/list2matrix.which.md)
+  : Coerce a BAS list object into a matrix.
+- [`phi1()`](http://merliseclyde.github.io/BAS/reference/phi1.md) :
+  Compound Confluent hypergeometric function of two variables
+- [`plot(`*`<bas>`*`)`](http://merliseclyde.github.io/BAS/reference/plot.md)
+  : Plot Diagnostics for an BAS Object
+- [`plot(`*`<coef.bas>`*`)`](http://merliseclyde.github.io/BAS/reference/plot.coef.md)
+  : Plots the posterior distributions of coefficients derived from
+  Bayesian model averaging
+- [`plot(`*`<confint.bas>`*`)`](http://merliseclyde.github.io/BAS/reference/plot.confint.md)
+  : Plot Bayesian Confidence Intervals
+- [`predict(`*`<bas>`*`)`](http://merliseclyde.github.io/BAS/reference/predict.bas.md)
+  : Prediction Method for an object of class BAS
+- [`predict(`*`<basglm>`*`)`](http://merliseclyde.github.io/BAS/reference/predict.basglm.md)
+  : Prediction Method for an Object of Class basglm
+- [`print(`*`<bas>`*`)`](http://merliseclyde.github.io/BAS/reference/print.bas.md)
+  : Print a Summary of Bayesian Model Averaging objects from BAS
+- [`protein`](http://merliseclyde.github.io/BAS/reference/protein.md) :
+  Protein Activity Data
+- [`robust()`](http://merliseclyde.github.io/BAS/reference/robust.md) :
+  Robust-Prior Distribution for Coefficients in BMA Model
+- [`summary(`*`<bas>`*`)`](http://merliseclyde.github.io/BAS/reference/summary.md)
+  : Summaries of Bayesian Model Averaging objects from BAS
+- [`tCCH()`](http://merliseclyde.github.io/BAS/reference/tCCH.md) :
+  Generalized tCCH g-Prior Distribution for Coefficients in BMA Models
+- [`testBF.prior()`](http://merliseclyde.github.io/BAS/reference/testBF.prior.md)
+  : Test based Bayes Factors for BMA Models
+- [`tr.beta.binomial()`](http://merliseclyde.github.io/BAS/reference/tr.beta.binomial.md)
+  : Truncated Beta-Binomial Prior Distribution for Models
+- [`tr.poisson()`](http://merliseclyde.github.io/BAS/reference/tr.poisson.md)
+  : Truncated Poisson Prior Distribution for Models
+- [`tr.power.prior()`](http://merliseclyde.github.io/BAS/reference/tr.power.prior.md)
+  : Truncated Power Prior Distribution for Models
+- [`trCCH()`](http://merliseclyde.github.io/BAS/reference/trCCH.md) :
+  Truncated Compound Confluent Hypergeometric function
+- [`uniform()`](http://merliseclyde.github.io/BAS/reference/uniform.md)
+  : Uniform Prior Distribution for Models
+- [`update(`*`<bas>`*`)`](http://merliseclyde.github.io/BAS/reference/update.md)
+  : Update BAS object using a new prior
+- [`variable.names(`*`<pred.bas>`*`)`](http://merliseclyde.github.io/BAS/reference/variable.names.pred.bas.md)
+  : Extract the variable names for a model from a BAS prediction object
+- [`which.matrix()`](http://merliseclyde.github.io/BAS/reference/which.matrix.md)
+  : Coerce a BAS list object of models into a matrix.
+
+# Articles
+
+### All vignettes
+
+- [Using the Bayesian Adaptive Sampling (BAS) Package for Bayesian Model
+  Averaging and Variable
+  Selection](http://merliseclyde.github.io/BAS/articles/BAS-vignette.md):

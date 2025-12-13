@@ -1,0 +1,148 @@
+# Prediction Method for an Object of Class basglm
+
+Predictions under model averaging from a BMA (BAS) object for GLMs under
+different loss functions.
+
+## Usage
+
+``` r
+# S3 method for class 'basglm'
+predict(
+  object,
+  newdata,
+  se.fit = FALSE,
+  type = c("response", "link"),
+  top = NULL,
+  estimator = "BMA",
+  na.action = na.pass,
+  ...
+)
+```
+
+## Arguments
+
+- object:
+
+  An object of class "basglm", created by `bas.glm`
+
+- newdata:
+
+  dataframe, new matrix or vector of data for predictions. May include a
+  column for the intercept or just the predictor variables. If a
+  dataframe, the variables are extracted using model.matrix using the
+  call that created 'object'. May be missing in which case the data used
+  for fitting will be used for prediction.
+
+- se.fit:
+
+  indicator for whether to compute se of fitted and predicted values
+
+- type:
+
+  Type of predictions required. The default is "response" is on the
+  scale of the response variable, with the alternative being on the
+  linear predictor scale, \`type ='link'\`. Thus for a default binomial
+  model \`type = 'response'\` gives the predicted probabilities, while
+  with \`'link'\`, the estimates are of log-odds (probabilities on logit
+  scale).
+
+- top:
+
+  A scalar integer M. If supplied, calculate results using the subset of
+  the top M models based on posterior probabilities.
+
+- estimator:
+
+  estimator used for predictions. Currently supported options include:  
+  'HPM' the highest probability model  
+  'BMA' Bayesian model averaging, using optionally only the 'top'
+  models  
+  'MPM' the median probability model of Barbieri and Berger.  
+  'BPM' the model that is closest to BMA predictions under squared error
+  loss. BMA may be computed using only the 'top' models if supplied
+
+- na.action:
+
+  function determining what should be done with missing values in
+  newdata. The default is to predict NA.
+
+- ...:
+
+  optional extra arguments
+
+## Value
+
+a list of
+
+- fit:
+
+  predictions using BMA or other estimators
+
+- Ypred:
+
+  matrix of predictions under model(s)
+
+- postprobs:
+
+  renormalized probabilities of the top models
+
+- best:
+
+  index of top models included
+
+## Details
+
+This function first calls the predict method for class bas (linear
+models) to form predictions on the linear predictor scale for \`BMA\`,
+\`HPM\`, \`MPM\` etc. If the estimator is \`BMA\` and
+\`type='response'\` then the inverse link is applied to fitted values
+for type equal \`'link'\` and model averaging takes place in the
+\`response\` scale. Thus applying the inverse link to BMA estimate with
+\`type = 'link'\` is not equal to the fitted values for \`type =
+'response'\` under BMA due to the nonlinear transformation under the
+inverse link.
+
+## See also
+
+[`bas.glm`](http://merliseclyde.github.io/BAS/reference/bas.glm.md),
+[`predict.bas`](http://merliseclyde.github.io/BAS/reference/predict.bas.md),
+[`fitted.bas`](http://merliseclyde.github.io/BAS/reference/fitted.md)
+
+Other predict methods:
+[`fitted.bas()`](http://merliseclyde.github.io/BAS/reference/fitted.md),
+[`predict.bas()`](http://merliseclyde.github.io/BAS/reference/predict.bas.md),
+[`variable.names.pred.bas()`](http://merliseclyde.github.io/BAS/reference/variable.names.pred.bas.md)
+
+Other bas methods:
+[`BAS`](http://merliseclyde.github.io/BAS/reference/BAS.md),
+[`bas.lm()`](http://merliseclyde.github.io/BAS/reference/bas.lm.md),
+[`coef.bas()`](http://merliseclyde.github.io/BAS/reference/coef.md),
+[`confint.coef.bas()`](http://merliseclyde.github.io/BAS/reference/confint.coef.md),
+[`confint.pred.bas()`](http://merliseclyde.github.io/BAS/reference/confint.pred.md),
+[`diagnostics()`](http://merliseclyde.github.io/BAS/reference/diagnostics.md),
+[`fitted.bas()`](http://merliseclyde.github.io/BAS/reference/fitted.md),
+[`force.heredity.bas()`](http://merliseclyde.github.io/BAS/reference/force.heredity.bas.md),
+[`image.bas()`](http://merliseclyde.github.io/BAS/reference/image.bas.md),
+[`plot.confint.bas()`](http://merliseclyde.github.io/BAS/reference/plot.confint.md),
+[`predict.bas()`](http://merliseclyde.github.io/BAS/reference/predict.bas.md),
+[`summary.bas()`](http://merliseclyde.github.io/BAS/reference/summary.md),
+[`update.bas()`](http://merliseclyde.github.io/BAS/reference/update.md),
+[`variable.names.pred.bas()`](http://merliseclyde.github.io/BAS/reference/variable.names.pred.bas.md)
+
+## Author
+
+Merlise Clyde
+
+## Examples
+
+``` r
+
+data(Pima.tr, package="MASS")
+data(Pima.te, package="MASS")
+Pima.bas = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7, method="BAS",
+           betaprior=CCH(a=1, b=nrow(Pima.tr)/2, s=0), family=binomial(),
+           modelprior=uniform())
+pred = predict(Pima.bas, newdata=Pima.te, top=1)  # Highest Probability model
+cv.summary.bas(pred$fit, Pima.te$type, score="miss-class")
+#> [1] 0.2108434
+```

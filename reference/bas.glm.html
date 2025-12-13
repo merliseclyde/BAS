@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">BAS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,12 +56,16 @@
 <span>  update <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  bestmodel <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  prob.rw <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  burnin.iterations <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  MCMC.iterations <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  thin <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.control.html" class="external-link">glm.control</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  laplace <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  renormalize <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  force.heredity <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  GROW <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  expand <span class="op">=</span> <span class="fl">1.25</span>,</span>
+<span>  n.models.init <span class="op">=</span> <span class="fl">2500</span>,</span>
 <span>  bigmem <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -113,7 +117,7 @@ contain NAs. The default is "na.omit".</p></dd>
 <dd><p>number of unique models to keep. If NULL, BAS will attempt
 to enumerate unless p &gt; 35 or method="MCMC". For any of methods using MCMC
 algorithms that sample with replacement, sampling will stop when the number
-of iterations exceeds the min of 'n.models' or 'MCMC.iterations' and on exit
+of iterations exceeds 'MCMC.iterations'. On exit
 'n.models' is updated to reflect the unique number of models that have been
 sampled.</p></dd>
 
@@ -181,7 +185,7 @@ random swap of a variable included with a variable that is currently
 excluded (see Clyde, Ghosh, and Littman (2010) for details);
 method="MCMC+BAS" runs an initial MCMC as above to calculate marginal
 inclusion probabilities and then samples without replacement as in BAS;
-method = "deterministic" runs an deterministic sampling using the initial
+method = "deterministic" runs a deterministic sampler using the initial
 probabilities (no updating); this is recommended for fast enumeration or if a
 model of independence is a good approximation to the joint posterior
 distribution of the model indicators.  For BAS, the sampling probabilities
@@ -208,15 +212,20 @@ random-walk proposal; otherwise use a random "flip" move to propose a new
 model.</p></dd>
 
 
+<dt id="arg-burnin-iterations">burnin.iterations<a class="anchor" aria-label="anchor" href="#arg-burnin-iterations"></a></dt>
+<dd><p>Number of iterations to discard as part of burnin
+when using any of the MCMC
+options; should be greater than 'n.models'. By default 10*p.</p></dd>
+
+
 <dt id="arg-mcmc-iterations">MCMC.iterations<a class="anchor" aria-label="anchor" href="#arg-mcmc-iterations"></a></dt>
-<dd><p>Number of models to sample when using any of the MCMC
-options; should be greater than 'n.models'. By default 10*n.models.</p></dd>
+<dd><p>Number of MCMC iterations for sampling using any of the MCMC
+options; should be greater than 'n.models'. By default 1000*p.</p></dd>
 
 
 <dt id="arg-thin">thin<a class="anchor" aria-label="anchor" href="#arg-thin"></a></dt>
-<dd><p>oFr "MCMC", thin the MCMC chain every "thin" iterations; default
-is no
-thinning.  For large p, thinning can be used to significantly reduce memory
+<dd><p>For "MCMC", thin the MCMC chain every "thin" iterations; default
+is no thinning.  For large p, thinning can be used to significantly reduce memory
 requirements as models and associated summaries are saved only every thin
 iterations.  For thin = p, the  model and associated output are recorded
 every p iterations,similar to the Gibbs sampler in SSVS.</p></dd>
@@ -244,8 +253,27 @@ probabilities or use Monte Carlo frequencies. Applies only to MCMC sampling.</p>
 <dd><p>Logical variable to force all levels of a factor to be
 included together and to include higher order interactions only if lower
 order terms are included.  Currently only supported with `method='MCMC'`
-and `method='BAS'` (experimental) on non-Solaris platforms.
+and `method='BAS'` (experimental).
 Default is FALSE.</p></dd>
+
+
+<dt id="arg-grow">GROW<a class="anchor" aria-label="anchor" href="#arg-grow"></a></dt>
+<dd><p>Logical variable to indicate that the output vectors in MCMC are growable.
+Rather than allocate space based on `n.models`, the vectors will grow as needed
+if the number of unique models sampled exceeds the initial size of the allocated output vectors controlled by
+`n.models.init`.  This is useful when `n.models` is unknown
+before reaching 'MCMC.iterations'.  Default is TRUE.</p></dd>
+
+
+<dt id="arg-expand">expand<a class="anchor" aria-label="anchor" href="#arg-expand"></a></dt>
+<dd><p>variable to control how much to grow vectors with GROW = TRUE
+if number of unique models exceeds the current size of the vectors.
+The default is 1.25 times, which allows vectors to grow by 25 percent.</p></dd>
+
+
+<dt id="arg-n-models-init">n.models.init<a class="anchor" aria-label="anchor" href="#arg-n-models-init"></a></dt>
+<dd><p>Initial size of output vectors if GROW = TRUE. The
+default is `n.models = 2500`.</p></dd>
 
 
 <dt id="arg-bigmem">bigmem<a class="anchor" aria-label="anchor" href="#arg-bigmem"></a></dt>
@@ -416,10 +444,9 @@ Li</p>
 <span class="r-in"><span>              modelprior<span class="op">=</span><span class="fu"><a href="beta.binomial.html">beta.binomial</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">pima.BIC</span> <span class="op">=</span> <span class="fu">bas.glm</span><span class="op">(</span><span class="va">type</span> <span class="op">~</span> <span class="va">.</span>, data<span class="op">=</span><span class="va">Pima.tr</span>, n.models<span class="op">=</span> <span class="fl">2</span><span class="op">^</span><span class="fl">7</span>,</span></span>
-<span class="r-in"><span>              method<span class="op">=</span><span class="st">"BAS+MCMC"</span>, MCMC.iterations<span class="op">=</span><span class="fl">2500</span>,</span></span>
+<span class="r-in"><span>              method<span class="op">=</span><span class="st">"MCMC+BAS"</span>, MCMC.iterations<span class="op">=</span><span class="fl">2500</span>,</span></span>
 <span class="r-in"><span>              betaprior<span class="op">=</span><span class="fu"><a href="IC.prior.html">bic.prior</a></span><span class="op">(</span><span class="op">)</span>, family<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>              modelprior<span class="op">=</span><span class="fu"><a href="uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no non-missing arguments to min; returning Inf</span>
 <span class="r-in"><span><span class="co"># Poisson example</span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"glmbb"</span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">crabs</span>, package<span class="op">=</span><span class="st">'glmbb'</span><span class="op">)</span></span></span>
@@ -427,7 +454,7 @@ Li</p>
 <span class="r-in"><span>  <span class="va">crabs.bas</span> <span class="op">=</span> <span class="fu">bas.glm</span><span class="op">(</span><span class="va">satell</span> <span class="op">~</span> <span class="va">color</span><span class="op">*</span><span class="va">spine</span><span class="op">*</span><span class="va">width</span> <span class="op">+</span> <span class="va">weight</span>, data<span class="op">=</span><span class="va">crabs</span>,</span></span>
 <span class="r-in"><span>                      family<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                      betaprior<span class="op">=</span><span class="fu"><a href="EB.local.html">EB.local</a></span><span class="op">(</span><span class="op">)</span>, modelprior<span class="op">=</span><span class="fu"><a href="uniform.html">uniform</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                      method<span class="op">=</span><span class="st">'MCMC'</span>, n.models<span class="op">=</span><span class="fl">2</span><span class="op">^</span><span class="fl">10</span>, MCMC.iterations<span class="op">=</span><span class="fl">2500</span>,</span></span>
+<span class="r-in"><span>                      method<span class="op">=</span><span class="st">"MCMC"</span>, n.models<span class="op">=</span><span class="fl">2</span><span class="op">^</span><span class="fl">10</span>, MCMC.iterations<span class="op">=</span><span class="fl">2500</span>,</span></span>
 <span class="r-in"><span>                      prob.rw<span class="op">=</span><span class="fl">.95</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span> <span class="co"># Gamma example</span></span></span>
@@ -450,7 +477,7 @@ Li</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

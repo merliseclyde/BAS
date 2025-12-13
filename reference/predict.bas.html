@@ -9,7 +9,7 @@ class inheriting from 'bas'."><meta property="og:image" content="http://merlisec
 
     <a class="navbar-brand me-2" href="../index.html">BAS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +46,7 @@ class inheriting from 'bas'.</p>
 <span>  <span class="va">object</span>,</span>
 <span>  <span class="va">newdata</span>,</span>
 <span>  se.fit <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"link"</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"response"</span>, <span class="st">"link"</span><span class="op">)</span>,</span>
 <span>  top <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  estimator <span class="op">=</span> <span class="st">"BMA"</span>,</span>
 <span>  na.action <span class="op">=</span> <span class="va">na.pass</span>,</span>
@@ -73,9 +73,9 @@ values</p></dd>
 
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
-<dd><p>Type of predictions required. "link" which is on the scale of
-the linear predictor is the only option currently for linear models, which for the normal model
-is equivalent to type='response'.</p></dd>
+<dd><p>Type of predictions required. The defaults "reponse" is on the scale of
+the response is the only option currently for linear models (for Gaussian models this
+is equivalent to type="link").</p></dd>
 
 
 <dt id="arg-top">top<a class="anchor" aria-label="anchor" href="#arg-top"></a></dt>
@@ -162,24 +162,24 @@ probability models.</p>
     <div class="dont-index"><p><code><a href="bas.lm.html">bas</a></code>, <code><a href="fitted.html">fitted.bas</a></code>,
 <code><a href="confint.pred.html">confint.pred.bas</a></code>,  <code><a href="variable.names.pred.bas.html">variable.names.pred.bas</a></code></p>
 <p>Other predict methods:
-<code><a href="fitted.html">fitted.bas</a>()</code>,
-<code><a href="predict.basglm.html">predict.basglm</a>()</code>,
-<code><a href="variable.names.pred.bas.html">variable.names.pred.bas</a>()</code></p>
+<code><a href="fitted.html">fitted.bas()</a></code>,
+<code><a href="predict.basglm.html">predict.basglm()</a></code>,
+<code><a href="variable.names.pred.bas.html">variable.names.pred.bas()</a></code></p>
 <p>Other bas methods:
 <code><a href="BAS.html">BAS</a></code>,
-<code><a href="bas.lm.html">bas.lm</a>()</code>,
-<code><a href="coef.html">coef.bas</a>()</code>,
-<code><a href="confint.coef.html">confint.coef.bas</a>()</code>,
-<code><a href="confint.pred.html">confint.pred.bas</a>()</code>,
-<code><a href="diagnostics.html">diagnostics</a>()</code>,
-<code><a href="fitted.html">fitted.bas</a>()</code>,
-<code><a href="force.heredity.bas.html">force.heredity.bas</a>()</code>,
-<code><a href="image.bas.html">image.bas</a>()</code>,
-<code><a href="plot.confint.html">plot.confint.bas</a>()</code>,
-<code><a href="predict.basglm.html">predict.basglm</a>()</code>,
-<code><a href="summary.html">summary.bas</a>()</code>,
-<code><a href="update.html">update.bas</a>()</code>,
-<code><a href="variable.names.pred.bas.html">variable.names.pred.bas</a>()</code></p></div>
+<code><a href="bas.lm.html">bas.lm()</a></code>,
+<code><a href="coef.html">coef.bas()</a></code>,
+<code><a href="confint.coef.html">confint.coef.bas()</a></code>,
+<code><a href="confint.pred.html">confint.pred.bas()</a></code>,
+<code><a href="diagnostics.html">diagnostics()</a></code>,
+<code><a href="fitted.html">fitted.bas()</a></code>,
+<code><a href="force.heredity.bas.html">force.heredity.bas()</a></code>,
+<code><a href="image.bas.html">image.bas()</a></code>,
+<code><a href="plot.confint.html">plot.confint.bas()</a></code>,
+<code><a href="predict.basglm.html">predict.basglm()</a></code>,
+<code><a href="summary.html">summary.bas()</a></code>,
+<code><a href="update.html">update.bas()</a></code>,
+<code><a href="variable.names.pred.bas.html">variable.names.pred.bas()</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -199,7 +199,7 @@ probability models.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"model")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0 1 2 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"best")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"estimator")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "BPM"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -283,7 +283,7 @@ probability models.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $best</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bestmodel</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0 1 2 4</span>
@@ -304,19 +304,19 @@ probability models.</p>
 <span class="r-in"><span><span class="va">hald.bma</span> <span class="op">=</span> <span class="fu">predict</span><span class="op">(</span><span class="va">hald.gprior</span>, top<span class="op">=</span><span class="fl">5</span>, se.fit<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="confint.coef.html">confint</a></span><span class="op">(</span><span class="va">hald.bma</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            2.5%     97.5%      pred</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]  67.99502  91.55410  79.74246</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]  63.28937  85.43012  74.50010</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,]  94.63112 116.09951 105.29268</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  78.72267 100.97345  89.88693</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,]  83.89443 106.32644  95.57177</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,]  94.17953 114.85494 104.56409</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  91.87656 114.50490 103.40145</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  65.23186  88.11567  77.13668</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  81.36200 102.91102  91.99731</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 101.58940 126.61307 114.21325</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11,]  71.81605  94.41489  82.78446</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12,]  99.93465 121.89908 111.00723</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13,]  99.35807 121.10243 110.40160</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]  67.77668  91.33017  79.74246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]  63.52617  85.49661  74.50010</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,]  94.41069 116.15679 105.29268</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  78.50269 100.35412  89.88693</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,]  84.98258 106.82052  95.57177</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,]  94.31184 115.16532 104.56409</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  92.13675 115.20298 103.40145</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  65.78011  88.46760  77.13668</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  81.23604 102.85231  91.99731</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 102.07473 127.29765 114.21325</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,]  71.22090  93.42523  82.78446</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 100.52408 121.81017 111.00723</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,]  99.33528 121.82604 110.40160</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"Probability")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
@@ -373,7 +373,7 @@ probability models.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

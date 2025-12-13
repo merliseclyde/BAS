@@ -17,7 +17,7 @@ than the description above ~~"><meta property="og:image" content="http://merlise
 
     <a class="navbar-brand me-2" href="../index.html">BAS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.7.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,23 +99,23 @@ of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other CI methods:
-<code><a href="confint.pred.html">confint.pred.bas</a>()</code>,
-<code><a href="plot.confint.html">plot.confint.bas</a>()</code></p>
+<code><a href="confint.pred.html">confint.pred.bas()</a></code>,
+<code><a href="plot.confint.html">plot.confint.bas()</a></code></p>
 <p>Other bas methods:
 <code><a href="BAS.html">BAS</a></code>,
-<code><a href="bas.lm.html">bas.lm</a>()</code>,
-<code><a href="coef.html">coef.bas</a>()</code>,
-<code><a href="confint.pred.html">confint.pred.bas</a>()</code>,
-<code><a href="diagnostics.html">diagnostics</a>()</code>,
-<code><a href="fitted.html">fitted.bas</a>()</code>,
-<code><a href="force.heredity.bas.html">force.heredity.bas</a>()</code>,
-<code><a href="image.bas.html">image.bas</a>()</code>,
-<code><a href="plot.confint.html">plot.confint.bas</a>()</code>,
-<code><a href="predict.bas.html">predict.bas</a>()</code>,
-<code><a href="predict.basglm.html">predict.basglm</a>()</code>,
-<code><a href="summary.html">summary.bas</a>()</code>,
-<code><a href="update.html">update.bas</a>()</code>,
-<code><a href="variable.names.pred.bas.html">variable.names.pred.bas</a>()</code></p></div>
+<code><a href="bas.lm.html">bas.lm()</a></code>,
+<code><a href="coef.html">coef.bas()</a></code>,
+<code><a href="confint.pred.html">confint.pred.bas()</a></code>,
+<code><a href="diagnostics.html">diagnostics()</a></code>,
+<code><a href="fitted.html">fitted.bas()</a></code>,
+<code><a href="force.heredity.bas.html">force.heredity.bas()</a></code>,
+<code><a href="image.bas.html">image.bas()</a></code>,
+<code><a href="plot.confint.html">plot.confint.bas()</a></code>,
+<code><a href="predict.bas.html">predict.bas()</a></code>,
+<code><a href="predict.basglm.html">predict.basglm()</a></code>,
+<code><a href="summary.html">summary.bas()</a></code>,
+<code><a href="update.html">update.bas()</a></code>,
+<code><a href="variable.names.pred.bas.html">variable.names.pred.bas()</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -132,22 +132,22 @@ of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
 <span class="r-in"><span><span class="va">coef_hald</span> <span class="op">&lt;-</span> <span class="fu"><a href="coef.html">coef</a></span><span class="op">(</span><span class="va">hald_gprior</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">confint</span><span class="op">(</span><span class="va">coef_hald</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                2.5%      97.5%       beta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept 93.853573 96.9385987 95.4230769</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1         0.000000  1.8615960  1.2150202</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2        -1.154011  0.8918842  0.2756235</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3        -1.556924  0.5528633 -0.1270575</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4        -1.750152  0.2381370 -0.3268710</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept 93.882544 96.9381749 95.4230769</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1         0.000000  1.8558153  1.2150202</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        -1.109213  0.9096770  0.2756235</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        -1.553202  0.5308685 -0.1270575</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        -1.673950  0.2933033 -0.3268710</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"Probability")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "confint.bas"</span>
 <span class="r-in"><span><span class="fu">confint</span><span class="op">(</span><span class="va">coef_hald</span>, approx<span class="op">=</span><span class="cn">FALSE</span>, nsim<span class="op">=</span><span class="fl">5000</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                2.5%      97.5%       beta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept 93.872680 96.9519316 95.4230769</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1         0.000000  1.8751054  1.2150202</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2        -1.078786  0.8984255  0.2756235</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3        -1.525466  0.5581576 -0.1270575</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4        -1.654676  0.2717885 -0.3268710</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept 93.812233 96.9385484 95.4230769</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1         0.000000  1.9010163  1.2150202</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        -1.095420  0.9793408  0.2756235</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        -1.516656  0.6377484 -0.1270575</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        -1.666428  0.3612621 -0.3268710</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"Probability")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
@@ -155,7 +155,7 @@ of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
 <span class="r-in"><span><span class="co"># extract just the coefficient of X4</span></span></span>
 <span class="r-in"><span><span class="fu">confint</span><span class="op">(</span><span class="va">coef_hald</span>, parm<span class="op">=</span><span class="st">"X4"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         2.5%     97.5%      beta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4 -1.654426 0.3677784 -0.326871</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4 -1.727306 0.2478663 -0.326871</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"Probability")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
@@ -173,7 +173,7 @@ of nsim may be needed to reduce variability. <!-- %% ~~further notes~~ --></p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
