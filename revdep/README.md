@@ -1,24 +1,25 @@
 # Platform
 
-|field    |value                                      |
-|:--------|:------------------------------------------|
-|version  |R version 4.4.2 (2024-10-31)               |
-|os       |macOS Sonoma 14.7.1                        |
-|system   |aarch64, darwin20                          |
-|ui       |RStudio                                    |
-|language |(EN)                                       |
-|collate  |en_US.UTF-8                                |
-|ctype    |en_US.UTF-8                                |
-|tz       |America/New_York                           |
-|date     |2024-11-26                                 |
-|rstudio  |2024.09.1+394 Cranberry Hibiscus (desktop) |
-|pandoc   |3.2.1 @ /usr/local/bin/pandoc              |
+|field    |value                                                                                              |
+|:--------|:--------------------------------------------------------------------------------------------------|
+|version  |R version 4.5.2 (2025-10-31)                                                                       |
+|os       |macOS Sequoia 15.6.1                                                                               |
+|system   |aarch64, darwin20                                                                                  |
+|ui       |RStudio                                                                                            |
+|language |(EN)                                                                                               |
+|collate  |en_US.UTF-8                                                                                        |
+|ctype    |en_US.UTF-8                                                                                        |
+|tz       |America/New_York                                                                                   |
+|date     |2025-12-12                                                                                         |
+|rstudio  |2025.09.2+418 Cucumberleaf Sunflower (desktop)                                                     |
+|pandoc   |3.6.3 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64/ (via rmarkdown) |
+|quarto   |1.6.32 @ /usr/local/bin/quarto                                                                     |
 
 # Dependencies
 
-|package |old   |new   |Δ  |
-|:-------|:-----|:-----|:--|
-|BAS     |1.7.3 |1.7.4 |*  |
+|package |old   |new        |Δ  |
+|:-------|:-----|:----------|:--|
+|BAS     |1.7.5 |1.7.5.9000 |*  |
 
 # Revdeps
 
