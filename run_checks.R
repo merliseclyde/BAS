@@ -2,7 +2,7 @@
 # 
 devtools::check_win_devel()
 
-rhub::rhub_check(branch="devel", platforms = "gcc15")
+
 rhub::rhub_check(branch="devel", platforms = "valgrind") # if needed
 
 
@@ -36,12 +36,13 @@ devtools::check_win_devel()
 
 
 # check rhub. (see github actions to trigger rhub workflow
-
-rhub::rhub_check(branch="devel", platforms = ubuntu)
+rhub::rhub_check()
+rhub::rhub_check(branch="main", platforms = "gcc15")
+rhub::rhub_check(branch="main", platforms = "c23")
 
 
 # to submit to CRAN
-usethis::use_version('patch')
+usethis::use_version('major')
 
 devtools::submit_cran()
 
