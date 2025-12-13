@@ -1,4 +1,4 @@
-# BAS (development version)
+# BAS 2.0.0
 
 ## Features
 
