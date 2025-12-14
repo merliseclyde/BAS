@@ -300,7 +300,7 @@ double trunc_poisson(int modeldim, int p, double *hyper) {
 
   double prior = 0.0;
   if ((double) (modeldim -1) <= hyper[1]) {
-      prior = dpois(modeldim - 1, hyper[0], 0);
+      prior = exp(dpois(modeldim - 1, hyper[0], 1) - ppois(hyper[1], hyper[0], 1, 1) - lchoose((double) p-1, (double) modeldim - 1)); 
     }
   else {prior = 0.0;}
 
@@ -312,7 +312,9 @@ double trunc_power_prior(int modeldim, int p, double *hyper) {
 
   double prior = 0.0;
   if ((double) (modeldim -1) <= hyper[1]) {
-    prior = exp(-((double) modeldim - 1.0)*((double) hyper[0])*log((double) p));
+    prior = exp(-((double) modeldim - 1.0)*((double) hyper[0])*log((double) hyper[1]+1) -
+                  (log1mexp((double)(hyper[1]+1)*(double) hyper[0]*log((double) (hyper[1]+1))) - log1mexp((double) hyper[0]*log( (double) (hyper[1]+1)))) -
+                  lchoose((double) p-1, (double) modeldim - 1));
     }
   else {prior = 0.0;}
 
