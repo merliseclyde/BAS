@@ -518,7 +518,7 @@ system.time(
 ```
 
     ##    user  system elapsed 
-    ##   1.301   0.023   1.324
+    ##   1.291   0.025   1.317
 
 ``` r
 system.time(
@@ -533,7 +533,7 @@ system.time(
 ```
 
     ##    user  system elapsed 
-    ##   1.149   0.000   1.149
+    ##   1.137   0.000   1.137
 
 which is faster for enumeration than the default method=“BAS”.
 

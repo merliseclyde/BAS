@@ -36,6 +36,11 @@
   Closes issue [\#96](https://github.com/merliseclyde/BAS/issues/96)
   reported by A. Womack.
 
+- Fixes issues [\#97](https://github.com/merliseclyde/BAS/issues/97)
+  reported by A. Womack where the truncated Poisson and truncated power
+  prior probabilities did not account for the number of models of a
+  given size.
+
 ## BAS 1.7.5
 
 CRAN release: 2024-11-28
