@@ -24,6 +24,9 @@ improving estimation based on MCMC frequencies.
 * `R2` is calculated correctly in models where the number of columns in the design matrix was greater than
 `n`, but the model was full rank. Closes issue #96  reported by A. Womack.
 
+* Fixes issues #97 reported by A. Womack where the truncated Poisson and truncated power prior probabilities 
+did not account for the number of models of a given size.
+
 
 # BAS 1.7.5
 

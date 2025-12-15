@@ -10,16 +10,16 @@
 |collate  |en_US.UTF-8                                                                                        |
 |ctype    |en_US.UTF-8                                                                                        |
 |tz       |America/New_York                                                                                   |
-|date     |2025-12-12                                                                                         |
+|date     |2025-12-14                                                                                         |
 |rstudio  |2025.09.2+418 Cucumberleaf Sunflower (desktop)                                                     |
 |pandoc   |3.6.3 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64/ (via rmarkdown) |
 |quarto   |1.6.32 @ /usr/local/bin/quarto                                                                     |
 
 # Dependencies
 
-|package |old   |new        |Δ  |
-|:-------|:-----|:----------|:--|
-|BAS     |1.7.5 |1.7.5.9000 |*  |
+|package |old   |new   |Δ  |
+|:-------|:-----|:-----|:--|
+|BAS     |1.7.5 |2.0.0 |*  |
 
 # Revdeps
 

@@ -19,6 +19,9 @@ Bugs:
 - Fixed Issue #96: where `R2` was incorrect for models where the number of columns in the design matrix exceeded `n`, but
 the model was full rank. 
 
+- Fixed Issue #97: where the truncated poisson and truncated power priors did not account for the number of 
+models of a given size.
+
 ## Test environments
 
 - local OS X install, R 4.5.2 (arm64)
