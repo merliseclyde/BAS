@@ -64,6 +64,7 @@ SEXP glm_sampleworep_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_STRING_ELT(ANS_names, 9, mkChar("shrinkage"));
 	
 	SEXP modeldim =  allocVector(INTSXP, nModels0); 
+	memset(INTEGER(modeldim), 0, nModels0 * sizeof(int));
 	SET_VECTOR_ELT(ANS, 10, modeldim);
 	SET_STRING_ELT(ANS_names, 10, mkChar("size"));
 	

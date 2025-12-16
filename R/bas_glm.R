@@ -132,15 +132,19 @@
 #' @param force.heredity Logical variable to force all levels of a factor to be
 #' included together and to include higher order interactions only if lower
 #' order terms are included.  Currently only supported with `method='MCMC'`
-#' and `method='BAS'` (experimental) on non-Solaris platforms.
+#' and `method='BAS'` (experimental).
 #' Default is FALSE.
-#' @param expand variable to control how much to grow vectors with MCMC_GROWABLE 
+#' @param GROW Logical variable to indicate that the output vectors in MCMC are growable.  Rather than allocate space
+#' based on `n.models`, the vectors will grow as needed
+#' if the number of unique models sampled exceeds the initial size of the allocated output vectors
+#' before reaching 'MCMC.iterations'.  Default is TRUE.
+#' @param expand variable to control how much to grow vectors with GROW = TRUE 
 #' if number of unique models exceeds the current size of the vectors. 
-#' The default is 1.05, which allows vectors to grow by 5 percent.
+#' The default is 1.25 times, which allows vectors to grow by 25 percent.
 #' @param bigmem Logical variable to indicate that there is access to
 #' large amounts of memory (physical or virtual) for enumeration
 #' with large model spaces, e.g. > 2^25.
-#' @param GROW Logical variable to indicate that the vectors are growable
+#'
 #' @return \code{bas.glm} returns an object of class \code{basglm}
 #'
 #' An object of class \code{basglm} is a list containing at least the following
@@ -253,8 +257,8 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
                     prob.rw = 0.5,
                     burnin.iterations = NULL, MCMC.iterations = NULL, thin = 1,
                     control = glm.control(), laplace = FALSE, renormalize = FALSE,
-                    force.heredity = FALSE, expand = 1.05, 
-                    bigmem = FALSE, GROW = TRUE) {
+                    force.heredity = FALSE, GROW = TRUE, expand = 1.25, 
+                    bigmem = FALSE) {
   num.updates <- 10
   call <- match.call()
 
@@ -555,7 +559,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
                   Roffset = as.numeric(offset),
                   Rweights = as.numeric(weights),
                   Rprobinit = prob,
-                  Rmodeldim = modeldim,
+                  RnModels = as.integer(n.models),
                   modelprior = modelprior,
                   betaprior = betaprior,
                   Rbestmodel = bestmodel,
