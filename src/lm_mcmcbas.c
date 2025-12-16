@@ -59,7 +59,14 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
   double  mod, rem;
     //  char uplo[] = "U", trans[]="T";
  
-
+ /* initialize variables */
+ 
+  memset(REAL(modelprobs), 0.0, sizeof(double) *nModels);
+  memset(REAL(priorprobs), 0.0, sizeof(double) *nModels);
+  memset(REAL(shrinkage), 0.0, sizeof(double) *nModels);
+  memset(REAL(Rlogmarg), 0.0, sizeof(double) *nModels);
+  memset(REAL(sampleprobs), 0.0, sizeof(double) *nModels);
+  
   /* get dimsensions of all variables */
   int nobs = LENGTH(Y);
   int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
