@@ -41,7 +41,7 @@
 #' @param n.models number of unique models to keep. If NULL, BAS will attempt
 #' to enumerate unless p > 35 or method="MCMC". For any of methods using MCMC
 #' algorithms that sample with replacement, sampling will stop when the number
-#' of iterations exceeds the min of 'n.models' or 'MCMC.iterations' and on exit
+#' of iterations exceeds 'MCMC.iterations'. On exit
 #' 'n.models' is updated to reflect the unique number of models that have been
 #' sampled.
 #' @param betaprior Prior on coefficients for model coefficients (except
@@ -94,7 +94,7 @@
 #' excluded (see Clyde, Ghosh, and Littman (2010) for details);
 #' method="MCMC+BAS" runs an initial MCMC as above to calculate marginal
 #' inclusion probabilities and then samples without replacement as in BAS;
-#' method = "deterministic" runs an deterministic sampling using the initial
+#' method = "deterministic" runs a deterministic sampler using the initial
 #' probabilities (no updating); this is recommended for fast enumeration or if a
 #' model of independence is a good approximation to the joint posterior
 #' distribution of the model indicators.  For BAS, the sampling probabilities
@@ -134,13 +134,16 @@
 #' order terms are included.  Currently only supported with `method='MCMC'`
 #' and `method='BAS'` (experimental).
 #' Default is FALSE.
-#' @param GROW Logical variable to indicate that the output vectors in MCMC are growable.  Rather than allocate space
-#' based on `n.models`, the vectors will grow as needed
-#' if the number of unique models sampled exceeds the initial size of the allocated output vectors
+#' @param GROW Logical variable to indicate that the output vectors in MCMC are growable.  
+#' Rather than allocate space based on `n.models`, the vectors will grow as needed
+#' if the number of unique models sampled exceeds the initial size of the allocated output vectors controlled by 
+#' `n.models.init`.  This is useful when `n.models` is unknown
 #' before reaching 'MCMC.iterations'.  Default is TRUE.
 #' @param expand variable to control how much to grow vectors with GROW = TRUE 
 #' if number of unique models exceeds the current size of the vectors. 
 #' The default is 1.25 times, which allows vectors to grow by 25 percent.
+#' @param n.models.init Initial size of output vectors if GROW = TRUE. The 
+#' default is `n.models = 2500`.
 #' @param bigmem Logical variable to indicate that there is access to
 #' large amounts of memory (physical or virtual) for enumeration
 #' with large model spaces, e.g. > 2^25.
@@ -257,7 +260,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
                     prob.rw = 0.5,
                     burnin.iterations = NULL, MCMC.iterations = NULL, thin = 1,
                     control = glm.control(), laplace = FALSE, renormalize = FALSE,
-                    force.heredity = FALSE, GROW = TRUE, expand = 1.25, 
+                    force.heredity = FALSE, GROW = TRUE, expand = 1.25, n.models.init = 2500,
                     bigmem = FALSE) {
   num.updates <- 10
   call <- match.call()
@@ -431,7 +434,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   
   if (is.null(n.models)) {
     n.models <- min(2^p, 2^16)
-    if (method == "MCMC")  n.models = min(n.models, 2000) 
+    if (method == "MCMC")  n.models = min(n.models, n.models.init) 
     # FIXME add n.models.init as argument rather than specify here
   }
   if (is.null(MCMC.iterations)) {

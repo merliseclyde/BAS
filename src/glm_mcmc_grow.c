@@ -346,7 +346,6 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	PutRNGstate();
 	UNPROTECT(nProtected);
-	//Rprintf("Return\n");
 	return(ANS);
 }
 
