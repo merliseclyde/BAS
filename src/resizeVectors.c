@@ -42,7 +42,7 @@ SEXP resizeVector(SEXP x, R_xlen_t len_new)
     
     if (!isVector(x) && !isList(x))
       error("cannot set length of non-(vector or list)");
-    if (len_new < 0) error("invalid value"); // e.g. -999 from asVecSize()
+    if (len_new < 0) error("invalid value for resizing vector"); // e.g. -999 from asVecSize()
     if (isNull(x) && len_new > 0)
       warning("length of NULL cannot be changed");
     lenx = xlength(x);

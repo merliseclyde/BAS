@@ -8,15 +8,17 @@
 
 
 SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
-		     SEXP Rprobinit, SEXP Rmodeldim,
+		     SEXP Rprobinit, SEXP RnModels,
 		     SEXP modelprior, SEXP betaprior,SEXP Rbestmodel,  SEXP plocal,
 		     SEXP family, SEXP Rcontrol,
 		     SEXP Rupdate, SEXP Rlaplace, SEXP Rparents) {
 
   int nProtected = 0;
-  int nModels=LENGTH(Rmodeldim);
+  int nModels = INTEGER(RnModels)[0];  // initial guess on number of models to return
+  int nUnique = nModels;
 
-	//  Rprintf("Allocating Space for %d Models\n", nModels) ;
+  if (nModels <=0) Rf_error("Number of Models to sample must be positive\n");
+  // Rprintf("Allocating Space for %d Models\n", nModels) ;
 
 	SEXP ANS = PROTECT(allocVector(VECSXP, 15)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 15)); ++nProtected;
@@ -62,6 +64,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_STRING_ELT(ANS_names, 9, mkChar("shrinkage"));
 	
 	SEXP modeldim =  allocVector(INTSXP, nModels); 
+	memset(INTEGER(modeldim), 0, nModels * sizeof(int));
 	SET_VECTOR_ELT(ANS, 10, modeldim);
 	SET_STRING_ELT(ANS_names, 10, mkChar("size"));
 	
@@ -115,7 +118,6 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	//get dimsensions of all variables
 	int p = INTEGER(getAttrib(X,R_DimSymbol))[1];
-	int nUnique = LENGTH(modelprobs);
 
 	int update = INTEGER(Rupdate)[0];
 	double eps = DBL_EPSILON;
@@ -173,7 +175,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	int *modelwork= ivecalloc(p);
 
 	// sample models
-	for (m = 1;  m <nUnique  && lessThanOne(pigamma[0]); m++) {
+	for (m = 1;  m < nUnique  && lessThanOne(pigamma[0]); m++) {
 	  INTEGER(modeldim)[m] = 0.0;
 		for (i = n; i < p; i++)  {
 			INTEGER(modeldim)[m]  +=  model[vars[i].index];
@@ -229,7 +231,7 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	
 	if (m < nUnique) {
-	  //	  Rprintf("resize if constraints have reduced the number of models\n");
+	  Rprintf("resize if constraints have reduced the number of models %d to %d\n", nUnique, m);
 	  nUnique = m;
 	  
 	  SET_VECTOR_ELT(ANS, 1, resizeVector(modelspace, nUnique));
