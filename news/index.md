@@ -2,6 +2,8 @@
 
 ## BAS 2.0.0
 
+CRAN release: 2025-12-16
+
 ### Features
 
 - in function

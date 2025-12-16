@@ -21,7 +21,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/merliseclyde/BAS/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/merliseclyde/BAS/blob/v2.0.0/DESCRIPTION)
 
 Clyde M (2025). *BAS: Bayesian Variable Selection and Model Averaging
 using Bayesian Adaptive Sampling*.
