@@ -66,6 +66,7 @@ SEXP mcmcbas(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
   memset(REAL(shrinkage), 0.0, sizeof(double) *nModels);
   memset(REAL(Rlogmarg), 0.0, sizeof(double) *nModels);
   memset(REAL(sampleprobs), 0.0, sizeof(double) *nModels);
+  memset(REAL(R2), 0.0, sizeof(double) *nModels);
   
   /* get dimsensions of all variables */
   int nobs = LENGTH(Y);
