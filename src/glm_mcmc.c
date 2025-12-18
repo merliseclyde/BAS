@@ -100,7 +100,7 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_STRING_ELT(ANS_names, 8, mkChar("mle.se"));
 	
 	SEXP shrinkage = allocVector(REALSXP, nModels); 
-	memset(REAL(shrinkage), 0.0, sizeof(double) *nModels);
+  memset(REAL(shrinkage), 0.0, sizeof(double) *nModels);
 	SET_VECTOR_ELT(ANS, 9, shrinkage);
 	SET_STRING_ELT(ANS_names, 9, mkChar("shrinkage"));
 	
