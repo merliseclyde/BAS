@@ -1,3 +1,9 @@
+# BAS 2.0.1
+
+## Bug Fixes
+
+* minor patch to initialize variables flagged using `valgrind`
+
 # BAS 2.0.0
 
 ## Features

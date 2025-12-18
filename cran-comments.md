@@ -2,32 +2,19 @@
 
 ## Submission reason 
 
-This submission addresses CRAN Notes and a bug fix.
+* This submission addresses CRAN Additional Issues under valgrind:  unintialized values leading to conditional
+jumps or moves depending on unitialized values
 
-CRAN NOTES: 
-Version: 1.7.5
-Check: compiled code
-Result: NOTE 
-  File ‘BAS/libs/BAS.so’:
-    Found non-API call to R: ‘SETLENGTH’
+* Update is necessary before 1/15/2026 to maintain on CRAN
 
-Replaced use of  non-API call to `SETLENGTH` for over allocated vectors and objects in `C` code for 
-sampling without enumeration - Issue #82
-
-Bugs: 
-
-- Fixed Issue #96: where `R2` was incorrect for models where the number of columns in the design matrix exceeded `n`, but
-the model was full rank. 
-
-- Fixed Issue #97: where the truncated poisson and truncated power priors did not account for the number of 
-models of a given size.
 
 ## Test environments
 
+- ubuntu R-devel with valgrind via docker 
 - local OS X install, R 4.5.2 (arm64)
-- ubuntu  (github actions CI), R-release R-devel R-oldrelease
-- windows (github actions CI), R-release;
 - win-builder (r-release, r-devel)
+
+No issues identified via the docker valgrind checks and running of examples and unit tests per WRE usage of Valgrind
 
 ## R CMD check results for this submission
 
