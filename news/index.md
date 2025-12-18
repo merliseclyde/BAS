@@ -1,5 +1,11 @@
 # Changelog
 
+## BAS 2.0.1
+
+### Bug Fixes
+
+- minor patch to initialize variables flagged using `valgrind`
+
 ## BAS 2.0.0
 
 CRAN release: 2025-12-16

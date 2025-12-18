@@ -21,18 +21,18 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/merliseclyde/BAS/blob/v2.0.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/merliseclyde/BAS/blob/main/DESCRIPTION)
 
 Clyde M (2025). *BAS: Bayesian Variable Selection and Model Averaging
 using Bayesian Adaptive Sampling*.
 [doi:10.32614/CRAN.package.BAS](https://doi.org/10.32614/CRAN.package.BAS),
-R package version 2.0.0, <https://CRAN.R-project.org/package=BAS>.
+R package version 2.0.1, <https://CRAN.R-project.org/package=BAS>.
 
     @Manual{,
       title = {BAS: Bayesian Variable Selection and Model Averaging using Bayesian Adaptive Sampling},
       author = {Merlise Clyde},
       year = {2025},
-      note = {R package version 2.0.0},
+      note = {R package version 2.0.1},
       url = {https://CRAN.R-project.org/package=BAS},
       doi = {10.32614/CRAN.package.BAS},
     }

@@ -2,8 +2,8 @@
 
 Creates an object representing the prior distribution on models for BAS
 using a truncated Distribution on the Model Size where the probability
-of gamma = p^-kappa \|gamma\| where gamma is the vector of model
-indicators
+of gamma proportional to p^-kappa \|gamma\| where gamma is the vector of
+model indicators and \|gamma\| is the model size.
 
 ## Usage
 
@@ -28,13 +28,8 @@ returns an object of class "prior", with the family and hyperparameters.
 
 ## Details
 
-The beta-binomial distribution on model size is obtained by assigning
-each variable inclusion indicator independent Bernoulli distributions
-with probability w, and then giving w a beta(alpha,beta) distribution.
-Marginalizing over w leads to the number of included predictors having a
-beta-binomial distribution. The default hyperparameters lead to a
-uniform distribution over model size. The Truncated version assigns zero
-probability to all models of size \> trunc.
+The Truncated version assigns zero probability to all models of size \>
+trunc.
 
 ## See also
 
