@@ -38,6 +38,7 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
   SET_STRING_ELT(ANS_names, 1, mkChar("which"));
   
   SEXP Rlogmarg = allocVector(REALSXP, nModels); 
+  memset(REAL(Rlogmarg), 0, nModels * sizeof(double));
   SET_VECTOR_ELT(ANS, 2, Rlogmarg);
   SET_STRING_ELT(ANS_names, 2, mkChar("logmarg"));
 
@@ -70,10 +71,12 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
   SET_STRING_ELT(ANS_names, 8, mkChar("mle.se"));
 
   SEXP shrinkage = allocVector(REALSXP, nModels); 
+  memset(REAL(shrinkage), 0, nModels * sizeof(double));
   SET_VECTOR_ELT(ANS, 9, shrinkage);
   SET_STRING_ELT(ANS_names, 9, mkChar("shrinkage"));
 
   SEXP modeldim =  allocVector(INTSXP, nModels); 
+  memset(INTEGER(modeldim), 0, nModels * sizeof(int));
   SET_VECTOR_ELT(ANS, 10, modeldim);
   SET_STRING_ELT(ANS_names, 10, mkChar("size"));
   
@@ -83,6 +86,7 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
   SET_STRING_ELT(ANS_names, 11, mkChar("R2"));
   
   SEXP rank = allocVector(INTSXP, nModels); 
+  memset(INTEGER(rank), 0, nModels * sizeof(int));
   SET_VECTOR_ELT(ANS, 12, rank);
   SET_STRING_ELT(ANS_names, 12, mkChar("rank"));
 
@@ -93,6 +97,7 @@ SEXP mcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
   SET_STRING_ELT(ANS_names, 13, mkChar("freq"));
   
   SEXP MCMCprobs= duplicate(Rprobinit);
+  memset(REAL(MCMCprobs), 0, LENGTH(MCMCprobs) * sizeof(double));
   SET_VECTOR_ELT(ANS, 14, MCMCprobs);
   SET_STRING_ELT(ANS_names, 14, mkChar("probne0.MCMC"));
   

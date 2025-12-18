@@ -64,23 +64,30 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_VECTOR_ELT(ANS, 1, modelspace);
 	SET_STRING_ELT(ANS_names, 1, mkChar("which"));
 	
+	/* initialize variables */ 
+	
 	SEXP logmarg = allocVector(REALSXP, nModels); 
+	memset(REAL(logmarg), 0.0, sizeof(double) *nModels);
 	SET_VECTOR_ELT(ANS, 2, logmarg);
 	SET_STRING_ELT(ANS_names, 2, mkChar("logmarg"));
 	
 	SEXP modelprobs = allocVector(REALSXP, nModels);  
+	memset(REAL(modelprobs), 0.0, sizeof(double) *nModels);
 	SET_VECTOR_ELT(ANS, 3, modelprobs);
 	SET_STRING_ELT(ANS_names, 3, mkChar("postprobs"));
 	
 	SEXP priorprobs = allocVector(REALSXP, nModels); 
+	memset(REAL(priorprobs), 0.0, sizeof(double) *nModels);
 	SET_VECTOR_ELT(ANS, 4, priorprobs);
 	SET_STRING_ELT(ANS_names, 4, mkChar("priorprobs"));
 	
 	SEXP sampleprobs = allocVector(REALSXP, nModels); 
+	memset(REAL(sampleprobs), 0.0, sizeof(double) *nModels);
 	SET_VECTOR_ELT(ANS, 5, sampleprobs);
 	SET_STRING_ELT(ANS_names, 5, mkChar("sampleprobs"));
 	
 	SEXP deviance = allocVector(REALSXP, nModels); 
+	memset(REAL(deviance), 0.0, sizeof(double) *nModels);
 	SET_VECTOR_ELT(ANS, 6, deviance);
 	SET_STRING_ELT(ANS_names, 6, mkChar("deviance"));
 	
@@ -93,14 +100,17 @@ SEXP glm_mcmc(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_STRING_ELT(ANS_names, 8, mkChar("mle.se"));
 	
 	SEXP shrinkage = allocVector(REALSXP, nModels); 
+	memset(REAL(shrinkage), 0.0, sizeof(double) *nModels);
 	SET_VECTOR_ELT(ANS, 9, shrinkage);
 	SET_STRING_ELT(ANS_names, 9, mkChar("shrinkage"));
 	
 	SEXP modeldim =  allocVector(INTSXP, nModels); 
+	memset(INTEGER(modeldim), 0, nModels * sizeof(int));
 	SET_VECTOR_ELT(ANS, 10, modeldim);
 	SET_STRING_ELT(ANS_names, 10, mkChar("size"));
 	
 	SEXP R2 = allocVector(REALSXP, nModels); 
+	memset(REAL(R2), 0.0, sizeof(double) *nModels);
 	SET_VECTOR_ELT(ANS, 11, R2);
 	SET_STRING_ELT(ANS_names, 11, mkChar("R2"));
 	

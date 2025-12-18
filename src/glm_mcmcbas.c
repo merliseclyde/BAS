@@ -41,6 +41,14 @@ SEXP glm_mcmcbas(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 
 	SEXP NumUnique = PROTECT(allocVector(INTSXP, 1)); ++nProtected;
 
+	/* initialize variables */
+	
+	memset(REAL(modelprobs), 0.0, sizeof(double) *nModels);
+	memset(REAL(priorprobs), 0.0, sizeof(double) *nModels);
+	memset(REAL(shrinkage), 0.0, sizeof(double) *nModels);
+	memset(REAL(logmarg), 0.0, sizeof(double) *nModels);
+	memset(REAL(sampleprobs), 0.0, sizeof(double) *nModels);
+	memset(REAL(R2), 0.0, sizeof(double) *nModels);
 	
 
 	double *probs, MH=0.0, prior_m=1.0,shrinkage_m, logmargy, postold, postnew;
