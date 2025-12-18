@@ -98,7 +98,16 @@ extern SEXP sampleworep_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
 	
 	setAttrib(ANS, R_NamesSymbol, ANS_names);
 	
-	
+	memset(REAL(Rlogmarg), 0.0, sizeof(double) *nModels0);
+	memset(REAL(modelprobs), 0.0, sizeof(double) *nModels0);
+	memset(REAL(priorprobs), 0.0, sizeof(double) *nModels0);
+	memset(REAL(shrinkage), 0.0, sizeof(double) *nModels0);
+	memset(REAL(R2), 0.0, sizeof(double) *nModels0);
+	memset(REAL(Rlogmarg), 0.0, sizeof(double) *nModels0);
+	memset(REAL(sampleprobs), 0.0, sizeof(double) *nModels0);
+	memset(INTEGER(modeldim), 0, sizeof(int) *nModels0);
+	memset(REAL(mse), 0.0, sizeof(double) *nModels0);
+	memset(INTEGER(rank), 0, sizeof(int) *nModels0);	
 
 	SEXP RXwork = PROTECT(duplicate(X)); nProtected++;
 	SEXP RYwork = PROTECT(duplicate(Y)); nProtected++;

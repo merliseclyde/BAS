@@ -31,6 +31,16 @@ SEXP deterministic(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit,
   SEXP priorprobs = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
   SEXP logmarg = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
   SEXP sampleprobs = PROTECT(allocVector(REALSXP, nModels)); ++nProtected;
+  
+  memset(REAL(logmarg), 0.0, sizeof(double) *nModels);
+  memset(REAL(modelprobs), 0.0, sizeof(double) *nModels);
+  memset(REAL(priorprobs), 0.0, sizeof(double) *nModels);
+  memset(REAL(shrinkage), 0.0, sizeof(double) *nModels);
+  memset(REAL(R2), 0.0, sizeof(double) *nModels);
+  memset(REAL(sampleprobs), 0.0, sizeof(double) *nModels);
+  memset(INTEGER(modeldim), 0, sizeof(int) *nModels);
+  memset(REAL(mse), 0.0, sizeof(double) *nModels);
+  memset(INTEGER(rank), 0, sizeof(int) *nModels);
 
   SEXP Rse_m, Rcoef_m, Rmodel_m;
   double *Xwork, *Ywork, *wts, *coefficients,*probs,

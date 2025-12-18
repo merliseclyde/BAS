@@ -64,7 +64,6 @@ SEXP glm_sampleworep_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_STRING_ELT(ANS_names, 9, mkChar("shrinkage"));
 	
 	SEXP modeldim =  allocVector(INTSXP, nModels0); 
-	memset(INTEGER(modeldim), 0, nModels0 * sizeof(int));
 	SET_VECTOR_ELT(ANS, 10, modeldim);
 	SET_STRING_ELT(ANS_names, 10, mkChar("size"));
 	
@@ -85,6 +84,18 @@ SEXP glm_sampleworep_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_STRING_ELT(ANS_names, 14, mkChar("intercept"));
 	
 	setAttrib(ANS, R_NamesSymbol, ANS_names);
+	
+	memset(REAL(modelprobs), 0.0, sizeof(double) *nModels0);
+	memset(REAL(priorprobs), 0.0, sizeof(double) *nModels0);
+	memset(REAL(shrinkage), 0.0, sizeof(double) *nModels0);
+	memset(REAL(logmarg), 0.0, sizeof(double) *nModels0);
+	memset(REAL(sampleprobs), 0.0, sizeof(double) *nModels0);
+	memset(REAL(R2), 0.0, sizeof(double) *nModels0);
+	memset(REAL(Q), 0.0, sizeof(double) *nModels0);
+	memset(REAL(Rintercept), 0.0, sizeof(double) *nModels0);
+	memset(REAL(deviance), 0.0, sizeof(double) *nModels0);
+	memset(INTEGER(modeldim), 0, sizeof(int) *nModels0);
+	
 	
 //	Rprintf("Start Computing\n");
 	double *probs,logmargy, shrinkage_m;

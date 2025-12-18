@@ -86,6 +86,18 @@ SEXP glm_sampleworep(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	
 	setAttrib(ANS, R_NamesSymbol, ANS_names);
 	
+	memset(REAL(modelprobs), 0.0, sizeof(double) *nModels);
+	memset(REAL(priorprobs), 0.0, sizeof(double) *nModels);
+	memset(REAL(shrinkage), 0.0, sizeof(double) *nModels);
+	memset(REAL(logmarg), 0.0, sizeof(double) *nModels);
+	memset(REAL(sampleprobs), 0.0, sizeof(double) *nModels);
+	memset(REAL(R2), 0.0, sizeof(double) *nModels);
+	memset(REAL(Q), 0.0, sizeof(double) *nModels);
+	memset(REAL(Rintercept), 0.0, sizeof(double) *nModels);
+	memset(REAL(deviance), 0.0, sizeof(double) *nModels);
+	memset(INTEGER(modeldim), 0, sizeof(int) *nModels);
+	
+	
 /*
 	SEXP ANS = PROTECT(allocVector(VECSXP, 14)); ++nProtected;
 	SEXP ANS_names = PROTECT(allocVector(STRSXP, 14)); ++nProtected;

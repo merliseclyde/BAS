@@ -98,7 +98,6 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	
 	SEXP Rcounts =  allocVector(INTSXP, nModels); 
 	counts = INTEGER(Rcounts);
-	memset(counts, 0, nModels * sizeof(int));
 	SET_VECTOR_ELT(ANS, 13, Rcounts);
 	SET_STRING_ELT(ANS_names, 13, mkChar("freq"));
 	
@@ -112,7 +111,18 @@ SEXP mcmc(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP Rmodeldim,
 	
 	setAttrib(ANS, R_NamesSymbol, ANS_names);
 	
-
+	memset(REAL(Rlogmarg), 0.0, sizeof(double) *nModels);
+	memset(REAL(modelprobs), 0.0, sizeof(double) *nModels);
+	memset(REAL(priorprobs), 0.0, sizeof(double) *nModels);
+	memset(REAL(shrinkage), 0.0, sizeof(double) *nModels);
+	memset(REAL(R2), 0.0, sizeof(double) *nModels);
+	memset(REAL(Rlogmarg), 0.0, sizeof(double) *nModels);
+	memset(REAL(sampleprobs), 0.0, sizeof(double) *nModels);
+	memset(INTEGER(modeldim), 0, sizeof(int) *nModels);
+	memset(counts, 0, sizeof(int) *nModels);
+	memset(REAL(mse), 0.0, sizeof(double) *nModels);
+	memset(INTEGER(rank), 0, sizeof(int) *nModels);
+	
 	double *Xwork, *Ywork,*wts, *probs, shrinkage_m,
 		mse_m, MH=0.0, prior_m=1.0,
 		R2_m, RSquareFull, logmarg_m, postold, postnew;
