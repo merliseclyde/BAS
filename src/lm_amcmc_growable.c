@@ -20,7 +20,7 @@ SEXP amcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
   
   double expand = REAL(Rexpand)[0]; // increase to grow vectors 
   
-  Rprintf("running AMCMC_GROWABLE with %d\n", nModels0);
+ // Rprintf("running AMCMC_GROWABLE with %d\n", nModels0);
   
   // allocate return objects
   int nProtected = 0;
@@ -345,7 +345,7 @@ SEXP amcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 		  // expand nModels and grow result vectors
 		  nModels = (int) (expand*nModels); //add checks to ensure it is not above max int
 		  
-		  Rprintf("Grow vectors:  Number of unique models %d; nModels is now %d\n", nUnique, nModels); // Need to use growable vector here
+		  // Rprintf("Grow vectors:  Number of unique models %d; nModels is now %d\n", nUnique, nModels); // Need to use growable vector here
 		  
 		  modelspace = resizeVector(modelspace, nModels);
 		  SET_VECTOR_ELT(ANS, 1, modelspace);
@@ -421,7 +421,7 @@ SEXP amcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 	*/
   // now use AMCMC
   
-  Rprintf("Now start AMCMC with %d nUnique models out of %d at it %d\n", nUnique, nModels, m);
+  // Rprintf("Now start AMCMC with %d nUnique models out of %d at it %d\n", nUnique, nModels, m);
   if (IS) thin = 1; // no need to thin
   
   while (nUnique < nModels && m < (INTEGER(BURNIN_Iterations)[0] + INTEGER(MCMC_Iterations)[0])) {
@@ -518,7 +518,7 @@ SEXP amcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
       // expand nModels and grow result vectors
       nModels = (int) (expand*nModels); //add checks to ensure it is not above max int
       
-      Rprintf("Grow vectors:  Number of unique models %d; nModels is now %d\n", nUnique, nModels); // Need to use growable vector here
+      // Rprintf("Grow vectors:  Number of unique models %d; nModels is now %d\n", nUnique, nModels); // Need to use growable vector here
       
       modelspace = resizeVector(modelspace, nModels);
       SET_VECTOR_ELT(ANS, 1, modelspace);

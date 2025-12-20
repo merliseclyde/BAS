@@ -3,7 +3,7 @@
 devtools::check_win_devel()
 
 
-3rhub::rhub_check(branch="devel", platforms = "valgrind") # if needed
+rhub::rhub_check(branch="devel", platforms = "valgrind") # if needed
 
 
 

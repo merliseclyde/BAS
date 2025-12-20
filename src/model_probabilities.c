@@ -127,11 +127,11 @@ void compute_margprobs_Bayes_BAS_MCMC(SEXP modelspace, SEXP modeldim, SEXP Rmode
   int m, j, *model, *n;
   double *modelprobs;
   double *beta, probNotInS = 1.0;
-  SEXP samplemargs = duplicate(Rprobs); 
+  SEXP samplemargs = PROTECT(duplicate(Rprobs)); 
   modelprobs = REAL(Rmodelprobs);
   
   for (j=0; j< p; j++) {
-    Rprintf("j = %d uncorrected pip = %lf \n", j, REAL(Rprobs)[j]);
+   // Rprintf("j = %d uncorrected pip = %lf \n", j, REAL(Rprobs)[j]);
     REAL(Rprobs)[j] = 0.0;
 
   }
@@ -146,8 +146,9 @@ void compute_margprobs_Bayes_BAS_MCMC(SEXP modelspace, SEXP modeldim, SEXP Rmode
   for (j = 0; j < p; j ++) {
     REAL(Rprobs)[j] += (1.0 - REAL(samplemargs)[j])* eta/NC;
     if (REAL(Rprobs)[j] > 1.0) REAL(Rprobs)[j] = 1.0;
-    Rprintf("j = %d sample pip %lf corrected pip = %lf \n", j, REAL(samplemargs)[j], REAL(Rprobs)[j]);
+//    Rprintf("j = %d sample pip %lf corrected pip = %lf \n", j, REAL(samplemargs)[j], REAL(Rprobs)[j]);
     }
+  UNPROTECT(1);
 }
 
 
