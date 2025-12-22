@@ -1,5 +1,13 @@
 # Changelog
 
+## BAS 2.0.2
+
+### Bug Fixes
+
+- minor patch to address rchk warnings about unprotected variables when
+  calling allocating functions. Added `PROTECT samplemarg` in
+  `model_probabilities.c`
+
 ## BAS 2.0.1
 
 ### Bug Fixes
