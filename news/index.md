@@ -2,6 +2,8 @@
 
 ## BAS 2.0.2
 
+CRAN release: 2025-12-23
+
 ### Bug Fixes
 
 - minor patch to address rchk warnings about unprotected variables when
