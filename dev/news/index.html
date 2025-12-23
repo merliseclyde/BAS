@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">BAS</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.7.5.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">2.0.2.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,16 +33,35 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="bas-development-version">BAS (development version)<a class="anchor" aria-label="anchor" href="#bas-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2.0.2" id="bas-202">BAS 2.0.2<a class="anchor" aria-label="anchor" href="#bas-202"></a></h2><p class="text-muted">CRAN release: 2025-12-23</p>
 <div class="section level3">
-<h3 id="features-development-version">Features<a class="anchor" aria-label="anchor" href="#features-development-version"></a></h3>
+<h3 id="bug-fixes-2-0-2">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-2-0-2"></a></h3>
+<ul><li>minor patch to address rchk warnings about unprotected variables when calling allocating functions. Added <code>PROTECT samplemarg</code> in <code>model_probabilities.c</code>
+</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2.0.1" id="bas-201">BAS 2.0.1<a class="anchor" aria-label="anchor" href="#bas-201"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-2-0-1">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-2-0-1"></a></h3>
+<ul><li>minor patch to initialize variables flagged using <code>valgrind</code>
+</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2.0.0" id="bas-200">BAS 2.0.0<a class="anchor" aria-label="anchor" href="#bas-200"></a></h2><p class="text-muted">CRAN release: 2025-12-16</p>
+<div class="section level3">
+<h3 id="features-2-0-0">Features<a class="anchor" aria-label="anchor" href="#features-2-0-0"></a></h3>
 <ul><li><p>in function <code><a href="../reference/bas.lm.html">bas.lm()</a></code> and <code><a href="../reference/bas.glm.html">bas.glm()</a></code> replace use of non-API call to <code>SETLENGTH</code> for MCMC sampling with new C function <code>resizeVectors</code> to truncate when overallocated (closes issue <a href="https://github.com/merliseclyde/BAS/issues/82" class="external-link">#82</a>). This should reduce memory allocation for large problems when <code>n.models</code> was much larger than needed, as the longer vectors are available for garbage collection, although there may be a slight increase in memory usage while copying the to the new vector. This uses the <code>C</code> function <code>resizeVectors</code> based on the <code>R</code> internal function <code>xlenghtgets</code>, but uses <code>memcpy</code> to copy the data to the new vector for efficiency in the case of real and integer SEXP vectors.</p></li>
 <li><p>in <code><a href="../reference/bas.lm.html">bas.lm()</a></code> and <code>bas.glm</code>, added logical option <code>GROW"</code> for <code>method = "MCMC", to allow output vectors to grow as needed (closes issue <a href="https://github.com/merliseclyde/BAS/issues/91" class="external-link">#91</a>) rather than over-allocating based on</code>n.models<code>and truncating.  This should reduce memory usage when the number of unique models visited is much smaller than the default for</code>n.models<code>.   Additional options</code>expand<code>and</code>n.models.init<code>control the growth rate and initial size of the output vectors.  By default,</code>GROW = TRUE<code>,</code>expand = 1.25<code>and</code>n.models.init = 2500`. See documentation for more details.</p></li>
 <li><p>in <code>bas.lm</code> and <code>bas.glm</code>, MCMC sampling now stops after <code>MCMC.iterations</code>, even if <code>n.models</code> is reached, improving estimation based on MCMC frequencies.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
-<ul><li>
-<code>R2</code> is calculated correctly in models where the number of columns in the design matrix was greater than <code>n</code>, but the model was full rank. Closes issue <a href="https://github.com/merliseclyde/BAS/issues/96" class="external-link">#96</a> reported by A. Womack.</li>
+<h3 id="bug-fixes-2-0-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-2-0-0"></a></h3>
+<ul><li><p><code>R2</code> is calculated correctly in models where the number of columns in the design matrix was greater than <code>n</code>, but the model was full rank. Closes issue <a href="https://github.com/merliseclyde/BAS/issues/96" class="external-link">#96</a> reported by A. Womack.</p></li>
+<li><p>Fixes issues <a href="https://github.com/merliseclyde/BAS/issues/97" class="external-link">#97</a> reported by A. Womack where the truncated Poisson and truncated power prior probabilities did not account for the number of models of a given size.</p></li>
 </ul></div>
 </div>
     <div class="section level2">

@@ -2,6 +2,26 @@
 
 ## BAS (development version)
 
+## BAS 2.0.2
+
+CRAN release: 2025-12-23
+
+### Bug Fixes
+
+- minor patch to address rchk warnings about unprotected variables when
+  calling allocating functions. Added `PROTECT samplemarg` in
+  `model_probabilities.c`
+
+## BAS 2.0.1
+
+### Bug Fixes
+
+- minor patch to initialize variables flagged using `valgrind`
+
+## BAS 2.0.0
+
+CRAN release: 2025-12-16
+
 ### Features
 
 - in function
@@ -36,6 +56,11 @@
   the design matrix was greater than `n`, but the model was full rank.
   Closes issue [\#96](https://github.com/merliseclyde/BAS/issues/96)
   reported by A. Womack.
+
+- Fixes issues [\#97](https://github.com/merliseclyde/BAS/issues/97)
+  reported by A. Womack where the truncated Poisson and truncated power
+  prior probabilities did not account for the number of models of a
+  given size.
 
 ## BAS 1.7.5
 
