@@ -76,6 +76,7 @@ Merlise Clyde <clyde@stat.duke.edu>
 ## Examples
 
 ``` r
+
 library(MASS)
 data(UScrime)
 UScrime[,-2] = log(UScrime[,-2])

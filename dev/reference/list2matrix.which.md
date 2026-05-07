@@ -48,6 +48,7 @@ Merlise Clyde <clyde@duke.edu>
 ## Examples
 
 ``` r
+
 data(Hald)
 Hald.bic <-  bas.lm(Y ~ ., data=Hald, prior="BIC", initprobs="eplogp")
 coef <- list2matrix.bas(Hald.bic, "mle")  # extract all ols coefficients

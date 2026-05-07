@@ -158,6 +158,7 @@ Inc., Boston.
 ## Examples
 
 ``` r
+
 data(bodyfat)
 bodyfat.bas = bas.lm(Bodyfat ~ Abdomen, data=bodyfat, prior="ZS-null")
 summary(bodyfat.bas)

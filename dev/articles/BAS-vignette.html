@@ -53,7 +53,7 @@
                         <h4 data-toc-skip class="author">Merlise A
 Clyde</h4>
             
-            <h4 data-toc-skip class="date">2025-12-23</h4>
+            <h4 data-toc-skip class="date">2026-05-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/merliseclyde/BAS/blob/main/vignettes/BAS-vignette.Rmd" class="external-link"><code>vignettes/BAS-vignette.Rmd</code></a></small>
       <div class="d-none name"><code>BAS-vignette.Rmd</code></div>
@@ -147,7 +147,7 @@ probabilities to all models. The last optional argument
 sampling algorithm and order the variables in the tree structure that
 represents the model space in BAS. The <code>eplogp</code> option uses
 the Bayes factor calibration of p-values
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>e</mi><mi>p</mi><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">-e p \log(p)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mi>e</mi><mi>p</mi><mrow><mi mathvariant="normal">log</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">-e p \log(p)</annotation></semantics></math>
 to provide an approximation to the marginal inclusion probability that
 the coefficient of each predictor is zero, using the p-values from the
 full model. Other options for <code>initprobs</code> include</p>
@@ -490,7 +490,7 @@ enumeration;</p>
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   1.339   0.020   1.358</span></span></code></pre>
+<span><span class="co">##   1.601   0.016   1.617</span></span></code></pre>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span></span>
 <span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
@@ -502,7 +502,7 @@ enumeration;</p>
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   1.170   0.000   1.169</span></span></code></pre>
+<span><span class="co">##   1.169   0.016   1.186</span></span></code></pre>
 <p>which is faster for enumeration than the default method=“BAS”.</p>
 </div>
 <div class="section level2">
@@ -950,7 +950,7 @@ drop models that violate the hierarchical heredity constraint:</p>
 optional weight vector that is of the same length as the response where
 the assumption is that the variance of the response is proportional to
 1/weights. The g-prior incorporates the weights in the prior covariance,
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>σ</mi><mn>2</mn></msup><mi>g</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msubsup><mi>X</mi><mi>γ</mi><mi>T</mi></msubsup><mi>W</mi><msub><mi>X</mi><mi>γ</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>σ</mi><mn>2</mn></msup><mi>g</mi><mo stretchy="false" form="prefix">(</mo><msubsup><mi>X</mi><mi>γ</mi><mi>T</mi></msubsup><mi>W</mi><msub><mi>X</mi><mi>γ</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mrow><mi>−</mi><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">
  \sigma^2 g (X_\gamma^T W X_\gamma)^{-1}
 </annotation></semantics></math> where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>X</mi><mi>γ</mi></msub><annotation encoding="application/x-tex">X_\gamma</annotation></semantics></math>

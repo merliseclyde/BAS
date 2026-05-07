@@ -149,6 +149,7 @@ Merlise Clyde, based on plot.lm by John Maindonald and Martin Maechler
 ## Examples
 
 ``` r
+
 data(Hald)
 hald.gprior =  bas.lm(Y~ ., data=Hald, prior="g-prior", alpha=13,
                       modelprior=beta.binomial(1,1),

@@ -71,6 +71,7 @@ Daniel Heemann (<df.heemann@gmail.com>)
 ## Examples
 
 ``` r
+
 # special cases
 # phi1(a, b, c, x=0, y) is the same as 2F1(b, a; c, y)
 phi1(1, 2, 1.5, 0, 1 / 100, log=FALSE)

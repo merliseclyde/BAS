@@ -41,6 +41,7 @@ Merlise Clyde <clyde@duke.edu>
 ## Examples
 
 ``` r
+
 if (FALSE) { # \dontrun{
 library(foreign)
 cognitive <- read.dta("https://www.stat.columbia.edu/~gelman/arm/examples/child.iq/kidiq.dta")

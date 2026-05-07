@@ -58,6 +58,7 @@ Merlise Clyde
 ## Examples
 
 ``` r
+
 tr.beta.binomial(1, 10, 5)
 #> $family
 #> [1] "Trunc-Beta-Binomial"

@@ -150,6 +150,7 @@ Merlise Clyde <clyde@stat.duke.edu>
 ## Examples
 
 ``` r
+
 require(graphics)
 data("Hald")
 hald.ZSprior <- bas.lm(Y ~ ., data = Hald, prior = "ZS-null")

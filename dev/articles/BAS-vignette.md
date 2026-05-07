@@ -24,6 +24,7 @@ The stable version can be installed easily in the `R` console like any
 other package:
 
 ``` r
+
 install.packages("BAS")
 ```
 
@@ -35,6 +36,7 @@ from [CRAN](https://cran.r-project.org/package=devtools) and enter in
 `R`:
 
 ``` r
+
 devtools::install_github("merliseclyde/BAS")
 ```
 
@@ -47,6 +49,7 @@ We will use the UScrime data to illustrate some of the commands and
 functionality.
 
 ``` r
+
 data(UScrime, package = "MASS")
 ```
 
@@ -55,6 +58,7 @@ variables except column 2, which is the indicator variable of the state
 being a southern state.
 
 ``` r
+
 UScrime[, -2] <- log(UScrime[, -2])
 ```
 
@@ -62,6 +66,7 @@ To get started, we will use `BAS` with the Zellner-Siow Cauchy prior on
 the coefficients.
 
 ``` r
+
 library(BAS)
 crime.ZS <- bas.lm(y ~ .,
   data = UScrime,
@@ -95,23 +100,23 @@ also corresponds to the Zellner-Siow prior on the coefficients, but uses
 numerical integration rather than a Laplace approximation to obtain the
 marginal likelihood of models.
 
-By default, `BAS` will try to enumerate all models if $p < 19$ using the
-default `method="BAS"`. The prior distribution over the models is a
+By default, `BAS` will try to enumerate all models if $`p < 19`$ using
+the default `method="BAS"`. The prior distribution over the models is a
 [`uniform()`](http://merliseclyde.github.io/BAS/dev/reference/uniform.md)
 distribution which assigns equal probabilities to all models. The last
 optional argument `initprobs = eplogp` provides a way to initialize the
 sampling algorithm and order the variables in the tree structure that
 represents the model space in BAS. The `eplogp` option uses the Bayes
-factor calibration of p-values $- ep\log(p)$ to provide an approximation
-to the marginal inclusion probability that the coefficient of each
-predictor is zero, using the p-values from the full model. Other options
-for `initprobs` include
+factor calibration of p-values $`-e p \log(p)`$ to provide an
+approximation to the marginal inclusion probability that the coefficient
+of each predictor is zero, using the p-values from the full model. Other
+options for `initprobs` include
 
 - “marg-eplogp””
 - “uniform”
 - numeric vector of length p
 
-The option “marg-eplogp” uses p-values from the $p$ simple linear
+The option “marg-eplogp” uses p-values from the $`p`$ simple linear
 regressions (useful for large p or highly correlated variables).
 
 Since we are enumerating under all possible models these options are not
@@ -124,6 +129,7 @@ Some graphical summaries of the output may be obtained by the `plot`
 function
 
 ``` r
+
 plot(crime.ZS, ask = F)
 ```
 
@@ -151,6 +157,7 @@ p-values may be large in the presence of multicollinearity.
 Individual plots may be obtained using the `which` option.
 
 ``` r
+
 plot(crime.ZS, which = 4, ask = FALSE, caption = "", sub.caption = "")
 ```
 
@@ -160,6 +167,7 @@ plot(crime.ZS, which = 4, ask = FALSE, caption = "", sub.caption = "")
 `bas`. Typing the objects name
 
 ``` r
+
 crime.ZS
 ```
 
@@ -181,6 +189,7 @@ returns a summary of the marginal inclusion probabilities, while the
 `summary` function provides
 
 ``` r
+
 options(width = 80)
 summary(crime.ZS)
 ```
@@ -212,7 +221,7 @@ a list of the top 5 models (in terms of posterior probability) with the
 zero-one indicators for variable inclusion. The other columns in the
 summary are the Bayes factor of each model to the highest probability
 model (hence its Bayes factor is 1), the posterior probabilities of the
-models, the ordinary $R^{2}$ of the models, the dimension of the models
+models, the ordinary $`R^2`$ of the models, the dimension of the models
 (number of coefficients including the intercept) and the log marginal
 likelihood under the selected prior distribution.
 
@@ -222,6 +231,7 @@ To see beyond the first five models, we can represent the collection of
 the models via an `image` plot. By default this shows the top 20 models.
 
 ``` r
+
 image(crime.ZS, rotate = F)
 ```
 
@@ -257,6 +267,7 @@ police expenditures, we can extract the coefficients estimates and
 standard deviations under BMA.
 
 ``` r
+
 coef.ZS <- coef(crime.ZS)
 ```
 
@@ -268,6 +279,7 @@ Plots of the posterior distributions averaging over all of the models
 are obtained using the `plot` method for the `bas` coefficient object.
 
 ``` r
+
 plot(coef.ZS, subset = c(5:6), ask = F)
 ```
 
@@ -285,6 +297,7 @@ To obtain credible intervals for coefficients, `BAS` includes a
 summaries from `coef`.
 
 ``` r
+
 confint(coef.ZS)
 ```
 
@@ -317,6 +330,7 @@ are sampled based on their posterior probabilities.
 We can also plot these via
 
 ``` r
+
 plot(confint(coef.ZS, parm = 2:16))
 ```
 
@@ -333,6 +347,7 @@ For estimation under selection, `BAS` supports additional arguments via
 probability model
 
 ``` r
+
 plot(confint(coef(crime.ZS, estimator = "HPM")))
 ```
 
@@ -343,6 +358,7 @@ plot(confint(coef(crime.ZS, estimator = "HPM")))
 or the median probability model
 
 ``` r
+
 plot(confint(coef(crime.ZS, estimator = "MPM")))
 ```
 
@@ -356,6 +372,7 @@ observed design matrix and predictions at either the observed data or
 potentially new values, `predict`, as with `lm`.
 
 ``` r
+
 muhat.BMA <- fitted(crime.ZS, estimator = "BMA")
 BMA <- predict(crime.ZS, estimator = "BMA")
 
@@ -370,6 +387,7 @@ names(BMA)
 Plotting the two sets of fitted values,
 
 ``` r
+
 par(mar = c(9, 9, 3, 3))
 plot(muhat.BMA, BMA$fit,
   pch = 16,
@@ -381,9 +399,9 @@ abline(0, 1)
 ![](BAS-vignette_files/figure-html/unnamed-chunk-4-1.png)
 
 we see that they are in perfect agreement. That is always the case as
-the posterior mean for the regression mean function at a point $x$ is
-the expected posterior predictive value for $Y$ at $x$. This is true not
-only for estimators such as BMA, but the expected values under model
+the posterior mean for the regression mean function at a point $`x`$ is
+the expected posterior predictive value for $`Y`$ at $`x`$. This is true
+not only for estimators such as BMA, but the expected values under model
 selection.
 
 ### Inference with model selection
@@ -395,6 +413,7 @@ and selection. `BAS` currently implements the following options
 **highest probability model:**
 
 ``` r
+
 HPM <- predict(crime.ZS, estimator = "HPM")
 
 # show the indices of variables in the best model where 0 is the intercept
@@ -406,6 +425,7 @@ HPM$bestmodel
 A little more interpretable version with names:
 
 ``` r
+
 variable.names(HPM)
 ```
 
@@ -415,6 +435,7 @@ variable.names(HPM)
 **median probability model:**
 
 ``` r
+
 MPM <- predict(crime.ZS, estimator = "MPM")
 variable.names(MPM)
 ```
@@ -437,6 +458,7 @@ from a Bayesian decision theory perspective would be the model that is
 closest to BMA predictions under squared error loss.
 
 ``` r
+
 BPM <- predict(crime.ZS, estimator = "BPM")
 variable.names(BPM)
 ```
@@ -447,6 +469,7 @@ variable.names(BPM)
 Let’s see how they compare:
 
 ``` r
+
 GGally::ggpairs(data.frame(
   HPM = as.vector(HPM$fit), # this used predict so we need to extract fitted values
   MPM = as.vector(MPM$fit), # this used fitted
@@ -462,6 +485,7 @@ standard deviations for prediction or for the mean and use this as input
 for the `confint` function for the prediction object.
 
 ``` r
+
 BPM <- predict(crime.ZS, estimator = "BPM", se.fit = TRUE)
 crime.conf.fit <- confint(BPM, parm = "mean")
 crime.conf.pred <- confint(BPM, parm = "pred")
@@ -473,6 +497,7 @@ plot(crime.conf.fit)
     ## NULL
 
 ``` r
+
 plot(crime.conf.pred)
 ```
 
@@ -484,6 +509,7 @@ For prediction at new points, we can supply a new dataframe to the
 predict function as in `lm`.
 
 ``` r
+
 new.pred <- predict(crime.ZS, newdata = UScrime, estimator = "MPM")
 ```
 
@@ -501,11 +527,12 @@ in cases of high correlation and a large number of predictors, this can
 lead to biased estimates [Clyde and Ghosh
 (2012)](https://doi.org/10.1093/biomet/ass040), in which case MCMC is
 preferred. The `method="MCMC"` is described below and is better for
-large $p$.
+large $`p`$.
 
 A deterministic sampling scheme is also available for enumeration;
 
 ``` r
+
 system.time(
   for (i in 1:10) {
     crime.ZS <- bas.lm(y ~ .,
@@ -518,9 +545,10 @@ system.time(
 ```
 
     ##    user  system elapsed 
-    ##   1.339   0.020   1.358
+    ##   1.601   0.016   1.617
 
 ``` r
+
 system.time(
   for (i in 1:10) {
     crime.ZS <- bas.lm(y ~ .,
@@ -533,7 +561,7 @@ system.time(
 ```
 
     ##    user  system elapsed 
-    ##   1.170   0.000   1.169
+    ##   1.169   0.016   1.186
 
 which is faster for enumeration than the default method=“BAS”.
 
@@ -549,6 +577,7 @@ low bias compared to the sampling without replacement of BAS (Clyde and
 Ghosh 2011).
 
 ``` r
+
 crime.ZS <- bas.lm(y ~ .,
   data = UScrime,
   prior = "ZS-null",
@@ -558,7 +587,7 @@ crime.ZS <- bas.lm(y ~ .,
 ```
 
 This will run the MCMC sampler until the number of unique sampled models
-exceeds `n.models` which is $2^{p}$ (if $p < 19$) by default or until
+exceeds `n.models` which is $`2^p`$ (if $`p < 19`$) by default or until
 `MCMC.iterations` has been exceeded, where
 `MCMC.iterations = n.models*2` by default.
 
@@ -576,12 +605,14 @@ estimates of posterior inclusion probabilities and posterior model
 probabilities
 
 ``` r
+
 diagnostics(crime.ZS, type = "pip", pch = 16)
 ```
 
 ![](BAS-vignette_files/figure-html/diagnostics-1.png)
 
 ``` r
+
 diagnostics(crime.ZS, type = "model", pch = 16)
 ```
 
@@ -595,6 +626,7 @@ the model probabilities suggests that we should use more
 model probabilities.
 
 ``` r
+
 crime.ZS <- bas.lm(y ~ .,
   data = UScrime,
   prior = "ZS-null",
@@ -618,6 +650,7 @@ dataframe, where each column is an indicator that the ith variable is an
 outlier.
 
 ``` r
+
 data("stackloss")
 stackloss <- cbind(stackloss, diag(nrow(stackloss)))
 stack.bas <- bas.lm(stack.loss ~ .,
@@ -639,6 +672,7 @@ zero. This avoids exploration of models that are not full rank.
 Looking at the summaries
 
 ``` r
+
 knitr::kable(as.data.frame(summary(stack.bas)))
 ```
 
@@ -683,6 +717,7 @@ illustrate, we will use the data set `ToothGrowth` and convert `dose` to
 a factor:
 
 ``` r
+
 data(ToothGrowth)
 ToothGrowth$dose <- factor(ToothGrowth$dose)
 levels(ToothGrowth$dose) <- c("Low", "Medium", "High")
@@ -692,6 +727,7 @@ and fit the model of main effects and two way interaction without any
 constraints:
 
 ``` r
+
 TG.bas <- bas.lm(len ~ supp*dose,
   data = ToothGrowth,
   modelprior = uniform(), method = "BAS"
@@ -717,6 +753,7 @@ that all lower order interactions must be included before adding higher
 order interactions.
 
 ``` r
+
 TG.bas <- bas.lm(len ~ supp * dose,
   data = ToothGrowth,
   modelprior = uniform(), method = "BAS", force.heredity = TRUE
@@ -735,6 +772,7 @@ post-process the output to drop models that violate the hierarchical
 heredity constraint:
 
 ``` r
+
 TG.bas <- bas.lm(len ~ supp * dose,
   data = ToothGrowth,
   modelprior = uniform(), method = "BAS", force.heredity = FALSE
@@ -750,13 +788,16 @@ that can be used with those sampling methods.
 vector that is of the same length as the response where the assumption
 is that the variance of the response is proportional to 1/weights. The
 g-prior incorporates the weights in the prior covariance,
-$$\sigma^{2}g\left( X_{\gamma}^{T}WX_{\gamma} \right)^{- 1}$$ where
-$X_{\gamma}$ is the design matrix under model $\gamma$ and $W$ is the
-$n \times n$ diagonal matrix with the weights on the diagonal.
+``` math
+ \sigma^2 g (X_\gamma^T W X_\gamma)^{-1}
+```
+where $`X_\gamma`$ is the design matrix under model $`\gamma`$ and $`W`$
+is the $`n \times n`$ diagonal matrix with the weights on the diagonal.
 
 To illustrate, we will use the climate data, available at the url below
 
 ``` r
+
 data(climate, package="BAS")
 str(climate)
 ```
@@ -769,6 +810,7 @@ str(climate)
     ##  $ latitude: num  2.5 2.2 0.5 0.3 0.2 -1.1 5.2 11.4 14.6 6.3 ...
 
 ``` r
+
 summary(climate)
 ```
 
@@ -796,6 +838,7 @@ eliminate `proxy == 6` which has only one level as the interactions are
 not estimable, and then convert `proxy` to a factor.
 
 ``` r
+
 library(dplyr)
 climate <- filter(climate, proxy != 6) %>%
   mutate(proxy = factor(proxy))
@@ -805,6 +848,7 @@ We can fit a weighted regression with `weights = 1/sdev^2` with the
 following code
 
 ``` r
+
 climate.bas <- bas.lm(deltaT ~ proxy * poly(latitude, 2),
   data = climate,
   weights = 1 / sdev^2,
@@ -818,6 +862,7 @@ climate.bas <- bas.lm(deltaT ~ proxy * poly(latitude, 2),
 Examining the image of the top models,
 
 ``` r
+
 image(climate.bas, rotate = F)
 ```
 
@@ -829,6 +874,7 @@ term `poly`.
 Rerunning without the constraint,
 
 ``` r
+
 # May take a while to enumerate all 2^20 models
 climate.bas <- bas.lm(deltaT ~ proxy * poly(latitude, 2),
   data = climate,
