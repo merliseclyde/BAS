@@ -316,7 +316,7 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #'
 #' @return \code{bas} returns an object of class \code{bas}
 #'
-#' An object of class \code{BAS} is a list containing at least the following
+#' An object of class \code{bas} is a list containing at least the following
 #' components:
 #'
 #' \item{postprob}{the posterior probabilities of the models selected}
