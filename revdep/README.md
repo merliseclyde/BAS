@@ -3,14 +3,14 @@
 |field    |value                                                                                              |
 |:--------|:--------------------------------------------------------------------------------------------------|
 |version  |R version 4.5.2 (2025-10-31)                                                                       |
-|os       |macOS Sequoia 15.6.1                                                                               |
+|os       |macOS Sequoia 15.7.3                                                                               |
 |system   |aarch64, darwin20                                                                                  |
 |ui       |RStudio                                                                                            |
 |language |(EN)                                                                                               |
 |collate  |en_US.UTF-8                                                                                        |
 |ctype    |en_US.UTF-8                                                                                        |
 |tz       |America/New_York                                                                                   |
-|date     |2025-12-14                                                                                         |
+|date     |2025-12-18                                                                                         |
 |rstudio  |2025.09.2+418 Cucumberleaf Sunflower (desktop)                                                     |
 |pandoc   |3.6.3 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64/ (via rmarkdown) |
 |quarto   |1.6.32 @ /usr/local/bin/quarto                                                                     |
@@ -19,7 +19,7 @@
 
 |package |old   |new   |Δ  |
 |:-------|:-----|:-----|:--|
-|BAS     |1.7.5 |2.0.0 |*  |
+|BAS     |2.0.0 |2.0.0 |NA |
 
 # Revdeps
 
