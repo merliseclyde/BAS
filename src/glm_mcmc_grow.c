@@ -92,7 +92,6 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	SET_STRING_ELT(ANS_names, 12, mkChar("freq"));
 	
 	SEXP MCMCprobs= duplicate(Rprobinit);
-	memset(REAL(MCMCprobs), 0, nModels * sizeof(double));
 	SET_VECTOR_ELT(ANS, 13, MCMCprobs);
 	SET_STRING_ELT(ANS_names, 13, mkChar("probne0.MCMC"));
 		
