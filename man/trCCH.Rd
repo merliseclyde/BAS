@@ -64,10 +64,10 @@ trCCH(a,b,r,s,v,k)
 Gordy 1998 Li & Clyde 2018
 }
 \seealso{
-Other special functions: 
-\code{\link{hypergeometric1F1}()},
-\code{\link{hypergeometric2F1}()},
-\code{\link{phi1}()}
+Other special functions:
+\code{\link[=hypergeometric1F1]{hypergeometric1F1()}},
+\code{\link[=hypergeometric2F1]{hypergeometric2F1()}},
+\code{\link[=phi1]{phi1()}}
 }
 \author{
 Merlise Clyde (\email{clyde@duke.edu})

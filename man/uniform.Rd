@@ -25,13 +25,13 @@ uniform()
 \code{\link{bas.lm}},
 \code{\link{beta.binomial}},\code{\link{Bernoulli}},
 
-Other priors modelpriors: 
-\code{\link{Bernoulli}()},
-\code{\link{Bernoulli.heredity}()},
-\code{\link{beta.binomial}()},
-\code{\link{tr.beta.binomial}()},
-\code{\link{tr.poisson}()},
-\code{\link{tr.power.prior}()}
+Other priors modelpriors:
+\code{\link[=Bernoulli]{Bernoulli()}},
+\code{\link[=Bernoulli.heredity]{Bernoulli.heredity()}},
+\code{\link[=beta.binomial]{beta.binomial()}},
+\code{\link[=tr.beta.binomial]{tr.beta.binomial()}},
+\code{\link[=tr.poisson]{tr.poisson()}},
+\code{\link[=tr.power.prior]{tr.power.prior()}}
 }
 \author{
 Merlise Clyde

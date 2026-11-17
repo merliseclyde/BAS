@@ -92,8 +92,9 @@ coef.bas <- function(object, n.models, estimator = "BMA", ...) {
       # fix for issue #39 and #56 
       modelform = as.formula(eval(object$call$formula, parent.frame()))
       environment(modelform) = environment()
-      data = eval(object$call$data)
-      weights = eval(object$call$weights)
+      data = eval(object$call$data, parent.frame())
+      # weights may be a variable in the data frame (as in lm)
+      weights = eval(object$call$weights, data, parent.frame())
       object <- bas.lm(
         formula=modelform,
         data = data,

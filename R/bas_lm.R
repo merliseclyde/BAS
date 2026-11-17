@@ -992,6 +992,8 @@ bas.lm <- function(formula,
   result$probne0.RN <- result$probne0
   result$postprobs.RN <- result$postprobs
   result$include.always <- keep
+  # prior weights are needed for standard errors in predict (issue #52)
+  result$weights <- weights
 
  
   if (importance.sampling) {

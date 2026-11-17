@@ -30,19 +30,19 @@ CCH(alpha = 2, beta = 100, s = 0)
 \seealso{
 \code{\link{CCH}} \code{\link{bas.glm}}
 
-Other beta priors: 
-\code{\link{CCH}()},
-\code{\link{EB.local}()},
-\code{\link{IC.prior}()},
-\code{\link{Jeffreys}()},
-\code{\link{beta.prime}()},
-\code{\link{g.prior}()},
-\code{\link{hyper.g}()},
-\code{\link{hyper.g.n}()},
-\code{\link{intrinsic}()},
-\code{\link{robust}()},
-\code{\link{tCCH}()},
-\code{\link{testBF.prior}()}
+Other beta priors:
+\code{\link[=CCH]{CCH()}},
+\code{\link[=EB.local]{EB.local()}},
+\code{\link[=IC.prior]{IC.prior()}},
+\code{\link[=Jeffreys]{Jeffreys()}},
+\code{\link[=beta.prime]{beta.prime()}},
+\code{\link[=g.prior]{g.prior()}},
+\code{\link[=hyper.g]{hyper.g()}},
+\code{\link[=hyper.g.n]{hyper.g.n()}},
+\code{\link[=intrinsic]{intrinsic()}},
+\code{\link[=robust]{robust()}},
+\code{\link[=tCCH]{tCCH()}},
+\code{\link[=testBF.prior]{testBF.prior()}}
 }
 \author{
 Merlise Clyde

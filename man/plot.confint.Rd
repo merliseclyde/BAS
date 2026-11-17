@@ -45,25 +45,25 @@ plot(confint(predict(hald.ZS, se.fit=TRUE), parm="mean"))
 \code{\link{confint.coef.bas}}, \code{\link{confint.pred.bas}},
 \code{\link{coef.bas}}, \code{\link{predict.bas}}, \code{link{bas.lm}}
 
-Other bas methods: 
+Other bas methods:
 \code{\link{BAS}},
-\code{\link{bas.lm}()},
-\code{\link{coef.bas}()},
-\code{\link{confint.coef.bas}()},
-\code{\link{confint.pred.bas}()},
-\code{\link{diagnostics}()},
-\code{\link{fitted.bas}()},
-\code{\link{force.heredity.bas}()},
-\code{\link{image.bas}()},
-\code{\link{predict.bas}()},
-\code{\link{predict.basglm}()},
-\code{\link{summary.bas}()},
-\code{\link{update.bas}()},
-\code{\link{variable.names.pred.bas}()}
+\code{\link[=bas.lm]{bas.lm()}},
+\code{\link[=coef.bas]{coef.bas()}},
+\code{\link[=confint.coef.bas]{confint.coef.bas()}},
+\code{\link[=confint.pred.bas]{confint.pred.bas()}},
+\code{\link[=diagnostics]{diagnostics()}},
+\code{\link[=fitted.bas]{fitted.bas()}},
+\code{\link[=force.heredity.bas]{force.heredity.bas()}},
+\code{\link[=image.bas]{image.bas()}},
+\code{\link[=predict.bas]{predict.bas()}},
+\code{\link[=predict.basglm]{predict.basglm()}},
+\code{\link[=summary.bas]{summary.bas()}},
+\code{\link[=update.bas]{update.bas()}},
+\code{\link[=variable.names.pred.bas]{variable.names.pred.bas()}}
 
-Other CI methods: 
-\code{\link{confint.coef.bas}()},
-\code{\link{confint.pred.bas}()}
+Other CI methods:
+\code{\link[=confint.coef.bas]{confint.coef.bas()}},
+\code{\link[=confint.pred.bas]{confint.pred.bas()}}
 }
 \author{
 Merlise A Clyde

@@ -56,10 +56,10 @@ phi1(1, 2, 1.5, 1000, 0, log=TRUE)
 Gordy 1998
 }
 \seealso{
-Other special functions: 
-\code{\link{hypergeometric1F1}()},
-\code{\link{hypergeometric2F1}()},
-\code{\link{trCCH}()}
+Other special functions:
+\code{\link[=hypergeometric1F1]{hypergeometric1F1()}},
+\code{\link[=hypergeometric2F1]{hypergeometric2F1()}},
+\code{\link[=trCCH]{trCCH()}}
 }
 \author{
 Merlise Clyde (\email{clyde@duke.edu})

@@ -34,13 +34,13 @@ Bernoulli(.9)
 \code{\link{bas.lm}},
 \code{\link{beta.binomial}},\code{\link{uniform} }
 
-Other priors modelpriors: 
-\code{\link{Bernoulli.heredity}()},
-\code{\link{beta.binomial}()},
-\code{\link{tr.beta.binomial}()},
-\code{\link{tr.poisson}()},
-\code{\link{tr.power.prior}()},
-\code{\link{uniform}()}
+Other priors modelpriors:
+\code{\link[=Bernoulli.heredity]{Bernoulli.heredity()}},
+\code{\link[=beta.binomial]{beta.binomial()}},
+\code{\link[=tr.beta.binomial]{tr.beta.binomial()}},
+\code{\link[=tr.poisson]{tr.poisson()}},
+\code{\link[=tr.power.prior]{tr.power.prior()}},
+\code{\link[=uniform]{uniform()}}
 }
 \author{
 Merlise Clyde
