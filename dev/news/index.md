@@ -2,6 +2,71 @@
 
 ## BAS (development version)
 
+### Bug Fixes
+
+- [`predict.bas()`](http://merliseclyde.github.io/BAS/dev/reference/predict.bas.md)
+  and
+  [`predict.basglm()`](http://merliseclyde.github.io/BAS/dev/reference/predict.basglm.md)
+  with `se.fit = TRUE` did not account for weights in the covariance
+  matrix of the coefficients, so that `se.fit`, `se.pred`, `se.bma.fit`,
+  `se.bma.pred` and intervals from
+  [`confint()`](http://merliseclyde.github.io/BAS/dev/reference/confint.coef.md)
+  were incorrect in weighted regression and in GLMs. The standard errors
+  now use `(X^T W X)^{-1}` where `W` contains the prior weights for
+  linear models and the prior weights times the IRLS weights at the MLE
+  for GLMs, the residual variance uses the weighted total sum of
+  squares, and the intercept variance uses `1/sum(W)` rather than `1/n`.
+  Added unit tests in `test-weights-se.R` that compare to
+  [`lm()`](https://rdrr.io/r/stats/lm.html),
+  [`glm()`](https://rdrr.io/r/stats/glm.html),
+  [`predict.lm()`](https://rdrr.io/r/stats/predict.lm.html) and
+  [`predict.glm()`](https://rdrr.io/r/stats/predict.glm.html). GitHub
+  issue [\#52](https://github.com/merliseclyde/BAS/issues/52)
+
+- [`predict.basglm()`](http://merliseclyde.github.io/BAS/dev/reference/predict.basglm.md)
+  with `se.fit = TRUE` and `estimator = "BMA"` failed with the error
+  `'data' must be of a vector type, was 'NULL'`. GitHub issue
+  [\#95](https://github.com/merliseclyde/BAS/issues/95) reported by
+  [@vandenman](https://github.com/vandenman); added the example as a
+  unit test in `test-predict.R`.
+
+- [`predict.bas()`](http://merliseclyde.github.io/BAS/dev/reference/predict.bas.md)
+  with `se.fit = TRUE` and `estimator = "BMA"` failed with the error
+  `'a' must be square` if any of the models were not full rank, as when
+  `n < p` with `method = "BAS"` or `method = "deterministic"`. Standard
+  errors of fitted values now use a pivoted Cholesky decomposition of
+  `X^T W X` (as in the `C` code used for fitting) and drop aliased
+  columns. GitHub issue
+  [\#70](https://github.com/merliseclyde/BAS/issues/70) reported by
+  [@petersen-f](https://github.com/petersen-f); added the example as a
+  unit test in `test-predict.R`.
+
+- [`confint()`](http://merliseclyde.github.io/BAS/dev/reference/confint.coef.md)
+  for predictions from
+  [`predict.basglm()`](http://merliseclyde.github.io/BAS/dev/reference/predict.basglm.md)
+  with `type = "response"` mixed means on the scale of the linear
+  predictor with standard errors on the response scale. Intervals are
+  now constructed on the scale of the linear predictor and transformed
+  with the inverse link function, so that intervals for probabilities
+  are in (0, 1).
+
+- [`predict.basglm()`](http://merliseclyde.github.io/BAS/dev/reference/predict.basglm.md)
+  with `se.fit = TRUE` no longer fails for `estimator = "HPM"`, `"MPM"`
+  or `"BPM"`, and standard errors with `type = "response"` are now
+  computed with the derivative of the inverse link evaluated at the
+  linear predictor (and for `estimator = "BMA"` for `se.bma.fit` and
+  `se.bma.pred` as well).
+
+- [`predict.bas()`](http://merliseclyde.github.io/BAS/dev/reference/predict.bas.md)
+  and
+  [`coef.bas()`](http://merliseclyde.github.io/BAS/dev/reference/coef.md)
+  with `estimator = "MPM"` failed if `weights` was a variable in `data`.
+
+- [`bas.lm()`](http://merliseclyde.github.io/BAS/dev/reference/bas.lm.md)
+  now returns the `weights` and
+  [`bas.glm()`](http://merliseclyde.github.io/BAS/dev/reference/bas.glm.md)
+  the `offset` used in fitting.
+
 ## BAS 2.0.2
 
 CRAN release: 2025-12-23

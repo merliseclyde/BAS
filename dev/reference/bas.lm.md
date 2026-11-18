@@ -393,7 +393,7 @@ bas.lm(
 
 `bas` returns an object of class `bas`
 
-An object of class `BAS` is a list containing at least the following
+An object of class `bas` is a list containing at least the following
 components:
 
 - postprob:
