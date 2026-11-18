@@ -556,11 +556,11 @@ test_that("phi1 and NAs in bas.glm", {
   v1 = 1
   
   example_df_large <- structure(list(Var1 = structure(c(1L, 2L, 1L, 2L, 1L, 2L, 1L, 2L), 
-                                                      .Label = c("A", "B"), class = "factor"), 
+                                                      levels = c("A", "B"), class = "factor"), 
                                      Var2 = structure(c(1L, 1L, 2L, 2L, 1L, 1L, 2L, 2L),
-                                                      .Label = c("A", "B"), class = "factor"), 
+                                                      levels = c("A", "B"), class = "factor"), 
                                      Var3 = structure(c(1L, 1L, 1L, 1L, 2L, 2L, 2L, 2L),
-                                                      .Label = c("A", "B"), class = "factor"), 
+                                                      levels = c("A", "B"), class = "factor"), 
                                      Freq = c(120L, 85L, 266L, 301L,  101L, 146L, 523L, 958L)), 
                                 class = "data.frame", row.names = c(NA,-8L))
   b <-  bas.glm(Freq ~ Var1 + Var2 + Var3 + Var1*Var3 +Var2*Var3 + Var1*Var2, 
