@@ -33,13 +33,13 @@ beta.binomial(1, 10) #' @family priors modelpriors
 \seealso{
 \code{\link{bas.lm}}, \code{\link{Bernoulli}},\code{\link{uniform}}
 
-Other priors modelpriors: 
-\code{\link{Bernoulli}()},
-\code{\link{Bernoulli.heredity}()},
-\code{\link{tr.beta.binomial}()},
-\code{\link{tr.poisson}()},
-\code{\link{tr.power.prior}()},
-\code{\link{uniform}()}
+Other priors modelpriors:
+\code{\link[=Bernoulli]{Bernoulli()}},
+\code{\link[=Bernoulli.heredity]{Bernoulli.heredity()}},
+\code{\link[=tr.beta.binomial]{tr.beta.binomial()}},
+\code{\link[=tr.poisson]{tr.poisson()}},
+\code{\link[=tr.power.prior]{tr.power.prior()}},
+\code{\link[=uniform]{uniform()}}
 }
 \author{
 Merlise Clyde

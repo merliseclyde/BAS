@@ -41,8 +41,8 @@ test_that("predict.bas.glm", {
                        se.fit = FALSE)
   expect_warning(confint(pima_pred))
 
-  # should not error
-  expect_error(predict(pima_gprior,
+  # fixed with GitHub issue #52
+  expect_no_error(predict(pima_gprior,
                        estimator = "HPM",
                        se.fit = TRUE))
 #  expect_null(plot(confint(pima_pred, parm = "mean")))
@@ -136,3 +136,74 @@ test_that("predict.bas.lm links", {
   expect_equal(hald_pred_link$fit, hald_pred_response$fit)
 })
   
+# GitHub issue #70: exact example from the issue
+test_that("predict with se.fit = TRUE and BMA when n < p", {
+  data("bodyfat")
+  for (method in c("BAS", "deterministic")) {
+    bas_mod <- bas.lm(Bodyfat ~ ., data = bodyfat[1:14, ], method = method)
+    # models with shrinkage > 1 under the ZS-null Laplace approximation
+    # produce NaN for model specific SEs, but have negligible posterior
+    # probability
+    expect_no_error(pred <- suppressWarnings(
+      predict(bas_mod,
+        newdata = bodyfat[15:20, ], se.fit = T,
+        estimator = "BMA"
+      )
+    ))
+    expect_length(pred$fit, 6)
+    expect_true(all(is.finite(pred$se.bma.fit)))
+    expect_true(all(is.finite(pred$se.bma.pred)))
+    expect_true(all(pred$se.bma.pred > pred$se.bma.fit))
+    ci <- confint(pred)
+    expect_is(ci, "confint.bas")
+    expect_true(all(ci[, 1] < ci[, 2]))
+  }
+})
+
+# GitHub issue #95: exact example from the issue
+test_that("predict.basglm with se.fit = TRUE", {
+  data(Pima.tr, package = "MASS")
+
+  # enumeration  with default method="BAS"
+  pima.cch <- bas.glm(type ~ .,
+    data = Pima.tr, n.models = 2^7,
+    method = "BAS",
+    betaprior = CCH(a = 1, b = 532 / 2, s = 0), family = binomial(),
+    modelprior = beta.binomial(1, 1)
+  )
+
+  expect_no_error(pred <- predict(pima.cch,
+    newdata = Pima.tr[1:10, ],
+    type = "response", se.fit = TRUE
+  ))
+  expect_length(pred$fit, 10)
+  expect_length(pred$se.bma.fit, 10)
+  expect_equal(dim(pred$se.fit), c(pima.cch$n.models, 10))
+  expect_true(all(is.finite(pred$se.fit)) && all(pred$se.fit > 0))
+  expect_true(all(is.finite(pred$se.bma.fit)) && all(pred$se.bma.fit > 0))
+
+  # credible intervals for probabilities are on the response scale
+  ci <- confint(pred, parm = "mean")
+  expect_true(all(ci[, 1:2] >= 0 & ci[, 1:2] <= 1))
+  expect_true(all(ci[, 1] < pred$fit & pred$fit < ci[, 2]))
+  expect_equivalent(ci[, 3], pred$fit)
+
+  # single models: intervals agree with transforming the intervals for
+  # the linear predictor (HPD intervals under BMA are not invariant)
+  for (estimator in c("HPM", "BPM")) {
+    pred <- predict(pima.cch,
+      newdata = Pima.tr[1:10, ], estimator = estimator,
+      type = "response", se.fit = TRUE
+    )
+    pred_link <- predict(pima.cch,
+      newdata = Pima.tr[1:10, ], estimator = estimator,
+      type = "link", se.fit = TRUE
+    )
+    ci <- confint(pred, parm = "mean")
+    ci_link <- confint(pred_link, parm = "mean")
+    expect_true(all(ci[, 1:2] >= 0 & ci[, 1:2] <= 1))
+    expect_true(all(ci[, 1] < pred$fit & pred$fit < ci[, 2]))
+    expect_equal(unclass(ci)[, 1:2], plogis(unclass(ci_link)[, 1:2]),
+                 check.attributes = FALSE)
+  }
+})

@@ -39,19 +39,19 @@ tCCH(alpha = 1, beta = 2, s = 0, r = 1.5, v = 1, theta = 1 / n)
 \code{\link{CCH}}, \code{\link{robust}}, \code{\link{hyper.g}},
 \code{\link{hyper.g.n}}\code{\link{bas.glm}}
 
-Other beta priors: 
-\code{\link{CCH}()},
-\code{\link{EB.local}()},
-\code{\link{IC.prior}()},
-\code{\link{Jeffreys}()},
-\code{\link{TG}()},
-\code{\link{beta.prime}()},
-\code{\link{g.prior}()},
-\code{\link{hyper.g}()},
-\code{\link{hyper.g.n}()},
-\code{\link{intrinsic}()},
-\code{\link{robust}()},
-\code{\link{testBF.prior}()}
+Other beta priors:
+\code{\link[=CCH]{CCH()}},
+\code{\link[=EB.local]{EB.local()}},
+\code{\link[=IC.prior]{IC.prior()}},
+\code{\link[=Jeffreys]{Jeffreys()}},
+\code{\link[=TG]{TG()}},
+\code{\link[=beta.prime]{beta.prime()}},
+\code{\link[=g.prior]{g.prior()}},
+\code{\link[=hyper.g]{hyper.g()}},
+\code{\link[=hyper.g.n]{hyper.g.n()}},
+\code{\link[=intrinsic]{intrinsic()}},
+\code{\link[=robust]{robust()}},
+\code{\link[=testBF.prior]{testBF.prior()}}
 }
 \author{
 Merlise Clyde

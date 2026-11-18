@@ -285,7 +285,7 @@ X^TX in Cholesky decomposition with pivoting.}
 \value{
 \code{bas} returns an object of class \code{bas}
 
-An object of class \code{BAS} is a list containing at least the following
+An object of class \code{bas} is a list containing at least the following
 components:
 
 \item{postprob}{the posterior probabilities of the models selected}
@@ -516,21 +516,21 @@ Default Bayes Factors for ANOVA Designs. Journal of Mathematical Psychology.
 \code{\link{plot.bas}}, \code{\link{image.bas}}, \code{\link{eplogprob}},
 \code{\link{update.bas}}
 
-Other bas methods: 
+Other bas methods:
 \code{\link{BAS}},
-\code{\link{coef.bas}()},
-\code{\link{confint.coef.bas}()},
-\code{\link{confint.pred.bas}()},
-\code{\link{diagnostics}()},
-\code{\link{fitted.bas}()},
-\code{\link{force.heredity.bas}()},
-\code{\link{image.bas}()},
-\code{\link{plot.confint.bas}()},
-\code{\link{predict.bas}()},
-\code{\link{predict.basglm}()},
-\code{\link{summary.bas}()},
-\code{\link{update.bas}()},
-\code{\link{variable.names.pred.bas}()}
+\code{\link[=coef.bas]{coef.bas()}},
+\code{\link[=confint.coef.bas]{confint.coef.bas()}},
+\code{\link[=confint.pred.bas]{confint.pred.bas()}},
+\code{\link[=diagnostics]{diagnostics()}},
+\code{\link[=fitted.bas]{fitted.bas()}},
+\code{\link[=force.heredity.bas]{force.heredity.bas()}},
+\code{\link[=image.bas]{image.bas()}},
+\code{\link[=plot.confint.bas]{plot.confint.bas()}},
+\code{\link[=predict.bas]{predict.bas()}},
+\code{\link[=predict.basglm]{predict.basglm()}},
+\code{\link[=summary.bas]{summary.bas()}},
+\code{\link[=update.bas]{update.bas()}},
+\code{\link[=variable.names.pred.bas]{variable.names.pred.bas()}}
 }
 \author{
 Merlise Clyde (\email{clyde@duke.edu}) and Michael Littman

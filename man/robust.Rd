@@ -26,19 +26,19 @@ robust(100)
 \seealso{
 \code{\link{CCH}} and\code{\link{bas.glm}}
 
-Other beta priors: 
-\code{\link{CCH}()},
-\code{\link{EB.local}()},
-\code{\link{IC.prior}()},
-\code{\link{Jeffreys}()},
-\code{\link{TG}()},
-\code{\link{beta.prime}()},
-\code{\link{g.prior}()},
-\code{\link{hyper.g}()},
-\code{\link{hyper.g.n}()},
-\code{\link{intrinsic}()},
-\code{\link{tCCH}()},
-\code{\link{testBF.prior}()}
+Other beta priors:
+\code{\link[=CCH]{CCH()}},
+\code{\link[=EB.local]{EB.local()}},
+\code{\link[=IC.prior]{IC.prior()}},
+\code{\link[=Jeffreys]{Jeffreys()}},
+\code{\link[=TG]{TG()}},
+\code{\link[=beta.prime]{beta.prime()}},
+\code{\link[=g.prior]{g.prior()}},
+\code{\link[=hyper.g]{hyper.g()}},
+\code{\link[=hyper.g.n]{hyper.g.n()}},
+\code{\link[=intrinsic]{intrinsic()}},
+\code{\link[=tCCH]{tCCH()}},
+\code{\link[=testBF.prior]{testBF.prior()}}
 }
 \author{
 Merlise Clyde

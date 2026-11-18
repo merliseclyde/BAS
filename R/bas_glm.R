@@ -628,6 +628,8 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   result$Y <- y
   result$X <- X
   result$weights = weights
+  # offset is needed to recover the IRLS weights in predict (issue #52)
+  result$offset <- as.numeric(offset)
   result$call <- call
   result$terms <- mt
   result$contrasts <- attr(X, "contrasts")

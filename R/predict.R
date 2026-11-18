@@ -118,16 +118,41 @@ predict.basglm <- function(object,
     }
     attributes(fit) <- model.specs
 
+    # standard errors on the response scale using the delta method;
+    # mu.eta must be evaluated at the linear predictor (issue #52)
+    if (se.fit) {
+      # keep results on the scale of the linear predictor so that
+      # confint.pred.bas can transform intervals from the link scale
+      pred$link <- list(
+        fit = as.vector(pred$fit),
+        Ypred = pred$Ypred,
+        se.fit = pred$se.fit,
+        se.pred = pred$se.pred,
+        linkinv = eval(object$family)$linkinv
+      )
+      mu.eta <- eval(object$family)$mu.eta
+      if (estimator == "BMA") {
+        # rows are models, columns are observations
+        dmu <- abs(mu.eta(pred$Ypred))
+        pred$se.fit <- pred$se.fit * dmu
+        pred$se.pred <- pred$se.pred * dmu
+        # variance of the model specific means about the BMA mean
+        var.efit <- as.vector(((Ypred - fit)^2) %*% pred$postprobs)
+        pred$se.bma.fit <- sqrt(as.vector(pred$postprobs %*% pred$se.fit^2) +
+          var.efit)
+        pred$se.bma.pred <- sqrt(as.vector(pred$postprobs %*% pred$se.pred^2) +
+          var.efit)
+      }
+      else {
+        dmu <- abs(mu.eta(as.vector(pred$fit)))
+        pred$se.fit <- pred$se.fit * dmu
+        pred$se.pred <- pred$se.pred * dmu
+      }
+    }
+
     # replace predictions
     #
     pred$fit <- fit
-
-    if (se.fit) {
-      se.fit <- pred$se.fit * abs(eval(object$family)$mu.eta(pred$fit))
-      se.pred <- pred$se.pred * abs(eval(object$family)$mu.eta(pred$fit))
-      pred$se.fit <- se.fit
-      pred$se.pred <- se.pred
-    }
   }
   return(pred)
 }
@@ -288,10 +313,13 @@ predict.bas <- function(object,
     models <- rep(0, nvar + 1)
     models[bestmodel + 1] <- 1
     if (sum(models) > 1) {
-      if (is.null(eval(object$call$weights))) {
+      # weights may be a variable in the data frame (as in lm)
+      mpm.data <- eval(object$call$data, parent.frame())
+      mpm.weights <- eval(object$call$weights, mpm.data, parent.frame())
+      if (is.null(mpm.weights)) {
         object <- bas.lm(
           eval(object$call$formula),
-          data = eval(object$call$data, parent.frame()),
+          data = mpm.data,
           n.models = 1,
           alpha = object$g,
           initprobs = object$probne0,
@@ -305,8 +333,8 @@ predict.bas <- function(object,
       else {
         object <- bas.lm(
           eval(object$call$formula),
-          data = eval(object$call$data, parent.frame()),
-          weights = eval(object$call$weights),
+          data = mpm.data,
+          weights = mpm.weights,
           n.models = 1,
           alpha = object$g,
           initprobs = object$probne0,
@@ -321,10 +349,14 @@ predict.bas <- function(object,
       fit <-
         as.vector(newX[, object$which[[best]] + 1, drop = FALSE] %*% object$mle[[best]]) * object$shrinkage[[best]]
       fit <- fit + (1 - object$shrinkage[[best]]) * (object$mle[[best]])[1]
-      df <- df[best]
+      # degrees of freedom from the refitted median probability model
+      df <- object$df[best]
     }
     else {
-      fit <- rep(nrow(newX), 1) * as.numeric(object$mle[object$size == 1])
+      # median probability model is the null model
+      best <- which(object$size == 1)[1]
+      fit <- rep(as.numeric(object$mle[[best]])[1], nrow(newX))
+      df <- object$df[best]
     }
     models <- bestmodel
     attributes(fit) <- list(
@@ -337,7 +369,6 @@ predict.bas <- function(object,
     Ypred <- NULL
     postprobs <- NULL
     best <- NULL
-    df <- object$n - 1
   }
   else {
     if (estimator == "HPM") {
@@ -400,7 +431,8 @@ predict.bas <- function(object,
       fit <- as.vector(Ypred[bestBPM, ])
       models <- unlist(object$which[best[bestBPM]])
       best <- best[bestBPM]
-      df <- df[best]
+      # df has already been subset and reordered by best
+      df <- df[bestBPM]
       attributes(fit) <- list(
         model = models,
         best = best,
@@ -564,34 +596,162 @@ fitted.bas <- function(object,
   return(as.vector(yhat))
 }
 
+# Internal helpers for standard errors of fitted values (GitHub issue #52)
+#
+# The covariance matrix of the coefficients in model M is proportional to
+# (X_M^T W X_M)^{-1}, where W holds the prior weights for linear models and
+# the prior weights times the IRLS working weights evaluated at the MLE for
+# GLMs.  Earlier versions used the unweighted (X_M^T X_M)^{-1} so that
+# se.fit and se.pred were incorrect whenever W was not the identity.
+
+# family object for a BAS object (NULL for linear models)
+.bas.family <- function(object) {
+  if (!inherits(object, "basglm") || is.null(object$family)) {
+    return(NULL)
+  }
+  family <- eval(object$family)
+  if (is.function(family)) {
+    family <- family()
+  }
+  family
+}
+
+# weights W that define the information matrix X^T W X for a model, and
+# the dispersion for GLMs
+.info.weights <- function(object, model, best) {
+  nobs <- nrow(object$X)
+  prior.weights <- object$weights
+  if (is.null(prior.weights)) {
+    prior.weights <- rep(1, nobs)
+  }
+  family <- .bas.family(object)
+  if (is.null(family)) {
+    return(list(weights = prior.weights, dispersion = NULL))
+  }
+
+  offset <- object$offset
+  if (is.null(offset)) {
+    offset <- rep(0, nobs)
+  }
+  eta <- as.vector(object$X[, model + 1, drop = FALSE] %*% object$mle[[best]]) +
+    offset
+  mu <- family$linkinv(eta)
+  varmu <- family$variance(mu)
+  wts <- prior.weights * family$mu.eta(eta)^2 / varmu
+
+  dispersion <- 1
+  if (!(family$family %in% c("binomial", "poisson"))) {
+    # Pearson estimate as in summary.glm
+    pos <- prior.weights > 0
+    df.r <- sum(pos) - length(model)
+    dispersion <- if (df.r > 0) {
+      sum((prior.weights * (object$Y - mu)^2 / varmu)[pos]) / df.r
+    } else {
+      NaN
+    }
+  }
+  list(weights = wts, dispersion = dispersion)
+}
+
+# diagonal of Xnew (X^T W X)^{-1} Xnew^T using the pivoted Cholesky
+# decomposition of X^T W X (LAPACK dpstrf, as in cholregpivot in C for
+# bas.lm); aliased columns are dropped if X^T W X is not full rank
+# (GitHub issue #70)
+.quadform.XtWXinv <- function(Xnew, XtWX, tol = 1e-7) {
+  # chol warns if the matrix is rank deficient
+  R <- suppressWarnings(chol(XtWX, pivot = TRUE, tol = tol))
+  r <- attr(R, "rank")
+  piv <- attr(R, "pivot")[seq_len(r)]
+  R <- R[seq_len(r), seq_len(r), drop = FALSE]
+  RinvTx <- backsolve(R, t(Xnew[, piv, drop = FALSE]), transpose = TRUE)
+  colSums(RinvTx^2)
+}
+
+# scale factor s so that Var(fitted value) = sigma^2 * s for one model
+#
+# With the predictors centered by their W-weighted means the intercept is
+# orthogonal to the other coefficients, with variance sigma^2/sum(W), and
+# the posterior covariance of the remaining coefficients is
+# shrinkage * sigma^2 (Xc^T W Xc)^{-1}.  Since
+#  x^T (X^T W X)^{-1} x = 1/sum(W) + xc^T (Xc^T W Xc)^{-1} xc
+# the scale is  1/sum(W) + shrinkage * (x^T (X^T W X)^{-1} x - 1/sum(W))
+#
+# Xnew and Xold both include the column of ones; the quadratic form does
+# not depend on how the remaining columns are centered as long as the same
+# centering is applied to both.
+#
+# For linear models W does not depend on the model, so that X^T W X for the
+# full model may be computed once (see .XtWX.lm) and passed as XtWX; the
+# cross-products for a model are then a submatrix.  For GLMs W depends on
+# the MLE of the model and the cross-products are computed for each model.
+.scale.fit <- function(model, best, Xnew, Xold, object, XtWX = NULL) {
+  info <- .info.weights(object, model, best)
+  sumw <- sum(info$weights)
+  cols <- model + 1
+  if (is.null(XtWX) || !is.null(info$dispersion)) {
+    XtWX.m <- crossprod(sqrt(info$weights) * Xold[, cols, drop = FALSE])
+  }
+  else {
+    XtWX.m <- XtWX[cols, cols, drop = FALSE]
+  }
+  xiXTXxiT <- .quadform.XtWXinv(Xnew[, cols, drop = FALSE], XtWX.m) -
+    1 / sumw
+  list(
+    scale = 1 / sumw + object$shrinkage[best] * xiXTXxiT,
+    dispersion = info$dispersion
+  )
+}
+
+# X^T W X for the full model in linear models; NULL for GLMs
+.XtWX.lm <- function(Xold, object) {
+  if (!is.null(.bas.family(object))) {
+    return(NULL)
+  }
+  wts <- object$weights
+  if (is.null(wts)) {
+    wts <- rep(1, nrow(Xold))
+  }
+  crossprod(sqrt(wts) * Xold)
+}
+
+# design matrix used in fitting, centered in the same way as newdata in
+# predict.bas
+.Xold.centered <- function(object) {
+  Xold <- object$X[, -1, drop = FALSE]
+  if (!is.null(object$mean.x)) {
+    Xold <- sweep(Xold, 2, object$mean.x)
+  }
+  cbind(1, Xold)
+}
+
+# weighted total sum of squares for linear models
+.weighted.ssy <- function(object) {
+  wts <- object$weights
+  if (is.null(wts)) {
+    wts <- rep(1, length(object$Y))
+  }
+  sum(wts * (object$Y - weighted.mean(object$Y, wts))^2)
+}
+
 .se.fit <- function(yhat, X, object, insample) {
-  n <- object$n
   model <- attr(yhat, "model")
   best <- attr(yhat, "best")
 
   df <- object$df[best]
-
   shrinkage <- object$shrinkage[best]
-  if (insample) {
-    xiXTXxiT <- hat(object$X[, model + 1]) - 1 / n
-  } else {
-    X <- cbind(1, X[, model[-1], drop = FALSE])
-    oldX <- (sweep(object$X[, -1, drop = FALSE], 2, object$mean.x))[, model[-1]]
-    #    browser()
-    XRinv <- X %*% solve(qr.R(qr(cbind(1, oldX))))
-    xiXTXxiT <- apply(XRinv^2, 1, sum) - 1 / n
-  }
-  scale_fit <- 1 / n + object$shrinkage[best] * xiXTXxiT
-  if (is.null(object$family)) {
-    family <- gaussian()
-  }
-  if (eval(family)$family == "gaussian") {
-    ssy <- var(object$Y) * (n - 1)
-    bayes_mse <- ssy * (1 - shrinkage * object$R2[best]) / df
+
+  sf <- .scale.fit(model, best, cbind(1, X), .Xold.centered(object), object)
+  scale_fit <- sf$scale
+
+  if (is.null(sf$dispersion)) {
+    # linear model
+    bayes_mse <- .weighted.ssy(object) *
+      (1 - shrinkage * object$R2[best]) / df
   }
   else {
-    bayes_mse <- 1
-  }  # ToDo add overdispersion
+    bayes_mse <- sf$dispersion
+  }
+  # se.pred is for a new observation with unit weight
   se.fit <- sqrt(bayes_mse * scale_fit)
   se.pred <- sqrt(bayes_mse * (1 + scale_fit))
   return(list(
@@ -602,48 +762,30 @@ fitted.bas <- function(object,
 }
 
 .se.bma <- function(fit, Xnew, Ypred, best, object, insample) {
-  n <- object$n
-
   df <- object$df[best]
-
-
   shrinkage <- object$shrinkage[best]
-  if (insample) {
-    xiXTXxiT <- sapply(
-      object$which[best],
-      FUN = function(model, X) {
-        n <- nrow(X)
-        hat(X[, model[-1] + 1]) - 1 / n
-      },
-      object$X
-    )
+
+  Xnew <- cbind(1, Xnew)
+  Xold <- .Xold.centered(object)
+  XtWX <- .XtWX.lm(Xold, object)
+
+  sf <- lapply(seq_along(best), FUN = function(i) {
+    .scale.fit(object$which[[best[i]]], best[i], Xnew, Xold, object, XtWX)
+  })
+  # rows are observations, columns are models
+  scale_fit <- matrix(
+    unlist(lapply(sf, function(x) x$scale)),
+    nrow = nrow(Xnew), ncol = length(best)
+  )
+
+  if (is.null(.bas.family(object))) {
+    bayes_mse <- .weighted.ssy(object) *
+      (1 - shrinkage * object$R2[best]) / df
   }
   else {
-    Xnew <- cbind(1, Xnew)
-    Xold <- cbind(1, sweep(object$X[, -1], 2, object$mean.x))
-    xiXTXxiT <- sapply(
-      object$which[best],
-      FUN = function(model, Xnew, Xold) {
-        Xnew <- Xnew[, model + 1]
-        oldX <- Xold[, model + 1]
-        n <- nrow(Xold)
-        XRinv <- Xnew %*% solve(qr.R(qr(oldX)))
-        xiXTXxiT <- apply(XRinv^2, 1, sum) - 1 / n
-      },
-      Xnew,
-      Xold
-    )
+    bayes_mse <- unlist(lapply(sf, function(x) x$dispersion))
   }
 
-  ssy <- var(object$Y) * (n - 1)
-  bayes_mse <- ssy * (1 - shrinkage * object$R2[best]) / df
-
-
-  if (is.vector(xiXTXxiT)) {
-    xiXTXxiT <- matrix(xiXTXxiT, nrow = 1)
-  }
-
-  scale_fit <- 1 / n + sweep(xiXTXxiT, 2, shrinkage, FUN = "*")
   var.fit <- sweep(scale_fit, 2, bayes_mse, FUN = "*")
   var.pred <- sweep((1 + scale_fit), 2, bayes_mse, FUN = "*")
 

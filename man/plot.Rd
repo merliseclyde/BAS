@@ -106,9 +106,9 @@ plot(hald.gprior)
 \seealso{
 \code{\link{plot.coef.bas}} and \code{\link{image.bas}}.
 
-Other bas plots: 
-\code{\link{image.bas}()},
-\code{\link{plot.coef.bas}()}
+Other bas plots:
+\code{\link[=image.bas]{image.bas()}},
+\code{\link[=plot.coef.bas]{plot.coef.bas()}}
 }
 \author{
 Merlise Clyde, based on plot.lm by John Maindonald and Martin

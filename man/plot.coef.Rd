@@ -57,9 +57,9 @@ regression. Computational Statistics and Data Analysis, 22, 251-270.
 \seealso{
 \code{ \link{coef.bas}}
 
-Other bas plots: 
-\code{\link{image.bas}()},
-\code{\link{plot.bas}()}
+Other bas plots:
+\code{\link[=image.bas]{image.bas()}},
+\code{\link[=plot.bas]{plot.bas()}}
 }
 \author{
 based on function \code{plot.bic} by Ian Painter in package BMA;

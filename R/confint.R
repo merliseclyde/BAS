@@ -123,10 +123,18 @@ confint.coef.bas <- function(object, parm, level = 0.95, nsim = 10000, ...) {
 #' @export
 confint.pred.bas <- function(object, parm, level = 0.95, nsim = 10000, ...) {
   if (missing(parm)) parm <- "pred"
+
+  # For predictions from a GLM on the response scale, intervals are
+  # constructed on the scale of the linear predictor, where the means and
+  # standard deviations of the models are defined, and then transformed
+  # to the response scale with the inverse link function.
+  link <- object$link
+  src <- if (is.null(link)) object else link
+
   if (parm == "pred") {
-    sd <- object$se.pred
+    sd <- src$se.pred
   } else {
-    sd <- object$se.fit
+    sd <- src$se.fit
   }
 
   if (is.null(sd)) {
@@ -136,7 +144,7 @@ confint.pred.bas <- function(object, parm, level = 0.95, nsim = 10000, ...) {
   if (object$estimator == "BMA") {
     n.models <- length(object$postprob)
     models <- sample(1:n.models, size = nsim, prob = object$postprobs, replace = TRUE)
-    means <- object$Ypred[models, ]
+    means <- src$Ypred[models, ]
     df <- object$df[models]
     #   browser()
     sd <- sd[models, ]
@@ -145,13 +153,19 @@ confint.pred.bas <- function(object, parm, level = 0.95, nsim = 10000, ...) {
       nrow = nsim, ncol = npred, byrow = FALSE
     )
     pred <- pred * sd + means
+    if (!is.null(link)) {
+      pred <- link$linkinv(pred)
+    }
     ci <- .HPDinterval(pred, prob = level)
   }
   else {
     df <- object$df
-    means <- object$fit
+    means <- src$fit
     tq <- -qt((1 - level) / 2, df = df)
     ci <- cbind(means - tq * sd, means + tq * sd)
+    if (!is.null(link)) {
+      ci <- link$linkinv(ci)
+    }
   }
 
 

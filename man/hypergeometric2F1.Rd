@@ -48,10 +48,10 @@ Statistical Association.  103:410-423.  \cr
 \doi{10.1198/016214507000001337}
 }
 \seealso{
-Other special functions: 
-\code{\link{hypergeometric1F1}()},
-\code{\link{phi1}()},
-\code{\link{trCCH}()}
+Other special functions:
+\code{\link[=hypergeometric1F1]{hypergeometric1F1()}},
+\code{\link[=phi1]{phi1()}},
+\code{\link[=trCCH]{trCCH()}}
 }
 \author{
 Merlise Clyde (\email{clyde@duke.edu})
