@@ -21,4 +21,4 @@ inst/doc
 R/copyright.txt
 src/copyright.txt
 apply-patch-example
-^revdep$
+^revdep$.DS_Store
