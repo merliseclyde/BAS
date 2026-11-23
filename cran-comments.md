@@ -2,7 +2,7 @@
 
 ## Submission reason
 
-Subbmission addresses NOTE on CRAN Check Restults
+* Subbmission addresses NOTE on CRAN Check Restults
 Version: 2.0.2
 Check: R code for possible problems
 Result: NOTE 
@@ -12,23 +12,25 @@ Result: NOTE
 Flavors: r-devel-linux-x86_64-debian-clang, r-devel-linux-x86_64-debian-gcc, r-devel-linux-x86_64-fedora-clang, 
 r-devel-linux-x86_64-fedora-gcc, r-devel-windows-x86_64
 
-## Submission reason 
+* additional issues bugs in code for `bas.lm` and `bas.glm` using weights 
+were addressed.
 
 
 ## Test environments
 
-- ubuntu R-devel with valgrind via docker 
-- local OS X install, R 4.5.2 (arm64)
+- local OS X install, R 4.6.2 (arm64)
 - win-builder (r-release, r-devel)
+- gcc (Ubuntu 15.2.0-16ubuntu1)  R-devel
 
-No issues identified via the docker valgrind checks and running of examples and unit tests per WRE usage of Valgrind
+No issues identified via checks and running of examples and unit tests
 
 ## R CMD check results for this submission
 
 * Mac, Windows, Ubuntu
  0 error | 0 warnings | 1 notes
+ 
+ Maintainer: 'Merlise Clyde <clyde@duke.edu>'
 
-Days since last update: 6
 
 ## Reverse Dependencies
 
@@ -37,7 +39,6 @@ Days since last update: 6
 - PEPBVS
 - FBMS
 
-## revdepcheck results
 
 ## revdepcheck results
 

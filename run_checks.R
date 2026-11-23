@@ -15,15 +15,15 @@ usethis::use_release_issue()
 urlchecker::url_check()
 devtools::build_readme()
 devtools::check(remote = TRUE, manual = TRUE)
+# check email for results
+devtools::check_win_devel()
 
-devtools::install_github("r-lib/revdepcheck")
-
+#devtools::install_github("r-lib/revdepcheck")
+pak::pak("r-lib/revdepcheck")
 revdepcheck::revdep_reset()
 revdepcheck::revdep_check(num_workers = 4)
 revdepcheck::revdep_report_cran()
 
-# check email for results
-devtools::check_win_devel()
 
 
 # check rhub. (see github actions to trigger rhub workflow
