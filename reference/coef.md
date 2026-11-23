@@ -123,6 +123,7 @@ Merlise Clyde <clyde@duke.edu>
 ## Examples
 
 ``` r
+
 data("Hald")
 hald.gprior =  bas.lm(Y~ ., data=Hald, n.models=2^4, alpha=13,
                       prior="ZS-null", initprobs="Uniform", update=10)
@@ -147,12 +148,12 @@ plot(coef.hald.gprior)
 
 
 confint(coef.hald.gprior)
-#>                 2.5%      97.5%        beta
-#> Intercept 93.9711411 96.8741681 95.42307692
-#> X1         0.6422478  2.0636407  1.40116123
-#> X2        -0.0271815  0.8707052  0.42325794
-#> X3        -0.7729096  0.5982604 -0.03997087
-#> X4        -0.7461698  0.1970682 -0.22076600
+#>                  2.5%      97.5%        beta
+#> Intercept 94.00509337 96.8758820 95.42307692
+#> X1         0.66443057  2.1347718  1.40116123
+#> X2        -0.07385386  0.9025878  0.42325794
+#> X3        -0.78015702  0.6475211 -0.03997087
+#> X4        -0.80386246  0.1625139 -0.22076600
 #> attr(,"Probability")
 #> [1] 0.95
 #> attr(,"class")

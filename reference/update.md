@@ -74,6 +74,7 @@ Merlise Clyde <clyde@stat.duke.edu>
 ## Examples
 
 ``` r
+
 # \donttest{
 library(MASS)
 data(UScrime)

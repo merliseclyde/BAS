@@ -52,6 +52,7 @@ Merlise Clyde
 ## Examples
 
 ``` r
+
 TG(alpha = 2)
 #> $family
 #> [1] "TG"

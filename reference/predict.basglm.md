@@ -137,6 +137,7 @@ Merlise Clyde
 
 ``` r
 
+
 data(Pima.tr, package="MASS")
 data(Pima.te, package="MASS")
 Pima.bas = bas.glm(type ~ ., data=Pima.tr, n.models= 2^7, method="BAS",

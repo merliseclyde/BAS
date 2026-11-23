@@ -60,6 +60,7 @@ Merlise A Clyde
 ## Examples
 
 ``` r
+
 data("chickwts")
 bas.chk <- bas.lm(weight ~ feed, data = chickwts)
 #  summary(bas.chk)  # 2^5 = 32 models

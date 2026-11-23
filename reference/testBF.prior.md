@@ -50,6 +50,7 @@ Merlise Clyde
 ## Examples
 
 ``` r
+
 testBF.prior(100)
 #> $family
 #> [1] "testBF.prior"

@@ -378,6 +378,7 @@ Merlise Clyde (<clyde@duke.edu>), Quanli Wang and Yingbo Li
 ## Examples
 
 ``` r
+
 library(MASS)
 data(Pima.tr)
 

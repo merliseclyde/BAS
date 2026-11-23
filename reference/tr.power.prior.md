@@ -51,6 +51,7 @@ Merlise Clyde
 ## Examples
 
 ``` r
+
 tr.power.prior(2, 8)
 #> $family
 #> [1] "Trunc-Power-Prior"

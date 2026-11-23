@@ -80,6 +80,7 @@ Merlise A Clyde
 ## Examples
 
 ``` r
+
 data(Hald)
 hald.ZS = bas.lm(Y ~ ., data=Hald, prior="ZS-null", modelprior=uniform())
 hald.coef = confint(coef(hald.ZS), parm=2:5)

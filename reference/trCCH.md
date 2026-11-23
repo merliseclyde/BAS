@@ -69,6 +69,7 @@ Merlise Clyde (<clyde@duke.edu>)
 ## Examples
 
 ``` r
+
 # special cases
 # trCCH(a, b, r, s=0, v = 1, k) is the same as
 # 2F1(a, r, a + b, 1 - 1/k)*beta(a, b)/k^r

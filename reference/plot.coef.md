@@ -74,6 +74,7 @@ based on function `plot.bic` by Ian Painter in package BMA; adapted for
 ## Examples
 
 ``` r
+
 if (FALSE) library(MASS)
 data(UScrime)
 UScrime[,-2] <- log(UScrime[,-2])

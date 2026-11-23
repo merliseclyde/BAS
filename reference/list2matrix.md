@@ -52,6 +52,7 @@ Merlise Clyde <clyde@duke.edu>
 ## Examples
 
 ``` r
+
 data(Hald)
 hald.bic <-  bas.lm(Y ~ ., data=Hald, prior="BIC",
                     initprobs= "eplogp")

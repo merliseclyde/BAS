@@ -118,6 +118,7 @@ Merlise Clyde <clyde@duke.edu>
 ## Examples
 
 ``` r
+
 data(Hald)
 hald.gprior =  bas.lm(Y~ ., data=Hald, prior="ZS-null", initprobs="Uniform")
 plot(Hald$Y, fitted(hald.gprior, estimator="HPM"))

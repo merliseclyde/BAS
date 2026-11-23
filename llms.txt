@@ -35,6 +35,7 @@ The stable version
 can be installed easily in the `R` console like any other package:
 
 ``` r
+
 install.packages('BAS')
 ```
 
@@ -47,6 +48,7 @@ from [CRAN](https://cran.r-project.org/package=devtools) and enter in
 `R`:
 
 ``` r
+
 devtools::install_github('merliseclyde/BAS')
 ```
 
@@ -65,6 +67,7 @@ for installing packages from source under different operating systems.
 To begin load the package:
 
 ``` r
+
 library(BAS)
 ```
 
@@ -76,6 +79,7 @@ using `BAS` on a simple example with the famous Hald data set using the
 Zellner-Siow Cauchy prior via
 
 ``` r
+
 data(Hald)
 hald.ZS = bas.lm(Y ~ ., data=Hald, prior="ZS-null", modelprior=uniform(), method="BAS")
 ```
@@ -85,6 +89,7 @@ like the `lm`/`glm` functions. Images of the model space highlighting
 which variable are important may be obtained via
 
 ``` r
+
 image(hald.ZS)
 ```
 
@@ -103,6 +108,7 @@ models or sampling of models. Here is an example using the Pima diabetes
 data set with the hyper-g/n prior:
 
 ``` r
+
 library(MASS)
 data(Pima.tr)
 Pima.hgn = bas.glm(type ~ ., data=Pima.tr, method="BAS", family=binomial(),
