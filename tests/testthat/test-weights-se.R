@@ -200,43 +200,61 @@ test_that("weighted regression with shrinkage: se.fit under the g-prior", {
 test_that("logistic and Poisson regression: SEs agree with glm", {
   d <- sim_weights_data()
 
+  # Tighter convergence than the default glm.control() (epsilon = 1e-8):
+  # predict.glm uses the IRLS weights from the last iteration, evaluated one
+  # iterate before the final estimate, while predict.basglm recomputes them
+  # at the MLE, so at the default the two differ by up to about 1e-4;
+  # with epsilon = 1e-12 the largest relative difference is about 5e-7
+  ctl <- glm.control(epsilon = 1e-12, maxit = 100)
+
   fits <- list(
     logistic = list(
       bas = bas.glm(z ~ x1 + x2 + x3,
         data = d, family = binomial(),
-        betaprior = bic.prior(), modelprior = uniform()
+        betaprior = bic.prior(), modelprior = uniform(),
+        control = ctl
       ),
-      glm = function(f) glm(f, data = d, family = binomial()),
+      glm = function(f) glm(f, data = d, family = binomial(),
+        control = ctl
+      ),
       response = "z"
     ),
     weighted_logistic = list(
       bas = bas.glm(z ~ x1 + x2 + x3,
         data = d, weights = wi, family = binomial(),
-        betaprior = bic.prior(), modelprior = uniform()
+        betaprior = bic.prior(), modelprior = uniform(),
+        control = ctl
       ),
-      glm = function(f) glm(f, data = d, weights = wi, family = binomial()),
+      glm = function(f) glm(f, data = d, weights = wi, family = binomial(),
+        control = ctl
+      ),
       response = "z"
     ),
     poisson = list(
       bas = bas.glm(cnt ~ x1 + x2 + x3,
         data = d, family = poisson(),
-        betaprior = bic.prior(), modelprior = uniform()
+        betaprior = bic.prior(), modelprior = uniform(),
+        control = ctl
       ),
-      glm = function(f) glm(f, data = d, family = poisson()),
+      glm = function(f) glm(f, data = d, family = poisson(),
+        control = ctl
+      ),
       response = "cnt"
     ),
     weighted_poisson = list(
       bas = bas.glm(cnt ~ x1 + x2 + x3,
         data = d, weights = wi, family = poisson(),
-        betaprior = bic.prior(), modelprior = uniform()
+        betaprior = bic.prior(), modelprior = uniform(),
+        control = ctl
       ),
-      glm = function(f) glm(f, data = d, weights = wi, family = poisson()),
+      glm = function(f) glm(f, data = d, weights = wi, family = poisson(),
+        control = ctl
+      ),
       response = "cnt"
     )
   )
 
-  # IRLS convergence criteria differ slightly between bas.glm and glm
-  tol <- 1e-4
+  tol <- 1e-6
 
   for (fit in fits) {
     glm_bas <- fit$bas
