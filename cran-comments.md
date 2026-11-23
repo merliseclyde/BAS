@@ -1,27 +1,18 @@
 # Notes to CRAN
 
+## Submission reason
+
+Subbmission addresses NOTE on CRAN Check Restults
+Version: 2.0.2
+Check: R code for possible problems
+Result: NOTE 
+  Found calls to structure() using deprecated special names:
+    BAS/tests/testthat/test-bas-glm.R (.Label: 3)
+  '.Label' should be changed to 'levels'.
+Flavors: r-devel-linux-x86_64-debian-clang, r-devel-linux-x86_64-debian-gcc, r-devel-linux-x86_64-fedora-clang, 
+r-devel-linux-x86_64-fedora-gcc, r-devel-windows-x86_64
+
 ## Submission reason 
-
-* This submission addresses CRAN Additional Issues under 
-
-rchk: 
-Package BAS version 2.0.0
-Package built using 89195/R 4.6.0; x86_64-pc-linux-gnu; 2025-12-19 19:28:42 UTC; unix   
-Checked with rchk version 35618ebbccf3cd0b45a3530e6303970a22a9056b LLVM version 14.0.6
-More information at https://github.com/kalibera/cran-checks/blob/master/rchk/PROTECT.md
-For rchk in docker image see https://github.com/kalibera/rchk/blob/master/doc/DOCKER.md
-
-Function compute_margprobs_Bayes_BAS_MCMC
-  [UP] unprotected variable samplemargs while calling allocating function Rprintf BAS/src/model_probabilities.c:134
-  [UP] unprotected variable samplemargs while calling allocating function Rprintf BAS/src/model_probabilities.c:149
-
-valgrind:  
-unintialized values leading to conditional
-jumps or moves depending on unitialized values
-
-valgrind time: 1.5 hours so may time-out on precheck servers
-
-* Update is necessary before 1/15/2026 to maintain on CRAN
 
 
 ## Test environments

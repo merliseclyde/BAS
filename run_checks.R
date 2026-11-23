@@ -1,12 +1,3 @@
-# check on additional sites
-# 
-devtools::check_win_devel()
-
-
-rhub::rhub_check(branch="devel", platforms = "valgrind") # if needed
-
-
-
 
 # first merge main devel in terminal
 # on devel
@@ -39,6 +30,12 @@ devtools::check_win_devel()
 rhub::rhub_check()
 rhub::rhub_check(branch="main", platforms = "gcc15")
 rhub::rhub_check(branch="main", platforms = "c23")
+# check on additional sites
+
+# rhub::rhub_check(branch="devel", platforms = "valgrind") # if needed
+
+
+
 
 
 # to submit to CRAN
