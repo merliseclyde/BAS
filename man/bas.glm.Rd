@@ -63,7 +63,11 @@ contain NAs. The default is "na.omit".}
 \item{n.models}{number of unique models to keep. If NULL, BAS will attempt
 to enumerate unless p > 35 or method="MCMC". For any of methods using MCMC
 algorithms that sample with replacement, sampling will stop when the number
-of iterations exceeds 'MCMC.iterations'. On exit
+of iterations exceeds 'MCMC.iterations'. With method="MCMC", the output
+is increased as needed to store all of the
+unique models sampled. With 'n.models = 1' the single model ('bestmodel'
+if given) is fit with method="BAS", as repeated MCMC sampling at one model
+adds no information. On exit
 'n.models' is updated to reflect the unique number of models that have been
 sampled.}
 

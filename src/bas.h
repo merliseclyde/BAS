@@ -18,6 +18,7 @@
 #include <math.h>
 #include <string.h>
 #include <float.h>
+#include <limits.h>
 #include <R.h>
 #include <Rdefines.h>
 #include <Rmath.h>
@@ -399,6 +400,32 @@ SEXP resizeVector(SEXP x, R_xlen_t len);
 SEXP xlengthgets(SEXP x, R_xlen_t len);
 
 // issue 38
+/* Sizes for the growable output vectors in the MCMC samplers (GitHub issue
+   #107).  The initial size must exceed the one model stored before sampling
+   starts, and each expansion grows the vectors by the factor expand (at
+   least one slot): with (int) (expand * nModels) a small nModels
+   (e.g. 1.25 * 2 = 2) did not grow, so that the next unique model was
+   written past the end of the vectors.
+   Each iteration adds at most one new model, so an expansion is capped at
+   nUnique + nIterLeft, the most unique models possible after the remaining
+   iterations, and at nModelsMax = min(2^p, burnin.iterations +
+   MCMC.iterations + 1), set in R.  A single model (n.models = 1) is fit in R
+   with method = "BAS". */
+static inline int initial_nModels(int nModels)
+{
+  return (nModels < 2) ? 2 : nModels;
+}
+
+static inline int grow_nModels(int nModels, double expand, int nModelsMax,
+                               int nUnique, int nIterLeft)
+{
+  double cap = fmin((double) nModelsMax, (double) nUnique + (double) nIterLeft);
+  double target = ceil(expand * (double) nModels);
+  if (target < (double) nModels + 1.0) target = (double) nModels + 1.0;
+  if (target > cap) target = cap;
+  return (int) target;
+}
+
 static inline int lessThanOne(double a)
 {
   // DBL_EPSILON is too restrictive. This might need further tweaking

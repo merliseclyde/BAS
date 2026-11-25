@@ -11,11 +11,12 @@ SEXP amcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
               SEXP incint, SEXP Ralpha, SEXP method, SEXP modelprior, SEXP Rupdate,
               SEXP Rbestmodel, SEXP plocal, SEXP BURNIN_Iterations,
               SEXP MCMC_Iterations, SEXP LAMBDA, SEXP DELTA,
-              SEXP Rthin, SEXP Rparents, SEXP Rpivot, SEXP Rtol, SEXP RIS, SEXP Rexpand)
+              SEXP Rthin, SEXP Rparents, SEXP Rpivot, SEXP Rtol, SEXP RIS, SEXP Rexpand, SEXP RnModelsMax)
 {
 
   int nModels0 = INTEGER(RnModels)[0];  // initial guess on number of models to return
-  int nModels = nModels0;
+  int nModels = initial_nModels(nModels0);
+  int nModelsMax = INTEGER(RnModelsMax)[0];  // maximum number of unique models to store
   int *counts;
   
   double expand = REAL(Rexpand)[0]; // increase to grow vectors 
@@ -244,7 +245,7 @@ SEXP amcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 	
 //	Rprintf("using MCMC sampling - initialize\n");
 	
-	while (nUnique < nModels && m < INTEGER(BURNIN_Iterations)[0]) {
+	while (m < INTEGER(BURNIN_Iterations)[0]) {
 
 	  memcpy(model, modelold, sizeof(int)*p);
 		pmodel =  n_sure;
@@ -343,7 +344,8 @@ SEXP amcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
 		}
 		if (nUnique >= nModels && m < INTEGER(BURNIN_Iterations)[0] + 1){
 		  // expand nModels and grow result vectors
-		  nModels = (int) (expand*nModels); //add checks to ensure it is not above max int
+		  nModels = grow_nModels(nModels, expand, nModelsMax, nUnique,
+		                        INTEGER(MCMC_Iterations)[0] + INTEGER(BURNIN_Iterations)[0] - m - 1);
 		  
 		  // Rprintf("Grow vectors:  Number of unique models %d; nModels is now %d\n", nUnique, nModels); // Need to use growable vector here
 		  
@@ -424,7 +426,7 @@ SEXP amcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
   // Rprintf("Now start AMCMC with %d nUnique models out of %d at it %d\n", nUnique, nModels, m);
   if (IS) thin = 1; // no need to thin
   
-  while (nUnique < nModels && m < (INTEGER(BURNIN_Iterations)[0] + INTEGER(MCMC_Iterations)[0])) {
+  while (m < (INTEGER(BURNIN_Iterations)[0] + INTEGER(MCMC_Iterations)[0])) {
     
     memcpy(model, modelold, sizeof(int)*p);
     pmodel =  n_sure;
@@ -516,7 +518,8 @@ SEXP amcmc_grow(SEXP Y, SEXP X, SEXP Rweights, SEXP Rprobinit, SEXP RnModels,
     
     if (nUnique >= nModels && m < (INTEGER(MCMC_Iterations)[0] + INTEGER(BURNIN_Iterations)[0] + 1)){
       // expand nModels and grow result vectors
-      nModels = (int) (expand*nModels); //add checks to ensure it is not above max int
+      nModels = grow_nModels(nModels, expand, nModelsMax, nUnique,
+                             INTEGER(MCMC_Iterations)[0] + INTEGER(BURNIN_Iterations)[0] - m - 1);
       
       // Rprintf("Grow vectors:  Number of unique models %d; nModels is now %d\n", nUnique, nModels); // Need to use growable vector here
       

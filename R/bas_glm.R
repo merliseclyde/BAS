@@ -41,7 +41,11 @@
 #' @param n.models number of unique models to keep. If NULL, BAS will attempt
 #' to enumerate unless p > 35 or method="MCMC". For any of methods using MCMC
 #' algorithms that sample with replacement, sampling will stop when the number
-#' of iterations exceeds 'MCMC.iterations'. On exit
+#' of iterations exceeds 'MCMC.iterations'. With method="MCMC", the output
+#' is increased as needed to store all of the
+#' unique models sampled. With 'n.models = 1' the single model ('bestmodel'
+#' if given) is fit with method="BAS", as repeated MCMC sampling at one model
+#' adds no information. On exit
 #' 'n.models' is updated to reflect the unique number of models that have been
 #' sampled.
 #' @param betaprior Prior on coefficients for model coefficients (except
@@ -304,6 +308,19 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   if (!(method %in% c("BAS", "deterministic", "MCMC", "MCMC+BAS", "AMCMC"))) {
     stop(paste("No available sampling method:", method))
   }
+
+  # GitHub issue #107: a single model (n.models = 1) is fit with
+  # method = "BAS", which handles bestmodel, include.always and
+  # force.heredity, as repeated MCMC sampling at a single model adds no
+  # information about the model.
+  # PLACEHOLDER: if MCMC is later used to sample other parameters (e.g.
+  # hyperparameters) given the model, handle the single-model case here
+  # instead of switching methods.
+  single.model <- !is.null(n.models) && n.models == 1
+  if (single.model && method %in% c("MCMC", "MCMC+BAS", "AMCMC")) {
+    method <- "BAS"
+    call$method <- "BAS"   # so that methods for the object use the BAS output
+  }
   
 
   mfall <- match.call(expand.dots = FALSE)
@@ -432,6 +449,7 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   if (!GROW & method == "MCMC") method <- "MCMC_OLD"
   if (!GROW & method == "BAS") method <- "BAS_OLD"
   
+
   if (is.null(n.models)) {
     n.models <- min(2^p, 2^16)
     if (method == "MCMC")  n.models = min(n.models, n.models.init) 
@@ -443,6 +461,11 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
   if (is.null(burnin.iterations)){
     burnin.iterations <- as.integer(p * 25)
   }
+  # maximum size of the output for the MCMC samplers: each iteration adds
+  # at most one new model to bestmodel, and there are at most 2^p models
+  n.models.max <- if (single.model) 1L else
+    as.integer(min(2^p, as.numeric(burnin.iterations) + as.numeric(MCMC.iterations) + 1,
+                   .Machine$integer.max))
   
   
   n.models <- as.integer(normalize.n.models(n.models, p, prob, method, bigmem))
@@ -540,7 +563,8 @@ bas.glm <- function(formula, family = binomial(link = "logit"),
                    Rthin = as.integer(thin),
                    family = family, Rcontrol = control,
                    Rlaplace = as.integer(laplace),
-                   Rparents = parents, Rexpand = as.numeric(expand)
+                   Rparents = parents, Rexpand = as.numeric(expand),
+                   RnModelsMax = as.integer(n.models.max)
     ),
     "BAS" = .Call(C_glm_sampleworep_grow,
       RY = y, X = X,

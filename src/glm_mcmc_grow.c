@@ -11,12 +11,13 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 	      SEXP Rprobinit, SEXP RnModels,
 	      SEXP modelprior,  SEXP betaprior, SEXP Rbestmodel,  SEXP plocal,
 	      SEXP BURNIN_Iterations, SEXP MCMC_Iterations, SEXP Rthin, 
-	      SEXP family, SEXP Rcontrol, SEXP Rlaplace, SEXP Rparents, SEXP Rexpand
+	      SEXP family, SEXP Rcontrol, SEXP Rlaplace, SEXP Rparents, SEXP Rexpand, SEXP RnModelsMax
 			  )
 {
 
 	int nModels0 = INTEGER(RnModels)[0];  // initial guess on number of models to return
-	int nModels = nModels0;
+	int nModels = initial_nModels(nModels0);
+  int nModelsMax = INTEGER(RnModelsMax)[0];  // maximum number of unique models to store
 	
 //	Rprintf("MCMC GROW nModels is %d\n", nModels);
 	
@@ -268,7 +269,8 @@ SEXP glm_mcmc_grow(SEXP Y, SEXP X, SEXP Roffset, SEXP Rweights,
 		}
 		if (nUnique >= nModels && m < (INTEGER(MCMC_Iterations)[0] + INTEGER(BURNIN_Iterations)[0])){
 		  // expand nModels and grow result vectors
-		  nModels = (int) (expand*nModels); //add checks to ensure it is not above max int
+		  nModels = grow_nModels(nModels, expand, nModelsMax, nUnique,
+		                        INTEGER(MCMC_Iterations)[0] + INTEGER(BURNIN_Iterations)[0] - m - 1);
 		  
 //		  Rprintf("Grow vectors:  Number of unique models %d; nModels is now %d\n", nUnique, nModels); // Need to use growable vector here
 		  

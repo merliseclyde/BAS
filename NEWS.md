@@ -1,5 +1,22 @@
 # BAS (development version)
 
+## Bug Fixes
+
+* `bas.glm()` and `bas.lm()` with `method = "MCMC"` (and `bas.lm()` with `method = "AMCMC"`) failed with
+`n.models = 1` and `bestmodel`, used to fit a single model, with errors such as
+`attempt to set index 1/1 in SET_VECTOR_ELT`. The growable samplers wrote past the end of their output when `n.models`
+was small, as the initial size did not leave room beyond `bestmodel` and `(int) (expand * n.models)` did not increase
+small sizes (e.g. `1.05 * 2`). The samplers with `GROW = FALSE` stopped before any iterations, giving `NaN` for the
+MCMC estimates of the inclusion probabilities. A single model (`n.models = 1`) is now fit with `method = "BAS"` for
+`method = "MCMC"`, `"MCMC+BAS"` and `"AMCMC"`, as repeated MCMC sampling at one model adds no information, and
+`object$call$method` is set to `"BAS"`. The growable samplers now always have room for new models, so results for
+other values of `n.models` are unchanged.
+GitHub issue #107 reported by @vandenman; added the example as a unit test in `test-single-model.R`.
+
+* The default `expand` in `bas.lm()` is now 1.25, as documented and as in `bas.glm()` (previously 1.05), so that the
+output of the MCMC samplers grows in fewer steps. Each expansion is also capped at the number of unique models that
+can still be added in the remaining iterations, so the output is not expanded past what can be used.
+
 # BAS 2.1.0
 
 ## Bug Fixes

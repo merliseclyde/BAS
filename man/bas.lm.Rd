@@ -36,7 +36,7 @@ bas.lm(
   pivot = TRUE,
   tol = 1e-07,
   GROW = TRUE,
-  expand = 1.05,
+  expand = 1.25,
   n.models.init = 2500,
   bigmem = FALSE
 )
@@ -66,9 +66,10 @@ contain NAs. The default is "na.omit".}
 If NULL,BAS with method="BAS" will try to enumerate/sample
 the min(2^p, 2^16). If 'n.models' > 2^25, the user should use 'bigmem = TRUE' to sample/enumerate
 'n.models'.  With method="MCMC" or "AMCMC", 'n.models' controls the initial number of models with 
-the default for n.models = min(2000, 2^p).
-Sampling will stop once burnin.iterations + MCMC.iterations are exceeded 
-and n.models will be increased/decreased as needed to store the unique models sampled.
+the default for n.models = min(2000, 2^p), and is increased as needed to store the unique models sampled.
+With 'n.models = 1' the single model ('bestmodel' if given) is fit with method="BAS",
+as repeated MCMC sampling at one model adds no information.
+Sampling will stop once burnin.iterations + MCMC.iterations are exceeded.
 On exit 'n.models' is the number of unique models that have
 been sampled.  For sampling with replacement (MCMC or AMCMC) the counts for 
 the number of times a models is sampled is stored in the output as "freq".}

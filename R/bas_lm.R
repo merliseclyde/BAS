@@ -123,9 +123,10 @@ normalize.n.models <- function(n.models, p, initprobs, method, bigmem) {
 #' If NULL,BAS with method="BAS" will try to enumerate/sample
 #' the min(2^p, 2^16). If 'n.models' > 2^25, the user should use 'bigmem = TRUE' to sample/enumerate
 #' 'n.models'.  With method="MCMC" or "AMCMC", 'n.models' controls the initial number of models with 
-#' the default for n.models = min(2000, 2^p).
-#' Sampling will stop once burnin.iterations + MCMC.iterations are exceeded 
-#' and n.models will be increased/decreased as needed to store the unique models sampled.
+#' the default for n.models = min(2000, 2^p), and is increased as needed to store the unique models sampled.
+#' With 'n.models = 1' the single model ('bestmodel' if given) is fit with method="BAS",
+#' as repeated MCMC sampling at one model adds no information.
+#' Sampling will stop once burnin.iterations + MCMC.iterations are exceeded.
 #' On exit 'n.models' is the number of unique models that have
 #' been sampled.  For sampling with replacement (MCMC or AMCMC) the counts for 
 #' the number of times a models is sampled is stored in the output as "freq".
@@ -540,7 +541,7 @@ bas.lm <- function(formula,
                    pivot = TRUE,
                    tol = 1e-7,
                    GROW = TRUE,
-                   expand = 1.05,
+                   expand = 1.25,
                    n.models.init = 2500,
                    bigmem = FALSE) {
   num.updates <- 10
@@ -570,6 +571,20 @@ bas.lm <- function(formula,
 
   if (!(method %in% c("BAS", "deterministic", "MCMC", "MCMC+BAS", "AMCMC"))) {
     stop(paste("No available sampling method:", method))
+  }
+
+  # GitHub issue #107: a single model (n.models = 1) is fit with
+  # method = "BAS", which handles bestmodel, include.always and
+  # force.heredity, as repeated MCMC sampling at a single model adds no
+  # information about the model.
+  # PLACEHOLDER: if MCMC is later used to sample other parameters (e.g.
+  # hyperparameters) given the model, handle the single-model case here
+  # instead of switching methods.
+  single.model <- !is.null(n.models) && n.models == 1
+  if (single.model && method %in% c("MCMC", "MCMC+BAS", "AMCMC")) {
+    method <- "BAS"
+    call$method <- "BAS"   # so that methods for the object use the BAS output
+    importance.sampling <- FALSE  # only used with method = "AMCMC"
   }
  
   if (method == "BAS" & !GROW) {
@@ -689,6 +704,7 @@ bas.lm <- function(formula,
     }
   }
 
+
   if (is.null(n.models)) {
     n.models <- min(2^p, 2^16)
     if (method == "MCMC")   n.models = min(n.models, n.models.init) 
@@ -701,6 +717,11 @@ bas.lm <- function(formula,
   if (is.null(burnin.iterations)){
     burnin.iterations <- as.integer(p * 25)
     }
+  # maximum size of the output for the MCMC samplers: each iteration adds
+  # at most one new model to bestmodel, and there are at most 2^p models
+  n.models.max <- if (single.model) 1L else
+    as.integer(min(2^p, as.numeric(burnin.iterations) + as.numeric(MCMC.iterations) + 1,
+                   .Machine$integer.max))
 
 
   int <- TRUE # assume that an intercept is always included
@@ -907,7 +928,8 @@ bas.lm <- function(formula,
       Rparents = parents,
       Rpivot = pivot,
       Rtol = tol,
-      Rexpand = as.numeric(expand)
+      Rexpand = as.numeric(expand),
+      RnModelsMax = as.integer(n.models.max)
     ),
     "AMCMC" = .Call(
       C_amcmc_grow,
@@ -932,7 +954,8 @@ bas.lm <- function(formula,
       Rpivot = pivot,
       Rtol = tol,
       RIS = importance.sampling,
-      Rexpand = expand
+      Rexpand = expand,
+      RnModelsMax = as.integer(n.models.max)
     ),
     "AMCMC_OLD" = .Call(
       C_amcmc,
